@@ -405,7 +405,7 @@ section.landingPageContainer.mid{
     flex-wrap: wrap;
     margin: 2% 0;
 }
-.lndpcFeaturedGiftCards div {
+.lndpcfgc {
     height: auto;
     width: 19%;
     overflow: hidden;
@@ -418,10 +418,54 @@ section.landingPageContainer.mid{
     justify-content: center;
     align-items: center;
 }
-.lndpcFeaturedGiftCards div img {
+.lndpcfgc img {
     height: auto;
     width: 100%;
     border-radius: 1vw;
+}
+.lndpcfgcRobloxBinance{
+    height: auto;
+    width: 49%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    border-radius: 1vw;
+    overflow: hidden;
+    box-shadow: 0 0 10px gray;
+    margin-top: 1%;
+}
+.lndpcfgcrb.left{
+    height: auto;
+    width: 60%;
+    padding: 10% 5%;
+}
+.lndpcfgcrb.left h4{
+    font-size: 3vw;
+    line-height: 3vw;
+    display: flex;
+    justify-content: left;
+    align-items: end;
+}
+.lndpcfgcrb.left p{
+    margin: 5% 0;
+}
+.lndpcfgcrb.left a{
+    color: white;
+}
+
+
+.lndpcfgcrb.right{
+    height: auto;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lndpcfgcrb.right img{
+    height: auto;
+    width: 100%;
+    border-radius: 1vw;
+    box-shadow: 0 0 10px white;
 }
 .lndpcfgcViewMore{
     height: auto;
@@ -445,12 +489,57 @@ section.landingPageContainer.mid{
 
 
 
-
-
-
-
-
-
+.lndPageContent.mid8{
+    height: auto;
+    width: 100%;
+    margin-top: 5%;
+}
+.lndPageContent.mid8 h4{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.lndPageContent.mid8 h4 .faIcons {
+    margin-right: 1%;
+    color: orange;
+}
+.lndpcFeaturedCrypto{
+    height: auto;
+    width: 100%;
+    margin-top: 3%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.lndpcFeaturedCrypto img{
+    height: auto;
+    width: 100%;
+}
+.lndpcFeaturedCrypto div{
+    height: auto;
+    width: 50%;
+}
+.lndpcfCrypto{
+    width: 40%;
+    padding-left: 10%;
+}
+.lndpcfCrypto p{
+    margin-bottom: 5%;
+}
+.lndpcfCrypto a{
+    color: white;
+    text-decoration: none;
+    padding: 2% 7%;
+    border-radius: 50px;
+    border: solid 2px white;
+}
+.lndpcfCrypto a:hover{
+    box-shadow: 0 0 10px white;
+    transition: 400ms ease;
+    background: white;
+    color: black;
+}
 
 
 

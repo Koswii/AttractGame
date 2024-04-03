@@ -8,7 +8,8 @@ import {
   FaGem,
   FaFire,
   FaStar,     
-  FaFacebookSquare
+  FaFacebookSquare,
+  FaBitcoin 
 } from 'react-icons/fa';
 import { 
   FaSquareFacebook,
@@ -201,24 +202,68 @@ const Home = () => {
         <div className="lndPageContent mid7">
           <h4><TbGiftCardFilled className='faIcons'/> GIFT CARDS & VOUCHERS</h4>
           <div className="lndpcFeaturedGiftCards">
-            <div>
+            <div className='lndpcfgc'>
               <img src={require('../assets/imgs/GiftCards/AppleGiftCard.png')} alt="" />
             </div>
-            <div>
+            <div className='lndpcfgc'>
               <img src={require('../assets/imgs/GiftCards/GooglePlayGiftCard.png')} alt="" />
             </div>
-            <div>
+            <div className='lndpcfgc'>
               <img src={require('../assets/imgs/GiftCards/PlayStationStoreGiftCard.png')} alt="" />
             </div>
-            <div>
+            <div className='lndpcfgc'>
               <img src={require('../assets/imgs/GiftCards/SteamGiftCard.png')} alt="" />
             </div>
-            <div>
+            <div className='lndpcfgc'>
               <img src={require('../assets/imgs/GiftCards/XboxGiftCard.png')} alt="" />
+            </div>
+            <div className="lndpcfgcRobloxBinance">
+              <div className="lndpcfgcrb left">
+                <h4>ROBLOX</h4>
+                <h5>GIFT CARD</h5>
+                <p>
+                  Surprise a Roblox fan today. Choose from dozens of eGift card designs 
+                  based on your favorite experiences, characters, and more.
+                </p>
+                <Link>View More Game Credits Vouchers</Link>
+              </div>
+              <div className="lndpcfgcrb right">
+                <img src={require('../assets/imgs/GiftCards/RobloxGiftCard.png')} alt="" />
+              </div>
+            </div>
+            <div className="lndpcfgcRobloxBinance">
+              <div className="lndpcfgcrb left">
+                <h4>BINANCE</h4>
+                <h5>GIFT CARD</h5>
+                <p>
+                  Buy, Sell and Send Binance Gift Card to anyone, anywhere instantly! 
+                  Redeem your cryptocurrency with the Gift Card code.
+                </p>
+                <Link>View More Binance Cypto Vouchers</Link>
+              </div>
+              <div className="lndpcfgcrb right">
+                <img src={require('../assets/imgs/GiftCards/BinanceGiftCardTether.png')} alt="" />
+              </div>
             </div>
           </div>
           <div className="lndpcfgcViewMore">
             <Link>View More</Link>
+          </div>
+        </div>
+        <div className="lndPageContent mid8">
+          <h4><FaBitcoin className='faIcons'/> CRYPTOCURRENCY</h4>
+          <div className="lndpcFeaturedCrypto">
+            <div>
+              <img src={require('../assets/imgs/AGCoinBanner.png')} alt="" />
+            </div>
+            <div className='lndpcfCrypto'>
+              <h3>AG VOUCHER</h3>
+              <h6>To Purchase Anything on Attract Game Store</h6>
+              <p>Be the Early-Bird for Attract Game Token</p>
+              <span>
+                <Link>Learn More</Link>
+              </span>
+            </div>
           </div>
         </div>
       </section>
