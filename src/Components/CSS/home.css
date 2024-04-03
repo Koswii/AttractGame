@@ -1,0 +1,473 @@
+h1, h2, h3, h4, h5, h6, p{
+    color: white;
+}
+p{
+    font-size: 0.9vw;
+}
+h1{
+    font-size: 10vw;
+}
+h2{
+    font-size: 5vw;
+}
+h3{
+    font-size: 4vw;
+}
+h4{
+    font-size: 2vw;
+}
+h5{
+    font-size: 1.5vw;
+}
+h6{
+    font-size: 1vw;
+}
+
+
+.mainContainer.home{
+    height: auto;
+    width: 100%;
+    background: black;
+}
+
+/*----- Landing Section -----*/
+
+
+
+section.landingPageContainer.top{
+    height: 75vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+section.landingPageContainer.top video{
+    height: auto;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+.lndPageContent.top{
+    height: 100%;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    background: 
+        linear-gradient(transparent, black 95%);
+    background-size: cover;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding: 0 10%;
+}
+.lndpcTop.right{
+    height: auto;
+    width: 40%;
+}
+.lndpcTop.right img{
+    height: 5vw;
+}
+.lndpcTop.right p{
+    margin: 3% 0;
+}
+.lndpcTop.right span{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}
+.lndpcTop.right span a{
+    color: white;
+    text-decoration: none;
+    padding: 1% 5%;
+    border-radius: 50px;
+    border: solid 2px white;
+    font-size: 0.9vw;
+    opacity: 50%;
+}
+.lndpcTop.right span a:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+    box-shadow: 0 0 10px white;
+}
+
+
+
+
+
+section.landingPageContainer.mid{
+    height: auto;
+    width: 100%;
+    padding: 5% 10%;
+    padding-top: 1%;
+}
+.lndPageContent.mid1{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2%;
+}
+.lndpcSearch{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 50%;
+    padding: 0.7% 2%;
+    border-radius: 1vw;
+    border: solid 2px white;
+}
+.lndpcSearch h6{
+    margin-right: 3%;
+    font-size: 1vw;
+    line-height: 0.7vw;
+}
+.lndpcSearch input{
+    width: 90%;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+}
+.lndpcFeatures{
+    height: auto;
+    width: 30%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.lndpcFeatures a{
+    padding: 3% 4%;
+    border: solid 2px white;
+    margin-left: 3%;
+    border-radius: 0.5vw;
+}
+.lndpcFeatures a h6{
+    font-size: 1vw;
+    line-height: 0.7vw;
+}
+
+
+.lndPageContent.mid2{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8%;
+}
+.lndpcMid2{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.lndpcMid2 div{
+    height: 5vw;
+    width: 32%;
+    position: relative;
+    text-align: right;
+    padding: 1% 3%;
+    border-radius: 1vw;
+    box-shadow: 0 0 10px gray;
+    cursor: pointer;
+}
+.lndpcMid2 div:hover{
+    box-shadow: 0 0 20px white;
+    transition: 400ms ease;
+}
+.lndpcMid2 div#lndpcTrending{
+    background: url('../assets/imgs/LandingImg/lndImg01.png') no-repeat left;
+    background-size: cover;
+}
+.lndpcMid2 div#lndpcHot{
+    background: url('../assets/imgs/LandingImg/lndImg02.png') no-repeat left;
+    background-size: cover;
+}
+.lndpcMid2 div#lndpcClassic{
+    background: url('../assets/imgs/LandingImg/lndImg03.png') no-repeat left;
+    background-size: cover;
+}
+
+.lndPageContent.mid3{
+    height: auto;
+    width: 100%;
+}
+.lndPageContent.mid3 h4{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.lndPageContent.mid3 h4 .faIcons{
+    margin-right: 1%;
+    color: red;
+}
+.lndpcFeaturedGames{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 2% 0;
+}
+.lndpcFeaturedGames div{
+    height: auto;
+    width: 19%;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1%;
+    border-radius: 1vw;
+    cursor: pointer;
+    transition: 400ms ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lndpcFeaturedGames div:hover{
+    transform: translateY(-10px);
+    transition: 400ms ease;
+    box-shadow: 0 0 10px white;
+}
+.lndpcFeaturedGames div img{
+    height: auto;
+    width: 100%;
+    border-radius: 1vw;
+}
+.lndpcFeaturedGames div h6{
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    color: red;
+    font-size: 1.5vw;
+}
+.lndpcFeaturedGames div span{
+    height: auto;
+    width: 50%;
+    background: rgba(225, 225, 225, 0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    position: absolute;
+    bottom: 5%;
+    left: 0;
+    padding: 5%;
+    border-top-right-radius: 0.5vw;
+    border-bottom-right-radius: 0.5vw;
+    box-shadow: 0 0 10px black;
+    text-align: center;
+}
+.lndpcFeaturedGames div span h5{
+    color: black;
+}
+
+
+.lndPageContent.mid4{
+    height: auto;
+    width: 100%;
+    border-radius: 1vw;
+    margin: 2% 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+.lndPageContent.mid4 img{
+    height: auto;
+    width: 100%;
+    border-radius: 1vw;
+}
+.lndpcAGElite{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 5%;
+    text-align: right;
+}
+.lndpcageSocials{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.lndpcageSocials p{
+    margin-right: 1%;
+    font-size: 0.7vw;
+}
+.lndpcageSocials a{
+    margin-left: 1%;
+    color: white;
+    font-size: 1.2vw;
+}
+.lndpcageSocials a:hover{
+    color: gold;
+    transition: 400ms ease;
+}
+
+.lndpcAGElite h3 span{
+    color: gold;
+}
+.lndpcageJoin{
+    height: auto;
+    margin-top: 2%;
+}
+.lndpcageJoin a{
+    margin-top: 20%;
+    padding: 0.5% 3%;
+    text-decoration: none;
+    border: solid 2px white;
+    color: white;
+    border-radius: 50px;
+    font-size: 0.9vw;
+}
+.lndpcageJoin a:hover{
+    box-shadow: 0 0 10px white;
+    transition: 400ms ease;
+}
+
+
+.lndPageContent.mid5{
+    height: auto;
+    width: 100%;
+}
+.lndpcGameListed{
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+.lndpcGameListed span{
+    width: 24%;
+    padding: 2%;
+    border: solid 1px white;
+    border-radius: 1vw;
+}
+.lndpcGameListed span h3{
+    line-height: 3vw;
+    margin-bottom: 2%;
+}
+.lndpcGameListed span h3 .faIcons{
+    line-height: 3vw;
+    font-size: 2.5vw;
+}
+
+
+
+.lndPageContent.mid6{
+    height: auto;
+    width: 100%;
+    margin-top: 2%;
+    border-radius: 1vw;
+    overflow: hidden;
+}
+.lndPageContent.mid6 a{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lndPageContent.mid6 a img{
+    height: auto;
+    width: 100%;
+}
+
+
+
+.lndPageContent.mid7{
+    height: auto;
+    width: 100%;
+    margin-top: 10%;
+}
+.lndPageContent.mid7 h4{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.lndPageContent.mid7 h4 .faIcons {
+    margin-right: 1%;
+    color: gold;
+}
+.lndpcFeaturedGiftCards {
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 2% 0;
+}
+.lndpcFeaturedGiftCards div {
+    height: auto;
+    width: 19%;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1%;
+    border-radius: 1vw;
+    cursor: pointer;
+    transition: 400ms ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lndpcFeaturedGiftCards div img {
+    height: auto;
+    width: 100%;
+    border-radius: 1vw;
+}
+.lndpcfgcViewMore{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}
+.lndpcfgcViewMore a{
+    color: white;
+    text-decoration: none;
+    font-size: 1vw;
+    opacity: 50%;
+}
+.lndpcfgcViewMore a:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@keyframes fade-in-down {
+    0% {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
+@keyframes bounce2 {
+	0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+	40% {transform: translateY(-30px);}
+	60% {transform: translateY(-15px);}
+}
