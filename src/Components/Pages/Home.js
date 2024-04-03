@@ -222,10 +222,10 @@ const Home = () => {
                 <h4>ROBLOX</h4>
                 <h5>GIFT CARD</h5>
                 <p>
-                  Surprise a Roblox fan today. Choose from dozens of eGift card designs 
+                  Surprise a Roblox fan. Choose from dozens of eGift card 
                   based on your favorite experiences, characters, and more.
                 </p>
-                <Link>View More Game Credits Vouchers</Link>
+                <Link>View More Game Credits</Link>
               </div>
               <div className="lndpcfgcrb right">
                 <img src={require('../assets/imgs/GiftCards/RobloxGiftCard.png')} alt="" />
@@ -239,7 +239,7 @@ const Home = () => {
                   Buy, Sell and Send Binance Gift Card to anyone, anywhere instantly! 
                   Redeem your cryptocurrency with the Gift Card code.
                 </p>
-                <Link>View More Binance Cypto Vouchers</Link>
+                <Link>View More Binance Cypto</Link>
               </div>
               <div className="lndpcfgcrb right">
                 <img src={require('../assets/imgs/GiftCards/BinanceGiftCardTether.png')} alt="" />
