@@ -27,8 +27,9 @@ import {
 const Home = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
 
-
-
+  
+  
+  
 
   return (
     <div className='mainContainer home'>

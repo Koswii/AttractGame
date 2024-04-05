@@ -12,6 +12,7 @@ import {
     FaGithub,
     FaYoutube
 } from 'react-icons/fa';
+import axios from 'axios';
 
 import { Link } from 'react-router-dom';
 
@@ -23,15 +24,18 @@ const Nav = () => {
   const handleViewRegistration = () => {
     setViewRegForm(true)
     setViewLoginForm(false)
+    setMessageResponse('')
   }
   const handleViewLogin = () => {
     setViewLoginForm(true)
     setViewRegForm(false)
+    setMessageResponse('')
   }
 
   const handleCloseModal = () => {
     setViewRegForm(false)
     setViewLoginForm(false)
+    setMessageResponse('')
   }
 
 
@@ -43,30 +47,101 @@ const Nav = () => {
   }
 
 
+  const addAGUserAPI = process.env.REACT_APP_AG_USER_REGISTER_API;
+  const loginAGUserAPI = process.env.REACT_APP_AG_USER_LOGIN_API;
+
+  const [agUserEmail, setAGUserEmail] = useState('')
+  const [agUserUsername, setAGUserUsername] = useState('')
+  const [agUserPassword, setAGUserPassword] = useState('')
+  const [agUserReferral, setAGUserReferral] = useState('')
+  const [messageResponse, setMessageResponse] = useState('')
+
+  const handleUserRegister = async (e) => {
+    e.preventDefault();
+
+    const formAddUser = {
+      agSetEmail: agUserEmail,
+      agSetUsername: agUserUsername,
+      agSetPassword: agUserPassword,
+      agSetReferral: agUserReferral,
+    }
+
+    const jsonUserData = JSON.stringify(formAddUser);
+    axios.post(addAGUserAPI, jsonUserData)
+    .then(response => {
+      const resMessage = response.data;
+      if (resMessage.success === false) {
+          setMessageResponse(resMessage.message);
+      }
+      if (resMessage.success === true) {
+          setMessageResponse(resMessage.message);
+          setAGUserEmail('')
+          setAGUserUsername('')
+          setAGUserPassword('')
+          setAGUserReferral('')
+      }
+    }) 
+    .catch (error =>{
+      setMessageResponse(error);
+    });
+  };
+  const handleUserLogin = (e) => {
+    e.preventDefault();
+
+
+    if (!agUserUsername || !agUserPassword) {
+      setMessageResponse('Please fill in all fields.');
+      return;
+    }
+
+    fetch(loginAGUserAPI, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `username=${agUserUsername}&password=${agUserPassword}`,
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success === true) {
+          localStorage.setItem('attractGameUsername', data.username);
+          localStorage.setItem('isLoggedIn', 'true');
+          setMessageResponse('Login successful');
+          window.location.reload();
+        } else {
+          setMessageResponse(data.message);
+        }
+      })
+      .catch(error => console.error('Error:', error));
+  };
+  const LoginUsername = localStorage.getItem('attractGameUsername');
+
+
+
   return (
     <nav>
       {viewRegForm &&
       <div className="navContainerModal">
           <div className="navContentModal">
             <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
-            <div className="navRegistrationContent">
+            <form className="navRegistrationContent" onSubmit={handleUserRegister}>
               <h6>REGISTER AN ACCOUNT</h6>
               <div>
                 <span>
                   <label htmlFor=""><p>Email</p></label>
-                  <input type="email" placeholder='ex. playerOne01@email.com' required/>
+                  <input type="email" placeholder='ex. playerOne01@email.com' value={agUserEmail} onChange={(e) => setAGUserEmail(e.target.value)} required/>
                 </span>
                 <span>
                   <label htmlFor=""><p>Username</p></label>
-                  <input type="text" placeholder='ex. Player One' required/>
+                  <input type="text" placeholder='ex. Player One' value={agUserUsername} onChange={(e) => setAGUserUsername(e.target.value)} required/>
                 </span>
                 <span>
                   <label htmlFor=""><p>Password</p></label>
-                  <input type="password" placeholder='*****' required/>
+                  <input type="password" placeholder='*****' value={agUserPassword} onChange={(e) => setAGUserPassword(e.target.value)} required/>
                 </span>
                 <span>
                   <label htmlFor=""><p>Referrer (Optional)</p></label>
-                  <input type="text" placeholder='ex. PlayerTwo'/>
+                  <input type="text" placeholder='ex. PlayerTwo' value={agUserReferral} onChange={(e) => setAGUserReferral(e.target.value)}/>
                 </span>
                 <span className='submitAccount'>
                   <button type='submit'>
@@ -76,30 +151,31 @@ const Nav = () => {
                 <span className='registrationTCPP'>
                   <p>
                     By registering, you agree to Attract Game's <br />
-                    <Link>Terms & Conditions</Link> and <Link>Privacy Policy</Link>
-                  </p> <br />
+                    <Link>Terms & Conditions</Link> and <Link>Privacy Policy</Link><br /><br />
+                    <span>{messageResponse}</span>
+                  </p>
                   <p>
                     Already have an Account? <a onClick={handleViewLogin}>Login Here</a>
                   </p>
                 </span>
               </div>
-            </div>
+            </form>
           </div>
       </div>}
       {viewLoginForm &&
       <div className="navContainerModal">
           <div className="navContentModal">
             <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
-            <div className="navRegistrationContent">
+            <form className="navRegistrationContent" onSubmit={handleUserLogin}>
               <h6>LOGIN ACCOUNT</h6>
               <div>
                 <span>
                   <label htmlFor=""><p>Username</p></label>
-                  <input type="text" placeholder='ex. Player One' required/>
+                  <input type="text" placeholder='ex. Player One' value={agUserUsername} onChange={e => setAGUserUsername(e.target.value)} required/>
                 </span>
                 <span>
                   <label htmlFor=""><p>Password</p></label>
-                  <input type="password" placeholder='*****' required/>
+                  <input type="password" placeholder='*****' value={agUserPassword} onChange={e => setAGUserPassword(e.target.value)} required/>
                 </span><br /><br />
                 <span className='submitAccount'>
                   <button type='submit'>
@@ -107,7 +183,7 @@ const Nav = () => {
                   </button>
                 </span>
                 <span className='errorMessage'>
-                  <p></p>
+                  <p>{messageResponse}</p>
                 </span><br />
                 <span className='registrationTCPP'>
                   <p>
@@ -115,7 +191,7 @@ const Nav = () => {
                   </p>
                 </span>
               </div>
-            </div>
+            </form>
           </div>
       </div>}
       <div className="mainNavContainer">
@@ -126,11 +202,14 @@ const Nav = () => {
                   {/* <h5>ATTRACT GAME</h5> */}
               </Link>
           </div>
-          <div className="navContent right">
+          <div className="navContent center">
             <Link><h6>GAMES</h6></Link>
             <Link><h6>VOUCHERS</h6></Link>
             <Link><h6>CRYPTO</h6></Link>
             <Link><h6>MERCHANDISE</h6></Link>
+            <Link><h6>HIGHLIGHTS</h6></Link>
+          </div>
+          <div className="navContent right">
             <div>
               <a id='agLoginBtn' onClick={handleViewLogin}><h6>LOGIN</h6></a>
               <a id='agRegisterBtn' onClick={handleViewRegistration}><h6>REGISTER</h6></a>

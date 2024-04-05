@@ -123,13 +123,16 @@ nav{
 .navRegistrationContent div span.registrationTCPP{
     text-align: center;
 } 
+.navRegistrationContent div span.registrationTCPP span{
+    height: 1vw;
+    font-style: italic;
+}
 .navRegistrationContent div span.registrationTCPP a{
     cursor: pointer;
     color: goldenrod;
 }
 .navRegistrationContent div span.errorMessage p{
     height: 1vw;
-    color: red;
     font-weight: 600;
     font-style: italic;
     text-shadow: 0 0 10px black;
@@ -168,7 +171,7 @@ nav{
 }
 .navContent.left{
     height: 100%;
-    width: 20%;
+    width: 15%;
     display: flex;
     justify-content: left;
     align-items: center;
@@ -187,15 +190,26 @@ nav{
     font-weight: 600;
     font-size: 1vw;
 }
+.navContent.center{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navContent.center a h6{
+    font-weight: 400;
+    font-size: 0.7vw;
+}
 .navContent.right{
     height: 100%;
-    width: 70%;
+    width: 15%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 .navContent.right div{
-    width: 20%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
