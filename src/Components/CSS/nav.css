@@ -236,3 +236,13 @@ nav{
     justify-content: space-between;
     align-items: center;
 }
+
+.navContent.right div a#agProfileBtn h6{
+    font-size: 2vw;
+    line-height: 1vw;
+}
+.navContent.right div a#agLogoutBtn{
+    border: solid 1px white;
+    padding: 5% 20%;
+    border-radius: 50px;
+}

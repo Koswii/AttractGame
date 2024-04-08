@@ -16,6 +16,7 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 function App() {
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [viewUserCredentials, setViewUserCredentials] = useState(false)
 
   useEffect(() => {
     // Display loader when the page is being reloaded
@@ -61,6 +62,16 @@ function App() {
       window.removeEventListener('popstate', popstateHandler);
     };
   }, []);
+
+  useEffect(() => {
+    const usernameFromLocalStorage = localStorage.getItem('isLoggedIn');
+    if (usernameFromLocalStorage) {
+      setViewUserCredentials(true);
+    }
+  }, []);
+
+  
+
 
 
   return (

@@ -3,14 +3,7 @@ import "./CSS/nav.css";
 import { 
     FaBars, 
     FaTimes,
-    FaWindowClose,
-    FaArrowCircleDown,
-    FaComments,
-    FaTh,
-    FaTelegramPlane,
-    FaTwitter,
-    FaGithub,
-    FaYoutube
+    FaRegUserCircle,
 } from 'react-icons/fa';
 import axios from 'axios';
 
@@ -19,6 +12,7 @@ import { Link } from 'react-router-dom';
 const Nav = () => {
   const [viewRegForm, setViewRegForm] = useState(false)
   const [viewLoginForm, setViewLoginForm] = useState(false)
+  const [viewUserCredentials, setViewUserCredentials] = useState(false)
 
 
   const handleViewRegistration = () => {
@@ -31,29 +25,22 @@ const Nav = () => {
     setViewRegForm(false)
     setMessageResponse('')
   }
-
   const handleCloseModal = () => {
     setViewRegForm(false)
     setViewLoginForm(false)
     setMessageResponse('')
   }
 
-
-  if(viewRegForm == true ||
-    viewLoginForm == true){
-    window.document.body.style.overflow = 'hidden';
-  } else{
-    window.document.body.style.overflow = 'auto';
-  }
-
-
   const addAGUserAPI = process.env.REACT_APP_AG_USER_REGISTER_API;
   const loginAGUserAPI = process.env.REACT_APP_AG_USER_LOGIN_API;
+  const logoutAGUserAPI = process.env.REACT_APP_AG_USER_LOGOUT_API;
+  const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
 
   const [agUserEmail, setAGUserEmail] = useState('')
   const [agUserUsername, setAGUserUsername] = useState('')
   const [agUserPassword, setAGUserPassword] = useState('')
   const [agUserReferral, setAGUserReferral] = useState('')
+  const [agUserAccount, setAGUserAccount] = useState('Customer')
   const [messageResponse, setMessageResponse] = useState('')
 
   const handleUserRegister = async (e) => {
@@ -64,6 +51,7 @@ const Nav = () => {
       agSetUsername: agUserUsername,
       agSetPassword: agUserPassword,
       agSetReferral: agUserReferral,
+      agSetAccount: agUserAccount,
     }
 
     const jsonUserData = JSON.stringify(formAddUser);
@@ -106,7 +94,6 @@ const Nav = () => {
         if (data.success === true) {
           localStorage.setItem('attractGameUsername', data.username);
           localStorage.setItem('isLoggedIn', 'true');
-          setMessageResponse('Login successful');
           window.location.reload();
         } else {
           setMessageResponse(data.message);
@@ -114,7 +101,59 @@ const Nav = () => {
       })
       .catch(error => console.error('Error:', error));
   };
+  const handleAdminLogout = () => {
+    fetch(logoutAGUserAPI, {
+        method: 'GET',
+    })
+    .then(response => {
+      if (response.redirected) {
+        window.location.href = '/';
+      }
+    });
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('attractGameUsername');
+    window.location.href = '/';
+  };
+
   const LoginUsername = localStorage.getItem('attractGameUsername');
+  const [dataUser, setDataUser] = useState([]);
+
+  useEffect(() => {
+    const fetchDataUser = () => {
+      axios.get(AGUserListAPI)
+      .then((response) => {
+        const userData = response.data.find(item => item.username == LoginUsername);
+        setDataUser(userData);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+    fetchDataUser();
+    const userFromLocalStorage = localStorage.getItem('isLoggedIn');
+    if (userFromLocalStorage) {
+      setViewUserCredentials(true);
+    }
+  }, []);
+
+
+
+
+
+
+  if(viewRegForm == true ||
+    viewLoginForm == true){
+    window.document.body.style.overflow = 'hidden';
+  } else{
+    window.document.body.style.overflow = 'auto';
+  }
+
+
+
+
+
+
+
 
 
 
@@ -210,10 +249,14 @@ const Nav = () => {
             <Link><h6>HIGHLIGHTS</h6></Link>
           </div>
           <div className="navContent right">
-            <div>
+            {!viewUserCredentials ? <div>
               <a id='agLoginBtn' onClick={handleViewLogin}><h6>LOGIN</h6></a>
               <a id='agRegisterBtn' onClick={handleViewRegistration}><h6>REGISTER</h6></a>
-            </div>
+            </div>:
+            <div id='userProfile'>
+              <Link id='agProfileBtn'><h6><FaRegUserCircle className='faIcons'/></h6></Link>
+              <a id='agLogoutBtn' onClick={handleAdminLogout}><h6>LOGOUT</h6></a>
+            </div>}
           </div>
         </div>
       </div>
