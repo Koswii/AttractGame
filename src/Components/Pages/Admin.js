@@ -122,13 +122,20 @@ const Admin = () => {
         setViewAdminTransactions(true)
     }
 
+    
+    const AGUserProfileListAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const [viewUserProfiles, setViewUserProfiles] = useState([])
+    const [viewTotalAGElite, setViewTotalAGElite] = useState('')
+
     useEffect(() => {
         const fetchDataUser = () => {
-          axios.get('https://engeenx.com/agUserProfile.php')
+          axios.get(AGUserProfileListAPI)
           .then((response) => {
             const userData = response.data.sort((a, b) => b.id - a.id);
+            const userAGEliteData = response.data.filter(user => user.agelite == 'Yes');
             setViewUserProfiles(userData);
+            setViewTotalAGElite(userAGEliteData);
+
           })
           .catch(error => {
             console.log(error)
@@ -136,7 +143,6 @@ const Admin = () => {
         }
         fetchDataUser();
     }, []);
-
 
 
 
@@ -184,7 +190,7 @@ const Admin = () => {
                                     <h6>LISTED GIFTCARDS</h6>
                                 </div>
                                 <div>
-                                    <h4>0</h4>
+                                    <h4>{viewUserProfiles.length}</h4>
                                     <h6>REGISTERED USERS</h6>
                                 </div>
                                 <div>
@@ -192,7 +198,7 @@ const Admin = () => {
                                     <h6>TOTAL SELLERS</h6>
                                 </div>
                                 <div>
-                                    <h4>0</h4>
+                                    <h4>{viewTotalAGElite.length}</h4>
                                     <h6>TOTAL AG ELITE</h6>
                                 </div>
                             </div>
@@ -229,7 +235,7 @@ const Admin = () => {
                             </table>
                             <table id='admpcm1dtContent'>
                                 <tbody>
-                                    {viewUserProfiles.map((item, i) => (
+                                    {viewUserProfiles.slice(0,10).map((item, i) => (
                                         <tr key={i}>
                                             <td width='20%'><p>{item.email}</p></td>
                                             <td width='20%'><p>{item.username}</p></td>

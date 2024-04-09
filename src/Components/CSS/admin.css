@@ -224,10 +224,10 @@ section.adminPageContainer.mid{
 }
 .admpcm1dTransaction table tr td{
     text-align: center;
-    padding: 0.5%;
+    padding: 0.3%;
 }
 .admpcm1dTransaction table tr td p{
-    font-size: 0.8vw;
+    font-size: 0.7vw;
     display: flex;
     justify-content: center;
     align-items: center;
