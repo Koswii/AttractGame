@@ -6,8 +6,9 @@ import {
     FaRegUserCircle,
 } from 'react-icons/fa';
 import axios from 'axios';
-
 import { Link } from 'react-router-dom';
+
+
 
 const Nav = () => {
   const [viewRegForm, setViewRegForm] = useState(false)
@@ -39,8 +40,10 @@ const Nav = () => {
   const [agUserEmail, setAGUserEmail] = useState('')
   const [agUserUsername, setAGUserUsername] = useState('')
   const [agUserPassword, setAGUserPassword] = useState('')
+  const [agTimestamp, setAgTimestamp] = useState(new Date().toLocaleDateString())
   const [agUserReferral, setAGUserReferral] = useState('')
   const [agUserAccount, setAGUserAccount] = useState('Customer')
+  const [agUserStatus, setAGUserStatus] = useState('Active')
   const [messageResponse, setMessageResponse] = useState('')
 
   const handleUserRegister = async (e) => {
@@ -50,8 +53,10 @@ const Nav = () => {
       agSetEmail: agUserEmail,
       agSetUsername: agUserUsername,
       agSetPassword: agUserPassword,
+      agSetDateRegister: agTimestamp,
       agSetReferral: agUserReferral,
       agSetAccount: agUserAccount,
+      agSetStatus: agUserStatus,
     }
 
     const jsonUserData = JSON.stringify(formAddUser);
@@ -176,7 +181,7 @@ const Nav = () => {
                 </span>
                 <span>
                   <label htmlFor=""><p>Password</p></label>
-                  <input type="password" placeholder='*****' value={agUserPassword} onChange={(e) => setAGUserPassword(e.target.value)} required/>
+                  <input type="password" placeholder='********' value={agUserPassword} minLength={8} maxLength={16} onChange={(e) => setAGUserPassword(e.target.value)} required/>
                 </span>
                 <span>
                   <label htmlFor=""><p>Referrer (Optional)</p></label>

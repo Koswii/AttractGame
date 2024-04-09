@@ -560,3 +560,27 @@ section.landingPageContainer.mid{
 	40% {transform: translateY(-30px);}
 	60% {transform: translateY(-15px);}
 }
+@keyframes elastic-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(720deg); }
+}
+@keyframes fade-in-left {
+    0% {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+}
+@keyframes fade-out-right {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+}

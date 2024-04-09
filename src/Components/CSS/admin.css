@@ -1,0 +1,249 @@
+h1, h2, h3, h4, h5, h6, p{
+    color: white;
+}
+p{
+    font-size: 0.9vw;
+}
+h1{
+    font-size: 10vw;
+}
+h2{
+    font-size: 5vw;
+}
+h3{
+    font-size: 4vw;
+}
+h4{
+    font-size: 2vw;
+}
+h5{
+    font-size: 1.5vw;
+}
+h6{
+    font-size: 1vw;
+}
+
+
+.mainContainer.admin{
+    height: 100vh;
+    width: 100%;
+    background: black;
+    background: 
+        linear-gradient(transparent, black 100%),
+        url('../assets/imgs/13551.png') no-repeat center;
+    background-size: cover;
+}
+
+
+section.adminPageContainer.top{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    
+}
+.admPageContent.top{
+    height: auto;
+    width: 100%;
+    padding: 0 10%;
+    padding-top: 5vw;
+}
+.admpc.top{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.admpc.top button{
+    background: black;
+    border: solid 1px white;
+    outline: none;
+    padding: 1% 2%;
+    margin-right: 1%;
+    border-radius: 0.5vw;
+    opacity: 50%;
+    cursor: pointer;
+}
+.admpc.top button:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+}
+.admpc.top button h6{
+    font-size: 0.7vw;
+    font-weight: 600;
+}
+.admpc.top button#adminNavBars,
+.admpc.top button#adminNavClose{
+    border: none;
+    opacity: 100%;
+    background: none;
+}
+.admpc.top button#adminNavBars h6,
+.admpc.top button#adminNavClose h6{
+    font-size: 2vw;
+    line-height: 0.7vw;
+    font-weight: 400;
+}
+.admpc.top button.active h6{
+    animation: elastic-spin 1s ease;
+}
+.admpc.top div.admpcViewNav{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    animation: fade-in-left 1s ease;
+}
+.admpc.top div.admpcViewNav.hide{
+    opacity: 0;
+    transition: 400ms ease;
+    animation: fade-out-right 1s ease;
+}
+.admpc.top div button.activeNav{
+    background: gold;
+    box-shadow: 0 0 10px white;
+    opacity: 100%;
+}
+.admpc.top div button.activeNav h6{
+    color: black;
+}
+
+
+
+
+
+section.adminPageContainer.mid{
+    height: auto;
+    width: 100%;
+}
+.admPageContent.mid1{
+    height: auto;
+    width: 100%;
+    padding: 1% 10%;
+}
+.admpcm1Dashboard{
+    height: auto;
+    width: 100%;
+}
+.admpcm1dContainer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    margin: 1% 0;
+}
+.admpcm1dContent.left{
+    height: auto;
+    width: 65%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1% 0;
+}
+.admpcm1dContent.right{
+    height: auto;
+    width: 35%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1% 0;
+    padding: 0.2% 0;
+}
+.admpcm1dContent.left div{
+    height: auto;
+    width: 32%;
+    padding: 2%;
+    border-radius: 1vw;
+    border: solid 2px white;
+    text-align: right;
+    margin: 0.5%;
+}
+.admpcm1dContent.right div{
+    height: 100%;
+    width: 48.5%;
+    padding: 3%;
+    border-radius: 1vw;
+    border: solid 2px white;
+    text-align: right;
+    position: relative;
+    margin-left: 1%;
+}
+.admpcm1dContent.right div h4{
+    font-size: 1.7vw;
+}
+.admpcm1dContent.right div p{
+    font-size: 0.7vw;
+}
+.admpcm1dContent.right div span{
+    position: absolute;
+    bottom: 7%;
+    left: 7%;
+}
+.admpcm1dContent.right div span h6{
+    font-size: 0.9vw;
+    display: flex;
+    align-items: center;
+}
+.admpcm1dContent.right div span h6 .faIcons{
+    font-size: 1vw;
+    margin-right: 5%;
+}
+.admpcm1dContent div h6{
+    font-size: 0.7vw;
+    font-weight: 400;
+    margin-top: 2%;
+}
+.admpcm1dContent div p{
+    margin-top: 2%;
+}
+.admpcm1dTransaction{
+    height: auto;
+    width: 100%;
+}
+.admpcm1dTransaction table{
+    height: auto;
+    width: 100%;
+    margin-top: 1%;
+    border-collapse: collapse;
+}
+.admpcm1dTransaction table tr th{
+    border: solid 1px gray;
+    padding: 0.5% 0.2%;
+}
+.admpcm1dTransaction table tr th p{
+    font-size: 0.7vw;
+    font-weight: 400;
+}
+.admpcm1dTransaction table tr td{
+    text-align: center;
+    padding: 0.5%;
+}
+.admpcm1dTransaction table tr td p{
+    font-size: 0.8vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.admpcm1dTransaction table#admpcm1dtContent{
+    height: auto;
+    width: 100%;
+    margin-top: 0.5%;
+    border-collapse: separate;
+}
+.admpcm1dTransaction table tbody tr:nth-child(odd){
+    background: rgba(80, 80, 80, 0.5);
+}
+.admpcm1dTransaction table tbody tr:nth-child(even){
+    background: rgba(80, 80, 80, 0.3);
+}
+.admpcm1dTransaction table tbody tr td p .faIcons{
+    line-height: 0.5vw;
+}

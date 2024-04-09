@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import axios from 'axios';
 
 
 import Nav from './Components/Nav'
 // import Footer from './Components/Pages/footer';
 import ScrollToTop from './Components/Pages/ScrollToTop';
+import Admin from './Components/Pages/Admin';
 
 import Loader from './Components/Pages/Loader';
 import Home from './Components/Pages/Home'
 
 
-
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [viewUserCredentials, setViewUserCredentials] = useState(false)
+  const [viewAdminCredentials, setViewAdminCredentials] = useState(false)
+  const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
 
   useEffect(() => {
     // Display loader when the page is being reloaded
@@ -35,7 +38,6 @@ function App() {
       window.removeEventListener('load', () => {});
     };
   }, []);
-
   useEffect(() => {
     const handleStart = () => setLoading(true);
     const handleComplete = () => setLoading(false);
@@ -63,15 +65,35 @@ function App() {
     };
   }, []);
 
+
+  const LoginUsername = localStorage.getItem('attractGameUsername');
+  const [dataUser, setDataUser] = useState('');
+  const [dataAccount, setDataAccount] = useState('')
+
   useEffect(() => {
-    const usernameFromLocalStorage = localStorage.getItem('isLoggedIn');
-    if (usernameFromLocalStorage) {
-      setViewUserCredentials(true);
+    const fetchDataUser = () => {
+      axios.get(AGUserListAPI)
+      .then((response) => {
+        const userData = response.data.find(item => item.username == LoginUsername);
+        setDataAccount([userData['account']]);
+        setDataUser([userData['username']]);
+      })
+      .catch(error => {
+        // console.log(error)
+      })
     }
+    fetchDataUser();
   }, []);
+  useEffect(() => {
+    const userFromLocalStorage = localStorage.getItem('isLoggedIn');
+    if (userFromLocalStorage == 'true') {
+      setViewUserCredentials(true);
 
-  
-
+      if (dataAccount == 'Admin'){
+        setViewAdminCredentials(true);
+      }
+    }
+  }, [dataAccount]);
 
 
   return (
@@ -82,9 +104,14 @@ function App() {
       <>
         <Nav />
         <Routes>
-          <Route path="/" element={<Home/>}/>
+          <Route exact path="/" element={<Home/>}/>
+          {/* <Route path="/Admin" element={viewAdminCredentials ? <Admin/>:<Home/>}/> */}
+          <Route path="/Admin" element={<Admin/>}/>
 
 
+
+
+          <Route path="*" element={<Home/>}/>
         </Routes>
         {/* <Footer /> */}
       </>}

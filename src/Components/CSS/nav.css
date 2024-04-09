@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* font-family: 'Bruno Ace SC', cursive; */
-h1, h2, h3, h4, h5, h6, span{ 
+h1, h2, h3, h4, h5, h6, p, span{ 
     font-family: "Montserrat", sans-serif;
 }
 nav{
@@ -19,7 +19,7 @@ nav{
     padding: 0 15vw;
     position: relative;
     background: rgba(0, 0, 0, 0.36);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     z-index: 999;
