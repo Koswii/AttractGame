@@ -101,6 +101,7 @@ section.adminPageContainer.top{
 }
 .admpc.top div.admpcViewNav.hide{
     opacity: 0;
+    display: none;
     transition: 400ms ease;
     animation: fade-out-right 1s ease;
 }
@@ -126,9 +127,13 @@ section.adminPageContainer.mid{
     width: 100%;
     padding: 1% 10%;
 }
+
+
+
 .admpcm1Dashboard{
     height: auto;
     width: 100%;
+    animation: fade-in-left 1s ease;
 }
 .admpcm1dContainer{
     height: auto;
@@ -247,3 +252,183 @@ section.adminPageContainer.mid{
 .admpcm1dTransaction table tbody tr td p .faIcons{
     line-height: 0.5vw;
 }
+
+
+
+
+
+.admpcm1Supplier{
+    height: auto;
+    width: 100%;
+    animation: fade-in-left 1s ease;
+}
+.admpcm1AddSuppContainer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    margin: 1% 0;
+    padding: 0 5%;
+}
+.admpcm1ASuppContent.left{
+    height: auto;
+    width: 50%;
+}
+.admpcm1ASuppContent.left p{
+    font-size: 0.7vw;
+}
+.admpcm1ASuppCAll{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 4% 0;
+}
+.admpcm1ASuppCAll div{
+    width: 48%;
+    padding: 3% 5%;
+    text-align: right;
+    border-radius: 1vw;
+    border: solid 2px white;
+}
+.admpcm1ASuppCAll div p{
+    font-size: 0.7vw;
+    margin-top: 1%;
+    opacity: 50%;
+}
+.admpcm1ASuppCView{
+    height: auto;
+    width: 100%;
+}
+.admpcm1ASuppCView table{
+    height: auto;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1%;
+}
+.admpcm1ASuppCView table tr th{
+    border: solid 1px gray;
+    padding: 1% 0.2%;
+}
+.admpcm1ASuppCView table tr th p{
+    font-size: 0.7vw;
+}
+.admpcm1ASuppCView table tbody tr td{
+    padding: 1% 2%;
+}
+.admpcm1ASuppCView table tbody tr:nth-child(odd){
+    background: rgba(80, 80, 80, 0.5);
+}
+.admpcm1ASuppCView table tbody tr:nth-child(even){
+    background: rgba(80, 80, 80, 0.3);
+}
+
+
+
+
+
+.admpcm1ASuppContent.right{
+    height: auto;
+    width: 40%;
+    border-radius: 1vw;
+    padding: 3% 0;
+    background: rgba(30, 30, 30, 0.8);
+    box-shadow: 0 0 10px black;
+}
+.admpcm1ASuppContent.right form{
+    height: auto;
+    width: 100%;
+}
+.admpcm1ASuppContent.right form h5{
+    text-align: center;
+}
+.admpcm1ASuppContentForm{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 5% 15%;
+    padding-bottom: 0;
+}
+.admpcm1ASuppContentForm span{
+    height: auto;
+    width: 100%;
+    margin: 2% 0;
+}
+.admpcm1ASuppContentForm span p{
+    font-size: 0.7vw;
+}
+.admpcm1ASuppContentForm span input{
+    width: 100%;
+    padding: 2%;
+    border-radius: 0.5vw;
+    margin-top: 1%;
+    background: none;
+    border: solid 1px white;
+    color: white;
+    font-size: 0.7vw;
+}
+.admpcm1ASuppContentForm span textarea{
+    height: 4vw;
+    width: 100%;
+    padding: 1% 2%;
+    border-radius: 0.5vw;
+    margin-top: 2%;
+    background: none;
+    border: solid 1px white;
+    color: white;
+    font-size: 0.7vw;
+}
+.admpcm1ASuppContentForm span.supplierSubmitStatus p{
+    height: 1vw;
+    text-align: center;
+    margin: 1%;
+    font-style: italic;
+} 
+.admpcm1ASuppContentForm span.supplierSubmit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+} 
+.admpcm1ASuppContentForm span.supplierSubmit button{
+    padding: 2% 5%;
+    background: none;
+    border: solid 2px white;
+    outline: none;
+    border-radius: 50px;
+    opacity: 50%;
+    cursor: pointer;
+    font-size: 0.7vw;
+    color: white;
+}
+.admpcm1ASuppContentForm span.supplierSubmit button:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+    box-shadow: 0 0 5px white;
+    background: white;
+    color: black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
