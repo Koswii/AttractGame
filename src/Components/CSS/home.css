@@ -57,7 +57,7 @@ section.landingPageContainer.top video{
     position: relative;
     z-index: 2;
     background: 
-        linear-gradient(transparent, black 95%);
+        linear-gradient(transparent, black 90%);
     background-size: cover;
     display: flex;
     justify-content: right;
@@ -103,7 +103,11 @@ section.landingPageContainer.mid{
     height: auto;
     width: 100%;
     padding: 5% 10%;
-    padding-top: 1%;
+    padding-top: 2%;
+    margin-top: -1%;
+    background: black;
+    position: relative;
+    z-index: 2;
 }
 .lndPageContent.mid1{
     height: auto;

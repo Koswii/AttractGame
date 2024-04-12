@@ -49,7 +49,7 @@ section.adminPageContainer.top{
     height: auto;
     width: 100%;
     padding: 0 10%;
-    padding-top: 5vw;
+    padding-top: 4vw;
 }
 .admpc.top{
     height: auto;
@@ -268,8 +268,7 @@ section.adminPageContainer.mid{
     display: flex;
     justify-content: space-between;
     align-items: top;
-    margin: 1% 0;
-    padding: 0 5%;
+    padding: 1% 5%;
 }
 .admpcm1ASuppContent.left{
     height: auto;
@@ -343,6 +342,7 @@ section.adminPageContainer.mid{
 }
 .admpcm1ASuppContent.right form h5{
     text-align: center;
+    margin-bottom: 2%;
 }
 .admpcm1ASuppContentForm{
     height: auto;
@@ -351,7 +351,7 @@ section.adminPageContainer.mid{
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    padding: 5% 15%;
+    padding: 0 15%;
     padding-bottom: 0;
 }
 .admpcm1ASuppContentForm span{
@@ -422,7 +422,268 @@ section.adminPageContainer.mid{
 
 
 
+.admpcm1Games{
+    height: auto;
+    width: 100%;
+    animation: fade-in-left 1s ease;
+}
+.admpcm1AddGameContainer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    padding: 1% 0;
+    padding-left: 5%;
+}
+.admpcm1AGameContent.left{
+    height: auto;
+    width: 30%;
+}
+.admpcm1AGameContent.left p {
+    font-size: 0.7vw;
+}
+.admpcm1AGamesCAll{
+    height: auto;
+    width: 100%;
+    margin-top: 6%;
+}
+.admpcm1AGamesCAll div{
+    width: 100%;
+    padding: 4% 6%;
+    margin-bottom: 3%;
+    text-align: right;
+    border-radius: 1vw;
+    border: solid 2px white;
+}
+.admpcm1AGamesCAll div p{
+    font-size: 0.7vw;
+    margin-top: 1%;
+    opacity: 50%;
+}
+.admpcm1AGameContent.right{
+    height: auto;
+    width: 65%;
+    /* background: rgba(30, 30, 30, 0.8);
+    box-shadow: 0 0 10px black;
+    border-radius: 1vw;
+    padding: 2% 0; */
+}
+.admpcm1AGameContent.right form{
+    height: auto;
+    width: 100%;
+}
+.admpcm1AGameContent.right form h5{
+    text-align: center;
+    margin-bottom: 2%;
+}
 
+
+
+.admpcm1agcForm{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    padding: 0 5%;
+}
+.admpcm1agcf.left{
+    height: auto;
+    width: 30%;
+}
+.admpc1agcfImage{
+    height: 100%;
+    width: 100%;
+    border-radius: 1vw;
+    border: dashed 2px white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 3%;
+}
+.admpc1agcfImage input{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: none;
+    cursor: pointer;
+    opacity: 0;
+}
+.admpc1agcfImage img{
+    height: 100%;
+    width: 100%;
+    color: white;
+    border-radius: 1vw;
+}
+
+
+
+
+
+.admpcm1agcf.right{
+    height: auto;
+    width: 65%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.admpcm1agcf.right span{
+    margin-bottom: 2%;
+    width: 48%;
+}
+.admpcm1agcf.right span p,
+.admpcm1agcf.left span p{
+    font-size: 0.7vw;
+}
+.admpcm1agcf.right span input,
+.admpcm1agcf.left span input{
+    width: 100%;
+    margin-top: 2%;
+    padding: 3% 5%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.admpcm1agcf.right span select{
+    width: 100%;
+    margin-top: 2%;
+    padding: 3% 5%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.admpcm1agcf.right span textarea{
+    width: 100%;
+    margin-top: 2%;
+    padding: 3% 5%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.admpcm1agcf.right span select option{
+    background: black;
+    border: solid 1px white;
+    font-weight: 400;
+}
+.admpcm1agcf.right span.gameDescription{
+    height: auto;
+    width: 100%;
+}
+.admpcm1agcf.right span.gameDescription textarea{
+    height: 5vw;
+    resize: none;
+    width: 100%;
+    margin-top: 2%;
+    padding: 2% 3%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+
+
+
+
+
+.admpc1agcfOthers{
+    height: auto;
+    width: 100%;
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    padding: 0 5%;
+}
+.admpc1agcfo.left{
+    height: auto;
+    width: 30%;
+}
+.admpc1agcfo.right{
+    height: auto;
+    width: 65%;
+}
+.admpc1agcfo.right span p,
+.admpc1agcfo.left span p{
+    font-size: 0.7vw;
+}
+.admpc1agcfo.right span input{
+    width: 100%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding: 1.5% 3%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.admpc1agcfo span textarea{
+    width: 100%;
+    resize: none;
+    margin-top: 2%;
+    padding: 2% 3%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.admpc1agcfo.left span textarea{
+    height: 3.3vw;
+}
+.admpc1agcfo.right span textarea{
+    height: 3.8vw;
+}
+.admpc1agcfSubmit{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 2%;
+    padding-bottom: 0;
+}
+.admpc1agcfSubmit button{
+    padding: 1% 3%;
+    background: none;
+    border: solid 2px white;
+    outline: none;
+    border-radius: 50px;
+    opacity: 50%;
+    cursor: pointer;
+    font-size: 0.7vw;
+    color: white;
+}
+.admpc1agcfSubmit button:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+    box-shadow: 0 0 5px white;
+    background: white;
+    color: black;
+}
 
 
 

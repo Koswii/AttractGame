@@ -119,6 +119,17 @@ const Nav = () => {
     localStorage.removeItem('attractGameUsername');
     window.location.href = '/';
   };
+  useEffect(() => {
+    const handleUsernameStorageChange = (event) => {
+      if (event.key === 'attractGameUsername') {
+        handleAdminLogout();
+      }
+    };
+    window.addEventListener('storage', handleUsernameStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleUsernameStorageChange);
+    };
+  }, []);
 
   const LoginUsername = localStorage.getItem('attractGameUsername');
   const [dataUser, setDataUser] = useState([]);

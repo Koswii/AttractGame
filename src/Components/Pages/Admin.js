@@ -28,6 +28,7 @@ const Admin = () => {
     const [viewAdminSupplier, setViewAdminSupplier] = useState(false)
     const [viewAdminGames, setViewAdminGames] = useState(false)
     const [viewAdminGiftCard, setViewAdminGiftCards] = useState(false)
+    const [viewAdminGameCredits, setViewAdminGameCredit] = useState(false)
     const [viewAdminSeller, setViewAdminSeller] = useState(false)
     const [viewAdminProductList, setViewAdminProductList] = useState(false)
     const [viewAdminUserList, setViewAdminUserList] = useState(false)
@@ -44,6 +45,7 @@ const Admin = () => {
         setViewAdminSupplier(false)
         setViewAdminGames(false)
         setViewAdminGiftCards(false)
+        setViewAdminGameCredit(false)
         setViewAdminSeller(false)
         setViewAdminProductList(false)
         setViewAdminUserList(false)
@@ -55,6 +57,7 @@ const Admin = () => {
         setViewAdminSupplier(true)
         setViewAdminGames(false)
         setViewAdminGiftCards(false)
+        setViewAdminGameCredit(false)
         setViewAdminSeller(false)
         setViewAdminProductList(false)
         setViewAdminUserList(false)
@@ -66,6 +69,7 @@ const Admin = () => {
         setViewAdminSupplier(false)
         setViewAdminGames(true)
         setViewAdminGiftCards(false)
+        setViewAdminGameCredit(false)
         setViewAdminSeller(false)
         setViewAdminProductList(false)
         setViewAdminUserList(false)
@@ -77,6 +81,19 @@ const Admin = () => {
         setViewAdminSupplier(false)
         setViewAdminGames(false)
         setViewAdminGiftCards(true)
+        setViewAdminGameCredit(false)
+        setViewAdminSeller(false)
+        setViewAdminProductList(false)
+        setViewAdminUserList(false)
+        setViewAdminPopupAds(false)
+        setViewAdminTransactions(false)
+    }
+    const handleViewAddGameCredit = () => {
+        setViewAdminDefault(false)
+        setViewAdminSupplier(false)
+        setViewAdminGames(false)
+        setViewAdminGiftCards(false)
+        setViewAdminGameCredit(true)
         setViewAdminSeller(false)
         setViewAdminProductList(false)
         setViewAdminUserList(false)
@@ -88,6 +105,7 @@ const Admin = () => {
         setViewAdminSupplier(false)
         setViewAdminGames(false)
         setViewAdminGiftCards(false)
+        setViewAdminGameCredit(false)
         setViewAdminSeller(true)
         setViewAdminProductList(false)
         setViewAdminUserList(false)
@@ -99,6 +117,7 @@ const Admin = () => {
         setViewAdminSupplier(false)
         setViewAdminGames(false)
         setViewAdminGiftCards(false)
+        setViewAdminGameCredit(false)
         setViewAdminSeller(false)
         setViewAdminProductList(true)
         setViewAdminUserList(false)
@@ -110,6 +129,7 @@ const Admin = () => {
         setViewAdminSupplier(false)
         setViewAdminGames(false)
         setViewAdminGiftCards(false)
+        setViewAdminGameCredit(false)
         setViewAdminSeller(false)
         setViewAdminProductList(false)
         setViewAdminUserList(true)
@@ -121,6 +141,7 @@ const Admin = () => {
         setViewAdminSupplier(false)
         setViewAdminGames(false)
         setViewAdminGiftCards(false)
+        setViewAdminGameCredit(false)
         setViewAdminSeller(false)
         setViewAdminProductList(false)
         setViewAdminUserList(false)
@@ -132,6 +153,7 @@ const Admin = () => {
         setViewAdminSupplier(false)
         setViewAdminGames(false)
         setViewAdminGiftCards(false)
+        setViewAdminGameCredit(false)
         setViewAdminSeller(false)
         setViewAdminProductList(false)
         setViewAdminUserList(false)
@@ -153,7 +175,6 @@ const Admin = () => {
     const [agSetWebsite, setAGSetWebsite] = useState('')
     const [agSetStatus, setAGSetStatus] = useState('')
     const [agSetNotes, setAGSetNotes] = useState('')
-
     const [formResponse, setFormResponse] = useState('')
 
     useEffect(() => {
@@ -223,6 +244,84 @@ const Admin = () => {
     };
 
 
+    const [imageSrc, setImageSrc] = useState(null);
+
+    const handleFileInputChange = (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setImageSrc(reader.result);
+        };
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
+
+
+    const [agSetGameCode, setAGSetGameCode] = useState('')
+    const [agSetGameCover, setAGSetGameCover] = useState('')
+    const [agSetGameTitle, setAGSetGameTitle] = useState('')
+    const [agSetGameCountry, setAGSetGameCountry] = useState('')
+    const [agSetGameDeveloper, setAGSetGameDeveloper] = useState('')
+    const [agSetGameRelease, setAGSetGameRelease] = useState('')
+    const [agSetGameCategory, setAGSetGameCategory] = useState('')
+    const [agSetGamePlatform, setAGSetGamePlatform] = useState('')
+    const [agSetGameTrailer, setAGSetGameTrailer] = useState('')
+    const [agSetGameDescription, setAGSetGameDescription] = useState('')
+    const [agSetGameHighlight1, setAGSetGameHighlight1] = useState('')
+    const [agSetGameHighlight2, setAGSetGameHighlight2] = useState('')
+    const [agSetGameSupplier, setAGSetGameSupplier] = useState('')
+    const [agSetGameSeller, setAGSetGameSeller] = useState('')
+    const [agSetGameAvailable, setAGSetGameAvailable] = useState('')
+    const [agSetGameRestricted, setAGSetGameRestricted] = useState('')
+
+
+    const handleAddGame = async (e) => {
+        e.preventDefault();
+  
+        const formAddGame ={
+            agGameCode: agSetGameCode,
+            agGameCover: agSetGameCover,
+            agGameTitle: agSetGameTitle,
+            agGameCountry: agSetGameCountry,
+            agGameDeveloper: agSetGameDeveloper,
+            agGameRelease: agSetGameRelease,
+            agGameCategory: agSetGameCategory,
+            agGamePlatform: agSetGamePlatform,
+            agGameTrailer: agSetGameTrailer,
+            agGameDescription: agSetGameDescription,
+            agGameHighlight1: agSetGameHighlight1,
+            agGameHighlight2: agSetGameHighlight2,
+            agGameSupplier: agSetGameSupplier,
+            agGameSeller: agSetGameSeller,
+            agGameAvailable: agSetGameAvailable,
+            agGameRestricted: agSetGameRestricted,
+        }
+  
+        const jsonAddGame = JSON.stringify(formAddGame);
+        // axios.post(AGAddSupplieAPI, jsonAddSupplier)
+        // .then(response => {
+        //     const responseMessage = response.data;
+        //     if (responseMessage.success === false) {
+        //         setFormResponse(responseMessage.message);
+        //     }
+        //     if (responseMessage.success === true) {
+        //         setFormResponse(responseMessage.message);
+        //         setAGSetCompany('')
+        //         setAGSetContact('')
+        //         setAGSetEmail('')
+        //         setAGSetWebsite('')
+        //         setAGSetNotes('')
+        //     }
+        // }) 
+        // .catch (error =>{
+        //   // Handle errors
+        //   console.log(error);
+        // });
+    };
+
+
+
 
 
 
@@ -239,11 +338,12 @@ const Admin = () => {
                             <button className={viewAdminSupplier ? 'activeNav': ''} onClick={handleViewAddSupplier}><h6>ADD SUPPLIER</h6></button>
                             <button className={viewAdminGames ? 'activeNav': ''} onClick={handleViewAddGames}><h6>ADD GAMES</h6></button>
                             <button className={viewAdminGiftCard ? 'activeNav': ''} onClick={handleViewAddGiftCards}><h6>ADD GIFTCARDS</h6></button>
+                            <button className={viewAdminGameCredits ? 'activeNav': ''} onClick={handleViewAddGameCredit}><h6>ADD GAME CREDIT</h6></button>
                             <button className={viewAdminSeller ? 'activeNav': ''} onClick={handleViewAddSeller}><h6>ADD SELLER</h6></button>
-                            <button className={viewAdminPopupAds ? 'activeNav': ''} onClick={handleViewAddPopup}><h6>POPUP ADS</h6></button>
                             <button className={viewAdminProductList ? 'activeNav': ''} onClick={handleViewProducts}><h6>PRODUCTS</h6></button>
                             <button className={viewAdminUserList ? 'activeNav': ''} onClick={handleViewUsers}><h6>USERS LIST</h6></button>
-                            <button className={viewAdminTransactions ? 'activeNav': ''} onClick={handleViewTransactions}><h6>TRANSACTION HISTORY</h6></button>
+                            {/* <button className={viewAdminTransactions ? 'activeNav': ''} onClick={handleViewTransactions}><h6>TRANSACTION HISTORY</h6></button> */}
+                            <button className={viewAdminPopupAds ? 'activeNav': ''} onClick={handleViewAddPopup}><h6>OTHERS</h6></button>
                         </div>
                     </div>
                 </div>
@@ -259,6 +359,14 @@ const Admin = () => {
                                     <h6>TOTAL SUPPLIERS</h6>
                                 </div>
                                 <div>
+                                    <h4>{viewUserProfiles.length}</h4>
+                                    <h6>REGISTERED USERS</h6>
+                                </div>
+                                <div>
+                                    <h4>0</h4>
+                                    <h6>TOTAL REGISTERED SELLERS</h6>
+                                </div>
+                                <div>
                                     <h4>0</h4>
                                     <h6>LISTED GAMES</h6>
                                 </div>
@@ -267,16 +375,8 @@ const Admin = () => {
                                     <h6>LISTED GIFTCARDS</h6>
                                 </div>
                                 <div>
-                                    <h4>{viewUserProfiles.length}</h4>
-                                    <h6>REGISTERED USERS</h6>
-                                </div>
-                                <div>
                                     <h4>0</h4>
-                                    <h6>TOTAL SELLERS</h6>
-                                </div>
-                                <div>
-                                    <h4>{viewTotalAGElite.length}</h4>
-                                    <h6>TOTAL AG ELITE</h6>
+                                    <h6>LISTED GAME CREDITS</h6>
                                 </div>
                             </div>
                             <div className="admpcm1dContent right">
@@ -399,6 +499,144 @@ const Admin = () => {
                                         <span className='supplierSubmit'>
                                             <button type='submit'>Add Supplier</button>
                                         </span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>}
+                    {viewAdminGames &&<div className="admpcm1Games">
+                        <div className="admpcm1AddGameContainer">
+                            <div className="admpcm1AGameContent left">
+                                <h4>WELCOME ADMIN!</h4><br />
+                                <p>
+                                    Within this interface, you possess the capability to seamlessly add new games, 
+                                    each detail meticulously recorded and securely stored within our database, ensuring 
+                                    comprehensive management and accessibility.
+                                </p>
+                                <div className="admpcm1AGamesCAll">
+                                    <div>
+                                        <h4>0 Games</h4>
+                                        <p>Total Listed Games</p>
+                                    </div>
+                                    <div>
+                                        <h4>0 Stocks</h4>
+                                        <p>Total Game Stocks</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="admpcm1AGameContent right">
+                                <form action="">
+                                    <h5>ADD GAMES FORM</h5>
+                                    <div className='admpcm1agcForm'>
+                                        <div className="admpcm1agcf left">
+                                            <div className='admpc1agcfImage'>
+                                                {imageSrc && (
+                                                    <img src={imageSrc} alt="No image Selected" />
+                                                )}
+                                                <input type="file" accept="image/*" onChange={handleFileInputChange} required/>
+                                            </div>
+                                        </div>
+                                        <div className="admpcm1agcf right">
+                                            <span>
+                                                <label htmlFor=""><p>Game Title</p></label>
+                                                <input type="text" placeholder='ex. Tetris' required/>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Country</p></label>
+                                                <input type="text" placeholder='ex. Global/US/EU' required/>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Game Developer</p></label>
+                                                <input type="text" placeholder='ex. NAMCO LTD.' required/>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Date Released</p></label>
+                                                <input type="date" required/>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Highlight 1</p></label>
+                                                <select name="" id="" required>
+                                                    <option value="">Select Highlight</option>
+                                                    <option value="Featured">Featured Games</option>
+                                                    <option value="Sale">On Sale Games</option>
+                                                </select>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Highlight 2 (Optional)</p></label>
+                                                <select name="" id="">
+                                                    <option value="">Select Highlight</option>
+                                                    <option value="Featured">Featured Games</option>
+                                                    <option value="Sale">On Sale Games</option>
+                                                </select>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Supplier</p></label>
+                                                <select name="" id="" required>
+                                                    <option value="">Select Supplier</option>
+                                                    {viewSupplierProfiles.slice(0,8).map((item, i) => (
+                                                        <option value={item.company}>{item.company}</option>
+                                                    ))}
+                                                </select>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Seller</p></label>
+                                                <select name="" id="" required>
+                                                    <option value="">Select Seller</option>
+                                                </select>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Category</p></label>
+                                                <select name="" id="" required>
+                                                    <option value="">Select Category</option>
+                                                    <option value="Trending">Trending Games</option>
+                                                    <option value="Hot">Hot Games</option>
+                                                    <option value="Classic">Classic Games</option>
+                                                    <option value="Preorder">Pre-Order Games</option>
+                                                </select>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Platform</p></label>
+                                                <select name="" id="" required>
+                                                    <option value="">Select Platform</option>
+                                                    <option value="Mobile App">Mobile Games</option>
+                                                    <option value="PC">PC Games</option>
+                                                    <option value="Nintendo Switch">Nintendo Switch Games</option>
+                                                    <option value="Xbox X/S">Xbox X/S Games</option>
+                                                    <option value="Xbox One">Xbox One Games</option>
+                                                    <option value="PlayStation 4">PS4 Games</option>
+                                                    <option value="PlayStation 5">PS5 Games</option>
+                                                </select>
+                                            </span>
+                                            {/* <span className="gameDescription">
+                                                <label htmlFor=""><p>Game Description</p></label>
+                                                <textarea name="" id="" placeholder='Type Game Description here...'></textarea>
+                                            </span> */}
+                                        </div>
+                                    </div>
+                                    <div className="admpc1agcfOthers">
+                                        <div className="admpc1agcfo left">
+                                            <span>
+                                                <label htmlFor=""><p>Available Country</p></label>
+                                                <textarea name="" id="" placeholder='Type Countries here..' required></textarea>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Restricted Country</p></label>
+                                                <textarea name="" id="" placeholder='Type Countries here..' required></textarea>
+                                            </span>
+                                        </div>
+                                        <div className="admpc1agcfo right">
+                                            <span>
+                                                <label htmlFor=""><p>Game Trailer (YouTube Link)</p></label>
+                                                <input type="text" placeholder='ex. https://www.youtube.com/watch?v=Mr8fVT_Ds4Q' required/>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Game Description</p></label>
+                                                <textarea name="" id="" placeholder='Game Description here..' required></textarea>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="admpc1agcfSubmit">
+                                        <button type='submit'>Add Games</button>
                                     </div>
                                 </form>
                             </div>
