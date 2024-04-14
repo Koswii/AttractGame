@@ -513,6 +513,10 @@ section.adminPageContainer.mid{
     cursor: pointer;
     opacity: 0;
 }
+.admpc1agcfImage input#imageCoverHiddenText{
+    display: none;
+    opacity: none;
+}
 .admpc1agcfImage img{
     height: 100%;
     width: 100%;

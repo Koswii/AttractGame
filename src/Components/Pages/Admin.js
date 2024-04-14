@@ -242,23 +242,18 @@ const Admin = () => {
           console.log(error);
         });
     };
-
-
-    const [imageSrc, setImageSrc] = useState(null);
-
+    const [image, setImage] = useState(null);
     const handleFileInputChange = (event) => {
         const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setImageSrc(reader.result);
-        };
         if (file) {
-            reader.readAsDataURL(file);
+            setImage(file);
+            setAGSetGameCover(file.name);
         }
     };
 
 
-    const [agSetGameCode, setAGSetGameCode] = useState('')
+
+    const AGAddGamesAPI = process.env.REACT_APP_AG_ADD_GAMES_API;
     const [agSetGameCover, setAGSetGameCover] = useState('')
     const [agSetGameTitle, setAGSetGameTitle] = useState('')
     const [agSetGameCountry, setAGSetGameCountry] = useState('')
@@ -274,13 +269,13 @@ const Admin = () => {
     const [agSetGameSeller, setAGSetGameSeller] = useState('')
     const [agSetGameAvailable, setAGSetGameAvailable] = useState('')
     const [agSetGameRestricted, setAGSetGameRestricted] = useState('')
-
+    const agSetGameCode = agSetGameTitle.replace(/\s/g, '');
 
     const handleAddGame = async (e) => {
         e.preventDefault();
   
         const formAddGame ={
-            agGameCode: agSetGameCode,
+            agGameCode: `AG_${agSetGameCode}`,
             agGameCover: agSetGameCover,
             agGameTitle: agSetGameTitle,
             agGameCountry: agSetGameCountry,
@@ -299,28 +294,40 @@ const Admin = () => {
         }
   
         const jsonAddGame = JSON.stringify(formAddGame);
-        // axios.post(AGAddSupplieAPI, jsonAddSupplier)
-        // .then(response => {
-        //     const responseMessage = response.data;
-        //     if (responseMessage.success === false) {
-        //         setFormResponse(responseMessage.message);
-        //     }
-        //     if (responseMessage.success === true) {
-        //         setFormResponse(responseMessage.message);
-        //         setAGSetCompany('')
-        //         setAGSetContact('')
-        //         setAGSetEmail('')
-        //         setAGSetWebsite('')
-        //         setAGSetNotes('')
-        //     }
-        // }) 
-        // .catch (error =>{
-        //   // Handle errors
-        //   console.log(error);
-        // });
+        console.log(jsonAddGame)
+        axios.post(AGAddGamesAPI, jsonAddGame)
+        .then(response => {
+            const responseMessage = response.data;
+            if (responseMessage.success === false) {
+                setFormResponse(responseMessage.message);
+            }
+            if (responseMessage.success === true) {
+                setFormResponse(responseMessage.message);
+                console.log(responseMessage.message);
+                setAGSetGameCover('')
+                setAGSetGameTitle('')
+                setAGSetGameCountry('')
+                setAGSetGameDeveloper('')
+                setAGSetGameRelease('')
+                setAGSetGameCategory('')
+                setAGSetGamePlatform('')
+                setAGSetGameTrailer('')
+                setAGSetGameDescription('')
+                setAGSetGameHighlight1('')
+                setAGSetGameHighlight2('')
+                setAGSetGameSupplier('')
+                setAGSetGameSeller('')
+                setAGSetGameAvailable('')
+                setAGSetGameRestricted('')
+            }
+        }) 
+        .catch (error =>{
+          // Handle errors
+          console.log(error);
+        });
     };
 
-
+    
 
 
 
@@ -525,37 +532,38 @@ const Admin = () => {
                                 </div>
                             </div>
                             <div className="admpcm1AGameContent right">
-                                <form action="">
+                                <form action="" onSubmit={handleAddGame}>
                                     <h5>ADD GAMES FORM</h5>
                                     <div className='admpcm1agcForm'>
                                         <div className="admpcm1agcf left">
                                             <div className='admpc1agcfImage'>
-                                                {imageSrc && (
-                                                    <img src={imageSrc} alt="No image Selected" />
+                                                {image && (
+                                                    <img src={URL.createObjectURL(image)} alt="No image Selected" />
                                                 )}
                                                 <input type="file" accept="image/*" onChange={handleFileInputChange} required/>
+                                                <input id='imageCoverHiddenText' type="text" value={agSetGameCover} readOnly/>
                                             </div>
                                         </div>
                                         <div className="admpcm1agcf right">
                                             <span>
                                                 <label htmlFor=""><p>Game Title</p></label>
-                                                <input type="text" placeholder='ex. Tetris' required/>
+                                                <input type="text" placeholder='ex. Tetris' value={agSetGameTitle} onChange={(e) => setAGSetGameTitle(e.target.value)} required/>
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Country</p></label>
-                                                <input type="text" placeholder='ex. Global/US/EU' required/>
+                                                <input type="text" placeholder='ex. Global/US/EU' value={agSetGameCountry} onChange={(e) => setAGSetGameCountry(e.target.value)} required/>
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Game Developer</p></label>
-                                                <input type="text" placeholder='ex. NAMCO LTD.' required/>
+                                                <input type="text" placeholder='ex. NAMCO LTD.' value={agSetGameDeveloper} onChange={(e) => setAGSetGameDeveloper(e.target.value)} required/>
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Date Released</p></label>
-                                                <input type="date" required/>
+                                                <input type="date" value={agSetGameRelease} onChange={(e) => setAGSetGameRelease(e.target.value)} required/>
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Highlight 1</p></label>
-                                                <select name="" id="" required>
+                                                <select name="" id="" value={agSetGameHighlight1} onChange={(e) => setAGSetGameHighlight1(e.target.value)} required>
                                                     <option value="">Select Highlight</option>
                                                     <option value="Featured">Featured Games</option>
                                                     <option value="Sale">On Sale Games</option>
@@ -563,7 +571,7 @@ const Admin = () => {
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Highlight 2 (Optional)</p></label>
-                                                <select name="" id="">
+                                                <select name="" id="" value={agSetGameHighlight2} onChange={(e) => setAGSetGameHighlight2(e.target.value)}>
                                                     <option value="">Select Highlight</option>
                                                     <option value="Featured">Featured Games</option>
                                                     <option value="Sale">On Sale Games</option>
@@ -571,7 +579,7 @@ const Admin = () => {
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Supplier</p></label>
-                                                <select name="" id="" required>
+                                                <select name="" id="" value={agSetGameSupplier} onChange={(e) => setAGSetGameSupplier(e.target.value)} required>
                                                     <option value="">Select Supplier</option>
                                                     {viewSupplierProfiles.slice(0,8).map((item, i) => (
                                                         <option value={item.company}>{item.company}</option>
@@ -580,13 +588,14 @@ const Admin = () => {
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Seller</p></label>
-                                                <select name="" id="" required>
+                                                <select name="" id="" value={agSetGameSeller} onChange={(e) => setAGSetGameSeller(e.target.value)} required>
                                                     <option value="">Select Seller</option>
+                                                    <option value="Attract Game">Attract Game Stocks</option>
                                                 </select>
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Category</p></label>
-                                                <select name="" id="" required>
+                                                <select name="" id="" value={agSetGameCategory} onChange={(e) => setAGSetGameCategory(e.target.value)} required>
                                                     <option value="">Select Category</option>
                                                     <option value="Trending">Trending Games</option>
                                                     <option value="Hot">Hot Games</option>
@@ -596,7 +605,7 @@ const Admin = () => {
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Platform</p></label>
-                                                <select name="" id="" required>
+                                                <select name="" id="" value={agSetGamePlatform} onChange={(e) => setAGSetGamePlatform(e.target.value)} required>
                                                     <option value="">Select Platform</option>
                                                     <option value="Mobile App">Mobile Games</option>
                                                     <option value="PC">PC Games</option>
@@ -617,21 +626,21 @@ const Admin = () => {
                                         <div className="admpc1agcfo left">
                                             <span>
                                                 <label htmlFor=""><p>Available Country</p></label>
-                                                <textarea name="" id="" placeholder='Type Countries here..' required></textarea>
+                                                <textarea name="" id="" value={agSetGameAvailable} onChange={(e) => setAGSetGameAvailable(e.target.value)} placeholder='Type Countries here..' required></textarea>
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Restricted Country</p></label>
-                                                <textarea name="" id="" placeholder='Type Countries here..' required></textarea>
+                                                <textarea name="" id="" value={agSetGameRestricted} onChange={(e) => setAGSetGameRestricted(e.target.value)} placeholder='Type Countries here..' required></textarea>
                                             </span>
                                         </div>
                                         <div className="admpc1agcfo right">
                                             <span>
                                                 <label htmlFor=""><p>Game Trailer (YouTube Link)</p></label>
-                                                <input type="text" placeholder='ex. https://www.youtube.com/watch?v=Mr8fVT_Ds4Q' required/>
+                                                <input type="text" placeholder='ex. https://www.youtube.com/watch?v=Mr8fVT_Ds4Q' value={agSetGameTrailer} onChange={(e) => setAGSetGameTrailer(e.target.value)} required/>
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Game Description</p></label>
-                                                <textarea name="" id="" placeholder='Game Description here..' required></textarea>
+                                                <textarea name="" id="" placeholder='Game Description here..' value={agSetGameDescription} onChange={(e) => setAGSetGameDescription(e.target.value)} required></textarea>
                                             </span>
                                         </div>
                                     </div>
