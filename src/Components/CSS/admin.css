@@ -662,6 +662,17 @@ section.adminPageContainer.mid{
 .admpc1agcfo.right span textarea{
     height: 3.8vw;
 }
+.gameSubmitStatus{
+    height: auto;
+    width: 100%;
+    text-align: center;
+}
+.gameSubmitStatus p{
+    height: 1vw;
+    text-align: center;
+    margin: 1%;
+    font-style: italic;
+}
 .admpc1agcfSubmit{
     height: auto;
     width: 100%;

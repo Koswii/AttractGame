@@ -51,6 +51,7 @@ const Admin = () => {
         setViewAdminUserList(false)
         setViewAdminPopupAds(false)
         setViewAdminTransactions(false)
+        setFormResponse('')
     }
     const handleViewAddSupplier = () => {
         setViewAdminDefault(false)
@@ -63,6 +64,7 @@ const Admin = () => {
         setViewAdminUserList(false)
         setViewAdminPopupAds(false)
         setViewAdminTransactions(false)
+        setFormResponse('')
     }
     const handleViewAddGames = () => {
         setViewAdminDefault(false)
@@ -75,6 +77,7 @@ const Admin = () => {
         setViewAdminUserList(false)
         setViewAdminPopupAds(false)
         setViewAdminTransactions(false)
+        setFormResponse('')
     }
     const handleViewAddGiftCards = () => {
         setViewAdminDefault(false)
@@ -87,6 +90,7 @@ const Admin = () => {
         setViewAdminUserList(false)
         setViewAdminPopupAds(false)
         setViewAdminTransactions(false)
+        setFormResponse('')
     }
     const handleViewAddGameCredit = () => {
         setViewAdminDefault(false)
@@ -99,6 +103,7 @@ const Admin = () => {
         setViewAdminUserList(false)
         setViewAdminPopupAds(false)
         setViewAdminTransactions(false)
+        setFormResponse('')
     }
     const handleViewAddSeller = () => {
         setViewAdminDefault(false)
@@ -111,6 +116,7 @@ const Admin = () => {
         setViewAdminUserList(false)
         setViewAdminPopupAds(false)
         setViewAdminTransactions(false)
+        setFormResponse('')
     }
     const handleViewProducts = () => {
         setViewAdminDefault(false)
@@ -123,6 +129,7 @@ const Admin = () => {
         setViewAdminUserList(false)
         setViewAdminPopupAds(false)
         setViewAdminTransactions(false)
+        setFormResponse('')
     }
     const handleViewUsers = () => {
         setViewAdminDefault(false)
@@ -135,6 +142,7 @@ const Admin = () => {
         setViewAdminUserList(true)
         setViewAdminPopupAds(false)
         setViewAdminTransactions(false)
+        setFormResponse('')
     }
     const handleViewAddPopup = () => {
         setViewAdminDefault(false)
@@ -147,6 +155,7 @@ const Admin = () => {
         setViewAdminUserList(false)
         setViewAdminPopupAds(true)
         setViewAdminTransactions(false)
+        setFormResponse('')
     }
     const handleViewTransactions = () => {
         setViewAdminDefault(false)
@@ -327,7 +336,7 @@ const Admin = () => {
         });
     };
 
-    
+
 
 
 
@@ -644,6 +653,9 @@ const Admin = () => {
                                             </span>
                                         </div>
                                     </div>
+                                    <span className='gameSubmitStatus'>
+                                        <p>{formResponse}</p>
+                                    </span>
                                     <div className="admpc1agcfSubmit">
                                         <button type='submit'>Add Games</button>
                                     </div>
