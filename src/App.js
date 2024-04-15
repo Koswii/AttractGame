@@ -105,8 +105,8 @@ function App() {
         <Nav />
         <Routes>
           <Route exact path="/" element={<Home/>}/>
-          {/* <Route path="/Admin" element={viewAdminCredentials ? <Admin/>:<Home/>}/> */}
-          <Route path="/Admin" element={<Admin/>}/>
+          <Route path="/Admin" element={viewAdminCredentials ? <Admin/>:<Home/>}/>
+          {/* <Route path="/Admin" element={<Admin/>}/> */}
 
 
 

@@ -49,6 +49,18 @@ const Nav = () => {
   const [agUserAccount, setAGUserAccount] = useState('Customer')
   const [agUserStatus, setAGUserStatus] = useState('Active')
   const [messageResponse, setMessageResponse] = useState('')
+  const [captcha, setCaptcha] = useState('');
+
+  useEffect(() => {
+    const generateCaptcha = () => {
+      // Generate a random 4-digit number for the CAPTCHA
+      const randomCaptcha = Math.floor(1000 + Math.random() * 9000);
+      setCaptcha(randomCaptcha.toString());
+    };
+
+    generateCaptcha();
+  }, []);
+
 
   const handleUserRegister = async (e) => {
     e.preventDefault();
@@ -134,27 +146,31 @@ const Nav = () => {
       window.removeEventListener('storage', handleUsernameStorageChange);
     };
   }, []);
-
   const LoginUsername = localStorage.getItem('attractGameUsername');
   const [dataUser, setDataUser] = useState([]);
-
   useEffect(() => {
     const fetchDataUser = () => {
       axios.get(AGUserListAPI)
       .then((response) => {
         const userData = response.data.find(item => item.username == LoginUsername);
         setDataUser(userData);
-        if(userData['account'] == 'Admin'){
-          setViewAdminCredentials(true)
-        }else{
-          setViewAdminCredentials(false)
+
+        if(userData){
+          if(userData['account'] == 'Admin'){
+            setViewAdminCredentials(true)
+          }else{
+            setViewAdminCredentials(false)
+          }
         }
       })
       .catch(error => {
         console.log(error)
       })
     }
+
     fetchDataUser();
+
+
     const userFromLocalStorage = localStorage.getItem('isLoggedIn');
     if (userFromLocalStorage) {
       setViewUserCredentials(true);
@@ -172,14 +188,6 @@ const Nav = () => {
   } else{
     window.document.body.style.overflow = 'auto';
   }
-
-
-
-
-
-
-
-
 
 
   return (
@@ -281,11 +289,7 @@ const Nav = () => {
               <a id='agRegisterBtn' onClick={handleViewRegistration}><h6>REGISTER</h6></a>
             </div>:
             <div id='userProfile'>
-              {viewAdminCredentials &&
-                <>
-                  <Link id='agProfileBtn' to='/Admin'><h6><MdAdminPanelSettings className='faIcons'/></h6></Link>
-                </>
-              }
+              {viewAdminCredentials &&<Link id='agProfileBtn' to='/Admin'><h6><MdAdminPanelSettings className='faIcons'/></h6></Link>}
               <Link id='agProfileBtn'><h6><FaRegUserCircle className='faIcons'/></h6></Link>
               <a id='agLogoutBtn' onClick={handleAdminLogout}><h6>LOGOUT</h6></a>
             </div>}

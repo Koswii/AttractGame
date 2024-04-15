@@ -374,8 +374,8 @@ const Admin = () => {
                             <button className={viewAdminSeller ? 'activeNav': ''} onClick={handleViewAddSeller}><h6>ADD SELLER</h6></button>
                             <button className={viewAdminProductList ? 'activeNav': ''} onClick={handleViewProducts}><h6>PRODUCTS</h6></button>
                             <button className={viewAdminUserList ? 'activeNav': ''} onClick={handleViewUsers}><h6>USERS LIST</h6></button>
-                            {/* <button className={viewAdminTransactions ? 'activeNav': ''} onClick={handleViewTransactions}><h6>TRANSACTION HISTORY</h6></button> */}
                             <button className={viewAdminPopupAds ? 'activeNav': ''} onClick={handleViewAddPopup}><h6>OTHERS</h6></button>
+                            <button className={viewAdminTransactions ? 'activeNav': ''} onClick={handleViewTransactions}><h6>TRANSACTION HISTORY</h6></button>
                         </div>
                     </div>
                 </div>
@@ -438,7 +438,7 @@ const Admin = () => {
                                         <th width='10%'><p>AG ELITE</p></th>
                                         <th width='20%'><p>DATE REGISTERED</p></th>
                                         <th width='20%'><p>REFERRAL CODE</p></th>
-                                        <th width='10%'><p>TOTAL REFEREE</p></th>
+                                        <th width='10%'><p>REFEREE</p></th>
                                     </tr>
                                 </thead>
                             </table>
@@ -588,7 +588,7 @@ const Admin = () => {
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Highlight 1</p></label>
-                                                <select name="" id="" value={agSetGameHighlight1} onChange={(e) => setAGSetGameHighlight1(e.target.value)} required>
+                                                <select name="" id="" value={agSetGameHighlight1} onChange={(e) => setAGSetGameHighlight1(e.target.value)}>
                                                     <option value="">Select Highlight</option>
                                                     <option value="Featured">Featured Games</option>
                                                     <option value="Sale">On Sale Games</option>
@@ -641,10 +641,6 @@ const Admin = () => {
                                                     <option value="PlayStation 5">PS5 Games</option>
                                                 </select>
                                             </span>
-                                            {/* <span className="gameDescription">
-                                                <label htmlFor=""><p>Game Description</p></label>
-                                                <textarea name="" id="" placeholder='Type Game Description here...'></textarea>
-                                            </span> */}
                                         </div>
                                     </div>
                                     <div className="admpc1agcfOthers">
