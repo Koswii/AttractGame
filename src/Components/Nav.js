@@ -5,6 +5,9 @@ import {
     FaTimes,
     FaRegUserCircle,
 } from 'react-icons/fa';
+import { 
+  MdAdminPanelSettings 
+} from "react-icons/md";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -280,7 +283,7 @@ const Nav = () => {
             <div id='userProfile'>
               {viewAdminCredentials &&
                 <>
-                  <Link id='agProfileBtn' to='/Admin'><h6><FaBars className='faIcons'/></h6></Link>
+                  <Link id='agProfileBtn' to='/Admin'><h6><MdAdminPanelSettings className='faIcons'/></h6></Link>
                 </>
               }
               <Link id='agProfileBtn'><h6><FaRegUserCircle className='faIcons'/></h6></Link>
