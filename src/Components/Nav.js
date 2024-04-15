@@ -14,6 +14,7 @@ const Nav = () => {
   const [viewRegForm, setViewRegForm] = useState(false)
   const [viewLoginForm, setViewLoginForm] = useState(false)
   const [viewUserCredentials, setViewUserCredentials] = useState(false)
+  const [viewAdminCredentials, setViewAdminCredentials] = useState(false)
 
 
   const handleViewRegistration = () => {
@@ -140,6 +141,11 @@ const Nav = () => {
       .then((response) => {
         const userData = response.data.find(item => item.username == LoginUsername);
         setDataUser(userData);
+        if(userData['account'] == 'Admin'){
+          setViewAdminCredentials(true)
+        }else{
+          setViewAdminCredentials(false)
+        }
       })
       .catch(error => {
         console.log(error)
@@ -249,6 +255,8 @@ const Nav = () => {
             </form>
           </div>
       </div>}
+
+
       <div className="mainNavContainer">
         <div className="navContainer website">
           <div className="navContent left">
@@ -270,6 +278,11 @@ const Nav = () => {
               <a id='agRegisterBtn' onClick={handleViewRegistration}><h6>REGISTER</h6></a>
             </div>:
             <div id='userProfile'>
+              {viewAdminCredentials &&
+                <>
+                  <Link id='agProfileBtn'><h6><FaBars className='faIcons'/></h6></Link>
+                </>
+              }
               <Link id='agProfileBtn'><h6><FaRegUserCircle className='faIcons'/></h6></Link>
               <a id='agLogoutBtn' onClick={handleAdminLogout}><h6>LOGOUT</h6></a>
             </div>}

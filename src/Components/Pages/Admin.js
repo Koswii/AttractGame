@@ -174,10 +174,21 @@ const Admin = () => {
     const AGUserProfileListAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const AGAddSupplieAPI = process.env.REACT_APP_AG_ADD_SUPPLIER_API;
     const AGSupplieListAPI = process.env.REACT_APP_AG_SUPPLIER_LIST_API;
+    const AGAddGamesAPI = process.env.REACT_APP_AG_ADD_GAMES_API;
+    const AGGamesListAPI = process.env.REACT_APP_AG_ADD_GAMES_LIST_API;
+
+
     const [viewUserProfiles, setViewUserProfiles] = useState([])
     const [viewTotalAGElite, setViewTotalAGElite] = useState('')
     const [viewSupplierProfiles, setViewSupplierProfiles] = useState([])
     const [viewActiveSupplier, setViewActiveSupplie] = useState('')
+    const [viewGameTotal, setViewGameTotal] = useState([])
+
+
+
+
+
+
     const [agSetCompany, setAGSetCompany] = useState('')
     const [agSetContact, setAGSetContact] = useState('')
     const [agSetEmail, setAGSetEmail] = useState('')
@@ -216,6 +227,18 @@ const Admin = () => {
         }
         fetchDataSupplier();
 
+
+        const fetchDataGames = () => {
+            axios.get(AGGamesListAPI)
+            .then((response) => {
+                const gameData = response.data;
+                setViewGameTotal(gameData);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+        fetchDataGames();
         
     }, []);
     const handleAddSupplier = async (e) => {
@@ -260,9 +283,6 @@ const Admin = () => {
         }
     };
 
-
-
-    const AGAddGamesAPI = process.env.REACT_APP_AG_ADD_GAMES_API;
     const [agSetGameCover, setAGSetGameCover] = useState('')
     const [agSetGameTitle, setAGSetGameTitle] = useState('')
     const [agSetGameCountry, setAGSetGameCountry] = useState('')
@@ -383,7 +403,7 @@ const Admin = () => {
                                     <h6>TOTAL REGISTERED SELLERS</h6>
                                 </div>
                                 <div>
-                                    <h4>0</h4>
+                                    <h4>{viewGameTotal.length}</h4>
                                     <h6>LISTED GAMES</h6>
                                 </div>
                                 <div>
@@ -531,7 +551,7 @@ const Admin = () => {
                                 </p>
                                 <div className="admpcm1AGamesCAll">
                                     <div>
-                                        <h4>0 Games</h4>
+                                        <h4>{viewGameTotal.length} Games</h4>
                                         <p>Total Listed Games</p>
                                     </div>
                                     <div>
