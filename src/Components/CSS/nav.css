@@ -203,7 +203,7 @@ nav{
 }
 .navContent.right{
     height: 100%;
-    width: 15%;
+    width: 25%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -211,12 +211,13 @@ nav{
 .navContent.right div{
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
     align-items: center;
 }
 .navContent.right div a#agRegisterBtn{
     border: solid 1px white;
-    padding: 5% 10%;
+    padding: 3% 10%;
+    margin-left: 15%;
     border-radius: 50px;
 }
 .navContent.right a{
@@ -236,13 +237,15 @@ nav{
     justify-content: space-between;
     align-items: center;
 }
-
+.navContent.right div a#agProfileBtn{
+    margin: 0 5%;
+}
 .navContent.right div a#agProfileBtn h6{
     font-size: 2vw;
     line-height: 1vw;
 }
 .navContent.right div a#agLogoutBtn{
     border: solid 1px white;
-    padding: 5% 20%;
+    padding: 3% 10%;
     border-radius: 50px;
 }

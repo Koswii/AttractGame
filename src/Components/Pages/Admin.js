@@ -37,11 +37,7 @@ const Admin = () => {
     
 
     const handleViewNavigations = () => {
-        setViewAdminNavigations(true)
-    }
-    const handleCloseNavigations = () =>{
         setViewAdminDefault(true)
-        setViewAdminNavigations(false)
         setViewAdminSupplier(false)
         setViewAdminGames(false)
         setViewAdminGiftCards(false)
@@ -367,10 +363,8 @@ const Admin = () => {
             <section className="adminPageContainer top">
                 <div className="admPageContent top">
                     <div className="admpc top">
-                        {!viewAdminNavigations ? 
-                        <button id='adminNavBars'onClick={handleViewNavigations}><h6><FaBars className='faIcons'/></h6></button>:
-                        <button id='adminNavClose' className={!viewAdminNavigations ? '':'active'} onClick={handleCloseNavigations}><h6><FaTimes className='faIcons'/></h6></button>}
-                        <div className={!viewAdminNavigations ? 'admpcViewNav hide' : 'admpcViewNav'}>
+                        <div className='admpcViewNav'>
+                            <button className={viewAdminDefault ? 'activeNav': ''} onClick={handleViewNavigations}><h6>DASHBOARD</h6></button>
                             <button className={viewAdminSupplier ? 'activeNav': ''} onClick={handleViewAddSupplier}><h6>ADD SUPPLIER</h6></button>
                             <button className={viewAdminGames ? 'activeNav': ''} onClick={handleViewAddGames}><h6>ADD GAMES</h6></button>
                             <button className={viewAdminGiftCard ? 'activeNav': ''} onClick={handleViewAddGiftCards}><h6>ADD GIFTCARDS</h6></button>

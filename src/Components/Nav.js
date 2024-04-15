@@ -280,7 +280,7 @@ const Nav = () => {
             <div id='userProfile'>
               {viewAdminCredentials &&
                 <>
-                  <Link id='agProfileBtn'><h6><FaBars className='faIcons'/></h6></Link>
+                  <Link id='agProfileBtn' to='/Admin'><h6><FaBars className='faIcons'/></h6></Link>
                 </>
               }
               <Link id='agProfileBtn'><h6><FaRegUserCircle className='faIcons'/></h6></Link>
