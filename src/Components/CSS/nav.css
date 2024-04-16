@@ -80,6 +80,7 @@ nav{
     font-size: 0.7vw;
     color: white;
     margin-top: 5%;
+    margin-bottom: 1%;
 }
 .navRegistrationContent div span input{
     width: 100%;
@@ -92,6 +93,30 @@ nav{
     outline: none;
     color: white;
     border-radius: 0.5vw;
+}
+.navRegistrationContent div span.recaptchaSetup{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin: 10% 0;
+    position: relative;
+}
+.navRegistrationContent div span.recaptchaSetup img{
+    position: absolute;
+    height: 2.4vw;
+    margin-right: 5%;
+    border-radius: 0.5vw;
+    opacity: 100%;
+    top: 0;
+    left: 0;
+    width: 40%;
+}
+.navRegistrationContent div span.recaptchaSetup img#captchaContent{
+    z-index: 2;
+    opacity: 35%;
+}
+.navRegistrationContent div span.recaptchaSetup input{
+    width: 50%;
 }
 .navRegistrationContent div span.submitAccount{
     display: flex;
@@ -194,8 +219,11 @@ nav{
     height: 100%;
     width: 50%;
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
     align-items: center;
+}
+.navContent.center a{
+    margin-left: 10%;
 }
 .navContent.center a h6{
     font-weight: 400;

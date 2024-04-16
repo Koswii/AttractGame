@@ -50,14 +50,16 @@ const Nav = () => {
   const [agUserStatus, setAGUserStatus] = useState('Active')
   const [messageResponse, setMessageResponse] = useState('')
   const [captcha, setCaptcha] = useState('');
+  const [inputValueCaptcha, setInputValueCaptcha] = useState('');
+
+
+  const generateCaptcha = () => {
+    // Generate a random 4-digit number for the CAPTCHA
+    const randomCaptcha = Math.floor(1000 + Math.random() * 9000);
+    setCaptcha(randomCaptcha.toString());
+  };
 
   useEffect(() => {
-    const generateCaptcha = () => {
-      // Generate a random 4-digit number for the CAPTCHA
-      const randomCaptcha = Math.floor(1000 + Math.random() * 9000);
-      setCaptcha(randomCaptcha.toString());
-    };
-
     generateCaptcha();
   }, []);
 
@@ -76,23 +78,30 @@ const Nav = () => {
     }
 
     const jsonUserData = JSON.stringify(formAddUser);
-    axios.post(addAGUserAPI, jsonUserData)
-    .then(response => {
-      const resMessage = response.data;
-      if (resMessage.success === false) {
-          setMessageResponse(resMessage.message);
-      }
-      if (resMessage.success === true) {
-          setMessageResponse(resMessage.message);
-          setAGUserEmail('')
-          setAGUserUsername('')
-          setAGUserPassword('')
-          setAGUserReferral('')
-      }
-    }) 
-    .catch (error =>{
-      setMessageResponse(error);
-    });
+    if (inputValueCaptcha === captcha) {
+      // CAPTCHA verification successful
+      axios.post(addAGUserAPI, jsonUserData)
+      .then(response => {
+        const resMessage = response.data;
+        if (resMessage.success === false) {
+            setMessageResponse(resMessage.message);
+        }
+        if (resMessage.success === true) {
+            setMessageResponse(resMessage.message);
+            setAGUserEmail('')
+            setAGUserUsername('')
+            setAGUserPassword('')
+            setAGUserReferral('')
+        }
+      }) 
+      .catch (error =>{
+        setMessageResponse(error);
+      });
+    } else {
+      alert('CAPTCHA verification failed. Please try again.');
+      setInputValueCaptcha('');
+      generateCaptcha(); // Regenerate CAPTCHA
+    }
   };
   const handleUserLogin = (e) => {
     e.preventDefault();
@@ -215,6 +224,11 @@ const Nav = () => {
                   <label htmlFor=""><p>Referrer (Optional)</p></label>
                   <input type="text" placeholder='ex. PlayerTwo' value={agUserReferral} onChange={(e) => setAGUserReferral(e.target.value)}/>
                 </span>
+                <span className='recaptchaSetup'>
+                  <img id='captchaContent' src={`https://dummyimage.com/150x50/000/fff&text=${captcha}`} alt="Captcha" />
+                  <img id='captchaBG' src={require('./assets/imgs/LoginBackground.jpg')} alt="" />
+                  <input type="text" value={inputValueCaptcha} placeholder="Enter CAPTCHA" required/>
+                </span>
                 <span className='submitAccount'>
                   <button type='submit'>
                     <h6>REGISTER</h6>
@@ -277,11 +291,9 @@ const Nav = () => {
               </Link>
           </div>
           <div className="navContent center">
-            <Link><h6>GAMES</h6></Link>
-            <Link><h6>VOUCHERS</h6></Link>
-            <Link><h6>CRYPTO</h6></Link>
-            <Link><h6>MERCHANDISE</h6></Link>
             <Link><h6>HIGHLIGHTS</h6></Link>
+            <Link><h6>MARKETPLACE</h6></Link>
+            <Link><h6>CRYPTO</h6></Link>
           </div>
           <div className="navContent right">
             {!viewUserCredentials ? <div>
@@ -290,7 +302,7 @@ const Nav = () => {
             </div>:
             <div id='userProfile'>
               {viewAdminCredentials &&<Link id='agProfileBtn' to='/Admin'><h6><MdAdminPanelSettings className='faIcons'/></h6></Link>}
-              <Link id='agProfileBtn'><h6><FaRegUserCircle className='faIcons'/></h6></Link>
+              <Link id='agProfileBtn' to='/Profile'><h6><FaRegUserCircle className='faIcons'/></h6></Link>
               <a id='agLogoutBtn' onClick={handleAdminLogout}><h6>LOGOUT</h6></a>
             </div>}
           </div>

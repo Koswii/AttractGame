@@ -7,6 +7,7 @@ import Nav from './Components/Nav'
 // import Footer from './Components/Pages/footer';
 import ScrollToTop from './Components/Pages/ScrollToTop';
 import Admin from './Components/Pages/Admin';
+import Profile from './Components/Pages/Profile';
 
 import Loader from './Components/Pages/Loader';
 import Home from './Components/Pages/Home'
@@ -105,6 +106,7 @@ function App() {
         <Nav />
         <Routes>
           <Route exact path="/" element={<Home/>}/>
+          <Route exact path="/Profile" element={<Profile/>}/>
           <Route path="/Admin" element={viewAdminCredentials ? <Admin/>:<Home/>}/>
           {/* <Route path="/Admin" element={<Admin/>}/> */}
 
