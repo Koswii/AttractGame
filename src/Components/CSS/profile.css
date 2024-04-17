@@ -28,7 +28,227 @@ h6{
     height: auto;
     width: 100%;
     background: black;
+    position: relative;
 }
+
+
+.modalContainerProfile.settings{
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modalContentProfile{
+    position: relative;
+    height: auto;
+    width: 60%;
+    border-radius: 1vw;
+    background: 
+        linear-gradient(transparent, black 80%),
+        url('../assets/imgs/LoginBackground.jpg');
+    background-size: cover;
+    box-shadow: 0 0 20px black;
+    padding: 2%;
+    padding-bottom: 4%;
+    animation: fade-in-down 800ms ease;
+}
+.modalContentProfile button#closeModalSettings{
+    float: right;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1.5vw;
+    cursor: pointer;
+}
+.mdcpSettingsContainer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+.mdcpsContent.left{
+    height: auto;
+    width: 35%;
+}
+.mdcpsContent.left span{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5% 10%;
+    padding-top: 0;
+}
+.mdcpsContent.left span img{
+    height: auto;
+    width: 100%;
+    border-radius: 1vw;
+    border: dashed 3px white;
+}
+.mdcpsContent.left span input{
+    display: none;
+    opacity: 0;
+}
+.mdcpsContent.left div{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 0 3%;
+}
+.mdcpsContent.left div img{
+    height: 2.5vw;
+    margin: 2%;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.mdcpsContent.right{
+    height: auto;
+    width: 65%;
+    padding: 0 2%;
+}
+.mdcpsContent.right h4 .faIcons{
+    font-size: 1.5vw;
+    color: gold;
+}
+.mdcpccrSocials{
+    height: auto;
+    width: 100%;
+    margin-top: 3%;
+    padding: 4%;
+    border-radius: 1vw;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+.mdcpccrSocials div{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5%;
+}
+.mdcpccrSocials div span{
+    width: 47%;
+    margin-bottom: 3%;
+}
+.mdcpccrSocials div span input{
+    width: 100%;
+    padding: 3% 5%;
+    margin-top: 3%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 50px;
+    color: white;
+    font-size: 0.7vw;
+}
+.mdcpccrSocials div span p{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    opacity: 80%;
+    margin-left: 5%;
+}
+.mdcpccrSocials div span p .faIcons{
+    margin-right: 2%;
+}
+.mdcpccrSubmit{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-top: 5%;
+}
+.mdcpccrSubmit button{
+    padding: 1.5% 5%;
+    background: none;
+    color: white;
+    border: solid 1px white;
+    border-radius: 50px;
+    cursor: pointer;
+    opacity: 50%;
+}
+.mdcpccrSubmit button:hover{
+    transition: 400ms ease;
+    opacity: 100%;
+    background: white;
+    color: black;
+    box-shadow: 0 0 10px gray;
+}
+
+
+
+
+
+
+
+
+
+.modalContainerProfile.posting{
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modalContentPosting{
+    position: relative;
+    height: auto;
+    width: 60%;
+    border-radius: 1vw;
+    background: 
+        linear-gradient(transparent, black 80%),
+        url('../assets/imgs/LoginBackground.jpg');
+    background-size: cover;
+    box-shadow: 0 0 20px black;
+    padding: 2%;
+    padding-bottom: 4%;
+    animation: fade-in-down 800ms ease;
+}
+.modalContentPosting button#closeModalPosting{
+    float: right;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1.5vw;
+    cursor: pointer;
+}
+.mdcpPostingContainer{
+    height: auto;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -155,8 +375,18 @@ section.profilePageContainer.mid{
     align-items: center;
     margin: 2% 0;
 }
-
-
+.ppclProfileDetails span p#agPoints,
+.ppclProfileDetails span p#agGems{
+    width: 50%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.ppclProfileDetails span p#agPoints .faIcons,
+.ppclProfileDetails span p#agGems .faIcons{
+    margin-left: 5%;
+    line-height: 1vw;
+}
 
 
 

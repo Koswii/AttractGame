@@ -266,11 +266,17 @@ nav{
     align-items: center;
 }
 .navContent.right div a#agProfileBtn{
+    height: 2.2vw;
     margin: 0 5%;
 }
 .navContent.right div a#agProfileBtn h6{
-    font-size: 2vw;
+    font-size: 2.3vw;
     line-height: 1vw;
+}
+.navContent.right div a#agProfileBtn img{
+    height: 100%;
+    border-radius: 50%;
+    border: solid 1px white;
 }
 .navContent.right div a#agLogoutBtn{
     border: solid 1px white;

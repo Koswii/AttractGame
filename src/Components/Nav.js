@@ -302,7 +302,9 @@ const Nav = () => {
             </div>:
             <div id='userProfile'>
               {viewAdminCredentials &&<Link id='agProfileBtn' to='/Admin'><h6><MdAdminPanelSettings className='faIcons'/></h6></Link>}
-              <Link id='agProfileBtn' to='/Profile'><h6><FaRegUserCircle className='faIcons'/></h6></Link>
+              <Link id='agProfileBtn' to='/Profile'>
+                <img src="https://engeenx.com/ProfilePics/DefaultProfilePic.png" alt="" />
+              </Link>
               <a id='agLogoutBtn' onClick={handleAdminLogout}><h6>LOGOUT</h6></a>
             </div>}
           </div>

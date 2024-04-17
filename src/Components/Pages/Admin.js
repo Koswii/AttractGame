@@ -565,7 +565,7 @@ const Admin = () => {
                                                 {image && (
                                                     <img src={URL.createObjectURL(image)} alt="No image Selected" />
                                                 )}
-                                                <input type="file" accept="image/*" onChange={handleFileInputChange} required/>
+                                                <input type="file" accept="image/*" onChange={handleFileInputChange}/>
                                                 <input id='imageCoverHiddenText' type="text" value={agSetGameCover} readOnly/>
                                             </div>
                                         </div>
