@@ -32,9 +32,10 @@ h6{
 }
 
 
-.modalContainerProfile.settings{
+.modalContainerProfile{
     height: 100vh;
     width: 100%;
+    padding-top: 4vw;
     position: fixed;
     background: rgba(0, 0, 0, 0.36);
     box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
@@ -48,19 +49,20 @@ h6{
 .modalContentProfile{
     position: relative;
     height: auto;
-    width: 60%;
+    width: 50%;
     border-radius: 1vw;
     background: 
         linear-gradient(transparent, black 80%),
         url('../assets/imgs/LoginBackground.jpg');
     background-size: cover;
-    box-shadow: 0 0 20px black;
-    padding: 2%;
-    padding-bottom: 4%;
+    box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
+    padding: 3% 2%;
     animation: fade-in-down 800ms ease;
 }
 .modalContentProfile button#closeModalSettings{
-    float: right;
+    position: absolute;
+    right: 2%;
+    top: 3%;
     background: none;
     border: none;
     outline: none;
@@ -85,8 +87,7 @@ h6{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 5% 10%;
-    padding-top: 0;
+    padding: 0 10%;
 }
 .mdcpsContent.left span img{
     height: auto;
@@ -98,7 +99,7 @@ h6{
     display: none;
     opacity: 0;
 }
-.mdcpsContent.left div{
+.mdcpscSampleProfile{
     height: auto;
     width: 100%;
     display: flex;
@@ -106,11 +107,33 @@ h6{
     justify-content: center;
     align-items: center;
     padding: 0 3%;
+    margin: 4% 0;
+    position: relative;
 }
-.mdcpsContent.left div img{
-    height: 2.5vw;
+.mdcpscSampleProfile img{
+    height: 2vw;
     margin: 2%;
     border-radius: 50%;
+    cursor: pointer;
+}
+.mdcpscCustomProfile{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    position: relative;
+    padding: 3%;
+}
+.mdcpscCustomProfile input[type="file"]{
+    width: 100%;
+    color: white;
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+}
+.mdcpscCustomProfile p{
     cursor: pointer;
 }
 .mdcpsContent.right{
@@ -162,6 +185,7 @@ h6{
     align-items: center;
     opacity: 80%;
     margin-left: 5%;
+    font-size: 0.7vw;
 }
 .mdcpccrSocials div span p .faIcons{
     margin-right: 2%;
@@ -170,64 +194,60 @@ h6{
     height: auto;
     width: 100%;
     display: flex;
-    justify-content: right;
+    justify-content: center;
     align-items: center;
     margin-top: 5%;
 }
 .mdcpccrSubmit button{
-    padding: 1.5% 5%;
+    padding: 1% 5%;
     background: none;
     color: white;
-    border: solid 1px white;
+    border: solid 2px white;
     border-radius: 50px;
     cursor: pointer;
     opacity: 50%;
+    margin: 0 1%;
 }
-.mdcpccrSubmit button:hover{
+.mdcpccrSubmit button#mdcpccrsVerified{
+    width: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.5);
+    border: solid 2px goldenrod;
+    color: gold;
+    opacity: 100%;
+}
+.mdcpccrSubmit button#mdcpccrsVerified .faIcons{
+    margin-left: 5%;
+}
+.mdcpccrSubmit button#mdcpccrsSubmit:hover{
     transition: 400ms ease;
     opacity: 100%;
     background: white;
     color: black;
-    box-shadow: 0 0 10px gray;
+    box-shadow: 0 0 10px blue;
 }
 
 
-
-
-
-
-
-
-
-.modalContainerProfile.posting{
-    height: 100vh;
-    width: 100%;
-    position: fixed;
-    background: rgba(0, 0, 0, 0.36);
-    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    z-index: 10;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 .modalContentPosting{
     position: relative;
     height: auto;
-    width: 60%;
+    width: 40%;
     border-radius: 1vw;
     background: 
         linear-gradient(transparent, black 80%),
         url('../assets/imgs/LoginBackground.jpg');
     background-size: cover;
-    box-shadow: 0 0 20px black;
+    box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
     padding: 2%;
-    padding-bottom: 4%;
+    padding-bottom: 3%;
     animation: fade-in-down 800ms ease;
 }
 .modalContentPosting button#closeModalPosting{
-    float: right;
+    position: absolute;
+    right: 3%;
+    top: 1vw;
     background: none;
     border: none;
     outline: none;
@@ -238,8 +258,175 @@ h6{
 .mdcpPostingContainer{
     height: auto;
     width: 100%;
+    padding: 0 3%;
 }
-
+.mdcppcPostUser{
+    height: 4vw;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 3%;
+}
+.mdcppcPostUser img{
+    height: 100%;
+    width: auto;
+    border-radius: 50%;
+    margin-right: 3%;
+}
+.mdcppcPostUser span h5 .faIcons{
+    color: gold;
+}
+.mdcppcPostContent{
+    height: auto;
+    width: 100%;
+    border: solid 2px gray;
+    border-radius: 1vw;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    overflow: hidden;
+    margin-bottom: 3%;
+}
+.mdcppcpcPost{
+    height: auto;
+    width: 100%;
+    position: relative;
+}
+.mdcppcpcPost p{
+    position: absolute;
+    right: 2%;
+    bottom: 10%;
+    font-size: 0.7vw;
+    color: gray;
+}
+.mdcppcpcPost textarea{
+    height: 5vw;
+    width: 100%;
+    padding: 2%;
+    font-size: 0.7vw;
+    border: none;
+    color: white;
+    background: none;
+    resize: none;
+    outline: none;
+}
+.mdcppcpcAddition{
+    height: auto;
+    width: 100%;
+    position: relative;
+}
+.mdcppcpcAddition input{
+    width: 100%;
+    padding: 2%;
+    font-size: 0.7vw;
+    border: none;
+    background: none;
+    color: white;
+    outline: none;
+}
+.mdcppcpcaMedia{
+    height: 20vw;
+    padding: 2%;
+}
+.mdcppcpcaMedia div{
+    height: 100%;
+    width: 100%;
+    border: dashed 2px gray;
+    border-radius: 1vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mdcppcpcaMedia div img{
+    height: 100%;
+}
+.mdcppcpcaMedia div h6{
+    color: gray;
+    opacity: 50%;
+}
+.mdcppcpcaMedia input{
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+.mdcppcpcAddition button{
+    position: absolute;
+    right: 2%;
+    top: 25%;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    cursor: pointer;
+}
+.mdcppcpcAddition.media button{
+    top: 5%;
+    right: 3%;
+    z-index: 3;
+    padding: 1%;
+}
+.mdcppcPostButton{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mdcppcpb.left{
+    width: 50%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.mdcppcpb.left button{
+    padding: 2% 0%;
+    line-height: 0.7vw;
+    font-size: 1.2vw;
+    border: none;
+    background: none;
+    color: white;
+    margin-right: 5%;
+    cursor: pointer;
+} 
+.mdcppcpb.right{
+    width: 50%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.mdcppcpb.right button{
+    padding: 2% 7%;
+    font-size: 0.7vw;
+    background: none;
+    border: solid 2px white;
+    border-radius: 50px;
+    color: white;
+    margin: 0 2%;
+    cursor: pointer;
+}
+.mdcppcpb.right button:hover{
+    background: white;
+    color: black;
+    box-shadow: 0 0 10px blue;
+    transition: 400ms ease;
+}
+.mdcppcpb button.active{
+    opacity: 30%;
+    cursor: not-allowed;
+}
+.mdcppcpb button.active:hover{
+    background: none;
+    color: white;
+    box-shadow: none;
+}
 
 
 
@@ -474,7 +661,7 @@ section.profilePageContainer.mid{
     display: flex;
     justify-content: space-between;
     align-items: start;
-    margin-bottom: 5%;
+    margin-bottom: 3%;
 }
 .postAStory{
     height: 15vw;
@@ -513,29 +700,13 @@ section.profilePageContainer.mid{
 .viewAStory{
     height: 15vw;
     width: 75%;
-    overflow-x: scroll;
-    overflow-y: hidden;
-}
-.viewAStory::-webkit-scrollbar {
-    height: 10px;
-    cursor: pointer;
-}
-.viewAStory::-webkit-scrollbar-track {
-    background: rgba(15, 15, 15, 0.5);
-    border-radius: 50px;
-    cursor: pointer;
-}
-.viewAStory::-webkit-scrollbar-thumb {
-    background: rgba(40, 40, 40, 0.5);
-    border-radius: 50px;
-    cursor: pointer;
 }
 .storiesContents{
     height: auto;
-    width: 140%;
+    width: 100%;
     display: flex;
     flex-wrap: nowrap;
-    justify-content: left;
+    justify-content: space-between;
     align-items: top;
 }
 .storiesContents div{
@@ -549,6 +720,18 @@ section.profilePageContainer.mid{
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    position: relative;
+}
+.storiesContents div span{
+    position: absolute;
+    height: 2.5vw;
+    width: 2.5vw;
+    top: 4%;
+    left: 6%;
+    border: solid 2px white;
+    box-shadow: 0 0 10px black;
+    border-radius: 50%;
+    overflow: hidden;
 }
 .storiesContents div img{
     height: 100%;
@@ -564,7 +747,7 @@ section.profilePageContainer.mid{
 .ppcrpchpPost{
     height: auto;
     width: 100%;
-    margin-bottom: 5%;
+    margin: 3% 0;
 }
 .ppcrpchpUser{
     height: auto;
@@ -608,6 +791,16 @@ section.profilePageContainer.mid{
     height: 100%;
     position: relative;
 }
-
-
+.ppcrpchpNoPost{
+    height: 20vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.ppcrpchpNoPost h6{
+    color: gray;
+    opacity: 50%;
+}
 

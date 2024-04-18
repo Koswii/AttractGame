@@ -38,3 +38,8 @@ h6{
 section.loaderContainer h3{
     animation: bounce2 2s ease infinite;
 }
+section.loaderContainer img{
+    height: 5vw;
+    animation: gelatine 1s infinite;
+    margin: 2% 0;
+}

@@ -227,7 +227,7 @@ const Nav = () => {
                 <span className='recaptchaSetup'>
                   <img id='captchaContent' src={`https://dummyimage.com/150x50/000/fff&text=${captcha}`} alt="Captcha" />
                   <img id='captchaBG' src={require('./assets/imgs/LoginBackground.jpg')} alt="" />
-                  <input type="text" value={inputValueCaptcha} placeholder="Enter CAPTCHA" required/>
+                  <input type="text" onChange={(e) => setInputValueCaptcha(e.target.value)} placeholder="Enter CAPTCHA"/>
                 </span>
                 <span className='submitAccount'>
                   <button type='submit'>
