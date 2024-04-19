@@ -64,6 +64,50 @@ const Nav = () => {
   }, []);
 
 
+  const LoginUsername = localStorage.getItem('attractGameUsername');
+  const [dataUser, setDataUser] = useState([]);
+  const [dataStatus, setDataUserStatus] = useState('');
+
+  useEffect(() => {
+    const fetchDataUser = () => {
+      axios.get(AGUserListAPI)
+      .then((response) => {
+        const allUsersStatus = response.data.find(item => item.username == agUserUsername);
+        const userData = response.data.find(item => item.username == LoginUsername);
+        setDataUser(userData);
+
+        if(userData){
+          if(userData['account'] == 'Admin'){
+            setViewAdminCredentials(true)
+          }else{
+            setViewAdminCredentials(false)
+          }
+        }
+
+        if(allUsersStatus){
+          if(allUsersStatus['status'] == 'Blocked'){
+            setDataUserStatus(true);
+            handleUserLogout();
+          }else{
+            setDataUserStatus(false)
+          }
+        }
+
+
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+    fetchDataUser();
+    const userFromLocalStorage = localStorage.getItem('isLoggedIn');
+
+    if (userFromLocalStorage) {
+      setViewUserCredentials(true);
+    }
+  }, [LoginUsername, agUserUsername]);
+
+
   const handleUserRegister = async (e) => {
     e.preventDefault();
 
@@ -112,26 +156,30 @@ const Nav = () => {
       return;
     }
 
-    fetch(loginAGUserAPI, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: `username=${agUserUsername}&password=${agUserPassword}`,
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success === true) {
-          localStorage.setItem('attractGameUsername', data.username);
-          localStorage.setItem('isLoggedIn', 'true');
-          window.location.reload();
-        } else {
-          setMessageResponse(data.message);
-        }
+    if (dataStatus == true) {
+      setMessageResponse('Your Account was Blocked');
+    } else {
+      fetch(loginAGUserAPI, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `username=${agUserUsername}&password=${agUserPassword}`,
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success === true) {
+            localStorage.setItem('attractGameUsername', data.username);
+            localStorage.setItem('isLoggedIn', 'true');
+            window.location.reload();
+          } else {
+            setMessageResponse(data.message);
+          }
       })
       .catch(error => console.error('Error:', error));
+    }
   };
-  const handleAdminLogout = () => {
+  const handleUserLogout = () => {
     fetch(logoutAGUserAPI, {
         method: 'GET',
     })
@@ -147,43 +195,13 @@ const Nav = () => {
   useEffect(() => {
     const handleUsernameStorageChange = (event) => {
       if (event.key === 'attractGameUsername') {
-        handleAdminLogout();
+        handleUserLogout();
       }
     };
     window.addEventListener('storage', handleUsernameStorageChange);
     return () => {
       window.removeEventListener('storage', handleUsernameStorageChange);
     };
-  }, []);
-  const LoginUsername = localStorage.getItem('attractGameUsername');
-  const [dataUser, setDataUser] = useState([]);
-  useEffect(() => {
-    const fetchDataUser = () => {
-      axios.get(AGUserListAPI)
-      .then((response) => {
-        const userData = response.data.find(item => item.username == LoginUsername);
-        setDataUser(userData);
-
-        if(userData){
-          if(userData['account'] == 'Admin'){
-            setViewAdminCredentials(true)
-          }else{
-            setViewAdminCredentials(false)
-          }
-        }
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    }
-
-    fetchDataUser();
-
-
-    const userFromLocalStorage = localStorage.getItem('isLoggedIn');
-    if (userFromLocalStorage) {
-      setViewUserCredentials(true);
-    }
   }, []);
 
 
@@ -305,7 +323,7 @@ const Nav = () => {
               <Link id='agProfileBtn' to='/Profile'>
                 <img src="https://engeenx.com/ProfilePics/DefaultProfilePic.png" alt="" />
               </Link>
-              <a id='agLogoutBtn' onClick={handleAdminLogout}><h6>LOGOUT</h6></a>
+              <a id='agLogoutBtn' onClick={handleUserLogout}><h6>LOGOUT</h6></a>
             </div>}
           </div>
         </div>
