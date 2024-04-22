@@ -586,7 +586,6 @@ section.adminPageContainer.mid{
 }
 .admpcm1agcf.right span.gameDescription textarea{
     height: 5vw;
-    resize: none;
     width: 100%;
     margin-top: 2%;
     padding: 2% 3%;
@@ -639,7 +638,6 @@ section.adminPageContainer.mid{
 }
 .admpc1agcfo span textarea{
     width: 100%;
-    resize: none;
     margin-top: 2%;
     padding: 2% 3%;
     background: none;

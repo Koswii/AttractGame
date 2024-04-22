@@ -106,8 +106,6 @@ const Nav = () => {
       setViewUserCredentials(true);
     }
   }, [LoginUsername, agUserUsername]);
-
-
   const handleUserRegister = async (e) => {
     e.preventDefault();
 
@@ -203,11 +201,6 @@ const Nav = () => {
       window.removeEventListener('storage', handleUsernameStorageChange);
     };
   }, []);
-
-
-
-
-
 
   if(viewRegForm == true ||
     viewLoginForm == true){
@@ -310,7 +303,7 @@ const Nav = () => {
           </div>
           <div className="navContent center">
             <Link><h6>HIGHLIGHTS</h6></Link>
-            <Link><h6>MARKETPLACE</h6></Link>
+            <Link to="/Marketplace"><h6>MARKETPLACE</h6></Link>
             <Link><h6>CRYPTO</h6></Link>
           </div>
           <div className="navContent right">

@@ -18,7 +18,8 @@ import {
     FaInstagram,
     FaTiktok,
     FaYoutube,
-    FaTwitch 
+    FaTwitch,
+    FaCircleCheck  
 } from "react-icons/fa6";
 import { 
     TbGiftCardFilled,
@@ -42,6 +43,7 @@ const Profile = () => {
     const [addUserPost, setAddUserPost] = useState(false);
     const [addPostYoutubeLink, setAddPostYoutubeLink] = useState(false);
     const [addPostMedia, setAddPostMedia] = useState(false);
+    const [addPostStory, setAddPostStory] = useState(false);
 
     const switchToDP01 = () => {
         setPickProfileImg00('AG Logo1.png')
@@ -80,11 +82,20 @@ const Profile = () => {
     const handleAddUserPost = () => {
         setAddUserPost(true)
     }
+    const handleAddUserPost2 = () => {
+        setAddUserPost(true)
+        setAddPostMedia(true)
+    }
+    const handleAddUserStory = () => {
+        setAddPostStory(true)
+    }
     const handleCloseAnyModals = () => {
         setEditSocialsModal(false)
         setAddUserPost(false)
+        setAddPostStory(false)
         setAddPostYoutubeLink(false)
         setAddPostMedia(false)
+        setImageStory(null)
     }
     const handlePostYoutubeLink = () => {
         setAddPostYoutubeLink(true)
@@ -106,6 +117,25 @@ const Profile = () => {
             setImage(file);
         }
     };
+    const [imageDP, setImageDP] = useState(null);
+    const handleUploadUserDP = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setImageDP(file);
+        }
+    };
+    const [imageStory, setImageStory] = useState(null);
+    const handleUploadUserStory = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setImageStory(file);
+        }
+    };
+    const handleRemoveUserImage = () => {
+        setImage(null)
+        setImageDP(null);
+        setImageStory(null)
+    };
 
     return (
         <div className='mainContainer profile'>
@@ -114,10 +144,17 @@ const Profile = () => {
                     <button id='closeModalSettings' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
                     <div className="mdcpSettingsContainer">
                         <div className="mdcpsContent left">
-                            <span>
-                                <img src={`https://engeenx.com/ProfilePics/${pickProfileImg00 ? pickProfileImg00 : 'DefaultProfilePic.png'}`} alt="" />
-                                <input type="text" value={pickProfileImg00} readOnly disabled/>
-                            </span>
+                            <div className='mdcpscProfileDP'>
+                                {!imageDP ?
+                                <>
+                                    <img src={`https://engeenx.com/ProfilePics/${pickProfileImg00 ? pickProfileImg00 : 'DefaultProfilePic.png'}`} alt="" />
+                                    <input type="text" value={pickProfileImg00} readOnly disabled/>
+                                </>:
+                                <>
+                                    <img src={URL.createObjectURL(imageDP)} alt="No image Selected" />
+                                    <button onClick={handleRemoveUserImage}><FaTimes className='faIcons'/></button>
+                                </>}
+                            </div>
                             <div className='mdcpscSampleProfile'>
                                 <img onClick={switchToDP01} src={require('../assets/imgs/ProfilePics/AG Logo1.png')} alt="" />
                                 <img onClick={switchToDP02} src={require('../assets/imgs/ProfilePics/AG Logo2.png')} alt="" />
@@ -132,7 +169,7 @@ const Profile = () => {
                             </div>
                             <div className='mdcpscCustomProfile'>
                                 <p>Choose from Computer</p>
-                                <input type="file" />
+                                <input type="file" onChange={handleUploadUserDP}/>
                             </div>
                         </div>
                         <div className="mdcpsContent right">
@@ -196,7 +233,7 @@ const Profile = () => {
                                     <div>
                                         {image ? 
                                             <img src={URL.createObjectURL(image)} alt="No image Selected" /> :
-                                            <h6>Select Image or Video only</h6>
+                                            <h6>Select/Drop Image or Video only</h6>
                                         }
                                     </div>
                                     <input type="file" onChange={handleFileInputChange}/>    
@@ -216,6 +253,19 @@ const Profile = () => {
                     </div>
                 </div>
             </div>}
+            {addPostStory && <div className="modalContainerProfile addStory">
+                <div className="modalContentStory">
+                    <button id='closeModalStory' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
+                    <div className="mdcsStoryContainer">
+                        {imageStory ? 
+                            <img src={URL.createObjectURL(imageStory)} alt="No image Selected" /> :
+                            <h6>Add Gamer Story...</h6>
+                        }
+                        <input type="file" onChange={handleUploadUserStory}/>
+                        <button><FaCircleCheck className='faIcons'/></button>
+                    </div>
+                </div>
+            </div>}
             <section className="profilePageContainer top">
                 <img src={require('../assets/imgs/DefaultProfile.jpg')} alt="" />
                 <div></div>
@@ -223,7 +273,7 @@ const Profile = () => {
             <section className="profilePageContainer mid">
                 <div className="profilePageContent left">
                     <div className='ppclProfilePic'>
-                        <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
+                        <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" onClick={handleOpenSocialSettings}/>
                     </div>
                     <div className="ppclProfileName">
                         <h5>Koswi <RiVerifiedBadgeFill className='faIcons'/></h5>
@@ -270,10 +320,10 @@ const Profile = () => {
                             <div className="ppcrpchpWhat">
                                 <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
                                 <input type="text" placeholder='Post about a Gameplay...' onClick={handleAddUserPost} readOnly/>
-                                <button id='postAStory'><IoIosImages className='faIcons'/></button>
+                                <button id='postAStory' onClick={handleAddUserPost2}><IoIosImages className='faIcons'/></button>
                             </div>
                             <div className="ppcrpchpStories">
-                                <div className='postAStory'>
+                                <div className='postAStory' onClick={handleAddUserStory}>
                                     <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
                                     <span>
                                         <h5><IoMdAddCircle className='faIcons'/></h5>

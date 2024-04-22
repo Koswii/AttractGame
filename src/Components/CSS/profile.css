@@ -81,23 +81,35 @@ h6{
     height: auto;
     width: 35%;
 }
-.mdcpsContent.left span{
-    height: auto;
-    width: 100%;
+.mdcpscProfileDP{
+    height: 13vw;
+    width: 13vw;
+    position: relative;
     display: flex;
+    margin: 0 auto;
     justify-content: center;
     align-items: center;
-    padding: 0 10%;
-}
-.mdcpsContent.left span img{
-    height: auto;
-    width: 100%;
     border-radius: 1vw;
     border: dashed 3px white;
+    overflow: hidden;
 }
-.mdcpsContent.left span input{
+.mdcpscProfileDP img{
+    height: 100%;
+    width: auto;
+}
+.mdcpscProfileDP input{
     display: none;
     opacity: 0;
+}
+.mdcpscProfileDP button{
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    cursor: pointer;
 }
 .mdcpscSampleProfile{
     height: auto;
@@ -126,8 +138,8 @@ h6{
     position: relative;
     padding: 3%;
 }
-.mdcpscCustomProfile input[type="file"]{
-    width: 100%;
+.mdcpscCustomProfile input{
+    width: 80%;
     color: white;
     cursor: pointer;
     opacity: 0;
@@ -135,6 +147,7 @@ h6{
 }
 .mdcpscCustomProfile p{
     cursor: pointer;
+    font-size: 0.7vw;
 }
 .mdcpsContent.right{
     height: auto;
@@ -209,7 +222,7 @@ h6{
     margin: 0 1%;
 }
 .mdcpccrSubmit button#mdcpccrsVerified{
-    width: 35%;
+    width: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -431,10 +444,79 @@ h6{
 
 
 
-
-
-
-
+.modalContentStory{
+    position: relative;
+    height: auto;
+    width: 25%;
+    border-radius: 1vw;
+    background: 
+        linear-gradient(transparent, black 80%),
+        url('../assets/imgs/LoginBackground.jpg');
+    background-size: cover;
+    box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
+    padding: 1%;
+    animation: fade-in-down 800ms ease;
+}
+.modalContentStory button#closeModalStory{
+    position: absolute;
+    right: 7%;
+    top: 1.5vw;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1.5vw;
+    cursor: pointer;
+    z-index: 2;
+}
+.mdcsStoryContainer{
+    height: 35vw;
+    width: 100%;
+    border: dashed 2px white;
+    border-radius: 1vw;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.mdcsStoryContainer img{
+    height: 100%;
+    width: auto;
+}
+.mdcsStoryContainer h6{
+    color: gray;
+    opacity: 50%;
+}
+.mdcsStoryContainer input{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+.mdcsStoryContainer button{
+    position: absolute;
+    bottom: 2%;
+    right: 3%;
+    font-size: 3vw;
+    line-height: 2vw;
+    background: none;
+    border: none;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    opacity: 30%;
+}
+.mdcsStoryContainer button:hover{
+    opacity: 100%;
+    color: lightblue;
+    transition: 400ms ease;
+}
 
 
 
@@ -498,6 +580,7 @@ section.profilePageContainer.mid{
     justify-content: center;
     align-items: center;
     position: absolute;
+    cursor: pointer;
     bottom: 0;
     transform: translateY(-5%);
     left: 0;
@@ -792,7 +875,7 @@ section.profilePageContainer.mid{
     position: relative;
 }
 .ppcrpchpNoPost{
-    height: 20vw;
+    height: 10vw;
     width: 100%;
     display: flex;
     justify-content: center;

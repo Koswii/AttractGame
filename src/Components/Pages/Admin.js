@@ -9,10 +9,7 @@ import {
     RiArrowUpSFill,
     RiArrowDownSFill  
 } from "react-icons/ri";
-
-
 import axios from 'axios';
-
 
 
 const formatDateToWordedDate = (numberedDate) => {
@@ -24,6 +21,8 @@ const formatDateToWordedDate = (numberedDate) => {
     
     return `${month} ${day}, ${year}`;
 }
+
+
 const Admin = () => {
     const [viewAdminNavigations, setViewAdminNavigations] = useState(false)
     const [viewAdminDefault, setViewAdminDefault] = useState(true)
@@ -172,28 +171,18 @@ const Admin = () => {
     const AGUserProfileListAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const AGAddSupplieAPI = process.env.REACT_APP_AG_ADD_SUPPLIER_API;
     const AGSupplieListAPI = process.env.REACT_APP_AG_SUPPLIER_LIST_API;
-    const AGAddGamesAPI = process.env.REACT_APP_AG_ADD_GAMES_API;
-    const AGGamesListAPI = process.env.REACT_APP_AG_ADD_GAMES_LIST_API;
-
-
-    const [viewUserProfiles, setViewUserProfiles] = useState([])
-    const [viewTotalAGElite, setViewTotalAGElite] = useState('')
-    const [viewSupplierProfiles, setViewSupplierProfiles] = useState([])
-    const [viewActiveSupplier, setViewActiveSupplie] = useState('')
-    const [viewGameTotal, setViewGameTotal] = useState([])
-
-
-
-
-
-
-    const [agSetCompany, setAGSetCompany] = useState('')
-    const [agSetContact, setAGSetContact] = useState('')
-    const [agSetEmail, setAGSetEmail] = useState('')
-    const [agSetWebsite, setAGSetWebsite] = useState('')
-    const [agSetStatus, setAGSetStatus] = useState('')
-    const [agSetNotes, setAGSetNotes] = useState('')
-    const [formResponse, setFormResponse] = useState('')
+    const [viewUserProfiles, setViewUserProfiles] = useState([]);
+    const [viewTotalAGElite, setViewTotalAGElite] = useState('');
+    const [viewSupplierProfiles, setViewSupplierProfiles] = useState([]);
+    const [viewActiveSupplier, setViewActiveSupplie] = useState('');
+    const [viewGameTotal, setViewGameTotal] = useState([]);
+    const [agSetCompany, setAGSetCompany] = useState('');
+    const [agSetContact, setAGSetContact] = useState('');
+    const [agSetEmail, setAGSetEmail] = useState('');
+    const [agSetWebsite, setAGSetWebsite] = useState('');
+    const [agSetStatus, setAGSetStatus] = useState('');
+    const [agSetNotes, setAGSetNotes] = useState('');
+    const [formResponse, setFormResponse] = useState('');
 
     useEffect(() => {
         const fetchDataUser = () => {
@@ -237,12 +226,24 @@ const Admin = () => {
             })
         }
         fetchDataGames();
+
+        const fetchDataSample = () => {
+            axios.get('https://en.wikipedia.org/api/rest_v1/page/summary/Tekken_8')
+            .then((response) => {
+                const gameData = response.data;
+                console.log(gameData);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+        fetchDataSample();
         
     }, []);
     const handleAddSupplier = async (e) => {
         e.preventDefault();
   
-        const formAddSupplier ={
+        const formAddSupplier = {
             agSupplierCompany: agSetCompany,
             agSupplierContact: agSetContact,
             agSupplierEmail: agSetEmail,
@@ -281,28 +282,33 @@ const Admin = () => {
         }
     };
 
-    const [agSetGameCover, setAGSetGameCover] = useState('')
-    const [agSetGameTitle, setAGSetGameTitle] = useState('')
-    const [agSetGameCountry, setAGSetGameCountry] = useState('')
-    const [agSetGameDeveloper, setAGSetGameDeveloper] = useState('')
-    const [agSetGameRelease, setAGSetGameRelease] = useState('')
-    const [agSetGameCategory, setAGSetGameCategory] = useState('')
-    const [agSetGamePlatform, setAGSetGamePlatform] = useState('')
-    const [agSetGameTrailer, setAGSetGameTrailer] = useState('')
-    const [agSetGameDescription, setAGSetGameDescription] = useState('')
-    const [agSetGameHighlight1, setAGSetGameHighlight1] = useState('')
-    const [agSetGameHighlight2, setAGSetGameHighlight2] = useState('')
-    const [agSetGameSupplier, setAGSetGameSupplier] = useState('')
-    const [agSetGameSeller, setAGSetGameSeller] = useState('')
-    const [agSetGameAvailable, setAGSetGameAvailable] = useState('')
-    const [agSetGameRestricted, setAGSetGameRestricted] = useState('')
-    const agSetGameCode = agSetGameTitle.replace(/\s/g, '');
+    const AGAddGamesAPI = process.env.REACT_APP_AG_ADD_GAMES_API;
+    const AGGamesListAPI = process.env.REACT_APP_AG_GAMES_LIST_API;
+    const [agSetGameCover, setAGSetGameCover] = useState('');
+    const [agSetGameTitle, setAGSetGameTitle] = useState('');
+    const [agSetGameCountry, setAGSetGameCountry] = useState('');
+    const [agSetGameDeveloper, setAGSetGameDeveloper] = useState('');
+    const [agSetGameRelease, setAGSetGameRelease] = useState('');
+    const [agSetGameCategory, setAGSetGameCategory] = useState('');
+    const [agSetGamePlatform, setAGSetGamePlatform] = useState('');
+    const [agSetGameTrailer, setAGSetGameTrailer] = useState('');
+    const [agSetGameDescription, setAGSetGameDescription] = useState('');
+    const [agSetGameHighlight1, setAGSetGameHighlight1] = useState('');
+    const [agSetGameHighlight2, setAGSetGameHighlight2] = useState('');
+    const [agSetGameSupplier, setAGSetGameSupplier] = useState('');
+    const [agSetGameSeller, setAGSetGameSeller] = useState('');
+    const [agSetGameAvailable, setAGSetGameAvailable] = useState('');
+    const [agSetGameRestricted, setAGSetGameRestricted] = useState('');
+    const agSetGameCode1 = agSetGameTitle.replace(/\s/g, '');
+    const agSetGameCode2 = agSetGamePlatform.replace(/\s/g, '');
+    const agFullSetGameCode = `AG_${agSetGameCode1}_${agSetGameCode2}`;
+    const MAX_PAYLOAD_SIZE = 5 * 1024 * 1024;
 
     const handleAddGame = async (e) => {
         e.preventDefault();
   
-        const formAddGame ={
-            agGameCode: `AG_${agSetGameCode}`,
+        const formAddGameDetails = {
+            agGameCode: agFullSetGameCode,
             agGameCover: agSetGameCover,
             agGameTitle: agSetGameTitle,
             agGameCountry: agSetGameCountry,
@@ -311,7 +317,6 @@ const Admin = () => {
             agGameCategory: agSetGameCategory,
             agGamePlatform: agSetGamePlatform,
             agGameTrailer: agSetGameTrailer,
-            agGameDescription: agSetGameDescription,
             agGameHighlight1: agSetGameHighlight1,
             agGameHighlight2: agSetGameHighlight2,
             agGameSupplier: agSetGameSupplier,
@@ -320,17 +325,19 @@ const Admin = () => {
             agGameRestricted: agSetGameRestricted,
         }
   
-        const jsonAddGame = JSON.stringify(formAddGame);
-        console.log(jsonAddGame)
-        axios.post(AGAddGamesAPI, jsonAddGame)
+        const jsonAddGames = JSON.stringify(formAddGameDetails);
+        console.log(jsonAddGames);
+        axios.post(AGAddGamesAPI, jsonAddGames)
         .then(response => {
             const responseMessage = response.data;
             if (responseMessage.success === false) {
                 setFormResponse(responseMessage.message);
+                console.log(responseMessage.message);
             }
             if (responseMessage.success === true) {
                 setFormResponse(responseMessage.message);
                 console.log(responseMessage.message);
+                setImage(null)
                 setAGSetGameCover('')
                 setAGSetGameTitle('')
                 setAGSetGameCountry('')
@@ -339,7 +346,6 @@ const Admin = () => {
                 setAGSetGameCategory('')
                 setAGSetGamePlatform('')
                 setAGSetGameTrailer('')
-                setAGSetGameDescription('')
                 setAGSetGameHighlight1('')
                 setAGSetGameHighlight2('')
                 setAGSetGameSupplier('')
@@ -349,13 +355,9 @@ const Admin = () => {
             }
         }) 
         .catch (error =>{
-          // Handle errors
           console.log(error);
         });
     };
-
-
-
 
 
 
@@ -523,7 +525,7 @@ const Admin = () => {
                                         </span>
                                         <span>
                                             <label htmlFor=""><p>Notes (Optional)</p></label>
-                                            <textarea name="" id="" placeholder='Type notes/comment here...' value={agSetNotes} onChange={(e) => setAGSetNotes(e.target.value)}></textarea>
+                                            <textarea name="" id="" maxLength={1000} placeholder='Type notes/comment here...' value={agSetNotes} onChange={(e) => setAGSetNotes(e.target.value)}></textarea>
                                         </span>
                                         <span className='supplierSubmitStatus'>
                                             <p>{formResponse}</p>
@@ -557,7 +559,7 @@ const Admin = () => {
                                 </div>
                             </div>
                             <div className="admpcm1AGameContent right">
-                                <form action="" onSubmit={handleAddGame}>
+                                <form onSubmit={handleAddGame}>
                                     <h5>ADD GAMES FORM</h5>
                                     <div className='admpcm1agcForm'>
                                         <div className="admpcm1agcf left">
@@ -607,7 +609,7 @@ const Admin = () => {
                                                 <select name="" id="" value={agSetGameSupplier} onChange={(e) => setAGSetGameSupplier(e.target.value)} required>
                                                     <option value="">Select Supplier</option>
                                                     {viewSupplierProfiles.slice(0,8).map((item, i) => (
-                                                        <option value={item.company}>{item.company}</option>
+                                                        <option key={i} value={item.company}>{item.company}</option>
                                                     ))}
                                                 </select>
                                             </span>
@@ -647,21 +649,17 @@ const Admin = () => {
                                         <div className="admpc1agcfo left">
                                             <span>
                                                 <label htmlFor=""><p>Available Country</p></label>
-                                                <textarea name="" id="" value={agSetGameAvailable} onChange={(e) => setAGSetGameAvailable(e.target.value)} placeholder='Type Countries here..' required></textarea>
+                                                <textarea name="" id="" maxLength={1000} value={agSetGameAvailable} onChange={(e) => setAGSetGameAvailable(e.target.value)} placeholder='Type Countries here..' required></textarea>
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Restricted Country</p></label>
-                                                <textarea name="" id="" value={agSetGameRestricted} onChange={(e) => setAGSetGameRestricted(e.target.value)} placeholder='Type Countries here..' required></textarea>
+                                                <textarea name="" id="" maxLength={1000} value={agSetGameRestricted} onChange={(e) => setAGSetGameRestricted(e.target.value)} placeholder='Type Countries here..' required></textarea>
                                             </span>
                                         </div>
                                         <div className="admpc1agcfo right">
                                             <span>
                                                 <label htmlFor=""><p>Game Trailer (YouTube Link)</p></label>
                                                 <input type="text" placeholder='ex. https://www.youtube.com/watch?v=Mr8fVT_Ds4Q' value={agSetGameTrailer} onChange={(e) => setAGSetGameTrailer(e.target.value)} required/>
-                                            </span>
-                                            <span>
-                                                <label htmlFor=""><p>Game Description</p></label>
-                                                <textarea name="" id="" placeholder='Game Description here..' value={agSetGameDescription} onChange={(e) => setAGSetGameDescription(e.target.value)} required></textarea>
                                             </span>
                                         </div>
                                     </div>

@@ -11,6 +11,7 @@ import Profile from './Components/Pages/Profile';
 
 import Loader from './Components/Pages/Loader';
 import Home from './Components/Pages/Home'
+import Marketplace from './Components/Pages/Marketplace';
 
 
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -106,6 +107,7 @@ function App() {
         <Nav />
         <Routes>
           <Route exact path="/" element={<Home/>}/>
+          <Route exact path="/Marketplace" element={<Marketplace/>}/>
           <Route exact path="/Profile" element={<Profile/>}/>
           <Route path="/Admin" element={viewAdminCredentials ? <Admin/>:<Home/>}/>
           {/* <Route path="/Admin" element={<Admin/>}/> */}

@@ -1,0 +1,66 @@
+h1, h2, h3, h4, h5, h6, p{
+    color: white;
+}
+p{
+    font-size: 0.9vw;
+}
+h1{
+    font-size: 10vw;
+}
+h2{
+    font-size: 5vw;
+}
+h3{
+    font-size: 4vw;
+}
+h4{
+    font-size: 2vw;
+}
+h5{
+    font-size: 1.5vw;
+}
+h6{
+    font-size: 1vw;
+}
+
+
+.mainContainer.marketplace{
+    height: auto;
+    width: 100%;
+    background: black;
+    position: relative;
+}
+
+
+
+
+
+section.marketplacePageContainer.top{
+    height: 20vw;
+    width: 100%;
+    padding: 0 10%;
+    padding-top: 5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: 
+        linear-gradient(transparent, black 100%),
+        url('../assets/imgs/13551.png') no-repeat center;
+    background-size: cover;
+}
+section.marketplacePageContainer.top h4{
+    font-size: 5vw;
+}
+section.marketplacePageContainer.top h6{
+    font-size: 1.5vw;
+}
+
+
+
+
+
+
+
+
+
