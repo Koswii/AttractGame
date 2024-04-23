@@ -7,7 +7,8 @@ import {
 } from 'react-icons/fa';
 import { 
     RiArrowUpSFill,
-    RiArrowDownSFill  
+    RiArrowDownSFill,
+    RiAddBoxFill   
 } from "react-icons/ri";
 import axios from 'axios';
 import {getGameReviews} from 'unofficial-metacritic';
@@ -288,6 +289,7 @@ const Admin = () => {
     const AGGamesListAPI = process.env.REACT_APP_AG_GAMES_LIST_API;
     const [agSetGameCover, setAGSetGameCover] = useState('');
     const [agSetGameTitle, setAGSetGameTitle] = useState('');
+    const [agSetGameEdition, setAGSetGameEdition] = useState('');
     const [agSetGameCountry, setAGSetGameCountry] = useState('');
     const [agSetGameDeveloper, setAGSetGameDeveloper] = useState('');
     const [agSetGameRelease, setAGSetGameRelease] = useState('');
@@ -296,7 +298,6 @@ const Admin = () => {
     const [agSetGameTrailer, setAGSetGameTrailer] = useState('');
     const [agSetGameDescription, setAGSetGameDescription] = useState('');
     const [agSetGameHighlight1, setAGSetGameHighlight1] = useState('');
-    const [agSetGameHighlight2, setAGSetGameHighlight2] = useState('');
     const [agSetGameSupplier, setAGSetGameSupplier] = useState('');
     const [agSetGameSeller, setAGSetGameSeller] = useState('');
     const [agSetGameAvailable, setAGSetGameAvailable] = useState('');
@@ -313,6 +314,7 @@ const Admin = () => {
             agGameCode: agFullSetGameCode,
             agGameCover: agSetGameCover,
             agGameTitle: agSetGameTitle,
+            agGameEdition: agSetGameEdition,
             agGameCountry: agSetGameCountry,
             agGameDeveloper: agSetGameDeveloper,
             agGameRelease: agSetGameRelease,
@@ -320,7 +322,6 @@ const Admin = () => {
             agGamePlatform: agSetGamePlatform,
             agGameTrailer: agSetGameTrailer,
             agGameHighlight1: agSetGameHighlight1,
-            agGameHighlight2: agSetGameHighlight2,
             agGameSupplier: agSetGameSupplier,
             agGameSeller: agSetGameSeller,
             agGameAvailable: agSetGameAvailable,
@@ -342,6 +343,7 @@ const Admin = () => {
                 setImage(null)
                 setAGSetGameCover('')
                 setAGSetGameTitle('')
+                setAGSetGameEdition('')
                 setAGSetGameCountry('')
                 setAGSetGameDeveloper('')
                 setAGSetGameRelease('')
@@ -349,7 +351,6 @@ const Admin = () => {
                 setAGSetGamePlatform('')
                 setAGSetGameTrailer('')
                 setAGSetGameHighlight1('')
-                setAGSetGameHighlight2('')
                 setAGSetGameSupplier('')
                 setAGSetGameSeller('')
                 setAGSetGameAvailable('')
@@ -360,7 +361,15 @@ const Admin = () => {
           console.log(error);
         });
     };
-
+    const [agAddGameEdition, setAGAddGameEdition] = useState(false)
+    const handleViewAddGameEdition = (e) => {
+        e.preventDefault();
+        setAGAddGameEdition(true)
+    }
+    const handleHideAddGameEdition = (e) => {
+        e.preventDefault();
+        setAGAddGameEdition(false)
+    }
 
 
 
@@ -579,6 +588,24 @@ const Admin = () => {
                                                 <input type="text" placeholder='ex. Tetris' value={agSetGameTitle} onChange={(e) => setAGSetGameTitle(e.target.value)} required/>
                                             </span>
                                             <span>
+                                                <label htmlFor=""><p>Game Edition</p></label>
+                                                {!agAddGameEdition ? <select name="" id="" value={agSetGameEdition} onChange={(e) => setAGSetGameEdition(e.target.value)}>
+                                                    <option value="">Select Game Edition</option>
+                                                    <option value="Standard Edition">Standard Edition</option>
+                                                    <option value="Deluxe Edition">Deluxe Edition</option>
+                                                    <option value="Ultimate Edition">Ultimate Edition</option>
+                                                    <option value="Limited Edition">Limited Edition</option>
+                                                    <option value="Special Edition">Special Edition</option>
+                                                    <option value="Silver Edition">Silver Edition</option>
+                                                    <option value="Gold Edition">Gold Edition</option>
+                                                    <option value="Platinum Edition">Platinum Edition</option>
+                                                    <option value="Diamond Edition">Diamond Edition</option>
+                                                    <option value="Other Edition">Other Edition</option>
+                                                </select>
+                                                :<input type="text" value={agSetGameEdition} onChange={(e) => setAGSetGameEdition(e.target.value)} placeholder='Add Custom Edition'/>}
+                                                <button onClick={!agAddGameEdition ? handleViewAddGameEdition : handleHideAddGameEdition}>{!agAddGameEdition ? <RiAddBoxFill className='faIcons'/>:<FaTimes className='faIcons'/>}</button>
+                                            </span>
+                                            <span>
                                                 <label htmlFor=""><p>Country</p></label>
                                                 <input type="text" placeholder='ex. Global/US/EU' value={agSetGameCountry} onChange={(e) => setAGSetGameCountry(e.target.value)} required/>
                                             </span>
@@ -591,16 +618,8 @@ const Admin = () => {
                                                 <input type="date" value={agSetGameRelease} onChange={(e) => setAGSetGameRelease(e.target.value)} required/>
                                             </span>
                                             <span>
-                                                <label htmlFor=""><p>Highlight 1</p></label>
+                                                <label htmlFor=""><p>Highlight</p></label>
                                                 <select name="" id="" value={agSetGameHighlight1} onChange={(e) => setAGSetGameHighlight1(e.target.value)}>
-                                                    <option value="">Select Highlight</option>
-                                                    <option value="Featured">Featured Games</option>
-                                                    <option value="Sale">On Sale Games</option>
-                                                </select>
-                                            </span>
-                                            <span>
-                                                <label htmlFor=""><p>Highlight 2 (Optional)</p></label>
-                                                <select name="" id="" value={agSetGameHighlight2} onChange={(e) => setAGSetGameHighlight2(e.target.value)}>
                                                     <option value="">Select Highlight</option>
                                                     <option value="Featured">Featured Games</option>
                                                     <option value="Sale">On Sale Games</option>

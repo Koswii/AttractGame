@@ -28,6 +28,7 @@ nav{
 .navContainerModal{
     height: 100vh;
     width: 100%;
+    padding-top: 4vw;
     position: absolute;
     top: 0;
     left: 0;
@@ -48,6 +49,7 @@ nav{
     border-radius: 1vw;
     background: url('../assets/imgs/LoginBackground.jpg') no-repeat center;
     background-size: cover;
+    position: relative;
     animation: fade-in-down 800ms ease;
 }
 .navContentModal button#closeModalContent{
@@ -56,8 +58,10 @@ nav{
     border: none;
     outline: none;
     font-size: 1.5vw;
-    float: right;
     cursor: pointer;
+    position: absolute;
+    top: 1vw;
+    right: 1vw;
 }
 .navRegistrationContent{
     height: auto;
@@ -69,20 +73,21 @@ nav{
     margin-left: 5%;
     text-shadow: 0 0 10px black;
 }
-.navRegistrationContent div{
+.navRegContents{
     padding: 0 10%;
 }
-.navRegistrationContent div span{
+.navRegContents div{
     height: auto;
     width: 100%;
+    margin-top: 5%;
+    position: relative;
 }
-.navRegistrationContent div span p{
+.navRegContents div p{
     font-size: 0.7vw;
     color: white;
-    margin-top: 5%;
-    margin-bottom: 1%;
+    margin-bottom: 2%;
 }
-.navRegistrationContent div span input{
+.navRegContents div input{
     width: 100%;
     padding: 2% 3%;
     background: rgba(0, 0, 0, 0.36);
@@ -94,14 +99,23 @@ nav{
     color: white;
     border-radius: 0.5vw;
 }
-.navRegistrationContent div span.recaptchaSetup{
+.navRegContents div button.navRefContViewPass{
+    position: absolute;
+    top: 0;
+    right: 2%;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+}
+.recaptchaSetup{
     display: flex;
     justify-content: right;
     align-items: center;
     margin: 10% 0;
     position: relative;
 }
-.navRegistrationContent div span.recaptchaSetup img{
+.recaptchaSetup img{
     position: absolute;
     height: 2.4vw;
     margin-right: 5%;
@@ -111,20 +125,20 @@ nav{
     left: 0;
     width: 40%;
 }
-.navRegistrationContent div span.recaptchaSetup img#captchaContent{
+.recaptchaSetup img#captchaContent{
     z-index: 2;
     opacity: 35%;
 }
-.navRegistrationContent div span.recaptchaSetup input{
+.navRegContents .recaptchaSetup input{
     width: 50%;
 }
-.navRegistrationContent div span.submitAccount{
+.submitAccount{
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 5%;
 }
-.navRegistrationContent div span.submitAccount button{
+.submitAccount button{
     width: 50%;
     border: solid 2px white;
     padding: 2% 0;
@@ -132,31 +146,31 @@ nav{
     border-radius: 50px;
     cursor: pointer;
 }
-.navRegistrationContent div span.submitAccount button h6{
+.submitAccount button h6{
     font-weight: 400;
     font-size: 0.9vw;
     margin: 0;
     text-shadow: none;
     color: black;
 }
-.navRegistrationContent div span.submitAccount button:hover{
+.submitAccount button:hover{
     opacity: 100%;
     transition: 400ms ease;
     background: gold;
     box-shadow: 0 0 10px black;
 }
-.navRegistrationContent div span.registrationTCPP{
+.registrationTCPP{
     text-align: center;
 } 
-.navRegistrationContent div span.registrationTCPP span{
+.registrationTCPP div{
     height: 1vw;
     font-style: italic;
 }
-.navRegistrationContent div span.registrationTCPP a{
+.registrationTCPP a{
     cursor: pointer;
     color: goldenrod;
 }
-.navRegistrationContent div span.errorMessage p{
+.errorMessage p{
     height: 1vw;
     font-weight: 600;
     font-style: italic;
@@ -243,9 +257,9 @@ nav{
     align-items: center;
 }
 .navContent.right div a#agRegisterBtn{
-    border: solid 1px white;
+    border: solid 2px white;
     padding: 3% 10%;
-    margin-left: 15%;
+    margin-left: 5%;
     border-radius: 50px;
 }
 .navContent.right a{
@@ -254,6 +268,12 @@ nav{
 .navContent.right a h6{
     font-weight: 400;
     font-size: 0.7vw;
+}
+.navContent.right div a#agLoginBtn h6{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5vw;
 }
 .navContent.right a:hover{
     text-shadow: 0 0 20px white;
@@ -276,10 +296,10 @@ nav{
 .navContent.right div a#agProfileBtn img{
     height: 100%;
     border-radius: 50%;
-    border: solid 1px white;
+    border: solid 2px white;
 }
 .navContent.right div a#agLogoutBtn{
-    border: solid 1px white;
+    border: solid 2px white;
     padding: 3% 10%;
     border-radius: 50px;
 }

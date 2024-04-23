@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import "./CSS/nav.css";
 import { 
-    FaBars, 
-    FaTimes,
-    FaRegUserCircle,
+  FaBars, 
+  FaTimes,
+  FaRegUserCircle,
+  FaRegEye,
+  FaRegEyeSlash, 
 } from 'react-icons/fa';
 import { 
   MdAdminPanelSettings 
 } from "react-icons/md";
+import { 
+  TbUserSquareRounded 
+} from "react-icons/tb";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -58,7 +63,6 @@ const Nav = () => {
     const randomCaptcha = Math.floor(1000 + Math.random() * 9000);
     setCaptcha(randomCaptcha.toString());
   };
-
   useEffect(() => {
     generateCaptcha();
   }, []);
@@ -67,6 +71,7 @@ const Nav = () => {
   const LoginUsername = localStorage.getItem('attractGameUsername');
   const [dataUser, setDataUser] = useState([]);
   const [dataStatus, setDataUserStatus] = useState('');
+  const [viewTextPassword, setViewTextPassword] = useState(false);
 
   useEffect(() => {
     const fetchDataUser = () => {
@@ -112,9 +117,6 @@ const Nav = () => {
       setViewAdminCredentials(true);
     }
   }, [LoginUsername, agUserUsername]);
-
-
-
   const handleUserRegister = async (e) => {
     e.preventDefault();
 
@@ -211,6 +213,14 @@ const Nav = () => {
       window.removeEventListener('storage', handleUsernameStorageChange);
     };
   }, []);
+  const handleViewPassword = (e) => {
+    e.preventDefault();
+    setViewTextPassword(true)
+  }
+  const handleHidePassword = (e) => {
+    e.preventDefault();
+    setViewTextPassword(false)
+  }
 
   if(viewRegForm == true ||
     viewLoginForm == true){
@@ -218,6 +228,7 @@ const Nav = () => {
   } else{
     window.document.body.style.overflow = 'auto';
   }
+
 
 
   return (
@@ -228,43 +239,45 @@ const Nav = () => {
             <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
             <form className="navRegistrationContent" onSubmit={handleUserRegister}>
               <h6>REGISTER AN ACCOUNT</h6>
-              <div>
-                <span>
+              <div className='navRegContents'>
+                <div>
                   <label htmlFor=""><p>Email</p></label>
                   <input type="email" placeholder='ex. playerOne01@email.com' value={agUserEmail} onChange={(e) => setAGUserEmail(e.target.value)} required/>
-                </span>
-                <span>
+                </div>
+                <div>
                   <label htmlFor=""><p>Username</p></label>
                   <input type="text" placeholder='ex. Player One' value={agUserUsername} onChange={(e) => setAGUserUsername(e.target.value)} required/>
-                </span>
-                <span>
+                </div>
+                <div>
                   <label htmlFor=""><p>Password</p></label>
-                  <input type="password" placeholder='********' value={agUserPassword} minLength={8} maxLength={16} onChange={(e) => setAGUserPassword(e.target.value)} required/>
-                </span>
-                <span>
+                  <input type={!viewTextPassword ? "password" : "text"} placeholder='********' value={agUserPassword} minLength={8} maxLength={16} onChange={(e) => setAGUserPassword(e.target.value)} required/>
+                  {!viewTextPassword ? <button className='navRefContViewPass' onClick={handleViewPassword}><FaRegEyeSlash className='faIcons'/></button>
+                  :<button className='navRefContViewPass' onClick={handleHidePassword}><FaRegEye className='faIcons'/></button>}
+                </div>
+                <div>
                   <label htmlFor=""><p>Referrer (Optional)</p></label>
                   <input type="text" placeholder='ex. PlayerTwo' value={agUserReferral} onChange={(e) => setAGUserReferral(e.target.value)}/>
-                </span>
-                <span className='recaptchaSetup'>
+                </div>
+                <div className='recaptchaSetup' id='recaptchaSetup'>
                   <img id='captchaContent' src={`https://dummyimage.com/150x50/000/fff&text=${captcha}`} alt="Captcha" />
                   <img id='captchaBG' src={require('./assets/imgs/LoginBackground.jpg')} alt="" />
                   <input type="text" onChange={(e) => setInputValueCaptcha(e.target.value)} placeholder="Enter CAPTCHA"/>
-                </span>
-                <span className='submitAccount'>
+                </div>
+                <div className='submitAccount'>
                   <button type='submit'>
                     <h6>REGISTER</h6>
                   </button>
-                </span>
-                <span className='registrationTCPP'>
+                </div>
+                <div className='registrationTCPP'>
                   <p>
                     By registering, you agree to Attract Game's <br />
-                    <Link>Terms & Conditions</Link> and <Link>Privacy Policy</Link><br /><br />
+                    <Link>Terms & Conditions</Link> and <Link>Privacy Policy</Link><br /><br /><br />
                     <span>{messageResponse}</span>
                   </p>
                   <p>
                     Already have an Account? <a onClick={handleViewLogin}>Login Here</a>
                   </p>
-                </span>
+                </div>
               </div>
             </form>
           </div>
@@ -275,28 +288,30 @@ const Nav = () => {
             <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
             <form className="navRegistrationContent" onSubmit={handleUserLogin}>
               <h6>LOGIN ACCOUNT</h6>
-              <div>
-                <span>
+              <div className='navRegContents'>
+                <div>
                   <label htmlFor=""><p>Username</p></label>
                   <input type="text" placeholder='ex. Player One' value={agUserUsername} onChange={e => setAGUserUsername(e.target.value)} required/>
-                </span>
-                <span>
+                </div>
+                <div>
                   <label htmlFor=""><p>Password</p></label>
-                  <input type="password" placeholder='*****' value={agUserPassword} onChange={e => setAGUserPassword(e.target.value)} required/>
-                </span><br /><br />
-                <span className='submitAccount'>
+                  <input type={!viewTextPassword ? "password" : "text"} placeholder='*****' value={agUserPassword} onChange={e => setAGUserPassword(e.target.value)} required/>
+                  {!viewTextPassword ? <button className='navRefContViewPass' onClick={handleViewPassword}><FaRegEyeSlash className='faIcons'/></button>
+                  :<button className='navRefContViewPass' onClick={handleHidePassword}><FaRegEye className='faIcons'/></button>}
+                </div><br /><br />
+                <div className='submitAccount'>
                   <button type='submit'>
                     <h6>LOGIN</h6>
                   </button>
-                </span>
-                <span className='errorMessage'>
+                </div>
+                <div className='errorMessage'>
                   <p>{messageResponse}</p>
-                </span><br />
-                <span className='registrationTCPP'>
+                </div><br />
+                <div className='registrationTCPP'>
                   <p>
                     Didn't have an Account? <a onClick={handleViewRegistration}>Register Here</a>
                   </p>
-                </span>
+                </div>
               </div>
             </form>
           </div>
@@ -318,7 +333,7 @@ const Nav = () => {
           </div>
           <div className="navContent right">
             {!viewUserCredentials ? <div>
-              <a id='agLoginBtn' onClick={handleViewLogin}><h6>LOGIN</h6></a>
+              <a id='agLoginBtn' onClick={handleViewLogin}><h6><TbUserSquareRounded className='faIcons'/></h6></a>
               <a id='agRegisterBtn' onClick={handleViewRegistration}><h6>REGISTER</h6></a>
             </div>:
             <div id='userProfile'>
