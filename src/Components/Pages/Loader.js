@@ -9,8 +9,8 @@ const Loader = () => {
   return (
     <div className='mainContainer loader'>
         <section className="loaderContainer">
-            {/* <h3><FaGamepad className='faIcons'/></h3> */}
-            <img src={require('../assets/imgs/AGLogoWhite.png')} alt="" />
+            <h3><FaGamepad className='faIcons'/></h3>
+            {/* <img src={require('../assets/imgs/AGLogoWhite.png')} alt="" /> */}
             <h6>LOADING GAMESTORE...</h6>
         </section>
     </div>

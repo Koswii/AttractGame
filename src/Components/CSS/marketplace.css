@@ -36,24 +36,73 @@ h6{
 
 
 section.marketplacePageContainer.top{
-    height: 20vw;
+    height: auto;
     width: 100%;
-    padding: 0 10%;
-    padding-top: 5vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    padding: 4vw 10%;
+    padding-bottom: 2vw;
     background: 
-        linear-gradient(transparent, black 100%),
+        linear-gradient(transparent, black 80%),
         url('../assets/imgs/13551.png') no-repeat center;
     background-size: cover;
 }
-section.marketplacePageContainer.top h4{
-    font-size: 5vw;
+
+
+
+
+.mpPageContentTopNav{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5% 0;
 }
-section.marketplacePageContainer.top h6{
-    font-size: 1.5vw;
+.mppctn.left{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 50%;
+    padding: 0.7% 2%;
+    border-radius: 1vw;
+    border: solid 2px white;
+}
+.mppctn.left h6{
+    margin-right: 3%;
+    font-size: 1vw;
+    line-height: 0.7vw;
+}
+.mppctn.left input{
+    width: 90%;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+}
+.mppctn.right{
+    height: auto;
+    width: 35%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.mppctn.right span{
+    width: 20%;
+    margin-left: 5%;
+    cursor: pointer;
+}
+.mppctn.right span h6{
+    font-size: 1.2vw;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.mppctn.right span:hover h6{
+    color: gold;
+    transition: 400ms ease;
+}
+.mppctn.right span h6 .faIcons{
+    margin-left: 10%;
+    font-size: 2vw;
 }
 
 
@@ -63,4 +112,92 @@ section.marketplacePageContainer.top h6{
 
 
 
-
+.mpPageContentTop{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3%;
+}
+.mppContentTop{
+    height: auto;
+    width: 49%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    border-radius: 1vw;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    overflow: hidden;
+}
+.mppctl.left{
+    height: auto;
+    width: 40%;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.mppctl.left img{
+    height: auto;
+    width: 100%;
+}
+.mppctl.right{
+    height: auto;
+    width: 60%;
+    padding: 5%;
+}
+.mppctl.right h4{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 5vw;
+    font-size: 2.5vw;
+    line-height: 2.3vw;
+}
+.mppctl.right h6{
+    width: 100%;
+    font-weight: 400;
+    margin-top: 5%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.mppctl.right h6 .faIcons{
+    margin-right: 2%;
+    color: red;
+}
+.mppctl.right p{
+    margin-top: 5%;
+}
+.mppctl.right div{
+    height: 3vw;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-top: 5%;
+}
+.mppctl.right div button{
+    height: 3vw;
+    padding: 2% 4%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1vw;
+    border-radius: 50%;
+    background: none;
+    border: solid 2px white;
+    color: white;
+    font-weight: 600;
+    margin-right: 3%;
+}
+.mppctl.right div button#viewGameDetails{
+    padding: 2% 8%;
+    border-radius: 50px;
+}

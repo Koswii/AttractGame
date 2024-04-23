@@ -109,7 +109,7 @@ function App() {
           <Route exact path="/" element={<Home/>}/>
           <Route exact path="/Marketplace" element={<Marketplace/>}/>
           <Route exact path="/Profile" element={<Profile/>}/>
-          <Route path="/Admin" element={viewAdminCredentials ? <Admin/>:<Home/>}/>
+          {viewAdminCredentials && <Route path="/Admin" element={<Admin/>}/>}
           {/* <Route path="/Admin" element={<Admin/>}/> */}
 
 

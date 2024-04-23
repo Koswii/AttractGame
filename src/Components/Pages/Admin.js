@@ -10,6 +10,7 @@ import {
     RiArrowDownSFill  
 } from "react-icons/ri";
 import axios from 'axios';
+import {getGameReviews} from 'unofficial-metacritic';
 
 
 const formatDateToWordedDate = (numberedDate) => {
@@ -228,7 +229,7 @@ const Admin = () => {
         fetchDataGames();
 
         const fetchDataSample = () => {
-            axios.get('https://en.wikipedia.org/api/rest_v1/page/summary/Tekken_8')
+            axios.get('https://en.wikipedia.org/api/rest_v1/page/summary/Skull_and_Bones_(video game)')
             .then((response) => {
                 const gameData = response.data;
                 console.log(gameData);
@@ -238,7 +239,8 @@ const Admin = () => {
             })
         }
         fetchDataSample();
-        
+
+
     }, []);
     const handleAddSupplier = async (e) => {
         e.preventDefault();

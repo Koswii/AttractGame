@@ -78,6 +78,7 @@ const Nav = () => {
 
         if(userData){
           if(userData['account'] == 'Admin'){
+            localStorage.setItem('agAdminLoggedIn', true)
             setViewAdminCredentials(true)
           }else{
             setViewAdminCredentials(false)
@@ -101,11 +102,19 @@ const Nav = () => {
     }
     fetchDataUser();
     const userFromLocalStorage = localStorage.getItem('isLoggedIn');
+    const adminNavBtn = localStorage.getItem('agAdminLoggedIn')
 
     if (userFromLocalStorage) {
       setViewUserCredentials(true);
     }
+
+    if (adminNavBtn) {
+      setViewAdminCredentials(true);
+    }
   }, [LoginUsername, agUserUsername]);
+
+
+
   const handleUserRegister = async (e) => {
     e.preventDefault();
 
@@ -186,6 +195,7 @@ const Nav = () => {
         window.location.href = '/';
       }
     });
+    localStorage.removeItem('agAdminLoggedIn');
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('attractGameUsername');
     window.location.href = '/';
