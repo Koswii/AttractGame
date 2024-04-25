@@ -181,7 +181,7 @@ const Marketplace = () => {
                                     <p>Metascore</p>
                                 </div>
                                 {(details.agData1.game_cover) ?
-                                <><img src={'https://engeenx.com/GameCovers/'+(details.agData1.game_cover)} alt="" /></>:
+                                <><img src={`https://engeenx.com/GameCovers/${details.agData1.game_cover}`} alt="" /></>:
                                 <><img src={details.originalimage.source} alt="" /></>}
                             </div>
                             <div className="mppctl right">
