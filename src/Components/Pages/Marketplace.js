@@ -108,6 +108,7 @@ const Marketplace = () => {
                 });
                 setLoadingMarketData(true);
                 setScrapedMetacriticData(combinedAllData2);
+                console.log(combinedAllData2);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -179,12 +180,12 @@ const Marketplace = () => {
                                     <h4>{details.metacriticData.metascore}</h4>
                                     <p>Metascore</p>
                                 </div>
-                                {details.agData1.game_cover ?
-                                <img src={'https://engeenx.com/GameCovers/'+(details.agData1.game_cover)} alt="" />:
-                                <img src={details.originalimage.source} alt="" />}
+                                {(details.agData1.game_cover) ?
+                                <><img src={'https://engeenx.com/GameCovers/'+(details.agData1.game_cover)} alt="" /></>:
+                                <><img src={details.originalimage.source} alt="" /></>}
                             </div>
                             <div className="mppctl right">
-                                <h4>{details.title}</h4>
+                                <h4>{details.metacriticData.title}</h4>
                                 <h6><TbTrendingUp className='faIcons'/>{details.agData2.game_category + ' Game'}</h6>
                                 <p>
                                     {details.metacriticData.description.slice(0, 300)+ '...'} <br /><br />
