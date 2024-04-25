@@ -35,29 +35,9 @@ const Marketplace = () => {
 
 
     useEffect(() => {
-        const fetchGamesCategory = () => {
-            axios.get(AGGamesListAPI2)
-            .then((response) => {
-                const gameDatabase = response.data.sort((a, b) => b.id - a.id);
-                const gameCategory = response.data.filter(game => game.game_category == 'Trending');
-                const gameCatSort = gameCategory.sort((a, b) => b.id - a.id);
-                const gameCSFeatWikipedia = gameCatSort.map(game => game.game_title.replace(/\s/g, '_'))
-                const gameCSFeatMetacritic = gameCatSort.map(game => game.game_title.toLowerCase().replace(/\s/g, '-'))
-                setViewAGData2(gameCatSort);
-                setViewWikiData(gameCSFeatWikipedia);
-                setViewMetacriticData(gameCSFeatMetacritic);
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        }
-        fetchGamesCategory();
-    }, []);
-    useEffect(() => {
-        const fetchGamesCategory = () => {
+        const fetchGamesCategory1 = () => {
             axios.get(AGGamesListAPI1)
             .then((response) => {
-                const gameDatabase = response.data.sort((a, b) => b.id - a.id);
                 const gameCategory = response.data.filter(game => game.game_category == 'Trending');
                 const gameCatSort = gameCategory.sort((a, b) => b.id - a.id);
                 setViewAGData1(gameCatSort);
@@ -66,7 +46,22 @@ const Marketplace = () => {
                 console.log(error)
             })
         }
-        fetchGamesCategory();
+        fetchGamesCategory1();
+
+        const fetchGamesCategory2 = () => {
+            axios.get(AGGamesListAPI2)
+            .then((response) => {
+                const gameCategory = response.data.filter(game => game.game_category == 'Trending');
+                const gameCatSort = gameCategory.sort((a, b) => b.id - a.id);
+                const gameCSFeatMetacritic = gameCatSort.map(game => game.game_title.toLowerCase().replace(/\s/g, '-'))
+                setViewAGData2(gameCatSort);
+                setViewMetacriticData(gameCSFeatMetacritic);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+        fetchGamesCategory2();
     }, []);
 
     useEffect(() => {
@@ -74,7 +69,7 @@ const Marketplace = () => {
             try {
                 setLoadingMarketData(false);
                 const detailsPromises = viewMetacriticData.map(viewMetacriticData => {
-                    return axios.get(`https://www.metacritic.com/game/${viewMetacriticData}`);
+                    return axios.get(`https://engeenx.com/proxyMetacritic.php?game=${viewMetacriticData}/`);
                 });
                 const detailsResponses = await Promise.all(detailsPromises);
                 const scrapedDataArray = detailsResponses.map(response => {
@@ -95,9 +90,10 @@ const Marketplace = () => {
                         publisher: targetElementPublisher ? targetElementPublisher.textContent : ''
                     };
                 });
+
                 const viewMetacriticGameTitle = scrapedDataArray.map(gameMetacritic => {
                     const viewGameTitle = gameMetacritic.title.replace(/\s/g, '_');
-                    return axios.get(`https://en.wikipedia.org/api/rest_v1/page/summary/${viewGameTitle}`);
+                    return axios.get(`https://engeenx.com/proxyWikipedia.php?game=${viewGameTitle}`);
                 });
                 const wikiDataResponses = await Promise.all(viewMetacriticGameTitle);
                 const wikiDetailsData = wikiDataResponses.map(response => response.data);
@@ -117,7 +113,7 @@ const Marketplace = () => {
             }
         };
         fetchDataMetacritic();
-    }, [viewMetacriticData]);
+    }, [viewMetacriticData, viewAGData1, viewAGData2]);
 
 
     return (
@@ -184,7 +180,7 @@ const Marketplace = () => {
                                     <p>Metascore</p>
                                 </div>
                                 {details.agData1.game_cover ?
-                                <img src={'https://engeenx.com/GameCovers/'+details.agData1.game_cover} alt="" />:
+                                <img src={'https://engeenx.com/GameCovers/'+(details.agData1.game_cover)} alt="" />:
                                 <img src={details.originalimage.source} alt="" />}
                             </div>
                             <div className="mppctl right">
