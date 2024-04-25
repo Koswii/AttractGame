@@ -36,10 +36,10 @@ h6{
 
 
 section.marketplacePageContainer.top{
-    height: auto;
+    height: 41vw;
     width: 100%;
     padding: 4vw 10%;
-    padding-bottom: 2vw;
+    padding-bottom: 1vw;
     background: 
         linear-gradient(transparent, black 80%),
         url('../assets/imgs/13551.png') no-repeat center;
@@ -118,7 +118,7 @@ section.marketplacePageContainer.top{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 3%;
+    margin-top: 1%;
 }
 .mppContentTop{
     height: auto;
@@ -134,30 +134,71 @@ section.marketplacePageContainer.top{
     overflow: hidden;
 }
 .mppctl.left{
-    height: auto;
+    height: 22vw;
     width: 40%;
     border-radius: 1vw;
     display: flex;
     justify-content: center;
     align-items: center;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     overflow: hidden;
+    position: relative;
+}
+.mppctlMetascore{
+    height: auto;
+    padding: 3% 5%;
+    border-radius: 1vw;
+    position: absolute;
+    top: 1vw;
+    left: 1vw;
+    border: solid 2px white;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+.mppctlMetascore p{
+    font-size: 0.7vw;
+}
+.mppctl.left .loader{
+    width: 80px;
+    aspect-ratio: 1;
+    border: 10px solid #24242400;
+    background: 
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 0    0/20px 20px,
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 100% 0/20px 20px,
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2)) 100% 100%/20px 20px,
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 0 100%/20px 20px,
+        linear-gradient(#fff 0 0) center/40px 40px,
+        #000;
+    background-repeat:no-repeat;
+    filter: blur(4px) contrast(10);
+    animation: b2 0.8s infinite;
 }
 .mppctl.left img{
-    height: auto;
+    height: 100%;
     width: 100%;
 }
 .mppctl.right{
     height: auto;
     width: 60%;
-    padding: 5%;
+    padding: 3% 5%;
 }
 .mppctl.right h4{
     display: flex;
     justify-content: left;
     align-items: center;
     height: 5vw;
-    font-size: 2.5vw;
+    font-size: 2.3vw;
     line-height: 2.3vw;
+}
+.mppctl.right h4#mppctlLoadTitle{
+    background: rgba(65, 65, 65, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 1vw;
 }
 .mppctl.right h6{
     width: 100%;
@@ -172,7 +213,16 @@ section.marketplacePageContainer.top{
     color: red;
 }
 .mppctl.right p{
-    margin-top: 5%;
+    height: 7.5vw;
+    margin-top: 3%;
+    font-size: 0.7vw;
+    line-height: 0.9vw;
+}
+.mppctl.right p#mppctlLoadTitle{
+    background: rgba(65, 65, 65, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 1vw;
 }
 .mppctl.right div{
     height: 3vw;
@@ -183,23 +233,25 @@ section.marketplacePageContainer.top{
     margin-top: 5%;
 }
 .mppctl.right div button{
-    height: 3vw;
-    width: 3vw;
-    padding: 2% 4%;
+    height: 2.5vw;
+    width: 2.5vw;
+    padding: 1% 4%;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1vw;
+    font-size: 2vw;
     border-radius: 50%;
     background: none;
     border: solid 2px white;
     color: white;
     font-weight: 600;
     margin-right: 3%;
+    cursor: pointer;
 }
 .mppctl.right div button#viewGameDetails{
     width: auto;
-    padding: 2% 8%;
+    padding: 1% 8%;
     border-radius: 50px;
+    font-size: 0.7vw;
 }

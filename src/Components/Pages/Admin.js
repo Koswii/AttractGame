@@ -229,19 +229,6 @@ const Admin = () => {
         }
         fetchDataGames();
 
-        const fetchDataSample = () => {
-            axios.get('https://en.wikipedia.org/api/rest_v1/page/summary/Skull_and_Bones_(video game)')
-            .then((response) => {
-                const gameData = response.data;
-                console.log(gameData);
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        }
-        fetchDataSample();
-
-
     }, []);
     const handleAddSupplier = async (e) => {
         e.preventDefault();

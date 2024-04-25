@@ -86,14 +86,16 @@ function App() {
     }
     fetchDataUser();
   }, []);
+  
   useEffect(() => {
     const userFromLocalStorage = localStorage.getItem('isLoggedIn');
     if (userFromLocalStorage == 'true') {
       setViewUserCredentials(true);
+    }
 
-      if (dataAccount == 'Admin'){
-        setViewAdminCredentials(true);
-      }
+    if (dataAccount == 'Admin'){
+      const getUserAccountState = localStorage.getItem('agAdminLoggedIn');
+      setViewAdminCredentials(getUserAccountState);
     }
   }, [dataAccount]);
 
