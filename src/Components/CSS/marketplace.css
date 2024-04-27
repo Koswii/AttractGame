@@ -36,8 +36,8 @@ h6{
 
 
 section.marketplacePageContainer.top{
-    /* height: 41vw; */
-    height: auto;
+    height: 41vw;
+    /* height: auto; */
     width: 100%;
     padding: 4vw 10%;
     padding-bottom: 1vw;
@@ -46,8 +46,6 @@ section.marketplacePageContainer.top{
         url('../assets/imgs/13551.png') no-repeat center;
     background-size: cover;
 }
-
-
 
 
 .mpPageContentTopNav{
@@ -134,6 +132,11 @@ section.marketplacePageContainer.top{
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     overflow: hidden;
+    cursor: pointer;
+}
+.mppContentTop:hover{
+    transition: 400ms ease;
+    box-shadow: 0 0 10px white;
 }
 .mppctl.left{
     height: 22vw;
@@ -235,25 +238,181 @@ section.marketplacePageContainer.top{
     margin-top: 5%;
 }
 .mppctl.right div button{
-    height: 2.5vw;
-    width: 2.5vw;
-    padding: 1% 4%;
+    padding: 1% 2%;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 2vw;
-    border-radius: 50%;
     background: none;
-    border: solid 2px white;
+    outline: none;
+    border: none;
     color: white;
     font-weight: 600;
-    margin-right: 3%;
     cursor: pointer;
 }
 .mppctl.right div button#viewGameDetails{
     width: auto;
-    padding: 1% 8%;
+    padding: 3% 8%;
     border-radius: 50px;
+    margin-right: 3%;
+    border: solid 2px white;
     font-size: 0.7vw;
 }
+.mppctl.right div button#addToFavorite{
+    font-size: 2vw;
+}
+
+
+
+
+section.marketplacePageContainer.mid{
+    height: auto;
+    width: 100%;
+    padding: 1% 10%;
+    padding-top: 0;
+}
+.mpPageContentMid{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+.mppContentMid{
+    height: 20vw;
+    width: 19%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 1vw;
+    overflow: hidden;
+    position: relative;
+    transition: 400ms ease;
+    cursor: pointer;
+}
+.mppContentMid:hover{
+    transform: translateY(-10px);
+    box-shadow: 0 0 10px white;
+    transition: 400ms ease;
+}
+.mppContentMid .loader{
+    width: 80px;
+    aspect-ratio: 1;
+    border: 10px solid #24242400;
+    background: 
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 0    0/20px 20px,
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 100% 0/20px 20px,
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2)) 100% 100%/20px 20px,
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 0 100%/20px 20px,
+        linear-gradient(#fff 0 0) center/40px 40px,
+        #000;
+    background-repeat:no-repeat;
+    filter: blur(4px) contrast(10);
+    animation: b2 0.8s infinite;
+}
+.mppContentMid img{
+    height: 100%;
+    width: 100%;
+}
+.mppcmMetascore{
+    height: auto;
+    padding: 3% 5%;
+    border-radius: 1vw;
+    position: absolute;
+    top: 1vw;
+    left: 1vw;
+    border: solid 2px white;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+.mppcmMetascore p{
+    font-size: 0.7vw;
+}
+.mppcmNewGames{
+    position: absolute;
+    top: 0;
+    right: -25%;
+    height: auto;
+    width: 10vw;
+    rotate: 45deg;
+    background: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2% 0;
+}
+.mppcmNewGames h4{
+    font-size: 2vw;
+    line-height: 1vw;
+}
+.mppcmGameDetails{
+    height: auto;
+    width: 100%;
+    padding: 3% 5%;
+    border-radius: 0.5vw;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+}
+.mppContentMid:hover .mppcmGameDetails{
+    opacity: 1;
+    transition: 400ms ease;
+}
+.mppcmGameDetails h6{
+    font-weight: 400;
+}
+.mppcmGameDetails p{
+    height: 4vw;
+    font-size: 0.7vw;
+    margin: 3% 0;
+}
+.mppcmGameDetails div{
+    height: auto;
+    width: 100%;
+    margin-top: 10%;
+}
+.mppcmGameDetails div button{
+    width: 100%;
+    padding: 2%;
+    border-radius: 50px;
+    border: solid 2px white;
+    color: white;
+    background: none;
+    outline: none;
+    cursor: pointer;
+}
+.mppcmGameDetails div button:hover{
+    background: white;
+    color: black;
+    transition: 400ms ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

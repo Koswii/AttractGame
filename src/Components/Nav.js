@@ -250,7 +250,7 @@ const Nav = () => {
                 </div>
                 <div>
                   <label htmlFor=""><p>Password</p></label>
-                  <input type={!viewTextPassword ? "password" : "text"} placeholder='********' value={agUserPassword} minLength={8} maxLength={16} onChange={(e) => setAGUserPassword(e.target.value)} required/>
+                  <input type={!viewTextPassword ? "password" : "text"} minLength={8} maxLength={16} placeholder={!viewTextPassword ? '********' : 'Password Length 8-16 Characters'} value={agUserPassword} minLength={8} maxLength={16} onChange={(e) => setAGUserPassword(e.target.value)} required/>
                   {!viewTextPassword ? <button className='navRefContViewPass' onClick={handleViewPassword}><FaRegEyeSlash className='faIcons'/></button>
                   :<button className='navRefContViewPass' onClick={handleHidePassword}><FaRegEye className='faIcons'/></button>}
                 </div>
