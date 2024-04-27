@@ -52,12 +52,7 @@ const Marketplace = () => {
                 const response1 = await axios.get(AGGamesListAPI1);
                 const agAllGames = response1.data;
                 setViewAllListedGames(agAllGames);
-                // const gameCategory1 = response1.data.filter(game => game.game_category === 'Trending');
-                // const gameCatSort1 = gameCategory1.sort((a, b) => b.id - a.id);
-                // const gameCSFeatMetacritic = gameCatSort1.map(game => game.game_title.toLowerCase().replace(/\s/g, '-'))
-                // setViewAllGamesNum(agAllGames.length);
-                // setViewAGData1(gameCatSort1);
-                // setViewMetacriticData(gameCSFeatMetacritic);
+                console.log(agAllGames);
 
                 // Get current year
                 const currentYear = new Date().getFullYear();
