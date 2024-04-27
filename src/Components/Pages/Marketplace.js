@@ -269,7 +269,7 @@ const Marketplace = () => {
                 </div>
                 <h4 id='mppcmh4Title'><FaGamepad className='faIcons'/> AVAILABLE GAMES</h4>
                 <div className="mpPageContentMid2">
-                    {viewAllListedGames.slice(0, 20).map((details, i) => (
+                    {viewAllListedGames.slice(0, 15).map((details, i) => (
                     <div className="mppContentMid2" key={i}>
                         <div className="mppcm2GamePlatform">
                             <img platform={details.game_platform} src="" alt="" />

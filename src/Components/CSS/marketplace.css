@@ -524,12 +524,12 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 0.5vw;
-    opacity: 0;
+    /* opacity: 0; */
 }
-.mppContentMid2:hover .mppcm2GameDetails{
+/* .mppContentMid2:hover .mppcm2GameDetails{
     opacity: 1;
     transition: 400ms ease;
-}
+} */
 .mppcm2GameDetails h5{
     height: 2vw;
     font-size: 1vw;
