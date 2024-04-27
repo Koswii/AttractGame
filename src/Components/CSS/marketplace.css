@@ -46,8 +46,14 @@ section.marketplacePageContainer.top{
         url('../assets/imgs/13551.png') no-repeat center;
     background-size: cover;
 }
-
-
+section.marketplacePageContainer.top h4#mppcth4Title{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+section.marketplacePageContainer.top h4#mppcth4Title .faIcons{
+    margin-right: 1%;
+}
 .mpPageContentTopNav{
     height: auto;
     width: 100%;
@@ -272,21 +278,22 @@ section.marketplacePageContainer.mid{
     padding: 1% 10%;
     padding-top: 0;
 }
-.mpPageContentMid{
+.mpPageContentMid1{
     height: auto;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: top;
+    margin-bottom: 10%;
 }
-.mppContentMid{
+.mppContentMid1{
     height: 20vw;
     width: 19%;
     display: flex;
     justify-content: center;
     align-items: center;
     background: rgba(0, 0, 0, 0.3);
-    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border-radius: 1vw;
@@ -295,12 +302,12 @@ section.marketplacePageContainer.mid{
     transition: 400ms ease;
     cursor: pointer;
 }
-.mppContentMid:hover{
+.mppContentMid1:hover{
     transform: translateY(-10px);
     box-shadow: 0 0 10px white;
     transition: 400ms ease;
 }
-.mppContentMid .loader{
+.mppContentMid1 .loader{
     width: 80px;
     aspect-ratio: 1;
     border: 10px solid #24242400;
@@ -315,7 +322,7 @@ section.marketplacePageContainer.mid{
     filter: blur(4px) contrast(10);
     animation: b2 0.8s infinite;
 }
-.mppContentMid img{
+.mppContentMid1 img{
     height: 100%;
     width: 100%;
 }
@@ -369,7 +376,7 @@ section.marketplacePageContainer.mid{
     -webkit-backdrop-filter: blur(10px);
     opacity: 0;
 }
-.mppContentMid:hover .mppcmGameDetails{
+.mppContentMid1:hover .mppcmGameDetails{
     opacity: 1;
     transition: 400ms ease;
 }
@@ -404,15 +411,168 @@ section.marketplacePageContainer.mid{
 
 
 
-
-
-
-
-
-
-
-
-
-
+section.marketplacePageContainer.mid h4#mppcmh4Title{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
+    margin-right: 1%;
+}
+.mpPageContentMid2{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: top;
+    margin: 2% 0;
+}
+.mppContentMid2{
+    height: 20vw;
+    width: 19%;
+    margin-bottom: 2%;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    overflow: hidden;
+}
+.mppContentMid2:hover{
+    box-shadow: 0 0 10px white;
+    transition: 400ms ease;
+}
+.mppContentMid2 img{
+    height: 100%;
+    width: 100%;
+}
+.mppcm2GamePlatform{
+    height: auto;
+    position: absolute;
+    top: 0.5vw;
+    left: 0.5vw;
+    padding: 5%;
+    border-radius: 0.5vw;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mppcm2GamePlatform img{
+    height: 2vw;
+}
+.mppcm2GamePlatform img[platform='PC']{
+    content: url('../assets/imgs/GamePlatforms/PCGames.png');
+}
+.mppcm2GamePlatform img[platform='Nintendo Switch']{
+    content: url('../assets/imgs/GamePlatforms/NintendoSwitch.png');
+}
+.mppcm2GamePlatform img[platform='Xbox X/S']{
+    content: url('../assets/imgs/GamePlatforms/XboxXS.png');
+}
+.mppcm2GamePlatform img[platform='Xbox One']{
+    content: url('../assets/imgs/GamePlatforms/XboxOne.png');
+}
+.mppcm2GamePlatform img[platform='PlayStation 4']{
+    content: url('../assets/imgs/GamePlatforms/PS4.png');
+}
+.mppcm2GamePlatform img[platform='PlayStation 5']{
+    content: url('../assets/imgs/GamePlatforms/PS5.png');
+}
+.mppcm2GameCategory{
+    height: auto;
+    position: absolute;
+    top: 1vw;
+    right: 1vw;
+}
+.mppcm2GameCategory h4 .faIcons{
+    display: none;
+    color: red;
+}
+.mppcm2GameCategory h4 .faIcons.Trending{
+    display: block;
+}
+.mppcm2GameCategory h4 .faIcons.Hot{
+    display: block;
+}
+.mppcm2GameCategory h4 .faIcons.Classic{
+    display: block;
+}
+.mppcm2GameCategory h4 .faIcons.Preorder{
+    display: block;
+}
+.mppcm2GameDetails{
+    height: auto;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 5%;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 30px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 0.5vw;
+    opacity: 0;
+}
+.mppContentMid2:hover .mppcm2GameDetails{
+    opacity: 1;
+    transition: 400ms ease;
+}
+.mppcm2GameDetails h5{
+    height: 2vw;
+    font-size: 1vw;
+    line-height: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.mppcm2GameDetails p{
+    text-align: center;
+    font-weight: 400;
+    font-size: 0.7vw;
+}
+.mppcm2GameDetails div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4%;
+}
+.mppcm2GameDetails div button#mppcm2GDView{
+    width: 65%;
+    padding: 2% 1%;
+    border-radius: 50px;
+    border: solid 2px white;
+    background: none;
+    color: white;
+    cursor: pointer;
+}
+.mppcm2GameDetails div button#mppcm2GDView:hover{
+    background: white;
+    color: black;
+    transition: 400ms ease;
+}
+.mppcm2GameDetails div button#mppcm2GDHeart,
+.mppcm2GameDetails div button#mppcm2GDCart{
+    font-size: 1.8vw;
+    line-height: 1vw;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    cursor: pointer;
+}
 
 

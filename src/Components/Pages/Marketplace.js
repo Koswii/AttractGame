@@ -3,6 +3,7 @@ import "../CSS/marketplace.css";
 import { Link } from 'react-router-dom';
 import { 
     FaSearch,
+    FaGamepad,
     FaBolt,
     FaTicketAlt,
     FaGem,
@@ -12,12 +13,18 @@ import {
     FaBitcoin 
 } from 'react-icons/fa';
 import { 
+    FaRankingStar 
+} from "react-icons/fa6";
+import { 
     TbShoppingCartBolt, 
     TbDeviceGamepad2,
     TbGiftCard,
     TbHeart,
     TbHeartFilled,
-    TbTrendingUp      
+    TbTrendingUp,
+    TbAwardFilled,
+    TbCampfireFilled,
+    TbCalendarStar,      
 } from "react-icons/tb";
 import { 
     MdOutlineFiberNew 
@@ -29,21 +36,22 @@ const Marketplace = () => {
     const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
     const AGGamesListAPI2 = process.env.REACT_APP_AG_GAMES_STATUS_API;
     const AGGamesWikiDetails = process.env.REACT_APP_AG_GAMES_WIKI_API;
-    const [viewAllGamesNum, setViewAllGamesNum] = useState([])
+    const [viewAllGamesNum, setViewAllGamesNum] = useState([]);
+    const [viewAllListedGames, setViewAllListedGames] = useState([]);
     const [viewAGData1, setViewAGData1] = useState([]);
     const [viewAGData2, setViewAGData2] = useState([]);
     const [viewWikiData, setViewWikiData] = useState([]);
     const [viewMetacriticData, setViewMetacriticData] = useState([]);
     const [loadingMarketData, setLoadingMarketData] = useState(false);
     const [scrapedMetacriticData, setScrapedMetacriticData] = useState('');
-    const [viewImageGameCover, setViewImageGameCover] = useState('');
 
 
     useEffect(() => {
         const fetchGames = async () => {
             try {
                 const response1 = await axios.get(AGGamesListAPI1);
-                const agAllGames = response1.data
+                const agAllGames = response1.data;
+                setViewAllListedGames(agAllGames);
                 // const gameCategory1 = response1.data.filter(game => game.game_category === 'Trending');
                 // const gameCatSort1 = gameCategory1.sort((a, b) => b.id - a.id);
                 // const gameCSFeatMetacritic = gameCatSort1.map(game => game.game_title.toLowerCase().replace(/\s/g, '-'))
@@ -156,7 +164,7 @@ const Marketplace = () => {
                         </span>
                     </div>
                 </div>
-                <h4>FEATURED GAMES</h4>
+                <h4 id='mppcth4Title'><FaStar className='faIcons'/> FEATURED GAMES</h4>
                 {!loadingMarketData ? <>
                     <div className='mpPageContentTop'>
                         <div className='mppContentTop'>
@@ -221,26 +229,26 @@ const Marketplace = () => {
                 </>}
             </section>
             <section className="marketplacePageContainer mid">
-                <div className="mpPageContentMid">
+                <div className="mpPageContentMid1">
                     {!loadingMarketData ? <>
-                        <div className="mppContentMid">
+                        <div className="mppContentMid1">
                             <div className="loader"></div>
                         </div>
-                        <div className="mppContentMid">
+                        <div className="mppContentMid1">
                             <div className="loader"></div>
                         </div>
-                        <div className="mppContentMid">
+                        <div className="mppContentMid1">
                             <div className="loader"></div>
                         </div>
-                        <div className="mppContentMid">
+                        <div className="mppContentMid1">
                             <div className="loader"></div>
                         </div>
-                        <div className="mppContentMid">
+                        <div className="mppContentMid1">
                             <div className="loader"></div>
                         </div>
                     </>:<>
                         {scrapedMetacriticData.slice(2, 7).map((details, i) => (
-                        <div className="mppContentMid">
+                        <div className="mppContentMid1">
                             <div className="mppcmMetascore">
                                 <h4>{details.metascore}</h4>
                                 <p>Metascore</p>
@@ -264,6 +272,36 @@ const Marketplace = () => {
                         </div>
                         ))}
                     </>}
+                </div>
+                <h4 id='mppcmh4Title'><FaGamepad className='faIcons'/> AVAILABLE GAMES</h4>
+                <div className="mpPageContentMid2">
+                    {viewAllListedGames.slice(0, 20).map((details, i) => (
+                    <div className="mppContentMid2" key={i}>
+                        <div className="mppcm2GamePlatform">
+                            <img platform={details.game_platform} src="" alt="" />
+                        </div>
+                        <div className="mppcm2GameCategory">
+                            <h4>
+                                <TbTrendingUp className={`faIcons ${(details.game_category === 'Trending') ? 'Trending' : ''}`}/>
+                                <TbCampfireFilled className={`faIcons ${(details.game_category === 'Hot') ? 'Hot' : ''}`}/>
+                                <TbAwardFilled className={`faIcons ${(details.game_category === 'Classic') ? 'Classic' : ''}`}/>
+                                <TbCalendarStar className={`faIcons ${(details.game_category === 'Preorder') ? 'Preorder' : ''}`}/>
+                            </h4>
+                        </div>
+                        <>{details.game_cover !== '' ?
+                        <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="Image Not Available" />
+                        :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</>
+                        <div className="mppcm2GameDetails">
+                            <h5>{details.game_title}</h5>
+                            <p>{details.game_edition}</p>
+                            <div>
+                                <button id='mppcm2GDView'>View Game</button>
+                                <button id='mppcm2GDHeart'><TbHeart className='faIcons'/></button>
+                                <button id='mppcm2GDCart'><TbShoppingCartBolt className='faIcons'/></button>
+                            </div>
+                        </div>
+                    </div>
+                    ))}
                 </div>
             </section>
         </div>
