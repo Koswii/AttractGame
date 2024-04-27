@@ -52,7 +52,6 @@ const Marketplace = () => {
                 const response1 = await axios.get(AGGamesListAPI1);
                 const agAllGames = response1.data;
                 setViewAllListedGames(agAllGames);
-                console.log(agAllGames);
 
                 // Get current year
                 const currentYear = new Date().getFullYear();
