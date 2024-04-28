@@ -24,10 +24,12 @@ import {
     TbTrendingUp,
     TbAwardFilled,
     TbCampfireFilled,
-    TbCalendarStar,      
+    TbCalendarStar,
+    TbSquareRoundedArrowRight,      
 } from "react-icons/tb";
 import { 
-    MdOutlineFiberNew 
+    MdOutlineFiberNew,
+    MdDiscount 
 } from "react-icons/md";
 import axios from 'axios';
 import { getGameReviews } from 'unofficial-metacritic';
@@ -285,6 +287,12 @@ const Marketplace = () => {
                         <>{details.game_cover !== '' ?
                         <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="Image Not Available" />
                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</>
+                        <div className="mppcm2GamePrice">
+                            <p>$ 999.99</p>
+                        </div>
+                        <div className="mppcm2GameDiscount">
+                            <h4><MdDiscount className='faIcons'/></h4>
+                        </div>
                         <div className="mppcm2GameDetails">
                             <h5>{details.game_title}</h5>
                             <p>{details.game_edition}</p>
@@ -296,6 +304,20 @@ const Marketplace = () => {
                         </div>
                     </div>
                     ))}
+                </div>
+                <div className="mpPageContentMid3">
+                    <Link className="mppcm3TrendingGames">
+                        <h5><TbTrendingUp className='faIcons'/>TRENDING GAMES</h5>
+                    </Link>
+                    <Link className="mppcm3HotGames">
+                        <h5><TbCampfireFilled className='faIcons'/>HOT GAMES</h5>
+                    </Link>
+                    <Link className="mppcm3ClassicGames">
+                        <h5><TbAwardFilled className='faIcons'/>CLASSIC GAMES</h5>
+                    </Link>
+                </div>
+                <div className="mpPageContentM2ShowMore">
+                    <Link><TbSquareRoundedArrowRight className='faIcons'/> View {viewAllGamesNum - 15} More Games</Link>
                 </div>
             </section>
         </div>
