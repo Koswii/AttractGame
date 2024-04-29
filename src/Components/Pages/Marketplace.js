@@ -319,6 +319,16 @@ const Marketplace = () => {
                 <div className="mpPageContentM2ShowMore">
                     <Link><TbSquareRoundedArrowRight className='faIcons'/> View {viewAllGamesNum - 15} More Games</Link>
                 </div>
+                <div className="mpPageContentMid4">
+                    <div className="mppcm4GiftCard">
+                        <h6>ROBLOX GIFTCARDS</h6>
+                        <p>Purchase Roblox Giftcards to get AG Points and a chance to win on Attract Game's monthly Raffle</p>
+                        <img src={require('../assets/imgs/GiftCards/RobloxGiftCard.png')} alt="" />
+                        <div>
+                            <button>View Guide</button>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
     )

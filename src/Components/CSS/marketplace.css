@@ -670,14 +670,69 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     opacity: 100%;
     transition: 400ms ease;
 }
-
-
-
-
-
-
-
-
+.mpPageContentMid4{
+    height: 32vw;
+    width: 100%;
+    background: url('../assets/imgs/LandingImg/RobloxCoverImg00.png') no-repeat center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px gray;
+    margin-top: 5%;
+    margin-bottom: 2%;
+    border-radius: 1vw;
+    padding: 2%;
+    overflow: hidden;
+    position: relative;
+}
+.mppcm4GiftCard{
+    height: auto;
+    width: 20%;
+    position: absolute;
+    top: 1vw;
+    left: 1vw;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 30px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 1vw;
+    padding: 1%;
+}
+.mppcm4GiftCard img{
+    height: auto;
+    width: 100%;
+    border-radius: 1vw;
+    margin: 3% 0;
+}
+.mppcm4GiftCard h6{
+    text-align: center;
+}
+.mppcm4GiftCard p{
+    font-size: 0.7vw;
+    text-align: center;
+    margin: 3% 0;
+}
+.mppcm4GiftCard div{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.mppcm4GiftCard div button{
+    padding: 2% 10%;
+    border: solid 2px white;
+    border-radius: 50px;
+    background: none;
+    outline: none;
+    font-size: 0.7vw;
+    color: white;
+    cursor: pointer;
+}
+.mppcm4GiftCard div button:hover{
+    background: white;
+    color: black;
+    transition: 400ms ease;
+}
 
 
 
