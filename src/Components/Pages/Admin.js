@@ -605,7 +605,7 @@ const Admin = () => {
                                                 <input type="date" value={agSetGameRelease} onChange={(e) => setAGSetGameRelease(e.target.value)} required/>
                                             </span>
                                             <span>
-                                                <label htmlFor=""><p>Highlight</p></label>
+                                                <label htmlFor=""><p>Highlight (Optional)</p></label>
                                                 <select name="" id="" value={agSetGameHighlight1} onChange={(e) => setAGSetGameHighlight1(e.target.value)}>
                                                     <option value="">Select Highlight</option>
                                                     <option value="Featured">Featured Games</option>
@@ -614,7 +614,7 @@ const Admin = () => {
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Supplier</p></label>
-                                                <select name="" id="" value={agSetGameSupplier} onChange={(e) => setAGSetGameSupplier(e.target.value)} required>
+                                                <select name="" id="" value={agSetGameSupplier} onChange={(e) => setAGSetGameSupplier(e.target.value)}>
                                                     <option value="">Select Supplier</option>
                                                     {viewSupplierProfiles.slice(0,8).map((item, i) => (
                                                         <option key={i} value={item.company}>{item.company}</option>

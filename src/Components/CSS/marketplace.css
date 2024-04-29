@@ -40,7 +40,7 @@ section.marketplacePageContainer.top{
     /* height: auto; */
     width: 100%;
     padding: 4vw 10%;
-    padding-bottom: 1vw;
+    padding-bottom: 0;
     background: 
         linear-gradient(transparent, black 80%),
         url('../assets/imgs/13551.png') no-repeat center;
@@ -280,8 +280,8 @@ section.marketplacePageContainer.top h4#mppcth4Title .faIcons{
 section.marketplacePageContainer.mid{
     height: auto;
     width: 100%;
-    padding: 1% 10%;
-    padding-top: 0;
+    padding: 1vw 10%;
+    padding-bottom: 10vw;
 }
 .mpPageContentMid1{
     height: auto;
@@ -407,6 +407,7 @@ section.marketplacePageContainer.mid{
     background: none;
     outline: none;
     cursor: pointer;
+    font-size: 0.7vw;
 }
 .mppcmGameDetails div button:hover{
     background: white;
@@ -529,7 +530,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     box-shadow: 0 0 20px black;
 }
 .mppcm2GamePrice p{
-    font-size: 0.7vw;
+    font-size: 0.9vw;
 }
 .mppcm2GameDiscount{
     height: auto;
@@ -733,8 +734,96 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     color: black;
     transition: 400ms ease;
 }
-
-
-
-
-
+.mpPageContentMid5{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+.mppcm5Join.left{
+    height: auto;
+    width: 40%;
+}
+.mppcm5Join.left h3{
+    font-size: 3.5vw;
+    line-height: 3vw;
+}
+.mppcm5Join.left h6{
+    font-weight: 400;
+}
+.mppcm5Join.left div{
+    height: auto;
+    width: 100%;
+    margin-top: 3%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mppcm5Join.left div span{
+    width: 23%;
+    padding: 2%;
+    text-align: center;
+    border: solid 2px white;
+    border-radius: 1vw;
+}
+.mppcm5Join.right{
+    height: auto;
+    width: 55%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.mppcm5Roblox{
+    height: auto;
+    width: 49%;
+    border-radius: 1vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    position: relative;
+}
+.mppcm5Roblox img{
+    width: 100%;
+}
+.mppcm5RTitle{
+    height: auto;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 3%;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 30px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.mppcm5RTitle h6{
+    margin-bottom: 3%;
+}
+.mppcm5RTitle p{
+    font-size: 0.7vw;
+}
+.mppcm5RobloxMore{
+    height: auto;
+    width: 100%;
+    margin-top: 2%;
+    display: flex;
+    justify-content: right;
+}
+.mppcm5RobloxMore button{
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 0.7vw;
+    opacity: 50%;
+    cursor: pointer;
+}
+.mppcm5RobloxMore button:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+}

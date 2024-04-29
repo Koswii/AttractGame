@@ -34,10 +34,21 @@ import {
 import axios from 'axios';
 import { getGameReviews } from 'unofficial-metacritic';
 
+
+const formatDateToWordedDate = (numberedDate) => {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const date = new Date(numberedDate);
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    
+    return `${month} ${day}, ${year}`;
+}
 const Marketplace = () => {
     const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
     const AGGamesListAPI2 = process.env.REACT_APP_AG_GAMES_STATUS_API;
     const AGGamesWikiDetails = process.env.REACT_APP_AG_GAMES_WIKI_API;
+    const AGGamesRobloxPartners = process.env.REACT_APP_AG_GAMES_ROBLOX_API;
     const [viewAllGamesNum, setViewAllGamesNum] = useState([]);
     const [viewAllListedGames, setViewAllListedGames] = useState([]);
     const [viewAGData1, setViewAGData1] = useState([]);
@@ -46,6 +57,7 @@ const Marketplace = () => {
     const [viewMetacriticData, setViewMetacriticData] = useState([]);
     const [loadingMarketData, setLoadingMarketData] = useState(false);
     const [scrapedMetacriticData, setScrapedMetacriticData] = useState('');
+    const [viewRobloxPartners, setViewRobloxPartners] = useState([]);
 
 
     useEffect(() => {
@@ -53,7 +65,6 @@ const Marketplace = () => {
             try {
                 const response1 = await axios.get(AGGamesListAPI1);
                 const agAllGames = response1.data;
-                setViewAllListedGames(agAllGames);
 
                 // Get current year
                 const currentYear = new Date().getFullYear();
@@ -77,12 +88,13 @@ const Marketplace = () => {
 
                 setViewAllGamesNum(agAllGames.length);
                 setViewAGData1(sortedCurrentYearGames);
+                setViewAllListedGames(sortedCurrentYearGames);
+                // console.log(sortedCurrentYearGames);
                 setViewMetacriticData(gameCSFeatMetacritic);
             } catch (error) {
                 console.error(error);
             }
         };
-
         fetchGames();
     }, []);
 
@@ -123,7 +135,6 @@ const Marketplace = () => {
     
                     const wikiDetailsData = wikipediaResponses[index] ? wikipediaResponses[index].data : {};
                     return { metascore, metadescription, release, publisher, ...wikiDetailsData, agData1: viewAGData1[index] };
-                    
                 });
     
                 setLoadingMarketData(true);
@@ -136,8 +147,19 @@ const Marketplace = () => {
         fetchData();
     }, [viewMetacriticData]);
 
-
-
+    useEffect(() => {
+        const fetchRobloxPartners = () => {
+            axios.get(AGGamesRobloxPartners)
+            .then((response) => {
+                const robloxData = response.data.sort((a, b) => b.id - a.id);
+                setViewRobloxPartners(robloxData);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+        fetchRobloxPartners();
+    }, []);
 
 
     return (
@@ -200,7 +222,7 @@ const Marketplace = () => {
                         <div className='mppContentTop' key={i}>
                             <div className='mppctl left'>
                                 <div className='mppctlMetascore'>
-                                    <h4>{details.metascore}</h4>
+                                    <h4>{details.metascore ? details.metascore : 'tbd'}</h4>
                                     <p>Metascore</p>
                                 </div>
                                 <>{details.agData1.game_cover !== '' ?
@@ -208,11 +230,11 @@ const Marketplace = () => {
                                 :<img src={details.originalimage.source} alt="" />}</>
                             </div>
                             <div className="mppctl right">
-                                <h4>{details.title}</h4>
-                                <h6>{details.publisher}</h6>
+                                <h4>{details.title || details.agData1.game_title}</h4>
+                                <h6>{details.publisher || details.agData1.game_developer}</h6>
                                 <p>
-                                    {details.metadescription.slice(0, 300)+ '...'} <br /><br />
-                                    Released Date: {details.release}
+                                    {details.metadescription ? details.metadescription.slice(0, 300)+ '...' : <>No Metacritic and Wikipedia details yet. <br /><br /><br /><br /><br /></>} <br /><br />
+                                    Released Date: {formatDateToWordedDate(details.agData1.game_released)}
                                 </p>
                                 <div>
                                     <button id='viewGameDetails'>VIEW GAME</button>
@@ -326,6 +348,47 @@ const Marketplace = () => {
                         <img src={require('../assets/imgs/GiftCards/RobloxGiftCard.png')} alt="" />
                         <div>
                             <button>View Guide</button>
+                        </div>
+                    </div>
+                </div>
+                <div className="mpPageContentMid5">
+                    <div className="mppcm5Join left">
+                        <h3>HANGOUT AND PLAY WITH US!</h3>
+                        <h6>JOIN OUR PARTNER ROBLOX GAMES AND UNIVERSE</h6>
+                        <div>
+                            <span>
+                                <h4>0</h4>
+                                <p>Influencers</p>
+                            </span>
+                            <span>
+                                <h4>1</h4>
+                                <p>Partners</p>
+                            </span>
+                            <span>
+                                <h4>2</h4>
+                                <p>Developers</p>
+                            </span>
+                            <span>
+                                <h4>1</h4>
+                                <p>Games</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div className="mppcm5Join right">
+                        {viewRobloxPartners.slice(0, 2).map((details, i) => (
+                            <a key={i} className="mppcm5Roblox" href={details.roblox_url} target='blank'>
+                                <img src={details.roblox_cover} alt="" />
+                                <div className='mppcm5RTitle'>
+                                    <h6>{details.roblox_title}</h6>
+                                    <p>
+                                        By {details.roblox_dev} <br />
+                                        {details.roblox_description.slice(0, 50)}
+                                    </p>
+                                </div>
+                            </a>
+                        ))}
+                        <div className='mppcm5RobloxMore'>
+                            {viewRobloxPartners.length > 2 ? <button>View More Games</button> : ''}
                         </div>
                     </div>
                 </div>
