@@ -257,15 +257,19 @@ section.marketplacePageContainer.top h4#mppcth4Title .faIcons{
     font-weight: 600;
     cursor: pointer;
 }
-.mppctl.right div button#viewGameDetails{
+.mppctl.right div button#viewGameDetails,
+.mppctl.right div a#viewGameDetails{
     width: auto;
+    text-decoration: none;
     padding: 3% 8%;
     border-radius: 50px;
     margin-right: 3%;
     border: solid 2px white;
     font-size: 0.7vw;
+    color: white;
 }
-.mppctl.right div button#viewGameDetails:hover{
+.mppctl.right div button#viewGameDetails:hover,
+.mppctl.right div a#viewGameDetails:hover{
     background: white;
     color: black;
     transition: 400ms ease;
@@ -398,8 +402,12 @@ section.marketplacePageContainer.mid{
     width: 100%;
     margin-top: 10%;
 }
-.mppcmGameDetails div button{
+.mppcmGameDetails div a{
+    height: auto;
     width: 100%;
+    display: block;
+    text-decoration: none;
+    text-align: center;
     padding: 2%;
     border-radius: 50px;
     border: solid 2px white;
@@ -409,7 +417,7 @@ section.marketplacePageContainer.mid{
     cursor: pointer;
     font-size: 0.7vw;
 }
-.mppcmGameDetails div button:hover{
+.mppcmGameDetails div a:hover{
     background: white;
     color: black;
     transition: 400ms ease;
@@ -481,19 +489,19 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
 .mppcm2GamePlatform img[platform='PC']{
     content: url('../assets/imgs/GamePlatforms/PCGames.png');
 }
-.mppcm2GamePlatform img[platform='Nintendo Switch']{
+.mppcm2GamePlatform img[platform='NintendoSwitch']{
     content: url('../assets/imgs/GamePlatforms/NintendoSwitch.png');
 }
-.mppcm2GamePlatform img[platform='Xbox X/S']{
+.mppcm2GamePlatform img[platform='XboxXS']{
     content: url('../assets/imgs/GamePlatforms/XboxXS.png');
 }
-.mppcm2GamePlatform img[platform='Xbox One']{
+.mppcm2GamePlatform img[platform='XboxOne']{
     content: url('../assets/imgs/GamePlatforms/XboxOne.png');
 }
-.mppcm2GamePlatform img[platform='PlayStation 4']{
+.mppcm2GamePlatform img[platform='PlayStation4']{
     content: url('../assets/imgs/GamePlatforms/PS4.png');
 }
-.mppcm2GamePlatform img[platform='PlayStation 5']{
+.mppcm2GamePlatform img[platform='PlayStation5']{
     content: url('../assets/imgs/GamePlatforms/PS5.png');
 }
 .mppcm2GameCategory{
@@ -580,7 +588,8 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     align-items: center;
     margin-top: 4%;
 }
-.mppcm2GameDetails div button#mppcm2GDView{
+.mppcm2GameDetails div button#mppcm2GDView,
+.mppcm2GameDetails div a#mppcm2GDView{
     width: 65%;
     padding: 2% 1%;
     border-radius: 50px;
@@ -589,8 +598,11 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     background: none;
     color: white;
     cursor: pointer;
+    text-align: center;
+    text-decoration: none;
 }
-.mppcm2GameDetails div button#mppcm2GDView:hover{
+.mppcm2GameDetails div button#mppcm2GDView:hover,
+.mppcm2GameDetails div a#mppcm2GDView:hover{
     background: white;
     color: black;
     transition: 400ms ease;

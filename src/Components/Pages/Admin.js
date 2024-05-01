@@ -292,6 +292,7 @@ const Admin = () => {
     const agSetGameCode1 = agSetGameTitle.replace(/\s/g, '');
     const agSetGameCode2 = agSetGamePlatform.replace(/\s/g, '');
     const agFullSetGameCode = `AG_${agSetGameCode1}_${agSetGameCode2}`;
+    const agGameCanonical = agSetGameCode1 + agSetGamePlatform;
     const MAX_PAYLOAD_SIZE = 5 * 1024 * 1024;
 
     const handleAddGame = async (e) => {
@@ -301,6 +302,7 @@ const Admin = () => {
             agGameCode: agFullSetGameCode,
             agGameCover: agSetGameCover,
             agGameTitle: agSetGameTitle,
+            agGameCanonical: agGameCanonical,
             agGameEdition: agSetGameEdition,
             agGameCountry: agSetGameCountry,
             agGameDeveloper: agSetGameDeveloper,
@@ -642,13 +644,13 @@ const Admin = () => {
                                                 <label htmlFor=""><p>Platform</p></label>
                                                 <select name="" id="" value={agSetGamePlatform} onChange={(e) => setAGSetGamePlatform(e.target.value)} required>
                                                     <option value="">Select Platform</option>
-                                                    <option value="Mobile App">Mobile Games</option>
+                                                    <option value="MobileApp">Mobile Games</option>
                                                     <option value="PC">PC Games</option>
-                                                    <option value="Nintendo Switch">Nintendo Switch Games</option>
-                                                    <option value="Xbox X/S">Xbox X/S Games</option>
-                                                    <option value="Xbox One">Xbox One Games</option>
-                                                    <option value="PlayStation 4">PS4 Games</option>
-                                                    <option value="PlayStation 5">PS5 Games</option>
+                                                    <option value="NintendoSwitch">Nintendo Switch Games</option>
+                                                    <option value="XboxXS">Xbox X/S Games</option>
+                                                    <option value="XboxOne">Xbox One Games</option>
+                                                    <option value="PlayStation4">PS4 Games</option>
+                                                    <option value="PlayStation5">PS5 Games</option>
                                                 </select>
                                             </span>
                                         </div>

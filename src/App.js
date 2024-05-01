@@ -12,6 +12,7 @@ import Profile from './Components/Pages/Profile';
 import Loader from './Components/Pages/Loader';
 import Home from './Components/Pages/Home'
 import Marketplace from './Components/Pages/Marketplace';
+import Game from './Components/Pages/Game';
 
 
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -110,6 +111,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home/>}/>
           <Route exact path="/Marketplace" element={<Marketplace/>}/>
+          <Route exact path="/Games/:gameCanonical" element={<Game/>}/>
           <Route exact path="/Profile" element={<Profile/>}/>
           {viewAdminCredentials && <Route path="/Admin" element={<Admin/>}/>}
           {/* <Route path="/Admin" element={<Admin/>}/> */}
@@ -117,7 +119,7 @@ function App() {
 
 
 
-          <Route path="*" element={<Home/>}/>
+          {/* <Route path="*" element={<Home/>}/> */}
         </Routes>
         {/* <Footer /> */}
       </>}

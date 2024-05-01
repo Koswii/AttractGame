@@ -1,0 +1,165 @@
+import React, { useEffect, useState, useRef } from 'react'
+import "../CSS/game.css";
+import { useParams } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { 
+    FaSearch,
+    FaGamepad,
+    FaBolt,
+    FaTicketAlt,
+    FaGem,
+    FaFire,
+    FaStar,     
+    FaFacebookSquare,
+    FaBitcoin 
+} from 'react-icons/fa';
+import { 
+    FaRankingStar 
+} from "react-icons/fa6";
+import { 
+    TbShoppingCartBolt, 
+    TbDeviceGamepad2,
+    TbGiftCard,
+    TbHeart,
+    TbHeartFilled,
+    TbTrendingUp,
+    TbAwardFilled,
+    TbCampfireFilled,
+    TbCalendarStar,
+    TbSquareRoundedArrowRight,      
+} from "react-icons/tb";
+import { 
+    MdOutlineFiberNew,
+    MdDiscount 
+} from "react-icons/md";
+import axios from 'axios';
+
+const formatDateToWordedDate = (numberedDate) => {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const date = new Date(numberedDate);
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    
+    return `${month} ${day}, ${year}`;
+}
+
+
+const Game = () => {
+    const { gameCanonical } = useParams();
+    const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
+    const [viewAGData1, setViewAGData1] = useState([]);
+    const [viewWikiData, setViewWikiData] = useState([]);
+    const [viewMetacriticData, setViewMetacriticData] = useState([]);
+    const [loadingMarketData, setLoadingMarketData] = useState(false);
+    const [scrapedMetacriticData, setScrapedMetacriticData] = useState('');
+
+    useEffect(() => {
+        const fetchGameData = async () => {
+            try {
+                const response = await axios.get(AGGamesListAPI1);
+                const agGameData = response.data.find(game => game.game_canonical === gameCanonical);
+                const gameCSFeatMetacritic = agGameData.game_title.toLowerCase().replace(/\s/g, '-');
+                const gameCSFeatWikipedia = agGameData.game_title_ext1.replace(/\s/g, '_') || agGameData.game_title.replace(/\s/g, '_');
+                setViewAGData1(agGameData);
+                setViewMetacriticData(gameCSFeatMetacritic);
+                setViewWikiData(gameCSFeatWikipedia);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchGameData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Fetch details for a single game from Wikipedia
+                const wikipediaUrl = await axios.get(`https://engeenx.com/proxyWikipedia.php?game=${viewWikiData}`);
+                const wikipediaResponse = wikipediaUrl.data;
+
+                const metacriticUrls = await axios.get(`https://engeenx.com/proxyMetacritic.php?game=${viewMetacriticData}/`);
+                const html = metacriticUrls.data;
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const targetElementMetaScore = doc.querySelector('.c-siteReviewScore');
+                const targetElementDescription = doc.querySelector('.c-productionDetailsGame_description');
+                const targetElementReleaseDate = doc.querySelector('.c-gameDetails_ReleaseDate .g-outer-spacing-left-medium-fluid');
+                const targetElementPublisher = doc.querySelector('.c-gameDetails_Distributor .g-outer-spacing-left-medium-fluid');
+                const targetElementGenre = doc.querySelector('.c-genreList .c-genreList_item .c-globalButton .c-globalButton_container .c-globalButton_label');
+
+                const metascore = targetElementMetaScore ? targetElementMetaScore.textContent.trim() : '';
+                const metadescription = targetElementDescription ? targetElementDescription.textContent.trim() : '';
+                const release = targetElementReleaseDate ? targetElementReleaseDate.textContent.trim() : 'To Be Announced';
+                const publisher = targetElementPublisher ? targetElementPublisher.textContent.trim() : '';
+                const genre = targetElementGenre ? targetElementGenre.textContent.trim() : '';
+
+                const combinedMetaWikiData = {...wikipediaResponse, ...viewAGData1, metascore, metadescription, release, publisher, genre,}
+
+                if(combinedMetaWikiData.genre === "" && combinedMetaWikiData.title === "Not found."){
+                    setLoadingMarketData(false)
+                }else{
+                    setScrapedMetacriticData(combinedMetaWikiData);
+                    setLoadingMarketData(true)
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        
+        fetchData();
+    }, [viewMetacriticData, viewWikiData]);
+    
+
+
+    return (
+        <div className='mainContainer gameProfile'>
+            <section className="gamePageContainer top">
+                {!loadingMarketData ? <div className="gpPageContentTop">
+                    <div className="gppctGameDetails loading">
+                        <div className="loader"></div>
+                    </div>
+                </div>:
+                <div className="gpPageContentTop">
+                    <div className="gppctGameDetails left">
+                        <div className="gppctgdMetacritic">
+                            <h3>{scrapedMetacriticData.metascore ? scrapedMetacriticData.metascore : 'tbd'}</h3>
+                            <p>Metascore</p>
+                        </div>
+                        <div className="gppctgdCategory">
+                            <h5>
+                                {(scrapedMetacriticData.game_category === 'Trending') && <><TbTrendingUp className={`faIcons ${(scrapedMetacriticData.game_category === 'Trending') ? 'Trending' : ''}`}/> TRENDING</>}
+                                {(scrapedMetacriticData.game_category === 'Hot') && <><TbCampfireFilled className={`faIcons ${(scrapedMetacriticData.game_category === 'Hot') ? 'Hot' : ''}`}/> HOT</>}
+                                {(scrapedMetacriticData.game_category === 'Classic') && <><TbAwardFilled className={`faIcons ${(scrapedMetacriticData.game_category === 'Classic') ? 'Classic' : ''}`}/> CLASSIC</>}
+                                {(scrapedMetacriticData.game_category === 'Preorder') && <><TbCalendarStar className={`faIcons ${(scrapedMetacriticData.game_category === 'Preorder') ? 'Preorder' : ''}`}/> PREORDER</>}
+                            </h5>
+                        </div>
+                        <>{scrapedMetacriticData.game_cover !== '' ?
+                        <img src={`https://engeenx.com/GameCovers/${scrapedMetacriticData.game_cover}`} alt="" />
+                        :<img src={scrapedMetacriticData.originalimage.source} alt="" />}</>
+                    </div>
+                    <div className="gppctGameDetails right">
+                        <h3>{scrapedMetacriticData.game_title}</h3>
+                        <div className='gppctgdrDetails'>
+                            {scrapedMetacriticData.game_edition ? <h6>{scrapedMetacriticData.game_edition}</h6> : <></>}
+                            {scrapedMetacriticData.game_platform ? <h6>{scrapedMetacriticData.game_platform ? scrapedMetacriticData.game_platform + ' Game' : ''}</h6> : <></>}
+                            {scrapedMetacriticData.game_developer ? <h6>{scrapedMetacriticData.game_developer}</h6> : <></>}
+                            {scrapedMetacriticData.publisher ? <h6>{scrapedMetacriticData.publisher}</h6> : <></>}
+                            {scrapedMetacriticData.genre ? <h6>{scrapedMetacriticData.genre}</h6> : <></>}
+                        </div>
+                        <h5>GAME RELEASED: {scrapedMetacriticData.game_released ? formatDateToWordedDate(scrapedMetacriticData.game_released) : '-'}</h5>
+                        <div className="gppctgdrMetacritic">
+                            <p>{scrapedMetacriticData.metadescription ? <>{scrapedMetacriticData.metadescription.slice(0, 300)+ '...'}</> : <>No Metacritic and Wikipedia details yet. <br /><br /><br /><br /><br /></>}</p>
+                            <div>
+                                {scrapedMetacriticData.metadescription ? <a href={`https://www.metacritic.com/game/${viewMetacriticData}/`} target='blank'>View Metacritic</a> : <></>}
+                                {scrapedMetacriticData.extract ? <a href={`https://en.wikipedia.org/wiki/${viewWikiData}`} target='blank'>View Wikipedia</a> : <></>}
+                            </div>
+                        </div>
+                    </div>
+                </div>}
+            </section>
+        </div>
+    )
+}
+
+export default Game

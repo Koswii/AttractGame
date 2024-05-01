@@ -85,12 +85,14 @@ const Marketplace = () => {
                 });
 
                 const gameCSFeatMetacritic = sortedCurrentYearGames.map(game => game.game_title.toLowerCase().replace(/\s/g, '-'));
+                const gameCSFeatWikipedia = sortedCurrentYearGames.map(game => game.game_title_ext1.replace(/\s/g, '_') || game.game_title.replace(/\s/g, '_'));
 
                 setViewAllGamesNum(agAllGames.length);
                 setViewAGData1(sortedCurrentYearGames);
                 setViewAllListedGames(sortedCurrentYearGames);
                 // console.log(sortedCurrentYearGames);
                 setViewMetacriticData(gameCSFeatMetacritic);
+                setViewWikiData(gameCSFeatWikipedia)
             } catch (error) {
                 console.error(error);
             }
@@ -101,22 +103,13 @@ const Marketplace = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                setLoadingMarketData(false);
-    
                 // Combine all Metacritic URLs into one request
                 const metacriticUrls = viewMetacriticData.map(game => `https://engeenx.com/proxyMetacritic.php?game=${game}/`);
                 const metacriticResponses = await Promise.all(metacriticUrls.map(url => axios.get(url)));
     
                 // Combine all Wikipedia URLs into one request
-                const wikipediaUrls = metacriticResponses.map(response => {
-                    const html = response.data;
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-                    const targetElementTitle = doc.querySelector('.c-productHero_title');
-                    return targetElementTitle ? `https://engeenx.com/proxyWikipedia.php?game=${encodeURIComponent(targetElementTitle.textContent.trim().replace(/\s/g, '_'))}` : null;
-                });
-    
-                const wikipediaResponses = await Promise.all(wikipediaUrls.map(url => url ? axios.get(url) : Promise.resolve(null)));
+                const wikipediaUrls = viewWikiData.map(game => `https://engeenx.com/proxyWikipedia.php?game=${game}`);
+                const wikipediaResponses = await Promise.all(wikipediaUrls.map(url => axios.get(url)));
     
                 // Combine Metacritic and Wikipedia data
                 const combinedData = metacriticResponses.map((metacriticResponse, index) => {
@@ -127,25 +120,31 @@ const Marketplace = () => {
                     const targetElementDescription = doc.querySelector('.c-productionDetailsGame_description');
                     const targetElementReleaseDate = doc.querySelector('.c-gameDetails_ReleaseDate .g-outer-spacing-left-medium-fluid');
                     const targetElementPublisher = doc.querySelector('.c-gameDetails_Distributor .g-outer-spacing-left-medium-fluid');
+                    const targetElementGenre = doc.querySelector('.c-genreList .c-genreList_item .c-globalButton .c-globalButton_container .c-globalButton_label');
     
                     const metascore = targetElementMetaScore ? targetElementMetaScore.textContent.trim() : '';
                     const metadescription = targetElementDescription ? targetElementDescription.textContent.trim() : '';
                     const release = targetElementReleaseDate ? targetElementReleaseDate.textContent.trim() : 'To Be Announced';
                     const publisher = targetElementPublisher ? targetElementPublisher.textContent.trim() : '';
+                    const genre = targetElementGenre ? targetElementGenre.textContent.trim() : '';
     
                     const wikiDetailsData = wikipediaResponses[index] ? wikipediaResponses[index].data : {};
-                    return { metascore, metadescription, release, publisher, ...wikiDetailsData, agData1: viewAGData1[index] };
+                    return { metascore, metadescription, release, publisher, genre, ...wikiDetailsData, agData1: viewAGData1[index] };
                 });
     
-                setLoadingMarketData(true);
-                setScrapedMetacriticData(combinedData);
+                if(combinedData.length == 0){
+                    setLoadingMarketData(false);
+                }else{
+                    setLoadingMarketData(true);
+                    setScrapedMetacriticData(combinedData.slice(0, 7));
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
     
         fetchData();
-    }, [viewMetacriticData]);
+    }, [viewMetacriticData, viewWikiData]);
 
     useEffect(() => {
         const fetchRobloxPartners = () => {
@@ -230,14 +229,14 @@ const Marketplace = () => {
                                 :<img src={details.originalimage.source} alt="" />}</>
                             </div>
                             <div className="mppctl right">
-                                <h4>{details.title || details.agData1.game_title}</h4>
+                                <h4>{details.agData1.game_title || details.title}</h4>
                                 <h6>{details.publisher || details.agData1.game_developer}</h6>
                                 <p>
                                     {details.metadescription ? details.metadescription.slice(0, 300)+ '...' : <>No Metacritic and Wikipedia details yet. <br /><br /><br /><br /><br /></>} <br /><br />
                                     Released Date: {formatDateToWordedDate(details.agData1.game_released)}
                                 </p>
                                 <div>
-                                    <button id='viewGameDetails'>VIEW GAME</button>
+                                    <Link id='viewGameDetails' to={`/Games/${details.agData1.game_canonical}`} key={i}>VIEW GAME</Link>
                                     <button id='addToFavorite'><TbHeart className='faIcons'/></button>
                                     <button id='addToFavorite'><TbShoppingCartBolt className='faIcons'/></button>
                                 </div>
@@ -266,7 +265,7 @@ const Marketplace = () => {
                         </div>
                     </>:<>
                         {scrapedMetacriticData.slice(2, 7).map((details, i) => (
-                        <div className="mppContentMid1">
+                        <div className="mppContentMid1" key={i}>
                             <div className="mppcmMetascore">
                                 <h4>{details.metascore}</h4>
                                 <p>Metascore</p>
@@ -284,7 +283,7 @@ const Marketplace = () => {
                                     {details.metadescription.slice(0, 100)+ '...'}
                                 </p>
                                 <div>
-                                    <button>View Game</button>
+                                    <Link to={`/Games/${details.agData1.game_canonical}`}>View Game</Link>
                                 </div>
                             </div>
                         </div>
@@ -319,7 +318,7 @@ const Marketplace = () => {
                             <h5>{details.game_title}</h5>
                             <p>{details.game_edition}</p>
                             <div>
-                                <button id='mppcm2GDView'>View Game</button>
+                                <Link id='mppcm2GDView' to={`/Games/${details.game_canonical}`}>View Game</Link>
                                 <button id='mppcm2GDHeart'><TbHeart className='faIcons'/></button>
                                 <button id='mppcm2GDCart'><TbShoppingCartBolt className='faIcons'/></button>
                             </div>
@@ -361,7 +360,7 @@ const Marketplace = () => {
                                 <p>Influencers</p>
                             </span>
                             <span>
-                                <h4>1</h4>
+                                <h4>{viewRobloxPartners.length}</h4>
                                 <p>Partners</p>
                             </span>
                             <span>
@@ -369,7 +368,7 @@ const Marketplace = () => {
                                 <p>Developers</p>
                             </span>
                             <span>
-                                <h4>1</h4>
+                                <h4>{viewRobloxPartners.length}</h4>
                                 <p>Games</p>
                             </span>
                         </div>
