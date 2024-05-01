@@ -200,6 +200,7 @@ const Nav = () => {
     localStorage.removeItem('agAdminLoggedIn');
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('attractGameUsername');
+    localStorage.removeItem('featuredGameData');
     window.location.href = '/';
   };
   useEffect(() => {

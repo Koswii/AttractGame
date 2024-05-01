@@ -103,40 +103,51 @@ const Marketplace = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Combine all Metacritic URLs into one request
-                const metacriticUrls = viewMetacriticData.map(game => `https://engeenx.com/proxyMetacritic.php?game=${game}/`);
-                const metacriticResponses = await Promise.all(metacriticUrls.map(url => axios.get(url)));
-    
-                // Combine all Wikipedia URLs into one request
-                const wikipediaUrls = viewWikiData.map(game => `https://engeenx.com/proxyWikipedia.php?game=${game}`);
-                const wikipediaResponses = await Promise.all(wikipediaUrls.map(url => axios.get(url)));
-    
-                // Combine Metacritic and Wikipedia data
-                const combinedData = metacriticResponses.map((metacriticResponse, index) => {
-                    const html = metacriticResponse.data;
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-                    const targetElementMetaScore = doc.querySelector('.c-siteReviewScore');
-                    const targetElementDescription = doc.querySelector('.c-productionDetailsGame_description');
-                    const targetElementReleaseDate = doc.querySelector('.c-gameDetails_ReleaseDate .g-outer-spacing-left-medium-fluid');
-                    const targetElementPublisher = doc.querySelector('.c-gameDetails_Distributor .g-outer-spacing-left-medium-fluid');
-                    const targetElementGenre = doc.querySelector('.c-genreList .c-genreList_item .c-globalButton .c-globalButton_container .c-globalButton_label');
-    
-                    const metascore = targetElementMetaScore ? targetElementMetaScore.textContent.trim() : '';
-                    const metadescription = targetElementDescription ? targetElementDescription.textContent.trim() : '';
-                    const release = targetElementReleaseDate ? targetElementReleaseDate.textContent.trim() : 'To Be Announced';
-                    const publisher = targetElementPublisher ? targetElementPublisher.textContent.trim() : '';
-                    const genre = targetElementGenre ? targetElementGenre.textContent.trim() : '';
-    
-                    const wikiDetailsData = wikipediaResponses[index] ? wikipediaResponses[index].data : {};
-                    return { metascore, metadescription, release, publisher, genre, ...wikiDetailsData, agData1: viewAGData1[index] };
-                });
-    
-                if(combinedData.length == 0){
-                    setLoadingMarketData(false);
-                }else{
+                const storedGameData = localStorage.getItem('featuredGameData');
+
+                if (storedGameData) {
+                    // If data is already stored in localStorage, use it directly
+                    const parsedData = JSON.parse(storedGameData);
+                    setScrapedMetacriticData(parsedData);
                     setLoadingMarketData(true);
-                    setScrapedMetacriticData(combinedData.slice(0, 7));
+
+                }else {
+                    const metacriticUrls = viewMetacriticData.map(game => `https://engeenx.com/proxyMetacritic.php?game=${game}/`);
+                    const metacriticResponses = await Promise.all(metacriticUrls.map(url => axios.get(url)));
+        
+                    // Combine all Wikipedia URLs into one request
+                    const wikipediaUrls = viewWikiData.map(game => `https://engeenx.com/proxyWikipedia.php?game=${game}`);
+                    const wikipediaResponses = await Promise.all(wikipediaUrls.map(url => axios.get(url)));
+        
+                    // Combine Metacritic and Wikipedia data
+                    const combinedData = metacriticResponses.map((metacriticResponse, index) => {
+                        const html = metacriticResponse.data;
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const targetElementMetaScore = doc.querySelector('.c-siteReviewScore');
+                        const targetElementDescription = doc.querySelector('.c-productionDetailsGame_description');
+                        const targetElementReleaseDate = doc.querySelector('.c-gameDetails_ReleaseDate .g-outer-spacing-left-medium-fluid');
+                        const targetElementPublisher = doc.querySelector('.c-gameDetails_Distributor .g-outer-spacing-left-medium-fluid');
+                        const targetElementGenre = doc.querySelector('.c-genreList .c-genreList_item .c-globalButton .c-globalButton_container .c-globalButton_label');
+        
+                        const metascore = targetElementMetaScore ? targetElementMetaScore.textContent.trim() : '';
+                        const metadescription = targetElementDescription ? targetElementDescription.textContent.trim() : '';
+                        const release = targetElementReleaseDate ? targetElementReleaseDate.textContent.trim() : 'To Be Announced';
+                        const publisher = targetElementPublisher ? targetElementPublisher.textContent.trim() : '';
+                        const genre = targetElementGenre ? targetElementGenre.textContent.trim() : '';
+        
+                        const wikiDetailsData = wikipediaResponses[index] ? wikipediaResponses[index].data : {};
+                        return { metascore, metadescription, release, publisher, genre, ...wikiDetailsData, agData1: viewAGData1[index] };
+                    });
+        
+                    if(combinedData.length == 0){
+                        setLoadingMarketData(false);
+                    }else{
+                        setLoadingMarketData(true);
+                        setScrapedMetacriticData(combinedData.slice(0, 7));
+                        const combineDataJSON = JSON.stringify(combinedData.slice(0, 7));
+                        localStorage.setItem('featuredGameData', combineDataJSON);
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
