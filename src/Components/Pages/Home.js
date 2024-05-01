@@ -19,14 +19,60 @@ import {
   FaTwitch 
 } from "react-icons/fa6";
 import { 
+  TbShoppingCartBolt, 
+  TbDeviceGamepad2,
+  TbGiftCard,
+  TbHeart,
+  TbHeartFilled,
+  TbTrendingUp,
+  TbAwardFilled,
+  TbCampfireFilled,
+  TbCalendarStar,
+  TbSquareRoundedArrowRight, 
   TbGiftCardFilled 
 } from "react-icons/tb";
+import axios from 'axios';
 
 
 
 const Home = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
+  const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
+  const [viewAllGamesNum, setViewAllGamesNum] = useState([]);
+  const [viewAGData1, setViewAGData1] = useState([]);
 
+
+  useEffect(() => {
+      const fetchDataGames = async () => {
+          try {
+              const response1 = await axios.get(AGGamesListAPI1);
+              const agAllGames = response1.data;
+
+              // Get current year
+              const currentYear = new Date().getFullYear();
+              // Filter games based on the current year
+              const currentYearGames = agAllGames.filter(game => {
+                  const gameDate = new Date(game.game_released);
+                  return gameDate.getFullYear() === currentYear;
+              });
+
+              // Sort the games by release month and year
+              const sortedCurrentYearGames = currentYearGames.sort((a, b) => {
+                  const dateA = new Date(a.game_released);
+                  const dateB = new Date(b.game_released);
+                  if (dateA.getFullYear() === dateB.getFullYear()) {
+                      return dateB.getMonth() - dateA.getMonth(); // Sort by month if years are the same
+                  }
+                  return dateB.getFullYear() - dateA.getFullYear(); // Sort by year
+              });
+              setViewAllGamesNum(agAllGames.length);
+              setViewAGData1(sortedCurrentYearGames.slice(0, 10));
+          } catch (error) {
+              console.error(error);
+          }
+      };
+      fetchDataGames();
+  }, []);
   
   
   
@@ -85,76 +131,17 @@ const Home = () => {
         <div className="lndPageContent mid3">
           <h4><FaFire className='faIcons'/>FEATURED GAMES</h4>
           <div className="lndpcFeaturedGames">
-            <div>
-              <h6><FaFire className='faIcons'/></h6>
-              <img src={require('../assets/imgs/GameBanners/ALONE IN THE DARK.png')} alt="" />
-              <span>
-                <h5>$ 999</h5>
-              </span>
-            </div>
-            <div>
-              <h6><FaFire className='faIcons'/></h6>
-              <img src={require('../assets/imgs/GameBanners/HELL DIVERS.png')} alt="" />
-              <span>
-                <h5>$ 999</h5>
-              </span>
-            </div>
-            <div>
-              <h6><FaFire className='faIcons'/></h6>
-              <img src={require('../assets/imgs/GameBanners/HOGWARTS LEGACY.png')} alt="" />
-              <span>
-                <h5>$ 999</h5>
-              </span>
-            </div>
-            <div>
-              <h6><FaFire className='faIcons'/></h6>
-              <img src={require('../assets/imgs/GameBanners/OCTOPATH TRAVELER.png')} alt="" />
-              <span>
-                <h5>$ 999</h5>
-              </span>
-            </div>
-            <div>
-              <h6><FaFire className='faIcons'/></h6>
-              <img src={require('../assets/imgs/GameBanners/OUTCAST BEGINNING.png')} alt="" />
-              <span>
-                <h5>$ 999</h5>
-              </span>
-            </div>
-            <div>
-              <h6><FaFire className='faIcons'/></h6>
-              <img src={require('../assets/imgs/GameBanners/PERSONA 4.png')} alt="" />
-              <span>
-                <h5>$ 999</h5>
-              </span>
-            </div>
-            <div>
-              <h6><FaFire className='faIcons'/></h6>
-              <img src={require('../assets/imgs/GameBanners/SKULL AND BONES.png')} alt="" />
-              <span>
-                <h5>$ 999</h5>
-              </span>
-            </div>
-            <div>
-              <h6><FaFire className='faIcons'/></h6>
-              <img src={require('../assets/imgs/GameBanners/SPIDERMAN MILES MORALES.png')} alt="" />
-              <span>
-                <h5>$ 999</h5>
-              </span>
-            </div>
-            <div>
-              <h6><FaFire className='faIcons'/></h6>
-              <img src={require('../assets/imgs/GameBanners/SUICIDE SQUAD.png')} alt="" />
-              <span>
-                <h5>$ 999</h5>
-              </span>
-            </div>
-            <div>
-              <h6><FaFire className='faIcons'/></h6>
-              <img src={require('../assets/imgs/GameBanners/TEKKEN 8.png')} alt="" />
-              <span>
-                <h5>$ 999</h5>
-              </span>
-            </div>
+            {viewAGData1.map((details, i) => (
+            <div className='lndpcfgames' key={i}>
+              <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="" />
+              <div className='lndpcfgDetails'>
+                <h6>{details.game_title}</h6>
+                <p>{details.game_developer}</p>
+              </div>
+              <div className="lndpcfgPlatform">
+                <img platform={details.game_platform} src="" alt="" />
+              </div>
+            </div>))}
           </div>
         </div>
         <div className="lndPageContent mid4">
@@ -178,7 +165,7 @@ const Home = () => {
         <div className="lndPageContent mid5">
           <div className="lndpcGameListed">
             <span>
-              <h3>300+</h3>
+              <h3>{viewAllGamesNum}</h3>
               <h6>LISTED GAMES</h6>
             </span>
             <span>

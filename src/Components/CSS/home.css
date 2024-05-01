@@ -221,7 +221,7 @@ section.landingPageContainer.mid{
     flex-wrap: wrap;
     margin: 2% 0;
 }
-.lndpcFeaturedGames div{
+.lndpcfgames{
     height: auto;
     width: 19%;
     overflow: hidden;
@@ -234,42 +234,86 @@ section.landingPageContainer.mid{
     justify-content: center;
     align-items: center;
 }
-.lndpcFeaturedGames div:hover{
+.lndpcfgames:hover{
     transform: translateY(-10px);
     transition: 400ms ease;
     box-shadow: 0 0 10px white;
 }
-.lndpcFeaturedGames div img{
+.lndpcfgames:hover .lndpcfgDetails{
+    opacity: 1;
+    transition: 400ms ease;
+}
+.lndpcfgames img{
     height: auto;
     width: 100%;
     border-radius: 1vw;
 }
-.lndpcFeaturedGames div h6{
-    position: absolute;
-    top: 5%;
-    left: 5%;
-    color: red;
-    font-size: 1.5vw;
-}
-.lndpcFeaturedGames div span{
+.lndpcfgDetails{
     height: auto;
-    width: 50%;
-    background: rgba(225, 225, 225, 0.5);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 8%;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    position: absolute;
-    bottom: 5%;
-    left: 0;
-    padding: 5%;
-    border-top-right-radius: 0.5vw;
-    border-bottom-right-radius: 0.5vw;
-    box-shadow: 0 0 10px black;
+    opacity: 0;
+}
+.lndpcfgDetails h6{
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.lndpcFeaturedGames div span h5{
-    color: black;
+.lndpcfgDetails p{
+    text-align: center;
+    font-size: 0.7vw;
+    margin-top: 2%;
 }
+.lndpcfgPlatform{
+    height: auto;
+    position: absolute;
+    top: 0.5vw;
+    left: 0.5vw;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5vw;
+}
+.lndpcfgPlatform img{
+    height: 3vw;
+    border-radius: 0;
+}
+.lndpcfgPlatform img[platform='PC']{
+    content: url('../assets/imgs/GamePlatforms/PCGames.png');
+}
+.lndpcfgPlatform img[platform='NintendoSwitch']{
+    content: url('../assets/imgs/GamePlatforms/NintendoSwitch.png');
+}
+.lndpcfgPlatform img[platform='XboxXS']{
+    content: url('../assets/imgs/GamePlatforms/XboxXS.png');
+}
+.lndpcfgPlatform img[platform='XboxOne']{
+    content: url('../assets/imgs/GamePlatforms/XboxOne.png');
+}
+.lndpcfgPlatform img[platform='PlayStation4']{
+    content: url('../assets/imgs/GamePlatforms/PS4.png');
+}
+.lndpcfgPlatform img[platform='PlayStation5']{
+    content: url('../assets/imgs/GamePlatforms/PS5.png');
+}
+
+
+
+
+
 
 
 .lndPageContent.mid4{
