@@ -334,7 +334,7 @@ const Marketplace = () => {
                     </Link>
                     ))}
                 </div>
-                <div className="mpPageContentMid3">
+                {/* <div className="mpPageContentMid3">
                     <Link className="mppcm3TrendingGames">
                         <h5><TbTrendingUp className='faIcons'/>TRENDING GAMES</h5>
                     </Link>
@@ -344,7 +344,7 @@ const Marketplace = () => {
                     <Link className="mppcm3ClassicGames">
                         <h5><TbAwardFilled className='faIcons'/>CLASSIC GAMES</h5>
                     </Link>
-                </div>
+                </div> */}
                 <div className="mpPageContentM2ShowMore">
                     <Link to='/Games'><TbSquareRoundedArrowRight className='faIcons'/> View {viewAllGamesNum - 15} More Games</Link>
                 </div>
