@@ -33,6 +33,7 @@ import {
     MdDiscount 
 } from "react-icons/md";
 import axios from 'axios';
+import YouTubeEmbed from './YouTubeEmbed';
 
 const formatDateToWordedDate = (numberedDate) => {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -53,6 +54,7 @@ const Game = () => {
     const [viewMetacriticData, setViewMetacriticData] = useState([]);
     const [loadingMarketData, setLoadingMarketData] = useState(false);
     const [scrapedMetacriticData, setScrapedMetacriticData] = useState('');
+    const [viewGameTrailer, setViewGameTrailer] = useState('');
 
     useEffect(() => {
         const fetchGameData = async () => {
@@ -94,13 +96,15 @@ const Game = () => {
                 const publisher = targetElementPublisher ? targetElementPublisher.textContent.trim() : '';
                 const genre = targetElementGenre ? targetElementGenre.textContent.trim() : '';
 
-                const combinedMetaWikiData = {...wikipediaResponse, ...viewAGData1, metascore, metadescription, release, publisher, genre,}
+                const combinedMetaWikiData = {...wikipediaResponse, ...viewAGData1, metascore, metadescription, release, publisher, genre}
 
                 if(combinedMetaWikiData.genre === "" && combinedMetaWikiData.title === "Not found."){
-                    setLoadingMarketData(false)
+                    setLoadingMarketData(false);
                 }else{
                     setScrapedMetacriticData(combinedMetaWikiData);
-                    setLoadingMarketData(true)
+                    // console.log(combinedMetaWikiData);
+                    setLoadingMarketData(true);
+                    setViewGameTrailer(combinedMetaWikiData.game_trailer);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -109,7 +113,7 @@ const Game = () => {
         
         fetchData();
     }, [viewMetacriticData, viewWikiData]);
-    
+    const videoUrl = viewGameTrailer;
 
 
     return (
@@ -136,7 +140,7 @@ const Game = () => {
                         </div>
                         <>{scrapedMetacriticData.game_cover !== '' ?
                         <img src={`https://engeenx.com/GameCovers/${scrapedMetacriticData.game_cover}`} alt="" />
-                        :<img src={scrapedMetacriticData.originalimage.source} alt="" />}</>
+                        :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}</>
                     </div>
                     <div className="gppctGameDetails right">
                         <h3>{scrapedMetacriticData.game_title}</h3>
@@ -157,6 +161,39 @@ const Game = () => {
                         </div>
                     </div>
                 </div>}
+            </section>
+            <section className="gamePageContainer mid">
+                <div className="gpPageContentMid1">
+                    <div className="gppcm1Container left">
+                        <YouTubeEmbed videoUrl={videoUrl} />
+                    </div>
+                    <div className="gppcm1Container right">
+                        <h4>LATEST REVIEWS <span>3 Reviews</span></h4>
+                        <hr />
+                        <div className='gppcm1crReviews'>
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum 
+                                has been the industry's standard dummy text ever since the 1500s, when an unknown printer
+                            </p>
+                            <h6>Koswi <span>Jan 24, 2024</span></h6>
+                        </div>
+                        <div className='gppcm1crReviews'>
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum 
+                                has been the industry's standard dummy text ever since the 1500s, when an unknown printer
+                            </p>
+                            <h6>Koswi <span>Jan 24, 2024</span></h6>
+                        </div>
+                        <div className='gppcm1crReviews'>
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum 
+                                has been the industry's standard dummy text ever since the 1500s, when an unknown printer
+                            </p>
+                            <h6>Koswi <span>Jan 24, 2024</span></h6>
+                        </div>
+                        <button>ADD GAME REVIEW</button>
+                    </div>
+                </div>
             </section>
         </div>
     )

@@ -373,7 +373,7 @@ section.marketplacePageContainer.mid{
 .mppcmGameDetails{
     height: auto;
     width: 100%;
-    padding: 3% 5%;
+    padding: 5%;
     border-radius: 0.5vw;
     position: absolute;
     bottom: 0;
@@ -473,7 +473,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     position: absolute;
     top: 0.5vw;
     left: 0.5vw;
-    padding: 5%;
+    padding: 3%;
     border-radius: 0.5vw;
     background: rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 10px black;
@@ -484,7 +484,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     align-items: center;
 }
 .mppcm2GamePlatform img{
-    height: 2vw;
+    height: 3vw;
 }
 .mppcm2GamePlatform img[platform='PC']{
     content: url('../assets/imgs/GamePlatforms/PCGames.png');
@@ -588,24 +588,20 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     align-items: center;
     margin-top: 4%;
 }
-.mppcm2GameDetails div button#mppcm2GDView,
-.mppcm2GameDetails div a#mppcm2GDView{
+.mppcm2GameDetails div #mppcm2GDView{
     width: 65%;
-    padding: 2% 1%;
+    margin: 0;
     border-radius: 50px;
-    border: solid 2px white;
-    font-size: 0.7vw;
     background: none;
+    border: solid 2px white;
     color: white;
     cursor: pointer;
     text-align: center;
-    text-decoration: none;
+    justify-content: center;
 }
-.mppcm2GameDetails div button#mppcm2GDView:hover,
-.mppcm2GameDetails div a#mppcm2GDView:hover{
-    background: white;
-    color: black;
-    transition: 400ms ease;
+.mppcm2GameDetails div #mppcm2GDView h5{
+    line-height: 1vw;
+    font-size: 1vw;
 }
 .mppcm2GameDetails div button#mppcm2GDHeart,
 .mppcm2GameDetails div button#mppcm2GDCart{

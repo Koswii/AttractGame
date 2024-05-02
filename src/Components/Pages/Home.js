@@ -133,7 +133,9 @@ const Home = () => {
           <div className="lndpcFeaturedGames">
             {viewAGData1.map((details, i) => (
             <div className='lndpcfgames' key={i}>
-              <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="" />
+              {details.game_cover ?
+                <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="" />
+                :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}
               <div className='lndpcfgDetails'>
                 <h6>{details.game_title}</h6>
                 <p>{details.game_developer}</p>

@@ -36,10 +36,10 @@ h6{
 
 
 section.gamePageContainer.top{
-    height: 100vh;
+    height: auto;
     width: 100%;
     padding: 0 10%;
-    padding-top: 4vw;
+    padding-top: 7vw;
     background: 
         linear-gradient(transparent, black 80%),
         url('../assets/imgs/13551.png') no-repeat center;
@@ -151,7 +151,8 @@ section.gamePageContainer.top{
     border-radius: 1vw;
 }
 .gppctGameDetails.right{
-    height: 100%;
+    height: 40vw;
+    position: relative;
     width: 63%;
     padding: 2%;
     padding-right: 4%;
@@ -219,6 +220,106 @@ section.gamePageContainer.top{
     color: black;
     transition: 400ms ease;
 }
+
+
+
+section.gamePageContainer.mid{
+    height: auto;
+    width: 100%;
+    padding: 3% 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gpPageContentMid1{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+.gppcm1Container.left{
+    height: 30vw;
+    width: 60%;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    overflow: hidden;
+}
+.gppcm1Container.left .youtube-embed{
+    height: 100%;
+    width: 100%;
+    border-radius: 1vw;
+}
+.gppcm1Container.right{
+    height: 100%;
+    width: 35%;
+}
+.gppcm1Container.right h4{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    line-height: 2vw;
+}
+.gppcm1Container.right hr{
+    margin: 2% 0;
+}
+.gppcm1Container.right h4 span{
+    font-size: 1vw;
+    line-height: 1.2vw;
+    font-weight: 400;
+    color: gray;
+}
+.gppcm1crReviews{
+    height: 6vw;
+    width: 100%;
+    margin-top: 3%;
+    margin-bottom: 7%;
+    position: relative;
+}
+.gppcm1crReviews h6{
+    width: 100%;
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.gppcm1crReviews h6 span{
+    color: gray;
+    font-size: 0.7vw;
+    font-weight: 400;
+}
+.gppcm1Container.right button{
+    width: 100%;
+    padding: 2%;
+    border-radius: 1vw;
+    border: solid 2px white;
+    background: none;
+    outline: none;
+    cursor: pointer;
+    color: white;
+    font-size: 0.9vw;
+}
+.gppcm1Container.right button:hover{
+    background: white;
+    color: black;
+    transition: 400ms ease;
+}
+
+
+
+
+
+
+
 
 
 
