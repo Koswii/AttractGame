@@ -346,7 +346,7 @@ const Marketplace = () => {
                     </Link>
                 </div>
                 <div className="mpPageContentM2ShowMore">
-                    <Link><TbSquareRoundedArrowRight className='faIcons'/> View {viewAllGamesNum - 15} More Games</Link>
+                    <Link to='/Games'><TbSquareRoundedArrowRight className='faIcons'/> View {viewAllGamesNum - 15} More Games</Link>
                 </div>
                 <div className="mpPageContentMid4">
                     <div className="mppcm4GiftCard">

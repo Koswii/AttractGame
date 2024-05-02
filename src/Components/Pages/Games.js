@@ -1,0 +1,107 @@
+import React, { useEffect, useState, useRef } from 'react'
+import "../CSS/games.css";
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { 
+    TbShoppingCartBolt, 
+    TbDeviceGamepad2,
+    TbGiftCard,
+    TbHeart,
+    TbHeartFilled,
+    TbTrendingUp,
+    TbAwardFilled,
+    TbCampfireFilled,
+    TbCalendarStar,
+    TbSquareRoundedArrowRight,      
+} from "react-icons/tb";
+
+const Games = () => {
+    const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
+    const [viewAGData1, setViewAGData1] = useState([]);
+    const [currentPage, setCurrentPage] = useState(
+        parseInt(localStorage.getItem('currentPage')) || 1
+    ); // state to track current page
+    const [itemsPerPage] = useState(25); // number of items per page
+
+    useEffect(() => {
+        const fetchGames = async () => {
+            try {
+                const response1 = await axios.get(AGGamesListAPI1);
+                const agAllGames = response1.data;
+                const agSortAllGamesByDate = agAllGames.sort((a, b) => new Date(b.game_released) - new Date(a.game_released));
+
+                setViewAGData1(agSortAllGamesByDate);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchGames();
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('currentPage', currentPage);
+    }, [currentPage]);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = viewAGData1.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Logic for displaying page numbers
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(viewAGData1.length / itemsPerPage); i++) {
+        pageNumbers.push(i);
+    }
+    const renderPageNumbers = pageNumbers.map(number => (
+        <li
+        key={number}
+        onClick={() => setCurrentPage(number)}
+        className={currentPage === number ? 'active' : ''}
+        >
+        {number}
+        </li>
+    ));
+
+    return (
+        <div className='mainContainer gameList'>
+            <section className="gamesPageContainer top">
+                <div className="gmspContent top1">
+                    <h5>ALL LISTED GAMES</h5>
+                    <ul className="pagination">
+                        {renderPageNumbers}
+                    </ul>
+                </div>
+                <div className="gmspContent top2">
+                    {currentItems.map((details, index) => (
+                        <Link className="gmspct2Game" key={index} to={`/Games/${details.game_canonical}`}>
+                            <div className="gmspct2gPlatform">
+                                <img src='' platform={details.game_platform} alt="" />
+                            </div>
+                            <>{details.game_cover !== '' ?
+                            <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="Image Not Available" />
+                            :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</>
+                            <div className="gmspct2gDetails">
+                                <h5>{details.game_title}</h5>
+                                <p>{details.game_edition}</p>
+                                <div>
+                                    <h6>$ 999.99</h6>
+                                    <button><TbHeart className='faIcons'/></button>
+                                    <button><TbShoppingCartBolt className='faIcons'/></button>
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+                <div className="gmspContent top1">
+                    <h5></h5>
+                    <ul className="pagination">
+                        {renderPageNumbers}
+                    </ul>
+                </div>
+            </section>
+        </div>
+    )
+
+    
+}
+
+export default Games

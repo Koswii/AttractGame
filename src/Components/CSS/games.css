@@ -1,0 +1,203 @@
+h1, h2, h3, h4, h5, h6, p{
+    color: white;
+}
+p{
+    font-size: 0.9vw;
+}
+h1{
+    font-size: 10vw;
+}
+h2{
+    font-size: 5vw;
+}
+h3{
+    font-size: 4vw;
+}
+h4{
+    font-size: 2vw;
+}
+h5{
+    font-size: 1.5vw;
+}
+h6{
+    font-size: 1vw;
+}
+
+
+.mainContainer.gameList{
+    height: auto;
+    width: 100%;
+    background: black;
+    position: relative;
+}
+
+
+
+
+section.gamesPageContainer.top{
+    height: auto;
+    width: 100%;
+    padding: 7vw 10%;
+    /* background: 
+        linear-gradient(transparent, black 80%),
+        url('../assets/imgs/13551.png') no-repeat center;
+    background-size: cover; */
+}
+.gmspContent.top1{
+    height: auto;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.gmspContent.top1 ul{
+    width: 70%;
+    color: white;
+    text-decoration: none;
+    list-style: none;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.gmspContent.top1 ul li{
+    height: 2vw;
+    width: 2vw;
+    font-size: 0.9vw;
+    line-height: 1vw;
+    margin-left: 1%;
+    border: solid 2px white;
+    border-radius: 0.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.gmspContent.top1 ul li.active{
+    background: white;
+    color: black;
+}
+.gmspContent.top2{
+    height: auto;
+    width: 100%;
+    margin: 2% 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.gmspct2Game{
+    height: auto;
+    width: 18%;
+    margin: 1%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px gray;
+    border-radius: 1vw;
+}
+.gmspct2Game:hover{
+    box-shadow: 0 0 20px white;
+    transition: 400ms ease;
+    transform: translateY(-0.5vw);
+}
+.gmspct2Game img{
+    height: 100%;
+    width: 100%;
+}
+.gmspct2gPlatform{
+    height: auto;
+    position: absolute;
+    top: 0.5vw;
+    left: 0.5vw;
+    padding: 3%;
+    border-radius: 0.5vw;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gmspct2gPlatform img{
+    height: 3vw;
+}
+.gmspct2gPlatform img[platform='PC']{
+    content: url('../assets/imgs/GamePlatforms/PCGames.png');
+}
+.gmspct2gPlatform img[platform='NintendoSwitch']{
+    content: url('../assets/imgs/GamePlatforms/NintendoSwitch.png');
+}
+.gmspct2gPlatform img[platform='XboxXS']{
+    content: url('../assets/imgs/GamePlatforms/XboxXS.png');
+}
+.gmspct2gPlatform img[platform='XboxOne']{
+    content: url('../assets/imgs/GamePlatforms/XboxOne.png');
+}
+.gmspct2gPlatform img[platform='PlayStation4']{
+    content: url('../assets/imgs/GamePlatforms/PS4.png');
+}
+.gmspct2gPlatform img[platform='PlayStation5']{
+    content: url('../assets/imgs/GamePlatforms/PS5.png');
+}
+.gmspct2gDetails{
+    height: auto;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 30px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 5%;
+}
+.gmspct2gDetails h5{
+    font-size: 1vw;
+    height: 2.3vw;
+    line-height: 1.3vw;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gmspct2gDetails p{
+    font-size: 0.7vw;
+    text-align: center;
+    margin: 3% 0;
+}
+.gmspct2gDetails div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.gmspct2gDetails div h6{
+    width: 65%;
+    text-align: center;
+    padding: 2%;
+    border: solid 2px white;
+    border-radius: 50px;
+}
+.gmspct2gDetails div button{
+    font-size: 2vw;
+    line-height: 1vw;
+    background: none;
+    color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+

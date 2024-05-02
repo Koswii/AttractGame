@@ -12,6 +12,7 @@ import Profile from './Components/Pages/Profile';
 import Loader from './Components/Pages/Loader';
 import Home from './Components/Pages/Home'
 import Marketplace from './Components/Pages/Marketplace';
+import Games from './Components/Pages/Games';
 import Game from './Components/Pages/Game';
 
 
@@ -111,6 +112,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home/>}/>
           <Route exact path="/Marketplace" element={<Marketplace/>}/>
+          <Route exact path="/Games" element={<Games/>}/>
           <Route exact path="/Games/:gameCanonical" element={<Game/>}/>
           <Route exact path="/Profile" element={<Profile/>}/>
           {viewAdminCredentials && <Route path="/Admin" element={<Admin/>}/>}
