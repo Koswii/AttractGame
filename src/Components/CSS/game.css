@@ -370,15 +370,123 @@ section.gamePageContainer.bot{
     padding: 5% 10%;
     padding-bottom: 10vw;
 }
-.gpPageContentMid2{
+.gpPageContentMid3{
     height: auto;
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    margin-top: 2%;
 }
-
-
-
-
-
+.gppcm3OtherGame{
+    height: auto;
+    width: 19%;
+    margin-bottom: 1.5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1vw;
+    box-shadow: 0 0 10px gray;
+    position: relative;
+    overflow: hidden;
+}
+.gppcm3OtherGame img{
+    height: auto;
+    width: 100%;
+}
+.gppcm3ogPlatform{
+    height: auto;
+    position: absolute;
+    top: 0.5vw;
+    left: 0.5vw;
+    padding: 3%;
+    border-radius: 0.5vw;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gppcm3ogPlatform img{
+    height: 3vw;
+}
+.gppcm3ogPlatform img[platform='PC']{
+    content: url('../assets/imgs/GamePlatforms/PCGames.png');
+}
+.gppcm3ogPlatform img[platform='NintendoSwitch']{
+    content: url('../assets/imgs/GamePlatforms/NintendoSwitch.png');
+}
+.gppcm3ogPlatform img[platform='XboxXS']{
+    content: url('../assets/imgs/GamePlatforms/XboxXS.png');
+}
+.gppcm3ogPlatform img[platform='XboxOne']{
+    content: url('../assets/imgs/GamePlatforms/XboxOne.png');
+}
+.gppcm3ogPlatform img[platform='PlayStation4']{
+    content: url('../assets/imgs/GamePlatforms/PS4.png');
+}
+.gppcm3ogPlatform img[platform='PlayStation5']{
+    content: url('../assets/imgs/GamePlatforms/PS5.png');
+}
+.gppcm3ogDetails{
+    height: auto;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 5%;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 30px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 0.5vw;
+    /* opacity: 0; */
+}
+.gppcm3ogDetails h5{
+    height: 2vw;
+    font-size: 1vw;
+    line-height: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.gppcm3ogDetails p{
+    text-align: center;
+    font-weight: 400;
+    font-size: 0.7vw;
+}
+.gppcm3ogDetails div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4%;
+}
+.gppcm3ogDetails div #mppcm2GDView{
+    width: 65%;
+    margin: 0;
+    border-radius: 50px;
+    background: none;
+    border: solid 2px white;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    justify-content: center;
+}
+.gppcm3ogDetails div #mppcm2GDView h5{
+    line-height: 1vw;
+    font-size: 1vw;
+}
+.gppcm3ogDetails div button#mppcm2GDHeart,
+.gppcm3ogDetails div button#mppcm2GDCart{
+    font-size: 1.8vw;
+    line-height: 1vw;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    cursor: pointer;
+}
