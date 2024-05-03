@@ -51,8 +51,21 @@ section.gamesPageContainer.top{
     justify-content: space-between;
     align-items: center;
 }
+.gmspContent.top1 h5{
+    font-size: 2vw;
+}
+.gmspContent.top1 input{
+    width: 40%;
+    font-size: 0.9vw;
+    padding: 0.7% 1%;
+    border-radius: 1vw;
+    border: solid 2px white;
+    background: none;
+    color: white;
+    outline: none;
+}
 .gmspContent.top1 ul{
-    width: 70%;
+    width: 40%;
     color: white;
     text-decoration: none;
     list-style: none;
@@ -65,7 +78,7 @@ section.gamesPageContainer.top{
     width: 2vw;
     font-size: 0.9vw;
     line-height: 1vw;
-    margin-left: 1%;
+    margin-left: 2%;
     border: solid 2px white;
     border-radius: 0.5vw;
     display: flex;
@@ -85,6 +98,25 @@ section.gamesPageContainer.top{
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+}
+.gmspContent.top2.load{
+    height: 30vw;
+    width: 100%;
+}
+.gmspContent.top2.load .loader{
+    width: 80px;
+    aspect-ratio: 1;
+    border: 10px solid #24242400;
+    background: 
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 0    0/20px 20px,
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 100% 0/20px 20px,
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2)) 100% 100%/20px 20px,
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 0 100%/20px 20px,
+        linear-gradient(#fff 0 0) center/40px 40px,
+        #000;
+    background-repeat:no-repeat;
+    filter: blur(4px) contrast(10);
+    animation: b2 0.8s infinite;
 }
 .gmspct2Game{
     height: auto;

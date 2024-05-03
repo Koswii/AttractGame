@@ -18,6 +18,8 @@ import {
 const Games = () => {
     const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
     const [viewAGData1, setViewAGData1] = useState([]);
+    const [searchGameName, setSearchGameName] = useState('');
+    const [loadingMarketData, setLoadingMarketData] = useState(false);
     const [currentPage, setCurrentPage] = useState(
         parseInt(localStorage.getItem('currentPage')) || 1
     ); // state to track current page
@@ -31,6 +33,7 @@ const Games = () => {
                 const agSortAllGamesByDate = agAllGames.sort((a, b) => new Date(b.game_released) - new Date(a.game_released));
 
                 setViewAGData1(agSortAllGamesByDate);
+                setLoadingMarketData(true);
             } catch (error) {
                 console.error(error);
             }
@@ -38,17 +41,26 @@ const Games = () => {
         fetchGames();
     }, []);
 
+    const handleSearchChange = event => {
+        setSearchGameName(event.target.value);
+        setCurrentPage(1); // Reset to the first page when searching
+    };
+    // Filter data based on search term
+    const filteredData = viewAGData1.filter(game =>
+      game.game_title.toLowerCase().includes(searchGameName.toLowerCase())
+    );
+
     useEffect(() => {
         localStorage.setItem('currentPage', currentPage);
     }, [currentPage]);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = viewAGData1.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
     // Logic for displaying page numbers
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(viewAGData1.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(filteredData.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
     const renderPageNumbers = pageNumbers.map(number => (
@@ -65,12 +77,13 @@ const Games = () => {
         <div className='mainContainer gameList'>
             <section className="gamesPageContainer top">
                 <div className="gmspContent top1">
-                    <h5>ALL LISTED GAMES</h5>
+                    <h5>ALL GAMES</h5>
+                    <input type="text" placeholder='Search Game Here...' value={searchGameName} onChange={handleSearchChange}/>
                     <ul className="pagination">
-                        {renderPageNumbers}
+                        {loadingMarketData ? renderPageNumbers : <li>0</li>}
                     </ul>
                 </div>
-                <div className="gmspContent top2">
+                {loadingMarketData ? <div className="gmspContent top2">
                     {currentItems.map((details, index) => (
                         <Link className="gmspct2Game" key={index} to={`/Games/${details.game_canonical}`}>
                             <div className="gmspct2gPlatform">
@@ -91,12 +104,15 @@ const Games = () => {
                         </Link>
                     ))}
                 </div>
-                <div className="gmspContent top1">
+                :<div className="gmspContent top2 load">
+                    <div className="loader"></div>
+                </div>}
+                {searchGameName == '' && <div className="gmspContent top1">
                     <h5></h5>
                     <ul className="pagination">
-                        {renderPageNumbers}
+                        {loadingMarketData ? renderPageNumbers : <></>}
                     </ul>
-                </div>
+                </div>}
             </section>
         </div>
     )

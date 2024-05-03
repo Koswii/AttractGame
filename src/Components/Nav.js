@@ -330,6 +330,7 @@ const Nav = () => {
           <div className="navContent center">
             <Link><h6>HIGHLIGHTS</h6></Link>
             <Link to="/Marketplace"><h6>MARKETPLACE</h6></Link>
+            <Link to="/Games"><h6>GAMES</h6></Link>
             <Link><h6>CRYPTO</h6></Link>
           </div>
           <div className="navContent right">

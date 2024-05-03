@@ -61,11 +61,12 @@ const Game = () => {
             try {
                 const response = await axios.get(AGGamesListAPI1);
                 const agGameData = response.data.find(game => game.game_canonical === gameCanonical);
-                const gameCSFeatMetacritic = agGameData.game_title.toLowerCase().replace(/\s/g, '-');
+                const gameCSFeatMetacritic = agGameData.game_title_ext2.toLowerCase().replace(/\s/g, '-') || agGameData.game_title.toLowerCase().replace(/\s/g, '-');
                 const gameCSFeatWikipedia = agGameData.game_title_ext1.replace(/\s/g, '_') || agGameData.game_title.replace(/\s/g, '_');
                 setViewAGData1(agGameData);
                 setViewMetacriticData(gameCSFeatMetacritic);
                 setViewWikiData(gameCSFeatWikipedia);
+                // console.log(gameCSFeatMetacritic);
             } catch (error) {
                 console.error(error);
             }
@@ -153,10 +154,22 @@ const Game = () => {
                         </div>
                         <h5>GAME RELEASED: {scrapedMetacriticData.game_released ? formatDateToWordedDate(scrapedMetacriticData.game_released) : '-'}</h5>
                         <div className="gppctgdrMetacritic">
-                            <p>{scrapedMetacriticData.metadescription ? <>{scrapedMetacriticData.metadescription.slice(0, 300)+ '...'}</> : <>No Metacritic and Wikipedia details yet. <br /><br /><br /><br /><br /></>}</p>
+                            <p>{scrapedMetacriticData.metadescription ? 
+                                <>{(scrapedMetacriticData.metadescription.slice(0, 300)+ '...')}</> 
+                                :<>No Metacritic and Wikipedia details yet. <br /><br /><br /><br /><br /></>}
+                            </p>
                             <div>
                                 {scrapedMetacriticData.metadescription ? <a href={`https://www.metacritic.com/game/${viewMetacriticData}/`} target='blank'>View Metacritic</a> : <></>}
                                 {scrapedMetacriticData.extract ? <a href={`https://en.wikipedia.org/wiki/${viewWikiData}`} target='blank'>View Wikipedia</a> : <></>}
+                            </div>
+                        </div>
+                        <div className="gppctgdrExtras">
+                            <h4>$ 999.99</h4>
+                            <button><TbHeart className='faIcons'/></button>
+                            <button><TbShoppingCartBolt className='faIcons'/></button>
+                            <div>
+                                <h6>Game On-Stock</h6>
+                                <p>24 Stocks</p>
                             </div>
                         </div>
                     </div>
@@ -193,6 +206,12 @@ const Game = () => {
                         </div>
                         <button>ADD GAME REVIEW</button>
                     </div>
+                </div>
+            </section>
+            <section className="gamePageContainer bot">
+                <h4>GAMES YOU MIGHT LIKE</h4>
+                <div className="gpPageContentMid2">
+                    
                 </div>
             </section>
         </div>

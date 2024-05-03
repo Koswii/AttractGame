@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 
-
+import CookieBanner from './Components/Pages/CookieBanner';
 import Nav from './Components/Nav'
 // import Footer from './Components/Pages/footer';
 import ScrollToTop from './Components/Pages/ScrollToTop';
@@ -109,6 +109,7 @@ function App() {
       {loading || isLoading ? <Loader />:
       <>
         <Nav />
+        <CookieBanner />
         <Routes>
           <Route exact path="/" element={<Home/>}/>
           <Route exact path="/Marketplace" element={<Marketplace/>}/>
