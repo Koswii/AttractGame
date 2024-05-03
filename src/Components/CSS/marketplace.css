@@ -459,10 +459,12 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     cursor: pointer;
     overflow: hidden;
     overflow: hidden;
+    transition: 400ms ease;
 }
 .mppContentMid2:hover{
-    box-shadow: 0 0 10px white;
+    box-shadow: 0 0 20px white;
     transition: 400ms ease;
+    transform: translateY(-0.5vw);
 }
 .mppContentMid2 img{
     height: 100%;

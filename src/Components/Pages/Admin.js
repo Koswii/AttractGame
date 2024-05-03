@@ -291,8 +291,9 @@ const Admin = () => {
     const [agSetGameRestricted, setAGSetGameRestricted] = useState('');
     const agSetGameCode1 = agSetGameTitle.replace(/\s/g, '');
     const agSetGameCode2 = agSetGamePlatform.replace(/\s/g, '');
+    const agSetGameCode3 = agSetGameEdition.replace(/\s/g, '');
     const agFullSetGameCode = `AG_${agSetGameCode1}_${agSetGameCode2}`;
-    const agGameCanonical = agSetGameCode1 + agSetGamePlatform;
+    const agGameCanonical = `${agSetGameCode1}${agSetGamePlatform}_${agSetGameCode3}`;
     const MAX_PAYLOAD_SIZE = 5 * 1024 * 1024;
 
     const handleAddGame = async (e) => {

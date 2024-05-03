@@ -97,6 +97,7 @@ section.gamesPageContainer.top{
     align-items: center;
     box-shadow: 0 0 10px gray;
     border-radius: 1vw;
+    transition: 400ms ease;
 }
 .gmspct2Game:hover{
     box-shadow: 0 0 20px white;
