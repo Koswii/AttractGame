@@ -303,3 +303,77 @@ nav{
     padding: 3% 10%;
     border-radius: 50px;
 }
+
+
+
+
+@media screen and (max-width: 500px){
+    .mainNavContainer{
+        height: auto;
+        width: 100%;
+        padding: 2% 10%;
+    }
+    .navContentModal{
+        height: auto;
+        width: 90%;
+        border-radius: 3vw;
+    }
+    .navContentModal button#closeModalContent{
+        font-size: 5vw;
+        top: 2vw;
+        right: 2vw;
+    }
+    .navRegistrationContent h6{
+        font-size: 3vw;
+    }
+    .navRegContents div p{
+        font-size: 2.3vw;
+    }
+    .navRegContents div input{
+        border-radius: 2vw;
+    }
+    .recaptchaSetup img{
+        height: 100%;
+        margin-right: 5%;
+        border-radius: 2vw;
+    }
+    .submitAccount button h6{
+        font-size: 3vw;
+    }
+    .errorMessage p{
+        height: 2.3vw;
+    }
+
+
+
+
+    .navContent.left img{
+        height: 10vw;
+    }
+    .navContent.center{
+        display: none;
+    }
+    .navContent.right{
+        width: 50%;
+    }
+    .navContent.right a h6{
+        font-weight: 400;
+        font-size: 3vw;
+    }
+    .navContent.right div a#agLoginBtn h6{
+        font-size: 8.5vw;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

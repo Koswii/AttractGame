@@ -66,7 +66,7 @@ const Home = () => {
                   return dateB.getFullYear() - dateA.getFullYear(); // Sort by year
               });
               setViewAllGamesNum(agAllGames.length);
-              setViewAGData1(sortedCurrentYearGames.slice(0, 10));
+              setViewAGData1(sortedCurrentYearGames);
           } catch (error) {
               console.error(error);
           }
@@ -131,8 +131,21 @@ const Home = () => {
         <div className="lndPageContent mid3">
           <h4><FaFire className='faIcons'/>FEATURED GAMES</h4>
           <div className="lndpcFeaturedGames">
-            {viewAGData1.map((details, i) => (
-            <div className='lndpcfgames' key={i}>
+            {viewAGData1.slice(0, 10).map((details, i) => (
+            <div className='lndpcfgames website' key={i}>
+              {details.game_cover ?
+                <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="" />
+                :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}
+              <div className='lndpcfgDetails'>
+                <h6>{details.game_title}</h6>
+                <p>{details.game_developer}</p>
+              </div>
+              <div className="lndpcfgPlatform">
+                <img platform={details.game_platform} src="" alt="" />
+              </div>
+            </div>))}
+            {viewAGData1.slice(0, 9).map((details, i) => (
+            <div className='lndpcfgames mobile' key={i}>
               {details.game_cover ?
                 <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="" />
                 :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}
@@ -195,7 +208,7 @@ const Home = () => {
             <div className='lndpcfgc'>
               <img src={require('../assets/imgs/GiftCards/AppleGiftCard.png')} alt="" />
             </div>
-            <div className='lndpcfgc'>
+            <div className='lndpcfgc mobile'>
               <img src={require('../assets/imgs/GiftCards/GooglePlayGiftCard.png')} alt="" />
             </div>
             <div className='lndpcfgc'>

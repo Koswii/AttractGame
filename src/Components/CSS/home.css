@@ -234,6 +234,12 @@ section.landingPageContainer.mid{
     justify-content: center;
     align-items: center;
 }
+.lndpcfgames.website{
+    display: flex;
+}
+.lndpcfgames.mobile{
+    display: none;
+}
 .lndpcfgames:hover{
     transform: translateY(-10px);
     transition: 400ms ease;
@@ -660,3 +666,181 @@ section.landingPageContainer.mid{
 
 
 
+@media screen and (max-width: 500px){
+    section.landingPageContainer.top{
+        height: 60vw;
+        width: 100%;
+        padding-top: 6vh;
+    }
+    .lndpcTop.right{
+        height: auto;
+        width: 100%;
+    }
+    .lndpcTop.right img{
+        height: 10vw;
+        margin: 0 auto;
+        display: flex;
+    }
+    .lndpcTop.right p{
+        font-size: 2.3vw;
+    }
+    .lndpcTop.right span a{
+        padding: 1% 10%;
+        font-size: 2.3vw;
+        opacity: 100%;
+    }
+    .lndpcSearch{
+        width: 100%;
+        padding: 0.7% 2%;
+        border-radius: 2vw;
+    }
+    .lndpcSearch h6{
+        font-size: 3vw;
+    }
+    .lndpcSearch input{
+        font-size: 3vw;
+    }
+    .lndpcFeatures{
+        display: none;
+    }
+    .lndpcMid2{
+        display: none;
+    }
+    .lndPageContent.mid3 h4{
+        font-size: 4vw;
+    }
+    .lndpcfgames.website{
+        display: none;
+    }
+    .lndpcfgames.mobile{
+        display: flex;
+        flex-wrap: wrap;
+        width: 31%;
+        border-radius: 2vw;
+        margin: 1%;
+    }
+    .lndpcfgames:hover{
+        transform: translateY(0);
+    }
+    .lndpcfgPlatform{
+        top: 1vw;
+        left: 1vw;
+        border-radius: 2vw;
+    }
+    .lndpcfgPlatform img{
+        height: 5vw;
+    }
+    .lndpcfgDetails h6{
+        font-size: 3vw;
+    }
+    .lndpcfgDetails p{
+        font-size: 2.3vw;
+        margin-top: 5%;
+    }
+    .lndpcAGElite{
+        height: auto;
+        width: 100%;
+        position: relative;
+        padding: 7% 5%;
+        background: url('../assets/imgs/LandingImg/AGStarFeature.png') no-repeat center right;
+        background-size: cover;
+        border-radius: 3vw;
+        margin: 5% 0;
+    }
+    .lndpcageSocials p{
+        font-size: 2.3vw;
+    }
+    .lndpcageSocials a{
+        margin-left: 3%;
+        color: white;
+        font-size: 3vw;
+    }
+    .lndpcAGElite h3{
+        font-size: 8vw;
+    }
+    .lndpcAGElite h6{
+        font-size: 3vw;
+    }
+    .lndPageContent.mid4 img{
+        display: none;
+    }
+    .lndpcageJoin a{
+        margin-top: 20%;
+        padding: 1% 10%;
+        border-radius: 50px;
+        font-size: 2.3vw;
+    }
+    .lndpcGameListed{
+        flex-wrap: wrap;
+    }
+    .lndpcGameListed span{
+        height: auto;
+        width: 48%;
+        margin: 1%;
+        padding: 5% 2%;
+        border-radius: 2vw;
+    }
+    .lndpcGameListed span h3{
+        line-height: 8vw;
+        font-size: 9vw;
+    }
+    .lndpcGameListed span h3 .faIcons{
+        line-height: 3vw;
+        font-size: 7vw;
+    }
+    .lndpcGameListed span h6{
+        font-size: 2.3vw;
+    }
+    .lndPageContent.mid7 h4{
+        font-size: 4vw;
+    }
+    .lndpcfgc.mobile{
+        display: none;
+    }
+    .lndpcfgc {
+        width: 48%;
+        margin: 1%;
+        border-radius: 3vw;
+    }
+    .lndpcfgcRobloxBinance{
+        display: none;
+    }
+    .lndpcfgcViewMore a{
+        font-size: 2.3vw;
+    }
+
+
+
+    .lndPageContent.mid8 h4{
+        font-size: 4vw;
+    }
+    .lndpcFeaturedCrypto{
+        display: block;
+    }
+    .lndpcFeaturedCrypto div{
+        height: auto;
+        width: 100%;
+    }
+    .lndpcfCrypto{
+        width: 100%;
+        padding-left: 0%;
+        text-align: center;
+    }
+    .lndpcfCrypto h3{
+        font-size: 5vw;
+    }
+    .lndpcfCrypto h6{
+        font-size: 3vw;
+    }
+    .lndpcfCrypto p{
+        font-size: 2.3vw;
+    }
+    .lndpcfCrypto a{
+        font-size: 2.3vw;
+        padding: 2% 10%;
+    }
+
+
+
+
+}
