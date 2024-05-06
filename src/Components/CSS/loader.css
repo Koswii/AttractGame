@@ -43,3 +43,19 @@ section.loaderContainer img{
     animation: gelatine 1s infinite;
     margin: 2% 0;
 }
+
+
+
+
+
+
+
+
+@media screen and (max-width: 500px){
+    section.loaderContainer h3{
+        font-size: 10vw;
+    }
+    section.loaderContainer h6{
+        font-size: 3vw;
+    }
+}
