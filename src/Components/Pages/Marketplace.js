@@ -302,8 +302,40 @@ const Marketplace = () => {
                     </>}
                 </div>
                 <h4 id='mppcmh4Title'><FaGamepad className='faIcons'/> AVAILABLE GAMES</h4>
-                <div className="mpPageContentMid2">
+                <div className="mpPageContentMid2 website">
                     {viewAllListedGames.slice(0, 15).map((details, i) => (
+                    <Link className="mppContentMid2" key={i} to={`/Games/${details.game_canonical}`}>
+                        <div className="mppcm2GamePlatform">
+                            <img platform={details.game_platform} src="" alt="" />
+                        </div>
+                        <div className="mppcm2GameCategory">
+                            <h4>
+                                <TbTrendingUp className={`faIcons ${(details.game_category === 'Trending') ? 'Trending' : ''}`}/>
+                                <TbCampfireFilled className={`faIcons ${(details.game_category === 'Hot') ? 'Hot' : ''}`}/>
+                                <TbAwardFilled className={`faIcons ${(details.game_category === 'Classic') ? 'Classic' : ''}`}/>
+                                <TbCalendarStar className={`faIcons ${(details.game_category === 'Preorder') ? 'Preorder' : ''}`}/>
+                            </h4>
+                        </div>
+                        <>{details.game_cover !== '' ?
+                        <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="Image Not Available" />
+                        :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</>
+                        <div className="mppcm2GameDiscount">
+                            <h4><MdDiscount className='faIcons'/></h4>
+                        </div>
+                        <div className="mppcm2GameDetails">
+                            <h5>{details.game_title}</h5>
+                            <p>{details.game_edition}</p>
+                            <div>
+                                <div id="mppcm2GDView"><h5>$999.99</h5></div>
+                                <button id='mppcm2GDHeart'><TbHeart className='faIcons'/></button>
+                                <button id='mppcm2GDCart'><TbShoppingCartBolt className='faIcons'/></button>
+                            </div>
+                        </div>
+                    </Link>
+                    ))}
+                </div>
+                <div className="mpPageContentMid2 mobile">
+                    {viewAllListedGames.slice(0, 10).map((details, i) => (
                     <Link className="mppContentMid2" key={i} to={`/Games/${details.game_canonical}`}>
                         <div className="mppcm2GamePlatform">
                             <img platform={details.game_platform} src="" alt="" />

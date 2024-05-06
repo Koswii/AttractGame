@@ -443,6 +443,9 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     align-items: top;
     margin-top: 2%;
 }
+.mpPageContentMid2.mobile{
+    display: none;
+}
 .mppContentMid2{
     height: 20vw;
     width: 19%;
@@ -837,3 +840,216 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     opacity: 100%;
     transition: 400ms ease;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 500px){
+    section.marketplacePageContainer.top{
+        height: auto;
+        width: 100%;
+        padding: 13vw 5%;
+        padding-bottom: 0;
+    }
+    .mppctn.left{
+        width: 65%;
+        padding: 0.7% 2%;
+        border-radius: 2vw;
+    }
+    .mppctn.left h6{
+        font-size: 3vw;
+    }
+    .mppctn.left input{
+        font-size: 2.3vw;
+        padding: 1% 0;
+    }
+    .mppctn.right span{
+        width: 30%;
+        margin-left: 5%;
+    }
+    .mppctn.right span h6{
+        font-size: 2.3vw;
+    }
+    .mppctn.right span h6 .faIcons{
+        margin-left: 15%;
+        font-size: 3vw;
+    }
+
+
+    section.marketplacePageContainer.top h4#mppcth4Title{
+        display: none;
+    }
+    .mpPageContentTop{
+        display: none;
+    }
+
+
+    section.marketplacePageContainer.mid{
+        padding: 0 5%;
+        padding-bottom: 10vw;
+    }
+    .mpPageContentMid1{
+        display: none;
+    }
+    section.marketplacePageContainer.mid h4#mppcmh4Title{
+        font-size: 5vw;
+    }
+    .mpPageContentMid2.website{
+        display: none;
+    }
+    .mpPageContentMid2.mobile{
+        display: flex;
+    }
+    .mppContentMid2{
+        height: auto;
+        width: 49%;
+        margin-bottom: 2%;
+        border-radius: 1vw;
+        border-radius: 3vw;
+    }
+    .mppcm2GamePlatform{
+        top: 1vw;
+        left: 1vw;
+        border-radius: 2vw;
+    }
+    .mppcm2GamePlatform img{
+        height: 10vw;
+    }
+    .mppcm2GameCategory h4 .faIcons{
+        font-size: 5vw;
+    }
+    .mppcm2GameDiscount{
+        height: auto;
+        position: absolute;
+        top: 8vw;
+        right: 1vw;
+    }
+    .mppcm2GameDiscount h4{
+        font-size: 5vw;
+    }
+    .mppcm2GameDetails h5{
+        height: 8vw;
+        font-size: 3.5vw;
+        line-height: 4.5vw;
+    }
+    .mppcm2GameDetails p{
+        font-size: 2.3vw;
+    }
+    .mppcm2GameDetails div #mppcm2GDView h5{
+        font-size: 3.5vw;
+    }
+    .mppcm2GameDetails div button#mppcm2GDHeart,
+    .mppcm2GameDetails div button#mppcm2GDCart{
+        font-size: 6vw;
+    }
+    .mpPageContentM2ShowMore{
+        margin: 5% 0;
+    }
+    .mpPageContentM2ShowMore a{
+        width: 50%;
+        font-size: 3vw;
+        opacity: 100%;
+    }
+    .mpPageContentM2ShowMore a .faIcons{
+        font-size: 3vw;
+    }
+
+
+    .mpPageContentMid4{
+        height: auto;
+        width: 100%;
+        background: url('../assets/imgs/LandingImg/RobloxCoverImg00.png') no-repeat center;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 10px gray;
+        margin-top: 15%;
+        margin-bottom: 2%;
+        border-radius: 3vw;
+        padding: 5% 2%;
+        overflow: hidden;
+        position: relative;
+    }
+    .mppcm4GiftCard{
+        height: auto;
+        width: 60%;
+        position: relative;
+        top: 0;
+        left: 0;
+        border-radius: 3vw;
+        padding: 3%;
+    }
+    .mppcm4GiftCard img{
+        height: 100%;
+        width: 100%;
+        border-radius: 2vw;
+        margin: 3% 0;
+    }
+    .mppcm4GiftCard h6{
+        font-size: 3vw;
+    }
+    .mppcm4GiftCard p{
+        font-size: 2.3vw;
+    }
+    .mppcm4GiftCard div button{
+        padding: 2% 10%;
+        font-size: 2.3vw;
+    }
+    .mpPageContentMid5{
+        display: block;
+    }
+    .mppcm5Join.left{
+        height: auto;
+        width: 100%;
+        text-align: center;
+    }
+    .mppcm5Join.left h3{
+        font-size: 4.5vw;
+        line-height: 4vw;
+    }
+    .mppcm5Join.left h6{
+        font-size: 2.3vw;
+        margin: 1% 0;
+    }
+
+    .mppcm5Join.right{
+        display: none;
+    }
+    .mppcm5Join.left div span{
+        border-radius: 2vw;
+    }
+    .mppcm5Join.left div span h4{
+        font-size: 5vw;
+    }
+    .mppcm5Join.left div span p{
+        font-size: 2.3vw;
+    }
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+

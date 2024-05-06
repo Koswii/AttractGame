@@ -144,7 +144,7 @@ const Home = () => {
                 <img platform={details.game_platform} src="" alt="" />
               </div>
             </div>))}
-            {viewAGData1.slice(0, 9).map((details, i) => (
+            {viewAGData1.slice(0, 4).map((details, i) => (
             <div className='lndpcfgames mobile' key={i}>
               {details.game_cover ?
                 <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="" />
