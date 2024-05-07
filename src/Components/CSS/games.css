@@ -231,7 +231,7 @@ section.gamesPageContainer.top{
 @media screen and (max-width: 500px){
     section.gamesPageContainer.top{
         padding: 10vw 5%;
-        padding-top: 7vh;
+        padding-top: 10vh;
     }
     .gmspContent.top1 h5{
         font-size: 5vw;
