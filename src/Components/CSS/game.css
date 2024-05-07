@@ -29,6 +29,7 @@ h6{
     width: 100%;
     background: black;
     position: relative;
+    padding-bottom: 20vw;
 }
 
 
@@ -552,6 +553,7 @@ section.gamePageContainer.bot{
         height: 12vw;
         line-height: 5vw;
         justify-content: center;
+        text-align: center;
     }
     .gppctgdrDetails{
         justify-content: center;
