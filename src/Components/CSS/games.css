@@ -228,7 +228,96 @@ section.gamesPageContainer.top{
 
 
 
+@media screen and (max-width: 500px){
+    section.gamesPageContainer.top{
+        padding: 10vw 5%;
+        padding-top: 7vh;
+    }
+    .gmspContent.top1 h5{
+        font-size: 5vw;
+    }
+    .gmspContent.top1 input{
+        width: 63%;
+        font-size: 3vw;
+        padding: 1% 2%;
+        border-radius: 2vw;
+        border: solid 2px white;
+        background: none;
+        color: white;
+        outline: none;
+    }
+    .gmspContent.top1 ul{
+        display: none;
+    }
+    .gmspContent.top1.mobile ul{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .gmspContent.top1 ul li{
+        height: 7vw;
+        width: 7vw;
+        font-size: 3vw;
+        line-height: 1vw;
+        margin-left: 2%;
+        border-radius: 2vw;
+    }
+    .gmspContent.top2.load{
+        height: 80vh;
+        width: 100%;
+        justify-content: center;
+    }
+    .gmspContent.top2{
+        justify-content: space-between;
+        margin: 5% 0;
+    }
+    .gmspct2Game{
+        height: auto;
+        width: 48%;
+        margin-bottom: 2%;
+        border-radius: 2vw;
+    }
+    .gmspct2gPlatform{
+        top: 1vw;
+        left:1vw;
+        border-radius: 2vw;
+    }
+    .gmspct2gPlatform img{
+        height: 10vw;
+    }
+    .gmspct2gDetails h5{
+        font-size: 4vw;
+        height: 8vw;
+        line-height: 4vw;
+    }
+    .gmspct2gDetails p{
+        font-size: 2.3vw;
+    }
+    .gmspct2gDetails div h6{
+        font-size: 4vw;
+    }
+    .gmspct2gDetails div button{
+        font-size: 6vw;
+    }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
 
 
 

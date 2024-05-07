@@ -61,7 +61,7 @@ const Game = () => {
         const fetchGameData = async () => {
             try {
                 const response = await axios.get(AGGamesListAPI1);
-                const agOtherGamesData = response.data.slice(0, 10);
+                const agOtherGamesData = response.data;
                 const agGameData = response.data.find(game => game.game_canonical === gameCanonical);
                 const gameCSFeatMetacritic = agGameData.game_title_ext2.toLowerCase().replace(/\s/g, '-') || agGameData.game_title.toLowerCase().replace(/\s/g, '-');
                 const gameCSFeatWikipedia = agGameData.game_title_ext1.replace(/\s/g, '_') || agGameData.game_title.replace(/\s/g, '_');
@@ -212,8 +212,27 @@ const Game = () => {
             </section>
             <section className="gamePageContainer bot">
                 <h4>GAMES YOU MIGHT LIKE</h4>
-                <div className="gpPageContentMid3">
-                    {viewAGData2.map((details, i) => (
+                <div className="gpPageContentMid3 website">
+                    {viewAGData2.slice(0, 10).map((details, i) => (
+                        <Link className="gppcm3OtherGame" key={i} to={`/Games/${details.game_canonical}`}>
+                            <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="" />
+                            <div className="gppcm3ogPlatform">
+                                <img src="" platform={details.game_platform} alt="" />
+                            </div>
+                            <div className="gppcm3ogDetails">
+                                <h5>{details.game_title}</h5>
+                                <p>{details.game_edition}</p>
+                                <div>
+                                    <div id="mppcm2GDView"><h5>$999.99</h5></div>
+                                    <button id='mppcm2GDHeart'><TbHeart className='faIcons'/></button>
+                                    <button id='mppcm2GDCart'><TbShoppingCartBolt className='faIcons'/></button>
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+                <div className="gpPageContentMid3 mobile">
+                    {viewAGData2.slice(0, 6).map((details, i) => (
                         <Link className="gppcm3OtherGame" key={i} to={`/Games/${details.game_canonical}`}>
                             <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="" />
                             <div className="gppcm3ogPlatform">

@@ -859,8 +859,8 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     section.marketplacePageContainer.top{
         height: auto;
         width: 100%;
-        padding: 13vw 5%;
-        padding-bottom: 0;
+        padding: 0 5%;
+        padding-top: 7vh;
     }
     .mppctn.left{
         width: 65%;

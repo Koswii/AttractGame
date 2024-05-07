@@ -379,6 +379,9 @@ section.gamePageContainer.bot{
     align-items: center;
     margin-top: 2%;
 }
+.gpPageContentMid3.mobile{
+    display: none;
+}
 .gppcm3OtherGame{
     height: auto;
     width: 19%;
@@ -489,4 +492,211 @@ section.gamePageContainer.bot{
     outline: none;
     color: white;
     cursor: pointer;
+}
+
+
+
+
+
+
+@media screen and (max-width: 500px){
+    section.gamePageContainer.top{
+        padding: 0 5%;
+        padding-top: 7vh;
+    }
+    .gpPageContentTop{
+        border-radius: 3vw;
+        display: block;
+    }
+    .gppctGameDetails.loading{
+        height: 100vh;
+        width: 100%;
+        border-radius: 2vw;
+    }
+
+
+
+
+
+    .gppctGameDetails.left{
+        height: auto;
+        width: 100%;
+        border-radius: 2vw;
+    }
+    .gppctgdMetacritic{
+        top: 2vw;
+        left: 2vw;
+        border-radius: 2vw;
+    }
+    .gppctgdMetacritic h3{
+        font-size: 10vw;
+    }
+    .gppctgdMetacritic p{
+        font-size: 3vw;
+    }
+    .gppctgdCategory{
+        top: 2vw;
+        right: 2vw;
+    }
+    .gppctgdCategory h5{
+        font-size: 5vw;
+    }
+    .gppctGameDetails.right{
+        height: 50vh;
+        position: relative;
+        width: 100%;
+        padding: 5%;
+    }
+    .gppctGameDetails.right h3{
+        font-size: 5vw;
+        height: 12vw;
+        line-height: 5vw;
+        justify-content: center;
+    }
+    .gppctgdrDetails{
+        justify-content: center;
+    }
+    .gppctgdrDetails h6{
+        font-weight: 400;
+        font-size: 2.3vw;
+        padding: 2% 4%;
+        margin: 2%;
+    }
+    .gppctGameDetails.right h5{
+        font-size: 3vw;
+        text-align: center;
+    }
+    .gppctgdrMetacritic{
+        height: 15vh;
+        width: 100%;
+    }
+    .gppctgdrMetacritic p{
+        font-size: 2.3vw;
+    }
+    .gppctgdrMetacritic div{
+        margin-top: 5%;
+        justify-content: center;
+    }
+    .gppctgdrMetacritic div a{
+        font-size: 3vw;
+        margin-left: 2%;
+        padding: 1% 5%;
+    }
+    .gppctgdrExtras{
+        padding: 3%;
+        padding-bottom: 8%;
+    }
+    .gppctgdrExtras h4{
+        width: 45%;
+        text-align: center;
+        margin-right: 5%;
+        font-size: 8vw;
+    }
+    .gppctgdrExtras button{
+        font-size: 8vw;
+        line-height: 2vw;
+    }
+    .gppctgdrExtras div h6{
+        font-size: 2.3vw;
+    }
+    .gppctgdrExtras div p{
+        font-size: 2.3vw;
+    }
+
+
+    section.gamePageContainer.mid{
+        padding: 3% 5%;
+    }
+    .gpPageContentMid1{
+        display: block;
+    }
+    .gppcm1Container.left{
+        height: 50vw;
+        width: 100%;
+        border-radius: 3vw;
+        margin-bottom: 10%;
+    }
+    .gppcm1Container.right{
+        height: auto;
+        width: 100%;
+    }
+    .gppcm1Container.right h4{
+        font-size: 6vw;
+        margin-bottom: 3%;
+    }
+    .gppcm1Container.right h4 span{
+        font-size: 4vw;
+    }
+    .gppcm1crReviews{
+        height: 15vw;
+        width: 100%;
+        margin-top: 3%;
+        margin-bottom: 7%;
+        position: relative;
+    }
+    .gppcm1crReviews p{
+        font-size: 2.3vw;
+    }
+    .gppcm1crReviews h6{
+        font-size: 3vw;
+    }
+    .gppcm1crReviews h6 span{
+        font-size: 2.3vw;
+    }
+    .gppcm1Container.right button{
+        border-radius: 2vw;
+        font-size: 3vw;
+    }
+
+
+
+    section.gamePageContainer.bot{
+        padding: 5%;
+        padding-bottom: 10vw;
+    }
+    section.gamePageContainer.bot h4{
+        font-size: 6vw;
+    }
+    .gpPageContentMid3.website{
+        display: none;
+    }
+    .gpPageContentMid3.mobile{
+        display: flex;
+        justify-content: space-between;
+    }
+    .gppcm3OtherGame{
+        height: auto;
+        width: 48%;
+        margin: 1%;
+        border-radius: 2vw;
+    }
+    .gppcm3ogPlatform{
+        top: 1vw;
+        left: 1vw;
+        padding: 3%;
+        border-radius: 2vw;
+    }
+    .gppcm3ogPlatform img{
+        height: 10vw;
+    }
+    .gppcm3ogDetails h5{
+        height: 11vw;
+        font-size: 5vw;
+        line-height: 5vw;
+    }
+    .gppcm3ogDetails p{
+        font-size: 3vw;
+    }
+    .gppcm3ogDetails div #mppcm2GDView h5{
+        height: 7vw;
+        font-size: 4vw;
+    }
+    .gppcm3ogDetails div button#mppcm2GDHeart,
+    .gppcm3ogDetails div button#mppcm2GDCart{
+        font-size: 6vw;
+    }
+
+
+
+
 }

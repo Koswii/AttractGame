@@ -202,6 +202,7 @@ section.landingPageContainer.mid{
 .lndPageContent.mid3{
     height: auto;
     width: 100%;
+    margin-bottom: 5%;
 }
 .lndPageContent.mid3 h4{
     display: flex;
@@ -219,7 +220,7 @@ section.landingPageContainer.mid{
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    margin: 2% 0;
+    margin-top: 2%;
 }
 .lndpcfgames{
     height: auto;
@@ -315,9 +316,23 @@ section.landingPageContainer.mid{
 .lndpcfgPlatform img[platform='PlayStation5']{
     content: url('../assets/imgs/GamePlatforms/PS5.png');
 }
-
-
-
+.lndpcfgViewMore{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.lndpcfgViewMore a{
+    font-size: 1vw;
+    color: white;
+    opacity: 50%;
+    text-decoration: none;
+}
+.lndpcfgViewMore a:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+}
 
 
 
@@ -670,7 +685,7 @@ section.landingPageContainer.mid{
     section.landingPageContainer.top{
         height: 60vw;
         width: 100%;
-        padding-top: 6vh;
+        padding-top: 7vh;
     }
     .lndpcTop.right{
         height: auto;
@@ -686,7 +701,7 @@ section.landingPageContainer.mid{
     }
     .lndpcTop.right span a{
         padding: 1% 10%;
-        font-size: 2.3vw;
+        font-size: 3vw;
         opacity: 100%;
     }
 
@@ -712,8 +727,14 @@ section.landingPageContainer.mid{
     .lndpcMid2{
         display: none;
     }
+    .lndPageContent.mid3{
+        margin: 5% 0;
+    }
     .lndPageContent.mid3 h4{
         font-size: 4vw;
+    }
+    .lndpcFeaturedGames{
+        margin: 2% 0;
     }
     .lndpcfgames.website{
         display: none;
@@ -742,6 +763,10 @@ section.landingPageContainer.mid{
     .lndpcfgDetails p{
         font-size: 2.3vw;
         margin-top: 5%;
+    }
+    .lndpcfgViewMore a{
+        font-size: 3vw;
+        opacity: 100%;
     }
     .lndpcAGElite{
         height: auto;
@@ -774,7 +799,7 @@ section.landingPageContainer.mid{
         margin-top: 20%;
         padding: 1% 10%;
         border-radius: 50px;
-        font-size: 2.3vw;
+        font-size: 3vw;
     }
     .lndpcGameListed{
         flex-wrap: wrap;
@@ -815,7 +840,8 @@ section.landingPageContainer.mid{
         display: none;
     }
     .lndpcfgcViewMore a{
-        font-size: 2.3vw;
+        font-size: 3vw;
+        opacity: 100%;
     }
 
 
@@ -845,7 +871,7 @@ section.landingPageContainer.mid{
         font-size: 2.3vw;
     }
     .lndpcfCrypto a{
-        font-size: 2.3vw;
+        font-size: 3vw;
         padding: 2% 10%;
     }
 

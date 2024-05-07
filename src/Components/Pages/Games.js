@@ -23,7 +23,7 @@ const Games = () => {
     const [currentPage, setCurrentPage] = useState(
         parseInt(localStorage.getItem('currentPage')) || 1
     ); // state to track current page
-    const [itemsPerPage] = useState(25); // number of items per page
+    const [itemsPerPage] = useState(30); // number of items per page
 
     useEffect(() => {
         const fetchGames = async () => {
@@ -40,7 +40,6 @@ const Games = () => {
         };
         fetchGames();
     }, []);
-
     const handleSearchChange = event => {
         setSearchGameName(event.target.value);
         setCurrentPage(1); // Reset to the first page when searching
@@ -49,7 +48,6 @@ const Games = () => {
     const filteredData = viewAGData1.filter(game =>
       game.game_title.toLowerCase().includes(searchGameName.toLowerCase())
     );
-
     useEffect(() => {
         localStorage.setItem('currentPage', currentPage);
     }, [currentPage]);
@@ -107,7 +105,7 @@ const Games = () => {
                 :<div className="gmspContent top2 load">
                     <div className="loader"></div>
                 </div>}
-                {searchGameName == '' && <div className="gmspContent top1">
+                {searchGameName == '' && <div className="gmspContent top1 mobile">
                     <h5></h5>
                     <ul className="pagination">
                         {loadingMarketData ? renderPageNumbers : <></>}

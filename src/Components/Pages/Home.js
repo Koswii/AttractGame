@@ -158,6 +158,9 @@ const Home = () => {
               </div>
             </div>))}
           </div>
+          <div className="lndpcfgViewMore">
+            <Link to="/Games">View All Games</Link>
+          </div>
         </div>
         <div className="lndPageContent mid4">
           <img src={require('../assets/imgs/LandingImg/AGStarFeature.png')} alt="" />
