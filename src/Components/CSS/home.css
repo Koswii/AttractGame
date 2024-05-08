@@ -684,9 +684,25 @@ section.landingPageContainer.mid{
 
 @media screen and (max-width: 500px){
     section.landingPageContainer.top{
-        height: 60vw;
+        height: auto;
         width: 100%;
-        padding-top: 10vh;
+        padding-top: 12vh;
+    }
+    section.landingPageContainer.top video{
+        height: auto;
+        width: 100%;
+        position: absolute;
+        top: 12vh;
+        left: 0;
+        z-index: 1;
+    }
+    .lndPageContent.top{
+        height: auto;
+        width: 100%;
+        padding: 10%;
+        background: 
+            linear-gradient(transparent, black 90%);
+        background-size: cover;
     }
     .lndpcTop.right{
         height: auto;
@@ -709,7 +725,6 @@ section.landingPageContainer.mid{
 
     section.landingPageContainer.mid{
         padding: 5%;
-        padding-top: 2%;
     }
     .lndpcSearch{
         width: 100%;

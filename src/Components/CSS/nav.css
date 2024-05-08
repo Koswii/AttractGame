@@ -16,7 +16,6 @@ nav{
 .mainNavContainer{
     height: 4vw;
     width: 100%;
-    padding: 0 15vw;
     position: relative;
     background: rgba(0, 0, 0, 0.36);
     box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
@@ -24,7 +23,9 @@ nav{
     -webkit-backdrop-filter: blur(15px);
     z-index: 999;
 }
-
+.mainNavContainer hr{
+    display: none;
+}
 .navContainerModal{
     height: 100vh;
     width: 100%;
@@ -198,11 +199,25 @@ nav{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 10vw;
 }
 .navContainer.mobile{
+    height: 6vh;
     display: none;
+    /* display: flex; */
+    justify-content: space-between;
+    align-items: center;
+    padding: 2% 5%;
 }
-
+.navContainer.mobile a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.navContainer.mobile a h5{
+    font-size: 7.5vw;
+    line-height: 5vw;
+}
 /* Website */
 
 .navContent a{
@@ -311,7 +326,9 @@ nav{
     .mainNavContainer{
         height: auto;
         width: 100%;
-        padding: 2% 10%;
+    }
+    .mainNavContainer hr{
+        display: block;
     }
     .navContentModal{
         height: auto;
@@ -346,7 +363,17 @@ nav{
 
 
 
-
+    .navContainer{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5% 5%;
+    }
+    .navContainer.mobile{
+        display: flex;
+    }
     .navContent.left img{
         height: 10vw;
     }

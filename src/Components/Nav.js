@@ -8,7 +8,13 @@ import {
   FaRegEyeSlash, 
 } from 'react-icons/fa';
 import { 
-  MdAdminPanelSettings 
+  MdAdminPanelSettings,
+  MdOutlineSpaceDashboard,
+  MdOutlineShoppingBag,
+  MdOutlineVideogameAsset,
+  MdOutlineGamepad,
+  MdOutlineCardGiftcard,
+  MdCurrencyBitcoin    
 } from "react-icons/md";
 import { 
   TbUserSquareRounded 
@@ -347,6 +353,14 @@ const Nav = () => {
             </div>}
           </div>
         </div>
+        <div className="navContainer mobile">
+          <Link><h5><MdOutlineSpaceDashboard className='faIcons'/></h5></Link>
+          <Link to='/Marketplace'><h5><MdOutlineShoppingBag className='faIcons'/></h5></Link>
+          <Link to='/Games'><h5><MdOutlineGamepad  className='faIcons'/></h5></Link>
+          <Link><h5><MdOutlineCardGiftcard className='faIcons'/></h5></Link>
+          <Link><h5><MdCurrencyBitcoin className='faIcons'/></h5></Link>
+        </div>
+        <hr />
       </div>
     </nav>
   ); 

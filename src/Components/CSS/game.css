@@ -503,7 +503,7 @@ section.gamePageContainer.bot{
 @media screen and (max-width: 500px){
     section.gamePageContainer.top{
         padding: 0 5%;
-        padding-top: 10vh;
+        padding-top: 15vh;
     }
     .gpPageContentTop{
         border-radius: 3vw;
