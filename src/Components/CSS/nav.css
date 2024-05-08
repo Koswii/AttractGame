@@ -217,6 +217,7 @@ nav{
 .navContainer.mobile a h5{
     font-size: 7.5vw;
     line-height: 5vw;
+    color: gray;
 }
 /* Website */
 
@@ -239,6 +240,9 @@ nav{
     height: 3vw;
     max-width: 100%;
     margin-right: 5%;
+}
+.navContent.left img#nclLogoMobile{
+    display: none;
 }
 .navContent.left h5{
     font-weight: 600;
@@ -375,6 +379,9 @@ nav{
     .navContainer.mobile{
         display: flex;
     }
+    .navContent.left{
+        width: 40%;
+    }
     .navContent.left img{
         height: 10vw;
     }
@@ -394,9 +401,23 @@ nav{
     .navContent.right div a#agRegisterBtn{
         display: none;
     }
-
-
-
+    .navContent.right #userProfile{
+        display: none;
+    }
+    .navContainer.mobile a#agProfileBtn{
+        height: 8vw;
+        width: 8vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        overflow: hidden;
+        border: solid 2px white;
+    }
+    .navContainer.mobile a#agProfileBtn img{
+        height: 100%;
+        width: 100%;
+    }
 
 
 

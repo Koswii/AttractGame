@@ -329,8 +329,9 @@ const Nav = () => {
         <div className="navContainer website">
           <div className="navContent left">
               <Link to="/">
-                  <img src={require('./assets/imgs/AGLogoWhite.png')} alt="" />
+                  <img id='nclLogoWebsite' src={require('./assets/imgs/AGLogoWhite.png')} alt="" />
                   {/* <h5>ATTRACT GAME</h5> */}
+                  <img id='nclLogoMobile' src={require('./assets/imgs/AGLogoNameWhite2.png')} alt="" />
               </Link>
           </div>
           <div className="navContent center">
@@ -359,6 +360,11 @@ const Nav = () => {
           <Link to='/Games'><h5><MdOutlineGamepad  className='faIcons'/></h5></Link>
           <Link><h5><MdOutlineCardGiftcard className='faIcons'/></h5></Link>
           <Link><h5><MdCurrencyBitcoin className='faIcons'/></h5></Link>
+          {viewUserCredentials && 
+            <Link id='agProfileBtn' to='/Profile'>
+              <img src="https://engeenx.com/ProfilePics/DefaultProfilePic.png" alt="" />
+            </Link>
+          }
         </div>
         <hr />
       </div>
