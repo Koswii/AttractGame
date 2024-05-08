@@ -926,6 +926,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     }
     .mppcm2GamePlatform img{
         height: 10vw;
+        width: 10vw;
     }
     .mppcm2GameCategory h4 .faIcons{
         font-size: 5vw;
