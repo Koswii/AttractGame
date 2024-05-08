@@ -865,7 +865,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
         background: none;
     }
     .mppctn.left{
-        width: 65%;
+        width: 100%;
         padding: 0.7% 2%;
         border-radius: 2vw;
     }
@@ -876,16 +876,8 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
         font-size: 3vw;
         padding: 1% 0;
     }
-    .mppctn.right span{
-        width: 30%;
-        margin-left: 5%;
-    }
-    .mppctn.right span h6{
-        font-size: 2.3vw;
-    }
-    .mppctn.right span h6 .faIcons{
-        margin-left: 15%;
-        font-size: 3vw;
+    .mppctn.right{
+        display: none;
     }
 
 
