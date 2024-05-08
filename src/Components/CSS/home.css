@@ -757,6 +757,7 @@ section.landingPageContainer.mid{
     }
     .lndpcfgPlatform img{
         height: 10vw;
+        width: 10vw;
     }
     .lndpcfgDetails h6{
         font-size: 3vw;
