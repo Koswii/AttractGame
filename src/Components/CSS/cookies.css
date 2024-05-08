@@ -59,11 +59,14 @@ h6{
 
 
 @media screen and (max-width: 500px){
+    .mainContainer.cookies{
+        padding: 3% 5%;
+    }
     .mainContainer.cookies p{
         font-size: 2.3vw;
     }
     .mainContainer.cookies button{
-        padding: 0.5% 7%;
+        padding: 1% 7%;
         font-size: 2.3vw;
     }
 }

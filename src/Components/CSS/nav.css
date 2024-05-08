@@ -363,7 +363,9 @@ nav{
     .navContent.right div a#agLoginBtn h6{
         font-size: 8.5vw;
     }
-
+    .navContent.right div a#agRegisterBtn{
+        display: none;
+    }
 
 
 
