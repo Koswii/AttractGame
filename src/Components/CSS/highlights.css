@@ -366,6 +366,9 @@ section.highlightsPageContainer.mid{
         border-radius: 2vw;
         background: rgba(30, 30, 30, 0.8);
     }
+    .hldpcMid1Profile{
+        width: 80%;
+    }
     .hldpcMid1Profile div{
         height: 10vw;
         width: 10vw;
@@ -377,10 +380,13 @@ section.highlightsPageContainer.mid{
     .hldpcMid1Profile span p{
         font-size: 2.3vw;
     }
+    .hldpcMid1Option{
+        width: 20%;
+    }
     .hldpcMid1Option button{
         height: 5vw;
         width: auto;
-        margin-left: 7%;
+        margin-left: 15%;
         font-size: 5vw;
     }
     .hldpcMid1PostText{
