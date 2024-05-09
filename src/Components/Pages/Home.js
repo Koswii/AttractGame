@@ -42,6 +42,14 @@ const Home = () => {
   const [viewAGData1, setViewAGData1] = useState([]);
 
 
+  const handleClickGames = () => {
+    localStorage.setItem('games', 'active');
+    localStorage.removeItem('dashboard');
+    localStorage.removeItem('marketplace');
+    localStorage.removeItem('giftcards');
+    localStorage.removeItem('crypto');
+  }
+
   useEffect(() => {
       const fetchDataGames = async () => {
           try {
@@ -159,7 +167,7 @@ const Home = () => {
             </div>))}
           </div>
           <div className="lndpcfgViewMore">
-            <Link to="/Games">View All Games</Link>
+            <Link to="/Games" onClick={handleClickGames}>View All Games</Link>
           </div>
         </div>
         <div className="lndPageContent mid4">

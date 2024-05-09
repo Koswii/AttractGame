@@ -171,6 +171,13 @@ const Marketplace = () => {
         fetchRobloxPartners();
     }, []);
 
+    const handleClickGames = () => {
+        localStorage.setItem('games', 'active');
+        localStorage.removeItem('dashboard');
+        localStorage.removeItem('marketplace');
+        localStorage.removeItem('giftcards');
+        localStorage.removeItem('crypto');
+    }
 
     return (
         <div className='mainContainer marketplace'>
@@ -378,7 +385,7 @@ const Marketplace = () => {
                     </Link>
                 </div> */}
                 <div className="mpPageContentM2ShowMore">
-                    <Link to='/Games'><TbSquareRoundedArrowRight className='faIcons'/> View More Games</Link>
+                    <Link to='/Games' onClick={handleClickGames}><TbSquareRoundedArrowRight className='faIcons'/> View More Games</Link>
                 </div>
                 <div className="mpPageContentMid4">
                     <div className="mppcm4GiftCard">
