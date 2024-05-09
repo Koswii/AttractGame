@@ -353,14 +353,18 @@ section.highlightsPageContainer.mid{
     section.highlightsPageContainer.mid{
         height: auto;
         width: 100%;
-        padding: 5%;
+        padding: 0;
     }
     .hlsPageContent.mid{
-        border-radius: 2vw;
+        border-radius: 0;
+        background: none;
+        box-shadow: none;
     }
     .hldpcMid1{
         padding: 5%;
+        margin-bottom: 1%;
         border-radius: 2vw;
+        background: rgba(30, 30, 30, 0.8);
     }
     .hldpcMid1Profile div{
         height: 10vw;
