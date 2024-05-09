@@ -110,6 +110,8 @@ const Profile = () => {
         setAddPostMedia(false)
         setImage(null);
     }
+
+    
     const [image, setImage] = useState(null);
     const handleFileInputChange = (event) => {
         const file = event.target.files[0];
@@ -266,6 +268,8 @@ const Profile = () => {
                     </div>
                 </div>
             </div>}
+
+
             <section className="profilePageContainer top">
                 <img src={require('../assets/imgs/DefaultProfile.jpg')} alt="" />
                 <div></div>

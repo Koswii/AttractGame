@@ -8,6 +8,7 @@ import {
   FaRegEyeSlash, 
 } from 'react-icons/fa';
 import { 
+  MdSettings,
   MdAdminPanelSettings,
   MdOutlineSpaceDashboard,
   MdOutlineShoppingBag,
@@ -252,6 +253,7 @@ const Nav = () => {
     localStorage.removeItem('games');
     localStorage.removeItem('giftcards');
     localStorage.removeItem('crypto');
+    navigate('/Highlights');
   }
   const handleClickMarketplace = () => {
     localStorage.setItem('marketplace', 'active');
@@ -383,7 +385,7 @@ const Nav = () => {
               </Link>
           </div>
           <div className="navContent center">
-            <Link onClick={handleClickDashboadrd}><h6>HIGHLIGHTS</h6></Link>
+            <Link to="/Highlights" onClick={handleClickDashboadrd}><h6>HIGHLIGHTS</h6></Link>
             <Link to="/Marketplace" onClick={handleClickMarketplace}><h6>MARKETPLACE</h6></Link>
             <Link to="/Games" onClick={handleClickGames}><h6>GAMES</h6></Link>
             <Link onClick={handleClickCrypto}><h6>CRYPTO</h6></Link>
@@ -396,6 +398,7 @@ const Nav = () => {
             <div id='userProfile'>
               {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><h6><MdAdminPanelSettings className='faIcons'/></h6></Link>}
               <Link id='agCartBtn'><h6><TbShoppingCartBolt className='faIcons'/></h6></Link>
+              <Link id='agSettingsBtn'><h6><MdSettings className='faIcons'/></h6></Link>
               <Link id='agProfileBtn' to='/Profile'>
                 <img src="https://engeenx.com/ProfilePics/DefaultProfilePic.png" alt="" />
               </Link>

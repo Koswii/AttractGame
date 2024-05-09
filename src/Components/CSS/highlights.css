@@ -1,0 +1,410 @@
+h1, h2, h3, h4, h5, h6, p{
+    color: white;
+}
+p{
+    font-size: 0.9vw;
+}
+h1{
+    font-size: 10vw;
+}
+h2{
+    font-size: 5vw;
+}
+h3{
+    font-size: 4vw;
+}
+h4{
+    font-size: 2vw;
+}
+h5{
+    font-size: 1.5vw;
+}
+h6{
+    font-size: 1vw;
+}
+
+
+.mainContainer.highlights{
+    height: auto;
+    width: 100%;
+    background: black;
+    position: relative;
+    padding-bottom: 20vw;
+}
+
+
+
+
+
+
+section.highlightsPageContainer.top{
+    height: auto;
+    width: 100%;
+    padding: 0 20%;
+    padding-top: 7vw;
+}
+.hlsPageContent.top{
+    height: auto;
+    width: 100%;
+}
+.hldpcTop1{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.hldpct1{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.hldpct1 div{
+    height: 3vw;
+    width: 3vw;
+    overflow: hidden;
+    border-radius: 50%;
+    background: white;
+}
+.hldpct1 div img{
+    height: 100%;
+    width: 100%;
+}
+.hldpct1 input{
+    height: 3vw;
+    width: 85%;
+    padding: 2%;
+    border-radius: 50px;
+    border: solid 2px white;
+    outline: none;
+    font-size: 0.9vw;
+    background: none;
+}
+.hldpct1 button{
+    height: 3vw;
+    width: 5%;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 2.5vw;
+    cursor: pointer;
+}
+.hldpcTop2{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2% 0;
+}
+.hldpcT2.addStory{
+    height: 16vw;
+    width: 18%;
+    border: solid 2px white;
+    border-radius: 1vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-right: 2%;
+    cursor: pointer;
+}
+.hldpcT2.addStory img{
+    height: 100%;
+}
+.hldpcT2.addStory span{
+    height: 5vw;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background: white;
+    text-align: center;
+    padding: 7% 0;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+.hldpcT2.stories{
+    height: 16vw;
+    width: 82%;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.hldpcT2.stories div{
+    height: 16vw;
+    width: 23%;
+    border: solid 2px white;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+.hldpcT2.stories div span{
+    position: absolute;
+    height: 2.5vw;
+    width: 2.5vw;
+    top: 0.5vw;
+    left: 0.5vw;
+    border: solid 2px white;
+    box-shadow: 0 0 10px black;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.hldpcT2.stories div span img{
+    height: 100%;
+}
+.hldpcT2.stories div img{
+    height: 100%;
+}
+
+
+
+section.highlightsPageContainer.mid{
+    height: auto;
+    width: 100%;
+    padding: 1% 20%;
+}
+.hlsPageContent.mid{
+    height: auto;
+    width: 100%;
+    padding: 3%;
+    border-radius: 1vw;
+    background: rgba(30, 30, 30, 0.8);
+    box-shadow: 0 0 10px black;
+}
+.hldpcMid1{
+    height: auto;
+    width: 100%;
+    margin-bottom: 2%;
+    border: solid 2px black;
+    padding: 2%;
+    border-radius: 1vw;
+}
+.hldpcMid1User{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.hldpcMid1Profile{
+    height: auto;
+    width: 50%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.hldpcMid1Profile div{
+    height: 3vw;
+    width: 3vw;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 3%;
+}
+.hldpcMid1Profile div img{
+    height: 100%;
+}
+.hldpcMid1Profile span h6 .faIcons{
+    color: gold;
+}
+.hldpcMid1Option{
+    height: auto;
+    width: 50%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.hldpcMid1Option button{
+    height: 3vw;
+    width: 2vw;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1.5vw;
+    line-height: 1vw;
+    cursor: pointer;
+}
+.hldpcMid1PostText{
+    height: auto;
+    width: 100%;
+    margin: 3% 0;
+}
+.hldpcMid1PostImg{
+    height: 30vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+    border-radius: 1vw;
+    overflow: hidden;
+    position: relative;
+}
+.hldpcMid1PostImg img#hldpcMid1pBG{
+    width: 100%;
+    position: absolute;
+    filter: blur(15px);
+}
+.hldpcMid1PostImg img#hldpcMid1pImg{
+    height: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 500px){
+    section.highlightsPageContainer.top{
+        height: auto;
+        width: 100%;
+        padding: 0 5%;
+        padding-top: 15vh;
+    }
+    .hldpct1 div{
+        height: 10vw;
+        width: 10vw;
+    }
+    .hldpct1 input{
+        height: 10vw;
+        width: 75%;
+        padding: 2% 5%;
+        font-size: 3vw;
+    }
+    .hldpct1 button{
+        height: 10vw;
+        width: 10%;
+        font-size: 8vw;
+    }
+    .hldpcTop2{
+        margin: 5% 0;
+    }
+    .hldpcTop2.website{
+        display: none;
+    }
+    .hldpcT2.addStory{
+        height: 35vw;
+        width: 24%;
+        border-radius: 2vw;
+        margin-right: 0;
+    }
+    .hldpcT2.addStory span{
+        height: auto;
+        width: 100%;
+    }
+    .hldpcT2.addStory span h5{
+        font-size: 5vw;
+    }
+    .hldpcT2.addStory span p{
+        font-size: 2.3vw;
+    }
+
+
+    .hldpcT2.stories{
+        height: 35vw;
+        width: 74%;
+        overflow: hidden;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
+    .hldpcT2.stories div{
+        height: 35vw;
+        width: 32%;
+        border-radius: 2vw;
+    }
+    .hldpcT2.stories div span{
+        position: absolute;
+        height: 8vw;
+        width: 8vw;
+        top: 1vw;
+        left: 1vw;
+    }
+
+
+
+
+
+
+
+    section.highlightsPageContainer.mid{
+        height: auto;
+        width: 100%;
+        padding: 5%;
+    }
+    .hlsPageContent.mid{
+        border-radius: 2vw;
+    }
+    .hldpcMid1{
+        padding: 5%;
+        border-radius: 2vw;
+    }
+    .hldpcMid1Profile div{
+        height: 10vw;
+        width: 10vw;
+        margin-right: 5%;
+    }
+    .hldpcMid1Profile span h6{
+        font-size: 3vw;
+    }
+    .hldpcMid1Profile span p{
+        font-size: 2.3vw;
+    }
+    .hldpcMid1Option button{
+        height: 5vw;
+        width: auto;
+        margin-left: 7%;
+        font-size: 5vw;
+    }
+    .hldpcMid1PostText{
+        margin: 5% 0;
+    }
+    .hldpcMid1PostText p{
+        font-size: 2.3vw;
+    }
+    .hldpcMid1PostImg{
+        height: 60vw;
+        width: 100%;
+        border-radius: 2vw;
+    }
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+

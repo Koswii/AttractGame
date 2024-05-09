@@ -324,11 +324,15 @@ nav{
 .navContent.right div a#agAdminBtn{
     height: 2.2vw;
     margin: 0 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 .navContent.right div a#agProfileBtn h6,
 .navContent.right div a#agCartBtn h6,
 .navContent.right div a#agAdminBtn h6{
-    font-size: 2.3vw;
+    font-size: 2vw;
     line-height: 1vw;
 }
 .navContent.right div a#agProfileBtn img,
@@ -337,6 +341,9 @@ nav{
     height: 100%;
     border-radius: 50%;
     border: solid 2px white;
+}
+.navContent.right div a#agSettingsBtn{
+    display: none;
 }
 .navContent.right div a#agLogoutBtn{
     border: solid 2px white;
@@ -422,16 +429,21 @@ nav{
     .navContent.right div a#agRegisterBtn{
         display: none;
     }
+    .navContent.right div a#agSettingsBtn{
+        display: block;
+    }
     .navContent.right div a#agCartBtn,
-    .navContent.right div a#agAdminBtn{
-        height: 8vw;
+    .navContent.right div a#agAdminBtn,
+    .navContent.right div a#agSettingsBtn{
+        height: 7vw;
         margin: 0;
         margin-left: 10%;
     }
     .navContent.right div a#agCartBtn h6,
-    .navContent.right div a#agAdminBtn h6{
-        font-size: 8vw;
-        line-height: 8vw;
+    .navContent.right div a#agAdminBtn h6,
+    .navContent.right div a#agSettingsBtn h6{
+        font-size: 7vw;
+        line-height: 7vw;
     }
     .navContent.right #userProfile a#agProfileBtn{
         display: none;

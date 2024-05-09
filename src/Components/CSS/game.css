@@ -41,10 +41,6 @@ section.gamePageContainer.top{
     width: 100%;
     padding: 0 10%;
     padding-top: 7vw;
-    background: 
-        linear-gradient(transparent, black 80%),
-        url('../assets/imgs/13551.png') no-repeat center;
-    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;

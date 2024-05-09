@@ -38,14 +38,9 @@ h6{
 
 section.marketplacePageContainer.top{
     height: 41vw;
-    /* height: auto; */
     width: 100%;
     padding: 4vw 10%;
     padding-bottom: 0;
-    background: 
-        linear-gradient(transparent, black 80%),
-        url('../assets/imgs/13551.png') no-repeat center;
-    background-size: cover;
 }
 section.marketplacePageContainer.top h4#mppcth4Title{
     display: flex;
