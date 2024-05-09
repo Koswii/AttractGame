@@ -100,6 +100,9 @@ section.highlightsPageContainer.top{
     align-items: center;
     margin: 2% 0;
 }
+.hldpcTop2.mobile{
+    display: none;
+}
 .hldpcT2.addStory{
     height: 16vw;
     width: 18%;
@@ -304,6 +307,9 @@ section.highlightsPageContainer.mid{
     .hldpcTop2.website{
         display: none;
     }
+    .hldpcTop2.mobile{
+        display: flex;
+    }
     .hldpcT2.addStory{
         height: 35vw;
         width: 24%;
@@ -361,7 +367,7 @@ section.highlightsPageContainer.mid{
         box-shadow: none;
     }
     .hldpcMid1{
-        padding: 5%;
+        padding: 3% 5%;
         margin-bottom: 1%;
         border-radius: 2vw;
         background: rgba(30, 30, 30, 0.8);
