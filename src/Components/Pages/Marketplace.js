@@ -335,7 +335,7 @@ const Marketplace = () => {
                     ))}
                 </div>
                 <div className="mpPageContentMid2 mobile">
-                    {viewAllListedGames.slice(0, 10).map((details, i) => (
+                    {viewAllListedGames.slice(0, 4).map((details, i) => (
                     <Link className="mppContentMid2" key={i} to={`/Games/${details.game_canonical}`}>
                         <div className="mppcm2GamePlatform">
                             <img platform={details.game_platform} src="" alt="" />
@@ -378,7 +378,7 @@ const Marketplace = () => {
                     </Link>
                 </div> */}
                 <div className="mpPageContentM2ShowMore">
-                    <Link to='/Games'><TbSquareRoundedArrowRight className='faIcons'/> View {viewAllGamesNum - 15} More Games</Link>
+                    <Link to='/Games'><TbSquareRoundedArrowRight className='faIcons'/> View More Games</Link>
                 </div>
                 <div className="mpPageContentMid4">
                     <div className="mppcm4GiftCard">

@@ -209,16 +209,31 @@ nav{
     align-items: center;
     padding: 2% 5%;
 }
-.navContainer.mobile a{
+.navContainer.mobile button{
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 10vw;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
 }
-.navContainer.mobile a h5{
+.navContainer.mobile button h5{
     font-size: 7.5vw;
     line-height: 5vw;
     color: gray;
+    opacity: 50%;
 }
+
+
+.navContainer.mobile button.active h5{
+    color: white;
+    opacity: 100%;
+}
+
+
+
 /* Website */
 
 .navContent a{
@@ -304,15 +319,21 @@ nav{
     justify-content: space-between;
     align-items: center;
 }
-.navContent.right div a#agProfileBtn{
+.navContent.right div a#agProfileBtn,
+.navContent.right div a#agCartBtn,
+.navContent.right div a#agAdminBtn{
     height: 2.2vw;
     margin: 0 5%;
 }
-.navContent.right div a#agProfileBtn h6{
+.navContent.right div a#agProfileBtn h6,
+.navContent.right div a#agCartBtn h6,
+.navContent.right div a#agAdminBtn h6{
     font-size: 2.3vw;
     line-height: 1vw;
 }
-.navContent.right div a#agProfileBtn img{
+.navContent.right div a#agProfileBtn img,
+.navContent.right div a#agCartBtn img,
+.navContent.right div a#agAdminBtn img{
     height: 100%;
     border-radius: 50%;
     border: solid 2px white;
@@ -401,7 +422,21 @@ nav{
     .navContent.right div a#agRegisterBtn{
         display: none;
     }
-    .navContent.right #userProfile{
+    .navContent.right div a#agCartBtn,
+    .navContent.right div a#agAdminBtn{
+        height: 8vw;
+        margin: 0;
+        margin-left: 10%;
+    }
+    .navContent.right div a#agCartBtn h6,
+    .navContent.right div a#agAdminBtn h6{
+        font-size: 8vw;
+        line-height: 8vw;
+    }
+    .navContent.right #userProfile a#agProfileBtn{
+        display: none;
+    }
+    .navContent.right #userProfile a#agLogoutBtn{
         display: none;
     }
     .navContainer.mobile a#agProfileBtn{

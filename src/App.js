@@ -106,26 +106,23 @@ function App() {
     <Router>
     <div>
       <ScrollToTop />
-      {loading || isLoading ? <Loader />:
-      <>
-        <Nav />
-        <CookieBanner />
-        <Routes>
-          <Route exact path="/" element={<Home/>}/>
-          <Route exact path="/Marketplace" element={<Marketplace/>}/>
-          <Route exact path="/Games" element={<Games/>}/>
-          <Route exact path="/Games/:gameCanonical" element={<Game/>}/>
-          <Route exact path="/Profile" element={<Profile/>}/>
-          {viewAdminCredentials && <Route path="/Admin" element={<Admin/>}/>}
-          {/* <Route path="/Admin" element={<Admin/>}/> */}
+      <Nav />
+      <CookieBanner />
+      <Routes>
+        <Route exact path="/" element={<Home/>}/>
+        <Route exact path="/Marketplace" element={<Marketplace/>}/>
+        <Route exact path="/Games" element={<Games/>}/>
+        <Route exact path="/Games/:gameCanonical" element={<Game/>}/>
+        <Route exact path="/Profile" element={<Profile/>}/>
+        {viewAdminCredentials && <Route path="/Admin" element={<Admin/>}/>}
+        {/* <Route path="/Admin" element={<Admin/>}/> */}
 
 
 
 
-          {/* <Route path="*" element={<Home/>}/> */}
-        </Routes>
-        {/* <Footer /> */}
-      </>}
+        {/* <Route path="*" element={<Home/>}/> */}
+      </Routes>
+      {/* <Footer /> */}
     </div>
     </Router>
   );

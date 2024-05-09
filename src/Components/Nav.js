@@ -17,14 +17,16 @@ import {
   MdCurrencyBitcoin    
 } from "react-icons/md";
 import { 
-  TbUserSquareRounded 
+  TbUserSquareRounded,
+  TbShoppingCartBolt 
 } from "react-icons/tb";
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
 const Nav = () => {
+  const navigate = useNavigate ();
   const [viewRegForm, setViewRegForm] = useState(false)
   const [viewLoginForm, setViewLoginForm] = useState(false)
   const [viewUserCredentials, setViewUserCredentials] = useState(false)
@@ -236,6 +238,52 @@ const Nav = () => {
     window.document.body.style.overflow = 'auto';
   }
 
+  const handleClickHome = () => {
+    localStorage.removeItem('dashboard');
+    localStorage.removeItem('marketplace');
+    localStorage.removeItem('games');
+    localStorage.removeItem('giftcards');
+    localStorage.removeItem('crypto');
+  }
+
+  const handleClickDashboadrd = () => {
+    localStorage.setItem('dashboard', 'active');
+    localStorage.removeItem('marketplace');
+    localStorage.removeItem('games');
+    localStorage.removeItem('giftcards');
+    localStorage.removeItem('crypto');
+  }
+  const handleClickMarketplace = () => {
+    localStorage.setItem('marketplace', 'active');
+    localStorage.removeItem('dashboard');
+    localStorage.removeItem('games');
+    localStorage.removeItem('giftcards');
+    localStorage.removeItem('crypto');
+    navigate('/Marketplace');
+  }
+  const handleClickGames = () => {
+    localStorage.setItem('games', 'active');
+    localStorage.removeItem('dashboard');
+    localStorage.removeItem('marketplace');
+    localStorage.removeItem('giftcards');
+    localStorage.removeItem('crypto');
+    navigate('/Games');
+  }
+  const handleClickGiftcards = () => {
+    localStorage.setItem('giftcards', 'active');
+    localStorage.removeItem('dashboard');
+    localStorage.removeItem('marketplace');
+    localStorage.removeItem('games');
+    localStorage.removeItem('crypto');
+  }
+  const handleClickCrypto = () => {
+    localStorage.setItem('crypto', 'active');
+    localStorage.removeItem('dashboard');
+    localStorage.removeItem('marketplace');
+    localStorage.removeItem('games');
+    localStorage.removeItem('giftcards');
+  }
+
 
 
   return (
@@ -257,7 +305,7 @@ const Nav = () => {
                 </div>
                 <div>
                   <label htmlFor=""><p>Password</p></label>
-                  <input type={!viewTextPassword ? "password" : "text"} minLength={8} maxLength={16} placeholder={!viewTextPassword ? '********' : 'Password Length 8-16 Characters'} value={agUserPassword} minLength={8} maxLength={16} onChange={(e) => setAGUserPassword(e.target.value)} required/>
+                  <input type={!viewTextPassword ? "password" : "text"} minLength={8} maxLength={16} placeholder={!viewTextPassword ? '********' : 'Password Length 8-16 Characters'} value={agUserPassword} min={8} max={16} onChange={(e) => setAGUserPassword(e.target.value)} required/>
                   {!viewTextPassword ? <button className='navRefContViewPass' onClick={handleViewPassword}><FaRegEyeSlash className='faIcons'/></button>
                   :<button className='navRefContViewPass' onClick={handleHidePassword}><FaRegEye className='faIcons'/></button>}
                 </div>
@@ -328,17 +376,17 @@ const Nav = () => {
       <div className="mainNavContainer">
         <div className="navContainer website">
           <div className="navContent left">
-              <Link to="/">
+              <Link to='/' onClick={handleClickHome}>
                   <img id='nclLogoWebsite' src={require('./assets/imgs/AGLogoWhite.png')} alt="" />
                   {/* <h5>ATTRACT GAME</h5> */}
                   <img id='nclLogoMobile' src={require('./assets/imgs/AGLogoNameWhite2.png')} alt="" />
               </Link>
           </div>
           <div className="navContent center">
-            <Link><h6>HIGHLIGHTS</h6></Link>
-            <Link to="/Marketplace"><h6>MARKETPLACE</h6></Link>
-            <Link to="/Games"><h6>GAMES</h6></Link>
-            <Link><h6>CRYPTO</h6></Link>
+            <Link onClick={handleClickDashboadrd}><h6>HIGHLIGHTS</h6></Link>
+            <Link to="/Marketplace" onClick={handleClickMarketplace}><h6>MARKETPLACE</h6></Link>
+            <Link to="/Games" onClick={handleClickGames}><h6>GAMES</h6></Link>
+            <Link onClick={handleClickCrypto}><h6>CRYPTO</h6></Link>
           </div>
           <div className="navContent right">
             {!viewUserCredentials ? <div>
@@ -346,7 +394,8 @@ const Nav = () => {
               <a id='agRegisterBtn' onClick={handleViewRegistration}><h6>REGISTER</h6></a>
             </div>:
             <div id='userProfile'>
-              {viewAdminCredentials &&<Link id='agProfileBtn' to='/Admin'><h6><MdAdminPanelSettings className='faIcons'/></h6></Link>}
+              {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><h6><MdAdminPanelSettings className='faIcons'/></h6></Link>}
+              <Link id='agCartBtn'><h6><TbShoppingCartBolt className='faIcons'/></h6></Link>
               <Link id='agProfileBtn' to='/Profile'>
                 <img src="https://engeenx.com/ProfilePics/DefaultProfilePic.png" alt="" />
               </Link>
@@ -355,11 +404,11 @@ const Nav = () => {
           </div>
         </div>
         <div className="navContainer mobile">
-          <Link><h5><MdOutlineSpaceDashboard className='faIcons'/></h5></Link>
-          <Link to='/Marketplace'><h5><MdOutlineShoppingBag className='faIcons'/></h5></Link>
-          <Link to='/Games'><h5><MdOutlineGamepad  className='faIcons'/></h5></Link>
-          <Link><h5><MdOutlineCardGiftcard className='faIcons'/></h5></Link>
-          <Link><h5><MdCurrencyBitcoin className='faIcons'/></h5></Link>
+          <button className={localStorage.getItem('dashboard')} onClick={handleClickDashboadrd}><h5><MdOutlineSpaceDashboard className='faIcons'/></h5></button>
+          <button className={localStorage.getItem('marketplace')} onClick={handleClickMarketplace}><h5><MdOutlineShoppingBag className='faIcons'/></h5></button>
+          <button className={localStorage.getItem('games')} onClick={handleClickGames}><h5><MdOutlineGamepad  className='faIcons'/></h5></button>
+          <button className={localStorage.getItem('giftcards')} onClick={handleClickGiftcards}><h5><MdOutlineCardGiftcard className='faIcons'/></h5></button>
+          <button className={localStorage.getItem('crypto')} onClick={handleClickCrypto}><h5><MdCurrencyBitcoin className='faIcons'/></h5></button>
           {viewUserCredentials && 
             <Link id='agProfileBtn' to='/Profile'>
               <img src="https://engeenx.com/ProfilePics/DefaultProfilePic.png" alt="" />
