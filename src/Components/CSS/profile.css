@@ -578,26 +578,26 @@ section.profilePageContainer.mid{
     background: rgba(30, 30, 30, 0.8);
     box-shadow: 0 0 10px black;
     border-radius: 1vw;
-}
-.ppclProfilePic{
-    height: auto;
-    width: 100%;
     position: relative;
 }
-.ppclProfilePic img{
-    height: auto;
-    width: 100%;
+.ppclProfilePic{
+    height: 20vw;
+    width: 20vw;
+    overflow: hidden;
     border-radius: 50%;
     box-shadow: 0 0 20px black;
-    padding: 5%;
     display: flex;
+    margin: 0 auto;
     justify-content: center;
     align-items: center;
     position: absolute;
     cursor: pointer;
-    bottom: 0;
-    transform: translateY(-5%);
+    top: 0;
     left: 0;
+    transform: translate(10%, -75%);
+}
+.ppclProfilePic img{
+    height: 100%;
 }
 .ppclProfileName{
     height: 4vw;

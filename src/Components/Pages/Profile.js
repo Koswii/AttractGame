@@ -220,10 +220,11 @@ const Profile = () => {
     const [agEditTwitch, setAGEditTwitch] = useState('');
 
     const AGUserDataUPDATEAPI = process.env.REACT_APP_AG_USERS_PROFILE_UPDATE_API;
+    const AGUserCustomDPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_DP_API;
     const handleEditProfileSubmit = async (e) => {
         e.preventDefault();
-  
-        const formEditProfileData ={
+    
+        const formEditProfileData = {
             id: viewUserID,
             date: viewUserRegistration,
             email: viewEmailAddress,
@@ -239,27 +240,39 @@ const Profile = () => {
             agelite: viewAGElite,
             cryptoaddress: viewCryptoAddress,
             verified: viewVerifiedUser,
-        }
-        
+        };
+    
+        const formUserDPData = new FormData();
+        formUserDPData.append('profileimg', imageDP);
+    
         try {
             const jsonEditProfileData = JSON.stringify(formEditProfileData);
-            const response = await axios.post(AGUserDataUPDATEAPI, jsonEditProfileData);
-            const resMessage = response.data;
-            if (resMessage.success === false) {
-                // console.log(resMessage.message);
-            }
-            if (resMessage.success === true) {
-                // console.log(resMessage.message);
+            const responseEditProfile = await axios.post(AGUserDataUPDATEAPI, jsonEditProfileData);
+            const resMessageEditProfile = responseEditProfile.data;
+            if (resMessageEditProfile.success) {
                 localStorage.setItem('profileDataJSON', jsonEditProfileData);
-                setTimeout(() => {
-                    window.location.reload();
-                }, 500);
             }
-
         } catch (error) {
             console.log(error);
         }
-
+    
+        try {
+            const responseCustomDP = await axios.post(AGUserCustomDPAPI, formUserDPData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            const resMessageCustomDP = responseCustomDP.data;
+            if (!resMessageCustomDP.success) {
+                console.log(resMessageCustomDP.message);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    
+        setTimeout(() => {
+            window.location.reload();
+        }, 200);
     };
     
 
