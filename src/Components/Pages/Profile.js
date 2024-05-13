@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "../CSS/profile.css";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { 
     FaSearch,
     FaBolt,
@@ -37,6 +38,63 @@ import {
 } from "react-icons/io";
 
 const Profile = () => {
+
+    // User Profile Fetching
+
+    const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
+    const LoginUsername = localStorage.getItem('attractGameUsername');
+
+    const [viewAGElite, setViewAGElite] = useState('');
+    const [viewRefCode, setViewRefCode] = useState('');
+    const [viewCoverImg, setViewCoverImg] = useState('');
+    const [viewProfileImg, setViewProfileImg] = useState('');
+    const [viewCryptoAddress, setViewCryptoAddress] = useState('');
+    const [viewEmailAddress, setViewEmailAddress] = useState('');
+    const [viewFacebook, setViewFacebook] = useState('');
+    const [viewInstagram, setViewInstagram] = useState('');
+    const [viewTiktok, setViewTiktok] = useState('');
+    const [viewTwitch, setViewTwitch] = useState('');
+    const [viewYoutube, setViewYoutube] = useState('');
+    const [viewUsername, setViewUsername] = useState('');
+    const [viewVerifiiedUser, setViewVerifiedUser] = useState('');
+
+
+
+
+    useEffect(() => {
+        const fetchUserProfile = () => {
+            const storedProfileData = localStorage.getItem('profileDataJSON')
+
+            if(storedProfileData) {
+                const parsedProfileData = JSON.parse(storedProfileData);
+
+                setViewUsername(parsedProfileData.username);
+                setViewEmailAddress(parsedProfileData.email);
+                setViewVerifiedUser(parsedProfileData.verified);
+                setViewFacebook(parsedProfileData.facebook);
+                setViewInstagram(parsedProfileData.instagram);
+                setViewTiktok(parsedProfileData.tiktok);
+                setViewYoutube(parsedProfileData.youtube);
+                setViewTwitch(parsedProfileData.twitch);
+                setViewRefCode(parsedProfileData.refcode);
+
+
+            }else{
+                axios.get(AGUserDataAPI)
+                .then((response) => {
+                    const userData = response.data.find(item => item.username == LoginUsername);
+                    const profileDetailsJSON = JSON.stringify(userData)
+                    localStorage.setItem('profileDataJSON', profileDetailsJSON);
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            }
+        }
+        fetchUserProfile();
+
+    }, [LoginUsername]);
+
 
     const [pickProfileImg00, setPickProfileImg00] = useState('DefaultProfilePic.png');
     const [editSocialsModal, setEditSocialsModal] = useState(false);
@@ -99,18 +157,19 @@ const Profile = () => {
     }
     const handlePostYoutubeLink = () => {
         setAddPostYoutubeLink(true)
+        setAddPostMedia(false)
     }
     const closeAddYoutubeLink = () => {
         setAddPostYoutubeLink(false)
     }
     const handlePostMedia = () => {
         setAddPostMedia(true)
+        setAddPostYoutubeLink(false)
     }
     const closeAddPostMedia = () => {
         setAddPostMedia(false)
         setImage(null);
     }
-
     
     const [image, setImage] = useState(null);
     const handleFileInputChange = (event) => {
@@ -138,6 +197,13 @@ const Profile = () => {
         setImageDP(null);
         setImageStory(null)
     };
+
+
+
+    
+
+
+
 
     return (
         <div className='mainContainer profile'>
@@ -280,15 +346,21 @@ const Profile = () => {
                         <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" onClick={handleOpenSocialSettings}/>
                     </div>
                     <div className="ppclProfileName">
-                        <h5>Koswi <RiVerifiedBadgeFill className='faIcons'/></h5>
-                        <p>djmaglaqui@gmail.com</p>
+                        <h5>
+                            {viewUsername} 
+                        {viewVerifiiedUser ? <>
+                            {viewVerifiiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                            {viewVerifiiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                        </>:<></>}
+                        </h5>
+                        <p>{viewEmailAddress}</p>
                     </div>
                     <div className="ppclProfileSocials">
-                        <a href=""><h6><FaSquareFacebook className='faIcons'/></h6></a>
-                        <a href=""><h6><FaInstagram className='faIcons'/></h6></a>
-                        <a href=""><h6><FaTiktok className='faIcons'/></h6></a>
-                        <a href=""><h6><FaYoutube className='faIcons'/></h6></a>
-                        <a href=""><h6><FaTwitch className='faIcons'/></h6></a>
+                        {viewFacebook ? <a href={viewFacebook} target='blank'><h6><FaSquareFacebook className='faIcons'/></h6></a> : <></>}
+                        {viewInstagram ? <a href={viewInstagram} target='blank'><h6><FaInstagram className='faIcons'/></h6></a> : <></>}
+                        {viewTiktok ? <a href={viewTiktok} target='blank'><h6><FaTiktok className='faIcons'/></h6></a> : <></>}
+                        {viewYoutube ? <a href={viewYoutube} target='blank'><h6><FaYoutube className='faIcons'/></h6></a> : <></>}
+                        {viewTwitch ? <a href={viewTwitch} target='blank'><h6><FaTwitch className='faIcons'/></h6></a> : <></>}
                         <div>
                             <button onClick={handleOpenSocialSettings}>Edit Profile <TbSettingsBolt className='faIcons'/></button>
                         </div>
@@ -296,7 +368,7 @@ const Profile = () => {
                     <div className="ppclProfileDetails">
                         <span>
                             <p>My Referral Code</p>
-                            <p>AG_KoswiFilo</p>
+                            <p>{viewRefCode}</p>
                         </span>
                         <span>
                             <p>AG Points</p>

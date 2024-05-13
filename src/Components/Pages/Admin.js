@@ -273,6 +273,7 @@ const Admin = () => {
     };
 
     const AGAddGamesAPI = process.env.REACT_APP_AG_ADD_GAMES_API;
+    const AGAddGameCoverAPI = process.env.REACT_APP_AG_ADD_GAME_COVER_API;
     const AGGamesListAPI = process.env.REACT_APP_AG_GAMES_LIST_API;
     const [agSetGameCover, setAGSetGameCover] = useState('');
     const [agSetGameTitle, setAGSetGameTitle] = useState('');
@@ -317,9 +318,11 @@ const Admin = () => {
             agGameAvailable: agSetGameAvailable,
             agGameRestricted: agSetGameRestricted,
         }
-  
+
+        const formImageData = new FormData();
+        formImageData.append('agGameCover', image);
+
         const jsonAddGames = JSON.stringify(formAddGameDetails);
-        console.log(jsonAddGames);
         axios.post(AGAddGamesAPI, jsonAddGames)
         .then(response => {
             const responseMessage = response.data;
@@ -330,27 +333,44 @@ const Admin = () => {
             if (responseMessage.success === true) {
                 setFormResponse(responseMessage.message);
                 console.log(responseMessage.message);
-                setImage(null)
-                setAGSetGameCover('')
-                setAGSetGameTitle('')
-                setAGSetGameEdition('')
-                setAGSetGameCountry('')
-                setAGSetGameDeveloper('')
-                setAGSetGameRelease('')
-                setAGSetGameCategory('')
-                setAGSetGamePlatform('')
-                setAGSetGameTrailer('')
-                setAGSetGameHighlight1('')
-                setAGSetGameSupplier('')
-                setAGSetGameSeller('')
-                setAGSetGameAvailable('')
-                setAGSetGameRestricted('')
+                setImage(null);
+                setAGSetGameCover('');
+                setAGSetGameTitle('');
+                setAGSetGameEdition('');
+                setAGSetGameCountry('');
+                setAGSetGameDeveloper('');
+                setAGSetGameRelease('');
+                setAGSetGameCategory('');
+                setAGSetGamePlatform('');
+                setAGSetGameTrailer('');
+                setAGSetGameHighlight1('');
+                setAGSetGameSupplier('');
+                setAGSetGameSeller('');
+                setAGSetGameAvailable('');
+                setAGSetGameRestricted('');
             }
         }) 
         .catch (error =>{
           console.log(error);
         });
+
+
+        try {
+            const response = await axios.post(AGAddGameCoverAPI, formImageData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            });
+            // console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+
     };
+
+
+
+
     const [agAddGameEdition, setAGAddGameEdition] = useState(false)
     const handleViewAddGameEdition = (e) => {
         e.preventDefault();
@@ -569,7 +589,6 @@ const Admin = () => {
                                                     <img src={URL.createObjectURL(image)} alt="No image Selected" />
                                                 )}
                                                 <input type="file" accept="image/*" onChange={handleFileInputChange}/>
-                                                <input id='imageCoverHiddenText' type="text" value={agSetGameCover} readOnly/>
                                             </div>
                                         </div>
                                         <div className="admpcm1agcf right">
@@ -678,7 +697,7 @@ const Admin = () => {
                                         <p>{formResponse}</p>
                                     </span>
                                     <div className="admpc1agcfSubmit">
-                                        <button type='submit'>Add Games</button>
+                                        <button type='submit' name='addGames'>Add Games</button>
                                     </div>
                                 </form>
                             </div>

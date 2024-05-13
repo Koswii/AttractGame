@@ -586,21 +586,30 @@ section.profilePageContainer.mid{
     left: 0;
 }
 .ppclProfileName{
-    height: auto;
+    height: 4vw;
     width: 100%;
     text-align: center;
 }
-.ppclProfileName h5 .faIcons{
+.ppclProfileName h5{
+    height: 2vw;
+}
+.ppclProfileName h5 .faIcons.gold{
     height: 1.5vw;
     color: gold;
+    margin-left: 1%;
+}
+.ppclProfileName h5 .faIcons.blue{
+    height: 1.5vw;
+    color: skyblue;
+    margin-left: 1%;
 }
 .ppclProfileName p{
-    margin: 2% 0;
+    height: 1.5vw;
     font-size: 0.9vw;
     color: gray;
 }
 .ppclProfileSocials{
-    height: auto;
+    height: 2vw;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -611,6 +620,7 @@ section.profilePageContainer.mid{
 }
 .ppclProfileSocials a h6{
     font-size: 1.4vw;
+    line-height: 1vw;
 }
 .ppclProfileSocials div{
     height: auto;

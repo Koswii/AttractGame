@@ -118,6 +118,16 @@ const Game = () => {
     }, [viewMetacriticData, viewWikiData]);
     const videoUrl = viewGameTrailer;
 
+    const handleClickGames = () => {
+        localStorage.setItem('games', 'active');
+        localStorage.removeItem('dashboard');
+        localStorage.removeItem('marketplace');
+        localStorage.removeItem('giftcards');
+        localStorage.removeItem('crypto');
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
+    }
 
     return (
         <div className='mainContainer gameProfile'>
@@ -214,7 +224,7 @@ const Game = () => {
                 <h4>GAMES YOU MIGHT LIKE</h4>
                 <div className="gpPageContentMid3 website">
                     {viewAGData2.slice(0, 10).map((details, i) => (
-                        <Link className="gppcm3OtherGame" key={i} to={`/Games/${details.game_canonical}`}>
+                        <Link className="gppcm3OtherGame" key={i} to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>
                             <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="" />
                             <div className="gppcm3ogPlatform">
                                 <img src="" platform={details.game_platform} alt="" />
@@ -233,7 +243,7 @@ const Game = () => {
                 </div>
                 <div className="gpPageContentMid3 mobile">
                     {viewAGData2.slice(0, 6).map((details, i) => (
-                        <Link className="gppcm3OtherGame" key={i} to={`/Games/${details.game_canonical}`}>
+                        <Link className="gppcm3OtherGame" key={i} to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>
                             <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="" />
                             <div className="gppcm3ogPlatform">
                                 <img src="" platform={details.game_platform} alt="" />

@@ -210,6 +210,7 @@ const Nav = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('attractGameUsername');
     localStorage.removeItem('featuredGameData');
+    localStorage.removeItem('profileDataJSON')
     window.location.href = '/';
   };
   useEffect(() => {
