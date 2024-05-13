@@ -54,6 +54,7 @@ const Nav = () => {
   const loginAGUserAPI = process.env.REACT_APP_AG_USER_LOGIN_API;
   const logoutAGUserAPI = process.env.REACT_APP_AG_USER_LOGOUT_API;
   const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
+  const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
 
   const [agUserEmail, setAGUserEmail] = useState('')
   const [agUserUsername, setAGUserUsername] = useState('')
@@ -80,6 +81,7 @@ const Nav = () => {
   const LoginUsername = localStorage.getItem('attractGameUsername');
   const [dataUser, setDataUser] = useState([]);
   const [dataStatus, setDataUserStatus] = useState('');
+  const [viewProfileImg, setViewProfileImg] = useState('');
   const [viewTextPassword, setViewTextPassword] = useState(false);
 
   useEffect(() => {
@@ -126,6 +128,27 @@ const Nav = () => {
       setViewAdminCredentials(true);
     }
   }, [LoginUsername, agUserUsername]);
+  useEffect(() => {
+    const fetchUserProfile = () => {
+      axios.get(AGUserDataAPI)
+      .then((response) => {
+        const userData = response.data.find(item => item.username == LoginUsername);
+        const profileDetailsJSON = JSON.stringify(userData)
+        localStorage.setItem('profileDataJSON', profileDetailsJSON);
+
+        if(userData){
+          const storedProfileData = localStorage.getItem('profileDataJSON');
+          const parsedProfileData = JSON.parse(storedProfileData);
+          setViewProfileImg(parsedProfileData.profileimg);
+        }
+      })
+      .catch(error => {
+          console.log(error)
+      })
+    }
+    fetchUserProfile();
+
+  }, [LoginUsername]);
   const handleUserRegister = async (e) => {
     e.preventDefault();
 
@@ -389,7 +412,7 @@ const Nav = () => {
             <Link to="/Highlights" onClick={handleClickDashboadrd}><h6>HIGHLIGHTS</h6></Link>
             <Link to="/Marketplace" onClick={handleClickMarketplace}><h6>MARKETPLACE</h6></Link>
             <Link to="/Games" onClick={handleClickGames}><h6>GAMES</h6></Link>
-            <Link onClick={handleClickCrypto}><h6>CRYPTO</h6></Link>
+            <Link onClick={handleClickGiftcards}><h6>GIFTCARDS</h6></Link>
           </div>
           <div className="navContent right">
             {!viewUserCredentials ? <div>
@@ -401,7 +424,9 @@ const Nav = () => {
               <Link id='agCartBtn'><h6><TbShoppingCartBolt className='faIcons'/></h6></Link>
               <Link id='agSettingsBtn'><h6><MdSettings className='faIcons'/></h6></Link>
               <Link id='agProfileBtn' to='/Profile'>
-                <img src="https://engeenx.com/ProfilePics/DefaultProfilePic.png" alt="" />
+                {viewProfileImg ? 
+                <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt=""/>
+                :<img src={require('./assets/imgs/ProfilePics/DefaultProfilePic.png')} alt=""/>}
               </Link>
               <a id='agLogoutBtn' onClick={handleUserLogout}><h6>LOGOUT</h6></a>
             </div>}
@@ -415,7 +440,9 @@ const Nav = () => {
           <button className={localStorage.getItem('crypto')} onClick={handleClickCrypto}><h5><MdCurrencyBitcoin className='faIcons'/></h5></button>
           {viewUserCredentials && 
             <Link id='agProfileBtn' to='/Profile'>
-              <img src="https://engeenx.com/ProfilePics/DefaultProfilePic.png" alt="" />
+              {viewProfileImg ? 
+              <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt=""/>
+              :<img src={require('./assets/imgs/ProfilePics/DefaultProfilePic.png')} alt=""/>}
             </Link>
           }
         </div>

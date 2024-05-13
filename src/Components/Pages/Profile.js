@@ -44,6 +44,8 @@ const Profile = () => {
     const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const LoginUsername = localStorage.getItem('attractGameUsername');
 
+    const [viewUserID, setViewUserID] = useState('')
+    const [viewUserRegistration, setViewUserRegistration] = useState('')
     const [viewAGElite, setViewAGElite] = useState('');
     const [viewRefCode, setViewRefCode] = useState('');
     const [viewCoverImg, setViewCoverImg] = useState('');
@@ -56,7 +58,7 @@ const Profile = () => {
     const [viewTwitch, setViewTwitch] = useState('');
     const [viewYoutube, setViewYoutube] = useState('');
     const [viewUsername, setViewUsername] = useState('');
-    const [viewVerifiiedUser, setViewVerifiedUser] = useState('');
+    const [viewVerifiedUser, setViewVerifiedUser] = useState('');
 
 
 
@@ -68,8 +70,14 @@ const Profile = () => {
             if(storedProfileData) {
                 const parsedProfileData = JSON.parse(storedProfileData);
 
+                setViewUserID(parsedProfileData.id);
+                setViewUserRegistration(parsedProfileData.date)
                 setViewUsername(parsedProfileData.username);
+                setViewAGElite(parsedProfileData.agelite);
+                setViewProfileImg(parsedProfileData.profileimg);
+                setViewCoverImg(parsedProfileData.coverimg);
                 setViewEmailAddress(parsedProfileData.email);
+                setViewCryptoAddress(parsedProfileData.cryptoaddress);
                 setViewVerifiedUser(parsedProfileData.verified);
                 setViewFacebook(parsedProfileData.facebook);
                 setViewInstagram(parsedProfileData.instagram);
@@ -147,7 +155,9 @@ const Profile = () => {
     const handleAddUserStory = () => {
         setAddPostStory(true)
     }
-    const handleCloseAnyModals = () => {
+    const handleCloseAnyModals = (e) => {
+        e.preventDefault();
+        
         setEditSocialsModal(false)
         setAddUserPost(false)
         setAddPostStory(false)
@@ -179,10 +189,12 @@ const Profile = () => {
         }
     };
     const [imageDP, setImageDP] = useState(null);
+    const [imageDPName, setImageDPName] = useState('');
     const handleUploadUserDP = (event) => {
         const file = event.target.files[0];
         if (file) {
             setImageDP(file);
+            setImageDPName(file.name)
         }
     };
     const [imageStory, setImageStory] = useState(null);
@@ -193,13 +205,62 @@ const Profile = () => {
         }
     };
     const handleRemoveUserImage = () => {
-        setImage(null)
+        setImage(null);
         setImageDP(null);
-        setImageStory(null)
+        setImageDPName('');
+        setImageStory(null);
+        
     };
 
 
+    const [agEditFacebook, setAGEditFacebook] = useState('');
+    const [agEditInstagram, setAGEditInstagram] = useState('');
+    const [agEditTiktok, setAGEditTiktok] = useState('');
+    const [agEditYoutube, setAGEditYoutube] = useState('');
+    const [agEditTwitch, setAGEditTwitch] = useState('');
 
+    const AGUserDataUPDATEAPI = process.env.REACT_APP_AG_USERS_PROFILE_UPDATE_API;
+    const handleEditProfileSubmit = async (e) => {
+        e.preventDefault();
+  
+        const formEditProfileData ={
+            id: viewUserID,
+            date: viewUserRegistration,
+            email: viewEmailAddress,
+            username: viewUsername,
+            profileimg: imageDPName || pickProfileImg00,
+            coverimg: viewCoverImg,
+            refcode: viewRefCode,
+            facebook: agEditFacebook || viewFacebook,
+            instagram: agEditInstagram || viewInstagram,
+            tiktok: agEditTiktok || viewTiktok,
+            youtube: agEditYoutube || viewYoutube,
+            twitch: agEditTwitch || viewTwitch,
+            agelite: viewAGElite,
+            cryptoaddress: viewCryptoAddress,
+            verified: viewVerifiedUser,
+        }
+        
+        try {
+            const jsonEditProfileData = JSON.stringify(formEditProfileData);
+            const response = await axios.post(AGUserDataUPDATEAPI, jsonEditProfileData);
+            const resMessage = response.data;
+            if (resMessage.success === false) {
+                // console.log(resMessage.message);
+            }
+            if (resMessage.success === true) {
+                // console.log(resMessage.message);
+                localStorage.setItem('profileDataJSON', jsonEditProfileData);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    };
     
 
 
@@ -207,73 +268,78 @@ const Profile = () => {
 
     return (
         <div className='mainContainer profile'>
-            {editSocialsModal && <div className="modalContainerProfile settings">
+            {editSocialsModal && 
+            <div className="modalContainerProfile settings">
                 <div className="modalContentProfile">
-                    <button id='closeModalSettings' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
-                    <div className="mdcpSettingsContainer">
-                        <div className="mdcpsContent left">
-                            <div className='mdcpscProfileDP'>
-                                {!imageDP ?
-                                <>
-                                    <img src={`https://engeenx.com/ProfilePics/${pickProfileImg00 ? pickProfileImg00 : 'DefaultProfilePic.png'}`} alt="" />
-                                    <input type="text" value={pickProfileImg00} readOnly disabled/>
-                                </>:
-                                <>
-                                    <img src={URL.createObjectURL(imageDP)} alt="No image Selected" />
-                                    <button onClick={handleRemoveUserImage}><FaTimes className='faIcons'/></button>
-                                </>}
+                    <button id='closeModalSettings' onClick={handleCloseAnyModals} type='button'><FaTimes className='faIcons'/></button>
+                    <form onSubmit={handleEditProfileSubmit}>
+                        <div className="mdcpSettingsContainer">
+                            <div className="mdcpsContent left">
+                                <div className='mdcpscProfileDP'>
+                                    {!imageDP ? <>
+                                        <img src={`https://engeenx.com/ProfilePics/${pickProfileImg00 ? pickProfileImg00 : 'DefaultProfilePic.png'}`} alt="" />
+                                    </>:<>
+                                        <img src={URL.createObjectURL(imageDP)} alt="No image Selected" />
+                                        <button onClick={handleRemoveUserImage}><FaTimes className='faIcons'/></button>
+                                    </>}
+                                </div>
+                                <div className='mdcpscSampleProfile'>
+                                    <img onClick={switchToDP01} src={require('../assets/imgs/ProfilePics/AG Logo1.png')} alt="" />
+                                    <img onClick={switchToDP02} src={require('../assets/imgs/ProfilePics/AG Logo2.png')} alt="" />
+                                    <img onClick={switchToDP03} src={require('../assets/imgs/ProfilePics/AG Logo3.png')} alt="" />
+                                    <img onClick={switchToDP04} src={require('../assets/imgs/ProfilePics/AG Logo4.png')} alt="" />
+                                    <img onClick={switchToDP05} src={require('../assets/imgs/ProfilePics/AG Logo5.png')} alt="" />
+                                    <img onClick={switchToDP06} src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
+                                    <img onClick={switchToDP07} src={require('../assets/imgs/ProfilePics/MaleDP01.png')} alt="" />
+                                    <img onClick={switchToDP08} src={require('../assets/imgs/ProfilePics/MaleDP02.png')} alt="" />
+                                    <img onClick={switchToDP09} src={require('../assets/imgs/ProfilePics/FemaleDP01.png')} alt="" />
+                                    <img onClick={switchToDP10} src={require('../assets/imgs/ProfilePics/FemaleDP02.png')} alt="" />
+                                </div>
+                                {viewVerifiedUser ? <div className='mdcpscCustomProfile'>
+                                    <p>Choose from Computer</p>
+                                    <input type="file" onChange={handleUploadUserDP}/>
+                                </div>:<></>}
                             </div>
-                            <div className='mdcpscSampleProfile'>
-                                <img onClick={switchToDP01} src={require('../assets/imgs/ProfilePics/AG Logo1.png')} alt="" />
-                                <img onClick={switchToDP02} src={require('../assets/imgs/ProfilePics/AG Logo2.png')} alt="" />
-                                <img onClick={switchToDP03} src={require('../assets/imgs/ProfilePics/AG Logo3.png')} alt="" />
-                                <img onClick={switchToDP04} src={require('../assets/imgs/ProfilePics/AG Logo4.png')} alt="" />
-                                <img onClick={switchToDP05} src={require('../assets/imgs/ProfilePics/AG Logo5.png')} alt="" />
-                                <img onClick={switchToDP06} src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
-                                <img onClick={switchToDP07} src={require('../assets/imgs/ProfilePics/MaleDP01.png')} alt="" />
-                                <img onClick={switchToDP08} src={require('../assets/imgs/ProfilePics/MaleDP02.png')} alt="" />
-                                <img onClick={switchToDP09} src={require('../assets/imgs/ProfilePics/FemaleDP01.png')} alt="" />
-                                <img onClick={switchToDP10} src={require('../assets/imgs/ProfilePics/FemaleDP02.png')} alt="" />
-                            </div>
-                            <div className='mdcpscCustomProfile'>
-                                <p>Choose from Computer</p>
-                                <input type="file" onChange={handleUploadUserDP}/>
-                            </div>
-                        </div>
-                        <div className="mdcpsContent right">
-                            <h4>Koswi <RiVerifiedBadgeFill className='faIcons'/></h4>
-                            <p>djmaglaqui@gmail.com</p>
-                            <div className="mdcpccrSocials">
-                                <h6>ADD/EDIT SOCIALS</h6>
-                                <div>
-                                    <span>
-                                        <label htmlFor=""><p><FaSquareFacebook className='faIcons'/> Facebook</p></label>
-                                        <input type="text" placeholder='Facebook Profile Link'/>
-                                    </span>
-                                    <span>
-                                        <label htmlFor=""><p><FaInstagram className='faIcons'/> Instagram</p></label>
-                                        <input type="text" placeholder='Instagram Profile Link'/>
-                                    </span>
-                                    <span>
-                                        <label htmlFor=""><p><FaTiktok className='faIcons'/> TikTok</p></label>
-                                        <input type="text" placeholder='TikTok Profile Link'/>
-                                    </span>
-                                    <span>
-                                        <label htmlFor=""><p><FaYoutube className='faIcons'/> YouTube</p></label>
-                                        <input type="text" placeholder='YouTube Channel Link'/>
-                                    </span>
-                                    <span>
-                                        <label htmlFor=""><p><FaTwitch className='faIcons'/> Twitch</p></label>
-                                        <input type="text" placeholder='Twitch Channel Link'/>
-                                    </span>
+                            <div className="mdcpsContent right">
+                                <h4>{viewUsername} 
+                                    {viewVerifiedUser ? <>
+                                        {viewVerifiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                        {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                    </>:<></>}
+                                </h4>
+                                <p>{viewEmailAddress}</p>
+                                <div className="mdcpccrSocials">
+                                    <h6>ADD/EDIT SOCIALS</h6>
+                                    <div>
+                                        <span>
+                                            <label><p><FaSquareFacebook className='faIcons'/> Facebook</p></label>
+                                            <input name='agEditProfileFB' type="text" placeholder={viewFacebook ? viewFacebook : 'Facebook Profile Link'} onChange={(e) => setAGEditFacebook(e.target.value)}/>
+                                        </span>
+                                        <span>
+                                            <label><p><FaInstagram className='faIcons'/> Instagram</p></label>
+                                            <input name='agEditProfileIG' type="text" placeholder={viewInstagram ? viewInstagram : 'Instagram Profile Link'} onChange={(e) => setAGEditInstagram(e.target.value)}/>
+                                        </span>
+                                        <span>
+                                            <label><p><FaTiktok className='faIcons'/> TikTok</p></label>
+                                            <input name='agEditProfileTT' type="text" placeholder={viewTiktok ? viewTiktok : 'TikTok Profile Link'} onChange={(e) => setAGEditTiktok(e.target.value)}/>
+                                        </span>
+                                        <span>
+                                            <label><p><FaYoutube className='faIcons'/> YouTube</p></label>
+                                            <input name='agEditProfileYT' type="text" placeholder={viewYoutube ? viewYoutube : 'YouTube Channel Link'} onChange={(e) => setAGEditYoutube(e.target.value)}/>
+                                        </span>
+                                        <span>
+                                            <label><p><FaTwitch className='faIcons'/> Twitch</p></label>
+                                            <input name='agEditProfileTC' type="text" placeholder={viewTwitch ? viewTwitch : 'Twitch Channel Link'} onChange={(e) => setAGEditTwitch(e.target.value)}/>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="mdcpccrSubmit">
-                        <button id='mdcpccrsVerified'>APPLY SUBSCRIPTION <RiSparklingFill className='faIcons'/></button>
-                        <button id='mdcpccrsSubmit' type='submit'>Update Profile</button>
-                    </div>
+                        <div className="mdcpccrSubmit">
+                            <button id='mdcpccrsVerified'>APPLY SUBSCRIPTION <RiSparklingFill className='faIcons'/></button>
+                            <button id='mdcpccrsSubmit' type='submit'>Update Profile</button>
+                        </div>
+                    </form>
                 </div>
             </div>}
             {addUserPost && <div className="modalContainerProfile posting">
@@ -281,10 +347,18 @@ const Profile = () => {
                     <button id='closeModalPosting' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
                     <div className="mdcpPostingContainer">
                         <div className='mdcppcPostUser'>
-                            <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
+                            {viewProfileImg ? 
+                            <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
+                            :<img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" onClick={handleOpenSocialSettings}/>}
                             <span>
-                                <h5>Koswi <RiVerifiedBadgeFill className='faIcons'/></h5>
-                                <p>AG_Koswi</p>
+                                <h5>
+                                    {viewUsername} 
+                                    {viewVerifiedUser ? <>
+                                        {viewVerifiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                        {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                    </>:<></>}
+                                </h5>
+                                <p>{viewRefCode}</p>
                             </span>
                         </div>
                         <div className="mdcppcPostContent">
@@ -343,15 +417,17 @@ const Profile = () => {
             <section className="profilePageContainer mid">
                 <div className="profilePageContent left">
                     <div className='ppclProfilePic'>
-                        <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" onClick={handleOpenSocialSettings}/>
+                        {viewProfileImg ? 
+                        <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
+                        :<img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" onClick={handleOpenSocialSettings}/>}
                     </div>
                     <div className="ppclProfileName">
                         <h5>
                             {viewUsername} 
-                        {viewVerifiiedUser ? <>
-                            {viewVerifiiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
-                            {viewVerifiiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
-                        </>:<></>}
+                            {viewVerifiedUser ? <>
+                                {viewVerifiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                            </>:<></>}
                         </h5>
                         <p>{viewEmailAddress}</p>
                     </div>
@@ -394,13 +470,17 @@ const Profile = () => {
                     <div className="ppcrProfileContents highlights">
                         <div className="ppcrpchPosting">
                             <div className="ppcrpchpWhat">
-                                <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
+                                {viewProfileImg ? 
+                                <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt=""/>
+                                :<img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt=""/>}
                                 <input type="text" placeholder='Post about a Gameplay...' onClick={handleAddUserPost} readOnly/>
                                 <button id='postAStory' onClick={handleAddUserPost2}><IoIosImages className='faIcons'/></button>
                             </div>
                             <div className="ppcrpchpStories">
                                 <div className='postAStory' onClick={handleAddUserStory}>
-                                    <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
+                                    {viewProfileImg ? 
+                                    <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt=""/>
+                                    :<img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt=""/>}
                                     <span>
                                         <h5><IoMdAddCircle className='faIcons'/></h5>
                                         <p>Add Story</p>

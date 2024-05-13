@@ -70,6 +70,10 @@ h6{
     font-size: 1.5vw;
     cursor: pointer;
 }
+.modalContentProfile form{
+    height: auto;
+    width: 100%;
+}
 .mdcpSettingsContainer{
     height: auto;
     width: 100%;
@@ -155,8 +159,15 @@ h6{
     padding: 0 2%;
 }
 .mdcpsContent.right h4 .faIcons{
+    margin-left: 1%;
+}
+.mdcpsContent.right h4 .faIcons.gold{
     font-size: 1.5vw;
     color: gold;
+}
+.mdcpsContent.right h4 .faIcons.blue{
+    font-size: 1.5vw;
+    color: royalblue;
 }
 .mdcpccrSocials{
     height: auto;
@@ -287,8 +298,11 @@ h6{
     border-radius: 50%;
     margin-right: 3%;
 }
-.mdcppcPostUser span h5 .faIcons{
+.mdcppcPostUser span h5 .faIcons.gold{
     color: gold;
+}
+.mdcppcPostUser span h5 .faIcons.blue{
+    color: royalblue;
 }
 .mdcppcPostContent{
     height: auto;
@@ -600,7 +614,7 @@ section.profilePageContainer.mid{
 }
 .ppclProfileName h5 .faIcons.blue{
     height: 1.5vw;
-    color: skyblue;
+    color: royalblue;
     margin-left: 1%;
 }
 .ppclProfileName p{
@@ -724,6 +738,7 @@ section.profilePageContainer.mid{
 .ppcrpchpWhat img{
     height: 3vw;
     border-radius: 50%;
+    border: solid 1px white;
 }
 .ppcrpchpWhat input{
     height: 2.5vw;
