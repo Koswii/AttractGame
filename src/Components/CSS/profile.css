@@ -746,6 +746,7 @@ section.profilePageContainer.mid{
 }
 .ppcrpchpWhat img{
     height: 2.7vw;
+    width: 2.7vw;
     border-radius: 50%;
     border: solid 2px white;
 }
