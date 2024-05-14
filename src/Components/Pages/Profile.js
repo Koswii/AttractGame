@@ -25,7 +25,8 @@ import {
 import { 
     TbGiftCardFilled,
     TbSettings2,
-    TbSettingsBolt   
+    TbSettingsBolt,
+    TbUpload,   
 } from "react-icons/tb";
 import { 
     RiVerifiedBadgeFill,
@@ -59,6 +60,15 @@ const Profile = () => {
     const [viewYoutube, setViewYoutube] = useState('');
     const [viewUsername, setViewUsername] = useState('');
     const [viewVerifiedUser, setViewVerifiedUser] = useState('');
+    const [randomNumber, setRandomNumber] = useState('');
+    useEffect(() => {
+        const interval = setInterval(() => {
+        const number = Math.floor(Math.random() * 900000) + 100000; // Generates a 6-digit number
+        setRandomNumber(number);
+        }, 1000); // Change interval as needed (in milliseconds)
+
+        return () => clearInterval(interval);
+    }, []);
 
 
 
@@ -218,18 +228,23 @@ const Profile = () => {
     const [agEditTiktok, setAGEditTiktok] = useState('');
     const [agEditYoutube, setAGEditYoutube] = useState('');
     const [agEditTwitch, setAGEditTwitch] = useState('');
-    const [randomNumber, setRandomNumber] = useState('');
-    useEffect(() => {
-        const interval = setInterval(() => {
-        const number = Math.floor(Math.random() * 900000) + 100000; // Generates a 6-digit number
-        setRandomNumber(number);
-        }, 1000); // Change interval as needed (in milliseconds)
-
-        return () => clearInterval(interval);
-    }, []);
 
     const AGUserDataUPDATEAPI = process.env.REACT_APP_AG_USERS_PROFILE_UPDATE_API;
     const AGUserCustomDPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_DP_API;
+
+    const renderProfileUser = () => {
+        if (viewVerifiedUser == 'Gold' || viewVerifiedUser == 'Blue'){
+          return (
+            `${viewUsername}_${randomNumber}_${imageDPName}`
+          );
+        } else {
+          return (
+            pickProfileImg00
+          );
+        }
+    };
+
+
     const handleEditProfileSubmit = async (e) => {
         e.preventDefault();
     
@@ -238,7 +253,7 @@ const Profile = () => {
             date: viewUserRegistration,
             email: viewEmailAddress,
             username: viewUsername,
-            profileimg: `${viewUsername}_${randomNumber}_${imageDPName}` || pickProfileImg00,
+            profileimg: renderProfileUser(),
             coverimg: viewCoverImg,
             refcode: viewRefCode,
             facebook: agEditFacebook || viewFacebook,
@@ -301,13 +316,15 @@ const Profile = () => {
                             <div className="mdcpsContent left">
                                 <div className='mdcpscProfileDP'>
                                     {!imageDP ? <>
-                                        <img src={`https://engeenx.com/ProfilePics/${pickProfileImg00 ? pickProfileImg00 : 'DefaultProfilePic.png'}`} alt="" />
+                                        {viewVerifiedUser ? 
+                                        <img src={`https://engeenx.com/ProfilePics/${viewProfileImg ? viewProfileImg : 'DefaultProfilePic.png'}`} alt="" />
+                                        :<img src={`https://engeenx.com/ProfilePics/${pickProfileImg00 ? pickProfileImg00 : 'DefaultProfilePic.png'}`} alt="" />}
                                     </>:<>
                                         <img src={URL.createObjectURL(imageDP)} alt="No image Selected" />
                                         <button onClick={handleRemoveUserImage}><FaTimes className='faIcons'/></button>
                                     </>}
                                 </div>
-                                <div className='mdcpscSampleProfile'>
+                                {!viewVerifiedUser && <div className='mdcpscSampleProfile'>
                                     <img onClick={switchToDP01} src={require('../assets/imgs/ProfilePics/AG Logo1.png')} alt="" />
                                     <img onClick={switchToDP02} src={require('../assets/imgs/ProfilePics/AG Logo2.png')} alt="" />
                                     <img onClick={switchToDP03} src={require('../assets/imgs/ProfilePics/AG Logo3.png')} alt="" />
@@ -318,9 +335,9 @@ const Profile = () => {
                                     <img onClick={switchToDP08} src={require('../assets/imgs/ProfilePics/MaleDP02.png')} alt="" />
                                     <img onClick={switchToDP09} src={require('../assets/imgs/ProfilePics/FemaleDP01.png')} alt="" />
                                     <img onClick={switchToDP10} src={require('../assets/imgs/ProfilePics/FemaleDP02.png')} alt="" />
-                                </div>
+                                </div>}
                                 {(viewVerifiedUser) ? <div className='mdcpscCustomProfile'>
-                                    <p>Choose from Computer</p>
+                                    <p><TbUpload className='faIcons'/>Upload from Computer</p>
                                     <input type="file" onChange={handleUploadUserDP}/>
                                 </div>:<></>}
                             </div>
