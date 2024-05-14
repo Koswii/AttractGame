@@ -426,7 +426,7 @@ const Nav = () => {
               <Link id='agProfileBtn' to='/Profile'>
                 {viewProfileImg ? 
                 <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt=""/>
-                :<img src={require('./assets/imgs/ProfilePics/DefaultProfilePic.png')} alt=""/>}
+                :<img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
               </Link>
               <a id='agLogoutBtn' onClick={handleUserLogout}><h6>LOGOUT</h6></a>
             </div>}
@@ -442,7 +442,7 @@ const Nav = () => {
             <Link id='agProfileBtn' to='/Profile'>
               {viewProfileImg ? 
               <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt=""/>
-              :<img src={require('./assets/imgs/ProfilePics/DefaultProfilePic.png')} alt=""/>}
+              :<img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
             </Link>
           }
         </div>

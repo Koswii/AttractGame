@@ -424,7 +424,7 @@ const Profile = () => {
 
 
             <section className="profilePageContainer top">
-                <img src={require('../assets/imgs/DefaultProfile.jpg')} alt="" />
+                <img src={require('../assets/imgs/LoginBackground.jpg')} alt="" />
                 <div></div>
             </section>
             <section className="profilePageContainer mid">
@@ -432,7 +432,7 @@ const Profile = () => {
                     <div className='ppclProfilePic'>
                         {viewProfileImg ? 
                         <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
-                        :<img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" onClick={handleOpenSocialSettings}/>}
+                        :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt="" onClick={handleOpenSocialSettings}/>}
                     </div>
                     <div className="ppclProfileName">
                         <h5>
@@ -485,7 +485,7 @@ const Profile = () => {
                             <div className="ppcrpchpWhat">
                                 {viewProfileImg ? 
                                 <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt=""/>
-                                :<img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt=""/>}
+                                :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                 <input type="text" placeholder='Post about a Gameplay...' onClick={handleAddUserPost} readOnly/>
                                 <button id='postAStory' onClick={handleAddUserPost2}><IoIosImages className='faIcons'/></button>
                             </div>
@@ -493,7 +493,7 @@ const Profile = () => {
                                 <div className='postAStory' onClick={handleAddUserStory}>
                                     {viewProfileImg ? 
                                     <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt=""/>
-                                    :<img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt=""/>}
+                                    :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                     <span>
                                         <h5><IoMdAddCircle className='faIcons'/></h5>
                                         <p>Add Story</p>
