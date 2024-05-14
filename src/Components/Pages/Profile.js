@@ -319,7 +319,7 @@ const Profile = () => {
                                     <img onClick={switchToDP09} src={require('../assets/imgs/ProfilePics/FemaleDP01.png')} alt="" />
                                     <img onClick={switchToDP10} src={require('../assets/imgs/ProfilePics/FemaleDP02.png')} alt="" />
                                 </div>
-                                {viewVerifiedUser ? <div className='mdcpscCustomProfile'>
+                                {(viewVerifiedUser === 'Gold') ? <div className='mdcpscCustomProfile'>
                                     <p>Choose from Computer</p>
                                     <input type="file" onChange={handleUploadUserDP}/>
                                 </div>:<></>}
