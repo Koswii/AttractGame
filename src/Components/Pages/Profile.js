@@ -194,7 +194,7 @@ const Profile = () => {
         const file = event.target.files[0];
         if (file) {
             setImageDP(file);
-            setImageDPName(file.name)
+            setImageDPName(file.name);
         }
     };
     const [imageStory, setImageStory] = useState(null);
@@ -218,6 +218,15 @@ const Profile = () => {
     const [agEditTiktok, setAGEditTiktok] = useState('');
     const [agEditYoutube, setAGEditYoutube] = useState('');
     const [agEditTwitch, setAGEditTwitch] = useState('');
+    const [randomNumber, setRandomNumber] = useState('');
+    useEffect(() => {
+        const interval = setInterval(() => {
+        const number = Math.floor(Math.random() * 900000) + 100000; // Generates a 6-digit number
+        setRandomNumber(number);
+        }, 1000); // Change interval as needed (in milliseconds)
+
+        return () => clearInterval(interval);
+    }, []);
 
     const AGUserDataUPDATEAPI = process.env.REACT_APP_AG_USERS_PROFILE_UPDATE_API;
     const AGUserCustomDPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_DP_API;
@@ -229,7 +238,7 @@ const Profile = () => {
             date: viewUserRegistration,
             email: viewEmailAddress,
             username: viewUsername,
-            profileimg: imageDPName || pickProfileImg00,
+            profileimg: `${viewUsername}_${randomNumber}_${imageDPName}` || pickProfileImg00,
             coverimg: viewCoverImg,
             refcode: viewRefCode,
             facebook: agEditFacebook || viewFacebook,
@@ -243,7 +252,9 @@ const Profile = () => {
         };
     
         const formUserDPData = new FormData();
+        formUserDPData.append('profileuser', viewUsername);
         formUserDPData.append('profileimg', imageDP);
+        formUserDPData.append('profileimgid', randomNumber);
     
         try {
             const jsonEditProfileData = JSON.stringify(formEditProfileData);
