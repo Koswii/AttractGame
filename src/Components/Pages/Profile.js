@@ -233,9 +233,15 @@ const Profile = () => {
     const AGUserCustomDPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_DP_API;
     const renderProfileUser = () => {
         if (viewVerifiedUser == 'Gold' || viewVerifiedUser == 'Blue'){
-          return (
-            (viewProfileImg ? viewProfileImg : `${viewUsername}_${randomNumber}_${imageDPName}`)
-          );
+            if(viewProfileImg == ''){
+                return (
+                  `${viewUsername}_${randomNumber}_${imageDPName}`
+                );
+            }else{
+                return (
+                    viewProfileImg
+                );
+            }
         } else {
           return (
             pickProfileImg00
