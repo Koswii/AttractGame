@@ -234,7 +234,7 @@ const Profile = () => {
     const renderProfileUser = () => {
         if (viewVerifiedUser == 'Gold' || viewVerifiedUser == 'Blue'){
           return (
-            `${viewUsername}_${randomNumber}_${imageDPName}`
+            (viewProfileImg ? viewProfileImg : `${viewUsername}_${randomNumber}_${imageDPName}`)
           );
         } else {
           return (
