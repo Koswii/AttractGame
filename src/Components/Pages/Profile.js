@@ -231,6 +231,8 @@ const Profile = () => {
     const [agEditTwitch, setAGEditTwitch] = useState('');
     const AGUserDataUPDATEAPI = process.env.REACT_APP_AG_USERS_PROFILE_UPDATE_API;
     const AGUserCustomDPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_DP_API;
+
+
     const renderProfileUser = () => {
         if (viewVerifiedUser == 'Gold' || viewVerifiedUser == 'Blue'){
             if(viewProfileImg == ''){
@@ -238,18 +240,22 @@ const Profile = () => {
                   `${viewUsername}_${randomNumber}_${imageDPName}`
                 );
             }else{
-                return (
-                    viewProfileImg
-                );
+                if(imageDPName == ''){
+                    return (
+                        viewProfileImg
+                    );
+                }else{
+                    return (
+                        `${viewUsername}_${randomNumber}_${imageDPName}`
+                    );
+                }
             }
         } else {
-          return (
-            pickProfileImg00
-          );
+            return (
+                pickProfileImg00
+            );
         }
     };
-
-
     const handleEditProfileSubmit = async (e) => {
         e.preventDefault();
     
@@ -277,23 +283,19 @@ const Profile = () => {
         formUserDPData.append('profileimgid', randomNumber);
     
         try {
-            const jsonEditProfileData = JSON.stringify(formEditProfileData);
-            const responseEditProfile = await axios.post(AGUserDataUPDATEAPI, jsonEditProfileData);
+            const [responseEditProfile, responseCustomDP] = await Promise.all([
+                axios.post(AGUserDataUPDATEAPI, JSON.stringify(formEditProfileData)),
+                axios.post(AGUserCustomDPAPI, formUserDPData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+            ]);
             const resMessageEditProfile = responseEditProfile.data;
-            if (resMessageEditProfile.success) {
-                localStorage.setItem('profileDataJSON', jsonEditProfileData);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    
-        try {
-            const responseCustomDP = await axios.post(AGUserCustomDPAPI, formUserDPData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
             const resMessageCustomDP = responseCustomDP.data;
+            if (resMessageEditProfile.success) {
+                localStorage.setItem('profileDataJSON', JSON.stringify(formEditProfileData));
+            }
             if (!resMessageCustomDP.success) {
                 console.log(resMessageCustomDP.message);
             }
@@ -357,10 +359,6 @@ const Profile = () => {
                                 <div className="mdcpccrSocials">
                                     <h6>EDIT PROFILE</h6>
                                     <div>
-                                        {/* <span>
-                                            <label><p><TbUserSquareRounded className='faIcons'/> Username</p></label>
-                                            <input name='agEditProfileFB' type="text" placeholder={viewUsername} onChange={(e) => setAGEditFacebook(e.target.value)}/>
-                                        </span> */}
                                         <span>
                                             <label><p><FaSquareFacebook className='faIcons'/> Facebook</p></label>
                                             <input name='agEditProfileFB' type="text" placeholder={viewFacebook ? viewFacebook : 'Facebook Profile Link'} onChange={(e) => setAGEditFacebook(e.target.value)}/>
@@ -553,9 +551,17 @@ const Profile = () => {
                             <div className="ppcrpchpMyPosts">
                                 <div className='ppcrpchpPost'>
                                     <div className='ppcrpchpUser'>
-                                        <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
+                                        {viewProfileImg ? 
+                                        <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt=""/>
+                                        :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                         <span>
-                                            <h6>Koswi <RiVerifiedBadgeFill className='faIcons'/></h6>
+                                            <h6>
+                                                {viewUsername} 
+                                                {viewVerifiedUser ? <>
+                                                    {viewVerifiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                                    {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                                </>:<></>}
+                                            </h6>
                                             <p>Apr 17</p>
                                         </span>
                                     </div>

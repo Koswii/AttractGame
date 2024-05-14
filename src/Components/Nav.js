@@ -79,6 +79,7 @@ const Nav = () => {
 
 
   const LoginUsername = localStorage.getItem('attractGameUsername');
+  const userLoggedIn = localStorage.getItem('isLoggedIn')
   const [dataUser, setDataUser] = useState([]);
   const [dataStatus, setDataUserStatus] = useState('');
   const [viewProfileImg, setViewProfileImg] = useState('');
@@ -136,19 +137,24 @@ const Nav = () => {
         const profileDetailsJSON = JSON.stringify(userData)
         localStorage.setItem('profileDataJSON', profileDetailsJSON);
 
-        if(userData){
-          const storedProfileData = localStorage.getItem('profileDataJSON');
-          const parsedProfileData = JSON.parse(storedProfileData);
-          setViewProfileImg(parsedProfileData.profileimg);
-        }
+        const storedProfileData = localStorage.getItem('profileDataJSON');
+        const parsedProfileData = JSON.parse(storedProfileData);
+        setViewProfileImg(parsedProfileData);
       })
       .catch(error => {
-          console.log(error)
+        console.log(error)
       })
     }
     fetchUserProfile();
-
   }, [LoginUsername]);
+  const renderProfileImage = () => {
+    if (userLoggedIn == 'true'){
+      return (
+        (viewProfileImg.profileimg)
+      );
+    } 
+  };
+
   const handleUserRegister = async (e) => {
     e.preventDefault();
 
@@ -255,6 +261,7 @@ const Nav = () => {
     e.preventDefault();
     setViewTextPassword(false)
   }
+
 
   if(viewRegForm == true ||
     viewLoginForm == true){
@@ -424,9 +431,7 @@ const Nav = () => {
               <Link id='agCartBtn'><h6><TbShoppingCartBolt className='faIcons'/></h6></Link>
               <Link id='agSettingsBtn'><h6><MdSettings className='faIcons'/></h6></Link>
               <Link id='agProfileBtn' to='/Profile'>
-                {viewProfileImg ? 
-                <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt=""/>
-                :<img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
+                <img src={`https://engeenx.com/ProfilePics/${renderProfileImage()}`} alt=""/>
               </Link>
               <a id='agLogoutBtn' onClick={handleUserLogout}><h6>LOGOUT</h6></a>
             </div>}
@@ -441,7 +446,7 @@ const Nav = () => {
           {viewUserCredentials && 
             <Link id='agProfileBtn' to='/Profile'>
               {viewProfileImg ? 
-              <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt=""/>
+              <img src={`https://engeenx.com/ProfilePics/${renderProfileImage()}`} alt=""/>
               :<img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
             </Link>
           }

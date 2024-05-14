@@ -881,8 +881,17 @@ section.profilePageContainer.mid{
     border-radius: 50%;
     margin-right: 2%;
 }
+.ppcrpchpUser span{
+    width: 100%;
+}
 .ppcrpchpUser span h6 .faIcons{
+    margin-left: 1%;
+}
+.ppcrpchpUser span h6 .faIcons.gold{
     color: gold;
+}
+.ppcrpchpUser span h6 .faIcons.blue{
+    color: royalblue;
 }
 .ppcrpchpupWords{
     height: auto;
