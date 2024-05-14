@@ -228,10 +228,8 @@ const Profile = () => {
     const [agEditTiktok, setAGEditTiktok] = useState('');
     const [agEditYoutube, setAGEditYoutube] = useState('');
     const [agEditTwitch, setAGEditTwitch] = useState('');
-
     const AGUserDataUPDATEAPI = process.env.REACT_APP_AG_USERS_PROFILE_UPDATE_API;
     const AGUserCustomDPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_DP_API;
-
     const renderProfileUser = () => {
         if (viewVerifiedUser == 'Gold' || viewVerifiedUser == 'Blue'){
           return (
@@ -244,7 +242,7 @@ const Profile = () => {
         }
     };
 
-
+    
     const handleEditProfileSubmit = async (e) => {
         e.preventDefault();
     
