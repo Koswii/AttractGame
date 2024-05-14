@@ -351,10 +351,10 @@ const Profile = () => {
                                 <div className="mdcpccrSocials">
                                     <h6>EDIT PROFILE</h6>
                                     <div>
-                                        <span>
+                                        {/* <span>
                                             <label><p><TbUserSquareRounded className='faIcons'/> Username</p></label>
                                             <input name='agEditProfileFB' type="text" placeholder={viewUsername} onChange={(e) => setAGEditFacebook(e.target.value)}/>
-                                        </span>
+                                        </span> */}
                                         <span>
                                             <label><p><FaSquareFacebook className='faIcons'/> Facebook</p></label>
                                             <input name='agEditProfileFB' type="text" placeholder={viewFacebook ? viewFacebook : 'Facebook Profile Link'} onChange={(e) => setAGEditFacebook(e.target.value)}/>

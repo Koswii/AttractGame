@@ -102,23 +102,23 @@ function App() {
     }
   }, [dataAccount]);
 
-  useEffect(() => {
-    const handleKeyPress = (event) => {
-      if (event.ctrlKey && (event.key === 'c' || event.key === 'C' || event.key === 'v' || event.key === 'V')) {
-        event.preventDefault(); // Prevent copying and pasting
-        alert("Please do not copy or paste anything into local storage.");
-      } else if (event.ctrlKey && (event.key === 's' || event.key === 'S')) {
-        event.preventDefault(); // Prevent saving into local storage
-        alert("Please do not save anything into local storage.");
-      }
-    };
+  // useEffect(() => {
+  //   const handleKeyPress = (event) => {
+  //     if (event.ctrlKey && (event.key === 'c' || event.key === 'C' || event.key === 'v' || event.key === 'V')) {
+  //       event.preventDefault(); // Prevent copying and pasting
+  //       alert("Please do not copy or paste anything into local storage.");
+  //     } else if (event.ctrlKey && (event.key === 's' || event.key === 'S')) {
+  //       event.preventDefault(); // Prevent saving into local storage
+  //       alert("Please do not save anything into local storage.");
+  //     }
+  //   };
 
-    window.addEventListener('keydown', handleKeyPress);
+  //   window.addEventListener('keydown', handleKeyPress);
 
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('keydown', handleKeyPress);
+  //   };
+  // }, []);
 
 
   return (
