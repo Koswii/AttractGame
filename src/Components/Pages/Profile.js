@@ -451,7 +451,7 @@ const Profile = () => {
                     :{background: 'linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalCover' onClick={handleCloseAnyModals} type='button'><FaTimes className='faIcons'/></button>
                     <form onSubmit={handleEditProfileSubmit}>
-                        <div className="mdcpCloverContainer">
+                        <div className="mdcpCoverContainer">
                             {imageCoverPhoto ? 
                                 <img src={URL.createObjectURL(imageCoverPhoto)} alt="No image Selected" /> :
                                 <h6>Change Cover Photo</h6>

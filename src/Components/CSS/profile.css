@@ -293,7 +293,7 @@ h6{
     cursor: pointer;
     z-index: 2;
 }
-.mdcpCloverContainer{
+.mdcpCoverContainer{
     height: 30vw;
     width: 100%;
     border: dashed 2px white;
@@ -308,7 +308,7 @@ h6{
     align-items: center;
     position: relative;
 }
-.mdcpCloverContainer input{
+.mdcpCoverContainer input{
     height: 100%;
     width: 100%;
     position: absolute;
@@ -316,10 +316,10 @@ h6{
     top: 0;
     left: 0;
 }
-.mdcpCloverContainer img{
+.mdcpCoverContainer img{
     width: 100%;
 }
-.mdcpCloverContainer button{
+.mdcpCoverContainer button{
     position: absolute;
     bottom: 1vw;
     right: 1vw;
@@ -332,12 +332,14 @@ h6{
     cursor: pointer;
     opacity: 30%;
 }
-.mdcpCloverContainer button:hover{
+.mdcpCoverContainer button:hover{
     opacity: 100%;
-    color: lightblue;
     transition: 400ms ease;
 }
-
+.mdcpCoverContainer button .faIcons{
+    border: solid 2px black;
+    border-radius: 50%;
+}
 
 
 
@@ -645,10 +647,12 @@ h6{
 }
 .mdcsStoryContainer button:hover{
     opacity: 100%;
-    color: lightblue;
     transition: 400ms ease;
 }
-
+.mdcsStoryContainer button .faIcons{
+    border: solid 2px black;
+    border-radius: 50%;
+}
 
 
 
