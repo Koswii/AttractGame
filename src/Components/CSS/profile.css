@@ -51,9 +51,6 @@ h6{
     height: auto;
     width: 50%;
     border-radius: 1vw;
-    background: 
-        linear-gradient(transparent, black 80%),
-        url('../assets/imgs/LoginBackground.jpg');
     background-size: cover;
     box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
     padding: 3% 2%;
@@ -223,6 +220,15 @@ h6{
 .mdcpccrSocials div span p .faIcons{
     margin-right: 2%;
 }
+.mdcpccrLoader{
+    height: auto;
+    width: 100%;
+    text-align: center;
+    margin-top: 5%;
+}
+.mdcpccrLoader p{
+    height: 1vw;
+}
 .mdcpccrSubmit{
     height: auto;
     width: 100%;
@@ -270,9 +276,6 @@ h6{
     height: auto;
     width: 50%;
     border-radius: 1vw;
-    background: 
-        linear-gradient(transparent, black 80%),
-        url('../assets/imgs/LoginBackground.jpg');
     background-size: cover;
     box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
     padding: 0.5%;
@@ -350,9 +353,6 @@ h6{
     height: auto;
     width: 40%;
     border-radius: 1vw;
-    background: 
-        linear-gradient(transparent, black 80%),
-        url('../assets/imgs/LoginBackground.jpg');
     background-size: cover;
     box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
     padding: 2%;
@@ -554,9 +554,6 @@ h6{
     height: auto;
     width: 25%;
     border-radius: 1vw;
-    background: 
-        linear-gradient(transparent, black 80%),
-        url('../assets/imgs/LoginBackground.jpg');
     background-size: cover;
     box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
     padding: 0.5%;

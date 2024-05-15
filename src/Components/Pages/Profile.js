@@ -243,6 +243,7 @@ const Profile = () => {
     const [agEditTiktok, setAGEditTiktok] = useState('');
     const [agEditYoutube, setAGEditYoutube] = useState('');
     const [agEditTwitch, setAGEditTwitch] = useState('');
+    const [isEditSubmitting, setIsEditSubmitting] = useState(false);
     const AGUserDataUPDATEAPI = process.env.REACT_APP_AG_USERS_PROFILE_UPDATE_API;
     const AGUserCustomDPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_DP_API;
     const AGUserCustomCPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_CP_API;
@@ -292,6 +293,7 @@ const Profile = () => {
     };
     const handleEditProfileSubmit = async (e) => {
         e.preventDefault();
+        setIsEditSubmitting(true);
     
         const formEditProfileData = {
             id: viewUserID,
@@ -349,6 +351,8 @@ const Profile = () => {
             }
         } catch (error) {
             console.error(error);
+        } finally {
+            setIsEditSubmitting(false); // Stop loader
         }
     
         setTimeout(() => {
@@ -359,11 +363,12 @@ const Profile = () => {
 
 
 
-
     return (
         <div className='mainContainer profile'>
             {editSocialsModal && <div className="modalContainerProfile settings">
-                <div className="modalContentProfile">
+                <div className="modalContentProfile" 
+                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+                    :{background: 'linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalSettings' onClick={handleCloseAnyModals} type='button'><FaTimes className='faIcons'/></button>
                     <form onSubmit={handleEditProfileSubmit}>
                         <div className="mdcpSettingsContainer">
@@ -430,6 +435,9 @@ const Profile = () => {
                                 </div>
                             </div>
                         </div>
+                        {isEditSubmitting ? 
+                        <div className="mdcpccrLoader"><p>Loading Update...</p></div>
+                        :<div className="mdcpccrLoader"><p></p></div>}
                         <div className="mdcpccrSubmit">
                             <button id='mdcpccrsVerified'>APPLY SUBSCRIPTION <RiSparklingFill className='faIcons'/></button>
                             <button id='mdcpccrsSubmit' type='submit'>Update Profile</button>
@@ -438,7 +446,9 @@ const Profile = () => {
                 </div>
             </div>}
             {addCoverImg && <div className="modalContainerProfile coverImg">
-                <div className="modalContentCover">
+                <div className="modalContentCover"
+                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+                    :{background: 'linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalCover' onClick={handleCloseAnyModals} type='button'><FaTimes className='faIcons'/></button>
                     <form onSubmit={handleEditProfileSubmit}>
                         <div className="mdcpCloverContainer">
@@ -453,60 +463,66 @@ const Profile = () => {
                 </div>
             </div>}
             {addUserPost && <div className="modalContainerProfile posting">
-                <div className="modalContentPosting">
+                <div className="modalContentPosting"
+                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+                    :{background: 'linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalPosting' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
-                    <div className="mdcpPostingContainer">
-                        <div className='mdcppcPostUser'>
-                            {viewProfileImg ? 
-                            <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
-                            :<img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" onClick={handleOpenSocialSettings}/>}
-                            <span>
-                                <h5>
-                                    {viewUsername} 
-                                    {viewVerifiedUser ? <>
-                                        {viewVerifiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
-                                        {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
-                                    </>:<></>}
-                                </h5>
-                                <p>{viewRefCode}</p>
-                            </span>
-                        </div>
-                        <div className="mdcppcPostContent">
-                            <div className='mdcppcpcPost'>
-                                <textarea name="" id="" maxLength={150} placeholder='Post about your Gameplay...'></textarea>
-                                <p>1 / 250</p>
+                    <form>
+                        <div className="mdcpPostingContainer">
+                            <div className='mdcppcPostUser'>
+                                {viewProfileImg ? 
+                                <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
+                                :<img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" onClick={handleOpenSocialSettings}/>}
+                                <span>
+                                    <h5>
+                                        {viewUsername} 
+                                        {viewVerifiedUser ? <>
+                                            {viewVerifiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                            {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                        </>:<></>}
+                                    </h5>
+                                    <p>{viewRefCode}</p>
+                                </span>
                             </div>
-                            {addPostYoutubeLink && <div className="mdcppcpcAddition youtube">
-                                <input type="text" placeholder='Place YouTube Link here...'/>
-                                <button onClick={closeAddYoutubeLink}><FaTimes className='faIcons'/></button>
-                            </div>}
-                            {addPostMedia && <div className="mdcppcpcAddition media">
-                                <div className='mdcppcpcaMedia'>
-                                    <div>
-                                        {image ? 
-                                            <img src={URL.createObjectURL(image)} alt="No image Selected" /> :
-                                            <h6>Select/Drop Image or Video only</h6>
-                                        }
-                                    </div>
-                                    <input type="file" onChange={handleFileInputChange}/>    
+                            <div className="mdcppcPostContent">
+                                <div className='mdcppcpcPost'>
+                                    <textarea name="" id="" maxLength={150} placeholder='Post about your Gameplay...'></textarea>
+                                    <p>1 / 250</p>
                                 </div>
-                                <button onClick={closeAddPostMedia}><FaTimes className='faIcons'/></button>
-                            </div>}
-                        </div>
-                        <div className="mdcppcPostButton">
-                            <div className='mdcppcpb left'>
-                                <button className={addPostYoutubeLink ? 'active' : ''} onClick={handlePostYoutubeLink}><IoLogoYoutube className='faIcons'/></button>
-                                <button className={addPostMedia ? 'active' : ''} onClick={handlePostMedia}><IoIosImages className='faIcons'/></button>
+                                {addPostYoutubeLink && <div className="mdcppcpcAddition youtube">
+                                    <input type="text" placeholder='Place YouTube Link here...'/>
+                                    <button onClick={closeAddYoutubeLink}><FaTimes className='faIcons'/></button>
+                                </div>}
+                                {addPostMedia && <div className="mdcppcpcAddition media">
+                                    <div className='mdcppcpcaMedia'>
+                                        <div>
+                                            {image ? 
+                                                <img src={URL.createObjectURL(image)} alt="No image Selected" /> :
+                                                <h6>Select/Drop Image or Video only</h6>
+                                            }
+                                        </div>
+                                        <input type="file" onChange={handleFileInputChange}/>    
+                                    </div>
+                                    <button onClick={closeAddPostMedia}><FaTimes className='faIcons'/></button>
+                                </div>}
                             </div>
-                            <div className='mdcppcpb right'>
-                                <button>Post Highlight</button>
+                            <div className="mdcppcPostButton">
+                                <div className='mdcppcpb left'>
+                                    <button type='button' className={addPostYoutubeLink ? 'active' : ''} onClick={handlePostYoutubeLink}><IoLogoYoutube className='faIcons'/></button>
+                                    <button type='button' className={addPostMedia ? 'active' : ''} onClick={handlePostMedia}><IoIosImages className='faIcons'/></button>
+                                </div>
+                                <div className='mdcppcpb right'>
+                                    <button type='submit'>Post Highlight</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>}
             {addPostStory && <div className="modalContainerProfile addStory">
-                <div className="modalContentStory">
+                <div className="modalContentStory"
+                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+                    :{background: 'linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalStory' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
                     <div className="mdcsStoryContainer">
                         <div className='mdcsscDP'>
