@@ -118,6 +118,7 @@ const Profile = () => {
     const [pickProfileImg00, setPickProfileImg00] = useState('DefaultProfilePic.png');
     const [editSocialsModal, setEditSocialsModal] = useState(false);
     const [addUserPost, setAddUserPost] = useState(false);
+    const [addCoverImg, setAddCoverImg] = useState(false);
     const [addPostYoutubeLink, setAddPostYoutubeLink] = useState(false);
     const [addPostMedia, setAddPostMedia] = useState(false);
     const [addPostStory, setAddPostStory] = useState(false);
@@ -159,6 +160,9 @@ const Profile = () => {
     const handleAddUserPost = () => {
         setAddUserPost(true)
     }
+    const handleAddCoverImg = () => {
+        setAddCoverImg(true)
+    }
     const handleAddUserPost2 = () => {
         setAddUserPost(true)
         setAddPostMedia(true)
@@ -174,6 +178,7 @@ const Profile = () => {
         setAddPostStory(false)
         setAddPostYoutubeLink(false)
         setAddPostMedia(false)
+        setAddCoverImg(false)
         setImageStory(null)
     }
     const handlePostYoutubeLink = () => {
@@ -208,6 +213,15 @@ const Profile = () => {
             setImageDPName(file.name);
         }
     };
+    const [imageCoverPhoto, setImageCoverPhoto] = useState(null);
+    const [imageCoverPhotoName, setImageCoverPhotoName] = useState('')
+    const handleUploadUserCoverPhoto = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setImageCoverPhoto(file);
+            setImageCoverPhotoName(file.name);
+        }
+    };
     const [imageStory, setImageStory] = useState(null);
     const handleUploadUserStory = (event) => {
         const file = event.target.files[0];
@@ -231,6 +245,7 @@ const Profile = () => {
     const [agEditTwitch, setAGEditTwitch] = useState('');
     const AGUserDataUPDATEAPI = process.env.REACT_APP_AG_USERS_PROFILE_UPDATE_API;
     const AGUserCustomDPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_DP_API;
+    const AGUserCustomCPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_CP_API;
 
 
     const renderProfileUser = () => {
@@ -256,6 +271,25 @@ const Profile = () => {
             );
         }
     };
+    const renderProfileCoverUser = () => {
+        if (viewVerifiedUser == 'Gold' || viewVerifiedUser == 'Blue'){
+            if(viewCoverImg == ''){
+                return (
+                  `${viewUsername}_${randomNumber}_${imageCoverPhotoName}`
+                );
+            }else{
+                if(imageCoverPhotoName == ''){
+                    return (
+                        viewCoverImg
+                    );
+                }else{
+                    return (
+                        `${viewUsername}_${randomNumber}_${imageCoverPhotoName}`
+                    );
+                }
+            }
+        } 
+    };
     const handleEditProfileSubmit = async (e) => {
         e.preventDefault();
     
@@ -265,7 +299,7 @@ const Profile = () => {
             email: viewEmailAddress,
             username: viewUsername,
             profileimg: renderProfileUser(),
-            coverimg: viewCoverImg,
+            coverimg: renderProfileCoverUser(),
             refcode: viewRefCode,
             facebook: agEditFacebook || viewFacebook,
             instagram: agEditInstagram || viewInstagram,
@@ -281,6 +315,11 @@ const Profile = () => {
         formUserDPData.append('profileuser', viewUsername);
         formUserDPData.append('profileimg', imageDP);
         formUserDPData.append('profileimgid', randomNumber);
+
+        const formUserCPData = new FormData();
+        formUserCPData.append('profileuser', viewUsername);
+        formUserCPData.append('profilecover', imageCoverPhoto);
+        formUserCPData.append('profilecoverid', randomNumber);
     
         try {
             const [responseEditProfile, responseCustomDP] = await Promise.all([
@@ -289,15 +328,24 @@ const Profile = () => {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
+                }),
+                axios.post(AGUserCustomCPAPI, formUserCPData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 })
             ]);
             const resMessageEditProfile = responseEditProfile.data;
             const resMessageCustomDP = responseCustomDP.data;
+            const resMessageCustomCP = responseCustomDP.data;
             if (resMessageEditProfile.success) {
                 localStorage.setItem('profileDataJSON', JSON.stringify(formEditProfileData));
             }
             if (!resMessageCustomDP.success) {
                 console.log(resMessageCustomDP.message);
+            }
+            if (!resMessageCustomCP.success) {
+                console.log(resMessageCustomCP.message);
             }
         } catch (error) {
             console.error(error);
@@ -314,8 +362,7 @@ const Profile = () => {
 
     return (
         <div className='mainContainer profile'>
-            {editSocialsModal && 
-            <div className="modalContainerProfile settings">
+            {editSocialsModal && <div className="modalContainerProfile settings">
                 <div className="modalContentProfile">
                     <button id='closeModalSettings' onClick={handleCloseAnyModals} type='button'><FaTimes className='faIcons'/></button>
                     <form onSubmit={handleEditProfileSubmit}>
@@ -390,6 +437,21 @@ const Profile = () => {
                     </form>
                 </div>
             </div>}
+            {addCoverImg && <div className="modalContainerProfile coverImg">
+                <div className="modalContentCover">
+                    <button id='closeModalCover' onClick={handleCloseAnyModals} type='button'><FaTimes className='faIcons'/></button>
+                    <form onSubmit={handleEditProfileSubmit}>
+                        <div className="mdcpCloverContainer">
+                            {imageCoverPhoto ? 
+                                <img src={URL.createObjectURL(imageCoverPhoto)} alt="No image Selected" /> :
+                                <h6>Change Cover Photo</h6>
+                            }
+                            <input type="file" onChange={handleUploadUserCoverPhoto}/> 
+                            <button type='submit'><FaCircleCheck className='faIcons'/></button>  
+                        </div>
+                    </form>
+                </div>
+            </div>}
             {addUserPost && <div className="modalContainerProfile posting">
                 <div className="modalContentPosting">
                     <button id='closeModalPosting' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
@@ -447,6 +509,19 @@ const Profile = () => {
                 <div className="modalContentStory">
                     <button id='closeModalStory' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
                     <div className="mdcsStoryContainer">
+                        <div className='mdcsscDP'>
+                            {viewProfileImg ? 
+                            <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
+                            :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt="" onClick={handleOpenSocialSettings}/>}
+                            <h6>
+                                {viewUsername} 
+                                {viewVerifiedUser ? <>
+                                    {viewVerifiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                    {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                </>:<></>} <br />
+                                <span>{viewRefCode}</span>
+                            </h6>
+                        </div>
                         {imageStory ? 
                             <img src={URL.createObjectURL(imageStory)} alt="No image Selected" /> :
                             <h6>Add Gamer Story...</h6>
@@ -459,8 +534,15 @@ const Profile = () => {
 
 
             <section className="profilePageContainer top">
-                <img src={require('../assets/imgs/LoginBackground.jpg')} alt="" />
-                <div></div>
+                {viewCoverImg ? 
+                <img src={`https://engeenx.com/CoverPics/${viewCoverImg}`}/>
+                :<img src={require('../assets/imgs/LoginBackground.jpg')} alt="" />}
+                <div className='ppctShadow'></div>
+                {viewVerifiedUser && <div className='ppctEditCoverImg'>
+                    <div className="ppctecimg">
+                        <button onClick={handleAddCoverImg}>Change Cover Photo</button>
+                    </div>
+                </div>}
             </section>
             <section className="profilePageContainer mid">
                 <div className="profilePageContent left">

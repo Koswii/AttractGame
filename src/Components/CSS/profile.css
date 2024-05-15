@@ -61,8 +61,8 @@ h6{
 }
 .modalContentProfile button#closeModalSettings{
     position: absolute;
-    right: 2%;
-    top: 3%;
+    right: 1vw;
+    top: 1vw;
     background: none;
     border: none;
     outline: none;
@@ -261,6 +261,88 @@ h6{
     color: black;
     box-shadow: 0 0 10px blue;
 }
+
+
+
+
+.modalContentCover{
+    position: relative;
+    height: auto;
+    width: 50%;
+    border-radius: 1vw;
+    background: 
+        linear-gradient(transparent, black 80%),
+        url('../assets/imgs/LoginBackground.jpg');
+    background-size: cover;
+    box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
+    padding: 0.5%;
+    animation: fade-in-down 800ms ease;
+}
+.modalContentCover button#closeModalCover{
+    position: absolute;
+    right: 1vw;
+    top: 1vw;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1.5vw;
+    cursor: pointer;
+    z-index: 2;
+}
+.mdcpCloverContainer{
+    height: 30vw;
+    width: 100%;
+    border: dashed 2px white;
+    border-radius: 1vw;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.mdcpCloverContainer input{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+}
+.mdcpCloverContainer img{
+    width: 100%;
+}
+.mdcpCloverContainer button{
+    position: absolute;
+    bottom: 1vw;
+    right: 1vw;
+    font-size: 2vw;
+    line-height: 2vw;
+    background: none;
+    border: none;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    opacity: 30%;
+}
+.mdcpCloverContainer button:hover{
+    opacity: 100%;
+    color: lightblue;
+    transition: 400ms ease;
+}
+
+
+
+
+
+
+
+
+
 
 
 .modalContentPosting{
@@ -477,13 +559,13 @@ h6{
         url('../assets/imgs/LoginBackground.jpg');
     background-size: cover;
     box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
-    padding: 1%;
+    padding: 0.5%;
     animation: fade-in-down 800ms ease;
 }
 .modalContentStory button#closeModalStory{
     position: absolute;
-    right: 7%;
-    top: 1.5vw;
+    right: 1vw;
+    top: 1vw;
     background: none;
     border: none;
     outline: none;
@@ -507,13 +589,39 @@ h6{
     align-items: center;
     position: relative;
 }
-.mdcsStoryContainer img{
-    height: 100%;
-    width: auto;
+.mdcsscDP{
+    height: auto;
+    width: 100%;
+    position: absolute;
+    top: 0.5vw;
+    left: 0.5vw;
+    display: flex;
+    justify-content: left;
+    align-items: center;
 }
-.mdcsStoryContainer h6{
-    color: gray;
-    opacity: 50%;
+.mdcsscDP h6{
+    width: 20%;
+    color: white;
+}
+.mdcsscDP h6 .faIcons{
+    margin-left: 3%;
+}
+.mdcsscDP h6 .faIcons.gold{
+    color: gold;
+}
+.mdcsscDP h6 .faIcons.blue{
+    color: royalblue;
+}
+.mdcsscDP h6 span{
+    font-size: 0.7vw;
+    font-weight: 400;
+}
+.mdcsStoryContainer img{
+    height: 3vw;
+    width: 3vw;
+    border: solid 2px white;
+    border-radius: 50%;
+    margin-right: 3%;
 }
 .mdcsStoryContainer input{
     position: absolute;
@@ -524,9 +632,9 @@ h6{
 }
 .mdcsStoryContainer button{
     position: absolute;
-    bottom: 2%;
-    right: 3%;
-    font-size: 3vw;
+    bottom: 1vw;
+    right: 1vw;
+    font-size: 2vw;
     line-height: 2vw;
     background: none;
     border: none;
@@ -555,7 +663,7 @@ section.profilePageContainer.top img{
     width: 100%;
     margin-top: -15%;
 }
-section.profilePageContainer.top div{
+.ppctShadow{
     position: absolute;
     top: 0;
     left: 0;
@@ -565,6 +673,43 @@ section.profilePageContainer.top div{
         linear-gradient(transparent, black 80%);
     background-size: cover;
 }
+.ppctEditCoverImg{
+    height: auto;
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+    bottom: 6vw;
+    right: 10vw;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.ppctecimg{
+    height: auto;
+    width: 15%;
+    display: flex;
+    justify-content: right;
+    position: relative;
+}
+.ppctecimg button{
+    padding: 1% 7%;
+    border: solid 2px white;
+    border-radius: 50px;
+    background: none;
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
