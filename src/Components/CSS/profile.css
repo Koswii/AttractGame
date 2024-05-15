@@ -1023,6 +1023,7 @@ section.profilePageContainer.mid{
 }
 .ppcrpchpUser img{
     height: 3vw;
+    width: 3vw;
     border-radius: 50%;
     margin-right: 2%;
 }
