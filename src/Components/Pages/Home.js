@@ -142,7 +142,7 @@ const Home = () => {
             {viewAGData1.slice(0, 10).map((details, i) => (
             <div className='lndpcfgames website' key={i}>
               {details.game_cover ?
-                <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="" />
+                <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="" />
                 :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}
               <div className='lndpcfgDetails'>
                 <h6>{details.game_title}</h6>
@@ -155,7 +155,7 @@ const Home = () => {
             {viewAGData1.slice(0, 4).map((details, i) => (
             <div className='lndpcfgames mobile' key={i}>
               {details.game_cover ?
-                <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="" />
+                <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="" />
                 :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}
               <div className='lndpcfgDetails'>
                 <h6>{details.game_title}</h6>

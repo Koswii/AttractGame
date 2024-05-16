@@ -128,8 +128,8 @@ const Nav = () => {
     if (adminNavBtn) {
       setViewAdminCredentials(true);
     }
-  }, [LoginUsername, agUserUsername]);
-  useEffect(() => {
+
+
     const fetchUserProfile = () => {
       axios.get(AGUserDataAPI)
       .then((response) => {
@@ -146,7 +146,7 @@ const Nav = () => {
       })
     }
     fetchUserProfile();
-  }, [LoginUsername]);
+  }, [LoginUsername, agUserUsername]);
   const renderProfileImage = () => {
     if (userLoggedIn == 'true'){
       return (
@@ -154,7 +154,6 @@ const Nav = () => {
       );
     } 
   };
-
   const handleUserRegister = async (e) => {
     e.preventDefault();
 
@@ -277,7 +276,6 @@ const Nav = () => {
     localStorage.removeItem('giftcards');
     localStorage.removeItem('crypto');
   }
-
   const handleClickDashboadrd = () => {
     localStorage.setItem('dashboard', 'active');
     localStorage.removeItem('marketplace');
@@ -431,7 +429,7 @@ const Nav = () => {
               <Link id='agCartBtn'><h6><TbShoppingCartBolt className='faIcons'/></h6></Link>
               <Link id='agSettingsBtn'><h6><MdSettings className='faIcons'/></h6></Link>
               <Link id='agProfileBtn' to='/Profile'>
-                <img src={`https://engeenx.com/ProfilePics/${renderProfileImage()}`} alt=""/>
+                <img src={`https://2wave.io/ProfilePics/${renderProfileImage()}`} alt=""/>
               </Link>
               <a id='agLogoutBtn' onClick={handleUserLogout}><h6>LOGOUT</h6></a>
             </div>}
@@ -446,7 +444,7 @@ const Nav = () => {
           {viewUserCredentials && 
             <Link id='agProfileBtn' to='/Profile'>
               {viewProfileImg ? 
-              <img src={`https://engeenx.com/ProfilePics/${renderProfileImage()}`} alt=""/>
+              <img src={`https://2wave.io/ProfilePics/${renderProfileImage()}`} alt=""/>
               :<img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
             </Link>
           }

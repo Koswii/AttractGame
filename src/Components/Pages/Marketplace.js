@@ -99,7 +99,6 @@ const Marketplace = () => {
         };
         fetchGames();
     }, []);
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -156,7 +155,6 @@ const Marketplace = () => {
     
         fetchData();
     }, [viewMetacriticData, viewWikiData]);
-
     useEffect(() => {
         const fetchRobloxPartners = () => {
             axios.get(AGGamesRobloxPartners)
@@ -170,7 +168,6 @@ const Marketplace = () => {
         }
         fetchRobloxPartners();
     }, []);
-
     const handleClickGames = () => {
         localStorage.setItem('games', 'active');
         localStorage.removeItem('dashboard');
@@ -243,7 +240,7 @@ const Marketplace = () => {
                                     <p>Metascore</p>
                                 </div>
                                 <>{details.agData1.game_cover !== '' ?
-                                <img src={`https://engeenx.com/GameCovers/${details.agData1.game_cover}`} alt="" />
+                                <img src={`https://2wave.io/GameCovers/${details.agData1.game_cover}`} alt="" />
                                 :<img src={details.originalimage.source} alt="" />}</>
                             </div>
                             <div className="mppctl right">
@@ -292,7 +289,7 @@ const Marketplace = () => {
                                 <h4><MdOutlineFiberNew className='faIcons'/></h4>
                             </div>
                             <>{details.agData1.game_cover !== '' ?
-                            <img src={`https://engeenx.com/GameCovers/${details.agData1.game_cover}`} alt="" />
+                            <img src={`https://2wave.io/GameCovers/${details.agData1.game_cover}`} alt="" />
                             :<img src={details.originalimage.source} alt="" />}</>
                             <div className="mppcmGameDetails">
                                 <h6>{details.agData1.game_title}</h6>
@@ -324,7 +321,7 @@ const Marketplace = () => {
                             </h4>
                         </div>
                         <>{details.game_cover !== '' ?
-                        <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="Image Not Available" />
+                        <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</>
                         <div className="mppcm2GameDiscount">
                             <h4><MdDiscount className='faIcons'/></h4>
@@ -356,7 +353,7 @@ const Marketplace = () => {
                             </h4>
                         </div>
                         <>{details.game_cover !== '' ?
-                        <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="Image Not Available" />
+                        <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</>
                         <div className="mppcm2GameDiscount">
                             <h4><MdDiscount className='faIcons'/></h4>

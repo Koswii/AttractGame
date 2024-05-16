@@ -152,7 +152,7 @@ const Game = () => {
                             </h5>
                         </div>
                         <>{scrapedMetacriticData.game_cover !== '' ?
-                        <img src={`https://engeenx.com/GameCovers/${scrapedMetacriticData.game_cover}`} alt="" />
+                        <img src={`https://2wave.io/GameCovers/${scrapedMetacriticData.game_cover}`} alt="" />
                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}</>
                     </div>
                     <div className="gppctGameDetails right">
@@ -225,7 +225,7 @@ const Game = () => {
                 <div className="gpPageContentMid3 website">
                     {viewAGData2.slice(0, 10).map((details, i) => (
                         <Link className="gppcm3OtherGame" key={i} to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>
-                            <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="" />
+                            <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="" />
                             <div className="gppcm3ogPlatform">
                                 <img src="" platform={details.game_platform} alt="" />
                             </div>
@@ -244,7 +244,7 @@ const Game = () => {
                 <div className="gpPageContentMid3 mobile">
                     {viewAGData2.slice(0, 6).map((details, i) => (
                         <Link className="gppcm3OtherGame" key={i} to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>
-                            <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="" />
+                            <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="" />
                             <div className="gppcm3ogPlatform">
                                 <img src="" platform={details.game_platform} alt="" />
                             </div>

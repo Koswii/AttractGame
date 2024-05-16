@@ -1015,7 +1015,7 @@ section.profilePageContainer.mid{
 .ppcrpchpPost{
     height: auto;
     width: 100%;
-    margin: 3% 0;
+    margin: 5% 0;
 }
 .ppcrpchpUser{
     height: auto;
@@ -1023,7 +1023,7 @@ section.profilePageContainer.mid{
     display: flex;
     justify-content: left;
     align-items: center;
-    margin-bottom: 2%;
+    margin-bottom: 3%;
 }
 .ppcrpchpUser img{
     height: 3vw;
@@ -1035,7 +1035,7 @@ section.profilePageContainer.mid{
     width: 100%;
 }
 .ppcrpchpUser span h6 .faIcons{
-    margin-left: 1%;
+    margin-left: 0.5%;
 }
 .ppcrpchpUser span h6 .faIcons.gold{
     color: gold;
@@ -1048,6 +1048,9 @@ section.profilePageContainer.mid{
     width: 100%;
     text-align: left;
     margin-bottom: 2%;
+}
+.ppcrpchpupWords p{
+    white-space: pre-line;
 }
 .ppcrpchpuPosting{
     height: 30vw;

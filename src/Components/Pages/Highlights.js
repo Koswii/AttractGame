@@ -34,7 +34,7 @@ const Highlights = () => {
                     <div className="hldpcTop1">
                         <div className="hldpct1">
                             <div>
-                                <img src='https://engeenx.com/ProfilePics/DefaultProfilePic.png' alt="" />
+                                <img src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
                             </div>
                             <input type="text" placeholder='Post about a Gameplay...' readOnly/>
                             <button id='postAStory'><IoIosImages className='faIcons'/></button>
@@ -42,7 +42,7 @@ const Highlights = () => {
                     </div>
                     <div className="hldpcTop2 website">
                         <div className="hldpcT2 addStory">
-                            <img src='https://engeenx.com/ProfilePics/DefaultProfilePic.png' alt="" />
+                            <img src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
                             <span>
                                 <h5><IoMdAddCircle className='faIcons'/></h5>
                                 <p>Add Story</p>
@@ -62,7 +62,7 @@ const Highlights = () => {
                     </div>
                     <div className="hldpcTop2 mobile">
                         <div className="hldpcT2 addStory">
-                            <img src='https://engeenx.com/ProfilePics/DefaultProfilePic.png' alt="" />
+                            <img src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
                             <span>
                                 <h5><IoMdAddCircle className='faIcons'/></h5>
                                 <p>Add Story</p>
@@ -88,7 +88,7 @@ const Highlights = () => {
                         <div className="hldpcMid1User">
                             <div className='hldpcMid1Profile'>
                                 <div>
-                                    <img src='https://engeenx.com/ProfilePics/DefaultProfilePic.png' alt="" />
+                                    <img src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
                                 </div>
                                 <span>
                                     <h6>Koswi <RiVerifiedBadgeFill className='faIcons'/></h6>
@@ -104,15 +104,15 @@ const Highlights = () => {
                             <p>Hi guys I changed a profile</p>
                         </div>
                         <div className="hldpcMid1PostImg">
-                            <img id='hldpcMid1pBG' src='https://engeenx.com/ProfilePics/DefaultProfilePic.png' alt="" />
-                            <img id='hldpcMid1pImg' src='https://engeenx.com/ProfilePics/DefaultProfilePic.png' alt="" />
+                            <img id='hldpcMid1pBG' src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
+                            <img id='hldpcMid1pImg' src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
                         </div>
                     </div>
                     <div className="hldpcMid1">
                         <div className="hldpcMid1User">
                             <div className='hldpcMid1Profile'>
                                 <div>
-                                    <img src='https://engeenx.com/ProfilePics/DefaultProfilePic.png' alt="" />
+                                    <img src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
                                 </div>
                                 <span>
                                     <h6>Koswi <RiVerifiedBadgeFill className='faIcons'/></h6>
@@ -128,15 +128,15 @@ const Highlights = () => {
                             <p>Hi guys I changed a profile</p>
                         </div>
                         <div className="hldpcMid1PostImg">
-                            <img id='hldpcMid1pBG' src='https://engeenx.com/ProfilePics/DefaultProfilePic.png' alt="" />
-                            <img id='hldpcMid1pImg' src='https://engeenx.com/ProfilePics/DefaultProfilePic.png' alt="" />
+                            <img id='hldpcMid1pBG' src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
+                            <img id='hldpcMid1pImg' src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
                         </div>
                     </div>
                     <div className="hldpcMid1">
                         <div className="hldpcMid1User">
                             <div className='hldpcMid1Profile'>
                                 <div>
-                                    <img src='https://engeenx.com/ProfilePics/DefaultProfilePic.png' alt="" />
+                                    <img src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
                                 </div>
                                 <span>
                                     <h6>Koswi <RiVerifiedBadgeFill className='faIcons'/></h6>
@@ -152,8 +152,8 @@ const Highlights = () => {
                             <p>Hi guys I changed a profile</p>
                         </div>
                         <div className="hldpcMid1PostImg">
-                            <img id='hldpcMid1pBG' src='https://engeenx.com/ProfilePics/DefaultProfilePic.png' alt="" />
-                            <img id='hldpcMid1pImg' src='https://engeenx.com/ProfilePics/DefaultProfilePic.png' alt="" />
+                            <img id='hldpcMid1pBG' src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
+                            <img id='hldpcMid1pImg' src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
                         </div>
                     </div>
                 </div>

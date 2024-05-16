@@ -88,7 +88,7 @@ const Games = () => {
                                 <img src='' platform={details.game_platform} alt="" />
                             </div>
                             <>{details.game_cover !== '' ?
-                            <img src={`https://engeenx.com/GameCovers/${details.game_cover}`} alt="Image Not Available" />
+                            <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
                             :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</>
                             <div className="gmspct2gDetails">
                                 <h5>{details.game_title}</h5>

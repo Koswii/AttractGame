@@ -39,11 +39,24 @@ import {
     IoMdAddCircle  
 } from "react-icons/io";
 
+
+
+const formatDateToWordedDate = (numberedDate) => {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const date = new Date(numberedDate);
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    
+    return `${month} ${day}, ${year}`;
+}
+
 const Profile = () => {
 
     // User Profile Fetching
 
     const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
+    const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
     const LoginUsername = localStorage.getItem('attractGameUsername');
 
     const [viewUserID, setViewUserID] = useState('')
@@ -62,6 +75,13 @@ const Profile = () => {
     const [viewUsername, setViewUsername] = useState('');
     const [viewVerifiedUser, setViewVerifiedUser] = useState('');
     const [randomNumber, setRandomNumber] = useState('');
+    const [randomPostID, setRandomPostID] = useState('');
+    const [viewFetchPost, setViewFetchPost] = useState([]);
+    const [viewFetchPostDate, setViewFetchPostDate] = useState('');
+    const [viewFetchPostText, setViewFetchPostText] = useState('');
+    const [viewFetchPostYoutube, setViewFetchPostYoutube] = useState('');
+    const [viewFetchPostMedia, setViewFetchPostMedia] = useState('');
+
     useEffect(() => {
         const interval = setInterval(() => {
         const number = Math.floor(Math.random() * 900000) + 100000; // Generates a 6-digit number
@@ -70,8 +90,14 @@ const Profile = () => {
 
         return () => clearInterval(interval);
     }, []);
+    useEffect(() => {
+        const interval = setInterval(() => {
+        const number = Math.floor(Math.random() * 90000000) + 10000000; // Generates a 8-digit number
+        setRandomPostID(number);
+        }, 1000); // Change interval as needed (in milliseconds)
 
-
+        return () => clearInterval(interval);
+    }, []);
 
 
     useEffect(() => {
@@ -111,6 +137,19 @@ const Profile = () => {
             }
         }
         fetchUserProfile();
+
+        const fetchUserDataPost = () => {
+            axios.get(AGUserPostAPI)
+            .then((response) => {
+                const postSortData = response.data.sort((a, b) => b.id - a.id);
+                const postData = postSortData.filter(post => post.user == LoginUsername);
+                setViewFetchPost(postData);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+        fetchUserDataPost();
 
     }, [LoginUsername]);
 
@@ -222,6 +261,15 @@ const Profile = () => {
             setImageCoverPhotoName(file.name);
         }
     };
+    const [imagePost, setImagePost] = useState(null);
+    const [imagePostName, setImagePostName] = useState('');
+    const handleUploadMediaChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setImagePost(file);
+            setImagePostName(file.name);
+        }
+    };
     const [imageStory, setImageStory] = useState(null);
     const handleUploadUserStory = (event) => {
         const file = event.target.files[0];
@@ -233,6 +281,7 @@ const Profile = () => {
         setImage(null);
         setImageDP(null);
         setImageDPName('');
+        setImagePost(null)
         setImageStory(null);
         
     };
@@ -244,11 +293,20 @@ const Profile = () => {
     const [agEditYoutube, setAGEditYoutube] = useState('');
     const [agEditTwitch, setAGEditTwitch] = useState('');
     const [isEditSubmitting, setIsEditSubmitting] = useState(false);
+    const [agPostContent, setAGPostContent] = useState('');
+    const [agPostYoutube, setAGPostYoutube] = useState('');
+    const postMaxCharacters = 250;
     const AGUserDataUPDATEAPI = process.env.REACT_APP_AG_USERS_PROFILE_UPDATE_API;
     const AGUserCustomDPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_DP_API;
     const AGUserCustomCPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_CP_API;
+    const AGAddMediaAPI = process.env.REACT_APP_AG_ADD_MEDIA_POST_API;
+    const AGAddUserPostAPI = process.env.REACT_APP_AG_ADD_USER_POST_API;
 
-
+    const handlePostCharacters = (event) => {
+        if (event.target.value.length <= postMaxCharacters) {
+            setAGPostContent(event.target.value);
+        }
+    };
     const renderProfileUser = () => {
         if (viewVerifiedUser == 'Gold' || viewVerifiedUser == 'Blue'){
             if(viewProfileImg == ''){
@@ -359,7 +417,51 @@ const Profile = () => {
             window.location.reload();
         }, 200);
     };
+    const handleAddPostSubmit = async (e) => {
+        e.preventDefault();
     
+        const formPostData = {
+            user_username: viewUsername,
+            user_verified: viewVerifiedUser,
+            user_post_id: `agHighlight_${viewUsername}${randomPostID}`,
+            user_post_date: new Date(),
+            user_post_text: agPostContent,
+            user_post_youtube: agPostYoutube,
+            user_post_image: `agHighlight_${viewUsername}${randomPostID}_${imagePostName}`,
+            user_post_video: `agHighlight_${viewUsername}${randomPostID}_${imagePostName}`,
+        };
+    
+        const formUserPostData = new FormData();
+        formUserPostData.append('profileuser', viewUsername);
+        formUserPostData.append('profileimg', imagePost);
+        formUserPostData.append('profileimgid', randomPostID);
+
+    
+        try {
+            const [responsePostDetails, responsePostMedia] = await Promise.all([
+                axios.post(AGAddUserPostAPI, JSON.stringify(formPostData)),
+                axios.post(AGAddMediaAPI, formUserPostData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }),
+            ]);
+            const resMessagePostDetails = responsePostDetails.data;
+            const resMessagePostMedia = responsePostMedia.data;
+            if (!resMessagePostDetails.success) {
+                console.log(resMessagePostDetails.message);
+            }
+            if (!resMessagePostMedia.success) {
+                console.log(resMessagePostMedia.message);
+            }
+        } catch (error) {
+            console.error(error);
+        } 
+    
+        setTimeout(() => {
+            window.location.reload();
+        }, 200);
+    };
 
 
 
@@ -367,8 +469,8 @@ const Profile = () => {
         <div className='mainContainer profile'>
             {editSocialsModal && <div className="modalContainerProfile settings">
                 <div className="modalContentProfile" 
-                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
-                    :{background: 'linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
+                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+                    :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalSettings' onClick={handleCloseAnyModals} type='button'><FaTimes className='faIcons'/></button>
                     <form onSubmit={handleEditProfileSubmit}>
                         <div className="mdcpSettingsContainer">
@@ -376,8 +478,8 @@ const Profile = () => {
                                 <div className='mdcpscProfileDP'>
                                     {!imageDP ? <>
                                         {viewVerifiedUser ? 
-                                        <img src={`https://engeenx.com/ProfilePics/${viewProfileImg ? viewProfileImg : 'DefaultProfilePic.png'}`} alt="" />
-                                        :<img src={`https://engeenx.com/ProfilePics/${pickProfileImg00 ? pickProfileImg00 : 'DefaultProfilePic.png'}`} alt="" />}
+                                        <img src={`https://2wave.io/ProfilePics/${viewProfileImg ? viewProfileImg : 'DefaultProfilePic.png'}`} alt="" />
+                                        :<img src={`https://2wave.io/ProfilePics/${pickProfileImg00 ? pickProfileImg00 : 'DefaultProfilePic.png'}`} alt="" />}
                                     </>:<>
                                         <img src={URL.createObjectURL(imageDP)} alt="No image Selected" />
                                         <button onClick={handleRemoveUserImage}><FaTimes className='faIcons'/></button>
@@ -439,7 +541,9 @@ const Profile = () => {
                         <div className="mdcpccrLoader"><p>Loading Update...</p></div>
                         :<div className="mdcpccrLoader"><p></p></div>}
                         <div className="mdcpccrSubmit">
-                            <button id='mdcpccrsVerified'>APPLY SUBSCRIPTION <RiSparklingFill className='faIcons'/></button>
+                            {!viewVerifiedUser ? 
+                                <button id='mdcpccrsVerified'>APPLY SUBSCRIPTION <RiSparklingFill className='faIcons'/></button>
+                                :<></>}
                             <button id='mdcpccrsSubmit' type='submit'>Update Profile</button>
                         </div>
                     </form>
@@ -447,8 +551,8 @@ const Profile = () => {
             </div>}
             {addCoverImg && <div className="modalContainerProfile coverImg">
                 <div className="modalContentCover"
-                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
-                    :{background: 'linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
+                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+                    :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalCover' onClick={handleCloseAnyModals} type='button'><FaTimes className='faIcons'/></button>
                     <form onSubmit={handleEditProfileSubmit}>
                         <div className="mdcpCoverContainer">
@@ -464,14 +568,14 @@ const Profile = () => {
             </div>}
             {addUserPost && <div className="modalContainerProfile posting">
                 <div className="modalContentPosting"
-                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
-                    :{background: 'linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
+                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+                    :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalPosting' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
-                    <form>
+                    <form onSubmit={handleAddPostSubmit}>
                         <div className="mdcpPostingContainer">
                             <div className='mdcppcPostUser'>
                                 {viewProfileImg ? 
-                                <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
+                                <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
                                 :<img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" onClick={handleOpenSocialSettings}/>}
                                 <span>
                                     <h5>
@@ -486,22 +590,22 @@ const Profile = () => {
                             </div>
                             <div className="mdcppcPostContent">
                                 <div className='mdcppcpcPost'>
-                                    <textarea name="" id="" maxLength={150} placeholder='Post about your Gameplay...'></textarea>
-                                    <p>1 / 250</p>
+                                    <textarea name="" id="" value={agPostContent} maxLength={250} placeholder='Post about your Gameplay...' onChange={handlePostCharacters}></textarea>
+                                    <p>{agPostContent.length} / {postMaxCharacters}</p>
                                 </div>
                                 {addPostYoutubeLink && <div className="mdcppcpcAddition youtube">
-                                    <input type="text" placeholder='Place YouTube Link here...'/>
+                                    <input type="text" placeholder='Place YouTube Link here...' onChange={(e) => setAGPostYoutube(e.target.value)}/>
                                     <button onClick={closeAddYoutubeLink}><FaTimes className='faIcons'/></button>
                                 </div>}
                                 {addPostMedia && <div className="mdcppcpcAddition media">
                                     <div className='mdcppcpcaMedia'>
                                         <div>
-                                            {image ? 
-                                                <img src={URL.createObjectURL(image)} alt="No image Selected" /> :
-                                                <h6>Select/Drop Image or Video only</h6>
+                                            {imagePost ? 
+                                                <img src={URL.createObjectURL(imagePost)} alt="No image Selected" /> :
+                                                <h6>Select/Drop Image only</h6>
                                             }
                                         </div>
-                                        <input type="file" onChange={handleFileInputChange}/>    
+                                        <input type="file" accept='image/*' onChange={handleUploadMediaChange}/>    
                                     </div>
                                     <button onClick={closeAddPostMedia}><FaTimes className='faIcons'/></button>
                                 </div>}
@@ -521,13 +625,13 @@ const Profile = () => {
             </div>}
             {addPostStory && <div className="modalContainerProfile addStory">
                 <div className="modalContentStory"
-                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
-                    :{background: 'linear-gradient(transparent, black 80%), url(https://engeenx.com/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
+                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+                    :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalStory' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
                     <div className="mdcsStoryContainer">
                         <div className='mdcsscDP'>
                             {viewProfileImg ? 
-                            <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
+                            <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
                             :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt="" onClick={handleOpenSocialSettings}/>}
                             <h6>
                                 {viewUsername} 
@@ -551,7 +655,7 @@ const Profile = () => {
 
             <section className="profilePageContainer top">
                 {viewCoverImg ? 
-                <img src={`https://engeenx.com/CoverPics/${viewCoverImg}`}/>
+                <img src={`https://2wave.io/CoverPics/${viewCoverImg}`}/>
                 :<img src={require('../assets/imgs/LoginBackground.jpg')} alt="" />}
                 <div className='ppctShadow'></div>
                 {viewVerifiedUser && <div className='ppctEditCoverImg'>
@@ -564,7 +668,7 @@ const Profile = () => {
                 <div className="profilePageContent left">
                     <div className='ppclProfilePic'>
                         {viewProfileImg ? 
-                        <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
+                        <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
                         :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt="" onClick={handleOpenSocialSettings}/>}
                     </div>
                     <div className="ppclProfileName">
@@ -617,7 +721,7 @@ const Profile = () => {
                         <div className="ppcrpchPosting">
                             <div className="ppcrpchpWhat">
                                 {viewProfileImg ? 
-                                <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt=""/>
+                                <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt=""/>
                                 :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                 <input type="text" placeholder='Post about a Gameplay...' onClick={handleAddUserPost} readOnly/>
                                 <button id='postAStory' onClick={handleAddUserPost2}><IoIosImages className='faIcons'/></button>
@@ -625,7 +729,7 @@ const Profile = () => {
                             <div className="ppcrpchpStories">
                                 <div className='postAStory' onClick={handleAddUserStory}>
                                     {viewProfileImg ? 
-                                    <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt=""/>
+                                    <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt=""/>
                                     :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                     <span>
                                         <h5><IoMdAddCircle className='faIcons'/></h5>
@@ -647,33 +751,38 @@ const Profile = () => {
                             </div>
                             <hr />
                             <div className="ppcrpchpMyPosts">
-                                <div className='ppcrpchpPost'>
-                                    <div className='ppcrpchpUser'>
-                                        {viewProfileImg ? 
-                                        <img src={`https://engeenx.com/ProfilePics/${viewProfileImg}`} alt=""/>
-                                        :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
-                                        <span>
-                                            <h6>
-                                                {viewUsername} 
-                                                {viewVerifiedUser ? <>
-                                                    {viewVerifiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
-                                                    {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
-                                                </>:<></>}
-                                            </h6>
-                                            <p>Apr 17</p>
-                                        </span>
-                                    </div>
-                                    <div className="ppcrpchpupWords">
-                                        <p>Hi guys I changed a profile</p>
-                                    </div>
-                                    <div className="ppcrpchpuPosting">
-                                        <img id='ppcrpchpuPostingBG' src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
-                                        <img id='ppcrpchpuPostingImg' src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
-                                    </div>
-                                </div>
+                                <>
+                                    {viewFetchPost.map((post, i) => (
+                                        <div className='ppcrpchpPost' key={i}>
+                                            <div className='ppcrpchpUser'>
+                                                {viewProfileImg ? 
+                                                <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt=""/>
+                                                :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
+                                                <span>
+                                                    <h6>
+                                                        {viewUsername} 
+                                                        {viewVerifiedUser ? <>
+                                                            {viewVerifiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                                            {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                                        </>:<></>}
+                                                    </h6>
+                                                    <p>{formatDateToWordedDate(post.user_post_date)}</p>
+                                                </span>
+                                            </div>
+                                            <div className="ppcrpchpupWords">
+                                                <p>{post.user_post_text}</p>
+                                            </div>
+                                            <div className="ppcrpchpuPosting">
+                                                <img id='ppcrpchpuPostingBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
+                                                <img id='ppcrpchpuPostingImg' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </>
+                                {viewFetchPost.length == 0 ?
                                 <div className='ppcrpchpNoPost'>
                                     <h6>No Highlights Available...</h6>
-                                </div>
+                                </div>:<></>}
                             </div>
                         </div>
                     </div>
