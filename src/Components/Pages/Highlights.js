@@ -23,6 +23,7 @@ import {
 } from "react-icons/io";
 
 const Highlights = () => {
+    const userStateAdmin = localStorage.getItem('agAdminLoggedIn')
     
 
 
@@ -84,54 +85,6 @@ const Highlights = () => {
             </section>
             <section className="highlightsPageContainer mid">
                 <div className="hlsPageContent mid">
-                    <div className="hldpcMid1">
-                        <div className="hldpcMid1User">
-                            <div className='hldpcMid1Profile'>
-                                <div>
-                                    <img src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
-                                </div>
-                                <span>
-                                    <h6>Koswi <RiVerifiedBadgeFill className='faIcons'/></h6>
-                                    <p>Apr 17</p>
-                                </span>
-                            </div>
-                            <div className="hldpcMid1Option">
-                                <button><MdAdminPanelSettings className='faIcons'/></button>
-                                <button><MdOutlineShare className='faIcons'/></button>
-                            </div>
-                        </div>
-                        <div className="hldpcMid1PostText">
-                            <p>Hi guys I changed a profile</p>
-                        </div>
-                        <div className="hldpcMid1PostImg">
-                            <img id='hldpcMid1pBG' src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
-                            <img id='hldpcMid1pImg' src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
-                        </div>
-                    </div>
-                    <div className="hldpcMid1">
-                        <div className="hldpcMid1User">
-                            <div className='hldpcMid1Profile'>
-                                <div>
-                                    <img src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
-                                </div>
-                                <span>
-                                    <h6>Koswi <RiVerifiedBadgeFill className='faIcons'/></h6>
-                                    <p>Apr 17</p>
-                                </span>
-                            </div>
-                            <div className="hldpcMid1Option">
-                                <button><MdAdminPanelSettings className='faIcons'/></button>
-                                <button><MdOutlineShare className='faIcons'/></button>
-                            </div>
-                        </div>
-                        <div className="hldpcMid1PostText">
-                            <p>Hi guys I changed a profile</p>
-                        </div>
-                        <div className="hldpcMid1PostImg">
-                            <img id='hldpcMid1pBG' src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
-                            <img id='hldpcMid1pImg' src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
-                        </div>
-                    </div>
                     <div className="hldpcMid1">
                         <div className="hldpcMid1User">
                             <div className='hldpcMid1Profile'>
