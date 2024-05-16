@@ -616,7 +616,9 @@ const Profile = () => {
                                     <button type='button' className={addPostMedia ? 'active' : ''} onClick={handlePostMedia}><IoIosImages className='faIcons'/></button>
                                 </div>
                                 <div className='mdcppcpb right'>
-                                    <button type='submit'>Post Highlight</button>
+                                    {!agPostContent? 
+                                    <button className='active' type='button' disabled>Post Highlight</button>:
+                                    <button type='submit'>Post Highlight</button>}
                                 </div>
                             </div>
                         </div>
