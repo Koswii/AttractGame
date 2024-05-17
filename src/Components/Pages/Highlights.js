@@ -77,6 +77,7 @@ const Highlights = () => {
     const [viewUsername, setViewUsername] = useState('');
     const [viewVerifiedUser, setViewVerifiedUser] = useState('');
     const [viewFetchPost, setViewFetchPost] = useState([]);
+    const [viewFetchPoster, setViewFetchPoster] = useState([]);
 
     useEffect(() => {
         const fetchUserProfile = () => {
@@ -120,9 +121,20 @@ const Highlights = () => {
             axios.get(AGUserPostAPI)
             .then((response) => {
                 const postSortData = response.data.sort((a, b) => b.id - a.id);
+                axios.get(AGUserDataAPI)
+                .then(response => {
+                    // Map user data to posts
+                    const postsWithUserData = postSortData.map(post => {
+                        const userData = response.data.find(user => user.username === post.user);
+                        return { ...post, userData };
+                    });
+                    setViewFetchPost(postsWithUserData);
+                    // console.log(postsWithUserData);
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                });
 
-                setViewFetchPost(postSortData);
-                // console.log(postDateData);
             })
             .catch(error => {
                 console.log(error)
@@ -197,7 +209,7 @@ const Highlights = () => {
                             <div className="hldpcMid1User">
                                 <div className='hldpcMid1Profile'>
                                     <div>
-                                        <img src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
+                                        <img src={`https://2wave.io/ProfilePics/${post.userData.profileimg}`} alt="" />
                                     </div>
                                     <span>
                                         <h6>{post.user} 
