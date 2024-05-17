@@ -170,7 +170,7 @@ const Highlights = () => {
                     </div>
                     <div className="hldpcTop2 mobile">
                         <div className="hldpcT2 addStory">
-                            <img src='https://2wave.io/ProfilePics/DefaultProfilePic.png' alt="" />
+                            <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" />
                             <span>
                                 <h5><IoMdAddCircle className='faIcons'/></h5>
                                 <p>Add Story</p>
