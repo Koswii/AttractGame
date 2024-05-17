@@ -376,7 +376,7 @@ section.highlightsPageContainer.mid{
         box-shadow: none;
     }
     .hldpcMid1{
-        padding: 3% 5%;
+        padding: 3%;
         margin-bottom: 1%;
         border-radius: 2vw;
         background: rgba(30, 30, 30, 0.8);
@@ -387,7 +387,7 @@ section.highlightsPageContainer.mid{
     .hldpcMid1Profile div{
         height: 10vw;
         width: 10vw;
-        margin-right: 5%;
+        margin-right: 3%;
     }
     .hldpcMid1Profile span h6{
         font-size: 3vw;
@@ -411,7 +411,7 @@ section.highlightsPageContainer.mid{
         font-size: 2.3vw;
     }
     .hldpcMid1PostImg{
-        height: 60vw;
+        height: 50vw;
         width: 100%;
         border-radius: 2vw;
     }
