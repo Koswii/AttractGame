@@ -51,6 +51,26 @@ const formatDateToWordedDate = (numberedDate) => {
     return `${month} ${day}, ${year}`;
 }
 
+const formatDate = (date) => {
+    const givenDate = new Date(date);
+    const currentDate = new Date();
+  
+    // Clear the time part of the dates
+    const currentDateNoTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    const givenDateNoTime = new Date(givenDate.getFullYear(), givenDate.getMonth(), givenDate.getDate());
+  
+    const timeDifference = currentDateNoTime - givenDateNoTime;
+    const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
+  
+    if (timeDifference === 0) {
+      return "Now";
+    } else if (timeDifference === oneDay) {
+      return "Yesterday";
+    } else {
+      return formatDateToWordedDate(givenDate);
+    }
+};
+
 const Profile = () => {
 
     // User Profile Fetching
@@ -77,10 +97,6 @@ const Profile = () => {
     const [randomNumber, setRandomNumber] = useState('');
     const [randomPostID, setRandomPostID] = useState('');
     const [viewFetchPost, setViewFetchPost] = useState([]);
-    const [viewFetchPostDate, setViewFetchPostDate] = useState('');
-    const [viewFetchPostText, setViewFetchPostText] = useState('');
-    const [viewFetchPostYoutube, setViewFetchPostYoutube] = useState('');
-    const [viewFetchPostMedia, setViewFetchPostMedia] = useState('');
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -768,7 +784,7 @@ const Profile = () => {
                                                             {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
                                                         </>:<></>}
                                                     </h6>
-                                                    <p>{formatDateToWordedDate(post.user_post_date)}</p>
+                                                    <p>{formatDate(post.user_post_date)}</p>
                                                 </span>
                                             </div>
                                             <div className="ppcrpchpupWords">

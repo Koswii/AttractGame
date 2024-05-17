@@ -218,8 +218,17 @@ section.highlightsPageContainer.mid{
 .hldpcMid1Profile div img{
     height: 100%;
 }
+.hldpcMid1Profile span{
+    width: 80%;
+}
 .hldpcMid1Profile span h6 .faIcons{
+    margin-left: 1%;
+}
+.hldpcMid1Profile span h6 .faIcons.gold{
     color: gold;
+}
+.hldpcMid1Profile span h6 .faIcons.blue{
+    color: royalblue;
 }
 .hldpcMid1Option{
     height: auto;
