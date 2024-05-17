@@ -178,6 +178,29 @@ section.highlightsPageContainer.mid{
     width: 100%;
     padding: 1% 20%;
 }
+.hlspcmLoader{
+    height: auto;
+    width: 100%;
+    padding: 5% 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hlspcmLoader .loader{
+    width: 80px;
+    aspect-ratio: 1;
+    border: 10px solid #24242400;
+    background: 
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 0    0/20px 20px,
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 100% 0/20px 20px,
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2)) 100% 100%/20px 20px,
+        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 0 100%/20px 20px,
+        linear-gradient(#fff 0 0) center/40px 40px,
+        #000000;
+    background-repeat:no-repeat;
+    filter: blur(4px) contrast(10);
+    animation: b2 0.8s infinite;
+}
 .hlsPageContent.mid{
     height: auto;
     width: 100%;

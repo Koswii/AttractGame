@@ -77,7 +77,7 @@ const Highlights = () => {
     const [viewUsername, setViewUsername] = useState('');
     const [viewVerifiedUser, setViewVerifiedUser] = useState('');
     const [viewFetchPost, setViewFetchPost] = useState([]);
-    const [viewFetchPoster, setViewFetchPoster] = useState([]);
+    const [postLoading, setPostLoading] = useState(true);
 
     useEffect(() => {
         const fetchUserProfile = () => {
@@ -119,27 +119,28 @@ const Highlights = () => {
 
         const fetchUserDataPost = () => {
             axios.get(AGUserPostAPI)
-            .then((response) => {
-                const postSortData = response.data.sort((a, b) => b.id - a.id);
-                axios.get(AGUserDataAPI)
-                .then(response => {
-                    // Map user data to posts
-                    const postsWithUserData = postSortData.map(post => {
-                        const userData = response.data.find(user => user.username === post.user);
-                        return { ...post, userData };
-                    });
-                    setViewFetchPost(postsWithUserData);
-                    // console.log(postsWithUserData);
+                .then((response) => {
+                    const postSortData = response.data.sort((a, b) => b.id - a.id);
+                    axios.get(AGUserDataAPI)
+                        .then(response => {
+                            // Map user data to posts
+                            const postsWithUserData = postSortData.map(post => {
+                                const userData = response.data.find(user => user.username === post.user);
+                                return { ...post, userData };
+                            });
+                            setViewFetchPost(postsWithUserData);
+                            setPostLoading(false); 
+                        })
+                        .catch(error => {
+                            console.error('Error fetching user data:', error);
+                            setPostLoading(false); 
+                        });
                 })
                 .catch(error => {
-                    console.error('Error fetching user data:', error);
+                    console.log(error);
                 });
+        };
 
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        }
         fetchUserDataPost();
 
     }, [LoginUsername]);
@@ -203,39 +204,42 @@ const Highlights = () => {
                 <hr />
             </section>
             <section className="highlightsPageContainer mid">
-                <div className="hlsPageContent mid">
-                    {viewFetchPost.map((post, i) => (
-                        <div className="hldpcMid1" key={i}>
-                            <div className="hldpcMid1User">
-                                <div className='hldpcMid1Profile'>
-                                    <div>
-                                        <img src={`https://2wave.io/ProfilePics/${post.userData.profileimg}`} alt="" />
+                {postLoading ? <div className="hlspcmLoader">
+                    <div className="loader"></div>
+                </div> 
+                :<div className="hlsPageContent mid">
+                        {viewFetchPost.map((post, i) => (
+                            <div className="hldpcMid1" key={i}>
+                                <div className="hldpcMid1User">
+                                    <div className='hldpcMid1Profile'>
+                                        <div>
+                                            <img src={`https://2wave.io/ProfilePics/${post.userData.profileimg}`} alt="" />
+                                        </div>
+                                        <span>
+                                            <h6>{post.user} 
+                                                {post.user_verified ? <>
+                                                    {post.user_verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                                    {post.user_verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                                </>:<></>}
+                                            </h6>
+                                            <p>{formatDate(post.user_post_date)}</p>
+                                        </span>
                                     </div>
-                                    <span>
-                                        <h6>{post.user} 
-                                            {post.user_verified ? <>
-                                                {post.user_verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
-                                                {post.user_verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
-                                            </>:<></>}
-                                        </h6>
-                                        <p>{formatDate(post.user_post_date)}</p>
-                                    </span>
+                                    <div className="hldpcMid1Option">
+                                        <button><MdAdminPanelSettings className='faIcons'/></button>
+                                        <button><MdOutlineShare className='faIcons'/></button>
+                                    </div>
                                 </div>
-                                <div className="hldpcMid1Option">
-                                    <button><MdAdminPanelSettings className='faIcons'/></button>
-                                    <button><MdOutlineShare className='faIcons'/></button>
+                                <div className="hldpcMid1PostText">
+                                    <p>{post.user_post_text}</p>
+                                </div>
+                                <div className="hldpcMid1PostImg">
+                                    <img id='hldpcMid1pBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
+                                    <img id='hldpcMid1pImg' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
                                 </div>
                             </div>
-                            <div className="hldpcMid1PostText">
-                                <p>{post.user_post_text}</p>
-                            </div>
-                            <div className="hldpcMid1PostImg">
-                                <img id='hldpcMid1pBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
-                                <img id='hldpcMid1pImg' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                </div>}
             </section>
         </div>
     )
