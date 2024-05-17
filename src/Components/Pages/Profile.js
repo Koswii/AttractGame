@@ -433,8 +433,7 @@ const Profile = () => {
             window.location.reload();
         }, 200);
     };
-    const handleAddPostSubmit = async (e) => {
-        e.preventDefault();
+    const handleAddPostSubmit = async () => {
     
         const formPostData = {
             user_username: viewUsername,

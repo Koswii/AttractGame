@@ -280,6 +280,9 @@ section.highlightsPageContainer.mid{
     width: 100%;
     margin: 3% 0;
 }
+.hldpcMid1PostText p{
+    white-space: pre-line;
+}
 .hldpcMid1PostImg{
     height: 30vw;
     width: 100%;
