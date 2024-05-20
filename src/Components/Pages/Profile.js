@@ -433,7 +433,15 @@ const Profile = () => {
             window.location.reload();
         }, 200);
     };
-    const handleAddPostSubmit = async () => {
+
+    const [postContentMessage, setPostContentMessage] = useState('');
+    const [postContentState, setPostContentState] = useState(false);
+    const handleClosePostState = () => {
+        window.location.reload();
+        setPostContentState(false);
+    }
+    const handleAddPostSubmit = async (e) => {
+        e.preventDefault();
     
         const formPostData = {
             user_username: viewUsername,
@@ -464,18 +472,25 @@ const Profile = () => {
             const resMessagePostDetails = responsePostDetails.data;
             const resMessagePostMedia = responsePostMedia.data;
             if (!resMessagePostDetails.success) {
-                console.log(resMessagePostDetails.message);
+                setPostContentMessage(resMessagePostDetails.message);
+                setAddUserPost(false);
+                setPostContentState(true);
             }
             if (!resMessagePostMedia.success) {
+                console.log(resMessagePostMedia.message);
+            }
+            if (!resMessagePostDetails.failed) {
+                setPostContentMessage(resMessagePostDetails.message);
+                setAddUserPost(false);
+                setPostContentState(true);
+            }
+            if (!resMessagePostMedia.failed) {
                 console.log(resMessagePostMedia.message);
             }
         } catch (error) {
             console.error(error);
         } 
     
-        setTimeout(() => {
-            window.location.reload();
-        }, 200);
     };
 
 
@@ -666,6 +681,14 @@ const Profile = () => {
                         <input type="file" onChange={handleUploadUserStory}/>
                         <button><FaCircleCheck className='faIcons'/></button>
                     </div>
+                </div>
+            </div>}
+            {postContentState &&<div className="modalContainerProfile postSuccess">
+                <div className="modalContentSuccess"
+                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+                    :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
+                    <p>{postContentMessage}</p>
+                    <button onClick={handleClosePostState}>OKAY</button>
                 </div>
             </div>}
 

@@ -550,6 +550,34 @@ h6{
 
 
 
+.modalContentSuccess{
+    position: relative;
+    height: auto;
+    width: 30%;
+    text-align: center;
+    border-radius: 1vw;
+    background-size: cover;
+    box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
+    padding: 2%;
+    padding-bottom: 3%;
+    animation: fade-in-down 800ms ease;
+}
+.modalContentSuccess p{
+    font-size: 1vw;
+    margin-bottom: 5%;
+    text-shadow: 0 0 10px black;
+}
+.modalContentSuccess button{
+    font-size: 1vw;
+    padding: 1% 7%;
+    background: none;
+    border: solid 2px white;
+    outline: none;
+    color: white;
+    border-radius: 50px;
+}
+
+
 
 .modalContentStory{
     position: relative;
@@ -1209,6 +1237,20 @@ section.profilePageContainer.mid{
     .mdcpCoverContainer button{
         font-size: 7vw;
         line-height: 3vw;
+    }
+
+
+    .modalContentSuccess{
+        width: 90%;
+        border-radius: 2vw;
+        padding: 10% 3%;
+    }
+    .modalContentSuccess p{
+        font-size: 3vw;
+    }
+    .modalContentSuccess button{
+        font-size: 3vw;
+        padding: 1% 10%;
     }
 
 
