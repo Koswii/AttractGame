@@ -1206,7 +1206,10 @@ section.profilePageContainer.mid{
     .mdcpCoverContainer h6{
         font-size: 3vw;
     }
-
+    .mdcpCoverContainer button{
+        font-size: 7vw;
+        line-height: 3vw;
+    }
 
 
     .modalContentPosting{
@@ -1289,18 +1292,11 @@ section.profilePageContainer.mid{
         padding-top: 15vh;
     }
     .ppctEditCoverImg{
-        height: auto;
-        width: 100%;
-        position: absolute;
-        z-index: 2;
-        bottom: 6vw;
-        right: 10vw;
-        display: flex;
-        justify-content: right;
-        align-items: center;
+        right: 5vw;
     }
     .ppctecimg{
-        width: 50%;
+        width: 90%;
+        opacity: 50%;
     }
     .ppctecimg button{
         font-size: 2.3vw;
