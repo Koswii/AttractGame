@@ -442,7 +442,7 @@ const Nav = () => {
           <button className={localStorage.getItem('giftcards')} onClick={handleClickGiftcards}><h5><MdOutlineCardGiftcard className='faIcons'/></h5></button>
           <button className={localStorage.getItem('crypto')} onClick={handleClickCrypto}><h5><MdCurrencyBitcoin className='faIcons'/></h5></button>
           {viewUserCredentials && 
-            <Link id='agProfileBtn' to='/Profile'>
+            <Link id='agProfileBtn' to='/Profile' onClick={handleClickHome}>
               {viewProfileImg ? 
               <img src={`https://2wave.io/ProfilePics/${renderProfileImage()}`} alt=""/>
               :<img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
