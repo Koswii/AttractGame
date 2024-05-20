@@ -365,6 +365,17 @@ const Profile = () => {
             }
         } 
     };
+    const renderImagePost = () => {
+        if (imagePostName == ''){
+            return (
+                ''
+            );
+        } else {
+            return (
+                `agHighlight_${viewUsername}${randomPostID}_${imagePostName}`
+            );
+        }
+    };
     const handleEditProfileSubmit = async (e) => {
         e.preventDefault();
         setIsEditSubmitting(true);
@@ -450,8 +461,8 @@ const Profile = () => {
             user_post_date: new Date(),
             user_post_text: agPostContent,
             user_post_youtube: agPostYoutube,
-            user_post_image: `agHighlight_${viewUsername}${randomPostID}_${imagePostName}`,
-            user_post_video: `agHighlight_${viewUsername}${randomPostID}_${imagePostName}`,
+            user_post_image: renderImagePost(),
+            user_post_video: renderImagePost(),
         };
     
         const formUserPostData = new FormData();
@@ -812,10 +823,10 @@ const Profile = () => {
                                             <div className="ppcrpchpupWords">
                                                 <p>{post.user_post_text}</p>
                                             </div>
-                                            <div className="ppcrpchpuPosting">
+                                            {post.user_post_image ? <div className="ppcrpchpuPosting">
                                                 <img id='ppcrpchpuPostingBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
                                                 <img id='ppcrpchpuPostingImg' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
-                                            </div>
+                                            </div>:<></>}
                                         </div>
                                     ))}
                                 </>

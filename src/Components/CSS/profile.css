@@ -1075,7 +1075,6 @@ section.profilePageContainer.mid{
     height: auto;
     width: 100%;
     text-align: left;
-    margin-bottom: 2%;
 }
 .ppcrpchpupWords p{
     white-space: pre-line;
@@ -1090,6 +1089,7 @@ section.profilePageContainer.mid{
     border-radius: 1vw;
     overflow: hidden;
     position: relative;
+    margin-top: 3%;
 }
 .ppcrpchpuPosting img#ppcrpchpuPostingBG{
     width: 100%;
