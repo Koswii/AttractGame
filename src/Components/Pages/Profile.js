@@ -160,6 +160,11 @@ const Profile = () => {
                 const postSortData = response.data.sort((a, b) => b.id - a.id);
                 const postData = postSortData.filter(post => post.user == LoginUsername);
                 setViewFetchPost(postData);
+
+                const latestPostDate = postData.slice(0, 1).map(post => post.user_post_date);
+                const latestDateNumbered = `${latestPostDate}`;
+                
+                console.log(latestDateNumbered);
             })
             .catch(error => {
                 console.log(error)
@@ -800,7 +805,7 @@ const Profile = () => {
                                     </div>
                                 </div>
                             </div>
-                            <hr />
+                            <hr /><br />
                             <div className="ppcrpchpMyPosts">
                                 <>
                                     {viewFetchPost.map((post, i) => (

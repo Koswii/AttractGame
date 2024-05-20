@@ -1043,7 +1043,10 @@ section.profilePageContainer.mid{
 .ppcrpchpPost{
     height: auto;
     width: 100%;
-    margin: 5% 0;
+    margin: 1% 0;
+    background: black;
+    padding: 3%;
+    border-radius: 1vw;
 }
 .ppcrpchpUser{
     height: auto;
@@ -1348,7 +1351,7 @@ section.profilePageContainer.mid{
 
     section.profilePageContainer.mid{
         display: block;
-        padding: 2% 5%;
+        padding: 2% 3%;
         padding-top: 0;
         padding-bottom: 10vw;
     }
@@ -1417,6 +1420,11 @@ section.profilePageContainer.mid{
     }
     .ppcrProfileContents{
         border-radius: 2vw;
+        background: none;
+        padding: 0;
+    }
+    .ppcrpchpWhat{
+        margin: 5% 0;
     }
     .ppcrpchpWhat img{
         height: 10vw;
@@ -1438,8 +1446,14 @@ section.profilePageContainer.mid{
     .ppcrpchPosting hr{
         display: none;
     }
+    .ppcrpchPosting br{
+        display: none;
+    }
     .ppcrpchpPost{
-        margin: 10% 0;
+        margin: 2% 0;
+        padding: 5%;
+        border-radius: 2vw;
+        background: rgba(30, 30, 30, 0.8);
     }
     .ppcrpchpUser img{
         height: 10vw;
@@ -1456,7 +1470,7 @@ section.profilePageContainer.mid{
         font-size: 2.3vw;
     }
     .ppcrpchpupWords{
-        margin: 3% 0;
+        margin-top: 7%;
     }
     .ppcrpchpupWords p{
         font-size: 2.3vw;
