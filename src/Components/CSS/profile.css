@@ -1102,6 +1102,188 @@ section.profilePageContainer.mid{
 
 
 @media screen and (max-width: 500px){
+    .modalContainerProfile{
+        z-index: 999;
+    }
+    .modalContentProfile{
+        width: 90%;
+        border-radius: 2vw;
+        padding: 10% 2%;
+    }
+    .modalContentProfile button#closeModalSettings{
+        right: 2vw;
+        top: 2vw;
+        font-size: 5vw;
+    }
+    .mdcpSettingsContainer{
+        display: block;
+    }
+    .mdcpsContent.left{
+        width: 100%;
+    }
+    .mdcpscProfileDP{
+        height: 50vw;
+        width: 50vw;
+        border-radius: 2vw;
+        border: dashed 2px white;
+    }
+    .mdcpscSampleProfile{
+        padding: 0;
+    }
+    .mdcpscSampleProfile img{
+        height: 5vw;
+        margin: 3% 2%;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    .mdcpscCustomProfile input{
+        width: 100%;
+    }
+    .mdcpscCustomProfile p{
+        font-size: 3vw;
+    }
+    .mdcpscCustomProfile{
+        padding: 5%;
+        margin-top: 0%;
+    }
+    .mdcpscCustomProfile p .faIcons{
+        font-size: 3vw;
+        line-height: 1vw;
+        margin-right: 2%;
+    }
+    .mdcpsContent.right{
+        height: auto;
+        width: 100%;
+        padding: 0 2%;
+    }
+    .mdcpsContent.right h4{
+        font-size: 4vw;
+        text-align: center;
+    }
+    .mdcpsContent.right h4 .faIcons.gold,
+    .mdcpsContent.right h4 .faIcons.blue{
+        font-size: 3vw;
+        margin-bottom: 1%;
+    }
+    .mdcpsContent.right p{
+        font-size: 2.3vw;
+        text-align: center;
+    }
+    .mdcpccrSocials{
+        border-radius: 2vw;
+    }
+    .mdcpccrSocials h6{
+        font-size: 3vw;
+    }
+    .mdcpccrSocials div span{
+        width: 48.5%;
+        margin-bottom: 5%;
+    }
+    .mdcpccrSocials div span input{
+        width: 100%;
+        padding: 4% 7%;
+        margin-top: 3%;
+        border: solid 2px white;
+        font-size: 2.5vw;
+    }
+    .mdcpccrSubmit button{
+        font-size: 2.3vw;
+    }
+
+    .modalContentCover{
+        width: 90%;
+        border-radius: 2vw;
+        padding: 1%;
+    }
+    .modalContentCover button#closeModalCover{
+        right: 2vw;
+        top: 2vw;
+        font-size: 5vw;
+    }
+    .mdcpCoverContainer{
+        height: 60vw;
+    }
+    .mdcpCoverContainer h6{
+        font-size: 3vw;
+    }
+
+
+
+    .modalContentPosting{
+        width: 90%;
+        border-radius: 2vw;
+        padding: 10% 3%;
+    }
+    .modalContentPosting button#closeModalPosting{
+        right: 2vw;
+        top: 2vw;
+        font-size: 5vw;
+    }
+    .mdcppcPostUser{
+        height: 10vw;
+        width: 100%;
+        margin-bottom: 5%;
+    }
+    .mdcppcPostUser img{
+        margin-right: 5%;
+        border: solid 2px white;
+    }
+    .mdcppcPostUser span{
+        width: 80%;
+    }
+    .mdcppcPostUser span h5{
+        font-size: 4vw;
+    }
+    .mdcppcPostUser span h5 .faIcons{
+        margin-left: 1%;
+    }
+    .mdcppcPostUser span p{
+        font-size: 2.3vw;
+    }
+    .mdcppcPostContent{
+        border-radius: 2vw;
+    }
+    .mdcppcpcPost textarea{
+        height: 30vw;
+        font-size: 2.3vw;
+    }
+    .mdcppcpcPost p{
+        font-size: 2.3vw;
+    }
+    .mdcppcpcAddition input{
+        width: 100%;
+        padding: 2%;
+        font-size: 2.3vw;
+    }
+    .mdcppcpcaMedia{
+        height: 50vw;
+        padding: 2%;
+    }
+    .mdcppcpcaMedia div{
+        border-radius: 2vw;
+    }
+    .mdcppcpcaMedia div h6{
+        font-size: 3vw;
+    }
+    .mdcppcpb.left button{
+        line-height: 3vw;
+        font-size: 5vw;
+        margin-right: 10%;
+    } 
+    .mdcppcpb.right button{
+        padding: 2% 10%;
+        font-size: 3vw;
+    }
+
+
+
+
+
+
+
+
+
+
     section.profilePageContainer.top{
         height: 75vw;
         padding-top: 15vh;
