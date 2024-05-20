@@ -233,10 +233,10 @@ const Highlights = () => {
                                 <div className="hldpcMid1PostText">
                                     <p>{post.user_post_text}</p>
                                 </div>
-                                <div className="hldpcMid1PostImg">
+                                {post.user_post_image ? <div className="hldpcMid1PostImg">
                                     <img id='hldpcMid1pBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
                                     <img id='hldpcMid1pImg' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
-                                </div>
+                                </div>:<></>}
                             </div>
                         ))}
                 </div>}
