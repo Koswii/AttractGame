@@ -1085,3 +1085,184 @@ section.profilePageContainer.mid{
     opacity: 50%;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 500px){
+    section.profilePageContainer.top{
+        height: 75vw;
+        padding-top: 15vh;
+    }
+    .ppctEditCoverImg{
+        height: auto;
+        width: 100%;
+        position: absolute;
+        z-index: 2;
+        bottom: 6vw;
+        right: 10vw;
+        display: flex;
+        justify-content: right;
+        align-items: center;
+    }
+    .ppctecimg{
+        width: 50%;
+    }
+    .ppctecimg button{
+        font-size: 2.3vw;
+    }
+
+
+
+    section.profilePageContainer.mid{
+        display: block;
+        padding: 2% 5%;
+        padding-top: 0;
+        padding-bottom: 10vw;
+    }
+    .profilePageContent.left{
+        height: auto;
+        width: 100%;
+        padding: 0 3%;
+        padding-top: 7vw;
+        padding-bottom: 5vw;
+        border-radius: 2vw;
+        position: relative;
+    }
+    .ppclProfilePic{
+        height: 40vw;
+        width: 40vw;
+        transform: translate(10%, -85%);
+    }
+    .ppclProfileName{
+        height: 12vw;
+    }
+    .ppclProfileName h5{
+        height: 7vw;
+        font-size: 6vw;
+    }
+    .ppclProfileName h5 .faIcons.gold,
+    .ppclProfileName h5 .faIcons.blue{
+        font-size: 5vw;
+        height: 4vw;
+        margin-bottom: 1%;
+    }
+    .ppclProfileName p{
+        height: 4vw;
+        font-size: 3vw;
+    }
+    .ppclProfileSocials{
+        height: auto;
+    }
+    .ppclProfileSocials a h6{
+        font-size: 5vw;
+        line-height: 4vw;
+    }
+    .ppclProfileSocials div{
+        width: 35%;
+        margin-left: 2%;
+    }
+    .ppclProfileSocials div button{
+        width: 100%;
+        font-size: 3vw;
+        border: solid 2px white;
+    }
+    .ppclProfileDetails{
+        display: none;
+    }
+
+
+    .profilePageContent.right{
+        height: auto;
+        width: 100%;
+        margin-top: 15%;
+    }
+    .ppcrProfileNavigations{
+        justify-content: space-between;
+    }
+    .ppcrProfileNavigations button h6{
+        font-size: 2.5vw;
+    }
+    .ppcrProfileContents{
+        border-radius: 2vw;
+    }
+    .ppcrpchpWhat img{
+        height: 10vw;
+        width: 10vw;
+    }
+    .ppcrpchpWhat input{
+        height: 10vw;
+        width: 75%;
+        padding: 1% 5%;
+        font-size: 3vw;
+    }
+    .ppcrpchpWhat button#postAStory{
+        font-size: 7vw;
+        line-height: 5vw;
+    }
+    .ppcrpchpStories{
+        display: none;
+    }
+    .ppcrpchPosting hr{
+        display: none;
+    }
+    .ppcrpchpPost{
+        margin: 10% 0;
+    }
+    .ppcrpchpUser img{
+        height: 10vw;
+        width: 10vw;
+        border: solid 2px white;
+    }
+    .ppcrpchpUser span h6{
+        font-size: 3.5vw;
+    }
+    .ppcrpchpUser span h6 .faIcons{
+        margin-left: 1%;
+    }
+    .ppcrpchpUser span p{
+        font-size: 2.3vw;
+    }
+    .ppcrpchpupWords{
+        margin: 3% 0;
+    }
+    .ppcrpchpupWords p{
+        font-size: 2.3vw;
+    }
+    .ppcrpchpuPosting{
+        height: 50vw;
+        border-radius: 2vw;
+    }
+    .ppcrpchpNoPost h6{
+        font-size: 3vw;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

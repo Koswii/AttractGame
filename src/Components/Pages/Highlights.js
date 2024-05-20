@@ -122,19 +122,19 @@ const Highlights = () => {
                 .then((response) => {
                     const postSortData = response.data.sort((a, b) => b.id - a.id);
                     axios.get(AGUserDataAPI)
-                        .then(response => {
-                            // Map user data to posts
-                            const postsWithUserData = postSortData.map(post => {
-                                const userData = response.data.find(user => user.username === post.user);
-                                return { ...post, userData };
-                            });
-                            setViewFetchPost(postsWithUserData);
-                            setPostLoading(false); 
-                        })
-                        .catch(error => {
-                            console.error('Error fetching user data:', error);
-                            setPostLoading(false); 
+                    .then(response => {
+                        // Map user data to posts
+                        const postsWithUserData = postSortData.map(post => {
+                            const userData = response.data.find(user => user.username === post.user);
+                            return { ...post, userData };
                         });
+                        setViewFetchPost(postsWithUserData);
+                        setPostLoading(false); 
+                    })
+                    .catch(error => {
+                        console.error('Error fetching user data:', error);
+                        setPostLoading(false); 
+                    });
                 })
                 .catch(error => {
                     console.log(error);
