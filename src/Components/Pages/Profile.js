@@ -12,7 +12,8 @@ import {
     FaStar,     
     FaFacebookSquare,
     FaBitcoin, 
-    FaTimes
+    FaTimes,
+    FaRegImages 
 } from 'react-icons/fa';
 import { 
     FaSquareFacebook,
@@ -350,10 +351,12 @@ const Profile = () => {
         }
     };
     const [imageStory, setImageStory] = useState(null);
+    const [imageStoryName, setImageStoryName] = useState('');
     const handleUploadUserStory = (event) => {
         const file = event.target.files[0];
         if (file) {
             setImageStory(file);
+            setImageStoryName(file.name);
         }
     };
     const handleRemoveUserImage = () => {
@@ -379,7 +382,9 @@ const Profile = () => {
     const AGUserCustomDPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_DP_API;
     const AGUserCustomCPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_CP_API;
     const AGAddMediaAPI = process.env.REACT_APP_AG_ADD_MEDIA_POST_API;
+    const AGAddMediaStoryAPI = process.env.REACT_APP_AG_ADD_MEDIA_STORY_API;
     const AGAddUserPostAPI = process.env.REACT_APP_AG_ADD_USER_POST_API;
+    const AGAddUserStoryAPI = process.env.REACT_APP_AG_ADD_USER_STORY_API;
 
     const handlePostCharacters = (event) => {
         if (event.target.value.length <= postMaxCharacters) {
@@ -560,6 +565,55 @@ const Profile = () => {
             }
             if (!resMessagePostMedia.failed) {
                 console.log(resMessagePostMedia.message);
+            }
+        } catch (error) {
+            console.error(error);
+        } 
+    
+    };
+    const handleAddStorySubmit = async (e) => {
+        e.preventDefault();
+    
+        const formStoryData = {
+            user_username: viewUsername,
+            user_verified: viewVerifiedUser,
+            user_story_id: `agStory_${viewUsername}${randomPostID}`,
+            user_story_date: new Date(),
+            user_story_image: `agStory_${viewUsername}${randomPostID}_${imageStoryName}`,
+        };
+    
+        const formUserStoryData = new FormData();
+        formUserStoryData.append('profileuser', viewUsername);
+        formUserStoryData.append('profileimg', imageStory);
+        formUserStoryData.append('profileimgid', randomPostID);
+
+    
+        try {
+            const [responseStoryDetails, responseStoryMedia] = await Promise.all([
+                axios.post(AGAddUserStoryAPI, JSON.stringify(formStoryData)),
+                axios.post(AGAddMediaStoryAPI, formUserStoryData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }),
+            ]);
+            const resMessageStoryDetails = responseStoryDetails.data;
+            const resMessageStoryMedia = responseStoryMedia.data;
+            if (!resMessageStoryDetails.success) {
+                setPostContentMessage(resMessageStoryDetails.message);
+                setAddPostStory(false);
+                setPostContentState(true);
+            }
+            if (!resMessageStoryMedia.success) {
+                console.log(resMessageStoryMedia.message);
+            }
+            if (!resMessageStoryMedia.failed) {
+                setPostContentMessage(resMessageStoryDetails.message);
+                setAddPostStory(false);
+                setPostContentState(true);
+            }
+            if (!resMessageStoryMedia.failed) {
+                console.log(resMessageStoryMedia.message);
             }
         } catch (error) {
             console.error(error);
@@ -754,7 +808,7 @@ const Profile = () => {
                     style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
                     :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalStory' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
-                    <div className="mdcsStoryContainer">
+                    <form className="mdcsStoryContainer" onSubmit={handleAddStorySubmit}>
                         <div className='mdcsscDP'>
                             {viewProfileImg ? 
                             <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
@@ -773,8 +827,8 @@ const Profile = () => {
                             <h6>Add Gamer Story...</h6>
                         }
                         <input type="file" onChange={handleUploadUserStory}/>
-                        <button><FaCircleCheck className='faIcons'/></button>
-                    </div>
+                        <button type='submit'><FaRegImages className='faIcons'/> ADD STORY</button>
+                    </form>
                 </div>
             </div>}
             {postContentState &&<div className="modalContainerProfile postSuccess">
@@ -840,6 +894,18 @@ const Profile = () => {
                         </span>
                         <span>
                             <p>AG Balance</p>
+                            <p id='agGems'>0 <FaCoins  className='faIcons'/></p>
+                        </span>
+                    </div>
+                    <div className="ppclProfileExtra">
+                        <button onClick={handleAddUserStory}>Add Story</button>
+                        <span>
+                            <p id='agPoints'>0 <FaBolt className='faIcons'/></p>
+                        </span>
+                        <span>
+                            <p id='agGems'>0 <FaGem className='faIcons'/></p>
+                        </span>
+                        <span>
                             <p id='agGems'>0 <FaCoins  className='faIcons'/></p>
                         </span>
                     </div>

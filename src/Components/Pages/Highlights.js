@@ -60,6 +60,7 @@ const Highlights = () => {
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
+    const AGUserStoryAPI = process.env.REACT_APP_AG_FETCH_STORY_API;
     
     const [viewUserID, setViewUserID] = useState('')
     const [viewUserRegistration, setViewUserRegistration] = useState('')
@@ -77,6 +78,7 @@ const Highlights = () => {
     const [viewUsername, setViewUsername] = useState('');
     const [viewVerifiedUser, setViewVerifiedUser] = useState('');
     const [viewFetchPost, setViewFetchPost] = useState([]);
+    const [viewFetchStory, setViewFetchStory] = useState([]);
     const [postLoading, setPostLoading] = useState(true);
 
     useEffect(() => {
@@ -119,29 +121,60 @@ const Highlights = () => {
 
         const fetchUserDataPost = () => {
             axios.get(AGUserPostAPI)
-                .then((response) => {
-                    const postSortData = response.data.sort((a, b) => b.id - a.id);
-                    axios.get(AGUserDataAPI)
-                    .then(response => {
-                        // Map user data to posts
-                        const postsWithUserData = postSortData.map(post => {
-                            const userData = response.data.find(user => user.username === post.user);
-                            return { ...post, userData };
-                        });
-                        setViewFetchPost(postsWithUserData);
-                        setPostLoading(false); 
-                    })
-                    .catch(error => {
-                        console.error('Error fetching user data:', error);
-                        setPostLoading(false); 
+            .then((response) => {
+                const postSortData = response.data.sort((a, b) => b.id - a.id);
+                axios.get(AGUserDataAPI)
+                .then(response => {
+                    // Map user data to posts
+                    const postsWithUserData = postSortData.map(post => {
+                        const userData = response.data.find(user => user.username === post.user);
+                        return { ...post, userData };
                     });
+                    setViewFetchPost(postsWithUserData);
+                    setPostLoading(false); 
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.error('Error fetching user data:', error);
+                    setPostLoading(false); 
                 });
+            })
+            .catch(error => {
+                console.log(error);
+            });
         };
-
         fetchUserDataPost();
+
+
+
+        const fetchUserDataStory = () => {
+            axios.get(AGUserStoryAPI)
+            .then((response) => {
+                const storySortData = response.data.sort((a, b) => b.id - a.id);
+                axios.get(AGUserDataAPI)
+                .then(response => {
+                    // Map user data to posts
+                    const storiesWithUserData = storySortData.map(story => {
+                        const userData = response.data.find(user => user.username === story.user);
+                        return { ...story, userData };
+                    });
+                    setViewFetchStory(storiesWithUserData);
+                    console.log(storiesWithUserData);
+                    // setPostLoading(false); 
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                    // setPostLoading(false); 
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        };
+        fetchUserDataStory();
+
+
+
+
 
     }, [LoginUsername]);
 
@@ -170,15 +203,14 @@ const Highlights = () => {
                             </span>
                         </div>
                         <div className="hldpcT2 stories">
-                            <div>
-                                <span>
-                                    <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
-                                </span>
-                                <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
-                            </div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
+                            {viewFetchStory.slice(0, 4).map((story, i) => (
+                                <div key={i}>
+                                    <span>
+                                        <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />
+                                    </span>
+                                    <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
+                                </div>
+                            ))}
                         </div>
                     </div>
                     <div className="hldpcTop2 mobile">
@@ -190,14 +222,14 @@ const Highlights = () => {
                             </span>
                         </div>
                         <div className="hldpcT2 stories">
-                            <div>
-                                <span>
-                                    <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
-                                </span>
-                                <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
-                            </div>
-                            <div></div>
-                            <div></div>
+                            {viewFetchStory.slice(0, 3).map((story, i) => (
+                                <div>
+                                    <span>
+                                        <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />
+                                    </span>
+                                    <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

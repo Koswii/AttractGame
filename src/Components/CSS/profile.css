@@ -662,11 +662,15 @@ h6{
     cursor: pointer;
 }
 .mdcsStoryContainer button{
+    width: 25%;
     position: absolute;
-    bottom: 1vw;
+    bottom: 0.5vw;
     right: 1vw;
-    font-size: 2vw;
-    line-height: 2vw;
+    font-size: 0.7vw;
+    line-height: 1vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: none;
     border: none;
     color: white;
@@ -679,8 +683,9 @@ h6{
     transition: 400ms ease;
 }
 .mdcsStoryContainer button .faIcons{
-    border: solid 2px black;
-    border-radius: 50%;
+    margin-left: 10%;
+    font-size: 1.2vw;
+    line-height: 2vw;
 }
 
 
@@ -869,9 +874,37 @@ section.profilePageContainer.mid{
     margin-left: 5%;
     line-height: 1vw;
 }
-
-
-
+.ppclProfileExtra{
+    height: auto;
+    width: 100%;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5%;
+}
+.ppclProfileExtra button{
+    width: 30%;
+    padding: 1% 5%;
+    border: solid 2px white;
+    background: none;
+    outline: none;
+    color: white;
+    border-radius: 50px;
+    font-size: 2.5vw;
+    margin-right: 10%;
+}
+.ppclProfileExtra span{
+    width: 20%;
+}
+.ppclProfileExtra p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3vw;
+}
+.ppclProfileExtra p .faIcons{
+    margin-left: 10%;
+}
 
 
 
@@ -1328,6 +1361,57 @@ section.profilePageContainer.mid{
     }
 
 
+    .modalContentStory{
+        width: 90%;
+        border-radius: 2vw;
+        padding: 2%;
+    }
+    .modalContentStory button#closeModalStory{
+        right: 3vw;
+        top: 3vw;
+        font-size: 5vw;
+    }
+    .mdcsStoryContainer{
+        height: 130vw;
+        width: 100%;
+        border-radius: 2vw;
+    }
+    .mdcsStoryContainer h6{
+        font-size: 3vw;
+    }
+    .mdcsStoryContainer button{
+        width: 50%;
+        bottom: 2vw;
+        right: 3vw;
+        font-size: 4vw;
+        line-height: 4vw;
+        opacity: 100%;
+        justify-content: right;
+    }
+    .mdcsStoryContainer button .faIcons{
+        margin-right: 5%;
+        font-size: 5vw;
+        line-height: 4vw;
+    }
+    .mdcsscDP{
+        top: 2vw;
+        left: 2vw;
+    }
+    .mdcsscDP img{
+        height: 10vw;
+        width: 10vw;
+    }
+    .mdcsscDP h6{
+        font-size: 4vw;
+        width: 50%;
+    }
+    .mdcsscDP h6 span{
+        font-size: 3vw;
+    }
+
+
+
+
 
 
 
@@ -1398,23 +1482,19 @@ section.profilePageContainer.mid{
         line-height: 4vw;
     }
     .ppclProfileSocials div{
-        width: 35%;
-        margin-left: 2%;
-    }
-    .ppclProfileSocials div button{
-        width: 100%;
-        font-size: 3vw;
-        border: solid 2px white;
+        display: none;
     }
     .ppclProfileDetails{
         display: none;
     }
-
+    .ppclProfileExtra{
+        display: flex;
+    }
 
     .profilePageContent.right{
         height: auto;
         width: 100%;
-        margin-top: 15%;
+        margin-top: 10%;
     }
     .ppcrProfileNavigations{
         justify-content: space-between;
@@ -1457,7 +1537,7 @@ section.profilePageContainer.mid{
         margin: 2% 0;
         padding: 5%;
         border-radius: 3vw;
-        border: solid 2px white;
+        border: solid 2px rgba(50, 50, 50, 0.8);
         /* background: rgba(30, 30, 30, 0.8); */
     }
     .ppcrpchpUser img{
