@@ -524,6 +524,7 @@ h6{
 }
 .mdcppcpb.right button{
     padding: 2% 7%;
+    width: 70%;
     font-size: 0.7vw;
     background: none;
     border: solid 2px white;
@@ -1316,7 +1317,10 @@ section.profilePageContainer.mid{
     .mdcppcpb.left button{
         line-height: 3vw;
         font-size: 5vw;
-        margin-right: 10%;
+        margin-right: 20%;
+    }
+    .mdcppcpb.right{
+        width: 100%;
     } 
     .mdcppcpb.right button{
         padding: 2% 10%;
@@ -1453,7 +1457,8 @@ section.profilePageContainer.mid{
         margin: 2% 0;
         padding: 5%;
         border-radius: 2vw;
-        background: rgba(30, 30, 30, 0.8);
+        border: solid 2px white;
+        /* background: rgba(30, 30, 30, 0.8); */
     }
     .ppcrpchpUser img{
         height: 10vw;

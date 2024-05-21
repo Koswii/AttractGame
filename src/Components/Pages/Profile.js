@@ -71,6 +71,13 @@ const formatDate = (date) => {
     }
 };
 
+const parseDateString = (dateString) => {
+    const [datePart, timePart] = dateString.split(' ');
+    const [year, month, day] = datePart.split('-').map(Number);
+    const [hours, minutes, seconds] = timePart.split(':').map(Number);
+    return new Date(year, month - 1, day, hours, minutes, seconds);
+};
+
 const Profile = () => {
 
     // User Profile Fetching
@@ -116,6 +123,44 @@ const Profile = () => {
     }, []);
 
 
+    const [localTime, setLocalTime] = useState(new Date());
+    const [icelandTime, setIcelandTime] = useState('');
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setLocalTime(new Date());
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, []);
+    useEffect(() => {
+        const options = {
+            timeZone: 'Atlantic/Reykjavik',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false, // 24-hour format
+        };
+        const dateOptions = {
+            timeZone: 'Atlantic/Reykjavik',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+        };
+
+        const icelandFormatter = new Intl.DateTimeFormat([], options);
+        const dateFormatter = new Intl.DateTimeFormat([], dateOptions);
+        const icelandFormattedTime = icelandFormatter.format(localTime);
+        const icelandFormattedDate = dateFormatter.format(localTime);
+
+        // Combine date and time in "yyyy-mm-dd HH:MM:SS" format
+        const [month, day, year] = icelandFormattedDate.split('/');
+        const formattedDate = `${year}-${month}-${day}`;
+        setIcelandTime(`${formattedDate} ${icelandFormattedTime}`);
+    }, [localTime]);
+
+
+    const [canPost, setCanPost] = useState(false);
+    const [postTimeRemaining, setPostTimeRemaining] = useState('');
     useEffect(() => {
         const fetchUserProfile = () => {
             const storedProfileData = localStorage.getItem('profileDataJSON')
@@ -162,9 +207,22 @@ const Profile = () => {
                 setViewFetchPost(postData);
 
                 const latestPostDate = postData.slice(0, 1).map(post => post.user_post_date);
-                const latestDateNumbered = `${latestPostDate}`;
+                const latestDateNumbered = parseDateString(`${latestPostDate}`);
+                const nextPostDateNumbered = new Date(latestDateNumbered.getTime() + 12 * 60 * 60 * 1000);
+                const serverDateNumbered = parseDateString(icelandTime);
+                const postDateDifference = nextPostDateNumbered - serverDateNumbered;
                 
-                console.log(latestDateNumbered);
+                if (postDateDifference <= 0) {
+                    setCanPost(true);
+                } else {
+                    setCanPost(false);
+                    const hours = Math.floor((postDateDifference / (1000 * 60 * 60)) % 24);
+                    const minutes = Math.floor((postDateDifference / 1000 / 60) % 60);
+                    const seconds = Math.floor((postDateDifference / 1000) % 60);
+                    setPostTimeRemaining(`${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`);
+                }
+
+
             })
             .catch(error => {
                 console.log(error)
@@ -172,7 +230,7 @@ const Profile = () => {
         }
         fetchUserDataPost();
 
-    }, [LoginUsername]);
+    }, [LoginUsername, icelandTime]);
 
 
     const [pickProfileImg00, setPickProfileImg00] = useState('DefaultProfilePic.png');
@@ -662,9 +720,29 @@ const Profile = () => {
                                     <button type='button' className={addPostMedia ? 'active' : ''} onClick={handlePostMedia}><IoIosImages className='faIcons'/></button>
                                 </div>
                                 <div className='mdcppcpb right'>
-                                    {!agPostContent? 
-                                    <button className='active' type='button' disabled>Post Highlight</button>:
-                                    <button type='submit'>Post Highlight</button>}
+                                    {viewVerifiedUser ? <>
+                                        {!agPostContent? 
+                                            <><button className='active' type='button' disabled>Post Highlight</button></>:
+                                            <>
+                                            <button type='submit'>Post Highlight</button>
+                                            </>
+                                        }
+                                    </>:
+                                    <>
+                                        {!agPostContent? 
+                                            <>
+                                                {!canPost ?
+                                                <button className='active' type='button' disabled>{postTimeRemaining}</button>:
+                                                <button className='active' type='button' disabled>Post Highlight</button>}
+                                            </>:
+                                            <>
+                                                {!canPost ?
+                                                <button className='active' type='button' disabled>{postTimeRemaining}</button>:
+                                                <button type='submit'>Post Highlight</button>}
+                                            </>
+                                        }
+                                    </>
+                                    }
                                 </div>
                             </div>
                         </div>
