@@ -261,10 +261,10 @@ const Highlights = () => {
                                             <img src={`https://2wave.io/ProfilePics/${post.userData.profileimg}`} alt="" />
                                         </div>
                                         <span>
-                                            <h6>{post.user} 
-                                                {post.user_verified ? <>
-                                                    {post.user_verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
-                                                    {post.user_verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                            <h6>{post.user}
+                                                {post.userData.verified ? <>
+                                                    {post.userData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                                    {post.userData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
                                                 </>:<></>}
                                             </h6>
                                             <p>{formatDate(post.user_post_date)}</p>

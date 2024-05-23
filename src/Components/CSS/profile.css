@@ -661,31 +661,29 @@ h6{
     opacity: 0;
     cursor: pointer;
 }
-.mdcsStoryContainer button{
-    width: 25%;
+.storySubmit{
+    height: auto;
+    width: 100%;
     position: absolute;
-    bottom: 0.5vw;
-    right: 1vw;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: right;
+    background: 
+        linear-gradient(transparent, black 90%);
+    background-size: cover;
+    padding: 3%;
+}
+.storySubmit button{
+    width: 35%;
     font-size: 0.7vw;
-    line-height: 1vw;
+    border-radius: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: none;
-    border: none;
-    color: white;
-    outline: none;
-    cursor: pointer;
-    opacity: 30%;
-}
-.mdcsStoryContainer button:hover{
-    opacity: 100%;
-    transition: 400ms ease;
-}
-.mdcsStoryContainer button .faIcons{
-    margin-left: 10%;
-    font-size: 1.2vw;
-    line-height: 2vw;
+    padding: 2% 5%;
+    border: solid 2px white;
+    box-shadow: 0 0 10px black;
 }
 
 
@@ -1381,19 +1379,9 @@ section.profilePageContainer.mid{
     .mdcsStoryContainer h6{
         font-size: 3vw;
     }
-    .mdcsStoryContainer button{
-        width: 50%;
-        bottom: 2vw;
-        right: 3vw;
-        font-size: 4vw;
-        line-height: 4vw;
-        opacity: 100%;
-        justify-content: right;
-    }
-    .mdcsStoryContainer button .faIcons{
-        margin-right: 5%;
-        font-size: 5vw;
-        line-height: 4vw;
+    .storySubmit button{
+        width: 40%;
+        font-size: 3vw;
     }
     .mdcsscDP{
         top: 2vw;

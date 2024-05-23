@@ -443,10 +443,10 @@ const Nav = () => {
             <div className='userProfileBtn'>
               {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
               <Link id='agCartBtn'><TbShoppingCartBolt className='faIcons'/></Link>
-              <a id='agLogoutBtn' onClick={handleUserLogout}><TbLogout /></a>
               <Link id='agProfileBtn' to='/Profile'>
                 <img src={`https://2wave.io/ProfilePics/${renderProfileImage()}`} alt=""/>
               </Link>
+              <a id='agLogoutBtn' onClick={handleUserLogout}><TbLogout /></a>
             </div>}
           </div>
         </div>
