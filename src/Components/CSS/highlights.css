@@ -68,6 +68,7 @@ section.highlightsPageContainer.top{
     overflow: hidden;
     border-radius: 50%;
     background: white;
+    border: solid 2px white;
 }
 .hldpct1 div img{
     height: 100%;

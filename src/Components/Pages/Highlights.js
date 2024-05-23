@@ -5,6 +5,7 @@ import {
   MdSettings,
   MdAdminPanelSettings,
   MdOutlineShare, 
+  MdDelete,
   MdOutlineSpaceDashboard,
   MdOutlineShoppingBag,
   MdOutlineVideogameAsset,
@@ -19,8 +20,7 @@ import {
 import { 
     IoLogoYoutube,
     IoIosImages,
-    IoMdAddCircle,
-    IoMdTrash    
+    IoMdAddCircle
 } from "react-icons/io";
 import axios from 'axios';
 import UserPostModal from './UserPostModal';
@@ -275,7 +275,7 @@ const Highlights = () => {
                                     {adminLoggedIn && 
                                         <>
                                             <button><MdAdminPanelSettings className='faIcons'/></button>
-                                            <button><IoMdTrash className='faIcons'/></button>
+                                            <button><MdDelete className='faIcons'/></button>
                                         </>
                                     }
                                     <button><MdOutlineShare className='faIcons'/></button>
