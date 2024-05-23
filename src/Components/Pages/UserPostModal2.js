@@ -13,42 +13,7 @@ import {
     IoIosImages,
 } from "react-icons/io";
 
-const formatDateToWordedDate = (numberedDate) => {
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    const date = new Date(numberedDate);
-    const month = months[date.getMonth()];
-    const day = date.getDate();
-    const year = date.getFullYear();
-    
-    return `${month} ${day}, ${year}`;
-}
 
-const formatDate = (date) => {
-    const givenDate = new Date(date);
-    const currentDate = new Date();
-  
-    // Clear the time part of the dates
-    const currentDateNoTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-    const givenDateNoTime = new Date(givenDate.getFullYear(), givenDate.getMonth(), givenDate.getDate());
-  
-    const timeDifference = currentDateNoTime - givenDateNoTime;
-    const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
-  
-    if (timeDifference === 0) {
-      return "Now";
-    } else if (timeDifference === oneDay) {
-      return "Yesterday";
-    } else {
-      return formatDateToWordedDate(givenDate);
-    }
-};
-
-const parseDateString = (dateString) => {
-    const [datePart, timePart] = dateString.split(' ');
-    const [year, month, day] = datePart.split('-').map(Number);
-    const [hours, minutes, seconds] = timePart.split(':').map(Number);
-    return new Date(year, month - 1, day, hours, minutes, seconds);
-};
 
 const UserPostModal2 = ({setAddUserPost2}) => {
 
@@ -82,43 +47,7 @@ const UserPostModal2 = ({setAddUserPost2}) => {
 
         return () => clearInterval(interval);
     }, []);
-    const [localTime, setLocalTime] = useState(new Date());
-    const [icelandTime, setIcelandTime] = useState('');
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setLocalTime(new Date());
-        }, 1000);
 
-        return () => clearInterval(timer);
-    }, []);
-    useEffect(() => {
-        const options = {
-            timeZone: 'Atlantic/Reykjavik',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false, // 24-hour format
-        };
-        const dateOptions = {
-            timeZone: 'Atlantic/Reykjavik',
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-        };
-
-        const icelandFormatter = new Intl.DateTimeFormat([], options);
-        const dateFormatter = new Intl.DateTimeFormat([], dateOptions);
-        const icelandFormattedTime = icelandFormatter.format(localTime);
-        const icelandFormattedDate = dateFormatter.format(localTime);
-
-        // Combine date and time in "yyyy-mm-dd HH:MM:SS" format
-        const [month, day, year] = icelandFormattedDate.split('/');
-        const formattedDate = `${year}-${month}-${day}`;
-        setIcelandTime(`${formattedDate} ${icelandFormattedTime}`);
-    }, [localTime]);
-
-    const [canPost, setCanPost] = useState(false);
-    const [postTimeRemaining, setPostTimeRemaining] = useState('');
     const getUserPostState = localStorage.getItem('setUserCanPost');
     useEffect(() => {
         const fetchUserProfile = () => {
@@ -135,44 +64,12 @@ const UserPostModal2 = ({setAddUserPost2}) => {
         }
         fetchUserProfile();
 
-        const fetchUserDataPost = () => {
-            axios.get(AGUserPostAPI)
-            .then((response) => {
-                const postSortData = response.data.sort((a, b) => b.id - a.id);
-                const postData = postSortData.filter(post => post.user == LoginUsername);
-                setViewFetchPost(postData);
-
-                const latestPostDate = postData.slice(0, 1).map(post => post.user_post_date);
-                const latestDateNumbered = parseDateString(`${latestPostDate}`);
-                const nextPostDateNumbered = new Date(latestDateNumbered.getTime() + 12 * 60 * 60 * 1000);
-                const serverDateNumbered = parseDateString(icelandTime);
-                const postDateDifference = nextPostDateNumbered - serverDateNumbered;
-                
-                if (postDateDifference <= 0) {
-                    setCanPost(true);
-                } else {
-                    setCanPost(false);
-                    const hours = Math.floor((postDateDifference / (1000 * 60 * 60)) % 24);
-                    const minutes = Math.floor((postDateDifference / 1000 / 60) % 60);
-                    const seconds = Math.floor((postDateDifference / 1000) % 60);
-                    setPostTimeRemaining(`${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`);
-                }
-
-
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        }
-        fetchUserDataPost();
-    }, [LoginUsername, icelandTime]);
+        
+    }, [LoginUsername]);
     const renderPostingState1 = () => {
         if (getUserPostState === 'false'){
             return (
-                <>
-                    <button id='cantPostWeb' className='active' type='button' disabled>{postTimeRemaining}</button>
-                    <button id='cantPostMobile' className='active' type='button' disabled>Limited Posting</button>
-                </>
+                <button className='active' type='button' disabled>Limited Posting</button>
             );
         } else {
             return (
@@ -183,10 +80,7 @@ const UserPostModal2 = ({setAddUserPost2}) => {
     const renderPostingState2 = () => {
         if (getUserPostState === 'false'){
             return (
-                <>
-                    <button id='cantPostWeb' className='active' type='button' disabled>{postTimeRemaining}</button>
-                    <button id='cantPostMobile' className='active' type='button' disabled>Limited Posting</button>
-                </>
+                <button className='active' type='button' disabled>Limited Posting</button>
             );
         } else {
             return (
@@ -357,10 +251,7 @@ const UserPostModal2 = ({setAddUserPost2}) => {
                                             <><button type='submit'>Post Highlight</button></>
                                         }
                                     </>:
-                                    <>
-                                        {!agPostContent? renderPostingState1() : renderPostingState2()}
-                                    </>
-                                    }
+                                    <>{!agPostContent? renderPostingState1() : renderPostingState2()}</>}
                                 </div>
                             </div>
                         </div>

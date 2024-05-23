@@ -32,7 +32,8 @@ import {
 } from "react-icons/tb";
 import { 
     RiVerifiedBadgeFill,
-    RiSparklingFill  
+    RiSparklingFill,
+    RiImageEditLine    
 } from "react-icons/ri";
 import { 
     IoLogoYoutube,
@@ -523,7 +524,8 @@ const Profile = () => {
                 <div className='ppctShadow'></div>
                 {viewVerifiedUser && <div className='ppctEditCoverImg'>
                     <div className="ppctecimg">
-                        <button onClick={handleAddCoverImg}>Change Cover Photo</button>
+                        <button id='ppctecimgBtnWeb' onClick={handleAddCoverImg}>Change Cover Photo</button>
+                        <button id='ppctecimgBtnMob' onClick={handleAddCoverImg}><RiImageEditLine className='faIcons' /></button>
                     </div>
                 </div>}
             </section>

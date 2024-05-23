@@ -27,6 +27,55 @@ import { Link, useNavigate } from 'react-router-dom';
 
 
 
+
+
+
+
+
+const formatDateToWordedDate = (numberedDate) => {
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const date = new Date(numberedDate);
+  const month = months[date.getMonth()];
+  const day = date.getDate();
+  const year = date.getFullYear();
+  
+  return `${month} ${day}, ${year}`;
+}
+
+const formatDate = (date) => {
+  const givenDate = new Date(date);
+  const currentDate = new Date();
+
+  // Clear the time part of the dates
+  const currentDateNoTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+  const givenDateNoTime = new Date(givenDate.getFullYear(), givenDate.getMonth(), givenDate.getDate());
+
+  const timeDifference = currentDateNoTime - givenDateNoTime;
+  const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
+
+  if (timeDifference === 0) {
+    return "Now";
+  } else if (timeDifference === oneDay) {
+    return "Yesterday";
+  } else {
+    return formatDateToWordedDate(givenDate);
+  }
+};
+
+const parseDateString = (dateString) => {
+  const [datePart, timePart] = dateString.split(' ');
+  const [year, month, day] = datePart.split('-').map(Number);
+  const [hours, minutes, seconds] = timePart.split(':').map(Number);
+  return new Date(year, month - 1, day, hours, minutes, seconds);
+};
+
+
+
+
+
+
+
+
 const Nav = () => {
   const navigate = useNavigate ();
   const [viewRegForm, setViewRegForm] = useState(false);
@@ -56,6 +105,7 @@ const Nav = () => {
   const logoutAGUserAPI = process.env.REACT_APP_AG_USER_LOGOUT_API;
   const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
   const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
+  const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
 
   const [agUserEmail, setAGUserEmail] = useState('')
   const [agUserUsername, setAGUserUsername] = useState('')
@@ -67,7 +117,8 @@ const Nav = () => {
   const [messageResponse, setMessageResponse] = useState('')
   const [captcha, setCaptcha] = useState('');
   const [inputValueCaptcha, setInputValueCaptcha] = useState('');
-
+  const [localTime, setLocalTime] = useState(new Date());
+  const [icelandTime, setIcelandTime] = useState('');
 
   const generateCaptcha = () => {
     // Generate a random 4-digit number for the CAPTCHA
@@ -77,6 +128,38 @@ const Nav = () => {
   useEffect(() => {
     generateCaptcha();
   }, []);
+  useEffect(() => {
+      const timer = setInterval(() => {
+          setLocalTime(new Date());
+      }, 1000);
+
+      return () => clearInterval(timer);
+  }, []);
+  useEffect(() => {
+      const options = {
+          timeZone: 'Atlantic/Reykjavik',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false, // 24-hour format
+      };
+      const dateOptions = {
+          timeZone: 'Atlantic/Reykjavik',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+      };
+
+      const icelandFormatter = new Intl.DateTimeFormat([], options);
+      const dateFormatter = new Intl.DateTimeFormat([], dateOptions);
+      const icelandFormattedTime = icelandFormatter.format(localTime);
+      const icelandFormattedDate = dateFormatter.format(localTime);
+
+      // Combine date and time in "yyyy-mm-dd HH:MM:SS" format
+      const [month, day, year] = icelandFormattedDate.split('/');
+      const formattedDate = `${year}-${month}-${day}`;
+      setIcelandTime(`${formattedDate} ${icelandFormattedTime}`);
+  }, [localTime]);
 
 
   const LoginUsername = localStorage.getItem('attractGameUsername');
@@ -85,59 +168,95 @@ const Nav = () => {
   const [dataStatus, setDataUserStatus] = useState('');
   const [viewProfileImg, setViewProfileImg] = useState('');
   const [viewTextPassword, setViewTextPassword] = useState(false);
+  const [postTimeRemaining, setPostTimeRemaining] = useState('');
 
   useEffect(() => {
-    const userFromLocalStorage = localStorage.getItem('isLoggedIn');
+    if (!userLoggedIn) return;
+    const fetchUserData = async () => {
+      try {
+        const [userListResponse, userDataResponse] = await Promise.all([
+          axios.get(AGUserListAPI),
+          axios.get(AGUserDataAPI)
+        ]);
 
-    const fetchData = async () => {
-      if (userFromLocalStorage) {
-        try {
-          const [userListResponse, userDataResponse] = await Promise.all([
-            axios.get(AGUserListAPI),
-            axios.get(AGUserDataAPI)
-          ]);
+        const allUsersStatus = userListResponse.data.find(item => item.username === agUserUsername);
+        const userData = userListResponse.data.find(item => item.username === LoginUsername);
+        const userProfile = userDataResponse.data.find(item => item.username === LoginUsername);
 
-          const allUsersStatus = userListResponse.data.find(item => item.username === agUserUsername);
-          const userData = userListResponse.data.find(item => item.username === LoginUsername);
-          const userProfile = userDataResponse.data.find(item => item.username === LoginUsername);
-          setViewUserCredentials(true);
+        setViewUserCredentials(true);
+        setDataUser(userData);
 
-          setDataUser(userData);
-          if (userData) {
-            if(userData.account === 'Admin'){
-              localStorage.setItem('agAdminLoggedIn', true);
-              setViewAdminCredentials(true);
-            }else{
-              setViewAdminCredentials(false)
-            }
-          }
-
-          if (allUsersStatus) {
-            const isBlocked = allUsersStatus.status === 'Blocked';
-            setDataUserStatus(isBlocked);
-            if (isBlocked) handleUserLogout();
-          }
-
-          if (userProfile) {
-            const profileDetailsJSON = JSON.stringify(userProfile);
-            localStorage.setItem('profileDataJSON', profileDetailsJSON);
-            setViewProfileImg(userProfile);
-          }
-
-        } catch (error) {
-          console.error(error);
+        if (userData?.account === 'Admin') {
+          localStorage.setItem('agAdminLoggedIn', true);
+          setViewAdminCredentials(true);
+        } else {
+          setViewAdminCredentials(false);
         }
+
+        if (allUsersStatus?.status === 'Blocked') {
+          setDataUserStatus(true);
+          handleUserLogout();
+        }
+
+        if (userProfile) {
+          const profileDetailsJSON = JSON.stringify(userProfile);
+          localStorage.setItem('profileDataJSON', profileDetailsJSON);
+          setViewProfileImg(userProfile);
+        }
+
+      } catch (error) {
+        console.error(error);
       }
-
-      // if (adminNavBtn) {
-      //   setViewAdminCredentials(true);
-      // }
     };
+    const fetchUserPosts = async () => {
+      try {
+        const response = await axios.get(AGUserPostAPI);
+        const postSortData = response.data.sort((a, b) => b.id - a.id);
+        const postData = postSortData.filter(post => post.user === LoginUsername);
 
-    fetchData();
-  }, [LoginUsername, agUserUsername]);
+        if (postData.length > 0) {
+          const latestPostDate = new Date(parseDateString(postData[0].user_post_date));
+          const nextPostDate = new Date(latestPostDate.getTime() + 12 * 60 * 60 * 1000);
+          const serverDate = parseDateString(icelandTime);
+          const postDateDifference = nextPostDate - serverDate;
 
-
+          if (postDateDifference <= 0) {
+            localStorage.setItem('setUserCanPost', true);
+          } else {
+            localStorage.setItem('setUserCanPost', false);
+            const hours = Math.floor(postDateDifference / (1000 * 60 * 60));
+            const minutes = Math.floor((postDateDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((postDateDifference % (1000 * 60)) / 1000);
+            setPostTimeRemaining(`${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`);
+          }
+        }
+      } catch (error) {
+          console.error(error);
+      }
+    };
+    fetchUserData();
+    fetchUserPosts();
+  }, [userLoggedIn, LoginUsername, agUserUsername, AGUserListAPI, AGUserDataAPI, AGUserPostAPI, icelandTime]);
+  useEffect(() => {
+    const handleUsernameStorageChange = (event) => {
+      if (event.key === 'attractGameUsername') {
+        handleUserLogout();
+      }
+      if (event.key === 'profileDataJSON') {
+        handleUserLogout();
+      }
+      if (event.key === 'agAdminLoggedIn') {
+        handleUserLogout();
+      }
+      if (event.key === 'setUserCanPost') {
+        handleUserLogout();
+      }
+    };
+    window.addEventListener('storage', handleUsernameStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleUsernameStorageChange);
+    };
+  }, []);
   const renderProfileImage = () => {
     if (userLoggedIn == 'true'){
       return (
@@ -233,6 +352,7 @@ const Nav = () => {
           localStorage.removeItem('isLoggedIn');
           localStorage.removeItem('attractGameUsername');
           localStorage.removeItem('profileDataJSON')
+          localStorage.removeItem('setUserCanPost')
           setViewUserCredentials(false);
           setMessageResponse(data.message);
           navigate('/');
@@ -243,31 +363,14 @@ const Nav = () => {
       })
       .catch(error => console.error('Error:', error));
   };
-  useEffect(() => {
-    const handleUsernameStorageChange = (event) => {
-      if (event.key === 'attractGameUsername') {
-        handleUserLogout();
-      }
-      if (event.key === 'profileDataJSON') {
-        handleUserLogout();
-      }
-      if (event.key === 'agAdminLoggedIn') {
-        handleUserLogout();
-      }
-    };
-    window.addEventListener('storage', handleUsernameStorageChange);
-    return () => {
-      window.removeEventListener('storage', handleUsernameStorageChange);
-    };
-  }, []);
   const handleViewPassword = (e) => {
     e.preventDefault();
     setViewTextPassword(true)
-  }
+  };
   const handleHidePassword = (e) => {
     e.preventDefault();
     setViewTextPassword(false)
-  }
+  };
 
 
 
@@ -286,7 +389,7 @@ const Nav = () => {
     localStorage.removeItem('games');
     localStorage.removeItem('giftcards');
     localStorage.removeItem('crypto');
-  }
+  };
   const handleClickDashboadrd = () => {
     localStorage.setItem('dashboard', 'active');
     localStorage.removeItem('marketplace');
@@ -294,7 +397,7 @@ const Nav = () => {
     localStorage.removeItem('giftcards');
     localStorage.removeItem('crypto');
     navigate('/Highlights');
-  }
+  };
   const handleClickMarketplace = () => {
     localStorage.setItem('marketplace', 'active');
     localStorage.removeItem('dashboard');
@@ -302,7 +405,7 @@ const Nav = () => {
     localStorage.removeItem('giftcards');
     localStorage.removeItem('crypto');
     navigate('/Marketplace');
-  }
+  };
   const handleClickGames = () => {
     localStorage.setItem('games', 'active');
     localStorage.removeItem('dashboard');
@@ -310,21 +413,21 @@ const Nav = () => {
     localStorage.removeItem('giftcards');
     localStorage.removeItem('crypto');
     navigate('/Games');
-  }
+  };
   const handleClickGiftcards = () => {
     localStorage.setItem('giftcards', 'active');
     localStorage.removeItem('dashboard');
     localStorage.removeItem('marketplace');
     localStorage.removeItem('games');
     localStorage.removeItem('crypto');
-  }
+  };
   const handleClickCrypto = () => {
     localStorage.setItem('crypto', 'active');
     localStorage.removeItem('dashboard');
     localStorage.removeItem('marketplace');
     localStorage.removeItem('games');
     localStorage.removeItem('giftcards');
-  }
+  };
 
 
 

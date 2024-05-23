@@ -534,9 +534,6 @@ h6{
     margin: 0 2%;
     cursor: pointer;
 }
-.mdcppcpb.right button#cantPostMobile{
-    display: none;
-}
 .mdcppcpb.right button:hover{
     background: white;
     color: black;
@@ -738,7 +735,9 @@ section.profilePageContainer.top img{
     background: none;
     color: white;
 }
-
+.ppctecimg button#ppctecimgBtnMob{
+    display: none;
+}
 
 
 
@@ -888,13 +887,13 @@ section.profilePageContainer.mid{
 }
 .ppclProfileExtra button{
     width: 30%;
-    padding: 1% 5%;
+    padding: 2% 4%;
     border: solid 2px white;
     background: none;
     outline: none;
     color: white;
     border-radius: 50px;
-    font-size: 2.5vw;
+    font-size: 3vw;
     margin-right: 10%;
 }
 .ppclProfileExtra span{
@@ -1176,12 +1175,12 @@ section.profilePageContainer.mid{
     }
     .modalContentProfile{
         width: 90%;
-        border-radius: 2vw;
-        padding: 10% 2%;
+        border-radius: 5vw;
+        padding: 5% 2%;
     }
     .modalContentProfile button#closeModalSettings{
-        right: 2vw;
-        top: 2vw;
+        right: 4vw;
+        top: 4vw;
         font-size: 5vw;
     }
     .mdcpSettingsContainer{
@@ -1255,22 +1254,34 @@ section.profilePageContainer.mid{
         border: solid 2px white;
         font-size: 2.5vw;
     }
+    .mdcpccrSubmit{
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 5%;
+    }
     .mdcpccrSubmit button{
-        font-size: 2.3vw;
+        width: 100%;
+        font-size: 3vw;
+        margin: 2% 0;
+        padding: 2% 0;
+    }
+    .mdcpccrSubmit button#mdcpccrsVerified{
+        width: 100%;
     }
 
     .modalContentCover{
         width: 90%;
-        border-radius: 2vw;
+        border-radius: 5vw;
         padding: 1%;
     }
     .modalContentCover button#closeModalCover{
-        right: 2vw;
-        top: 2vw;
+        right: 4vw;
+        top: 4vw;
         font-size: 5vw;
     }
     .mdcpCoverContainer{
         height: 60vw;
+        border-radius: 4vw;
     }
     .mdcpCoverContainer h6{
         font-size: 3vw;
@@ -1278,6 +1289,8 @@ section.profilePageContainer.mid{
     .mdcpCoverContainer button{
         font-size: 7vw;
         line-height: 3vw;
+        bottom: 3vw;
+        right: 3vw;
     }
 
 
@@ -1297,12 +1310,12 @@ section.profilePageContainer.mid{
 
     .modalContentPosting{
         width: 90%;
-        border-radius: 2vw;
-        padding: 10% 3%;
+        border-radius: 5vw;
+        padding: 5% 3%;
     }
     .modalContentPosting button#closeModalPosting{
-        right: 2vw;
-        top: 2vw;
+        right: 4vw;
+        top: 4vw;
         font-size: 5vw;
     }
     .mdcppcPostUser{
@@ -1364,27 +1377,21 @@ section.profilePageContainer.mid{
         padding: 2% 10%;
         font-size: 3vw;
     }
-    .mdcppcpb.right button#cantPostMobile{
-        display: block;
-    }
-    .mdcppcpb.right button#cantPostWeb{
-        display: none;
-    }
 
     .modalContentStory{
         width: 90%;
-        border-radius: 2vw;
+        border-radius: 5vw;
         padding: 2%;
     }
     .modalContentStory button#closeModalStory{
-        right: 3vw;
-        top: 3vw;
+        right: 4vw;
+        top: 4vw;
         font-size: 5vw;
     }
     .mdcsStoryContainer{
         height: 130vw;
         width: 100%;
-        border-radius: 2vw;
+        border-radius: 5vw;
     }
     .mdcsStoryContainer h6{
         font-size: 3vw;
@@ -1432,9 +1439,18 @@ section.profilePageContainer.mid{
         opacity: 50%;
     }
     .ppctecimg button{
-        font-size: 2.3vw;
-    }
+        font-size: 7vw;
+        line-height: 3vw;
+        padding: 0;
+        border: none;
 
+    }
+    .ppctecimg button#ppctecimgBtnMob{
+        display: block;
+    }
+    .ppctecimg button#ppctecimgBtnWeb{
+        display: none;
+    }
 
 
     section.profilePageContainer.mid{
@@ -1455,7 +1471,7 @@ section.profilePageContainer.mid{
     .ppclProfilePic{
         height: 40vw;
         width: 40vw;
-        transform: translate(10%, -85%);
+        transform: translate(65%, -90%);
     }
     .ppclProfileName{
         height: 12vw;
