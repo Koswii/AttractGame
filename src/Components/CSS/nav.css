@@ -347,8 +347,8 @@ nav{
     }
     .navContentModal{
         height: auto;
-        width: 90%;
-        border-radius: 3vw;
+        width: 80%;
+        border-radius: 5vw;
     }
     .navContentModal button#closeModalContent{
         font-size: 5vw;

@@ -1476,6 +1476,10 @@ section.profilePageContainer.mid{
     .ppclProfileName{
         height: 12vw;
     }
+    .ppctShadow{
+        background: 
+            linear-gradient(transparent, black 90%);
+    }
     .ppclProfileName h5{
         height: 7vw;
         font-size: 6vw;
