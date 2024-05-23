@@ -533,6 +533,9 @@ h6{
     margin: 0 2%;
     cursor: pointer;
 }
+.mdcppcpb.right button#cantPostMobile{
+    display: none;
+}
 .mdcppcpb.right button:hover{
     background: white;
     color: black;
@@ -1359,7 +1362,12 @@ section.profilePageContainer.mid{
         padding: 2% 10%;
         font-size: 3vw;
     }
-
+    .mdcppcpb.right button#cantPostMobile{
+        display: block;
+    }
+    .mdcppcpb.right button#cantPostWeb{
+        display: none;
+    }
 
     .modalContentStory{
         width: 90%;
