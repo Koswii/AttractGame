@@ -284,92 +284,56 @@ nav{
     justify-content: space-between;
     align-items: center;
 }
-.navContent.right div{
+.userPublicBtn{
     width: 100%;
     display: flex;
     justify-content: right;
     align-items: center;
 }
-.navContent.right div a#agRegisterBtn{
+.userPublicBtn a#agLoginBtn{
+    color: white;
+    font-size: 2.3vw;
+    line-height: 1vw;
+}
+.userPublicBtn a#agRegisterBtn{
     border: solid 2px white;
-    padding: 3% 10%;
-    margin-left: 5%;
+    padding: 2% 7%;
     border-radius: 50px;
+    margin-left: 5%;
 }
-.navContent.right div a#agRegisterBtn:hover{
-    background: white;
-}
-.navContent.right div a#agRegisterBtn:hover h6{
-    color: black;
-}
-.navContent.right a{
-    cursor: pointer;
-}
-.navContent.right a h6{
-    font-weight: 400;
-    font-size: 0.7vw;
-}
-.navContent.right div a#agLoginBtn h6{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2.5vw;
-}
-.navContent.right a:hover{
-    text-shadow: 0 0 20px white;
-    transition: 400ms ease;
-}
-.navContent.right .connectedUser{
+.userProfileBtn{
+    height: auto;
     width: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.navContent.right div a#agProfileBtn{
-    height: 2.2vw;
-    width: 2.2vw;
-    margin: 0 5%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: white;
-    border-radius: 50%;
-    overflow: hidden;
-}
-.navContent.right div a#agCartBtn,
-.navContent.right div a#agAdminBtn{
-    height: 2.2vw;
-    margin: 0 5%;
-    display: flex;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
 }
 
-.navContent.right div a#agProfileBtn h6,
-.navContent.right div a#agCartBtn h6,
-.navContent.right div a#agAdminBtn h6{
+.userProfileBtn a{
+    color: white;
+    margin: 0 4%;
+}
+.userProfileBtn a#agAdminBtn,
+.userProfileBtn a#agCartBtn,
+.userProfileBtn a#agLogoutBtn{
     font-size: 2vw;
     line-height: 1vw;
 }
-.navContent.right div a#agProfileBtn img{
-    height: 100%;
-    border-radius: 50%;
-    border: solid 2px white;
-}
-.navContent.right div a#agSettingsBtn{
-    display: none;
-}
-.navContent.right div a#agLogoutBtn{
-    border: solid 2px white;
-    padding: 3% 10%;
-    border-radius: 50px;
-}
-.navContent.right div a#agLogoutBtn:hover{
+.userProfileBtn a#agProfileBtn{
+    height: 2vw;
+    width: 2vw;
+    position: relative;
+    overflow: hidden;
     background: white;
+    border: solid 2px white;
+    border-radius: 100%;
+    margin-right: 0;
 }
-.navContent.right div a#agLogoutBtn:hover h6{
-    color: black;
+.userProfileBtn a#agProfileBtn img{
+    height: 100%;
+    width: auto;
 }
+
 
 
 @media screen and (max-width: 500px){
@@ -437,36 +401,42 @@ nav{
     .navContent.right{
         width: 50%;
     }
-    .navContent.right a h6{
+    .navContent.right a{
         font-weight: 400;
+        font-size: 7vw;
+        color: white;
+    }
+    .userPublicBtn a#agLoginBtn{
+        font-size: 7vw;
+        line-height: 5vw;
+    }
+    .userPublicBtn a#agRegisterBtn{
+        padding: 3% 10%;
+        margin-left: 7%;
+    }
+    .userPublicBtn a#agRegisterBtn h6{
         font-size: 3vw;
     }
-    .navContent.right div a#agLoginBtn h6{
-        font-size: 8.5vw;
+    .userProfileBtn a{
+        color: white;
+        margin: 0 7%;
     }
-    .navContent.right div a#agRegisterBtn{
-        display: none;
-    }
-    .navContent.right div a#agSettingsBtn{
-        display: block;
-    }
-    .navContent.right div a#agCartBtn,
-    .navContent.right div a#agAdminBtn,
-    .navContent.right div a#agSettingsBtn{
-        height: 7vw;
-        margin: 0;
-        margin-left: 10%;
-    }
-    .navContent.right div a#agCartBtn h6,
-    .navContent.right div a#agAdminBtn h6,
-    .navContent.right div a#agSettingsBtn h6{
+    .userProfileBtn a#agAdminBtn,
+    .userProfileBtn a#agCartBtn,
+    .userProfileBtn a#agLogoutBtn{
         font-size: 7vw;
-        line-height: 7vw;
+        line-height: 5vw;
     }
-    .navContent.right #userProfile a#agProfileBtn{
+    .userProfileBtn a#agLogoutBtn{
+        margin-right: 0;
+    }
+    .userProfileBtn a#agProfileBtn{
         display: none;
     }
-    .navContent.right #userProfile a#agLogoutBtn{
+    .userProfile a#agProfileBtn{
+        display: none;
+    }
+    .userProfile a#agLogoutBtn{
         display: none;
     }
     .navContainer.mobile a#agProfileBtn{

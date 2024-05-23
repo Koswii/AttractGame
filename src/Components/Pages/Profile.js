@@ -41,6 +41,7 @@ import {
 } from "react-icons/io";
 import UserPostModal from './UserPostModal';
 import UserPostModal2 from './UserPostModal2';
+import UserStoryModal from './UserStoryModal';
 
 
 
@@ -242,7 +243,6 @@ const Profile = () => {
     const handleAddUserPost2 = () => {
         setAddUserPost2(true)
     }
-
     const handleAddCoverImg = () => {
         setAddCoverImg(true)
     }
@@ -252,9 +252,7 @@ const Profile = () => {
     const handleCloseAnyModals = (e) => {
         e.preventDefault();
         setEditSocialsModal(false)
-        setAddPostStory(false)
         setAddCoverImg(false)
-        setImageStory(null)
     }
     
     const [image, setImage] = useState(null);
@@ -282,20 +280,10 @@ const Profile = () => {
             setImageCoverPhotoName(file.name);
         }
     };
-    const [imageStory, setImageStory] = useState(null);
-    const [imageStoryName, setImageStoryName] = useState('');
-    const handleUploadUserStory = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setImageStory(file);
-            setImageStoryName(file.name);
-        }
-    };
     const handleRemoveUserImage = () => {
         setImage(null);
         setImageDP(null);
         setImageDPName('');
-        setImageStory(null);
         
     };
 
@@ -309,8 +297,6 @@ const Profile = () => {
     const AGUserDataUPDATEAPI = process.env.REACT_APP_AG_USERS_PROFILE_UPDATE_API;
     const AGUserCustomDPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_DP_API;
     const AGUserCustomCPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_CP_API;
-    const AGAddMediaStoryAPI = process.env.REACT_APP_AG_ADD_MEDIA_STORY_API;
-    const AGAddUserStoryAPI = process.env.REACT_APP_AG_ADD_USER_STORY_API;
 
     const renderProfileUser = () => {
         if (viewVerifiedUser == 'Gold' || viewVerifiedUser == 'Blue'){
@@ -423,51 +409,6 @@ const Profile = () => {
         }, 200);
     };
 
-    const handleAddStorySubmit = async (e) => {
-        e.preventDefault();
-    
-        const formStoryData = {
-            user_username: viewUsername,
-            user_verified: viewVerifiedUser,
-            user_story_id: `agStory_${viewUsername}${randomPostID}`,
-            user_story_date: new Date(),
-            user_story_image: `agStory_${viewUsername}${randomPostID}_${imageStoryName}`,
-        };
-    
-        const formUserStoryData = new FormData();
-        formUserStoryData.append('profileuser', viewUsername);
-        formUserStoryData.append('profileimg', imageStory);
-        formUserStoryData.append('profileimgid', randomPostID);
-
-    
-        try {
-            const [responseStoryDetails, responseStoryMedia] = await Promise.all([
-                axios.post(AGAddUserStoryAPI, JSON.stringify(formStoryData)),
-                axios.post(AGAddMediaStoryAPI, formUserStoryData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }),
-            ]);
-            const resMessageStoryDetails = responseStoryDetails.data;
-            const resMessageStoryMedia = responseStoryMedia.data;
-            if (!resMessageStoryDetails.success) {
-                setAddPostStory(false);
-            }
-            if (!resMessageStoryMedia.success) {
-                console.log(resMessageStoryMedia.message);
-            }
-            if (!resMessageStoryMedia.failed) {
-                setAddPostStory(false);
-            }
-            if (!resMessageStoryMedia.failed) {
-                console.log(resMessageStoryMedia.message);
-            }
-        } catch (error) {
-            console.error(error);
-        } 
-    
-    };
 
     return (
         <div className='mainContainer profile'>
@@ -570,37 +511,8 @@ const Profile = () => {
                     </form>
                 </div>
             </div>}
-            {addPostStory && <div className="modalContainerProfile addStory">
-                <div className="modalContentStory"
-                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
-                    :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
-                    <button id='closeModalStory' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
-                    <form className="mdcsStoryContainer" onSubmit={handleAddStorySubmit}>
-                        <div className='mdcsscDP'>
-                            {viewProfileImg ? 
-                            <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt=""/>
-                            :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
-                            <h6>
-                                {viewUsername} 
-                                {viewVerifiedUser ? <>
-                                    {viewVerifiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
-                                    {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
-                                </>:<></>} <br />
-                                <span>{viewRefCode}</span>
-                            </h6>
-                        </div>
-                        {imageStory ? 
-                            <img src={URL.createObjectURL(imageStory)} alt="No image Selected" /> :
-                            <h6>Add Gamer Story...</h6>
-                        }
-                        <input type="file" onChange={handleUploadUserStory} required/>
-                        <button type='submit'><FaRegImages className='faIcons'/> ADD STORY</button>
-                    </form>
-                </div>
-            </div>}
-
-    
             
+            {addPostStory && <UserStoryModal setAddPostStory={setAddPostStory}/>}
             {addUserPost && <UserPostModal setAddUserPost={setAddUserPost}/>}
             {addUserPost2 && <UserPostModal2 setAddUserPost2={setAddUserPost2}/>}
 

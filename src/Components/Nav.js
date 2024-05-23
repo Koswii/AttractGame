@@ -19,7 +19,8 @@ import {
 } from "react-icons/md";
 import { 
   TbUserSquareRounded,
-  TbShoppingCartBolt 
+  TbShoppingCartBolt,
+  TbLogout 
 } from "react-icons/tb";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -427,18 +428,17 @@ const Nav = () => {
             <Link onClick={handleClickGiftcards}><h6>GIFTCARDS</h6></Link>
           </div>
           <div className="navContent right">
-            {!viewUserCredentials ? <div>
-              <a id='agLoginBtn' onClick={handleViewLogin}><h6><TbUserSquareRounded className='faIcons'/></h6></a>
+            {!viewUserCredentials ? <div className='userPublicBtn'>
+              <a id='agLoginBtn' onClick={handleViewLogin}><TbUserSquareRounded className='faIcons'/></a>
               <a id='agRegisterBtn' onClick={handleViewRegistration}><h6>REGISTER</h6></a>
             </div>:
-            <div id='userProfile'>
-              {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><h6><MdAdminPanelSettings className='faIcons'/></h6></Link>}
-              <Link id='agCartBtn'><h6><TbShoppingCartBolt className='faIcons'/></h6></Link>
-              <Link id='agSettingsBtn'><h6><MdSettings className='faIcons'/></h6></Link>
+            <div className='userProfileBtn'>
+              {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
+              <Link id='agCartBtn'><TbShoppingCartBolt className='faIcons'/></Link>
+              <a id='agLogoutBtn' onClick={handleUserLogout}><TbLogout /></a>
               <Link id='agProfileBtn' to='/Profile'>
                 <img src={`https://2wave.io/ProfilePics/${renderProfileImage()}`} alt=""/>
               </Link>
-              <a id='agLogoutBtn' onClick={handleUserLogout}><h6>LOGOUT</h6></a>
             </div>}
           </div>
         </div>

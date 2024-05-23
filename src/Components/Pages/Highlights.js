@@ -24,6 +24,7 @@ import {
 import axios from 'axios';
 import UserPostModal from './UserPostModal';
 import UserPostModal2 from './UserPostModal2';
+import UserStoryModal from './UserStoryModal';
 
 
 
@@ -154,15 +155,22 @@ const Highlights = () => {
     
     const [addUserPost, setAddUserPost] = useState(false);
     const [addUserPost2, setAddUserPost2] = useState(false);
+    const [addPostStory, setAddPostStory] = useState(false);
+
     const handleAddUserPost = () => {
         setAddUserPost(true)
     }
     const handleAddUserPost2 = () => {
         setAddUserPost2(true)
     }
+    const handleAddUserStory = () => {
+        setAddPostStory(true)
+    }
+
 
     return (
         <div className='mainContainer highlights'>
+            {addPostStory && <UserStoryModal setAddPostStory={setAddPostStory}/>}
             {addUserPost && <UserPostModal setAddUserPost={setAddUserPost}/>}
             {addUserPost2 && <UserPostModal2 setAddUserPost2={setAddUserPost2}/>}
 
@@ -179,7 +187,7 @@ const Highlights = () => {
                         </div>
                     </div>}
                     <div className="hldpcTop2 website">
-                        {(userStateLogin && userDetailData != undefined) && <div className="hldpcT2 addStory">
+                        {(userStateLogin && userDetailData != undefined) && <div className="hldpcT2 addStory" onClick={handleAddUserStory}>
                             <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" />
                             <span>
                                 <h5><IoMdAddCircle className='faIcons'/></h5>
@@ -209,7 +217,7 @@ const Highlights = () => {
                         </div>}
                     </div>
                     <div className="hldpcTop2 mobile">
-                        {(userStateLogin && userDetailData != undefined) &&<div className="hldpcT2 addStory">
+                        {(userStateLogin && userDetailData != undefined) &&<div className="hldpcT2 addStory" onClick={handleAddUserStory}>
                             <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" />
                             <span>
                                 <h5><IoMdAddCircle className='faIcons'/></h5>
