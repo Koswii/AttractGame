@@ -327,9 +327,7 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
                                     <>
                                         {!agPostContent? 
                                             <>
-                                                {!canPost ?
-                                                <button className='active' type='button' disabled>{postTimeRemaining}</button>:
-                                                <button className='active' type='button' disabled>Post Highlight</button>}
+                                                <button className='active' type='button' disabled>Post Highlight</button>
                                             </>:
                                             <>
                                                 {!canPost ?
