@@ -330,7 +330,7 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
                                                 <button className='active' type='button' disabled>Post Highlight</button>
                                             </>:
                                             <>
-                                                {!canPost ?
+                                                {canPost ?
                                                 <button className='active' type='button' disabled>{postTimeRemaining}</button>:
                                                 <button type='submit'>Post Highlight</button>}
                                             </>
