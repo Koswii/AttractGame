@@ -118,6 +118,7 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
     }, [localTime]);
     const [canPost, setCanPost] = useState(false);
     const [postTimeRemaining, setPostTimeRemaining] = useState('');
+    const getUserPostState = localStorage.getItem('setUserCanPost');
     useEffect(() => {
         const fetchUserProfile = () => {
             const storedProfileData = localStorage.getItem('profileDataJSON')
@@ -148,8 +149,10 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
                 
                 if (postDateDifference <= 0) {
                     setCanPost(true);
+                    localStorage.setItem('setUserCanPost', true);
                 } else {
                     setCanPost(false);
+                    localStorage.setItem('setUserCanPost', false);
                     const hours = Math.floor((postDateDifference / (1000 * 60 * 60)) % 24);
                     const minutes = Math.floor((postDateDifference / 1000 / 60) % 60);
                     const seconds = Math.floor((postDateDifference / 1000) % 60);
@@ -163,7 +166,39 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
             })
         }
         fetchUserDataPost();
+
+
     }, [LoginUsername, icelandTime]);
+    const renderPostingState1 = () => {
+        if (getUserPostState === 'false'){
+            return (
+                <>
+                    <button id='cantPostWeb' className='active' type='button' disabled>{postTimeRemaining}</button>
+                    <button id='cantPostMobile' className='active' type='button' disabled>Limited Posting</button>
+                </>
+            );
+        } else {
+            return (
+                <button className='active' type='button' disabled>Post Highlight</button>
+            );
+        }
+    };
+    const renderPostingState2 = () => {
+        if (getUserPostState === 'false'){
+            return (
+                <>
+                    <button id='cantPostWeb' className='active' type='button' disabled>{postTimeRemaining}</button>
+                    <button id='cantPostMobile' className='active' type='button' disabled>Limited Posting</button>
+                </>
+            );
+        } else {
+            return (
+                <button type='submit'>Post Highlight</button>
+            );
+        }
+    };
+
+
     const [addPostYoutubeLink, setAddPostYoutubeLink] = useState(false);
     const [addPostMedia, setAddPostMedia] = useState(false);
     const handleCloseAnyModals = () => {
@@ -247,6 +282,7 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
             const resMessagePostMedia = responsePostMedia.data;
             if (!resMessagePostDetails.success) {
                 setAddUserPost(false);
+                window.location.reload();
             }
             if (!resMessagePostMedia.success) {
                 console.log(resMessagePostMedia.message);
@@ -325,24 +361,7 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
                                         }
                                     </>:
                                     <>
-                                        {!agPostContent? 
-                                            <>
-                                                {!canPost ?
-                                                <>
-                                                    <button id='cantPostWeb' className='active' type='button' disabled>{postTimeRemaining}</button>
-                                                    <button id='cantPostMobile' className='active' type='button' disabled>Limited Posting</button>
-                                                </>:
-                                                <button className='active' type='button' disabled>Post Highlight</button>}
-                                            </>:
-                                            <>
-                                                {!canPost ?
-                                                <>
-                                                    <button id='cantPostWeb' className='active' type='button' disabled>{postTimeRemaining}</button>
-                                                    <button id='cantPostMobile' className='active' type='button' disabled>Limited Posting</button>
-                                                </>:
-                                                <button type='submit'>Post Highlight</button>}
-                                            </>
-                                        }
+                                        {!agPostContent? renderPostingState1() : renderPostingState2()}
                                     </>
                                     }
                                 </div>

@@ -523,6 +523,7 @@ h6{
     align-items: center;
 }
 .mdcppcpb.right button{
+    height: 2vw;
     padding: 2% 7%;
     width: 70%;
     font-size: 0.7vw;
@@ -1359,6 +1360,7 @@ section.profilePageContainer.mid{
         width: 100%;
     } 
     .mdcppcpb.right button{
+        height: 8vw;
         padding: 2% 10%;
         font-size: 3vw;
     }

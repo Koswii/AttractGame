@@ -119,6 +119,7 @@ const UserPostModal2 = ({setAddUserPost2}) => {
 
     const [canPost, setCanPost] = useState(false);
     const [postTimeRemaining, setPostTimeRemaining] = useState('');
+    const getUserPostState = localStorage.getItem('setUserCanPost');
     useEffect(() => {
         const fetchUserProfile = () => {
             const storedProfileData = localStorage.getItem('profileDataJSON')
@@ -165,6 +166,34 @@ const UserPostModal2 = ({setAddUserPost2}) => {
         }
         fetchUserDataPost();
     }, [LoginUsername, icelandTime]);
+    const renderPostingState1 = () => {
+        if (getUserPostState === 'false'){
+            return (
+                <>
+                    <button id='cantPostWeb' className='active' type='button' disabled>{postTimeRemaining}</button>
+                    <button id='cantPostMobile' className='active' type='button' disabled>Limited Posting</button>
+                </>
+            );
+        } else {
+            return (
+                <button className='active' type='button' disabled>Post Highlight</button>
+            );
+        }
+    };
+    const renderPostingState2 = () => {
+        if (getUserPostState === 'false'){
+            return (
+                <>
+                    <button id='cantPostWeb' className='active' type='button' disabled>{postTimeRemaining}</button>
+                    <button id='cantPostMobile' className='active' type='button' disabled>Limited Posting</button>
+                </>
+            );
+        } else {
+            return (
+                <button type='submit'>Post Highlight</button>
+            );
+        }
+    };
     
     const [addPostYoutubeLink, setAddPostYoutubeLink] = useState(false);
     const [addPostMedia, setAddPostMedia] = useState(true);
@@ -252,6 +281,7 @@ const UserPostModal2 = ({setAddUserPost2}) => {
             const resMessagePostMedia = responsePostMedia.data;
             if (!resMessagePostDetails.success) {
                 setAddUserPost2(false);
+                window.location.reload();
             }
             if (!resMessagePostMedia.success) {
                 console.log(resMessagePostMedia.message);
@@ -324,24 +354,11 @@ const UserPostModal2 = ({setAddUserPost2}) => {
                                     {viewVerifiedUser ? <>
                                         {!agPostContent? 
                                             <><button className='active' type='button' disabled>Post Highlight</button></>:
-                                            <>
-                                            <button type='submit'>Post Highlight</button>
-                                            </>
+                                            <><button type='submit'>Post Highlight</button></>
                                         }
                                     </>:
                                     <>
-                                        {!agPostContent? 
-                                            <>
-                                                {!canPost ?
-                                                <button className='active' type='button' disabled>{postTimeRemaining}</button>:
-                                                <button className='active' type='button' disabled>Post Highlight</button>}
-                                            </>:
-                                            <>
-                                                {!canPost ?
-                                                <button className='active' type='button' disabled>{postTimeRemaining}</button>:
-                                                <button type='submit'>Post Highlight</button>}
-                                            </>
-                                        }
+                                        {!agPostContent? renderPostingState1() : renderPostingState2()}
                                     </>
                                     }
                                 </div>

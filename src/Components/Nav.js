@@ -212,7 +212,6 @@ const Nav = () => {
             localStorage.setItem('attractGameUsername', data.username);
             localStorage.setItem('isLoggedIn', 'true');
             window.location.reload();
-            navigate('/')
           } else {
             setMessageResponse(data.message);
           }
