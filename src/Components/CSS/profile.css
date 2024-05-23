@@ -699,11 +699,11 @@ section.profilePageContainer.top{
 section.profilePageContainer.top img{
     height: auto;
     width: 100%;
-    margin-top: -15%;
+    margin-top: -20%;
 }
 .ppctShadow{
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     height: 100%;
     width: 100%;
@@ -759,8 +759,9 @@ section.profilePageContainer.mid{
     align-items: start;
     padding: 2% 10%;
     padding-top: 0;
-    margin-top: -3%;
+    margin-top: -2%;
     position: relative;
+    background: black;
 }
 .profilePageContent.left{
     height: auto;
@@ -788,6 +789,7 @@ section.profilePageContainer.mid{
     top: 0;
     left: 0;
     transform: translate(10%, -75%);
+    z-index: 3;
 }
 .ppclProfilePic img{
     height: 100%;
@@ -1078,7 +1080,7 @@ section.profilePageContainer.mid{
     height: auto;
     width: 100%;
     margin: 1% 0;
-    background: black;
+    border: solid 2px black;
     padding: 3%;
     border-radius: 1vw;
 }

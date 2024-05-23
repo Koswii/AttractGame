@@ -86,67 +86,55 @@ const Nav = () => {
   const [viewTextPassword, setViewTextPassword] = useState(false);
 
   useEffect(() => {
-    const fetchDataUser = () => {
-      axios.get(AGUserListAPI)
-      .then((response) => {
-        const allUsersStatus = response.data.find(item => item.username == agUserUsername);
-        const userData = response.data.find(item => item.username == LoginUsername);
-        setDataUser(userData);
-
-        if(userData){
-          if(userData['account'] == 'Admin'){
-            localStorage.setItem('agAdminLoggedIn', true)
-            setViewAdminCredentials(true)
-          }else{
-            setViewAdminCredentials(false)
-          }
-        }
-
-        if(allUsersStatus){
-          if(allUsersStatus['status'] == 'Blocked'){
-            setDataUserStatus(true);
-            handleUserLogout();
-          }else{
-            setDataUserStatus(false)
-          }
-        }
-
-
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    }
-    fetchDataUser();
     const userFromLocalStorage = localStorage.getItem('isLoggedIn');
-    const adminNavBtn = localStorage.getItem('agAdminLoggedIn')
+    const adminNavBtn = localStorage.getItem('agAdminLoggedIn');
 
-    if (userFromLocalStorage) {
-      setViewUserCredentials(true);
-    }
+    const fetchData = async () => {
+      if (userFromLocalStorage) {
+        try {
+          const [userListResponse, userDataResponse] = await Promise.all([
+            axios.get(AGUserListAPI),
+            axios.get(AGUserDataAPI)
+          ]);
 
-    if (adminNavBtn) {
-      setViewAdminCredentials(true);
-    }
+          const allUsersStatus = userListResponse.data.find(item => item.username === agUserUsername);
+          const userData = userListResponse.data.find(item => item.username === LoginUsername);
+          const userProfile = userDataResponse.data.find(item => item.username === LoginUsername);
 
+          setDataUser(userData);
+          if (userData) {
+            const isAdmin = userData.account === 'Admin';
+            localStorage.setItem('agAdminLoggedIn', isAdmin);
+            setViewAdminCredentials(isAdmin);
+          }
 
-    const fetchUserProfile = () => {
-      axios.get(AGUserDataAPI)
-      .then((response) => {
-        const userData = response.data.find(item => item.username == LoginUsername);
-        const profileDetailsJSON = JSON.stringify(userData)
-        localStorage.setItem('profileDataJSON', profileDetailsJSON);
+          if (allUsersStatus) {
+            const isBlocked = allUsersStatus.status === 'Blocked';
+            setDataUserStatus(isBlocked);
+            if (isBlocked) handleUserLogout();
+          }
 
-        const storedProfileData = localStorage.getItem('profileDataJSON');
-        const parsedProfileData = JSON.parse(storedProfileData);
-        setViewProfileImg(parsedProfileData);
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    }
-    fetchUserProfile();
+          if (userProfile) {
+            const profileDetailsJSON = JSON.stringify(userProfile);
+            localStorage.setItem('profileDataJSON', profileDetailsJSON);
+            setViewProfileImg(userProfile);
+          }
+
+          setViewUserCredentials(true);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      if (adminNavBtn) {
+        setViewAdminCredentials(true);
+      }
+    };
+
+    fetchData();
   }, [LoginUsername, agUserUsername]);
+
+
   const renderProfileImage = () => {
     if (userLoggedIn == 'true'){
       return (
@@ -195,22 +183,24 @@ const Nav = () => {
   };
   const handleUserLogin = (e) => {
     e.preventDefault();
-
-
+  
     if (!agUserUsername || !agUserPassword) {
       setMessageResponse('Please fill in all fields.');
       return;
     }
-
-    if (dataStatus == true) {
+  
+    if (dataStatus === true) {
       setMessageResponse('Your Account was Blocked');
     } else {
       fetch(loginAGUserAPI, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        body: `username=${agUserUsername}&password=${agUserPassword}`,
+        body: JSON.stringify({
+          username: agUserUsername,
+          password: agUserPassword,
+        }),
       })
         .then(response => response.json())
         .then(data => {
@@ -218,32 +208,46 @@ const Nav = () => {
             localStorage.setItem('attractGameUsername', data.username);
             localStorage.setItem('isLoggedIn', 'true');
             window.location.reload();
+            navigate('/')
           } else {
             setMessageResponse(data.message);
           }
-      })
-      .catch(error => console.error('Error:', error));
+        })
+        .catch(error => console.error('Error:', error));
     }
   };
   const handleUserLogout = () => {
     fetch(logoutAGUserAPI, {
-        method: 'GET',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
-    .then(response => {
-      if (response.redirected) {
-        window.location.href = '/';
-      }
-    });
-    localStorage.removeItem('agAdminLoggedIn');
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('attractGameUsername');
-    localStorage.removeItem('featuredGameData');
-    localStorage.removeItem('profileDataJSON')
-    window.location.href = '/';
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          localStorage.removeItem('agAdminLoggedIn');
+          localStorage.removeItem('isLoggedIn');
+          localStorage.removeItem('attractGameUsername');
+          localStorage.removeItem('profileDataJSON')
+          setMessageResponse(data.message);
+          navigate('/');
+          window.location.reload();
+        } else {
+          setMessageResponse('Logout failed. Please try again.');
+        }
+      })
+      .catch(error => console.error('Error:', error));
   };
   useEffect(() => {
     const handleUsernameStorageChange = (event) => {
       if (event.key === 'attractGameUsername') {
+        handleUserLogout();
+      }
+      if (event.key === 'profileDataJSON') {
+        handleUserLogout();
+      }
+      if (event.key === 'agAdminLoggedIn') {
         handleUserLogout();
       }
     };
@@ -262,12 +266,15 @@ const Nav = () => {
   }
 
 
+
   if(viewRegForm == true ||
     viewLoginForm == true){
     window.document.body.style.overflow = 'hidden';
   } else{
     window.document.body.style.overflow = 'auto';
   }
+
+
 
   const handleClickHome = () => {
     localStorage.removeItem('dashboard');

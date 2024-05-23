@@ -17,6 +17,7 @@ import Games from './Components/Pages/Games';
 import Game from './Components/Pages/Game';
 
 
+
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -24,7 +25,11 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [viewUserCredentials, setViewUserCredentials] = useState(false)
   const [viewAdminCredentials, setViewAdminCredentials] = useState(false)
+  const LoginUsername = localStorage.getItem('attractGameUsername');
+  const userLoggedInState = localStorage.getItem('isLoggedIn');
+  const userLoggedInDetails = localStorage.getItem('profileDataJSON');
   const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
+  const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
 
   useEffect(() => {
     // Display loader when the page is being reloaded
@@ -70,37 +75,30 @@ function App() {
     };
   }, []);
 
-
-  const LoginUsername = localStorage.getItem('attractGameUsername');
   const [dataUser, setDataUser] = useState('');
   const [dataAccount, setDataAccount] = useState('')
 
   useEffect(() => {
     const fetchDataUser = () => {
-      axios.get(AGUserListAPI)
-      .then((response) => {
-        const userData = response.data.find(item => item.username == LoginUsername);
-        setDataAccount([userData['account']]);
-        setDataUser([userData['username']]);
-      })
-      .catch(error => {
-        // console.log(error)
-      })
+      if(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined){
+        axios.get(AGUserListAPI)
+        .then((response) => {
+          const userData = response.data.find(item => item.username == LoginUsername);
+          setDataAccount([userData['account']]);
+          setDataUser([userData['username']]);
+        })
+        .catch(error => {
+          // console.log(error)
+        })
+      }
     }
     fetchDataUser();
-  }, []);
-  
-  useEffect(() => {
-    const userFromLocalStorage = localStorage.getItem('isLoggedIn');
-    if (userFromLocalStorage == 'true') {
-      setViewUserCredentials(true);
-    }
 
     if (dataAccount == 'Admin'){
       const getUserAccountState = localStorage.getItem('agAdminLoggedIn');
       setViewAdminCredentials(getUserAccountState);
     }
-  }, [dataAccount]);
+  }, [LoginUsername, dataAccount]);
 
   // useEffect(() => {
   //   const handleKeyPress = (event) => {
@@ -133,14 +131,14 @@ function App() {
         <Route exact path="/Marketplace" element={<Marketplace/>}/>
         <Route exact path="/Games" element={<Games/>}/>
         <Route exact path="/Games/:gameCanonical" element={<Game/>}/>
-        <Route exact path="/Profile" element={<Profile/>}/>
+        {(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined) ?
+        <Route exact path="/Profile" element={<Profile/>}/>:
+        <Route path="*" element={<Home/>}/>}
         {viewAdminCredentials && <Route path="/Admin" element={<Admin/>}/>}
-        {/* <Route path="/Admin" element={<Admin/>}/> */}
 
 
 
-
-        {/* <Route path="*" element={<Home/>}/> */}
+        <Route path="*" element={<Home/>}/>
       </Routes>
       {/* <Footer /> */}
     </div>

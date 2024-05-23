@@ -39,6 +39,8 @@ import {
     IoIosImages,
     IoMdAddCircle  
 } from "react-icons/io";
+import UserPostModal from './UserPostModal';
+import UserPostModal2 from './UserPostModal2';
 
 
 
@@ -85,6 +87,7 @@ const Profile = () => {
 
     const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
+    const AGUserStoryAPI = process.env.REACT_APP_AG_FETCH_STORY_API;
     const LoginUsername = localStorage.getItem('attractGameUsername');
 
     const [viewUserID, setViewUserID] = useState('')
@@ -105,6 +108,7 @@ const Profile = () => {
     const [randomNumber, setRandomNumber] = useState('');
     const [randomPostID, setRandomPostID] = useState('');
     const [viewFetchPost, setViewFetchPost] = useState([]);
+    const [viewFetchStory, setViewFetchStory] = useState([]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -123,52 +127,11 @@ const Profile = () => {
         return () => clearInterval(interval);
     }, []);
 
-
-    const [localTime, setLocalTime] = useState(new Date());
-    const [icelandTime, setIcelandTime] = useState('');
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setLocalTime(new Date());
-        }, 1000);
-
-        return () => clearInterval(timer);
-    }, []);
-    useEffect(() => {
-        const options = {
-            timeZone: 'Atlantic/Reykjavik',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false, // 24-hour format
-        };
-        const dateOptions = {
-            timeZone: 'Atlantic/Reykjavik',
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-        };
-
-        const icelandFormatter = new Intl.DateTimeFormat([], options);
-        const dateFormatter = new Intl.DateTimeFormat([], dateOptions);
-        const icelandFormattedTime = icelandFormatter.format(localTime);
-        const icelandFormattedDate = dateFormatter.format(localTime);
-
-        // Combine date and time in "yyyy-mm-dd HH:MM:SS" format
-        const [month, day, year] = icelandFormattedDate.split('/');
-        const formattedDate = `${year}-${month}-${day}`;
-        setIcelandTime(`${formattedDate} ${icelandFormattedTime}`);
-    }, [localTime]);
-
-
-    const [canPost, setCanPost] = useState(false);
-    const [postTimeRemaining, setPostTimeRemaining] = useState('');
     useEffect(() => {
         const fetchUserProfile = () => {
             const storedProfileData = localStorage.getItem('profileDataJSON')
-
             if(storedProfileData) {
                 const parsedProfileData = JSON.parse(storedProfileData);
-
                 setViewUserID(parsedProfileData.id);
                 setViewUserRegistration(parsedProfileData.date)
                 setViewUsername(parsedProfileData.username);
@@ -184,18 +147,6 @@ const Profile = () => {
                 setViewYoutube(parsedProfileData.youtube);
                 setViewTwitch(parsedProfileData.twitch);
                 setViewRefCode(parsedProfileData.refcode);
-
-
-            }else{
-                axios.get(AGUserDataAPI)
-                .then((response) => {
-                    const userData = response.data.find(item => item.username == LoginUsername);
-                    const profileDetailsJSON = JSON.stringify(userData)
-                    localStorage.setItem('profileDataJSON', profileDetailsJSON);
-                })
-                .catch(error => {
-                    console.log(error)
-                })
             }
         }
         fetchUserProfile();
@@ -206,24 +157,6 @@ const Profile = () => {
                 const postSortData = response.data.sort((a, b) => b.id - a.id);
                 const postData = postSortData.filter(post => post.user == LoginUsername);
                 setViewFetchPost(postData);
-
-                const latestPostDate = postData.slice(0, 1).map(post => post.user_post_date);
-                const latestDateNumbered = parseDateString(`${latestPostDate}`);
-                const nextPostDateNumbered = new Date(latestDateNumbered.getTime() + 12 * 60 * 60 * 1000);
-                const serverDateNumbered = parseDateString(icelandTime);
-                const postDateDifference = nextPostDateNumbered - serverDateNumbered;
-                
-                if (postDateDifference <= 0) {
-                    setCanPost(true);
-                } else {
-                    setCanPost(false);
-                    const hours = Math.floor((postDateDifference / (1000 * 60 * 60)) % 24);
-                    const minutes = Math.floor((postDateDifference / 1000 / 60) % 60);
-                    const seconds = Math.floor((postDateDifference / 1000) % 60);
-                    setPostTimeRemaining(`${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`);
-                }
-
-
             })
             .catch(error => {
                 console.log(error)
@@ -231,16 +164,43 @@ const Profile = () => {
         }
         fetchUserDataPost();
 
-    }, [LoginUsername, icelandTime]);
+        const fetchUserDataStory = () => {
+            axios.get(AGUserStoryAPI)
+            .then((response) => {
+                const storySortData = response.data.sort((a, b) => b.id - a.id);
+                axios.get(AGUserDataAPI)
+                .then(response => {
+                    // Map user data to posts
+                    const storiesWithUserData = storySortData.map(story => {
+                        const userData = response.data.find(user => user.username === story.user);
+                        return { ...story, userData };
+                    });
+                    setViewFetchStory(storiesWithUserData);
+                    // console.log(storiesWithUserData);
+                    // setPostLoading(false); 
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                    // setPostLoading(false); 
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        };
+        fetchUserDataStory();
+
+    }, [LoginUsername]);
 
 
     const [pickProfileImg00, setPickProfileImg00] = useState('DefaultProfilePic.png');
     const [editSocialsModal, setEditSocialsModal] = useState(false);
     const [addUserPost, setAddUserPost] = useState(false);
+    const [addUserPost2, setAddUserPost2] = useState(false);
     const [addCoverImg, setAddCoverImg] = useState(false);
-    const [addPostYoutubeLink, setAddPostYoutubeLink] = useState(false);
-    const [addPostMedia, setAddPostMedia] = useState(false);
     const [addPostStory, setAddPostStory] = useState(false);
+
+    
 
     const switchToDP01 = () => {
         setPickProfileImg00('AG Logo1.png')
@@ -279,41 +239,22 @@ const Profile = () => {
     const handleAddUserPost = () => {
         setAddUserPost(true)
     }
+    const handleAddUserPost2 = () => {
+        setAddUserPost2(true)
+    }
+
     const handleAddCoverImg = () => {
         setAddCoverImg(true)
-    }
-    const handleAddUserPost2 = () => {
-        setAddUserPost(true)
-        setAddPostMedia(true)
     }
     const handleAddUserStory = () => {
         setAddPostStory(true)
     }
     const handleCloseAnyModals = (e) => {
         e.preventDefault();
-        
         setEditSocialsModal(false)
-        setAddUserPost(false)
         setAddPostStory(false)
-        setAddPostYoutubeLink(false)
-        setAddPostMedia(false)
         setAddCoverImg(false)
         setImageStory(null)
-    }
-    const handlePostYoutubeLink = () => {
-        setAddPostYoutubeLink(true)
-        setAddPostMedia(false)
-    }
-    const closeAddYoutubeLink = () => {
-        setAddPostYoutubeLink(false)
-    }
-    const handlePostMedia = () => {
-        setAddPostMedia(true)
-        setAddPostYoutubeLink(false)
-    }
-    const closeAddPostMedia = () => {
-        setAddPostMedia(false)
-        setImage(null);
     }
     
     const [image, setImage] = useState(null);
@@ -341,15 +282,6 @@ const Profile = () => {
             setImageCoverPhotoName(file.name);
         }
     };
-    const [imagePost, setImagePost] = useState(null);
-    const [imagePostName, setImagePostName] = useState('');
-    const handleUploadMediaChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setImagePost(file);
-            setImagePostName(file.name);
-        }
-    };
     const [imageStory, setImageStory] = useState(null);
     const [imageStoryName, setImageStoryName] = useState('');
     const handleUploadUserStory = (event) => {
@@ -363,7 +295,6 @@ const Profile = () => {
         setImage(null);
         setImageDP(null);
         setImageDPName('');
-        setImagePost(null)
         setImageStory(null);
         
     };
@@ -375,22 +306,12 @@ const Profile = () => {
     const [agEditYoutube, setAGEditYoutube] = useState('');
     const [agEditTwitch, setAGEditTwitch] = useState('');
     const [isEditSubmitting, setIsEditSubmitting] = useState(false);
-    const [agPostContent, setAGPostContent] = useState('');
-    const [agPostYoutube, setAGPostYoutube] = useState('');
-    const postMaxCharacters = 250;
     const AGUserDataUPDATEAPI = process.env.REACT_APP_AG_USERS_PROFILE_UPDATE_API;
     const AGUserCustomDPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_DP_API;
     const AGUserCustomCPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_CP_API;
-    const AGAddMediaAPI = process.env.REACT_APP_AG_ADD_MEDIA_POST_API;
     const AGAddMediaStoryAPI = process.env.REACT_APP_AG_ADD_MEDIA_STORY_API;
-    const AGAddUserPostAPI = process.env.REACT_APP_AG_ADD_USER_POST_API;
     const AGAddUserStoryAPI = process.env.REACT_APP_AG_ADD_USER_STORY_API;
 
-    const handlePostCharacters = (event) => {
-        if (event.target.value.length <= postMaxCharacters) {
-            setAGPostContent(event.target.value);
-        }
-    };
     const renderProfileUser = () => {
         if (viewVerifiedUser == 'Gold' || viewVerifiedUser == 'Blue'){
             if(viewProfileImg == ''){
@@ -432,17 +353,6 @@ const Profile = () => {
                 }
             }
         } 
-    };
-    const renderImagePost = () => {
-        if (imagePostName == ''){
-            return (
-                ''
-            );
-        } else {
-            return (
-                `agHighlight_${viewUsername}${randomPostID}_${imagePostName}`
-            );
-        }
     };
     const handleEditProfileSubmit = async (e) => {
         e.preventDefault();
@@ -513,64 +423,6 @@ const Profile = () => {
         }, 200);
     };
 
-    const [postContentMessage, setPostContentMessage] = useState('');
-    const [postContentState, setPostContentState] = useState(false);
-    const handleClosePostState = () => {
-        window.location.reload();
-        setPostContentState(false);
-    }
-    const handleAddPostSubmit = async (e) => {
-        e.preventDefault();
-    
-        const formPostData = {
-            user_username: viewUsername,
-            user_verified: viewVerifiedUser,
-            user_post_id: `agHighlight_${viewUsername}${randomPostID}`,
-            user_post_date: new Date(),
-            user_post_text: agPostContent,
-            user_post_youtube: agPostYoutube,
-            user_post_image: renderImagePost(),
-            user_post_video: renderImagePost(),
-        };
-    
-        const formUserPostData = new FormData();
-        formUserPostData.append('profileuser', viewUsername);
-        formUserPostData.append('profileimg', imagePost);
-        formUserPostData.append('profileimgid', randomPostID);
-
-    
-        try {
-            const [responsePostDetails, responsePostMedia] = await Promise.all([
-                axios.post(AGAddUserPostAPI, JSON.stringify(formPostData)),
-                axios.post(AGAddMediaAPI, formUserPostData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }),
-            ]);
-            const resMessagePostDetails = responsePostDetails.data;
-            const resMessagePostMedia = responsePostMedia.data;
-            if (!resMessagePostDetails.success) {
-                setPostContentMessage(resMessagePostDetails.message);
-                setAddUserPost(false);
-                setPostContentState(true);
-            }
-            if (!resMessagePostMedia.success) {
-                console.log(resMessagePostMedia.message);
-            }
-            if (!resMessagePostDetails.failed) {
-                setPostContentMessage(resMessagePostDetails.message);
-                setAddUserPost(false);
-                setPostContentState(true);
-            }
-            if (!resMessagePostMedia.failed) {
-                console.log(resMessagePostMedia.message);
-            }
-        } catch (error) {
-            console.error(error);
-        } 
-    
-    };
     const handleAddStorySubmit = async (e) => {
         e.preventDefault();
     
@@ -600,17 +452,13 @@ const Profile = () => {
             const resMessageStoryDetails = responseStoryDetails.data;
             const resMessageStoryMedia = responseStoryMedia.data;
             if (!resMessageStoryDetails.success) {
-                setPostContentMessage(resMessageStoryDetails.message);
                 setAddPostStory(false);
-                setPostContentState(true);
             }
             if (!resMessageStoryMedia.success) {
                 console.log(resMessageStoryMedia.message);
             }
             if (!resMessageStoryMedia.failed) {
-                setPostContentMessage(resMessageStoryDetails.message);
                 setAddPostStory(false);
-                setPostContentState(true);
             }
             if (!resMessageStoryMedia.failed) {
                 console.log(resMessageStoryMedia.message);
@@ -620,8 +468,6 @@ const Profile = () => {
         } 
     
     };
-
-
 
     return (
         <div className='mainContainer profile'>
@@ -724,85 +570,6 @@ const Profile = () => {
                     </form>
                 </div>
             </div>}
-            {addUserPost && <div className="modalContainerProfile posting">
-                <div className="modalContentPosting"
-                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
-                    :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
-                    <button id='closeModalPosting' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
-                    <form onSubmit={handleAddPostSubmit}>
-                        <div className="mdcpPostingContainer">
-                            <div className='mdcppcPostUser'>
-                                {viewProfileImg ? 
-                                <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
-                                :<img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" onClick={handleOpenSocialSettings}/>}
-                                <span>
-                                    <h5>
-                                        {viewUsername} 
-                                        {viewVerifiedUser ? <>
-                                            {viewVerifiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
-                                            {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
-                                        </>:<></>}
-                                    </h5>
-                                    <p>{viewRefCode}</p>
-                                </span>
-                            </div>
-                            <div className="mdcppcPostContent">
-                                <div className='mdcppcpcPost'>
-                                    <textarea name="" id="" value={agPostContent} maxLength={250} placeholder='Post about your Gameplay...' onChange={handlePostCharacters}></textarea>
-                                    <p>{agPostContent.length} / {postMaxCharacters}</p>
-                                </div>
-                                {addPostYoutubeLink && <div className="mdcppcpcAddition youtube">
-                                    <input type="text" placeholder='Place YouTube Link here...' onChange={(e) => setAGPostYoutube(e.target.value)}/>
-                                    <button onClick={closeAddYoutubeLink}><FaTimes className='faIcons'/></button>
-                                </div>}
-                                {addPostMedia && <div className="mdcppcpcAddition media">
-                                    <div className='mdcppcpcaMedia'>
-                                        <div>
-                                            {imagePost ? 
-                                                <img src={URL.createObjectURL(imagePost)} alt="No image Selected" /> :
-                                                <h6>Select/Drop Image only</h6>
-                                            }
-                                        </div>
-                                        <input type="file" accept='image/*' onChange={handleUploadMediaChange}/>    
-                                    </div>
-                                    <button onClick={closeAddPostMedia}><FaTimes className='faIcons'/></button>
-                                </div>}
-                            </div>
-                            <div className="mdcppcPostButton">
-                                <div className='mdcppcpb left'>
-                                    <button type='button' className={addPostYoutubeLink ? 'active' : ''} onClick={handlePostYoutubeLink}><IoLogoYoutube className='faIcons'/></button>
-                                    <button type='button' className={addPostMedia ? 'active' : ''} onClick={handlePostMedia}><IoIosImages className='faIcons'/></button>
-                                </div>
-                                <div className='mdcppcpb right'>
-                                    {viewVerifiedUser ? <>
-                                        {!agPostContent? 
-                                            <><button className='active' type='button' disabled>Post Highlight</button></>:
-                                            <>
-                                            <button type='submit'>Post Highlight</button>
-                                            </>
-                                        }
-                                    </>:
-                                    <>
-                                        {!agPostContent? 
-                                            <>
-                                                {!canPost ?
-                                                <button className='active' type='button' disabled>{postTimeRemaining}</button>:
-                                                <button className='active' type='button' disabled>Post Highlight</button>}
-                                            </>:
-                                            <>
-                                                {!canPost ?
-                                                <button className='active' type='button' disabled>{postTimeRemaining}</button>:
-                                                <button type='submit'>Post Highlight</button>}
-                                            </>
-                                        }
-                                    </>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>}
             {addPostStory && <div className="modalContainerProfile addStory">
                 <div className="modalContentStory"
                     style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
@@ -811,8 +578,8 @@ const Profile = () => {
                     <form className="mdcsStoryContainer" onSubmit={handleAddStorySubmit}>
                         <div className='mdcsscDP'>
                             {viewProfileImg ? 
-                            <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
-                            :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt="" onClick={handleOpenSocialSettings}/>}
+                            <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt=""/>
+                            :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                             <h6>
                                 {viewUsername} 
                                 {viewVerifiedUser ? <>
@@ -826,20 +593,16 @@ const Profile = () => {
                             <img src={URL.createObjectURL(imageStory)} alt="No image Selected" /> :
                             <h6>Add Gamer Story...</h6>
                         }
-                        <input type="file" onChange={handleUploadUserStory}/>
+                        <input type="file" onChange={handleUploadUserStory} required/>
                         <button type='submit'><FaRegImages className='faIcons'/> ADD STORY</button>
                     </form>
                 </div>
             </div>}
-            {postContentState &&<div className="modalContainerProfile postSuccess">
-                <div className="modalContentSuccess"
-                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
-                    :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
-                    <p>{postContentMessage}</p>
-                    <button onClick={handleClosePostState}>OKAY</button>
-                </div>
-            </div>}
 
+    
+            
+            {addUserPost && <UserPostModal setAddUserPost={setAddUserPost}/>}
+            {addUserPost2 && <UserPostModal2 setAddUserPost2={setAddUserPost2}/>}
 
             <section className="profilePageContainer top">
                 {viewCoverImg ? 
@@ -938,14 +701,14 @@ const Profile = () => {
                                 </div>
                                 <div className='viewAStory'>
                                     <div className="storiesContents">
-                                        <div>
-                                            <span>
-                                                <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
-                                            </span>
-                                            <img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
-                                        </div>
-                                        <div></div>
-                                        <div></div>
+                                        {viewFetchStory.slice(0, 3).map((story, i) => (
+                                            <div>
+                                                <span>
+                                                    <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />
+                                                </span>
+                                                <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>

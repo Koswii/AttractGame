@@ -296,6 +296,12 @@ nav{
     margin-left: 5%;
     border-radius: 50px;
 }
+.navContent.right div a#agRegisterBtn:hover{
+    background: white;
+}
+.navContent.right div a#agRegisterBtn:hover h6{
+    color: black;
+}
 .navContent.right a{
     cursor: pointer;
 }
@@ -358,8 +364,12 @@ nav{
     padding: 3% 10%;
     border-radius: 50px;
 }
-
-
+.navContent.right div a#agLogoutBtn:hover{
+    background: white;
+}
+.navContent.right div a#agLogoutBtn:hover h6{
+    color: black;
+}
 
 
 @media screen and (max-width: 500px){

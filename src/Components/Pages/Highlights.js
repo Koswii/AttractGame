@@ -22,6 +22,8 @@ import {
     IoMdAddCircle  
 } from "react-icons/io";
 import axios from 'axios';
+import UserPostModal from './UserPostModal';
+import UserPostModal2 from './UserPostModal2';
 
 
 
@@ -58,6 +60,7 @@ const Highlights = () => {
     const userStateAdmin = localStorage.getItem('agAdminLoggedIn');
     const userStateLogin = localStorage.getItem('isLoggedIn');
     const LoginUsername = localStorage.getItem('attractGameUsername');
+    const userDetailData = localStorage.getItem('profileDataJSON');
     const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
     const AGUserStoryAPI = process.env.REACT_APP_AG_FETCH_STORY_API;
@@ -81,127 +84,109 @@ const Highlights = () => {
     const [viewFetchStory, setViewFetchStory] = useState([]);
     const [postLoading, setPostLoading] = useState(true);
 
+    
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(1);
+
     useEffect(() => {
         const fetchUserProfile = () => {
-            const storedProfileData = localStorage.getItem('profileDataJSON')
-
-            if(storedProfileData) {
-                const parsedProfileData = JSON.parse(storedProfileData);
-
-                setViewUserID(parsedProfileData.id);
-                setViewUserRegistration(parsedProfileData.date)
-                setViewUsername(parsedProfileData.username);
-                setViewAGElite(parsedProfileData.agelite);
-                setViewProfileImg(parsedProfileData.profileimg);
-                setViewCoverImg(parsedProfileData.coverimg);
-                setViewEmailAddress(parsedProfileData.email);
-                setViewCryptoAddress(parsedProfileData.cryptoaddress);
-                setViewVerifiedUser(parsedProfileData.verified);
-                setViewFacebook(parsedProfileData.facebook);
-                setViewInstagram(parsedProfileData.instagram);
-                setViewTiktok(parsedProfileData.tiktok);
-                setViewYoutube(parsedProfileData.youtube);
-                setViewTwitch(parsedProfileData.twitch);
-                setViewRefCode(parsedProfileData.refcode);
-
-
-            }else{
-                axios.get(AGUserDataAPI)
-                .then((response) => {
-                    const userData = response.data.find(item => item.username == LoginUsername);
-                    const profileDetailsJSON = JSON.stringify(userData)
-                    localStorage.setItem('profileDataJSON', profileDetailsJSON);
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            if(userStateLogin && userDetailData != undefined){
+                const storedProfileData = localStorage.getItem('profileDataJSON')
+                if (storedProfileData) {
+                    const parsedProfileData = JSON.parse(storedProfileData);
+                    setViewUserID(parsedProfileData.id);
+                    setViewUserRegistration(parsedProfileData.date)
+                    setViewUsername(parsedProfileData.username);
+                    setViewAGElite(parsedProfileData.agelite);
+                    setViewProfileImg(parsedProfileData.profileimg);
+                    setViewCoverImg(parsedProfileData.coverimg);
+                    setViewEmailAddress(parsedProfileData.email);
+                    setViewCryptoAddress(parsedProfileData.cryptoaddress);
+                    setViewVerifiedUser(parsedProfileData.verified);
+                    setViewFacebook(parsedProfileData.facebook);
+                    setViewInstagram(parsedProfileData.instagram);
+                    setViewTiktok(parsedProfileData.tiktok);
+                    setViewYoutube(parsedProfileData.youtube);
+                    setViewTwitch(parsedProfileData.twitch);
+                    setViewRefCode(parsedProfileData.refcode);
+                } 
             }
         }
         fetchUserProfile();
 
-        const fetchUserDataPost = () => {
-            axios.get(AGUserPostAPI)
-            .then((response) => {
-                const postSortData = response.data.sort((a, b) => b.id - a.id);
-                axios.get(AGUserDataAPI)
+        const fetchUserData = (url, setData) => {
+            return axios.get(url)
                 .then(response => {
-                    // Map user data to posts
-                    const postsWithUserData = postSortData.map(post => {
-                        const userData = response.data.find(user => user.username === post.user);
-                        return { ...post, userData };
-                    });
-                    setViewFetchPost(postsWithUserData);
-                    setPostLoading(false); 
+                    const sortedData = response.data.sort((a, b) => b.id - a.id);
+                    return axios.get(AGUserDataAPI)
+                        .then(userDataResponse => {
+                            const dataWithUserData = sortedData.map(item => {
+                                const userData = userDataResponse.data.find(user => user.username === item.user);
+                                return { ...item, userData };
+                            });
+                            setData(dataWithUserData);
+                            return dataWithUserData;
+                        });
                 })
                 .catch(error => {
-                    console.error('Error fetching user data:', error);
-                    setPostLoading(false); 
+                    console.error('Error fetching data:', error);
+                    return [];
                 });
-            })
-            .catch(error => {
-                console.log(error);
+        };
+        
+        const fetchAllUserData = () => {
+            Promise.all([
+                fetchUserData(AGUserStoryAPI, setViewFetchStory),
+                fetchUserData(AGUserPostAPI, setViewFetchPost)
+            ])
+            .then(([storyData, postData]) => {
+                if (storyData.length > 0 || postData.length > 0) {
+                    setPostLoading(false);
+                }
             });
         };
-        fetchUserDataPost();
-
-
-
-        const fetchUserDataStory = () => {
-            axios.get(AGUserStoryAPI)
-            .then((response) => {
-                const storySortData = response.data.sort((a, b) => b.id - a.id);
-                axios.get(AGUserDataAPI)
-                .then(response => {
-                    // Map user data to posts
-                    const storiesWithUserData = storySortData.map(story => {
-                        const userData = response.data.find(user => user.username === story.user);
-                        return { ...story, userData };
-                    });
-                    setViewFetchStory(storiesWithUserData);
-                    console.log(storiesWithUserData);
-                    // setPostLoading(false); 
-                })
-                .catch(error => {
-                    console.error('Error fetching user data:', error);
-                    // setPostLoading(false); 
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        };
-        fetchUserDataStory();
-
-
-
-
+        
+        fetchAllUserData();
 
     }, [LoginUsername]);
 
-
-
+    
+    const [addUserPost, setAddUserPost] = useState(false);
+    const [addUserPost2, setAddUserPost2] = useState(false);
+    const handleAddUserPost = () => {
+        setAddUserPost(true)
+    }
+    const handleAddUserPost2 = () => {
+        setAddUserPost2(true)
+    }
 
     return (
         <div className='mainContainer highlights'>
+            {addUserPost && <UserPostModal setAddUserPost={setAddUserPost}/>}
+            {addUserPost2 && <UserPostModal2 setAddUserPost2={setAddUserPost2}/>}
+
+
             <section className="highlightsPageContainer top">
                 <div className="hlsPageContent top">
-                    <div className="hldpcTop1">
+                    {(userStateLogin && userDetailData != undefined) && <div className="hldpcTop1">
                         <div className="hldpct1">
                             <div>
                                 <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" />
                             </div>
-                            <input type="text" placeholder='Post about a Gameplay...' readOnly/>
-                            <button id='postAStory'><IoIosImages className='faIcons'/></button>
+                            <input type="text" placeholder='Post about a Gameplay...' readOnly onClick={handleAddUserPost}/>
+                            <button id='postAStory'><IoIosImages className='faIcons' onClick={handleAddUserPost2}/></button>
                         </div>
-                    </div>
+                    </div>}
                     <div className="hldpcTop2 website">
-                        <div className="hldpcT2 addStory">
+                        {(userStateLogin && userDetailData != undefined) && <div className="hldpcT2 addStory">
                             <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" />
                             <span>
                                 <h5><IoMdAddCircle className='faIcons'/></h5>
                                 <p>Add Story</p>
                             </span>
-                        </div>
+                        </div>}
+                        {(userStateLogin && userDetailData != undefined) ? 
                         <div className="hldpcT2 stories">
                             {viewFetchStory.slice(0, 4).map((story, i) => (
                                 <div key={i}>
@@ -211,26 +196,48 @@ const Highlights = () => {
                                     <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                 </div>
                             ))}
-                        </div>
-                    </div>
-                    <div className="hldpcTop2 mobile">
-                        <div className="hldpcT2 addStory">
-                            <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" />
-                            <span>
-                                <h5><IoMdAddCircle className='faIcons'/></h5>
-                                <p>Add Story</p>
-                            </span>
-                        </div>
-                        <div className="hldpcT2 stories">
-                            {viewFetchStory.slice(0, 3).map((story, i) => (
-                                <div>
+                        </div>:
+                        <div className="hldpcT2 stories public">
+                            {viewFetchStory.slice(0, 5).map((story, i) => (
+                                <div key={i}>
                                     <span>
                                         <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />
                                     </span>
                                     <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                 </div>
                             ))}
-                        </div>
+                        </div>}
+                    </div>
+                    <div className="hldpcTop2 mobile">
+                        {(userStateLogin && userDetailData != undefined) &&<div className="hldpcT2 addStory">
+                            <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" />
+                            <span>
+                                <h5><IoMdAddCircle className='faIcons'/></h5>
+                                <p>Add Story</p>
+                            </span>
+                        </div>}
+                        {(userStateLogin && userDetailData != undefined) ? 
+                            <div className="hldpcT2 stories">
+                                {viewFetchStory.slice(0, 3).map((story, i) => (
+                                    <div key={i}>
+                                        <span>
+                                            <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />
+                                        </span>
+                                        <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
+                                    </div>
+                                ))}
+                            </div>
+                            :<div className="hldpcT2 stories public">
+                                {viewFetchStory.slice(0, 4).map((story, i) => (
+                                    <div key={i}>
+                                        <span>
+                                            <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />
+                                        </span>
+                                        <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
+                                    </div>
+                                ))}
+                            </div>
+                        }
                     </div>
                 </div>
                 <hr />
@@ -258,7 +265,7 @@ const Highlights = () => {
                                         </span>
                                     </div>
                                     <div className="hldpcMid1Option">
-                                        <button><MdAdminPanelSettings className='faIcons'/></button>
+                                        {userStateAdmin && <button><MdAdminPanelSettings className='faIcons'/></button>}
                                         <button><MdOutlineShare className='faIcons'/></button>
                                     </div>
                                 </div>
