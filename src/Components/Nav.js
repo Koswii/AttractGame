@@ -29,10 +29,10 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Nav = () => {
   const navigate = useNavigate ();
-  const [viewRegForm, setViewRegForm] = useState(false)
-  const [viewLoginForm, setViewLoginForm] = useState(false)
-  const [viewUserCredentials, setViewUserCredentials] = useState(false)
-  const [viewAdminCredentials, setViewAdminCredentials] = useState(false)
+  const [viewRegForm, setViewRegForm] = useState(false);
+  const [viewLoginForm, setViewLoginForm] = useState(false);
+  const [viewUserCredentials, setViewUserCredentials] = useState(false);
+  const [viewAdminCredentials, setViewAdminCredentials] = useState(false);
 
 
   const handleViewRegistration = () => {
@@ -81,7 +81,6 @@ const Nav = () => {
 
   const LoginUsername = localStorage.getItem('attractGameUsername');
   const userLoggedIn = localStorage.getItem('isLoggedIn')
-  const adminNavBtn = localStorage.getItem('agAdminLoggedIn');
   const [dataUser, setDataUser] = useState([]);
   const [dataStatus, setDataUserStatus] = useState('');
   const [viewProfileImg, setViewProfileImg] = useState('');
@@ -89,7 +88,6 @@ const Nav = () => {
 
   useEffect(() => {
     const userFromLocalStorage = localStorage.getItem('isLoggedIn');
-    const adminNavBtn = localStorage.getItem('agAdminLoggedIn');
 
     const fetchData = async () => {
       if (userFromLocalStorage) {
@@ -106,9 +104,12 @@ const Nav = () => {
 
           setDataUser(userData);
           if (userData) {
-            const isAdmin = userData.account === 'Admin';
-            localStorage.setItem('agAdminLoggedIn', isAdmin);
-            setViewAdminCredentials(isAdmin);
+            if(userData.account === 'Admin'){
+              localStorage.setItem('agAdminLoggedIn', true);
+              setViewAdminCredentials(true);
+            }else{
+              setViewAdminCredentials(false)
+            }
           }
 
           if (allUsersStatus) {
@@ -128,9 +129,9 @@ const Nav = () => {
         }
       }
 
-      if (adminNavBtn) {
-        setViewAdminCredentials(true);
-      }
+      // if (adminNavBtn) {
+      //   setViewAdminCredentials(true);
+      // }
     };
 
     fetchData();
@@ -440,7 +441,7 @@ const Nav = () => {
               <a id='agRegisterBtn' onClick={handleViewRegistration}><h6>REGISTER</h6></a>
             </div>:
             <div className='userProfileBtn'>
-              {adminNavBtn &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
+              {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
               <Link id='agCartBtn'><TbShoppingCartBolt className='faIcons'/></Link>
               <a id='agLogoutBtn' onClick={handleUserLogout}><TbLogout /></a>
               <Link id='agProfileBtn' to='/Profile'>

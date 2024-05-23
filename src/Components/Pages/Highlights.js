@@ -58,8 +58,8 @@ const formatDate = (date) => {
     }
 };
 const Highlights = () => {
-    const userStateAdmin = localStorage.getItem('agAdminLoggedIn');
     const userStateLogin = localStorage.getItem('isLoggedIn');
+    const adminLoggedIn = localStorage.getItem('agAdminLoggedIn');
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const userDetailData = localStorage.getItem('profileDataJSON');
     const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
@@ -115,7 +115,6 @@ const Highlights = () => {
             }
         }
         fetchUserProfile();
-
         const fetchUserData = (url, setData) => {
             return axios.get(url)
                 .then(response => {
@@ -135,7 +134,6 @@ const Highlights = () => {
                     return [];
                 });
         };
-        
         const fetchAllUserData = () => {
             Promise.all([
                 fetchUserData(AGUserStoryAPI, setViewFetchStory),
@@ -147,7 +145,6 @@ const Highlights = () => {
                 }
             });
         };
-        
         fetchAllUserData();
 
     }, [LoginUsername]);
@@ -167,6 +164,7 @@ const Highlights = () => {
         setAddPostStory(true)
     }
 
+    // console.log(viewAdminCredentials);
 
     return (
         <div className='mainContainer highlights'>
@@ -273,7 +271,7 @@ const Highlights = () => {
                                         </span>
                                     </div>
                                     <div className="hldpcMid1Option">
-                                        {userStateAdmin && <button><MdAdminPanelSettings className='faIcons'/></button>}
+                                        {adminLoggedIn && <button><MdAdminPanelSettings className='faIcons'/></button>}
                                         <button><MdOutlineShare className='faIcons'/></button>
                                     </div>
                                 </div>
