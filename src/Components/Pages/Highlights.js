@@ -19,7 +19,8 @@ import {
 import { 
     IoLogoYoutube,
     IoIosImages,
-    IoMdAddCircle  
+    IoMdAddCircle,
+    IoMdTrash    
 } from "react-icons/io";
 import axios from 'axios';
 import UserPostModal from './UserPostModal';
@@ -253,37 +254,42 @@ const Highlights = () => {
                     <div className="loader"></div>
                 </div> 
                 :<div className="hlsPageContent mid">
-                        {viewFetchPost.map((post, i) => (
-                            <div className="hldpcMid1" key={i}>
-                                <div className="hldpcMid1User">
-                                    <div className='hldpcMid1Profile'>
-                                        <div>
-                                            <img src={`https://2wave.io/ProfilePics/${post.userData.profileimg}`} alt="" />
-                                        </div>
-                                        <span>
-                                            <h6>{post.user}
-                                                {post.userData.verified ? <>
-                                                    {post.userData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
-                                                    {post.userData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
-                                                </>:<></>}
-                                            </h6>
-                                            <p>{formatDate(post.user_post_date)}</p>
-                                        </span>
+                    {viewFetchPost.map((post, i) => (
+                        <div className="hldpcMid1" key={i}>
+                            <div className="hldpcMid1User">
+                                <div className='hldpcMid1Profile'>
+                                    <div>
+                                        <img src={`https://2wave.io/ProfilePics/${post.userData.profileimg}`} alt="" />
                                     </div>
-                                    <div className="hldpcMid1Option">
-                                        {adminLoggedIn && <button><MdAdminPanelSettings className='faIcons'/></button>}
-                                        <button><MdOutlineShare className='faIcons'/></button>
-                                    </div>
+                                    <span>
+                                        <h6>{post.user}
+                                            {post.userData.verified ? <>
+                                                {post.userData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                                {post.userData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                            </>:<></>}
+                                        </h6>
+                                        <p>{formatDate(post.user_post_date)}</p>
+                                    </span>
                                 </div>
-                                <div className="hldpcMid1PostText">
-                                    <p>{post.user_post_text}</p>
+                                <div className="hldpcMid1Option">
+                                    {adminLoggedIn && 
+                                        <>
+                                            <button><MdAdminPanelSettings className='faIcons'/></button>
+                                            <button><IoMdTrash className='faIcons'/></button>
+                                        </>
+                                    }
+                                    <button><MdOutlineShare className='faIcons'/></button>
                                 </div>
-                                {post.user_post_image ? <div className="hldpcMid1PostImg">
-                                    <img id='hldpcMid1pBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
-                                    <img id='hldpcMid1pImg' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
-                                </div>:<></>}
                             </div>
-                        ))}
+                            <div className="hldpcMid1PostText">
+                                <p>{post.user_post_text}</p>
+                            </div>
+                            {post.user_post_image ? <div className="hldpcMid1PostImg">
+                                <img id='hldpcMid1pBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
+                                <img id='hldpcMid1pImg' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
+                            </div>:<></>}
+                        </div>
+                    ))}
                 </div>}
             </section>
         </div>

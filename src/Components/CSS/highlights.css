@@ -273,7 +273,7 @@ section.highlightsPageContainer.mid{
 }
 .hldpcMid1Option button{
     height: 3vw;
-    width: 2vw;
+    width: 3vw;
     background: none;
     border: none;
     outline: none;
@@ -390,7 +390,7 @@ section.highlightsPageContainer.mid{
         width: 100%;
     }
     .hldpcT2.stories.public div{
-        width: 23%;
+        width: 24%;
     }
     .hldpcT2.stories div{
         height: 35vw;
@@ -428,7 +428,7 @@ section.highlightsPageContainer.mid{
         background: rgba(30, 30, 30, 0.8);
     }
     .hldpcMid1Profile{
-        width: 80%;
+        width: 70%;
     }
     .hldpcMid1Profile div{
         height: 10vw;
@@ -442,7 +442,7 @@ section.highlightsPageContainer.mid{
         font-size: 2.3vw;
     }
     .hldpcMid1Option{
-        width: 20%;
+        width: 30%;
     }
     .hldpcMid1Option button{
         height: 5vw;
