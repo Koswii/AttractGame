@@ -100,10 +100,7 @@ const Highlights = () => {
     const adminLoggedIn = localStorage.getItem('agAdminLoggedIn');
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const userDetailData = localStorage.getItem('profileDataJSON');
-    const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
-    const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
     const AGUserDeletePostAPI = process.env.REACT_APP_AG_DELETE_USER_POST_API;
-    const AGUserStoryAPI = process.env.REACT_APP_AG_FETCH_STORY_API;
     
     const [viewUserID, setViewUserID] = useState('')
     const [viewUserRegistration, setViewUserRegistration] = useState('')
@@ -185,20 +182,18 @@ const Highlights = () => {
     }, [LoginUsername]);
 
 
-
-
-
     const handleScroll = useCallback(() => {
-        if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || postLoading) {
-            return;
-        }
-        setOffset(prevOffset => prevOffset + PAGE_SIZE);
-    }, [postLoading]);
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight || window.innerHeight;
 
+        if (!postLoading && scrollTop + clientHeight >= scrollHeight * 0.5) {
+            setOffset(prevOffset => prevOffset + PAGE_SIZE);
+        }
+    }, [postLoading]);
     useEffect(() => {
         fetchAllUserData(setViewFetchStory, setViewFetchPost, offset, setPostLoading);
     }, [offset]);
-
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => {
@@ -347,91 +342,7 @@ const Highlights = () => {
                         <p>Post Deleted Successfully.</p>
                     </div>
                 </div>}
-                {postLoading ? 
-                <div className="hlspcmLoaderContainer">
-                    <div className="hlspcmDummy">
-                        <div className="hldpcMid1ProfileDummy">
-                            <div></div>
-                            <span>
-                                <h6></h6>
-                                <p></p>
-                            </span>
-                        </div>
-                        <div className="hldpcMid1PostTextDummy">
-                            <p></p>
-                            <p></p>
-                        </div>
-                    </div>
-                    <div className="hlspcmDummy">
-                        <div className="hldpcMid1ProfileDummy">
-                            <div></div>
-                            <span>
-                                <h6></h6>
-                                <p></p>
-                            </span>
-                        </div>
-                        <div className="hldpcMid1PostTextDummy">
-                            <p></p>
-                            <p></p>
-                        </div>
-                    </div>
-                    <div className="hlspcmDummy">
-                        <div className="hldpcMid1ProfileDummy">
-                            <div></div>
-                            <span>
-                                <h6></h6>
-                                <p></p>
-                            </span>
-                        </div>
-                        <div className="hldpcMid1PostTextDummy">
-                            <p></p>
-                            <p></p>
-                        </div>
-                        <div className="hldpcMid1PostImgDummy"></div>
-                    </div>
-                    <div className="hlspcmDummy">
-                        <div className="hldpcMid1ProfileDummy">
-                            <div></div>
-                            <span>
-                                <h6></h6>
-                                <p></p>
-                            </span>
-                        </div>
-                        <div className="hldpcMid1PostTextDummy">
-                            <p></p>
-                            <p></p>
-                        </div>
-                    </div>
-                    <div className="hlspcmDummy">
-                        <div className="hldpcMid1ProfileDummy">
-                            <div></div>
-                            <span>
-                                <h6></h6>
-                                <p></p>
-                            </span>
-                        </div>
-                        <div className="hldpcMid1PostTextDummy">
-                            <p></p>
-                            <p></p>
-                        </div>
-                        <div className="hldpcMid1PostImgDummy"></div>
-                    </div>
-                    <div className="hlspcmDummy">
-                        <div className="hldpcMid1ProfileDummy">
-                            <div></div>
-                            <span>
-                                <h6></h6>
-                                <p></p>
-                            </span>
-                        </div>
-                        <div className="hldpcMid1PostTextDummy">
-                            <p></p>
-                            <p></p>
-                        </div>
-                        <div className="hldpcMid1PostImgDummy"></div>
-                    </div>
-                </div>
-                :<div className="hlsPageContent mid">
+                <div className="hlsPageContent mid">
                     {viewFetchPost.map(post => (
                         <div className="hldpcMid1" key={post.user_post_id}>
                             <div className="hldpcMid1User">
@@ -472,6 +383,91 @@ const Highlights = () => {
                             </div>:<></>}
                         </div>
                     ))}
+                    {postLoading && 
+                    <>
+                        <div className="hlspcmDummy">
+                            <div className="hldpcMid1ProfileDummy">
+                                <div></div>
+                                <span>
+                                    <h6></h6>
+                                    <p></p>
+                                </span>
+                            </div>
+                            <div className="hldpcMid1PostTextDummy">
+                                <p></p>
+                                <p></p>
+                            </div>
+                        </div>
+                        <div className="hlspcmDummy">
+                            <div className="hldpcMid1ProfileDummy">
+                                <div></div>
+                                <span>
+                                    <h6></h6>
+                                    <p></p>
+                                </span>
+                            </div>
+                            <div className="hldpcMid1PostTextDummy">
+                                <p></p>
+                                <p></p>
+                            </div>
+                            <div className="hldpcMid1PostImgDummy"></div>
+                        </div>
+                        <div className="hlspcmDummy">
+                            <div className="hldpcMid1ProfileDummy">
+                                <div></div>
+                                <span>
+                                    <h6></h6>
+                                    <p></p>
+                                </span>
+                            </div>
+                            <div className="hldpcMid1PostTextDummy">
+                                <p></p>
+                                <p></p>
+                            </div>
+                            <div className="hldpcMid1PostImgDummy"></div>
+                        </div>
+                        <div className="hlspcmDummy">
+                            <div className="hldpcMid1ProfileDummy">
+                                <div></div>
+                                <span>
+                                    <h6></h6>
+                                    <p></p>
+                                </span>
+                            </div>
+                            <div className="hldpcMid1PostTextDummy">
+                                <p></p>
+                                <p></p>
+                            </div>
+                        </div>
+                        <div className="hlspcmDummy">
+                            <div className="hldpcMid1ProfileDummy">
+                                <div></div>
+                                <span>
+                                    <h6></h6>
+                                    <p></p>
+                                </span>
+                            </div>
+                            <div className="hldpcMid1PostTextDummy">
+                                <p></p>
+                                <p></p>
+                            </div>
+                            <div className="hldpcMid1PostImgDummy"></div>
+                        </div>
+                        <div className="hlspcmDummy">
+                            <div className="hldpcMid1ProfileDummy">
+                                <div></div>
+                                <span>
+                                    <h6></h6>
+                                    <p></p>
+                                </span>
+                            </div>
+                            <div className="hldpcMid1PostTextDummy">
+                                <p></p>
+                                <p></p>
+                            </div>
+                            <div className="hldpcMid1PostImgDummy"></div>
+                        </div>
+                    </>}
                 </div>}
             </section>
         </div>
