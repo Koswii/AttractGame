@@ -226,7 +226,9 @@ const Highlights = () => {
                             {viewFetchStory.slice(0, 4).map((story, i) => (
                                 <div key={i}>
                                     <span>
-                                        <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />
+                                        {story.userData.profileimg ?
+                                        <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />:
+                                        <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                     </span>
                                     <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                 </div>
@@ -236,7 +238,9 @@ const Highlights = () => {
                             {viewFetchStory.slice(0, 5).map((story, i) => (
                                 <div key={i}>
                                     <span>
-                                        <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />
+                                        {story.userData.profileimg ?
+                                        <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />:
+                                        <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                     </span>
                                     <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                 </div>
@@ -256,7 +260,9 @@ const Highlights = () => {
                                 {viewFetchStory.slice(0, 3).map((story, i) => (
                                     <div key={i}>
                                         <span>
-                                            <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />
+                                            {story.userData.profileimg ?
+                                            <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />:
+                                            <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                         </span>
                                         <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                     </div>
@@ -266,7 +272,9 @@ const Highlights = () => {
                                 {viewFetchStory.slice(0, 4).map((story, i) => (
                                     <div key={i}>
                                         <span>
-                                            <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />
+                                            {story.userData.profileimg ?
+                                            <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />:
+                                            <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                         </span>
                                         <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                     </div>
@@ -373,7 +381,9 @@ const Highlights = () => {
                             <div className="hldpcMid1User">
                                 <div className='hldpcMid1Profile'>
                                     <div>
-                                        <img src={`https://2wave.io/ProfilePics/${post.userData.profileimg}`} alt="" />
+                                        {post.userData.profileimg ?
+                                        <img src={`https://2wave.io/ProfilePics/${post.userData.profileimg}`} alt="" />:
+                                        <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                     </div>
                                     <span>
                                         <h6>{post.user}
