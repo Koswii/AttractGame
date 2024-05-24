@@ -559,11 +559,11 @@ section.highlightsPageContainer.mid{
         width: 80%;
     }
     .hldpcMid1ProfileDummy span h6{
-        height: 3.2vw;
+        height: 3.5vw;
         width: 50%;
     }
     .hldpcMid1ProfileDummy span p{
-        height: 2.3vw;
+        height: 3vw;
         width: 30%;
         margin-top: 2%;
     }
@@ -571,7 +571,7 @@ section.highlightsPageContainer.mid{
         margin-top: 5%;
     }
     .hldpcMid1PostTextDummy p{
-        height: 2.3vw;
+        height: 3vw;
     }
     .hldpcMid1PostImgDummy{
         height: 50vw;
@@ -599,10 +599,11 @@ section.highlightsPageContainer.mid{
         margin-right: 3%;
     }
     .hldpcMid1Profile span h6{
-        font-size: 3vw;
+        font-size: 3.5vw;
     }
     .hldpcMid1Profile span p{
-        font-size: 2.3vw;
+        font-size: 3vw;
+        margin-top: 1%;
     }
     .hldpcMid1Option{
         width: 30%;
@@ -617,8 +618,8 @@ section.highlightsPageContainer.mid{
         margin-top: 5%;
     }
     .hldpcMid1PostText p{
-        font-size: 2.5vw;
-        line-height: 3.5vw;
+        font-size: 3vw;
+        line-height: 4.5vw;
     }
     .hldpcMid1PostImg{
         height: auto;

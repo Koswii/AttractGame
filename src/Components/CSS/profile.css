@@ -1575,13 +1575,14 @@ section.profilePageContainer.mid{
         margin-left: 1%;
     }
     .ppcrpchpUser span p{
-        font-size: 2.3vw;
+        font-size: 3vw;
     }
     .ppcrpchpupWords{
         margin-top: 7%;
     }
     .ppcrpchpupWords p{
-        font-size: 2.3vw;
+        font-size: 3vw;
+        line-height: 4.5vw;
     }
     .ppcrpchpuPosting{
         height: 50vw;
