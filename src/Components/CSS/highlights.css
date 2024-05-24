@@ -394,7 +394,7 @@ section.highlightsPageContainer.mid{
     white-space: pre-line;
 }
 .hldpcMid1PostImg{
-    height: 40vw;
+    height: 30vw;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -629,8 +629,6 @@ section.highlightsPageContainer.mid{
     .hldpcMid1PostImg img#hldpcMid1pImg{
         height: auto;
         width: 100%;
-        position: relative;
-        z-index: 2;
     }
     .hldpcMid1PostImg img#hldpcMid1pBG{
         display: none;
