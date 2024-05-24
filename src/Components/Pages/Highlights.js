@@ -23,6 +23,7 @@ import {
     IoMdAddCircle
 } from "react-icons/io";
 import axios from 'axios';
+import YouTubeEmbed from './YouTubeEmbed';
 import UserPostModal from './UserPostModal';
 import UserPostModal2 from './UserPostModal2';
 import UserStoryModal from './UserStoryModal';
@@ -380,6 +381,9 @@ const Highlights = () => {
                             {post.user_post_image ? <div className="hldpcMid1PostImg">
                                 <img id='hldpcMid1pBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
                                 <img id='hldpcMid1pImg' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
+                            </div>:<></>}
+                            {post.user_post_youtube ? <div className="hldpcMid1PostYT">
+                                <YouTubeEmbed videoUrl={post.user_post_youtube} />
                             </div>:<></>}
                         </div>
                     ))}

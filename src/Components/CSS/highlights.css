@@ -414,8 +414,22 @@ section.highlightsPageContainer.mid{
     position: relative;
     z-index: 2;
 }
-
-
+.hldpcMid1PostYT{
+    height: 30vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+    border-radius: 1vw;
+    overflow: hidden;
+    position: relative;
+}
+.hldpcMid1PostYT .youtube-embed{
+    height: 100%;
+    width: 100%;
+    border-radius: 1vw;
+}
 
 
 
