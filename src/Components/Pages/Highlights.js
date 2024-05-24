@@ -357,8 +357,8 @@ const Highlights = () => {
                     </div>
                 </div>}
                 <div className="hlsPageContent mid">
-                    {viewFetchPost.map(post => (
-                        <div className="hldpcMid1" key={post.user_post_id}>
+                    {viewFetchPost.map((post, i) => (
+                        <div className="hldpcMid1" key={i}>
                             <div className="hldpcMid1User">
                                 <div className='hldpcMid1Profile'>
                                     <div>
