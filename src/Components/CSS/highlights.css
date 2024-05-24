@@ -200,7 +200,7 @@ section.highlightsPageContainer.mid{
     justify-content: right;
     align-items: center;
     padding: 1% 20%;
-    /* animation: fade-out 5s linear; */
+    animation: fade-out 5s linear;
 }
 .hlsPageContentDelete div{
     padding: 2% 3%;
