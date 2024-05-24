@@ -186,29 +186,125 @@ section.highlightsPageContainer.mid{
     width: 100%;
     padding: 1% 20%;
 }
+.hlspcmLoaderContainer{
+    height: auto;
+    width: 100%;
+    padding: 3%;
+    margin-bottom: 2%;
+    border-radius: 1vw;
+    background: rgba(30, 30, 30, 0.8);
+    box-shadow: 0 0 10px black;
+    position: relative;
+}
 .hlspcmLoader{
     height: auto;
     width: 100%;
-    padding: 5% 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2% 0;
+}
+.hlspcmLoader .loader{
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 8px solid;
+    border-color: #ffffff #0000;
+    animation: l2 1s infinite;
+}
+.hlspcmDummy{
+    height: auto;
+    width: 100%;
+    margin-bottom: 2%;
+    border: solid 2px black;
+    padding: 2%;
+    border-radius: 1vw;
+}
+.hldpcMid1ProfileDummy{
+    height: auto;
+    width: 50%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.hldpcMid1ProfileDummy div{
+    height: 3vw;
+    width: 3vw;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 3%;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.hlspcmLoader .loader{
-    width: 80px;
-    aspect-ratio: 1;
-    border: 10px solid #24242400;
-    background: 
-        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 0    0/20px 20px,
-        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 100% 0/20px 20px,
-        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2)) 100% 100%/20px 20px,
-        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 0 100%/20px 20px,
-        linear-gradient(#fff 0 0) center/40px 40px,
-        #000000;
-    background-repeat:no-repeat;
-    filter: blur(4px) contrast(10);
-    animation: b2 0.8s infinite;
+.hldpcMid1ProfileDummy span{
+    width: 80%;
 }
+.hldpcMid1ProfileDummy span h6{
+    height: 1.2vw;
+    width: 50%;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+.hldpcMid1ProfileDummy span p{
+    height: 0.7vw;
+    width: 30%;
+    margin-top: 1%;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+.hldpcMid1PostTextDummy{
+    height: auto;
+    width: 100%;
+    margin-top: 3%;
+}
+.hldpcMid1PostTextDummy p{
+    height: 0.7vw;
+    width: 100%;
+    margin-top: 1%;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+.hldpcMid1PostImgDummy{
+    height: 30vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+    border-radius: 1vw;
+    overflow: hidden;
+    position: relative;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+
+
+
+
+
+
+
 .hlsPageContent.mid{
     height: auto;
     width: 100%;
@@ -422,6 +518,59 @@ section.highlightsPageContainer.mid{
         background: none;
         box-shadow: none;
     }
+
+
+    .hlspcmLoaderContainer{
+        border-radius: 0;
+        background: none;
+        box-shadow: none;
+    }
+    .hlspcmLoader{
+        padding: 7% 0;
+    }
+    .hlspcmDummy{
+        padding: 5% 3%;
+        margin-bottom: 1%;
+        border-radius: 2vw;
+        background: rgba(30, 30, 30, 0.8);
+    }
+    .hldpcMid1ProfileDummy{
+        width: 70%;
+    }
+    .hldpcMid1ProfileDummy div{
+        height: 10vw;
+        width: 10vw;
+        margin-right: 3%;
+    }
+    .hldpcMid1ProfileDummy span{
+        width: 80%;
+    }
+    .hldpcMid1ProfileDummy span h6{
+        height: 3.2vw;
+        width: 50%;
+    }
+    .hldpcMid1ProfileDummy span p{
+        height: 2.3vw;
+        width: 30%;
+        margin-top: 2%;
+    }
+    .hldpcMid1PostTextDummy{
+        margin-top: 5%;
+    }
+    .hldpcMid1PostTextDummy p{
+        height: 2.3vw;
+    }
+    .hldpcMid1PostImgDummy{
+        height: 50vw;
+        width: 100%;
+        margin-top: 5%;
+        border-radius: 2vw;
+    }
+
+
+
+
+
     .hldpcMid1{
         padding: 5% 3%;
         margin-bottom: 1%;

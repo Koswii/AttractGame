@@ -65,6 +65,7 @@ const Highlights = () => {
     const userDetailData = localStorage.getItem('profileDataJSON');
     const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
+    const AGUserDeletePostAPI = process.env.REACT_APP_AG_DELETE_USER_POST_API;
     const AGUserStoryAPI = process.env.REACT_APP_AG_FETCH_STORY_API;
     
     const [viewUserID, setViewUserID] = useState('')
@@ -147,7 +148,6 @@ const Highlights = () => {
             });
         };
         fetchAllUserData();
-
     }, [LoginUsername]);
 
     
@@ -164,8 +164,30 @@ const Highlights = () => {
     const handleAddUserStory = () => {
         setAddPostStory(true)
     }
+    const handleDeletePost = (post) => {
+        const deletePost = {post: post.user_post_id}
+        const deletePostJSON = JSON.stringify(deletePost)
+        axios({
+            method: 'delete',
+            url: AGUserDeletePostAPI,
+            data: deletePostJSON,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.data.success) {
+                console.log('Post deleted successfully');
+            } else {
+                console.log(`Error: ${response.data.message}`);
+            }
+        })
+        .catch(error => {
+            console.log(`Error: ${error.message}`);
+        });
+    };
 
-    // console.log(viewAdminCredentials);
+
 
     return (
         <div className='mainContainer highlights'>
@@ -250,12 +272,96 @@ const Highlights = () => {
                 <hr />
             </section>
             <section className="highlightsPageContainer mid">
-                {postLoading ? <div className="hlspcmLoader">
-                    <div className="loader"></div>
-                </div> 
+                {postLoading ? 
+                <div className="hlspcmLoaderContainer">
+                    <div className="hlspcmLoader">
+                        <div className="loader"></div>
+                    </div>
+                    <div className="hlspcmDummy">
+                        <div className="hldpcMid1ProfileDummy">
+                            <div></div>
+                            <span>
+                                <h6></h6>
+                                <p></p>
+                            </span>
+                        </div>
+                        <div className="hldpcMid1PostTextDummy">
+                            <p></p>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div className="hlspcmDummy">
+                        <div className="hldpcMid1ProfileDummy">
+                            <div></div>
+                            <span>
+                                <h6></h6>
+                                <p></p>
+                            </span>
+                        </div>
+                        <div className="hldpcMid1PostTextDummy">
+                            <p></p>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div className="hlspcmDummy">
+                        <div className="hldpcMid1ProfileDummy">
+                            <div></div>
+                            <span>
+                                <h6></h6>
+                                <p></p>
+                            </span>
+                        </div>
+                        <div className="hldpcMid1PostTextDummy">
+                            <p></p>
+                            <p></p>
+                        </div>
+                        <div className="hldpcMid1PostImgDummy"></div>
+                    </div>
+                    <div className="hlspcmDummy">
+                        <div className="hldpcMid1ProfileDummy">
+                            <div></div>
+                            <span>
+                                <h6></h6>
+                                <p></p>
+                            </span>
+                        </div>
+                        <div className="hldpcMid1PostTextDummy">
+                            <p></p>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div className="hlspcmDummy">
+                        <div className="hldpcMid1ProfileDummy">
+                            <div></div>
+                            <span>
+                                <h6></h6>
+                                <p></p>
+                            </span>
+                        </div>
+                        <div className="hldpcMid1PostTextDummy">
+                            <p></p>
+                            <p></p>
+                        </div>
+                        <div className="hldpcMid1PostImgDummy"></div>
+                    </div>
+                    <div className="hlspcmDummy">
+                        <div className="hldpcMid1ProfileDummy">
+                            <div></div>
+                            <span>
+                                <h6></h6>
+                                <p></p>
+                            </span>
+                        </div>
+                        <div className="hldpcMid1PostTextDummy">
+                            <p></p>
+                            <p></p>
+                        </div>
+                        <div className="hldpcMid1PostImgDummy"></div>
+                    </div>
+                </div>
                 :<div className="hlsPageContent mid">
-                    {viewFetchPost.map((post, i) => (
-                        <div className="hldpcMid1" key={i}>
+                    {viewFetchPost.map(post => (
+                        <div className="hldpcMid1" key={post.user_post_id}>
                             <div className="hldpcMid1User">
                                 <div className='hldpcMid1Profile'>
                                     <div>
@@ -275,14 +381,16 @@ const Highlights = () => {
                                     {adminLoggedIn && 
                                         <>
                                             <button><MdAdminPanelSettings className='faIcons'/></button>
-                                            <button><MdDelete className='faIcons'/></button>
+                                            <button onClick={() => handleDeletePost(post)}><MdDelete className='faIcons'/></button>
                                         </>
                                     }
                                     <button><MdOutlineShare className='faIcons'/></button>
                                 </div>
                             </div>
                             <div className="hldpcMid1PostText">
-                                <p>{post.user_post_text}</p>
+                                <p>
+                                    {post.user_post_text}
+                                </p>
                             </div>
                             {post.user_post_image ? <div className="hldpcMid1PostImg">
                                 <img id='hldpcMid1pBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
