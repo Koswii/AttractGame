@@ -621,13 +621,20 @@ section.highlightsPageContainer.mid{
         line-height: 3.5vw;
     }
     .hldpcMid1PostImg{
-        height: 80vw;
+        height: auto;
         width: 100%;
         margin-top: 5%;
         border-radius: 2vw;
     }
-
-
+    .hldpcMid1PostImg img#hldpcMid1pImg{
+        height: auto;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+    }
+    .hldpcMid1PostImg img#hldpcMid1pBG{
+        display: none;
+    }
 
 
 
