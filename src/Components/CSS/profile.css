@@ -1143,6 +1143,11 @@ section.profilePageContainer.mid{
     height: 100%;
     position: relative;
 }
+.ppcrpchpuPosting .youtube-embed{
+    height: 100%;
+    width: 100%;
+    border-radius: 1vw;
+}
 .ppcrpchpNoPost{
     height: 10vw;
     width: 100%;

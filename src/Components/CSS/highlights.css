@@ -39,7 +39,7 @@ h6{
 section.highlightsPageContainer.top{
     height: auto;
     width: 100%;
-    padding: 0 20%;
+    padding: 0 25%;
     padding-top: 7vw;
 }
 .hlsPageContent.top{
@@ -105,7 +105,7 @@ section.highlightsPageContainer.top{
     display: none;
 }
 .hldpcT2.addStory{
-    height: 16vw;
+    height: 15vw;
     width: 18%;
     border: solid 2px white;
     border-radius: 1vw;
@@ -134,7 +134,7 @@ section.highlightsPageContainer.top{
     -webkit-backdrop-filter: blur(15px);
 }
 .hldpcT2.stories{
-    height: 16vw;
+    height: 15vw;
     width: 82%;
     overflow: hidden;
     display: flex;
@@ -149,7 +149,7 @@ section.highlightsPageContainer.top{
     width: 19%;
 }
 .hldpcT2.stories div{
-    height: 16vw;
+    height: 15vw;
     width: 23%;
     border: solid 2px white;
     border-radius: 1vw;
@@ -183,7 +183,7 @@ section.highlightsPageContainer.top{
 section.highlightsPageContainer.mid{
     height: auto;
     width: 100%;
-    padding: 1% 20%;
+    padding: 1% 25%;
     position: relative;
 }
 

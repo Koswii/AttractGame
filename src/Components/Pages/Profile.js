@@ -40,6 +40,7 @@ import {
     IoIosImages,
     IoMdAddCircle  
 } from "react-icons/io";
+import YouTubeEmbed from './YouTubeEmbed';
 import UserPostModal from './UserPostModal';
 import UserPostModal2 from './UserPostModal2';
 import UserStoryModal from './UserStoryModal';
@@ -654,6 +655,9 @@ const Profile = () => {
                                             {post.user_post_image ? <div className="ppcrpchpuPosting">
                                                 <img id='ppcrpchpuPostingBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
                                                 <img id='ppcrpchpuPostingImg' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
+                                            </div>:<></>}
+                                            {post.user_post_youtube ? <div className="ppcrpchpuPosting">
+                                                <YouTubeEmbed videoUrl={post.user_post_youtube} />
                                             </div>:<></>}
                                         </div>
                                     ))}
