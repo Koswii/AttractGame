@@ -64,10 +64,22 @@ const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
 const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
 const AGUserStoryAPI = process.env.REACT_APP_AG_FETCH_STORY_API;
 const PAGE_SIZE = 5; // Number of items to fetch per page
-const fetchUserData = async (url) => {
+const isWithinLastTwelveHours = (date) => {
+    const twelveHoursAgo = new Date();
+    twelveHoursAgo.setHours(twelveHoursAgo.getHours() - 12);
+    return new Date(date) >= twelveHoursAgo;
+};
+const isWithinLastThreeDays = (date) => {
+    const threeDaysAgo = new Date();
+    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+    return new Date(date) >= threeDaysAgo;
+};
+
+const fetchUserData = async (url, filterFunc) => {
     try {
         const response = await axios.get(url);
-        const sortedData = response.data.sort((a, b) => b.id - a.id);
+        const filteredData = response.data.filter(item => filterFunc(item.user_post_date || item.user_story_date));
+        const sortedData = filteredData.sort((a, b) => new Date(b.user_post_date || b.user_story_date) - new Date(a.user_post_date || a.user_story_date));
         const userDataResponse = await axios.get(AGUserDataAPI);
         const dataWithUserData = sortedData.map(item => {
             const userData = userDataResponse.data.find(user => user.username === item.user);
@@ -79,11 +91,12 @@ const fetchUserData = async (url) => {
         return [];
     }
 };
+
 const fetchAllUserData = async (setViewFetchStory, setViewFetchPost, offset, setLoading) => {
     setLoading(true);
     const [storyData, postData] = await Promise.all([
-        fetchUserData(`${AGUserStoryAPI}?offset=${offset}&limit=${PAGE_SIZE}`),
-        fetchUserData(`${AGUserPostAPI}?offset=${offset}&limit=${PAGE_SIZE}`)
+        fetchUserData(`${AGUserStoryAPI}?offset=${offset}&limit=${PAGE_SIZE}`, isWithinLastTwelveHours),
+        fetchUserData(`${AGUserPostAPI}?offset=${offset}&limit=${PAGE_SIZE}`, isWithinLastThreeDays)
     ]);
 
     if (storyData.length > 0 || postData.length > 0) {

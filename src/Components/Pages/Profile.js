@@ -84,6 +84,35 @@ const parseDateString = (dateString) => {
     return new Date(year, month - 1, day, hours, minutes, seconds);
 };
 
+const AGUserStoryAPI = process.env.REACT_APP_AG_FETCH_STORY_API;
+const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
+
+const isWithinLastTwelveHours = (date) => {
+    const twelveHoursAgo = new Date();
+    twelveHoursAgo.setHours(twelveHoursAgo.getHours() - 12);
+    return new Date(date) >= twelveHoursAgo;
+};
+
+const fetchUserDataStory = async (setViewFetchStory) => {
+    try {
+        const response = await axios.get(AGUserStoryAPI);
+        const filteredData = response.data.filter(story => isWithinLastTwelveHours(story.user_story_date));
+        const storySortData = filteredData.sort((a, b) => new Date(b.user_story_date) - new Date(a.user_story_date));
+
+        try {
+            const userDataResponse = await axios.get(AGUserDataAPI);
+            const storiesWithUserData = storySortData.map(story => {
+                const userData = userDataResponse.data.find(user => user.username === story.user);
+                return { ...story, userData };
+            });
+            setViewFetchStory(storiesWithUserData);
+        } catch (userDataError) {
+            console.error('Error fetching user data:', userDataError);
+        }
+    } catch (storyError) {
+        console.error('Error fetching stories:', storyError);
+    }
+};
 const Profile = () => {
 
     // User Profile Fetching
@@ -167,31 +196,7 @@ const Profile = () => {
         }
         fetchUserDataPost();
 
-        const fetchUserDataStory = () => {
-            axios.get(AGUserStoryAPI)
-            .then((response) => {
-                const storySortData = response.data.sort((a, b) => b.id - a.id);
-                axios.get(AGUserDataAPI)
-                .then(response => {
-                    // Map user data to posts
-                    const storiesWithUserData = storySortData.map(story => {
-                        const userData = response.data.find(user => user.username === story.user);
-                        return { ...story, userData };
-                    });
-                    setViewFetchStory(storiesWithUserData);
-                    // console.log(storiesWithUserData);
-                    // setPostLoading(false); 
-                })
-                .catch(error => {
-                    console.error('Error fetching user data:', error);
-                    // setPostLoading(false); 
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        };
-        fetchUserDataStory();
+        fetchUserDataStory(setViewFetchStory);
 
     }, [LoginUsername]);
 
