@@ -468,7 +468,7 @@ const Highlights = () => {
                             <div className="hldpcMid1PostImgDummy"></div>
                         </div>
                     </>}
-                </div>}
+                </div>
             </section>
         </div>
     )
