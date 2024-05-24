@@ -53,6 +53,12 @@ nav{
     position: relative;
     animation: fade-in-down 800ms ease;
 }
+.navContentModal.regRes{
+    text-align: center;
+}
+.navContentModal.regRes h4{
+    text-shadow: 0 0 50px black;
+}
 .navContentModal button#closeModalContent{
     background: none;
     color: white;
@@ -355,6 +361,13 @@ nav{
         top: 2vw;
         right: 2vw;
     }
+    .navContentModal.regRes{
+        padding: 8% 3%;
+    }
+    .navContentModal.regRes h4{
+        font-size: 7vw;
+    }
+    .navContentModal.regRes h6,
     .navRegistrationContent h6{
         font-size: 3vw;
     }

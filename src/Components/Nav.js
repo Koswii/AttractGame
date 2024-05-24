@@ -79,6 +79,7 @@ const parseDateString = (dateString) => {
 const Nav = () => {
   const navigate = useNavigate ();
   const [viewRegForm, setViewRegForm] = useState(false);
+  const [viewRegFormRes, setViewRegFormRes] = useState(false);
   const [viewLoginForm, setViewLoginForm] = useState(false);
   const [viewUserCredentials, setViewUserCredentials] = useState(false);
   const [viewAdminCredentials, setViewAdminCredentials] = useState(false);
@@ -87,11 +88,13 @@ const Nav = () => {
   const handleViewRegistration = () => {
     setViewRegForm(true)
     setViewLoginForm(false)
+    setViewRegFormRes(false)
     setMessageResponse('')
   }
   const handleViewLogin = () => {
     setViewLoginForm(true)
     setViewRegForm(false)
+    setViewRegFormRes(false)
     setMessageResponse('')
   }
   const handleCloseModal = () => {
@@ -284,14 +287,15 @@ const Nav = () => {
       .then(response => {
         const resMessage = response.data;
         if (resMessage.success === false) {
-            setMessageResponse(resMessage.message);
+          setMessageResponse(resMessage.message);
         }
         if (resMessage.success === true) {
-            setMessageResponse(resMessage.message);
-            setAGUserEmail('')
-            setAGUserUsername('')
-            setAGUserPassword('')
-            setAGUserReferral('')
+          setAGUserEmail('')
+          setAGUserUsername('')
+          setAGUserPassword('')
+          setAGUserReferral('')
+          setViewRegFormRes(true)
+          setViewRegForm(false)
         }
       }) 
       .catch (error =>{
@@ -518,6 +522,21 @@ const Nav = () => {
                 </div>
               </form>
             </div>
+        </div>}
+      </>:<></>}
+      {!viewUserCredentials ?<>
+        {viewRegFormRes && <div className="navContainerModal">
+          <div className="navContentModal regRes">
+            <h4>WELCOME GAMER!</h4>
+            <h6>YOU SUCCESSFULLY REGISTERED</h6>
+            <div className="navRegContents">
+              <div className="registrationTCPP">
+                <p>
+                  Start your AG Account, <a onClick={handleViewLogin}>Login Here!</a>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>}
       </>:<></>}
 
