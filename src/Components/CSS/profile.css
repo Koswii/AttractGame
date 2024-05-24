@@ -645,12 +645,14 @@ h6{
     font-size: 0.7vw;
     font-weight: 400;
 }
-.mdcsscDP img{
+.mdcsscDP div{
     height: 3vw;
     width: 3vw;
+    background: white;
     border: solid 2px white;
     border-radius: 50%;
     margin-right: 3%;
+    overflow: hidden;
 }
 .mdcsStoryContainer img{
     height: 100%;

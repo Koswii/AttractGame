@@ -392,7 +392,7 @@ const Highlights = () => {
                                             <button onClick={() => handleDeletePost(post)}><MdDelete className='faIcons'/></button>
                                         </>
                                     }
-                                    <button><MdOutlineShare className='faIcons'/></button>
+                                    {/* <button><MdOutlineShare className='faIcons'/></button> */}
                                 </div>
                             </div>
                             <div className="hldpcMid1PostText">

@@ -203,8 +203,16 @@ const UserStoryModal = ({setAddPostStory}) => {
                     <form className="mdcsStoryContainer" onSubmit={handleAddStorySubmit}>
                         <div className='mdcsscDP'>
                             {viewProfileImg ? 
-                            <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt=""/>
-                            :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
+                            <>
+                                <div>
+                                    <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt=""/>
+                                </div>
+                            </>
+                            :<>
+                                <div>
+                                    <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>
+                                </div>
+                            </>}
                             <h6>
                                 {viewUsername} 
                                 {viewVerifiedUser ? <>
