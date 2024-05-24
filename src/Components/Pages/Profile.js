@@ -618,7 +618,9 @@ const Profile = () => {
                                         {viewFetchStory.slice(0, 3).map((story, i) => (
                                             <div>
                                                 <span>
-                                                    <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />
+                                                    {story.userData.profileimg ?
+                                                    <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />:
+                                                    <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                                 </span>
                                                 <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                             </div>

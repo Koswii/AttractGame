@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import "../CSS/highlights.css";
 import { Link } from 'react-router-dom';
 import { 
@@ -38,7 +38,6 @@ const formatDateToWordedDate = (numberedDate) => {
     
     return `${month} ${day}, ${year}`;
 }
-
 const formatDate = (date) => {
     const givenDate = new Date(date);
     const currentDate = new Date();
@@ -58,6 +57,44 @@ const formatDate = (date) => {
       return formatDateToWordedDate(givenDate);
     }
 };
+
+
+const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
+const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
+const AGUserStoryAPI = process.env.REACT_APP_AG_FETCH_STORY_API;
+const PAGE_SIZE = 5; // Number of items to fetch per page
+const fetchUserData = async (url) => {
+    try {
+        const response = await axios.get(url);
+        const sortedData = response.data.sort((a, b) => b.id - a.id);
+        const userDataResponse = await axios.get(AGUserDataAPI);
+        const dataWithUserData = sortedData.map(item => {
+            const userData = userDataResponse.data.find(user => user.username === item.user);
+            return { ...item, userData };
+        });
+        return dataWithUserData;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return [];
+    }
+};
+const fetchAllUserData = async (setViewFetchStory, setViewFetchPost, offset, setLoading) => {
+    setLoading(true);
+    const [storyData, postData] = await Promise.all([
+        fetchUserData(`${AGUserStoryAPI}?offset=${offset}&limit=${PAGE_SIZE}`),
+        fetchUserData(`${AGUserPostAPI}?offset=${offset}&limit=${PAGE_SIZE}`)
+    ]);
+
+    if (storyData.length > 0 || postData.length > 0) {
+        setViewFetchStory(prevData => [...prevData, ...storyData]);
+        setViewFetchPost(prevData => [...prevData, ...postData]);
+    }
+
+    setLoading(false);
+};
+
+
+
 const Highlights = () => {
     const userStateLogin = localStorage.getItem('isLoggedIn');
     const adminLoggedIn = localStorage.getItem('agAdminLoggedIn');
@@ -86,11 +123,8 @@ const Highlights = () => {
     const [viewFetchPost, setViewFetchPost] = useState([]);
     const [viewFetchStory, setViewFetchStory] = useState([]);
     const [postLoading, setPostLoading] = useState(true);
+    const [offset, setOffset] = useState(0);
 
-    
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [page, setPage] = useState(1);
 
     useEffect(() => {
         const fetchUserProfile = () => {
@@ -117,38 +151,60 @@ const Highlights = () => {
             }
         }
         fetchUserProfile();
-        const fetchUserData = (url, setData) => {
-            return axios.get(url)
-                .then(response => {
-                    const sortedData = response.data.sort((a, b) => b.id - a.id);
-                    return axios.get(AGUserDataAPI)
-                        .then(userDataResponse => {
-                            const dataWithUserData = sortedData.map(item => {
-                                const userData = userDataResponse.data.find(user => user.username === item.user);
-                                return { ...item, userData };
-                            });
-                            setData(dataWithUserData);
-                            return dataWithUserData;
-                        });
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                    return [];
-                });
-        };
-        const fetchAllUserData = () => {
-            Promise.all([
-                fetchUserData(AGUserStoryAPI, setViewFetchStory),
-                fetchUserData(AGUserPostAPI, setViewFetchPost)
-            ])
-            .then(([storyData, postData]) => {
-                if (storyData.length > 0 || postData.length > 0) {
-                    setPostLoading(false);
-                }
-            });
-        };
-        fetchAllUserData();
+        // const fetchUserData = (url, setData) => {
+        //     return axios.get(url)
+        //         .then(response => {
+        //             const sortedData = response.data.sort((a, b) => b.id - a.id);
+        //             return axios.get(AGUserDataAPI)
+        //                 .then(userDataResponse => {
+        //                     const dataWithUserData = sortedData.map(item => {
+        //                         const userData = userDataResponse.data.find(user => user.username === item.user);
+        //                         return { ...item, userData };
+        //                     });
+        //                     setData(dataWithUserData);
+        //                     return dataWithUserData;
+        //                 });
+        //         })
+        //         .catch(error => {
+        //             console.error('Error fetching data:', error);
+        //             return [];
+        //         });
+        // };
+        // const fetchAllUserData = () => {
+        //     Promise.all([
+        //         fetchUserData(AGUserStoryAPI, setViewFetchStory),
+        //         fetchUserData(AGUserPostAPI, setViewFetchPost)
+        //     ])
+        //     .then(([storyData, postData]) => {
+        //         if (storyData.length > 0 || postData.length > 0) {
+        //             setPostLoading(false);
+        //         }
+        //     });
+        // };
+        // fetchAllUserData();
     }, [LoginUsername]);
+
+
+
+
+
+    const handleScroll = useCallback(() => {
+        if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || postLoading) {
+            return;
+        }
+        setOffset(prevOffset => prevOffset + PAGE_SIZE);
+    }, [postLoading]);
+
+    useEffect(() => {
+        fetchAllUserData(setViewFetchStory, setViewFetchPost, offset, setPostLoading);
+    }, [offset]);
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [handleScroll]);
 
     
     const [addUserPost, setAddUserPost] = useState(false);
