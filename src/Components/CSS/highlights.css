@@ -185,7 +185,33 @@ section.highlightsPageContainer.mid{
     height: auto;
     width: 100%;
     padding: 1% 20%;
+    position: relative;
 }
+
+
+.hlsPageContentDelete{
+    height: auto;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding: 1% 20%;
+    /* animation: fade-out 5s linear; */
+}
+.hlsPageContentDelete div{
+    padding: 2% 3%;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    background: red;
+}
+
+
+
+
 .hlspcmLoaderContainer{
     height: auto;
     width: 100%;
@@ -195,25 +221,6 @@ section.highlightsPageContainer.mid{
     background: rgba(30, 30, 30, 0.8);
     box-shadow: 0 0 10px black;
     position: relative;
-}
-.hlspcmLoader{
-    height: auto;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2% 0;
-}
-.hlspcmLoader .loader{
-    width: 50px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    border: 8px solid;
-    border-color: #ffffff #0000;
-    animation: l2 1s infinite;
 }
 .hlspcmDummy{
     height: auto;
@@ -519,14 +526,21 @@ section.highlightsPageContainer.mid{
         box-shadow: none;
     }
 
-
+    .hlsPageContentDelete{
+        justify-content: center;
+        padding: 5%;
+    }
+    .hlsPageContentDelete div{
+        padding: 3% 5%;
+        border-radius: 50px;
+    }
+    .hlsPageContentDelete div p{
+        font-size: 2.5vw;
+    }
     .hlspcmLoaderContainer{
         border-radius: 0;
         background: none;
         box-shadow: none;
-    }
-    .hlspcmLoader{
-        padding: 7% 0;
     }
     .hlspcmDummy{
         padding: 5% 3%;

@@ -154,6 +154,7 @@ const Highlights = () => {
     const [addUserPost, setAddUserPost] = useState(false);
     const [addUserPost2, setAddUserPost2] = useState(false);
     const [addPostStory, setAddPostStory] = useState(false);
+    const [deletePostResponse, setDeletePostResponse] = useState(false);
 
     const handleAddUserPost = () => {
         setAddUserPost(true)
@@ -178,6 +179,11 @@ const Highlights = () => {
         .then(response => {
             if (response.data.success) {
                 console.log('Post deleted successfully');
+                setDeletePostResponse(true);
+                const timerDelRes = setInterval(() => {
+                    setDeletePostResponse(false);
+                }, 5000);
+                return () => clearInterval(timerDelRes);
             } else {
                 console.log(`Error: ${response.data.message}`);
             }
@@ -272,11 +278,13 @@ const Highlights = () => {
                 <hr />
             </section>
             <section className="highlightsPageContainer mid">
+                {deletePostResponse && <div className="hlsPageContentDelete">
+                    <div>
+                        <p>Post Deleted Successfully.</p>
+                    </div>
+                </div>}
                 {postLoading ? 
                 <div className="hlspcmLoaderContainer">
-                    <div className="hlspcmLoader">
-                        <div className="loader"></div>
-                    </div>
                     <div className="hlspcmDummy">
                         <div className="hldpcMid1ProfileDummy">
                             <div></div>

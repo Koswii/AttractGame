@@ -625,6 +625,10 @@ section.landingPageContainer.mid{
       transform: translateY(0);
     }
 }
+@keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
 @keyframes bounce2 {
 	0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
 	40% {transform: translateY(-30px);}
