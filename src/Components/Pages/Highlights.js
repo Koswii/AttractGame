@@ -270,7 +270,6 @@ const Highlights = () => {
         const viewProfileDetailsID = viewFetchPost.find(post => post.user_post_id === user_post_id)
         setSelectedPostData(viewProfileDetailsID);
         setViewProfileDetails(true);
-        console.log(viewProfileDetailsID);
     }
     const handleCloseDetails = () => {
         setViewProfileDetails(false);
