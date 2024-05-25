@@ -82,6 +82,9 @@ h6{
 .hpdPostContent.left div{
     height: 12vw;
     width: 12vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .hpdPostContent.left div img{
     height: 100%;
@@ -615,9 +618,6 @@ section.highlightsPageContainer.mid{
         background: white;
         border-radius: 50%;
         overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
     .hpdPostContent.right{
         width: 100%;
