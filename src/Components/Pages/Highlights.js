@@ -270,6 +270,7 @@ const Highlights = () => {
         const viewProfileDetailsID = viewFetchPost.find(post => post.user_post_id === user_post_id)
         setSelectedPostData(viewProfileDetailsID);
         setViewProfileDetails(true);
+        console.log(viewProfileDetailsID);
     }
     const handleCloseDetails = () => {
         setViewProfileDetails(false);
@@ -285,12 +286,14 @@ const Highlights = () => {
             {viewProfileDetails && <div className="highlightProfileModal">
                 {selectedPostData && <div className="highlightProfileDetails"
                 style={selectedPostData.userData.coverimg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${selectedPostData.userData.coverimg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}
-                :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}>
+                :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalProfile' onClick={handleCloseDetails}><FaTimes className='faIcons'/></button>
                     <div className="hpdPostContent left">
-                        {selectedPostData.userData.profileimg ?
-                        <img src={`https://2wave.io/ProfilePics/${selectedPostData.userData.profileimg}`} alt="" />:
-                        <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
+                        <div>
+                            {selectedPostData.userData.profileimg ?
+                            <img src={`https://2wave.io/ProfilePics/${selectedPostData.userData.profileimg}`} alt="" />:
+                            <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
+                        </div>
                     </div>
                     <div className="hpdPostContent right">
                         <h4>

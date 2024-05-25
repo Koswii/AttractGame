@@ -71,8 +71,7 @@ h6{
     cursor: pointer;
 }
 .hpdPostContent.left{
-    height: 12vw;
-    width: 12vw;
+    height: auto;
     background: white;
     border-radius: 50%;
     display: flex;
@@ -80,7 +79,11 @@ h6{
     align-items: center;
     overflow: hidden;
 }
-.hpdPostContent.left img{
+.hpdPostContent.left div{
+    height: 12vw;
+    width: 12vw;
+}
+.hpdPostContent.left div img{
     height: 100%;
 }
 .hpdPostContent.right{
@@ -120,6 +123,7 @@ h6{
     color: white;
     display: flex;
     justify-content: center;
+    margin-right: 3%;
 }
 .hpdpcSocials a .faIcons{
     font-size: 2vw;
@@ -605,11 +609,15 @@ section.highlightsPageContainer.mid{
         border-radius: 0;
         background: none;
     }
-    .hpdPostContent.left img{
+    .hpdPostContent.left div{
         height: 50vw;
         width: 50vw;
         background: white;
         border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .hpdPostContent.right{
         width: 100%;
