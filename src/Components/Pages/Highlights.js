@@ -2,26 +2,33 @@ import React, { useEffect, useState, useCallback } from 'react'
 import "../CSS/highlights.css";
 import { Link } from 'react-router-dom';
 import { 
-  MdSettings,
-  MdAdminPanelSettings,
-  MdOutlineShare, 
-  MdDelete,
-  MdOutlineSpaceDashboard,
-  MdOutlineShoppingBag,
-  MdOutlineVideogameAsset,
-  MdOutlineGamepad,
-  MdOutlineCardGiftcard,
-  MdCurrencyBitcoin    
+    FaTimes
+} from 'react-icons/fa';
+import { 
+    FaSquareFacebook,
+    FaInstagram,
+    FaTiktok,
+    FaYoutube,
+    FaTwitch,
+} from "react-icons/fa6";
+import { 
+    MdAdminPanelSettings,
+    MdDelete,
 } from "react-icons/md";
 import { 
     RiVerifiedBadgeFill,
-    RiSparklingFill  
 } from "react-icons/ri";
 import { 
-    IoLogoYoutube,
     IoIosImages,
     IoMdAddCircle
 } from "react-icons/io";
+import { 
+    GiLotus, 
+    GiGhost, 
+    GiCrystalShine, 
+    GiPlantSeed,
+    GiSharkJaws  
+} from "react-icons/gi";
 import axios from 'axios';
 import YouTubeEmbed from './YouTubeEmbed';
 import UserPostModal from './UserPostModal';
@@ -135,6 +142,8 @@ const Highlights = () => {
     const [viewFetchStory, setViewFetchStory] = useState([]);
     const [postLoading, setPostLoading] = useState(true);
     const [offset, setOffset] = useState(0);
+    const [viewProfileDetails, setViewProfileDetails] = useState(false);
+    const [selectedPostData, setSelectedPostData] = useState(null);
 
 
     useEffect(() => {
@@ -257,7 +266,14 @@ const Highlights = () => {
             console.log(`Error: ${error.message}`);
         });
     };
-
+    const handleViewProfileDetails = (user_post_id) => {
+        const viewProfileDetailsID = viewFetchPost.find(post => post.user_post_id === user_post_id)
+        setSelectedPostData(viewProfileDetailsID);
+        setViewProfileDetails(true);
+    }
+    const handleCloseDetails = () => {
+        setViewProfileDetails(false);
+    }
 
 
     return (
@@ -265,6 +281,44 @@ const Highlights = () => {
             {addPostStory && <UserStoryModal setAddPostStory={setAddPostStory}/>}
             {addUserPost && <UserPostModal setAddUserPost={setAddUserPost}/>}
             {addUserPost2 && <UserPostModal2 setAddUserPost2={setAddUserPost2}/>}
+
+            {viewProfileDetails && <div className="highlightProfileModal">
+                {selectedPostData && <div className="highlightProfileDetails"
+                style={selectedPostData.userData.coverimg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${selectedPostData.userData.coverimg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}
+                :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}>
+                    <button id='closeModalProfile' onClick={handleCloseDetails}><FaTimes className='faIcons'/></button>
+                    <div className="hpdPostContent left">
+                        {selectedPostData.userData.profileimg ?
+                        <img src={`https://2wave.io/ProfilePics/${selectedPostData.userData.profileimg}`} alt="" />:
+                        <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
+                    </div>
+                    <div className="hpdPostContent right">
+                        <h4>
+                            {selectedPostData.user}
+                            {selectedPostData.userData.verified ? <>
+                                {selectedPostData.userData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                {selectedPostData.userData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                            </>:<></>}
+                        </h4>
+                        <h6>{selectedPostData.userData.email} {selectedPostData.userData.refcode ? `• ${selectedPostData.userData.refcode}` : ''}</h6>
+                        {(selectedPostData.userData.facebook || selectedPostData.userData.instagram || selectedPostData.userData.tiktok || selectedPostData.userData.youtube || selectedPostData.userData.twitch) && 
+                        <div className="hpdpcSocials">
+                            {selectedPostData.userData.facebook && <a href={selectedPostData.userData.facebook} target='blank'><FaSquareFacebook className='faIcons'/></a>}
+                            {selectedPostData.userData.instagram && <a href={selectedPostData.userData.instagram} target='blank'><FaInstagram className='faIcons'/></a>}
+                            {selectedPostData.userData.tiktok && <a href={selectedPostData.userData.tiktok} target='blank'><FaTiktok className='faIcons'/></a>}
+                            {selectedPostData.userData.youtube && <a href={selectedPostData.userData.youtube} target='blank'><FaYoutube className='faIcons'/></a>}
+                            {selectedPostData.userData.twitch && <a href={selectedPostData.userData.twitch} target='blank'><FaTwitch className='faIcons'/></a>}
+                        </div>}
+                        <div className="hpdpcBadge">
+                            {selectedPostData.userData.developer && <p className='developer'><GiLotus className='faIcons'/> Developer</p>}
+                            {selectedPostData.userData.admod && <p className='moderator'><GiGhost className='faIcons'/> Moderator</p>}
+                            {selectedPostData.userData.verified && <p className='verified'><GiCrystalShine className='faIcons'/> Verified</p>}
+                            {selectedPostData.userData.adpioneer && <p className='pioneer'><GiPlantSeed className='faIcons'/> Pioneer</p>}
+                            {selectedPostData.userData.adshark && <p className='shark'><GiSharkJaws className='faIcons'/> Shark</p>}
+                        </div>
+                    </div>
+                </div>}
+            </div>}
 
 
             <section className="highlightsPageContainer top">
@@ -361,7 +415,7 @@ const Highlights = () => {
                         <div className="hldpcMid1" key={i}>
                             <div className="hldpcMid1User">
                                 <div className='hldpcMid1Profile'>
-                                    <div>
+                                    <div className='hldpcMid1ProfileImg' onClick={() => handleViewProfileDetails(post.user_post_id)}>
                                         {post.userData.profileimg ?
                                         <img src={`https://2wave.io/ProfilePics/${post.userData.profileimg}`} alt="" />:
                                         <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}

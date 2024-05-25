@@ -32,6 +32,147 @@ h6{
 }
 
 
+.highlightProfileModal{
+    height: 100vh;
+    width: 100%;
+    padding-top: 4vw;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.highlightProfileDetails{
+    position: relative;
+    height: auto;
+    width: 40%;
+    border-radius: 1vw;
+    background-size: cover;
+    box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
+    padding: 3% 2%;
+    animation: fade-in-down 800ms ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+.highlightProfileDetails button#closeModalProfile{
+    position: absolute;
+    right: 1vw;
+    top: 1vw;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1.5vw;
+    cursor: pointer;
+}
+.hpdPostContent.left{
+    height: 12vw;
+    width: 12vw;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.hpdPostContent.left img{
+    height: 100%;
+}
+.hpdPostContent.right{
+    height: auto;
+    width: 60%;
+}
+.hpdPostContent.right h4 .faIcons{
+    font-size: 1.5vw;
+    margin-left: 1%;
+    margin-right: 10%;
+}
+.hpdPostContent.right .faIcons.gold{
+    color: gold;
+}
+.hpdPostContent.right .faIcons.blue{
+    color: royalblue;
+}
+.hpdPostContent.right h4{
+    text-shadow: 0 0 30px black;
+    overflow: hidden;
+}
+.hpdPostContent.right h6{
+    font-size: 0.7vw;
+    text-shadow: 0 0 30px black;
+}
+.hpdpcSocials{
+    height: 2vw;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-top: 3%;
+}
+.hpdpcSocials a{
+    text-shadow: 0 0 30px black;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+.hpdpcSocials a .faIcons{
+    font-size: 2vw;
+}
+.hpdpcBadge{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: center;
+    margin-top: 5%;
+}
+.hpdpcBadge p{
+    font-size: 0.7vw;
+    line-height: 1.5vw;
+    padding: 0.5% 5%;
+    margin-right: 2%;
+    margin-bottom: 2%;
+    display: flex;
+    color: black;
+    border-radius: 50px;
+    box-shadow: 0 0 5px white;
+}
+.hpdpcBadge p .faIcons{
+    font-size: 1.5vw;
+    margin-left: 1%;
+    margin-right: 10%;
+}
+.hpdpcBadge p.developer{
+    background: black;
+    color: white;
+}
+.hpdpcBadge p.moderator{
+    background: red;
+    color: white;
+}
+.hpdpcBadge p.verified{
+    background: gold;
+}
+.hpdpcBadge p.pioneer{
+    background: lightgreen;
+}
+.hpdpcBadge p.shark{
+    background: skyblue;
+}
+
+
+
+
+
+
+
 
 
 
@@ -340,8 +481,9 @@ section.highlightsPageContainer.mid{
     display: flex;
     justify-content: left;
     align-items: center;
+    position: relative;
 }
-.hldpcMid1Profile div{
+.hldpcMid1ProfileImg{
     height: 3vw;
     width: 3vw;
     overflow: hidden;
@@ -351,8 +493,9 @@ section.highlightsPageContainer.mid{
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
-.hldpcMid1Profile div img{
+.hldpcMid1ProfileImg img{
     height: 100%;
 }
 .hldpcMid1Profile span{
@@ -444,6 +587,90 @@ section.highlightsPageContainer.mid{
 
 
 @media screen and (max-width: 500px){
+    .highlightProfileDetails{
+        width: 80%;
+        border-radius: 5vw;
+        display: block;
+        padding: 10% 5%;
+    }
+    .highlightProfileDetails button#closeModalProfile{
+        position: absolute;
+        right: 4vw;
+        top: 4vw;
+        font-size: 5vw;
+    }
+    .hpdPostContent.left{
+        height: auto;
+        width: 100%;
+        border-radius: 0;
+        background: none;
+    }
+    .hpdPostContent.left img{
+        height: 50vw;
+        width: 50vw;
+        background: white;
+        border-radius: 50%;
+    }
+    .hpdPostContent.right{
+        width: 100%;
+        text-align: center;
+        padding-top: 5%;
+    }
+    .hpdPostContent.right h4 .faIcons{
+        font-size: 4vw;
+        margin-left: 1%;
+        margin-right: 0%;
+    }
+    .hpdPostContent.right h4{
+        font-size: 5vw;
+    }
+    .hpdPostContent.right h6{
+        font-size: 3vw;
+        text-shadow: 0 0 30px black;
+    }
+    .hpdpcSocials{
+        height: 7vw;
+        justify-content: center;
+        margin-top: 5%;
+    }
+    .hpdpcSocials a{
+        margin: 0 3%;
+    }
+    .hpdpcSocials a .faIcons{
+        font-size: 7vw;
+    }
+    .hpdpcBadge{
+        justify-content: center;
+        align-items: center;
+    }
+    .hpdpcBadge p{
+        font-size: 3vw;
+        line-height: 3vw;
+        padding: 1% 5%;
+        margin: 2%;
+        align-items: center;
+    }
+    .hpdpcBadge p .faIcons{
+        font-size: 5vw;
+        margin-left: 1%;
+        margin-right: 10%;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     section.highlightsPageContainer.top{
         height: auto;
         width: 100%;
@@ -608,7 +835,7 @@ section.highlightsPageContainer.mid{
     .hldpcMid1Profile{
         width: 70%;
     }
-    .hldpcMid1Profile div{
+    .hldpcMid1ProfileImg{
         height: 10vw;
         width: 10vw;
         margin-right: 3%;
