@@ -90,7 +90,7 @@ h6{
 .hpdPostContent.right h4 .faIcons{
     font-size: 1.5vw;
     margin-left: 1%;
-    margin-right: 10%;
+    margin-bottom: 1%;
 }
 .hpdPostContent.right .faIcons.gold{
     color: gold;
@@ -621,7 +621,6 @@ section.highlightsPageContainer.mid{
         line-height: 5vw;
         margin-left: 1%;
         margin-bottom: 1%;
-        margin-right: 0%;
     }
     .hpdPostContent.right h4{
         font-size: 5vw;
