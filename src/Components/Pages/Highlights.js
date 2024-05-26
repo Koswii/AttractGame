@@ -31,6 +31,7 @@ import {
 } from "react-icons/gi";
 import axios from 'axios';
 import YouTubeEmbed from './YouTubeEmbed';
+import HashtagHighlighter from './HashtagHighlighter';
 import UserPostModal from './UserPostModal';
 import UserPostModal2 from './UserPostModal2';
 import UserStoryModal from './UserStoryModal';
@@ -382,9 +383,10 @@ const Highlights = () => {
                                 </div>
                             </div>
                             <div className="hldpcMid1PostText">
-                                <p>
+                                <HashtagHighlighter text={post.user_post_text}/>
+                                {/* <p>
                                     {post.user_post_text}
-                                </p>
+                                </p> */}
                             </div>
                             {post.user_post_image ? <div className="hldpcMid1PostImg">
                                 <img id='hldpcMid1pBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
