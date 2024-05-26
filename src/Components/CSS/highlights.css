@@ -58,6 +58,7 @@ h6{
     display: flex;
     justify-content: space-between;
     align-items: top;
+    overflow: hidden;
 }
 .highlightProfileDetails button#closeModalProfile{
     position: absolute;
@@ -69,7 +70,63 @@ h6{
     color: white;
     font-size: 1.5vw;
     cursor: pointer;
+    z-index: 2;
 }
+.hpdpcSpecialVerified{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    /* left: -18%; */
+}
+.hpdpcSpecialVerified img.verifiedSnow{
+    height: 100%;
+    width: 100%;
+}
+.hpdpcSpecialVerified img.verifiedFire{
+    width: 100%;
+}
+.hpdpcSpecialVerified img.verifiedNarutoSage{
+    width: 100%;
+}
+.hpdpcSpecialVerified img.verifiedZelda{
+    width: 35%;
+    margin-left: -60%;
+    margin-bottom: 3%;
+}
+.hpdpcSpecialVerified img.verifiedCharizard{
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    width: 35%;
+    margin-left: -60%;
+    margin-bottom: 3%;
+}
+.hpdpcSpecialVerified img.verifiedMegaman{
+    width: 25%;
+    margin-left: -70%;
+    margin-bottom: 3%;
+}
+.hpdpcSpecialVerified img.verifiedLuffy{
+    width: 30%;
+    margin-left: -70%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 .hpdPostContent.left{
     height: auto;
     background: white;
@@ -85,6 +142,7 @@ h6{
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 .hpdPostContent.left div img{
     height: 100%;
@@ -119,6 +177,8 @@ h6{
     justify-content: left;
     align-items: center;
     margin-top: 3%;
+    position: relative;
+    z-index: 2;
 }
 .hpdpcSocials a{
     text-shadow: 0 0 30px black;
@@ -664,11 +724,34 @@ section.highlightsPageContainer.mid{
         margin-left: 1%;
         margin-right: 10%;
     }
-
-
-
-
-
+    .hpdpcSpecialVerified img.verifiedSnow{
+        height: 100%;
+        width: auto;
+    }
+    .hpdpcSpecialVerified img.verifiedNarutoSage{
+        height: 70%;
+        width: auto;
+        margin-left: 120%;
+    }
+    .hpdpcSpecialVerified img.verifiedZelda{
+        width: 90%;
+        margin-left: -30%;
+        margin-bottom: 4%;
+    }
+    .hpdpcSpecialVerified img.verifiedCharizard{
+        width: 80%;
+        margin-left: -30%;
+        margin-bottom: 4%;
+    }
+    .hpdpcSpecialVerified img.verifiedMegaman{
+        width: 65%;
+        margin-left: -50%;
+        margin-bottom: 4%;
+    }
+    .hpdpcSpecialVerified img.verifiedLuffy{
+        width: 65%;
+        margin-left: -60%;
+    }
 
 
 

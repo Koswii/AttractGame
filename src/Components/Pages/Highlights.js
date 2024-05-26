@@ -232,6 +232,7 @@ const Highlights = () => {
                             {selectedPostData.userData.profileimg ?
                             <img src={`https://2wave.io/ProfilePics/${selectedPostData.userData.profileimg}`} alt="" />:
                             <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
+                            {/* <img className='verifiedFire' src={require('../assets/imgs/Verified/FireGIF.gif')} alt="" /> */}
                         </div>
                     </div>
                     <div className="hpdPostContent right">
@@ -258,6 +259,15 @@ const Highlights = () => {
                             {selectedPostData.userData.adpioneer && <p className='pioneer'><GiPlantSeed className='faIcons'/> Pioneer</p>}
                             {selectedPostData.userData.adshark && <p className='shark'><GiSharkJaws className='faIcons'/> Shark</p>}
                         </div>
+                    </div>
+                    <div className="hpdpcSpecialVerified">
+                        {/* <img className='verifiedSnow' src={require('../assets/imgs/Verified/SnowGIF.gif')} alt="" /> */}
+                        {/* <img className='verifiedFire' src={require('../assets/imgs/Verified/FireGIF.gif')} alt="" /> */}
+                        {/* <img className='verifiedNarutoSage' src={require('../assets/imgs/Verified/NarutoSageGIF.gif')} alt="" /> */}
+                        {/* <img className='verifiedZelda' src={require('../assets/imgs/Verified/ZeldaGIF.gif')} alt="" /> */}
+                        <img className='verifiedCharizard' src={require('../assets/imgs/Verified/CharizardGIF.gif')} alt="" />
+                        {/* <img className='verifiedMegaman' src={require('../assets/imgs/Verified/MegamanGIF.gif')} alt="" /> */}
+                        {/* <img className='verifiedLuffy' src={require('../assets/imgs/Verified/LuffyGIF.gif')} alt="" /> */}
                     </div>
                 </div>}
             </div>}
