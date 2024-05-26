@@ -204,13 +204,18 @@ const Nav = () => {
         if (userProfile) {
           const profileDetailsJSON = JSON.stringify(userProfile);
           localStorage.setItem('profileDataJSON', profileDetailsJSON);
-          setViewProfileImg(userProfile);
         }
 
       } catch (error) {
         console.error(error);
       }
     };
+    const fetchUserProfile = () => {
+      const storedProfileData = localStorage.getItem('profileDataJSON');
+      if (storedProfileData) {
+          setViewProfileImg(JSON.parse(storedProfileData));
+      }
+    }
     const fetchUserPosts = async () => {
       try {
         const response = await axios.get(AGUserPostAPI);
@@ -239,7 +244,8 @@ const Nav = () => {
     };
     fetchUserData();
     fetchUserPosts();
-  }, [userLoggedIn, LoginUsername, agUserUsername, AGUserListAPI, AGUserDataAPI, AGUserPostAPI, icelandTime]);
+    fetchUserProfile();
+    }, [userLoggedIn, LoginUsername, agUserUsername, AGUserListAPI, AGUserDataAPI, AGUserPostAPI, icelandTime]);
   useEffect(() => {
     const handleUsernameStorageChange = (event) => {
       if (event.key === 'attractGameUsername') {

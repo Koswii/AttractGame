@@ -81,7 +81,6 @@ const isWithinLastThreeDays = (date) => {
     threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
     return new Date(date) >= threeDaysAgo;
 };
-
 const fetchUserData = async (url, filterFunc) => {
     try {
         const response = await axios.get(url);
@@ -110,7 +109,6 @@ const fetchAllUserData = async (setViewFetchStory, setViewFetchPost, offset, set
         setViewFetchStory(prevData => [...prevData, ...storyData]);
         setViewFetchPost(prevData => [...prevData, ...postData]);
     }
-
     setLoading(false);
 };
 
@@ -119,91 +117,17 @@ const fetchAllUserData = async (setViewFetchStory, setViewFetchPost, offset, set
 const Highlights = () => {
     const userStateLogin = localStorage.getItem('isLoggedIn');
     const adminLoggedIn = localStorage.getItem('agAdminLoggedIn');
-    const LoginUsername = localStorage.getItem('attractGameUsername');
     const userDetailData = localStorage.getItem('profileDataJSON');
     const AGUserDeletePostAPI = process.env.REACT_APP_AG_DELETE_USER_POST_API;
     
-    const [viewUserID, setViewUserID] = useState('')
-    const [viewUserRegistration, setViewUserRegistration] = useState('')
-    const [viewAGElite, setViewAGElite] = useState('');
-    const [viewRefCode, setViewRefCode] = useState('');
-    const [viewCoverImg, setViewCoverImg] = useState('');
-    const [viewProfileImg, setViewProfileImg] = useState('');
-    const [viewCryptoAddress, setViewCryptoAddress] = useState('');
-    const [viewEmailAddress, setViewEmailAddress] = useState('');
-    const [viewFacebook, setViewFacebook] = useState('');
-    const [viewInstagram, setViewInstagram] = useState('');
-    const [viewTiktok, setViewTiktok] = useState('');
-    const [viewTwitch, setViewTwitch] = useState('');
-    const [viewYoutube, setViewYoutube] = useState('');
-    const [viewUsername, setViewUsername] = useState('');
-    const [viewVerifiedUser, setViewVerifiedUser] = useState('');
+    const [userLoggedData, setUserLoggedData] = useState('')
     const [viewFetchPost, setViewFetchPost] = useState([]);
     const [viewFetchStory, setViewFetchStory] = useState([]);
     const [postLoading, setPostLoading] = useState(true);
     const [offset, setOffset] = useState(0);
     const [viewProfileDetails, setViewProfileDetails] = useState(false);
     const [selectedPostData, setSelectedPostData] = useState(null);
-
-
-    useEffect(() => {
-        const fetchUserProfile = () => {
-            if(userStateLogin && userDetailData != undefined){
-                const storedProfileData = localStorage.getItem('profileDataJSON')
-                if (storedProfileData) {
-                    const parsedProfileData = JSON.parse(storedProfileData);
-                    setViewUserID(parsedProfileData.id);
-                    setViewUserRegistration(parsedProfileData.date)
-                    setViewUsername(parsedProfileData.username);
-                    setViewAGElite(parsedProfileData.agelite);
-                    setViewProfileImg(parsedProfileData.profileimg);
-                    setViewCoverImg(parsedProfileData.coverimg);
-                    setViewEmailAddress(parsedProfileData.email);
-                    setViewCryptoAddress(parsedProfileData.cryptoaddress);
-                    setViewVerifiedUser(parsedProfileData.verified);
-                    setViewFacebook(parsedProfileData.facebook);
-                    setViewInstagram(parsedProfileData.instagram);
-                    setViewTiktok(parsedProfileData.tiktok);
-                    setViewYoutube(parsedProfileData.youtube);
-                    setViewTwitch(parsedProfileData.twitch);
-                    setViewRefCode(parsedProfileData.refcode);
-                } 
-            }
-        }
-        fetchUserProfile();
-        // const fetchUserData = (url, setData) => {
-        //     return axios.get(url)
-        //         .then(response => {
-        //             const sortedData = response.data.sort((a, b) => b.id - a.id);
-        //             return axios.get(AGUserDataAPI)
-        //                 .then(userDataResponse => {
-        //                     const dataWithUserData = sortedData.map(item => {
-        //                         const userData = userDataResponse.data.find(user => user.username === item.user);
-        //                         return { ...item, userData };
-        //                     });
-        //                     setData(dataWithUserData);
-        //                     return dataWithUserData;
-        //                 });
-        //         })
-        //         .catch(error => {
-        //             console.error('Error fetching data:', error);
-        //             return [];
-        //         });
-        // };
-        // const fetchAllUserData = () => {
-        //     Promise.all([
-        //         fetchUserData(AGUserStoryAPI, setViewFetchStory),
-        //         fetchUserData(AGUserPostAPI, setViewFetchPost)
-        //     ])
-        //     .then(([storyData, postData]) => {
-        //         if (storyData.length > 0 || postData.length > 0) {
-        //             setPostLoading(false);
-        //         }
-        //     });
-        // };
-        // fetchAllUserData();
-    }, [LoginUsername]);
-
+    const [initialLoad, setInitialLoad] = useState(true);
 
     const handleScroll = useCallback(() => {
         const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
@@ -214,9 +138,24 @@ const Highlights = () => {
             setOffset(prevOffset => prevOffset + PAGE_SIZE);
         }
     }, [postLoading]);
+
+    const fetchUserProfile = () => {
+        const storedProfileData = localStorage.getItem('profileDataJSON');
+        if (storedProfileData) {
+            setUserLoggedData(JSON.parse(storedProfileData));
+        }
+    }
+
     useEffect(() => {
-        fetchAllUserData(setViewFetchStory, setViewFetchPost, offset, setPostLoading);
-    }, [offset]);
+        if (initialLoad || offset !== 0) {
+            fetchAllUserData(setViewFetchStory, setViewFetchPost, offset, setPostLoading);
+            setInitialLoad(false);
+        }
+        if (userStateLogin && userDetailData !== undefined){
+            fetchUserProfile()
+        }
+    }, [offset, initialLoad]);
+
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => {
@@ -328,7 +267,7 @@ const Highlights = () => {
                     {(userStateLogin && userDetailData != undefined) && <div className="hldpcTop1">
                         <div className="hldpct1">
                             <div>
-                                <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" />
+                                <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt="" />
                             </div>
                             <input type="text" placeholder='Post about a Gameplay...' readOnly onClick={handleAddUserPost}/>
                             <button id='postAStory'><IoIosImages className='faIcons' onClick={handleAddUserPost2}/></button>
@@ -336,7 +275,7 @@ const Highlights = () => {
                     </div>}
                     <div className="hldpcTop2 website">
                         {(userStateLogin && userDetailData != undefined) && <div className="hldpcT2 addStory" onClick={handleAddUserStory}>
-                            <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" />
+                            <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt="" />
                             <span>
                                 <h5><IoMdAddCircle className='faIcons'/></h5>
                                 <p>Add Story</p>
@@ -370,7 +309,7 @@ const Highlights = () => {
                     </div>
                     <div className="hldpcTop2 mobile">
                         {(userStateLogin && userDetailData != undefined) &&<div className="hldpcT2 addStory" onClick={handleAddUserStory}>
-                            <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" />
+                            <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt="" />
                             <span>
                                 <h5><IoMdAddCircle className='faIcons'/></h5>
                                 <p>Add Story</p>

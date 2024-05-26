@@ -137,6 +137,7 @@ const Profile = () => {
     const [viewYoutube, setViewYoutube] = useState('');
     const [viewUsername, setViewUsername] = useState('');
     const [viewVerifiedUser, setViewVerifiedUser] = useState('');
+    const [userLoggedData, setUserLoggedData] = useState('')
     const [randomNumber, setRandomNumber] = useState('');
     const [randomPostID, setRandomPostID] = useState('');
     const [viewFetchPost, setViewFetchPost] = useState([]);
@@ -164,21 +165,7 @@ const Profile = () => {
             const storedProfileData = localStorage.getItem('profileDataJSON')
             if(storedProfileData) {
                 const parsedProfileData = JSON.parse(storedProfileData);
-                setViewUserID(parsedProfileData.id);
-                setViewUserRegistration(parsedProfileData.date)
-                setViewUsername(parsedProfileData.username);
-                setViewAGElite(parsedProfileData.agelite);
-                setViewProfileImg(parsedProfileData.profileimg);
-                setViewCoverImg(parsedProfileData.coverimg);
-                setViewEmailAddress(parsedProfileData.email);
-                setViewCryptoAddress(parsedProfileData.cryptoaddress);
-                setViewVerifiedUser(parsedProfileData.verified);
-                setViewFacebook(parsedProfileData.facebook);
-                setViewInstagram(parsedProfileData.instagram);
-                setViewTiktok(parsedProfileData.tiktok);
-                setViewYoutube(parsedProfileData.youtube);
-                setViewTwitch(parsedProfileData.twitch);
-                setViewRefCode(parsedProfileData.refcode);
+                setUserLoggedData(JSON.parse(storedProfileData))
             }
         }
         fetchUserProfile();
@@ -421,7 +408,7 @@ const Profile = () => {
         <div className='mainContainer profile'>
             {editSocialsModal && <div className="modalContainerProfile settings">
                 <div className="modalContentProfile" 
-                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+                    style={userLoggedData.coverimg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${userLoggedData.coverimg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
                     :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalSettings' onClick={handleCloseAnyModals} type='button'><FaTimes className='faIcons'/></button>
                     <form onSubmit={handleEditProfileSubmit}>
@@ -429,15 +416,15 @@ const Profile = () => {
                             <div className="mdcpsContent left">
                                 <div className='mdcpscProfileDP'>
                                     {!imageDP ? <>
-                                        {viewVerifiedUser ? 
-                                        <img src={`https://2wave.io/ProfilePics/${viewProfileImg ? viewProfileImg : 'DefaultProfilePic.png'}`} alt="" />
+                                        {userLoggedData.verified ? 
+                                        <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg ? userLoggedData.profileimg : 'DefaultProfilePic.png'}`} alt="" />
                                         :<img src={`https://2wave.io/ProfilePics/${pickProfileImg00 ? pickProfileImg00 : 'DefaultProfilePic.png'}`} alt="" />}
                                     </>:<>
                                         <img src={URL.createObjectURL(imageDP)} alt="No image Selected" />
                                         <button onClick={handleRemoveUserImage}><FaTimes className='faIcons'/></button>
                                     </>}
                                 </div>
-                                {!viewVerifiedUser && <div className='mdcpscSampleProfile'>
+                                {!userLoggedData.verified && <div className='mdcpscSampleProfile'>
                                     <img onClick={switchToDP01} src={require('../assets/imgs/ProfilePics/AG Logo1.png')} alt="" />
                                     <img onClick={switchToDP02} src={require('../assets/imgs/ProfilePics/AG Logo2.png')} alt="" />
                                     <img onClick={switchToDP03} src={require('../assets/imgs/ProfilePics/AG Logo3.png')} alt="" />
@@ -449,41 +436,41 @@ const Profile = () => {
                                     <img onClick={switchToDP09} src={require('../assets/imgs/ProfilePics/FemaleDP01.png')} alt="" />
                                     <img onClick={switchToDP10} src={require('../assets/imgs/ProfilePics/FemaleDP02.png')} alt="" />
                                 </div>}
-                                {(viewVerifiedUser) ? <div className='mdcpscCustomProfile'>
+                                {(userLoggedData.verified) ? <div className='mdcpscCustomProfile'>
                                     <p><TbUpload className='faIcons'/>Upload from Computer</p>
                                     <input type="file" onChange={handleUploadUserDP}/>
                                 </div>:<></>}
                             </div>
                             <div className="mdcpsContent right">
-                                <h4>{viewUsername} 
-                                    {viewVerifiedUser ? <>
-                                        {viewVerifiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
-                                        {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                <h4>{userLoggedData.username} 
+                                    {userLoggedData.verified ? <>
+                                        {userLoggedData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                        {userLoggedData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
                                     </>:<></>}
                                 </h4>
-                                <p>{viewEmailAddress}</p>
+                                <p>{userLoggedData.email}</p>
                                 <div className="mdcpccrSocials">
                                     <h6>EDIT PROFILE</h6>
                                     <div>
                                         <span>
                                             <label><p><FaSquareFacebook className='faIcons'/> Facebook</p></label>
-                                            <input name='agEditProfileFB' type="text" placeholder={viewFacebook ? viewFacebook : 'Facebook Profile Link'} onChange={(e) => setAGEditFacebook(e.target.value)}/>
+                                            <input name='agEditProfileFB' type="text" placeholder={userLoggedData.facebook ? userLoggedData.facebook : 'Facebook Profile Link'} onChange={(e) => setAGEditFacebook(e.target.value)}/>
                                         </span>
                                         <span>
                                             <label><p><FaInstagram className='faIcons'/> Instagram</p></label>
-                                            <input name='agEditProfileIG' type="text" placeholder={viewInstagram ? viewInstagram : 'Instagram Profile Link'} onChange={(e) => setAGEditInstagram(e.target.value)}/>
+                                            <input name='agEditProfileIG' type="text" placeholder={userLoggedData.instagram ? userLoggedData.instagram : 'Instagram Profile Link'} onChange={(e) => setAGEditInstagram(e.target.value)}/>
                                         </span>
                                         <span>
                                             <label><p><FaTiktok className='faIcons'/> TikTok</p></label>
-                                            <input name='agEditProfileTT' type="text" placeholder={viewTiktok ? viewTiktok : 'TikTok Profile Link'} onChange={(e) => setAGEditTiktok(e.target.value)}/>
+                                            <input name='agEditProfileTT' type="text" placeholder={userLoggedData.tiktok ? userLoggedData.tiktok : 'TikTok Profile Link'} onChange={(e) => setAGEditTiktok(e.target.value)}/>
                                         </span>
                                         <span>
                                             <label><p><FaYoutube className='faIcons'/> YouTube</p></label>
-                                            <input name='agEditProfileYT' type="text" placeholder={viewYoutube ? viewYoutube : 'YouTube Channel Link'} onChange={(e) => setAGEditYoutube(e.target.value)}/>
+                                            <input name='agEditProfileYT' type="text" placeholder={userLoggedData.youtube ? userLoggedData.youtube : 'YouTube Channel Link'} onChange={(e) => setAGEditYoutube(e.target.value)}/>
                                         </span>
                                         <span>
                                             <label><p><FaTwitch className='faIcons'/> Twitch</p></label>
-                                            <input name='agEditProfileTC' type="text" placeholder={viewTwitch ? viewTwitch : 'Twitch Channel Link'} onChange={(e) => setAGEditTwitch(e.target.value)}/>
+                                            <input name='agEditProfileTC' type="text" placeholder={userLoggedData.twitch ? userLoggedData.twitch : 'Twitch Channel Link'} onChange={(e) => setAGEditTwitch(e.target.value)}/>
                                         </span>
                                     </div>
                                 </div>
@@ -493,7 +480,7 @@ const Profile = () => {
                         <div className="mdcpccrLoader"><p>Loading Update...</p></div>
                         :<div className="mdcpccrLoader"><p></p></div>}
                         <div className="mdcpccrSubmit">
-                            {!viewVerifiedUser ? 
+                            {!userLoggedData.verified ? 
                                 <button id='mdcpccrsVerified'>APPLY SUBSCRIPTION <RiSparklingFill className='faIcons'/></button>
                                 :<></>}
                             <button id='mdcpccrsSubmit' type='submit'>Update Profile</button>
@@ -503,7 +490,7 @@ const Profile = () => {
             </div>}
             {addCoverImg && <div className="modalContainerProfile coverImg">
                 <div className="modalContentCover"
-                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+                    style={userLoggedData.coverimg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${userLoggedData.coverimg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
                     :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalCover' onClick={handleCloseAnyModals} type='button'><FaTimes className='faIcons'/></button>
                     <form onSubmit={handleEditProfileSubmit}>
@@ -524,11 +511,11 @@ const Profile = () => {
             {addUserPost2 && <UserPostModal2 setAddUserPost2={setAddUserPost2}/>}
 
             <section className="profilePageContainer top">
-                {viewCoverImg ? 
-                <img src={`https://2wave.io/CoverPics/${viewCoverImg}`}/>
+                {userLoggedData.coverimg ? 
+                <img src={`https://2wave.io/CoverPics/${userLoggedData.coverimg}`}/>
                 :<img src={require('../assets/imgs/LoginBackground.jpg')} alt="" />}
                 <div className='ppctShadow'></div>
-                {viewVerifiedUser && <div className='ppctEditCoverImg'>
+                {userLoggedData.verified && <div className='ppctEditCoverImg'>
                     <div className="ppctecimg">
                         <button id='ppctecimgBtnWeb' onClick={handleAddCoverImg}>Change Cover Photo</button>
                         <button id='ppctecimgBtnMob' onClick={handleAddCoverImg}><RiImageEditLine className='faIcons' /></button>
@@ -538,26 +525,26 @@ const Profile = () => {
             <section className="profilePageContainer mid">
                 <div className="profilePageContent left">
                     <div className='ppclProfilePic'>
-                        {viewProfileImg ? 
-                        <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt="" onClick={handleOpenSocialSettings}/>
+                        {userLoggedData.profileimg ? 
+                        <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt="" onClick={handleOpenSocialSettings}/>
                         :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt="" onClick={handleOpenSocialSettings}/>}
                     </div>
                     <div className="ppclProfileName">
                         <h5>
-                            {viewUsername} 
-                            {viewVerifiedUser ? <>
-                                {viewVerifiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
-                                {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                            {userLoggedData.username} 
+                            {userLoggedData.verified ? <>
+                                {userLoggedData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                {userLoggedData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
                             </>:<></>}
                         </h5>
-                        <p>{viewEmailAddress}</p>
+                        <p>{userLoggedData.email}</p>
                     </div>
                     <div className="ppclProfileSocials">
-                        {viewFacebook ? <a href={viewFacebook} target='blank'><h6><FaSquareFacebook className='faIcons'/></h6></a> : <></>}
-                        {viewInstagram ? <a href={viewInstagram} target='blank'><h6><FaInstagram className='faIcons'/></h6></a> : <></>}
-                        {viewTiktok ? <a href={viewTiktok} target='blank'><h6><FaTiktok className='faIcons'/></h6></a> : <></>}
-                        {viewYoutube ? <a href={viewYoutube} target='blank'><h6><FaYoutube className='faIcons'/></h6></a> : <></>}
-                        {viewTwitch ? <a href={viewTwitch} target='blank'><h6><FaTwitch className='faIcons'/></h6></a> : <></>}
+                        {userLoggedData.facebook ? <a href={userLoggedData.facebook} target='blank'><h6><FaSquareFacebook className='faIcons'/></h6></a> : <></>}
+                        {userLoggedData.instagram ? <a href={userLoggedData.instagram} target='blank'><h6><FaInstagram className='faIcons'/></h6></a> : <></>}
+                        {userLoggedData.tiktok ? <a href={userLoggedData.tiktok} target='blank'><h6><FaTiktok className='faIcons'/></h6></a> : <></>}
+                        {userLoggedData.youtube ? <a href={userLoggedData.youtube} target='blank'><h6><FaYoutube className='faIcons'/></h6></a> : <></>}
+                        {userLoggedData.twitch ? <a href={userLoggedData.twitch} target='blank'><h6><FaTwitch className='faIcons'/></h6></a> : <></>}
                         <div>
                             <button onClick={handleOpenSocialSettings}>Edit Profile <TbSettingsBolt className='faIcons'/></button>
                         </div>
@@ -565,7 +552,7 @@ const Profile = () => {
                     <div className="ppclProfileDetails">
                         <span>
                             <p>My Referral Code</p>
-                            <p>{viewRefCode}</p>
+                            <p>{userLoggedData.refcode}</p>
                         </span>
                         <span>
                             <p>AG Points</p>
@@ -603,16 +590,16 @@ const Profile = () => {
                     <div className="ppcrProfileContents highlights">
                         <div className="ppcrpchPosting">
                             <div className="ppcrpchpWhat">
-                                {viewProfileImg ? 
-                                <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt=""/>
+                                {userLoggedData.profileimg ? 
+                                <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt=""/>
                                 :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                 <input type="text" placeholder='Post about a Gameplay...' onClick={handleAddUserPost} readOnly/>
                                 <button id='postAStory' onClick={handleAddUserPost2}><IoIosImages className='faIcons'/></button>
                             </div>
                             <div className="ppcrpchpStories">
                                 <div className='postAStory' onClick={handleAddUserStory}>
-                                    {viewProfileImg ? 
-                                    <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt=""/>
+                                    {userLoggedData.profileimg ? 
+                                    <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt=""/>
                                     :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                     <span>
                                         <h5><IoMdAddCircle className='faIcons'/></h5>
@@ -640,15 +627,15 @@ const Profile = () => {
                                     {viewFetchPost.map((post, i) => (
                                         <div className='ppcrpchpPost' key={i}>
                                             <div className='ppcrpchpUser'>
-                                                {viewProfileImg ? 
-                                                <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt=""/>
+                                                {userLoggedData.profileimg ? 
+                                                <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt=""/>
                                                 :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                                 <span>
                                                     <h6>
-                                                        {viewUsername} 
-                                                        {viewVerifiedUser ? <>
-                                                            {viewVerifiedUser === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
-                                                            {viewVerifiedUser === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                                        {userLoggedData.username} 
+                                                        {userLoggedData.verified ? <>
+                                                            {userLoggedData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                                            {userLoggedData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
                                                         </>:<></>}
                                                     </h6>
                                                     <p>{formatDate(post.user_post_date)}</p>
