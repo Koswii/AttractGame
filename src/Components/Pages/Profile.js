@@ -648,7 +648,7 @@ const Profile = () => {
                                                 <img id='ppcrpchpuPostingBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
                                                 <img id='ppcrpchpuPostingImg' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
                                             </div>:<></>}
-                                            {post.user_post_youtube ? <div className="ppcrpchpuPosting">
+                                            {post.user_post_youtube ? <div className="ppcrpchpuPosting youtube">
                                                 <YouTubeEmbed videoUrl={post.user_post_youtube} />
                                             </div>:<></>}
                                         </div>

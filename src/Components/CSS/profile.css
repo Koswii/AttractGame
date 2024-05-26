@@ -1233,7 +1233,7 @@ section.profilePageContainer.mid{
         padding: 0 2%;
     }
     .mdcpsContent.right h4{
-        font-size: 4vw;
+        font-size: 5vw;
         text-align: center;
     }
     .mdcpsContent.right h4 .faIcons.gold,
@@ -1590,13 +1590,21 @@ section.profilePageContainer.mid{
         line-height: 4.5vw;
     }
     .ppcrpchpuPosting{
-        height: 50vw;
+        height: auto;
         border-radius: 2vw;
+    }
+    .ppcrpchpuPosting img{
+        height: auto;
+        width: 100%;
     }
     .ppcrpchpNoPost h6{
         font-size: 3vw;
     }
-
+    .ppcrpchpuPosting.youtube{
+        height: 50vw;
+        margin-top: 5%;
+        border-radius: 2vw;
+    }
 
 
 
