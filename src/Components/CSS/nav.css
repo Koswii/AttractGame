@@ -53,10 +53,17 @@ nav{
     position: relative;
     animation: fade-in-down 800ms ease;
 }
-.navContentModal.regRes{
+.navContentModal.regRes,
+.navContentModal.blocked{
     text-align: center;
 }
-.navContentModal.regRes h4{
+.navContentModal.regRes h4,
+.navContentModal.blocked h4{
+    text-shadow: 0 0 50px black;
+}
+.navContentModal.blocked p{
+    padding: 0 10%;
+    margin-top: 2%;
     text-shadow: 0 0 50px black;
 }
 .navContentModal button#closeModalContent{

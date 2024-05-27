@@ -23,13 +23,10 @@ import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [viewUserCredentials, setViewUserCredentials] = useState(false)
-  const [viewAdminCredentials, setViewAdminCredentials] = useState(false)
   const LoginUsername = localStorage.getItem('attractGameUsername');
   const userLoggedInState = localStorage.getItem('isLoggedIn');
   const userLoggedInDetails = localStorage.getItem('profileDataJSON');
-  const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
-  const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
+  const getAdminCredentials = localStorage.getItem('agAdminLoggedIn');
 
   useEffect(() => {
     // Display loader when the page is being reloaded
@@ -74,50 +71,7 @@ function App() {
       window.removeEventListener('popstate', popstateHandler);
     };
   }, []);
-
-  const [dataUser, setDataUser] = useState('');
-  const [dataAccount, setDataAccount] = useState('')
-
-  useEffect(() => {
-    const fetchDataUser = () => {
-      if(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined){
-        axios.get(AGUserListAPI)
-        .then((response) => {
-          const userData = response.data.find(item => item.username == LoginUsername);
-          setDataAccount([userData['account']]);
-          setDataUser([userData['username']]);
-        })
-        .catch(error => {
-          // console.log(error)
-        })
-      }
-    }
-    fetchDataUser();
-
-    if (dataAccount == 'Admin'){
-      const getUserAccountState = localStorage.getItem('agAdminLoggedIn');
-      setViewAdminCredentials(getUserAccountState);
-    }
-  }, [LoginUsername, dataAccount]);
-
-  // useEffect(() => {
-  //   const handleKeyPress = (event) => {
-  //     if (event.ctrlKey && (event.key === 'c' || event.key === 'C' || event.key === 'v' || event.key === 'V')) {
-  //       event.preventDefault(); // Prevent copying and pasting
-  //       alert("Please do not copy or paste anything into local storage.");
-  //     } else if (event.ctrlKey && (event.key === 's' || event.key === 'S')) {
-  //       event.preventDefault(); // Prevent saving into local storage
-  //       alert("Please do not save anything into local storage.");
-  //     }
-  //   };
-
-  //   window.addEventListener('keydown', handleKeyPress);
-
-  //   return () => {
-  //     window.removeEventListener('keydown', handleKeyPress);
-  //   };
-  // }, []);
-
+  
 
   return (
     <Router>
@@ -134,7 +88,7 @@ function App() {
         {(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined) ?
         <Route exact path="/Profile" element={<Profile/>}/>:
         <Route path="*" element={<Home/>}/>}
-        {viewAdminCredentials && <Route path="/Admin" element={<Admin/>}/>}
+        {(getAdminCredentials && userLoggedInState) && <Route path="/Admin" element={<Admin/>}/>}
 
 
 

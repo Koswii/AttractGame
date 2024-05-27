@@ -40,6 +40,7 @@ import {
     IoIosImages,
     IoMdAddCircle  
 } from "react-icons/io";
+import HashtagHighlighter from './HashtagHighlighter';
 import YouTubeEmbed from './YouTubeEmbed';
 import UserPostModal from './UserPostModal';
 import UserPostModal2 from './UserPostModal2';
@@ -116,27 +117,9 @@ const fetchUserDataStory = async (setViewFetchStory) => {
 const Profile = () => {
 
     // User Profile Fetching
-
-    const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
-    const AGUserStoryAPI = process.env.REACT_APP_AG_FETCH_STORY_API;
     const LoginUsername = localStorage.getItem('attractGameUsername');
-
-    const [viewUserID, setViewUserID] = useState('')
-    const [viewUserRegistration, setViewUserRegistration] = useState('')
-    const [viewAGElite, setViewAGElite] = useState('');
-    const [viewRefCode, setViewRefCode] = useState('');
-    const [viewCoverImg, setViewCoverImg] = useState('');
-    const [viewProfileImg, setViewProfileImg] = useState('');
-    const [viewCryptoAddress, setViewCryptoAddress] = useState('');
-    const [viewEmailAddress, setViewEmailAddress] = useState('');
-    const [viewFacebook, setViewFacebook] = useState('');
-    const [viewInstagram, setViewInstagram] = useState('');
-    const [viewTiktok, setViewTiktok] = useState('');
-    const [viewTwitch, setViewTwitch] = useState('');
-    const [viewYoutube, setViewYoutube] = useState('');
-    const [viewUsername, setViewUsername] = useState('');
-    const [viewVerifiedUser, setViewVerifiedUser] = useState('');
+    const userLoggedIn = localStorage.getItem('isLoggedIn')
     const [userLoggedData, setUserLoggedData] = useState('')
     const [randomNumber, setRandomNumber] = useState('');
     const [randomPostID, setRandomPostID] = useState('');
@@ -182,11 +165,11 @@ const Profile = () => {
             })
         }
         fetchUserDataPost();
-
         fetchUserDataStory(setViewFetchStory);
 
     }, [LoginUsername]);
 
+    // console.log(userLoggedData);
 
     const [pickProfileImg00, setPickProfileImg00] = useState('DefaultProfilePic.png');
     const [editSocialsModal, setEditSocialsModal] = useState(false);
@@ -293,19 +276,19 @@ const Profile = () => {
     const AGUserCustomCPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_CP_API;
 
     const renderProfileUser = () => {
-        if (viewVerifiedUser == 'Gold' || viewVerifiedUser == 'Blue'){
-            if(viewProfileImg == ''){
+        if (userLoggedData.verified == 'Gold' || userLoggedData.verified == 'Blue'){
+            if(userLoggedData.profileimg == ''){
                 return (
-                  `${viewUsername}_${randomNumber}_${imageDPName}`
+                  `${userLoggedData.username}_${randomNumber}_${imageDPName}`
                 );
             }else{
                 if(imageDPName == ''){
                     return (
-                        viewProfileImg
+                        userLoggedData.profileimg
                     );
                 }else{
                     return (
-                        `${viewUsername}_${randomNumber}_${imageDPName}`
+                        `${userLoggedData.username}_${randomNumber}_${imageDPName}`
                     );
                 }
             }
@@ -316,53 +299,55 @@ const Profile = () => {
         }
     };
     const renderProfileCoverUser = () => {
-        if (viewVerifiedUser == 'Gold' || viewVerifiedUser == 'Blue'){
-            if(viewCoverImg == ''){
+        if (userLoggedData.verified == 'Gold' || userLoggedData.verified == 'Blue'){
+            if(userLoggedData.coverimg == ''){
                 return (
-                  `${viewUsername}_${randomNumber}_${imageCoverPhotoName}`
+                  `${userLoggedData.username}_${randomNumber}_${imageCoverPhotoName}`
                 );
             }else{
                 if(imageCoverPhotoName == ''){
                     return (
-                        viewCoverImg
+                        userLoggedData.coverimg
                     );
                 }else{
                     return (
-                        `${viewUsername}_${randomNumber}_${imageCoverPhotoName}`
+                        `${userLoggedData.username}_${randomNumber}_${imageCoverPhotoName}`
                     );
                 }
             }
         } 
     };
+
+
     const handleEditProfileSubmit = async (e) => {
         e.preventDefault();
         setIsEditSubmitting(true);
     
         const formEditProfileData = {
-            id: viewUserID,
-            date: viewUserRegistration,
-            email: viewEmailAddress,
-            username: viewUsername,
+            id: userLoggedData.id,
+            date: userLoggedData.date,
+            email: userLoggedData.email,
+            username: userLoggedData.username,
             profileimg: renderProfileUser(),
             coverimg: renderProfileCoverUser(),
-            refcode: viewRefCode,
-            facebook: agEditFacebook || viewFacebook,
-            instagram: agEditInstagram || viewInstagram,
-            tiktok: agEditTiktok || viewTiktok,
-            youtube: agEditYoutube || viewYoutube,
-            twitch: agEditTwitch || viewTwitch,
-            agelite: viewAGElite,
-            cryptoaddress: viewCryptoAddress,
-            verified: viewVerifiedUser,
+            refcode: userLoggedData.refcode,
+            facebook: agEditFacebook || userLoggedData.facebook,
+            instagram: agEditInstagram || userLoggedData.instagram,
+            tiktok: agEditTiktok || userLoggedData.tiktok,
+            youtube: agEditYoutube || userLoggedData.youtube,
+            twitch: agEditTwitch || userLoggedData.twitch,
+            agelite: userLoggedData.agelite,
+            cryptoaddress: userLoggedData.cryptoaddress,
+            verified: userLoggedData.verified,
         };
     
         const formUserDPData = new FormData();
-        formUserDPData.append('profileuser', viewUsername);
+        formUserDPData.append('profileuser', userLoggedData.username);
         formUserDPData.append('profileimg', imageDP);
         formUserDPData.append('profileimgid', randomNumber);
 
         const formUserCPData = new FormData();
-        formUserCPData.append('profileuser', viewUsername);
+        formUserCPData.append('profileuser', userLoggedData.username);
         formUserCPData.append('profilecover', imageCoverPhoto);
         formUserCPData.append('profilecoverid', randomNumber);
     
@@ -384,7 +369,7 @@ const Profile = () => {
             const resMessageCustomDP = responseCustomDP.data;
             const resMessageCustomCP = responseCustomDP.data;
             if (resMessageEditProfile.success) {
-                localStorage.setItem('profileDataJSON', JSON.stringify(formEditProfileData));
+                window.location.reload();
             }
             if (!resMessageCustomDP.success) {
                 console.log(resMessageCustomDP.message);
@@ -476,14 +461,13 @@ const Profile = () => {
                                 </div>
                             </div>
                         </div>
-                        {isEditSubmitting ? 
-                        <div className="mdcpccrLoader"><p>Loading Update...</p></div>
-                        :<div className="mdcpccrLoader"><p></p></div>}
                         <div className="mdcpccrSubmit">
                             {!userLoggedData.verified ? 
                                 <button id='mdcpccrsVerified'>APPLY SUBSCRIPTION <RiSparklingFill className='faIcons'/></button>
                                 :<></>}
+                            {!isEditSubmitting ? 
                             <button id='mdcpccrsSubmit' type='submit'>Update Profile</button>
+                            :<button id='mdcpccrsSubmit' type='button'>Loading Update...</button>}
                         </div>
                     </form>
                 </div>
@@ -500,7 +484,7 @@ const Profile = () => {
                                 <h6>Change Cover Photo</h6>
                             }
                             <input type="file" onChange={handleUploadUserCoverPhoto}/> 
-                            <button type='submit'><FaCircleCheck className='faIcons'/></button>  
+                            <button type='submit'><FaRegImages className='faIcons'/> UPDATE COVER</button>  
                         </div>
                     </form>
                 </div>
@@ -642,7 +626,7 @@ const Profile = () => {
                                                 </span>
                                             </div>
                                             <div className="ppcrpchpupWords">
-                                                <p>{post.user_post_text}</p>
+                                                <HashtagHighlighter text={post.user_post_text}/>
                                             </div>
                                             {post.user_post_image ? <div className="ppcrpchpuPosting">
                                                 <img id='ppcrpchpuPostingBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
