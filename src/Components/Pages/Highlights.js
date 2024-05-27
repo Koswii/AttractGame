@@ -294,7 +294,8 @@ const Highlights = () => {
                         </div>}
                         {(userStateLogin && userDetailData != undefined) ? 
                         <div className="hldpcT2 stories">
-                            {viewFetchStory.slice(0, 4).map((story, i) => (
+                            {!postLoading ?
+                            <>{viewFetchStory.slice(0, 4).map((story, i) => (
                                 <div key={i}>
                                     <span>
                                         {story.userData.profileimg ?
@@ -303,8 +304,7 @@ const Highlights = () => {
                                     </span>
                                     <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                 </div>
-                            ))}
-                            {postLoading && <>
+                            ))}</>:<>
                             <div className="hldpcT2Dummy"><span></span></div>
                             <div className="hldpcT2Dummy"><span></span></div>
                             <div className="hldpcT2Dummy"><span></span></div>
@@ -312,7 +312,8 @@ const Highlights = () => {
                             </>}
                         </div>:
                         <div className="hldpcT2 stories public">
-                            {viewFetchStory.slice(0, 5).map((story, i) => (
+                            {!postLoading ?
+                            <>{viewFetchStory.slice(0, 5).map((story, i) => (
                                 <div key={i}>
                                     <span>
                                         {story.userData.profileimg ?
@@ -321,8 +322,7 @@ const Highlights = () => {
                                     </span>
                                     <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                 </div>
-                            ))}
-                            {postLoading && <>
+                            ))}</>:<>
                             <div className="hldpcT2Dummy"><span></span></div>
                             <div className="hldpcT2Dummy"><span></span></div>
                             <div className="hldpcT2Dummy"><span></span></div>
@@ -341,7 +341,8 @@ const Highlights = () => {
                         </div>}
                         {(userStateLogin && userDetailData != undefined) ? 
                             <div className="hldpcT2 stories">
-                                {viewFetchStory.slice(0, 3).map((story, i) => (
+                                {!postLoading ?
+                                <>{viewFetchStory.slice(0, 3).map((story, i) => (
                                     <div key={i}>
                                         <span>
                                             {story.userData.profileimg ?
@@ -350,15 +351,15 @@ const Highlights = () => {
                                         </span>
                                         <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                     </div>
-                                ))}
-                                {postLoading && <>
+                                ))}</>:<>
                                 <div className="hldpcT2Dummy"><span></span></div>
                                 <div className="hldpcT2Dummy"><span></span></div>
                                 <div className="hldpcT2Dummy"><span></span></div>
                                 </>}
                             </div>
                             :<div className="hldpcT2 stories public">
-                                {viewFetchStory.slice(0, 4).map((story, i) => (
+                                {!postLoading ?
+                                <>{viewFetchStory.slice(0, 4).map((story, i) => (
                                     <div key={i}>
                                         <span>
                                             {story.userData.profileimg ?
@@ -367,8 +368,7 @@ const Highlights = () => {
                                         </span>
                                         <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                     </div>
-                                ))}
-                                {postLoading && <>
+                                ))}</>:<>
                                 <div className="hldpcT2Dummy"><span></span></div>
                                 <div className="hldpcT2Dummy"><span></span></div>
                                 <div className="hldpcT2Dummy"><span></span></div>
