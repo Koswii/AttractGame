@@ -224,7 +224,7 @@ const Highlights = () => {
 
             {viewProfileDetails && <div className="highlightProfileModal">
                 {selectedPostData && <div className="highlightProfileDetails"
-                style={selectedPostData.userData.coverimg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${selectedPostData.userData.coverimg.replace(/ /g, '%20')})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}
+                style={selectedPostData.userData.coverimg ? {background: `linear-gradient(transparent, black 70%), url(https://2wave.io/CoverPics/${selectedPostData.userData.coverimg.replace(/ /g, '%20')})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}
                 :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalProfile' onClick={handleCloseDetails}><FaTimes className='faIcons'/></button>
                     <div className="hpdPostContent left">

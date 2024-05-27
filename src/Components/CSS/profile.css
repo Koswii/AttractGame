@@ -320,6 +320,7 @@ h6{
     width: 100%;
 }
 .mdcpCoverContainer button{
+    width: auto;
     position: absolute;
     bottom: 1vw;
     right: 1vw;
@@ -329,13 +330,13 @@ h6{
     width: 20%;
     font-size: 0.7vw;
     border-radius: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     border: solid 2px white;
     box-shadow: 0 0 10px black;
+    cursor: pointer;
 }
-
+.mdcpCoverContainer button .faIcons{
+    margin-right: 5%;
+}
 
 
 
