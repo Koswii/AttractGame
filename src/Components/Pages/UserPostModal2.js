@@ -30,6 +30,7 @@ const UserPostModal2 = ({setAddUserPost2}) => {
     const [randomNumber, setRandomNumber] = useState('');
     const [randomPostID, setRandomPostID] = useState('');
     const [viewFetchPost, setViewFetchPost] = useState([]);
+    const [userPostSubmitting, setUserPostSubmitting] = useState(false);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -144,6 +145,7 @@ const UserPostModal2 = ({setAddUserPost2}) => {
     };
     const handleAddPostSubmit = async (e) => {
         e.preventDefault();
+        setUserPostSubmitting(true);
     
         const formPostData = {
             user_username: viewUsername,
@@ -188,7 +190,9 @@ const UserPostModal2 = ({setAddUserPost2}) => {
             }
         } catch (error) {
             console.error(error);
-        } 
+        } finally {
+            setUserPostSubmitting(false);
+        }
     
     };
 
@@ -197,7 +201,7 @@ const UserPostModal2 = ({setAddUserPost2}) => {
         <>
             <div className="modalContainerProfile posting">
                 <div className="modalContentPosting"
-                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg.replace(/ /g, '%20')})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
                     :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalPosting' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
                     <form onSubmit={handleAddPostSubmit}>
@@ -245,13 +249,17 @@ const UserPostModal2 = ({setAddUserPost2}) => {
                                     <button type='button' className={addPostMedia ? 'active' : ''} onClick={handlePostMedia}><IoIosImages className='faIcons'/></button>
                                 </div>
                                 <div className='mdcppcpb right'>
-                                    {viewVerifiedUser ? <>
+                                    {!userPostSubmitting ? 
+                                    <>{viewVerifiedUser ? <>
                                         {!agPostContent? 
                                             <><button className='active' type='button' disabled>Post Highlight</button></>:
-                                            <><button type='submit'>Post Highlight</button></>
+                                            <>
+                                            <button type='submit'>Post Highlight</button>
+                                            </>
                                         }
                                     </>:
-                                    <>{!agPostContent? renderPostingState1() : renderPostingState2()}</>}
+                                    <>{!agPostContent? renderPostingState1() : renderPostingState2()}</>}</>
+                                    :<><button className='active' type='button' disabled>Uploading Post</button></>}
                                 </div>
                             </div>
                         </div>
