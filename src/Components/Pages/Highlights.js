@@ -263,7 +263,7 @@ const Highlights = () => {
                     <div className="hpdpcSpecialVerified">
                         {/* <img className='verifiedSnow' src={require('../assets/imgs/Verified/SnowGIF.gif')} alt="" /> */}
                         {/* <img className='verifiedFire' src={require('../assets/imgs/Verified/FireGIF.gif')} alt="" /> */}
-                        <img className='verifiedNarutoSage' src={require('../assets/imgs/Verified/NarutoSageGIF.gif')} alt="" />
+                        {/* <img className='verifiedNarutoSage' src={require('../assets/imgs/Verified/NarutoSageGIF.gif')} alt="" /> */}
                         {/* <img className='verifiedZelda' src={require('../assets/imgs/Verified/ZeldaGIF.gif')} alt="" /> */}
                         {/* <img className='verifiedCharizard' src={require('../assets/imgs/Verified/CharizardGIF.gif')} alt="" /> */}
                         {/* <img className='verifiedMegaman' src={require('../assets/imgs/Verified/MegamanGIF.gif')} alt="" /> */}
