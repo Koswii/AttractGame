@@ -207,9 +207,11 @@ const UserPostModal2 = ({setAddUserPost2}) => {
                     <form onSubmit={handleAddPostSubmit}>
                         <div className="mdcpPostingContainer">
                             <div className='mdcppcPostUser'>
-                                {viewProfileImg ? 
-                                <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt=""/>
-                                :<img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')}/>}
+                                <div>
+                                    {viewProfileImg ? 
+                                    <img src={`https://2wave.io/ProfilePics/${viewProfileImg}`} alt=""/>
+                                    :<img src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')}/>}
+                                </div>
                                 <span>
                                     <h5>
                                         {viewUsername} 
