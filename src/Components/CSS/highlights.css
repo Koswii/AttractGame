@@ -388,6 +388,51 @@ section.highlightsPageContainer.top{
 
 
 
+.hldpcT2Dummy{
+    height: 15vw;
+    width: 23%;
+    border: solid 2px white;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+.hldpcT2Dummy span{
+    position: absolute;
+    height: 2.5vw;
+    width: 2.5vw;
+    top: 0.5vw;
+    left: 0.5vw;
+    border: solid 2px white;
+    box-shadow: 0 0 10px black;
+    border-radius: 50%;
+    overflow: hidden;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 section.highlightsPageContainer.mid{
     height: auto;
     width: 100%;

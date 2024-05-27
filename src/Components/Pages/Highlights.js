@@ -304,6 +304,12 @@ const Highlights = () => {
                                     <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                 </div>
                             ))}
+                            {postLoading && <>
+                            <div className="hldpcT2Dummy"><span></span></div>
+                            <div className="hldpcT2Dummy"><span></span></div>
+                            <div className="hldpcT2Dummy"><span></span></div>
+                            <div className="hldpcT2Dummy"><span></span></div>
+                            </>}
                         </div>:
                         <div className="hldpcT2 stories public">
                             {viewFetchStory.slice(0, 5).map((story, i) => (
@@ -316,6 +322,13 @@ const Highlights = () => {
                                     <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                 </div>
                             ))}
+                            {postLoading && <>
+                            <div className="hldpcT2Dummy"><span></span></div>
+                            <div className="hldpcT2Dummy"><span></span></div>
+                            <div className="hldpcT2Dummy"><span></span></div>
+                            <div className="hldpcT2Dummy"><span></span></div>
+                            <div className="hldpcT2Dummy"><span></span></div>
+                            </>}
                         </div>}
                     </div>
                     <div className="hldpcTop2 mobile">
@@ -338,6 +351,11 @@ const Highlights = () => {
                                         <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                     </div>
                                 ))}
+                                {postLoading && <>
+                                <div className="hldpcT2Dummy"><span></span></div>
+                                <div className="hldpcT2Dummy"><span></span></div>
+                                <div className="hldpcT2Dummy"><span></span></div>
+                                </>}
                             </div>
                             :<div className="hldpcT2 stories public">
                                 {viewFetchStory.slice(0, 4).map((story, i) => (
@@ -350,6 +368,12 @@ const Highlights = () => {
                                         <img src={`https://2wave.io/AGMediaStory/${story.user_story_image}`} alt="" />
                                     </div>
                                 ))}
+                                {postLoading && <>
+                                <div className="hldpcT2Dummy"><span></span></div>
+                                <div className="hldpcT2Dummy"><span></span></div>
+                                <div className="hldpcT2Dummy"><span></span></div>
+                                <div className="hldpcT2Dummy"><span></span></div>
+                                </>}
                             </div>
                         }
                     </div>

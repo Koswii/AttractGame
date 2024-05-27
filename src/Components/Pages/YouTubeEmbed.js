@@ -6,7 +6,7 @@ const YouTubeEmbed = ({ videoUrl }) => {
   const videoId = videoUrl.split('v=')[1];
 
   return (
-    <div className="youtube-embed">
+    <div id='anyYoutubePostContent' className="youtube-embed">
       <iframe
         title="YouTube Video"
         width="100%"

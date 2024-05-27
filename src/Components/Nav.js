@@ -442,7 +442,7 @@ const Nav = () => {
         <div className="navContainerModal">
             <div className="navContentModal">
               <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
-              <form className="navRegistrationContent" onSubmit={handleUserRegister}>
+              <form id='userRegistraionFormContainer' className="navRegistrationContent" onSubmit={handleUserRegister}>
                 <h6>REGISTER AN ACCOUNT</h6>
                 <div className='navRegContents'>
                   <div>
@@ -493,7 +493,7 @@ const Nav = () => {
         <div className="navContainerModal">
             <div className="navContentModal">
               <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
-              <form className="navRegistrationContent" onSubmit={handleUserLogin}>
+              <form id='userLoginFormContainer' className="navRegistrationContent" onSubmit={handleUserLogin}>
                 <h6>LOGIN ACCOUNT</h6>
                 <div className='navRegContents'>
                   <div>

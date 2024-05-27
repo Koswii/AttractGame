@@ -394,7 +394,7 @@ const Profile = () => {
                     style={userLoggedData.coverimg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${userLoggedData.coverimg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
                     :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalSettings' onClick={handleCloseAnyModals} type='button'><FaTimes className='faIcons'/></button>
-                    <form onSubmit={handleEditProfileSubmit}>
+                    <form id='userEditSocialsContainer' onSubmit={handleEditProfileSubmit}>
                         <div className="mdcpSettingsContainer">
                             <div className="mdcpsContent left">
                                 <div className='mdcpscProfileDP'>
@@ -475,7 +475,7 @@ const Profile = () => {
                     style={userLoggedData.coverimg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${userLoggedData.coverimg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
                     :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalCover' onClick={handleCloseAnyModals} type='button'><FaTimes className='faIcons'/></button>
-                    <form onSubmit={handleEditProfileSubmit}>
+                    <form id='userCoverImageContainer' onSubmit={handleEditProfileSubmit}>
                         <div className="mdcpCoverContainer">
                             {imageCoverPhoto ? 
                                 <img src={URL.createObjectURL(imageCoverPhoto)} alt="No image Selected" /> :
@@ -577,7 +577,7 @@ const Profile = () => {
                                 {userLoggedData.profileimg ? 
                                 <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt=""/>
                                 :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
-                                <input type="text" placeholder='Post about a Gameplay...' onClick={handleAddUserPost} readOnly/>
+                                <input id='dummyFormWhatToPost' type="text" placeholder='Post about a Gameplay...' onClick={handleAddUserPost} readOnly/>
                                 <button id='postAStory' onClick={handleAddUserPost2}><IoIosImages className='faIcons'/></button>
                             </div>
                             <div className="ppcrpchpStories">

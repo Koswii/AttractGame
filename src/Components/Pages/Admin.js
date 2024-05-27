@@ -525,7 +525,7 @@ const Admin = () => {
                                 </div>
                             </div>
                             <div className="admpcm1ASuppContent right">
-                                <form onSubmit={handleAddSupplier}>
+                                <form id='addSupplierFormContainer' onSubmit={handleAddSupplier}>
                                     <h5>ADD SUPPLIER FORM</h5>
                                     <div className='admpcm1ASuppContentForm'>
                                         <span>
@@ -580,7 +580,7 @@ const Admin = () => {
                                 </div>
                             </div>
                             <div className="admpcm1AGameContent right">
-                                <form onSubmit={handleAddGame}>
+                                <form id='addGamesFormContainer' onSubmit={handleAddGame}>
                                     <h5>ADD GAMES FORM</h5>
                                     <div className='admpcm1agcForm'>
                                         <div className="admpcm1agcf left">
