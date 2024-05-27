@@ -484,7 +484,7 @@ const Profile = () => {
                             <input type="file" onChange={handleUploadUserCoverPhoto}/> 
                             {!isEditSubmitting ?
                             <button type='submit'><FaRegImages className='faIcons'/> UPDATE COVER</button> 
-                            :<button type='button'>UPLOADING COVER...</button>} 
+                            :<button type='button'>UPLOADING...</button>} 
                         </div>
                     </form>
                 </div>
@@ -593,7 +593,7 @@ const Profile = () => {
                                 <div className='viewAStory'>
                                     <div className="storiesContents">
                                         {viewFetchStory.slice(0, 3).map((story, i) => (
-                                            <div>
+                                            <div key={i}>
                                                 <span>
                                                     {story.userData.profileimg ?
                                                     <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />:

@@ -189,6 +189,7 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
     
     };
 
+    // console.log(viewCoverImg.replace(/ /g, '%20'));
 
     return (
         <>
