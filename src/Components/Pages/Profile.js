@@ -317,8 +317,6 @@ const Profile = () => {
             }
         } 
     };
-
-
     const handleEditProfileSubmit = async (e) => {
         e.preventDefault();
         setIsEditSubmitting(true);
@@ -484,7 +482,9 @@ const Profile = () => {
                                 <h6>Change Cover Photo</h6>
                             }
                             <input type="file" onChange={handleUploadUserCoverPhoto}/> 
-                            <button type='submit'><FaRegImages className='faIcons'/> UPDATE COVER</button>  
+                            {!isEditSubmitting ?
+                            <button type='submit'><FaRegImages className='faIcons'/> UPDATE COVER</button> 
+                            :<button type='button'>UPLOADING COVER...</button>} 
                         </div>
                     </form>
                 </div>

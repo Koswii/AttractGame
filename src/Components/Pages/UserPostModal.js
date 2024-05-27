@@ -28,7 +28,8 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
     const [viewVerifiedUser, setViewVerifiedUser] = useState('');
     const [randomNumber, setRandomNumber] = useState('');
     const [randomPostID, setRandomPostID] = useState('');
-    const [viewFetchPost, setViewFetchPost] = useState([]);
+    const [userPostSubmitting, setUserPostSubmitting] = useState(false);
+    // const [viewFetchPost, setViewFetchPost] = useState([]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -85,8 +86,6 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
             );
         }
     };
-
-
     const [addPostYoutubeLink, setAddPostYoutubeLink] = useState(false);
     const [addPostMedia, setAddPostMedia] = useState(false);
     const handleCloseAnyModals = () => {
@@ -139,6 +138,7 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
     };
     const handleAddPostSubmit = async (e) => {
         e.preventDefault();
+        setUserPostSubmitting(true);
     
         const formPostData = {
             user_username: viewUsername,
@@ -183,7 +183,9 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
             }
         } catch (error) {
             console.error(error);
-        } 
+        } finally {
+            setUserPostSubmitting(false);
+        }
     
     };
 
@@ -240,7 +242,8 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
                                     <button type='button' className={addPostMedia ? 'active' : ''} onClick={handlePostMedia}><IoIosImages className='faIcons'/></button>
                                 </div>
                                 <div className='mdcppcpb right'>
-                                    {viewVerifiedUser ? <>
+                                    {!userPostSubmitting ? 
+                                    <>{viewVerifiedUser ? <>
                                         {!agPostContent? 
                                             <><button className='active' type='button' disabled>Post Highlight</button></>:
                                             <>
@@ -248,7 +251,8 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
                                             </>
                                         }
                                     </>:
-                                    <>{!agPostContent? renderPostingState1() : renderPostingState2()}</>}
+                                    <>{!agPostContent? renderPostingState1() : renderPostingState2()}</>}</>
+                                    :<><button className='active' type='button' disabled>Uploading Post</button></>}
                                 </div>
                             </div>
                         </div>

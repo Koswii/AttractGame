@@ -1038,7 +1038,6 @@ section.profilePageContainer.mid{
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: top;
-    background: black;
 }
 .storiesContents div{
     height: 15vw;
@@ -1052,6 +1051,7 @@ section.profilePageContainer.mid{
     align-items: center;
     cursor: pointer;
     position: relative;
+    background: black;
 }
 .storiesContents div span{
     position: absolute;

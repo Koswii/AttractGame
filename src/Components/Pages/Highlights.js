@@ -224,7 +224,7 @@ const Highlights = () => {
 
             {viewProfileDetails && <div className="highlightProfileModal">
                 {selectedPostData && <div className="highlightProfileDetails"
-                style={selectedPostData.userData.coverimg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${selectedPostData.userData.coverimg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}
+                style={selectedPostData.userData.coverimg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${selectedPostData.userData.coverimg.replace(/ /g, '%20')})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}
                 :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <button id='closeModalProfile' onClick={handleCloseDetails}><FaTimes className='faIcons'/></button>
                     <div className="hpdPostContent left">
@@ -263,9 +263,9 @@ const Highlights = () => {
                     <div className="hpdpcSpecialVerified">
                         {/* <img className='verifiedSnow' src={require('../assets/imgs/Verified/SnowGIF.gif')} alt="" /> */}
                         {/* <img className='verifiedFire' src={require('../assets/imgs/Verified/FireGIF.gif')} alt="" /> */}
-                        {/* <img className='verifiedNarutoSage' src={require('../assets/imgs/Verified/NarutoSageGIF.gif')} alt="" /> */}
+                        <img className='verifiedNarutoSage' src={require('../assets/imgs/Verified/NarutoSageGIF.gif')} alt="" />
                         {/* <img className='verifiedZelda' src={require('../assets/imgs/Verified/ZeldaGIF.gif')} alt="" /> */}
-                        <img className='verifiedCharizard' src={require('../assets/imgs/Verified/CharizardGIF.gif')} alt="" />
+                        {/* <img className='verifiedCharizard' src={require('../assets/imgs/Verified/CharizardGIF.gif')} alt="" /> */}
                         {/* <img className='verifiedMegaman' src={require('../assets/imgs/Verified/MegamanGIF.gif')} alt="" /> */}
                         {/* <img className='verifiedLuffy' src={require('../assets/imgs/Verified/LuffyGIF.gif')} alt="" /> */}
                     </div>
@@ -394,9 +394,6 @@ const Highlights = () => {
                             </div>
                             <div className="hldpcMid1PostText">
                                 <HashtagHighlighter text={post.user_post_text}/>
-                                {/* <p>
-                                    {post.user_post_text}
-                                </p> */}
                             </div>
                             {post.user_post_image ? <div className="hldpcMid1PostImg">
                                 <img id='hldpcMid1pBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />

@@ -89,8 +89,9 @@ const UserStoryModal = ({setAddPostStory}) => {
     const [viewVerifiedUser, setViewVerifiedUser] = useState('');
     const [randomNumber, setRandomNumber] = useState('');
     const [randomPostID, setRandomPostID] = useState('');
-    const [viewFetchPost, setViewFetchPost] = useState([]);
-    const [viewFetchStory, setViewFetchStory] = useState([]);
+    const [userStorySubmitting, setUserStorySubmitting] = useState(false);
+    // const [viewFetchPost, setViewFetchPost] = useState([]);
+    // const [viewFetchStory, setViewFetchStory] = useState([]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -148,6 +149,7 @@ const UserStoryModal = ({setAddPostStory}) => {
     const AGAddUserStoryAPI = process.env.REACT_APP_AG_ADD_USER_STORY_API;
     const handleAddStorySubmit = async (e) => {
         e.preventDefault();
+        setUserStorySubmitting(true)
     
         const formStoryData = {
             user_username: viewUsername,
@@ -188,7 +190,9 @@ const UserStoryModal = ({setAddPostStory}) => {
             }
         } catch (error) {
             console.error(error);
-        } 
+        } finally {
+            setUserStorySubmitting(false)
+        }
     
     };
 
@@ -228,7 +232,9 @@ const UserStoryModal = ({setAddPostStory}) => {
                         }
                         <input type="file" onChange={handleUploadUserStory} required/>
                         <div className="storySubmit">
+                            {!userStorySubmitting ? 
                             <button type='submit'><FaRegImages className='faIcons'/> ADD STORY</button>
+                            :<button type='button'>UPLOADING...</button>}
                         </div>
                     </form>
                 </div>
