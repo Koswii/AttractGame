@@ -24,6 +24,7 @@ import {
 } from "react-icons/tb";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import CatCaptcha from './Pages/CatCaptcha';
 
 
 
@@ -124,15 +125,18 @@ const Nav = () => {
   const [inputValueCaptcha, setInputValueCaptcha] = useState('');
   const [localTime, setLocalTime] = useState(new Date());
   const [icelandTime, setIcelandTime] = useState('');
+  const [captchaComplete, setCaptchaComplete] = useState(null);
+  const [isCaptchaOpen, setIsCaptchaOpen] = useState(false);
 
-  const generateCaptcha = () => {
-    // Generate a random 4-digit number for the CAPTCHA
-    const randomCaptcha = Math.floor(1000 + Math.random() * 9000);
-    setCaptcha(randomCaptcha.toString());
+  const handleCaptchaComplete = (isCorrect) => {
+    setCaptchaComplete(isCorrect);
+    setIsCaptchaOpen(false);
   };
-  useEffect(() => {
-    generateCaptcha();
-  }, []);
+
+  const handleOpenCaptchaModal = () => {
+    setIsCaptchaOpen(true);
+  };
+
   useEffect(() => {
       const timer = setInterval(() => {
           setLocalTime(new Date());
@@ -287,31 +291,28 @@ const Nav = () => {
     }
 
     const jsonUserData = JSON.stringify(formAddUser);
-    if (inputValueCaptcha === captcha) {
-      // CAPTCHA verification successful
-      axios.post(addAGUserAPI, jsonUserData)
-      .then(response => {
-        const resMessage = response.data;
-        if (resMessage.success === false) {
-          setMessageResponse(resMessage.message);
-        }
-        if (resMessage.success === true) {
-          setAGUserEmail('')
-          setAGUserUsername('')
-          setAGUserPassword('')
-          setAGUserReferral('')
-          setViewRegFormRes(true)
-          setViewRegForm(false)
-        }
-      }) 
-      .catch (error =>{
-        setMessageResponse(error);
-      });
-    } else {
-      alert('CAPTCHA verification failed. Please try again.');
-      setInputValueCaptcha('');
-      generateCaptcha(); // Regenerate CAPTCHA
-    }
+    axios.post(addAGUserAPI, jsonUserData)
+    .then(response => {
+      const resMessage = response.data;
+      if (resMessage.success === false) {
+        setMessageResponse(resMessage.message);
+        setAGUserEmail('')
+        setAGUserUsername('')
+        setAGUserPassword('')
+        setAGUserReferral('')
+      }
+      if (resMessage.success === true) {
+        setAGUserEmail('')
+        setAGUserUsername('')
+        setAGUserPassword('')
+        setAGUserReferral('')
+        setViewRegFormRes(true)
+        setViewRegForm(false)
+      }
+    }) 
+    .catch (error =>{
+      setMessageResponse(error);
+    });
   };
   const handleUserLogin = (e) => {
     e.preventDefault();
@@ -440,52 +441,52 @@ const Nav = () => {
       {!viewUserCredentials ? <>
         {viewRegForm &&
         <div className="navContainerModal">
-            <div className="navContentModal">
-              <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
-              <form id='userRegistraionFormContainer' className="navRegistrationContent" onSubmit={handleUserRegister}>
-                <h6>REGISTER AN ACCOUNT</h6>
-                <div className='navRegContents'>
-                  <div>
-                    <label htmlFor=""><p>Email</p></label>
-                    <input type="email" placeholder='ex. playerOne01@email.com' value={agUserEmail} onChange={(e) => setAGUserEmail(e.target.value)} required/>
-                  </div>
-                  <div>
-                    <label htmlFor=""><p>Username</p></label>
-                    <input type="text" placeholder='ex. Player One' value={agUserUsername} onChange={(e) => setAGUserUsername(e.target.value)} required/>
-                  </div>
-                  <div>
-                    <label htmlFor=""><p>Password</p></label>
-                    <input type={!viewTextPassword ? "password" : "text"} minLength={8} maxLength={16} placeholder={!viewTextPassword ? '********' : 'Password Length 8-16 Characters'} value={agUserPassword} min={8} max={16} onChange={(e) => setAGUserPassword(e.target.value)} required/>
-                    {!viewTextPassword ? <button className='navRefContViewPass' onClick={handleViewPassword}><FaRegEyeSlash className='faIcons'/></button>
-                    :<button className='navRefContViewPass' onClick={handleHidePassword}><FaRegEye className='faIcons'/></button>}
-                  </div>
-                  <div>
-                    <label htmlFor=""><p>Referrer (Optional)</p></label>
-                    <input type="text" placeholder='ex. PlayerTwo' value={agUserReferral} onChange={(e) => setAGUserReferral(e.target.value)}/>
-                  </div>
-                  <div className='recaptchaSetup' id='recaptchaSetup'>
-                    <img id='captchaContent' src={`https://dummyimage.com/150x50/000/fff&text=${captcha}`} alt="Captcha" />
-                    <img id='captchaBG' src={require('./assets/imgs/LoginBackground.jpg')} alt="" />
-                    <input type="text" onChange={(e) => setInputValueCaptcha(e.target.value)} placeholder="Enter CAPTCHA"/>
-                  </div>
-                  <div className='submitAccount'>
-                    <button type='submit'>
-                      <h6>REGISTER</h6>
-                    </button>
-                  </div>
-                  <div className='registrationTCPP'>
-                    <p>
-                      By registering, you agree to Attract Game's <br />
-                      <Link>Terms & Conditions</Link> and <Link>Privacy Policy</Link><br /><br /><br />
-                      <span>{messageResponse}</span>
-                    </p>
-                    <p>
-                      Already have an Account? <a onClick={handleViewLogin}>Login Here</a>
-                    </p>
-                  </div>
+          <div className="navContentModal">
+            <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
+            <form id='userRegistraionFormContainer' className="navRegistrationContent" onSubmit={handleUserRegister}>
+              <h6>REGISTER AN ACCOUNT</h6>
+              <div className='navRegContents'>
+                <div>
+                  <label htmlFor=""><p>Email</p></label>
+                  <input type="email" placeholder='ex. playerOne01@email.com' value={agUserEmail} onChange={(e) => setAGUserEmail(e.target.value)} required/>
                 </div>
-              </form>
-            </div>
+                <div>
+                  <label htmlFor=""><p>Username</p></label>
+                  <input type="text" placeholder='ex. Player One' value={agUserUsername} onChange={(e) => setAGUserUsername(e.target.value)} required/>
+                </div>
+                <div>
+                  <label htmlFor=""><p>Password</p></label>
+                  <input type={!viewTextPassword ? "password" : "text"} minLength={8} maxLength={16} placeholder={!viewTextPassword ? '********' : 'Password Length 8-16 Characters'} value={agUserPassword} min={8} max={16} onChange={(e) => setAGUserPassword(e.target.value)} required/>
+                  {!viewTextPassword ? <button className='navRefContViewPass' onClick={handleViewPassword}><FaRegEyeSlash className='faIcons'/></button>
+                  :<button className='navRefContViewPass' onClick={handleHidePassword}><FaRegEye className='faIcons'/></button>}
+                </div>
+                <div>
+                  <label htmlFor=""><p>Referrer (Optional)</p></label>
+                  <input type="text" placeholder='ex. PlayerTwo' value={agUserReferral} onChange={(e) => setAGUserReferral(e.target.value)}/>
+                </div>
+                {!captchaComplete ? <div className='recaptchaSetup'>
+                  <button type='button' onClick={handleOpenCaptchaModal}>
+                    <h6>CAT-CAPTCHA</h6>
+                  </button>
+                </div>
+                :<div className='submitAccount'>
+                  <button type='submit'>
+                    <h6>REGISTER</h6>
+                  </button>
+                </div>}
+                <div className='registrationTCPP'>
+                  <p>
+                    By registering, you agree to Attract Game's <br />
+                    <Link>Terms & Conditions</Link> and <Link>Privacy Policy</Link><br /><br />
+                    <span>{messageResponse}</span><br /><br />
+                  </p>
+                  <p>
+                    Already have an Account? <a onClick={handleViewLogin}>Login Here</a>
+                  </p>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>}
       </>:<></>}
       {!viewUserCredentials ? <>
@@ -544,6 +545,13 @@ const Nav = () => {
           <div className="navContentModal blocked">
             <h4>ACCOUNT BLOCKED</h4>
             <p>If you believe this is an error, please contact AG Website Support.</p>
+          </div>
+        </div>}
+      </>:<></>}
+      {!viewUserCredentials ?<>
+        {isCaptchaOpen && <div className="navContainerModal">
+          <div className="navContentModal captcha">
+            <CatCaptcha onComplete={handleCaptchaComplete} />
           </div>
         </div>}
       </>:<></>}

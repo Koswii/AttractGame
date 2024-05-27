@@ -44,7 +44,7 @@ nav{
 }
 .navContentModal{
     height: auto;
-    width: 30%;
+    width: 25%;
     box-shadow: 0 0 10px white;
     padding: 2%;
     border-radius: 1vw;
@@ -123,29 +123,89 @@ nav{
     color: white;
 }
 .recaptchaSetup{
+    height: auto;
     display: flex;
-    justify-content: right;
+    justify-content: center;
     align-items: center;
-    margin: 10% 0;
-    position: relative;
 }
-.recaptchaSetup img{
-    position: absolute;
-    height: 2.4vw;
-    margin-right: 5%;
-    border-radius: 0.5vw;
-    opacity: 100%;
-    top: 0;
-    left: 0;
-    width: 40%;
-}
-.recaptchaSetup img#captchaContent{
-    z-index: 2;
-    opacity: 35%;
-}
-.navRegContents .recaptchaSetup input{
+.recaptchaSetup button{
     width: 50%;
+    border: solid 2px white;
+    padding: 2% 0;
+    background: white;
+    border-radius: 50px;
+    cursor: pointer;
 }
+.recaptchaSetup button h6{
+    font-weight: 400;
+    font-size: 0.9vw;
+    margin: 0;
+    text-shadow: none;
+    color: black;
+}
+.recaptchaSetup button:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+    background: gold;
+    box-shadow: 0 0 10px black;
+}
+
+
+
+
+
+
+.navContentModal.captcha{
+    width: 20%;
+}
+.captchaContainer{
+    height: auto;
+    width: 100%;
+}
+.captchaContainer h5{
+    text-align: center;
+    font-size: 1.2vw;
+}
+.captchaContent{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 3% 0;
+}
+.captchaContent div{
+    height: 5vw;
+    width: 5vw;
+    margin: 0.5%;
+    border-radius: 1vw;
+    overflow: hidden;
+    cursor: pointer;
+}
+.captchaContent div img{
+    height: 100%;
+}
+.captchaContainer button{
+    display: flex;
+    margin: 0 auto;
+    padding: 2% 7%;
+    border-radius: 50px;
+    background: none;
+    border: solid 2px white;
+    color: white;
+    cursor: pointer;
+}
+.captchaContainer button:hover{
+    background: gold;
+    color: black;
+    transition: 400ms ease;
+}
+
+
+
+
+
 .submitAccount{
     display: flex;
     justify-content: center;
@@ -307,12 +367,14 @@ nav{
     color: white;
     font-size: 2.3vw;
     line-height: 1vw;
+    cursor: pointer;
 }
 .userPublicBtn a#agRegisterBtn{
     border: solid 2px white;
     padding: 2% 7%;
     border-radius: 50px;
     margin-left: 5%;
+    cursor: pointer;
 }
 .userProfileBtn{
     height: auto;
@@ -374,6 +436,9 @@ nav{
     .navContentModal.regRes{
         padding: 8% 3%;
     }
+    .navContentModal.captcha{
+        padding: 8% 3%;
+    }
     .navContentModal.regRes h4{
         font-size: 7vw;
     }
@@ -387,10 +452,22 @@ nav{
     .navRegContents div input{
         border-radius: 2vw;
     }
-    .recaptchaSetup img{
-        height: 100%;
-        margin-right: 5%;
-        border-radius: 2vw;
+    .captchaContainer h5{
+        font-size: 5vw;
+    }
+    .captchaContent{
+        padding: 5%;
+    }
+    .captchaContent div{
+        height: 20vw;
+        width: 20vw;
+        margin: 0.5%;
+        border-radius: 3vw;
+        overflow: hidden;
+        border: solid 2px red;
+    }
+    .recaptchaSetup button h6{
+        font-size: 3vw;
     }
     .submitAccount button h6{
         font-size: 3vw;
