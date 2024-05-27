@@ -341,6 +341,9 @@ nav{
     border: solid 2px white;
     border-radius: 100%;
     margin-right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .userProfileBtn a#agProfileBtn img{
     height: 100%;
