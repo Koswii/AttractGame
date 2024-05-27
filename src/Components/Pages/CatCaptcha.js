@@ -1,5 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../CSS/nav.css";
+
+// Fisher-Yates shuffle algorithm
+const shuffleArray = (array) => {
+  let shuffledArray = array.slice();
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+  }
+  return shuffledArray;
+};
 
 const images = [
   { src: require('../assets/imgs/Captcha/cat01.png'), isCat: true },
@@ -14,7 +24,12 @@ const images = [
 ];
 
 const CatCaptcha = ({ onComplete }) => {
+    const [shuffledImages, setShuffledImages] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
+
+    useEffect(() => {
+        setShuffledImages(shuffleArray(images));
+    }, []);
 
     const handleImageClick = (index) => {
         setSelectedImages((prevSelected) => {
@@ -27,8 +42,8 @@ const CatCaptcha = ({ onComplete }) => {
     };
     
     const handleSubmit = () => {
-        const isCorrect = selectedImages.every((index) => images[index].isCat) &&
-                          selectedImages.length === images.filter(img => img.isCat).length;
+        const isCorrect = selectedImages.every((index) => shuffledImages[index].isCat) &&
+                          selectedImages.length === shuffledImages.filter(img => img.isCat).length;
         onComplete(isCorrect);
     };
   
@@ -36,17 +51,17 @@ const CatCaptcha = ({ onComplete }) => {
       <div className='captchaContainer'>
         <h5>Select all images of 🐱</h5>
         <div className='captchaContent'>
-          {images.map((img, index) => (
+          {shuffledImages.map((img, index) => (
             <div
               key={index}
               onClick={() => handleImageClick(index)}
-              style={{border: selectedImages.includes(index) ? '5px solid red' : '5px solid transparent',}}
+              style={{border: selectedImages.includes(index) ? '5px solid red' : '5px solid transparent'}}
             >
               <img src={img.src} alt="" />
             </div>
           ))}
         </div>
-        <button onClick={handleSubmit}>SUBMIT CATS 🐱</button>
+        <button onClick={handleSubmit}>VERIFY CATS 🐱</button>
       </div>
     );
 };

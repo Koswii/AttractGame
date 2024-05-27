@@ -427,17 +427,21 @@ nav{
         height: auto;
         width: 80%;
         border-radius: 5vw;
+        padding: 8% 2%;
     }
     .navContentModal button#closeModalContent{
         font-size: 5vw;
-        top: 2vw;
-        right: 2vw;
+        top: 4vw;
+        right: 4vw;
     }
     .navContentModal.regRes{
         padding: 8% 3%;
     }
     .navContentModal.captcha{
-        padding: 8% 3%;
+        width: 70%;
+    }
+    .navContentModal.captcha{
+        padding: 8% 2%;
     }
     .navContentModal.regRes h4{
         font-size: 7vw;
@@ -453,14 +457,14 @@ nav{
         border-radius: 2vw;
     }
     .captchaContainer h5{
-        font-size: 5vw;
+        font-size: 4vw;
     }
     .captchaContent{
         padding: 5%;
     }
     .captchaContent div{
-        height: 20vw;
-        width: 20vw;
+        height: 15vw;
+        width: 15vw;
         margin: 0.5%;
         border-radius: 3vw;
         overflow: hidden;
