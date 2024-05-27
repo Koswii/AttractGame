@@ -351,11 +351,26 @@ h6{
     height: auto;
     width: 40%;
     border-radius: 1vw;
-    background-size: cover;
     box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
     padding: 2%;
     padding-bottom: 3%;
     animation: fade-in-down 800ms ease;
+    overflow: hidden;
+}
+.modalContentPosting img#modalCSCover{
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+.modalCSCoverShadow{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(transparent, black 80%);
+    background-size: cover;
 }
 .modalContentPosting button#closeModalPosting{
     position: absolute;
@@ -367,6 +382,10 @@ h6{
     color: white;
     font-size: 1.5vw;
     cursor: pointer;
+    z-index: 3;
+}
+.modalContentPosting #userPostModalContainer{
+    position: relative;
 }
 .mdcpPostingContainer{
     height: auto;
@@ -591,6 +610,14 @@ h6{
     box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
     padding: 0.5%;
     animation: fade-in-down 800ms ease;
+    overflow: hidden;
+}
+.modalContentStory img#modalCSCover{
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform: translate(-30%, 0);
 }
 .modalContentStory button#closeModalStory{
     position: absolute;
@@ -602,7 +629,7 @@ h6{
     color: white;
     font-size: 1.5vw;
     cursor: pointer;
-    z-index: 2;
+    z-index: 3;
 }
 .mdcsStoryContainer{
     height: 35vw;
@@ -617,6 +644,7 @@ h6{
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
     position: relative;
 }
 .mdcsscDP{
@@ -688,6 +716,7 @@ h6{
     padding: 2% 5%;
     border: solid 2px white;
     box-shadow: 0 0 10px black;
+    text-align: center;
 }
 
 
@@ -1440,7 +1469,16 @@ section.profilePageContainer.mid{
 
     section.profilePageContainer.top{
         height: 75vw;
-        padding-top: 15vh;
+        width: auto;
+        /* padding-top: 25vh; */
+    }
+    section.profilePageContainer.top img{
+        height: 100%;
+        width: auto;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        transform: translate(-20%, 0);
     }
     .ppctEditCoverImg{
         right: 5vw;

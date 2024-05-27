@@ -194,9 +194,11 @@ const UserPostModal = ({setAddUserPost}, {setPostContentState}) => {
     return (
         <>
             <div className="modalContainerProfile posting">
-                <div className="modalContentPosting"
-                    style={viewCoverImg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${viewCoverImg.replace(/ /g, '%20')})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
-                    :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
+                <div className="modalContentPosting">
+                    {viewCoverImg ? 
+                    <img id='modalCSCover' src={`https://2wave.io/CoverPics/${viewCoverImg.replace(/ /g, '%20')}`} alt="" />
+                    :<img id='modalCSCover' src={require('../assets/imgs/LoginBackground.jpg')} alt="" />}
+                    <div className="modalCSCoverShadow"></div>
                     <button id='closeModalPosting' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
                     <form id='userPostModalContainer' onSubmit={handleAddPostSubmit}>
                         <div className="mdcpPostingContainer">
