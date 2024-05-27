@@ -278,7 +278,9 @@ const Highlights = () => {
                     {(userStateLogin && userDetailData != undefined) && <div className="hldpcTop1">
                         <div className="hldpct1">
                             <div>
-                                <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt="" />
+                                {userLoggedData.profileimg ?
+                                <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt="" />:
+                                <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                             </div>
                             <input type="text" placeholder='Post about a Gameplay...' readOnly onClick={handleAddUserPost}/>
                             <button id='postAStory'><IoIosImages className='faIcons' onClick={handleAddUserPost2}/></button>
@@ -286,7 +288,9 @@ const Highlights = () => {
                     </div>}
                     <div className="hldpcTop2 website">
                         {(userStateLogin && userDetailData != undefined) && <div className="hldpcT2 addStory" onClick={handleAddUserStory}>
-                            <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt="" />
+                            {userLoggedData.profileimg ?
+                            <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt="" />:
+                            <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                             <span>
                                 <h5><IoMdAddCircle className='faIcons'/></h5>
                                 <p>Add Story</p>

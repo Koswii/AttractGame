@@ -581,7 +581,9 @@ const Nav = () => {
               {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
               <Link id='agCartBtn'><TbShoppingCartBolt className='faIcons'/></Link>
               <Link id='agProfileBtn' to='/Profile'>
-                <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt=""/>
+                {dataUser.profileimg ?
+                <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt="" />:
+                <img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
               </Link>
               <a id='agLogoutBtn' onClick={handleUserLogout}><TbLogout /></a>
             </div>}
