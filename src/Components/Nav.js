@@ -72,7 +72,7 @@ const Nav = () => {
   const [viewRegFormRes, setViewRegFormRes] = useState(false);
   const [viewLoginForm, setViewLoginForm] = useState(false);
   const [viewUserCredentials, setViewUserCredentials] = useState(false);
-  const [viewAdminCredentials, setViewAdminCredentials] = useState(localStorage.getItem('agAdminLoggedIn'));
+  const [viewAdminCredentials, setViewAdminCredentials] = useState(false);
 
   const addAGUserAPI = process.env.REACT_APP_AG_USER_REGISTER_API;
   const loginAGUserAPI = process.env.REACT_APP_AG_USER_LOGIN_API;
@@ -162,15 +162,15 @@ const Nav = () => {
 
 
   const LoginUsername = localStorage.getItem('attractGameUsername');
-  const userLoggedIn = localStorage.getItem('isLoggedIn')
-  // const [dataUser, setDataUser] = useState(profileDataJSON);
+  const userLoggedIn = localStorage.getItem('isLoggedIn');
+  const [dataUser, setDataUser] = useState([]);
   const [userBlockedStatus, setUserBlockedStatus] = useState('');
   const [viewTextPassword, setViewTextPassword] = useState(false);
   const [postTimeRemaining, setPostTimeRemaining] = useState('');
   // console.log(LoginUsername);
 
   useEffect(() => {
-    // if (!userLoggedIn) return;
+    if (!userLoggedIn) return;
     const fetchUserData = async () => {
       try {
         const [userListResponse, userDataResponse] = await Promise.all([
@@ -200,7 +200,6 @@ const Nav = () => {
           setViewUserCredentials(true);
           const profileDetailsJSON = JSON.stringify(userData);
           localStorage.setItem('profileDataJSON', profileDetailsJSON);
-          // setDataUser(profileDataJSON);
 
           if (userDataStatus?.account === 'Admin') {
             localStorage.setItem('agAdminLoggedIn', true);
@@ -211,6 +210,17 @@ const Nav = () => {
         console.error(error);
       }
     };
+    const fetchUserProfile = () => {
+      const storedProfileData = localStorage.getItem('profileDataJSON');
+      const storedUserState = localStorage.getItem('agAdminLoggedIn');
+      if(storedProfileData) {
+        setDataUser(JSON.parse(storedProfileData))
+      }
+      if(storedUserState) {
+        setViewAdminCredentials(JSON.parse(storedUserState))
+      }
+    }
+
 
     const fetchUserPosts = async () => {
       if (!userLoggedIn) return;
@@ -240,13 +250,12 @@ const Nav = () => {
       }
     };
 
+    
     fetchUserData();
+    fetchUserProfile();
     fetchUserPosts();
   }, [userLoggedIn, LoginUsername, agUserUsername, AGUserListAPI, AGUserDataAPI, AGUserPostAPI, icelandTime]);
 
-  // const profileFromJSON = localStorage.getItem('profileDataJSON');
-  // const profileDataJSON = JSON.parse(profileFromJSON);
-  // console.log(profileDataJSON);
 
   const handleUserRegister = async (e) => {
     e.preventDefault();
@@ -317,6 +326,7 @@ const Nav = () => {
     
   };
   const handleUserLogout = () => {
+    if (!userLoggedIn) return;
     fetch(logoutAGUserAPI, {
       method: 'POST',
       headers: {
@@ -354,6 +364,7 @@ const Nav = () => {
     navigate(path);
   };
   useEffect(() => {
+    if (!userLoggedIn) return;
     const keysToWatch = [
       'isLoggedIn',
       'attractGameUsername',
@@ -527,11 +538,11 @@ const Nav = () => {
             <div className='userProfileBtn'>
               {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
               <Link id='agCartBtn'><TbShoppingCartBolt className='faIcons'/></Link>
-              {/* <Link id='agProfileBtn' to='/Profile'>
-                {profileDataJSON.profileimg ?
-                <img src={`https://2wave.io/ProfilePics/${profileDataJSON.profileimg}`} alt="" />:
+              <Link id='agProfileBtn' to='/Profile'>
+                {dataUser.profileimg ?
+                <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt="" />:
                 <img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
-              </Link> */}
+              </Link>
               <a id='agLogoutBtn' onClick={handleUserLogout}><TbLogout /></a>
             </div>}
           </div>
@@ -543,13 +554,13 @@ const Nav = () => {
           <button className={`${activePage === 'games' ? 'active' : ''}`} onClick={() => handleNavigation('games', '/Games')}><h5><MdOutlineGamepad  className='faIcons'/></h5></button>
           <button className={`${activePage === 'giftcards' ? 'active' : ''}`} onClick={() => handleNavigation('giftcards', '/Giftcards')}><h5><MdOutlineCardGiftcard className='faIcons'/></h5></button>
           {/* <button className={localStorage.getItem('crypto')} onClick={handleClickCrypto}><h5><MdCurrencyBitcoin className='faIcons'/></h5></button> */}
-          {/* {(userLoggedIn) && 
+          {(userLoggedIn) && 
             <Link id='agProfileBtn' to='/Profile' className={`${activePage === 'profile' ? 'active' : ''}`} onClick={() => handleNavigation('profile', '/Profile')}>
-              {profileDataJSON.profileimg ? 
-              <img src={`https://2wave.io/ProfilePics/${profileDataJSON.profileimg}`} alt=""/>
+              {dataUser.profileimg ? 
+              <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt=""/>
               :<img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
             </Link>
-          } */}
+          }
         </div>
         <hr />
       </div>

@@ -201,9 +201,9 @@ const UserStoryModal = ({setAddPostStory}) => {
         <>
             <div className="modalContainerProfile addStory">
                 <div className="modalContentStory">
-                    {viewCoverImg ? 
-                    <img id='modalCSCover' src={`https://2wave.io/CoverPics/${viewCoverImg.replace(/ /g, '%20')}`} alt="" />
-                    :<img id='modalCSCover' src={require('../assets/imgs/LoginBackground.jpg')} alt="" />}
+                    {viewCoverImg ? <div className='modalCSCover'>
+                    <img src={`https://2wave.io/CoverPics/${viewCoverImg.replace(/ /g, '%20')}`} alt="" /></div>
+                    :<div className='modalCSCover'><img src={require('../assets/imgs/LoginBackground.jpg')} alt="" /></div>}
                     <div className="modalCSCoverShadow"></div>
                     <button id='closeModalStory' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
                     <form id='userPostStoryContainer' className="mdcsStoryContainer" onSubmit={handleAddStorySubmit}>
