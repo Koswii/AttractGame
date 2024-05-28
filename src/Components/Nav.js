@@ -163,16 +163,14 @@ const Nav = () => {
 
   const LoginUsername = localStorage.getItem('attractGameUsername');
   const userLoggedIn = localStorage.getItem('isLoggedIn')
-  const profileFromJSON = localStorage.getItem('profileDataJSON')
-  const profileDataJSON = JSON.parse(profileFromJSON);
-  const [dataUser, setDataUser] = useState(profileDataJSON);
+  // const [dataUser, setDataUser] = useState(profileDataJSON);
   const [userBlockedStatus, setUserBlockedStatus] = useState('');
   const [viewTextPassword, setViewTextPassword] = useState(false);
   const [postTimeRemaining, setPostTimeRemaining] = useState('');
-  // console.log(profileDataJSON);
+  // console.log(LoginUsername);
 
   useEffect(() => {
-    if (!userLoggedIn) return;
+    // if (!userLoggedIn) return;
     const fetchUserData = async () => {
       try {
         const [userListResponse, userDataResponse] = await Promise.all([
@@ -180,6 +178,7 @@ const Nav = () => {
           axios.get(AGUserDataAPI)
         ]);
         const userDataStatus = userListResponse.data.find(item => item.username === LoginUsername);
+        // console.log(userDataStatus);
 
         if (userDataStatus?.status === 'Blocked') {
           setUserBlockedStatus(true);
@@ -245,6 +244,9 @@ const Nav = () => {
     fetchUserPosts();
   }, [userLoggedIn, LoginUsername, agUserUsername, AGUserListAPI, AGUserDataAPI, AGUserPostAPI, icelandTime]);
 
+  // const profileFromJSON = localStorage.getItem('profileDataJSON');
+  // const profileDataJSON = JSON.parse(profileFromJSON);
+  // console.log(profileDataJSON);
 
   const handleUserRegister = async (e) => {
     e.preventDefault();
@@ -306,7 +308,7 @@ const Nav = () => {
       if (data.success === true) {
         localStorage.setItem('attractGameUsername', data.username);
         localStorage.setItem('isLoggedIn', 'true');
-        window.location.reload();
+        // window.location.reload();
       } else {
         setMessageResponse(data.message);
       }
@@ -525,11 +527,11 @@ const Nav = () => {
             <div className='userProfileBtn'>
               {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
               <Link id='agCartBtn'><TbShoppingCartBolt className='faIcons'/></Link>
-              <Link id='agProfileBtn' to='/Profile'>
+              {/* <Link id='agProfileBtn' to='/Profile'>
                 {profileDataJSON.profileimg ?
                 <img src={`https://2wave.io/ProfilePics/${profileDataJSON.profileimg}`} alt="" />:
                 <img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
-              </Link>
+              </Link> */}
               <a id='agLogoutBtn' onClick={handleUserLogout}><TbLogout /></a>
             </div>}
           </div>
@@ -541,13 +543,13 @@ const Nav = () => {
           <button className={`${activePage === 'games' ? 'active' : ''}`} onClick={() => handleNavigation('games', '/Games')}><h5><MdOutlineGamepad  className='faIcons'/></h5></button>
           <button className={`${activePage === 'giftcards' ? 'active' : ''}`} onClick={() => handleNavigation('giftcards', '/Giftcards')}><h5><MdOutlineCardGiftcard className='faIcons'/></h5></button>
           {/* <button className={localStorage.getItem('crypto')} onClick={handleClickCrypto}><h5><MdCurrencyBitcoin className='faIcons'/></h5></button> */}
-          {(userLoggedIn) && 
+          {/* {(userLoggedIn) && 
             <Link id='agProfileBtn' to='/Profile' className={`${activePage === 'profile' ? 'active' : ''}`} onClick={() => handleNavigation('profile', '/Profile')}>
               {profileDataJSON.profileimg ? 
               <img src={`https://2wave.io/ProfilePics/${profileDataJSON.profileimg}`} alt=""/>
               :<img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
             </Link>
-          }
+          } */}
         </div>
         <hr />
       </div>
