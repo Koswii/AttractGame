@@ -230,14 +230,21 @@ const Highlights = () => {
         let timer;
         if (currentStory) {
           timer = setTimeout(() => {
-            const nextIndex = viewFetchStory.findIndex((story) => story.id === currentStory.id) + 1;
-            const nextStory = viewFetchStory[nextIndex % viewFetchStory.length];
+            const currentIndex = viewFetchStory.findIndex((story) => story.id === currentStory.id);
+            const nextIndex = (currentIndex + 1) % viewFetchStory.length;
+            const nextStory = viewFetchStory[nextIndex];
             setSeenStories([...seenStories, currentStory.id]);
             setCurrentStory(nextStory);
-          }, 5000);
+          }, 3000);
         }
         return () => clearTimeout(timer);
     }, [currentStory, viewFetchStory, seenStories]);
+
+    useEffect(() => {
+        if (seenStories.length === viewFetchStory.length) {
+          setSeenStories([]);
+        }
+    }, [seenStories, viewFetchStory.length]);
     
     const visibleStories = viewFetchStory.filter(story => !seenStories.includes(story.id));
 
