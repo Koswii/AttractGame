@@ -353,9 +353,11 @@ section.highlightsPageContainer.top{
 }
 .hldpcT2.stories.public{
     width: 100%;
+    justify-content: left;
 }
 .hldpcT2.stories.public div{
     width: 19%;
+    margin: 0 1%;
 }
 .hldpcT2.stories div{
     height: 15vw;
@@ -813,7 +815,7 @@ section.highlightsPageContainer.mid{
     section.highlightsPageContainer.top{
         height: auto;
         width: 100%;
-        padding: 0 5%;
+        padding: 0 3%;
         padding-top: 15vh;
     }
     .hldpcTop1{
@@ -874,6 +876,7 @@ section.highlightsPageContainer.mid{
     }
     .hldpcT2.stories.public div{
         width: 24%;
+        margin: 0;
     }
     .hldpcT2.stories div{
         height: 35vw;
