@@ -647,6 +647,9 @@ h6{
     position: relative;
     position: relative;
 }
+.mdcsStoryContainer.show{
+    border: solid 2px white;
+}
 .mdcsscDP{
     height: auto;
     width: 100%;

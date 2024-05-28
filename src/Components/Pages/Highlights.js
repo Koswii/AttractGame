@@ -139,14 +139,12 @@ const Highlights = () => {
             setOffset(prevOffset => prevOffset + PAGE_SIZE);
         }
     }, [postLoading]);
-
     const fetchUserProfile = () => {
         const storedProfileData = localStorage.getItem('profileDataJSON');
         if (storedProfileData) {
             setUserLoggedData(JSON.parse(storedProfileData));
         }
     }
-
     useEffect(() => {
         if (initialLoad || offset !== 0) {
             fetchAllUserData(setViewFetchStory, setViewFetchPost, offset, setPostLoading);
@@ -156,7 +154,6 @@ const Highlights = () => {
             fetchUserProfile()
         }
     }, [offset, initialLoad]);
-
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => {
@@ -216,12 +213,39 @@ const Highlights = () => {
     }
 
 
+
+    const [currentStory, setCurrentStory] = useState(null);
+    const [seenStories, setSeenStories] = useState([]);
+
+    const handleStoryClick = (story) => {
+        setCurrentStory(story);
+    };
+    
+    const handleCloseModal = () => {
+        setSeenStories([...seenStories, currentStory.id]);
+        setCurrentStory(null);
+    };
+
+    useEffect(() => {
+        let timer;
+        if (currentStory) {
+          timer = setTimeout(() => {
+            const nextIndex = viewFetchStory.findIndex((story) => story.id === currentStory.id) + 1;
+            const nextStory = viewFetchStory[nextIndex % viewFetchStory.length];
+            setSeenStories([...seenStories, currentStory.id]);
+            setCurrentStory(nextStory);
+          }, 5000);
+        }
+        return () => clearTimeout(timer);
+    }, [currentStory, viewFetchStory, seenStories]);
+    
+    const visibleStories = viewFetchStory.filter(story => !seenStories.includes(story.id));
+
     return (
         <div className='mainContainer highlights'>
             {addPostStory && <UserStoryModal setAddPostStory={setAddPostStory}/>}
             {addUserPost && <UserPostModal setAddUserPost={setAddUserPost}/>}
             {addUserPost2 && <UserPostModal2 setAddUserPost2={setAddUserPost2}/>}
-
             {viewProfileDetails && <div className="highlightProfileModal">
                 {selectedPostData && <div className="highlightProfileDetails"
                 style={selectedPostData.userData.coverimg ? {background: `linear-gradient(transparent, black 70%), url(https://2wave.io/CoverPics/${selectedPostData.userData.coverimg.replace(/ /g, '%20')})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}
@@ -272,6 +296,40 @@ const Highlights = () => {
                 </div>}
             </div>}
 
+            {currentStory && <div className="modalContainerProfile showStory">
+                <div className="modalContentStory">
+                    {currentStory.userData.coverimg ? 
+                    <img id='modalCSCover' src={`https://2wave.io/CoverPics/${currentStory.userData.coverimg.replace(/ /g, '%20')}`} alt="" />
+                    :<img id='modalCSCover' src={require('../assets/imgs/LoginBackground.jpg')} alt="" />}
+                    <div className="modalCSCoverShadow"></div>
+                    <button id='closeModalStory' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
+                    <div className="mdcsStoryContainer show">
+                        <div className='mdcsscDP'>
+                            {currentStory.userData.profileimg ? 
+                            <>
+                                <div>
+                                    <img src={`https://2wave.io/ProfilePics/${currentStory.userData.profileimg}`} alt=""/>
+                                </div>
+                            </>
+                            :<>
+                                <div>
+                                    <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>
+                                </div>
+                            </>}
+                            <h6>
+                                {currentStory.user} 
+                                {currentStory.userData.verified ? <>
+                                    {currentStory.userData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                    {currentStory.userData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                </>:<></>} <br />
+                                <span>{currentStory.userData.refcode}</span>
+                            </h6>
+                        </div>
+                        <img src={`https://2wave.io/AGMediaStory/${currentStory.user_story_image}`} alt="" />
+                    </div>
+                </div>
+            </div>}
+
 
             <section className="highlightsPageContainer top">
                 <div className="hlsPageContent top">
@@ -299,8 +357,8 @@ const Highlights = () => {
                         {(userStateLogin && userDetailData != undefined) ? 
                         <div className="hldpcT2 stories">
                             {!postLoading ?
-                            <>{viewFetchStory.slice(0, 4).map((story, i) => (
-                                <div key={i}>
+                            <>{visibleStories.slice(0, 4).map((story, i) => (
+                                <div key={i} onClick={() => handleStoryClick(story)}>
                                     <span>
                                         {story.userData.profileimg ?
                                         <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />:
@@ -317,8 +375,8 @@ const Highlights = () => {
                         </div>:
                         <div className="hldpcT2 stories public">
                             {!postLoading ?
-                            <>{viewFetchStory.slice(0, 5).map((story, i) => (
-                                <div key={i}>
+                            <>{visibleStories.slice(0, 5).map((story, i) => (
+                                <div key={i} onClick={() => handleStoryClick(story)}>
                                     <span>
                                         {story.userData.profileimg ?
                                         <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />:
@@ -346,8 +404,8 @@ const Highlights = () => {
                         {(userStateLogin && userDetailData != undefined) ? 
                             <div className="hldpcT2 stories">
                                 {!postLoading ?
-                                <>{viewFetchStory.slice(0, 3).map((story, i) => (
-                                    <div key={i}>
+                                <>{visibleStories.slice(0, 3).map((story, i) => (
+                                    <div key={i} onClick={() => handleStoryClick(story)}>
                                         <span>
                                             {story.userData.profileimg ?
                                             <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />:
@@ -363,8 +421,8 @@ const Highlights = () => {
                             </div>
                             :<div className="hldpcT2 stories public">
                                 {!postLoading ?
-                                <>{viewFetchStory.slice(0, 4).map((story, i) => (
-                                    <div key={i}>
+                                <>{visibleStories.slice(0, 4).map((story, i) => (
+                                    <div key={i} onClick={() => handleStoryClick(story)}>
                                         <span>
                                             {story.userData.profileimg ?
                                             <img src={`https://2wave.io/ProfilePics/${story.userData.profileimg}`} alt="" />:

@@ -57,7 +57,6 @@ const formatDateToWordedDate = (numberedDate) => {
     
     return `${month} ${day}, ${year}`;
 }
-
 const formatDate = (date) => {
     const givenDate = new Date(date);
     const currentDate = new Date();
@@ -77,23 +76,19 @@ const formatDate = (date) => {
       return formatDateToWordedDate(givenDate);
     }
 };
-
 const parseDateString = (dateString) => {
     const [datePart, timePart] = dateString.split(' ');
     const [year, month, day] = datePart.split('-').map(Number);
     const [hours, minutes, seconds] = timePart.split(':').map(Number);
     return new Date(year, month - 1, day, hours, minutes, seconds);
 };
-
 const AGUserStoryAPI = process.env.REACT_APP_AG_FETCH_STORY_API;
 const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
-
 const isWithinLastTwelveHours = (date) => {
     const twelveHoursAgo = new Date();
     twelveHoursAgo.setHours(twelveHoursAgo.getHours() - 12);
     return new Date(date) >= twelveHoursAgo;
 };
-
 const fetchUserDataStory = async (setViewFetchStory) => {
     try {
         const response = await axios.get(AGUserStoryAPI);
@@ -114,6 +109,8 @@ const fetchUserDataStory = async (setViewFetchStory) => {
         console.error('Error fetching stories:', storyError);
     }
 };
+
+
 const Profile = () => {
 
     // User Profile Fetching

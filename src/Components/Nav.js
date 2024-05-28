@@ -12,6 +12,7 @@ import {
   MdAdminPanelSettings,
   MdOutlineSpaceDashboard,
   MdOutlineShoppingBag,
+  MdNewspaper,
   MdOutlineVideogameAsset,
   MdOutlineGamepad,
   MdOutlineCardGiftcard,
@@ -25,12 +26,6 @@ import {
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import CatCaptcha from './Pages/CatCaptcha';
-
-
-
-
-
-
 
 
 const formatDateToWordedDate = (numberedDate) => {
@@ -71,40 +66,13 @@ const parseDateString = (dateString) => {
 };
 
 
-
-
-
-
-
-
 const Nav = () => {
   const navigate = useNavigate ();
   const [viewRegForm, setViewRegForm] = useState(false);
   const [viewRegFormRes, setViewRegFormRes] = useState(false);
   const [viewLoginForm, setViewLoginForm] = useState(false);
   const [viewUserCredentials, setViewUserCredentials] = useState(false);
-  const [viewAdminCredentials, setViewAdminCredentials] = useState(false);
-
-
-  const handleViewRegistration = () => {
-    setViewRegForm(true);
-    setViewLoginForm(false);
-    setViewRegFormRes(false);
-    setUserBlockedStatus(false);
-    setMessageResponse('');
-  }
-  const handleViewLogin = () => {
-    setViewLoginForm(true);
-    setViewRegForm(false);
-    setViewRegFormRes(false);
-    setUserBlockedStatus(false);
-    setMessageResponse('');
-  }
-  const handleCloseModal = () => {
-    setViewRegForm(false)
-    setViewLoginForm(false)
-    setMessageResponse('')
-  }
+  const [viewAdminCredentials, setViewAdminCredentials] = useState(localStorage.getItem('agAdminLoggedIn'));
 
   const addAGUserAPI = process.env.REACT_APP_AG_USER_REGISTER_API;
   const loginAGUserAPI = process.env.REACT_APP_AG_USER_LOGIN_API;
@@ -128,14 +96,36 @@ const Nav = () => {
   const [captchaComplete, setCaptchaComplete] = useState(null);
   const [isCaptchaOpen, setIsCaptchaOpen] = useState(false);
 
+
+  const handleViewRegistration = () => {
+    setViewRegForm(true);
+    setViewLoginForm(false);
+    setViewRegFormRes(false);
+    setUserBlockedStatus(false);
+    setMessageResponse('');
+  }
+  const handleViewLogin = () => {
+    setViewLoginForm(true);
+    setViewRegForm(false);
+    setViewRegFormRes(false);
+    setUserBlockedStatus(false);
+    setMessageResponse('');
+  }
+  const handleCloseModal = () => {
+    setViewRegForm(false)
+    setViewLoginForm(false)
+    setMessageResponse('')
+  }
+
+
   const handleCaptchaComplete = (isCorrect) => {
     setCaptchaComplete(isCorrect);
     setIsCaptchaOpen(false);
   };
-
   const handleOpenCaptchaModal = () => {
     setIsCaptchaOpen(true);
   };
+
 
   useEffect(() => {
       const timer = setInterval(() => {
@@ -173,11 +163,13 @@ const Nav = () => {
 
   const LoginUsername = localStorage.getItem('attractGameUsername');
   const userLoggedIn = localStorage.getItem('isLoggedIn')
-  const [dataUser, setDataUser] = useState('');
+  const profileFromJSON = localStorage.getItem('profileDataJSON')
+  const profileDataJSON = JSON.parse(profileFromJSON);
+  const [dataUser, setDataUser] = useState(profileDataJSON);
   const [userBlockedStatus, setUserBlockedStatus] = useState('');
-  const [viewProfileImg, setViewProfileImg] = useState('');
   const [viewTextPassword, setViewTextPassword] = useState(false);
   const [postTimeRemaining, setPostTimeRemaining] = useState('');
+  // console.log(profileDataJSON);
 
   useEffect(() => {
     if (!userLoggedIn) return;
@@ -208,14 +200,11 @@ const Nav = () => {
           const userData = userDataResponse.data.find(item => item.username === LoginUsername);
           setViewUserCredentials(true);
           const profileDetailsJSON = JSON.stringify(userData);
-          const profileDataJSON = JSON.parse(profileDetailsJSON);
           localStorage.setItem('profileDataJSON', profileDetailsJSON);
-          setDataUser(profileDataJSON);
-          // window.location.reload();
+          // setDataUser(profileDataJSON);
 
           if (userDataStatus?.account === 'Admin') {
             localStorage.setItem('agAdminLoggedIn', true);
-            setViewAdminCredentials(true);
           }
         }
 
@@ -256,26 +245,6 @@ const Nav = () => {
     fetchUserPosts();
   }, [userLoggedIn, LoginUsername, agUserUsername, AGUserListAPI, AGUserDataAPI, AGUserPostAPI, icelandTime]);
 
-  useEffect(() => {
-    const handleUsernameStorageChange = (event) => {
-      if (event.key === 'attractGameUsername') {
-        handleUserLogout();
-      }
-      if (event.key === 'profileDataJSON') {
-        handleUserLogout();
-      }
-      if (event.key === 'agAdminLoggedIn') {
-        handleUserLogout();
-      }
-      if (event.key === 'setUserCanPost') {
-        handleUserLogout();
-      }
-    };
-    window.addEventListener('storage', handleUsernameStorageChange);
-    return () => {
-      window.removeEventListener('storage', handleUsernameStorageChange);
-    };
-  }, []);
 
   const handleUserRegister = async (e) => {
     e.preventDefault();
@@ -377,63 +346,38 @@ const Nav = () => {
     setViewTextPassword(false)
   };
 
-
-
-  if(viewRegForm == true ||
-    viewLoginForm == true){
+  const [activePage, setActivePage] = useState('');
+  const handleNavigation = (page, path) => {
+    setActivePage(page);
+    navigate(path);
+  };
+  useEffect(() => {
+    const keysToWatch = [
+      'isLoggedIn',
+      'attractGameUsername',
+      'profileDataJSON',
+      'agAdminLoggedIn',
+      'setUserCanPost',
+    ];
+    const handleStorageChange = (event) => {
+      if (keysToWatch.includes(event.key)) {
+        handleUserLogout();
+        setTimeout(() => {
+          keysToWatch.forEach((key) => localStorage.removeItem(key));
+          setViewUserCredentials(false);
+        }, 1000);
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [handleUserLogout, setViewUserCredentials])
+  if(viewRegForm == true || viewLoginForm == true){
     window.document.body.style.overflow = 'hidden';
   } else{
     window.document.body.style.overflow = 'auto';
   }
-
-
-
-  const handleClickHome = () => {
-    localStorage.removeItem('dashboard');
-    localStorage.removeItem('marketplace');
-    localStorage.removeItem('games');
-    localStorage.removeItem('giftcards');
-    localStorage.removeItem('crypto');
-  };
-  const handleClickDashboadrd = () => {
-    localStorage.setItem('dashboard', 'active');
-    localStorage.removeItem('marketplace');
-    localStorage.removeItem('games');
-    localStorage.removeItem('giftcards');
-    localStorage.removeItem('crypto');
-    navigate('/Highlights');
-  };
-  const handleClickMarketplace = () => {
-    localStorage.setItem('marketplace', 'active');
-    localStorage.removeItem('dashboard');
-    localStorage.removeItem('games');
-    localStorage.removeItem('giftcards');
-    localStorage.removeItem('crypto');
-    navigate('/Marketplace');
-  };
-  const handleClickGames = () => {
-    localStorage.setItem('games', 'active');
-    localStorage.removeItem('dashboard');
-    localStorage.removeItem('marketplace');
-    localStorage.removeItem('giftcards');
-    localStorage.removeItem('crypto');
-    navigate('/Games');
-  };
-  const handleClickGiftcards = () => {
-    localStorage.setItem('giftcards', 'active');
-    localStorage.removeItem('dashboard');
-    localStorage.removeItem('marketplace');
-    localStorage.removeItem('games');
-    localStorage.removeItem('crypto');
-  };
-  const handleClickCrypto = () => {
-    localStorage.setItem('crypto', 'active');
-    localStorage.removeItem('dashboard');
-    localStorage.removeItem('marketplace');
-    localStorage.removeItem('games');
-    localStorage.removeItem('giftcards');
-  };
-
 
 
   return (
@@ -560,17 +504,18 @@ const Nav = () => {
       <div className="mainNavContainer">
         <div className="navContainer website">
           <div className="navContent left">
-              <Link to='/' onClick={handleClickHome}>
+              <Link to='/' onClick={() => handleNavigation('home', '/')}>
                   <img id='nclLogoWebsite' src={require('./assets/imgs/AGLogoWhite.png')} alt="" />
                   {/* <h5>ATTRACT GAME</h5> */}
                   <img id='nclLogoMobile' src={require('./assets/imgs/AGLogoNameWhite2.png')} alt="" />
               </Link>
           </div>
           <div className="navContent center">
-            <Link to="/Highlights" onClick={handleClickDashboadrd}><h6>HIGHLIGHTS</h6></Link>
-            <Link to="/Marketplace" onClick={handleClickMarketplace}><h6>MARKETPLACE</h6></Link>
-            <Link to="/Games" onClick={handleClickGames}><h6>GAMES</h6></Link>
-            <Link onClick={handleClickGiftcards}><h6>GIFTCARDS</h6></Link>
+            <Link to="/Highlights" onClick={() => handleNavigation('dashboard', '/Highlights')}><h6>HIGHLIGHTS</h6></Link>
+            <Link to="/News" onClick={() => handleNavigation('news', '/News')}><h6>NEWS</h6></Link>
+            <Link to="/Marketplace" onClick={() => handleNavigation('marketplace', '/Marketplace')}><h6>MARKETPLACE</h6></Link>
+            <Link to="/Games" onClick={() => handleNavigation('games', '/Games')}><h6>GAMES</h6></Link>
+            <Link onClick={() => handleNavigation('giftcards', '/Giftcards')}><h6>GIFTCARDS</h6></Link>
           </div>
           <div className="navContent right">
             {(!userLoggedIn) ? <div className='userPublicBtn'>
@@ -581,8 +526,8 @@ const Nav = () => {
               {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
               <Link id='agCartBtn'><TbShoppingCartBolt className='faIcons'/></Link>
               <Link id='agProfileBtn' to='/Profile'>
-                {dataUser.profileimg ?
-                <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt="" />:
+                {profileDataJSON.profileimg ?
+                <img src={`https://2wave.io/ProfilePics/${profileDataJSON.profileimg}`} alt="" />:
                 <img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
               </Link>
               <a id='agLogoutBtn' onClick={handleUserLogout}><TbLogout /></a>
@@ -590,15 +535,16 @@ const Nav = () => {
           </div>
         </div>
         <div className="navContainer mobile">
-          <button className={localStorage.getItem('dashboard')} onClick={handleClickDashboadrd}><h5><MdOutlineSpaceDashboard className='faIcons'/></h5></button>
-          <button className={localStorage.getItem('marketplace')} onClick={handleClickMarketplace}><h5><MdOutlineShoppingBag className='faIcons'/></h5></button>
-          <button className={localStorage.getItem('games')} onClick={handleClickGames}><h5><MdOutlineGamepad  className='faIcons'/></h5></button>
-          <button className={localStorage.getItem('giftcards')} onClick={handleClickGiftcards}><h5><MdOutlineCardGiftcard className='faIcons'/></h5></button>
-          <button className={localStorage.getItem('crypto')} onClick={handleClickCrypto}><h5><MdCurrencyBitcoin className='faIcons'/></h5></button>
+          <button className={`${activePage === 'dashboard' ? 'active' : ''}`} onClick={() => handleNavigation('dashboard', '/Highlights')}><h5><MdOutlineSpaceDashboard className='faIcons'/></h5></button>
+          <button className={`${activePage === 'news' ? 'active' : ''}`} onClick={() => handleNavigation('news', '/News')}><h5><MdNewspaper className='faIcons'/></h5></button>
+          <button className={`${activePage === 'marketplace' ? 'active' : ''}`} onClick={() => handleNavigation('marketplace', '/Marketplace')}><h5><MdOutlineShoppingBag className='faIcons'/></h5></button>
+          <button className={`${activePage === 'games' ? 'active' : ''}`} onClick={() => handleNavigation('games', '/Games')}><h5><MdOutlineGamepad  className='faIcons'/></h5></button>
+          <button className={`${activePage === 'giftcards' ? 'active' : ''}`} onClick={() => handleNavigation('giftcards', '/Giftcards')}><h5><MdOutlineCardGiftcard className='faIcons'/></h5></button>
+          {/* <button className={localStorage.getItem('crypto')} onClick={handleClickCrypto}><h5><MdCurrencyBitcoin className='faIcons'/></h5></button> */}
           {(userLoggedIn) && 
-            <Link id='agProfileBtn' to='/Profile' onClick={handleClickHome}>
-              {dataUser.profileimg ? 
-              <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt=""/>
+            <Link id='agProfileBtn' to='/Profile' className={`${activePage === 'profile' ? 'active' : ''}`} onClick={() => handleNavigation('profile', '/Profile')}>
+              {profileDataJSON.profileimg ? 
+              <img src={`https://2wave.io/ProfilePics/${profileDataJSON.profileimg}`} alt=""/>
               :<img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
             </Link>
           }
