@@ -261,6 +261,7 @@ section.highlightsPageContainer.top{
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2%;
+    margin-right: 2%;
 }
 .hldpct1{
     height: auto;
@@ -305,7 +306,7 @@ section.highlightsPageContainer.top{
     height: auto;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     align-items: center;
     margin-bottom: 2%;
 }
@@ -322,7 +323,7 @@ section.highlightsPageContainer.top{
     justify-content: center;
     align-items: center;
     position: relative;
-    margin-right: 2%;
+    margin-right: 0.5%;
     cursor: pointer;
 }
 .hldpcT2.addStory img{
@@ -343,10 +344,10 @@ section.highlightsPageContainer.top{
 }
 .hldpcT2.stories{
     height: 15vw;
-    width: 82%;
+    width: 85%;
     overflow: hidden;
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     align-items: center;
     position: relative;
 }
@@ -367,6 +368,7 @@ section.highlightsPageContainer.top{
     overflow: hidden;
     cursor: pointer;
     position: relative;
+    margin-left: 2%;
 }
 .hldpcT2.stories div span{
     position: absolute;
@@ -861,10 +863,9 @@ section.highlightsPageContainer.mid{
 
     .hldpcT2.stories{
         height: 35vw;
-        width: 74%;
+        width: 75%;
         overflow: hidden;
         display: flex;
-        justify-content: space-between;
         align-items: center;
         position: relative;
     }
@@ -876,8 +877,9 @@ section.highlightsPageContainer.mid{
     }
     .hldpcT2.stories div{
         height: 35vw;
-        width: 32%;
+        width: 33%;
         border-radius: 2vw;
+        margin-left: 2%;
     }
     .hldpcT2.stories div span{
         position: absolute;
