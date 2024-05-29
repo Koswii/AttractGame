@@ -478,10 +478,13 @@ const Profile = () => {
                                 <img src={URL.createObjectURL(imageCoverPhoto)} alt="No image Selected" /> :
                                 <h6>Change Cover Photo</h6>
                             }
-                            <input type="file" onChange={handleUploadUserCoverPhoto}/> 
+                            <input type="file" onChange={handleUploadUserCoverPhoto}/>
+                            {(imageCoverPhoto) ? <> 
                             {!isEditSubmitting ?
                             <button type='submit'><FaRegImages className='faIcons'/> UPDATE COVER</button> 
-                            :<button type='button'>UPLOADING...</button>} 
+                            :<button type='button'>UPLOADING...</button>}</>:<>
+                            <button type='button'>INSERT COVER</button> 
+                            </>}
                         </div>
                     </form>
                 </div>

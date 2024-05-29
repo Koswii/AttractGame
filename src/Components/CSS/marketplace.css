@@ -37,7 +37,7 @@ h6{
 
 
 section.marketplacePageContainer.top{
-    height: 41vw;
+    height: auto;
     width: 100%;
     padding: 4vw 10%;
     padding-bottom: 0;
@@ -289,7 +289,8 @@ section.marketplacePageContainer.mid{
     display: flex;
     justify-content: space-between;
     align-items: top;
-    margin-bottom: 10%;
+    margin-top: 2%;
+    margin-bottom: 6%;
 }
 .mppContentMid1{
     height: 20vw;
@@ -689,7 +690,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     justify-content: center;
     align-items: center;
     box-shadow: 0 0 10px gray;
-    margin-top: 5%;
+    margin-top: 10%;
     margin-bottom: 2%;
     border-radius: 1vw;
     padding: 2%;

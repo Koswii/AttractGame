@@ -83,13 +83,13 @@ const Games = () => {
                 </div>
                 {loadingMarketData ? <div className="gmspContent top2">
                     {currentItems.map((details, index) => (
-                        <Link className="gmspct2Game" key={index} to={`/Games/${details.game_canonical}`}>
+                        <div className="gmspct2Game" key={index} to={`/Games/${details.game_canonical}`}>
                             <div className="gmspct2gPlatform">
                                 <img src='' platform={details.game_platform} alt="" />
                             </div>
-                            <>{details.game_cover !== '' ?
+                            <Link to={`/Games/${details.game_canonical}`}>{details.game_cover !== '' ?
                             <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
-                            :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</>
+                            :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
                             <div className="gmspct2gDetails">
                                 <h5>{details.game_title}</h5>
                                 <p>{details.game_edition}</p>
@@ -99,7 +99,7 @@ const Games = () => {
                                     <button><TbShoppingCartBolt className='faIcons'/></button>
                                 </div>
                             </div>
-                        </Link>
+                        </div>
                     ))}
                 </div>
                 :<div className="gmspContent top2 load">

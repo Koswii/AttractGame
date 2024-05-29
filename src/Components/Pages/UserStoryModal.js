@@ -234,9 +234,12 @@ const UserStoryModal = ({setAddPostStory}) => {
                         }
                         <input type="file" onChange={handleUploadUserStory} required/>
                         <div className="storySubmit">
+                            {(imageStory) ? <>
                             {!userStorySubmitting ? 
                             <button type='submit'><FaRegImages className='faIcons'/> ADD STORY</button>
-                            :<button type='button'>UPLOADING...</button>}
+                            :<button type='button'>UPLOADING...</button>}</>:<>
+                            <button type='button'>ADD STORY</button> 
+                            </>}
                         </div>
                     </form>
                 </div>

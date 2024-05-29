@@ -27,147 +27,56 @@ const formatDateToWordedDate = (numberedDate) => {
 
 const Admin = () => {
     const [viewAdminNavigations, setViewAdminNavigations] = useState(false)
-    const [viewAdminDefault, setViewAdminDefault] = useState(true)
-    const [viewAdminSupplier, setViewAdminSupplier] = useState(false)
-    const [viewAdminGames, setViewAdminGames] = useState(false)
-    const [viewAdminGiftCard, setViewAdminGiftCards] = useState(false)
-    const [viewAdminGameCredits, setViewAdminGameCredit] = useState(false)
-    const [viewAdminSeller, setViewAdminSeller] = useState(false)
-    const [viewAdminProductList, setViewAdminProductList] = useState(false)
-    const [viewAdminUserList, setViewAdminUserList] = useState(false)
-    const [viewAdminPopupAds, setViewAdminPopupAds] = useState(false)
-    const [viewAdminTransactions, setViewAdminTransactions] = useState(false)
-    
+    const [activeView, setActiveView] = useState('default');
 
+    useEffect(() => {
+        const savedView = localStorage.getItem('activeView');
+        if (savedView) {
+        setActiveView(savedView);
+        }
+    }, []);
+    useEffect(() => {
+        localStorage.setItem('activeView', activeView);
+    }, [activeView]);
     const handleViewNavigations = () => {
-        setViewAdminDefault(true)
-        setViewAdminSupplier(false)
-        setViewAdminGames(false)
-        setViewAdminGiftCards(false)
-        setViewAdminGameCredit(false)
-        setViewAdminSeller(false)
-        setViewAdminProductList(false)
-        setViewAdminUserList(false)
-        setViewAdminPopupAds(false)
-        setViewAdminTransactions(false)
-        setFormResponse('')
-    }
+        setActiveView('default');
+        setFormResponse('');
+    };
     const handleViewAddSupplier = () => {
-        setViewAdminDefault(false)
-        setViewAdminSupplier(true)
-        setViewAdminGames(false)
-        setViewAdminGiftCards(false)
-        setViewAdminGameCredit(false)
-        setViewAdminSeller(false)
-        setViewAdminProductList(false)
-        setViewAdminUserList(false)
-        setViewAdminPopupAds(false)
-        setViewAdminTransactions(false)
-        setFormResponse('')
-    }
+        setActiveView('supplier');
+        setFormResponse('');
+    };
     const handleViewAddGames = () => {
-        setViewAdminDefault(false)
-        setViewAdminSupplier(false)
-        setViewAdminGames(true)
-        setViewAdminGiftCards(false)
-        setViewAdminGameCredit(false)
-        setViewAdminSeller(false)
-        setViewAdminProductList(false)
-        setViewAdminUserList(false)
-        setViewAdminPopupAds(false)
-        setViewAdminTransactions(false)
-        setFormResponse('')
-    }
+        setActiveView('games');
+        setFormResponse('');
+    };
     const handleViewAddGiftCards = () => {
-        setViewAdminDefault(false)
-        setViewAdminSupplier(false)
-        setViewAdminGames(false)
-        setViewAdminGiftCards(true)
-        setViewAdminGameCredit(false)
-        setViewAdminSeller(false)
-        setViewAdminProductList(false)
-        setViewAdminUserList(false)
-        setViewAdminPopupAds(false)
-        setViewAdminTransactions(false)
-        setFormResponse('')
-    }
+        setActiveView('giftCards');
+        setFormResponse('');
+    };
     const handleViewAddGameCredit = () => {
-        setViewAdminDefault(false)
-        setViewAdminSupplier(false)
-        setViewAdminGames(false)
-        setViewAdminGiftCards(false)
-        setViewAdminGameCredit(true)
-        setViewAdminSeller(false)
-        setViewAdminProductList(false)
-        setViewAdminUserList(false)
-        setViewAdminPopupAds(false)
-        setViewAdminTransactions(false)
-        setFormResponse('')
-    }
+        setActiveView('gameCredit');
+        setFormResponse('');
+    };
     const handleViewAddSeller = () => {
-        setViewAdminDefault(false)
-        setViewAdminSupplier(false)
-        setViewAdminGames(false)
-        setViewAdminGiftCards(false)
-        setViewAdminGameCredit(false)
-        setViewAdminSeller(true)
-        setViewAdminProductList(false)
-        setViewAdminUserList(false)
-        setViewAdminPopupAds(false)
-        setViewAdminTransactions(false)
-        setFormResponse('')
-    }
+        setActiveView('seller');
+        setFormResponse('');
+    };
     const handleViewProducts = () => {
-        setViewAdminDefault(false)
-        setViewAdminSupplier(false)
-        setViewAdminGames(false)
-        setViewAdminGiftCards(false)
-        setViewAdminGameCredit(false)
-        setViewAdminSeller(false)
-        setViewAdminProductList(true)
-        setViewAdminUserList(false)
-        setViewAdminPopupAds(false)
-        setViewAdminTransactions(false)
-        setFormResponse('')
-    }
+        setActiveView('productList');
+        setFormResponse('');
+    };
     const handleViewUsers = () => {
-        setViewAdminDefault(false)
-        setViewAdminSupplier(false)
-        setViewAdminGames(false)
-        setViewAdminGiftCards(false)
-        setViewAdminGameCredit(false)
-        setViewAdminSeller(false)
-        setViewAdminProductList(false)
-        setViewAdminUserList(true)
-        setViewAdminPopupAds(false)
-        setViewAdminTransactions(false)
-        setFormResponse('')
-    }
+        setActiveView('userList');
+        setFormResponse('');
+    };
     const handleViewAddPopup = () => {
-        setViewAdminDefault(false)
-        setViewAdminSupplier(false)
-        setViewAdminGames(false)
-        setViewAdminGiftCards(false)
-        setViewAdminGameCredit(false)
-        setViewAdminSeller(false)
-        setViewAdminProductList(false)
-        setViewAdminUserList(false)
-        setViewAdminPopupAds(true)
-        setViewAdminTransactions(false)
-        setFormResponse('')
-    }
+        setActiveView('popupAds');
+        setFormResponse('');
+    };
     const handleViewTransactions = () => {
-        setViewAdminDefault(false)
-        setViewAdminSupplier(false)
-        setViewAdminGames(false)
-        setViewAdminGiftCards(false)
-        setViewAdminGameCredit(false)
-        setViewAdminSeller(false)
-        setViewAdminProductList(false)
-        setViewAdminUserList(false)
-        setViewAdminPopupAds(false)
-        setViewAdminTransactions(true)
-    }
+        setActiveView('transactions');
+    };
 
     
     const AGUserProfileListAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
@@ -369,8 +278,6 @@ const Admin = () => {
     };
 
 
-
-
     const [agAddGameEdition, setAGAddGameEdition] = useState(false)
     const handleViewAddGameEdition = (e) => {
         e.preventDefault();
@@ -389,23 +296,23 @@ const Admin = () => {
                 <div className="admPageContent top">
                     <div className="admpc top">
                         <div className='admpcViewNav'>
-                            <button className={viewAdminDefault ? 'activeNav': ''} onClick={handleViewNavigations}><h6>DASHBOARD</h6></button>
-                            <button className={viewAdminSupplier ? 'activeNav': ''} onClick={handleViewAddSupplier}><h6>ADD SUPPLIER</h6></button>
-                            <button className={viewAdminGames ? 'activeNav': ''} onClick={handleViewAddGames}><h6>ADD GAMES</h6></button>
-                            <button className={viewAdminGiftCard ? 'activeNav': ''} onClick={handleViewAddGiftCards}><h6>ADD GIFTCARDS</h6></button>
-                            <button className={viewAdminGameCredits ? 'activeNav': ''} onClick={handleViewAddGameCredit}><h6>ADD GAME CREDIT</h6></button>
-                            <button className={viewAdminSeller ? 'activeNav': ''} onClick={handleViewAddSeller}><h6>ADD SELLER</h6></button>
-                            <button className={viewAdminProductList ? 'activeNav': ''} onClick={handleViewProducts}><h6>PRODUCTS</h6></button>
-                            <button className={viewAdminUserList ? 'activeNav': ''} onClick={handleViewUsers}><h6>USERS LIST</h6></button>
-                            <button className={viewAdminPopupAds ? 'activeNav': ''} onClick={handleViewAddPopup}><h6>OTHERS</h6></button>
-                            <button className={viewAdminTransactions ? 'activeNav': ''} onClick={handleViewTransactions}><h6>TRANSACTION HISTORY</h6></button>
+                            <button className={activeView === 'default' ? 'activeNav': ''} onClick={handleViewNavigations}><h6>DASHBOARD</h6></button>
+                            <button className={activeView === 'supplier' ? 'activeNav': ''} onClick={handleViewAddSupplier}><h6>ADD SUPPLIER</h6></button>
+                            <button className={activeView === 'games' ? 'activeNav': ''} onClick={handleViewAddGames}><h6>ADD GAMES</h6></button>
+                            <button className={activeView === 'giftCards' ? 'activeNav': ''} onClick={handleViewAddGiftCards}><h6>ADD GIFTCARDS</h6></button>
+                            <button className={activeView === 'gameCredit' ? 'activeNav': ''} onClick={handleViewAddGameCredit}><h6>ADD GAME CREDIT</h6></button>
+                            <button className={activeView === 'seller' ? 'activeNav': ''} onClick={handleViewAddSeller}><h6>ADD SELLER</h6></button>
+                            <button className={activeView === 'productList' ? 'activeNav': ''} onClick={handleViewProducts}><h6>PRODUCTS</h6></button>
+                            <button className={activeView === 'userList' ? 'activeNav': ''} onClick={handleViewUsers}><h6>USERS LIST</h6></button>
+                            <button className={activeView === 'popupAds' ? 'activeNav': ''} onClick={handleViewAddPopup}><h6>OTHERS</h6></button>
+                            <button className={activeView === 'transactions' ? 'activeNav': ''} onClick={handleViewTransactions}><h6>TRANSACTION HISTORY</h6></button>
                         </div>
                     </div>
                 </div>
             </section>
             <section className="adminPageContainer mid">
                 <div className="admPageContent mid1">
-                    {viewAdminDefault &&<div className="admpcm1Dashboard">
+                    {activeView === 'default' &&<div className="admpcm1Dashboard">
                         <h4>DASHBOARD</h4>
                         <div className="admpcm1dContainer">
                             <div className="admpcm1dContent left">
@@ -467,7 +374,7 @@ const Admin = () => {
                             </table>
                             <table id='admpcm1dtContent'>
                                 <tbody>
-                                    {viewUserProfiles.slice(0,8).map((item, i) => (
+                                    {viewUserProfiles.slice(0,10).map((item, i) => (
                                         <tr key={i}>
                                             <td width='20%'><p>{item.email}</p></td>
                                             <td width='20%'><p>{item.username}</p></td>
@@ -481,7 +388,7 @@ const Admin = () => {
                             </table>
                         </div>
                     </div>}
-                    {viewAdminSupplier &&<div className="admpcm1Supplier">
+                    {activeView === 'supplier' &&<div className="admpcm1Supplier">
                         <div className="admpcm1AddSuppContainer">
                             <div className="admpcm1ASuppContent left">
                                 <h4>WELCOME ADMIN!</h4><br />
@@ -559,7 +466,7 @@ const Admin = () => {
                             </div>
                         </div>
                     </div>}
-                    {viewAdminGames &&<div className="admpcm1Games">
+                    {activeView === 'games' &&<div className="admpcm1Games">
                         <div className="admpcm1AddGameContainer">
                             <div className="admpcm1AGameContent left">
                                 <h4>WELCOME ADMIN!</h4><br />
