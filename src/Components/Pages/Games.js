@@ -3,7 +3,8 @@ import "../CSS/games.css";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { 
-    TbShoppingCartBolt, 
+    TbShoppingCartBolt,
+    TbShoppingCartPlus,  
     TbDeviceGamepad2,
     TbGiftCard,
     TbHeart,
@@ -75,36 +76,71 @@ const Games = () => {
         <div className='mainContainer gameList'>
             <section className="gamesPageContainer top">
                 <div className="gmspContent top1">
-                    <h5>ALL GAMES</h5>
+                    {/* <h5>ALL GAMES</h5> */}
                     <input type="text" placeholder='Search Game Here...' value={searchGameName} onChange={handleSearchChange}/>
                     <ul className="pagination">
                         {loadingMarketData ? renderPageNumbers : <li>0</li>}
                     </ul>
                 </div>
-                {loadingMarketData ? <div className="gmspContent top2">
-                    {currentItems.map((details, index) => (
-                        <div className="gmspct2Game" key={index} to={`/Games/${details.game_canonical}`}>
-                            <div className="gmspct2gPlatform">
-                                <img src='' platform={details.game_platform} alt="" />
-                            </div>
-                            <Link to={`/Games/${details.game_canonical}`}>{details.game_cover !== '' ?
-                            <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
-                            :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
-                            <div className="gmspct2gDetails">
-                                <h5>{details.game_title}</h5>
-                                <p>{details.game_edition}</p>
-                                <div>
-                                    <h6>$ 999.99</h6>
-                                    <button><TbHeart className='faIcons'/></button>
-                                    <button><TbShoppingCartBolt className='faIcons'/></button>
+                <div className="gmspContent top2">
+                    <div className="gmspContentTop left">
+
+                    </div>
+                    <div className='gmspContentTop2 right'>
+                        {loadingMarketData ? <>
+                            {currentItems.map((details, index) => (
+                                <div className="gmspct2Game" key={index} to={`/Games/${details.game_canonical}`}>
+                                    <div className="gmspct2gPlatform">
+                                        <img src='' platform={details.game_platform} alt="" />
+                                    </div>
+                                    <Link to={`/Games/${details.game_canonical}`}>{details.game_cover !== '' ?
+                                    <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
+                                    :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
+                                    <div className="gmspct2gDetails">
+                                        <h5>{details.game_title}</h5>
+                                        <p>{details.game_edition}</p>
+                                        <div>
+                                            <h6>$ 999.99</h6>
+                                            <button><TbHeart className='faIcons'/></button>
+                                            <button><TbShoppingCartPlus className='faIcons'/></button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    ))}
+                            ))}
+                        </>:<>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"></div>
+                        </>}
+                    </div>
                 </div>
-                :<div className="gmspContent top2 load">
-                    <div className="loader"></div>
-                </div>}
                 {searchGameName == '' && <div className="gmspContent top1 mobile">
                     <h5></h5>
                     <ul className="pagination">

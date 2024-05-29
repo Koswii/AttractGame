@@ -20,6 +20,7 @@ import {
 } from "react-icons/md";
 import { 
   TbUserSquareRounded,
+  TbHeartFilled,
   TbShoppingCartBolt,
   TbLogout 
 } from "react-icons/tb";
@@ -537,8 +538,9 @@ const Nav = () => {
             </div>:
             <div className='userProfileBtn'>
               {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
+              <Link id='agHeartBtn'><TbHeartFilled className='faIcons'/></Link>
               <Link id='agCartBtn'><TbShoppingCartBolt className='faIcons'/></Link>
-              <Link id='agProfileBtn' to='/Profile'>
+              <Link id='agProfileBtn' to='/MyProfile'>
                 {dataUser.profileimg ?
                 <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt="" />:
                 <img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
@@ -555,7 +557,7 @@ const Nav = () => {
           <button className={`${activePage === 'giftcards' ? 'active' : ''}`} onClick={() => handleNavigation('giftcards', '/Giftcards')}><h5><MdOutlineCardGiftcard className='faIcons'/></h5></button>
           {/* <button className={localStorage.getItem('crypto')} onClick={handleClickCrypto}><h5><MdCurrencyBitcoin className='faIcons'/></h5></button> */}
           {(userLoggedIn) && 
-            <Link id='agProfileBtn' to='/Profile' className={`${activePage === 'profile' ? 'active' : ''}`} onClick={() => handleNavigation('profile', '/Profile')}>
+            <Link id='agProfileBtn' to='/MyProfile' className={`${activePage === 'profile' ? 'active' : ''}`} onClick={() => handleNavigation('profile', '/Profile')}>
               {dataUser.profileimg ? 
               <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt=""/>
               :<img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}

@@ -389,6 +389,7 @@ nav{
     margin: 0 4%;
 }
 .userProfileBtn a#agAdminBtn,
+.userProfileBtn a#agHeartBtn,
 .userProfileBtn a#agCartBtn,
 .userProfileBtn a#agLogoutBtn{
     font-size: 2vw;
@@ -526,6 +527,7 @@ nav{
         margin: 0 7%;
     }
     .userProfileBtn a#agAdminBtn,
+    .userProfileBtn a#agHeartBtn,
     .userProfileBtn a#agCartBtn,
     .userProfileBtn a#agLogoutBtn{
         font-size: 7vw;

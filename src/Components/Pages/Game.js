@@ -18,6 +18,7 @@ import {
 } from "react-icons/fa6";
 import { 
     TbShoppingCartBolt, 
+    TbShoppingCartPlus,
     TbDeviceGamepad2,
     TbGiftCard,
     TbHeart,
@@ -178,7 +179,7 @@ const Game = () => {
                         <div className="gppctgdrExtras">
                             <h4>$ 999.99</h4>
                             <button><TbHeart className='faIcons'/></button>
-                            <button><TbShoppingCartBolt className='faIcons'/></button>
+                            <button><TbShoppingCartPlus gCartBolt className='faIcons'/></button>
                             <div>
                                 <h6>Game On-Stock</h6>
                                 <p>24 Stocks</p>

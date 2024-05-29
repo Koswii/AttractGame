@@ -16,7 +16,8 @@ import {
     FaRankingStar 
 } from "react-icons/fa6";
 import { 
-    TbShoppingCartBolt, 
+    TbShoppingCartBolt,
+    TbShoppingCartPlus, 
     TbDeviceGamepad2,
     TbGiftCard,
     TbHeart,
@@ -186,13 +187,13 @@ const Marketplace = () => {
                     </div>
                     <div className="mppctn right">
                         <span>
-                            <h6>0 <TbShoppingCartBolt  className='faIcons'/></h6>
+                            <h6>0 <TbShoppingCartPlus  className='faIcons'/></h6>
                         </span>
                         <span>
                             <h6>{viewAllGamesNum} <TbDeviceGamepad2 className='faIcons'/></h6>
                         </span>
                         <span>
-                            <h6>123 <TbGiftCard className='faIcons'/></h6>
+                            <h6>0 <TbGiftCard className='faIcons'/></h6>
                         </span>
                     </div>
                 </div>
@@ -261,7 +262,7 @@ const Marketplace = () => {
                 </>} */}
             </section>
             <section className="marketplacePageContainer mid">
-                <h4 id='mppcmh4Title'><FaGamepad className='faIcons'/> FEATURED GAMES</h4>
+                <h4 id='mppcth4Title'><FaGamepad className='faIcons'/> FEATURED GAMES</h4>
                 <div className="mpPageContentMid1">
                     {!loadingMarketData ? <>
                         <div className="mppContentMid1">
@@ -333,7 +334,7 @@ const Marketplace = () => {
                             <div>
                                 <div id="mppcm2GDView"><h5>$999.99</h5></div>
                                 <button id='mppcm2GDHeart'><TbHeart className='faIcons'/></button>
-                                <button id='mppcm2GDCart'><TbShoppingCartBolt className='faIcons'/></button>
+                                <button id='mppcm2GDCart'><TbShoppingCartPlus className='faIcons'/></button>
                             </div>
                         </div>
                     </div>

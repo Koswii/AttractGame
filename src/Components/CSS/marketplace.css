@@ -42,14 +42,6 @@ section.marketplacePageContainer.top{
     padding: 4vw 10%;
     padding-bottom: 0;
 }
-section.marketplacePageContainer.top h4#mppcth4Title{
-    display: flex;
-    justify-content: left;
-    align-items: center;
-}
-section.marketplacePageContainer.top h4#mppcth4Title .faIcons{
-    margin-right: 1%;
-}
 .mpPageContentTopNav{
     height: auto;
     width: 100%;
@@ -282,6 +274,14 @@ section.marketplacePageContainer.mid{
     width: 100%;
     padding: 1vw 10%;
     padding-bottom: 10vw;
+}
+section.marketplacePageContainer.mid h4#mppcth4Title{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+section.marketplacePageContainer.mid h4#mppcth4Title .faIcons{
+    margin-right: 1%;
 }
 .mpPageContentMid1{
     height: auto;
@@ -877,7 +877,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     }
 
 
-    section.marketplacePageContainer.top h4#mppcth4Title{
+    section.marketplacePageContainer.mid h4#mppcth4Title{
         display: none;
     }
     .mpPageContentTop{
