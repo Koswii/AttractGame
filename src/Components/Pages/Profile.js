@@ -394,7 +394,7 @@ const Profile = () => {
                                     </>
                                     )}
                                 </div>
-                                <div className='mdcpscSampleProfile'>
+                                <div className='mdcpscSampleProfile web'>
                                     {defaultImages.map((image, index) => (
                                     <img
                                         key={index}
@@ -403,6 +403,23 @@ const Profile = () => {
                                         alt={`Default ${index}`}
                                     />
                                     ))}
+                                </div>
+                                <div className='mdcpscSampleProfile mob'>
+                                    {defaultImages.slice(2, 10).map((image, index) => (
+                                    <img
+                                        key={index}
+                                        onClick={() => handleImageSelect(image)}
+                                        src={require(`../assets/imgs/ProfilePics/${image}`)}
+                                        alt={`Default ${index}`}
+                                    />
+                                    ))}
+                                    <div className="mdcpscSPInput">
+                                        <input type="file" onChange={handleUploadUserDP} />
+                                        <span>
+                                            <h5><TbUpload className='faIcons' /></h5>
+                                            <p>Upload</p>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div className='mdcpscCustomProfile'>
                                     <p><TbUpload className='faIcons' />Upload from Computer</p>
