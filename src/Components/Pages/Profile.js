@@ -116,6 +116,7 @@ const Profile = () => {
     // User Profile Fetching
     const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
     const LoginUsername = localStorage.getItem('attractGameUsername');
+    const LoginUserID = localStorage.getItem('profileUserID');
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const [userLoggedData, setUserLoggedData] = useState('')
     const [randomNumber, setRandomNumber] = useState('');
@@ -154,7 +155,7 @@ const Profile = () => {
             axios.get(AGUserPostAPI)
             .then((response) => {
                 const postSortData = response.data.sort((a, b) => b.id - a.id);
-                const postData = postSortData.filter(post => post.user == LoginUsername);
+                const postData = postSortData.filter(post => post.user_id == LoginUserID);
                 setViewFetchPost(postData);
             })
             .catch(error => {
@@ -164,7 +165,7 @@ const Profile = () => {
         fetchUserDataPost();
         fetchUserDataStory(setViewFetchStory);
 
-    }, [LoginUsername]);
+    }, [LoginUserID]);
 
     // console.log(userLoggedData);
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import "../CSS/marketplace.css";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useActivePage } from './ActivePageContext';
 import { 
     FaSearch,
     FaGamepad,
@@ -33,7 +34,6 @@ import {
     MdDiscount 
 } from "react-icons/md";
 import axios from 'axios';
-import { getGameReviews } from 'unofficial-metacritic';
 
 
 const formatDateToWordedDate = (numberedDate) => {
@@ -46,6 +46,8 @@ const formatDateToWordedDate = (numberedDate) => {
     return `${month} ${day}, ${year}`;
 }
 const Marketplace = () => {
+    const navigate = useNavigate ();
+    const { setActivePage } = useActivePage();
     const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
     const AGGamesListAPI2 = process.env.REACT_APP_AG_GAMES_STATUS_API;
     const AGGamesWikiDetails = process.env.REACT_APP_AG_GAMES_WIKI_API;
@@ -57,6 +59,7 @@ const Marketplace = () => {
     const [viewWikiData, setViewWikiData] = useState([]);
     const [viewMetacriticData, setViewMetacriticData] = useState([]);
     const [loadingMarketData, setLoadingMarketData] = useState(false);
+    const [loadingMarketData1, setLoadingMarketData1] = useState(true)
     const [scrapedMetacriticData, setScrapedMetacriticData] = useState('');
     const [viewRobloxPartners, setViewRobloxPartners] = useState([]);
 
@@ -64,6 +67,7 @@ const Marketplace = () => {
     useEffect(() => {
         const fetchGames = async () => {
             try {
+                setLoadingMarketData1(true);
                 const response1 = await axios.get(AGGamesListAPI1);
                 const agAllGames = response1.data;
 
@@ -91,11 +95,12 @@ const Marketplace = () => {
                 setViewAllGamesNum(agAllGames.length);
                 setViewAGData1(sortedCurrentYearGames);
                 setViewAllListedGames(sortedCurrentYearGames);
-                // console.log(sortedCurrentYearGames);
                 setViewMetacriticData(gameCSFeatMetacritic);
                 setViewWikiData(gameCSFeatWikipedia)
             } catch (error) {
                 console.error(error);
+            } finally {
+                setLoadingMarketData1(false);
             }
         };
         fetchGames();
@@ -168,15 +173,20 @@ const Marketplace = () => {
             })
         }
         fetchRobloxPartners();
+
     }, []);
     const handleClickGames = () => {
-        localStorage.setItem('games', 'active');
-        localStorage.removeItem('dashboard');
-        localStorage.removeItem('marketplace');
-        localStorage.removeItem('giftcards');
-        localStorage.removeItem('crypto');
+        setActivePage('games');
     }
 
+
+
+    
+
+
+
+
+    
     return (
         <div className='mainContainer marketplace'>
             <section className="marketplacePageContainer top">
@@ -300,7 +310,7 @@ const Marketplace = () => {
                                     {details.metadescription.slice(0, 100)+ '...'}
                                 </p>
                                 <div>
-                                    <Link to={`/Games/${details.agData1.game_canonical}`}>View Game</Link>
+                                    <Link to={`/Games/${details.agData1.game_canonical}`} onClick={handleClickGames}>View Game</Link>
                                 </div>
                             </div>
                         </div>
@@ -309,7 +319,23 @@ const Marketplace = () => {
                 </div>
                 <h4 id='mppcmh4Title'><FaGamepad className='faIcons'/> AVAILABLE GAMES</h4>
                 <div className="mpPageContentMid2 website">
-                    {viewAllListedGames.slice(0, 15).map((details, i) => (
+                    {loadingMarketData1 ? <>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                    </>:<>{viewAllListedGames.slice(0, 15).map((details, i) => (
                     <div className="mppContentMid2" key={i}>
                         <div className="mppcm2GamePlatform" to={`/Games/${details.game_canonical}`}>
                             <img platform={details.game_platform} src="" alt="" />
@@ -322,7 +348,7 @@ const Marketplace = () => {
                                 <TbCalendarStar className={`faIcons ${(details.game_category === 'Preorder') ? 'Preorder' : ''}`}/>
                             </h4>
                         </div>
-                        <Link to={`/Games/${details.game_canonical}`}>{details.game_cover !== '' ?
+                        <Link to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>{details.game_cover !== '' ?
                         <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
                         <div className="mppcm2GameDiscount">
@@ -338,11 +364,16 @@ const Marketplace = () => {
                             </div>
                         </div>
                     </div>
-                    ))}
+                    ))}</>}
                 </div>
                 <div className="mpPageContentMid2 mobile">
-                    {viewAllListedGames.slice(0, 4).map((details, i) => (
-                    <Link className="mppContentMid2" key={i} to={`/Games/${details.game_canonical}`}>
+                    {loadingMarketData1 ? <>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
+                    </>:<>{viewAllListedGames.slice(0, 4).map((details, i) => (
+                    <Link className="mppContentMid2" key={i} to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>
                         <div className="mppcm2GamePlatform">
                             <img platform={details.game_platform} src="" alt="" />
                         </div>
@@ -370,7 +401,7 @@ const Marketplace = () => {
                             </div>
                         </div>
                     </Link>
-                    ))}
+                    ))}</>}
                 </div>
                 {/* <div className="mpPageContentMid3">
                     <Link className="mppcm3TrendingGames">

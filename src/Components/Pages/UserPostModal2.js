@@ -49,13 +49,12 @@ const UserPostModal2 = ({setAddUserPost2}) => {
         return () => clearInterval(interval);
     }, []);
 
-    const getUserPostState = localStorage.getItem('setUserCanPost');
     useEffect(() => {
         const fetchUserProfile = () => {
             const storedProfileData = localStorage.getItem('profileDataJSON')
             if(storedProfileData) {
                 const parsedProfileData = JSON.parse(storedProfileData);
-                setViewUserID(parsedProfileData.id);
+                setViewUserID(parsedProfileData.userid);
                 setViewUsername(parsedProfileData.username);
                 setViewProfileImg(parsedProfileData.profileimg);
                 setViewCoverImg(parsedProfileData.coverimg);
@@ -67,28 +66,6 @@ const UserPostModal2 = ({setAddUserPost2}) => {
 
         
     }, [LoginUsername]);
-    const renderPostingState1 = () => {
-        if (getUserPostState === 'false'){
-            return (
-                <button className='active' type='button' disabled>Limited Posting</button>
-            );
-        } else {
-            return (
-                <button className='active' type='button' disabled>Post Highlight</button>
-            );
-        }
-    };
-    const renderPostingState2 = () => {
-        if (getUserPostState === 'false'){
-            return (
-                <button className='active' type='button' disabled>Limited Posting</button>
-            );
-        } else {
-            return (
-                <button type='submit'>Post Highlight</button>
-            );
-        }
-    };
     
     const [addPostYoutubeLink, setAddPostYoutubeLink] = useState(false);
     const [addPostMedia, setAddPostMedia] = useState(true);
@@ -149,7 +126,7 @@ const UserPostModal2 = ({setAddUserPost2}) => {
     
         const formPostData = {
             user_username: viewUsername,
-            user_verified: viewVerifiedUser,
+            user_id: viewUserID,
             user_post_id: `agHighlight_${viewUsername}${randomPostID}`,
             user_post_date: new Date(),
             user_post_text: agPostContent,
@@ -179,15 +156,15 @@ const UserPostModal2 = ({setAddUserPost2}) => {
                 setAddUserPost2(false);
                 window.location.reload();
             }
-            if (!resMessagePostMedia.success) {
-                console.log(resMessagePostMedia.message);
-            }
+            // if (!resMessagePostMedia.success) {
+            //     console.log(resMessagePostMedia.message);
+            // }
             if (!resMessagePostDetails.failed) {
                 setAddUserPost2(false);
             }
-            if (!resMessagePostMedia.failed) {
-                console.log(resMessagePostMedia.message);
-            }
+            // if (!resMessagePostMedia.failed) {
+            //     console.log(resMessagePostMedia.message);
+            // }
         } catch (error) {
             console.error(error);
         } finally {
@@ -254,7 +231,7 @@ const UserPostModal2 = ({setAddUserPost2}) => {
                                 </div>
                                 <div className='mdcppcpb right'>
                                     {!userPostSubmitting ? 
-                                    <>{viewVerifiedUser ? <>
+                                    <>
                                         {!agPostContent? 
                                             <><button className='active' type='button' disabled>Post Highlight</button></>:
                                             <>
@@ -262,8 +239,7 @@ const UserPostModal2 = ({setAddUserPost2}) => {
                                             </>
                                         }
                                     </>:
-                                    <>{!agPostContent? renderPostingState1() : renderPostingState2()}</>}</>
-                                    :<><button className='active' type='button' disabled>Uploading Post</button></>}
+                                    <><button className='active' type='button' disabled>Uploading Post</button></>}
                                 </div>
                             </div>
                         </div>

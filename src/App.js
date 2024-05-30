@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 
+import { ActivePageProvider } from './Components/Pages/ActivePageContext';
 import CookieBanner from './Components/Pages/CookieBanner';
 import Nav from './Components/Nav'
 // import Footer from './Components/Pages/footer';
@@ -75,6 +76,7 @@ function App() {
   
 
   return (
+    <ActivePageProvider>
     <Router>
     <div>
       <ScrollToTop />
@@ -100,6 +102,7 @@ function App() {
       {/* <Footer /> */}
     </div>
     </Router>
+    </ActivePageProvider>
   );
 }
 

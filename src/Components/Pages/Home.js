@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "../CSS/home.css";
 import { Link } from 'react-router-dom';
+import { useActivePage } from './ActivePageContext';
 import { 
   FaSearch,
   FaBolt,
@@ -36,6 +37,7 @@ import axios from 'axios';
 
 
 const Home = () => {
+  const { setActivePage } = useActivePage();
   const [hasScrolled, setHasScrolled] = useState(false);
   const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
   const [viewAllGamesNum, setViewAllGamesNum] = useState([]);
@@ -43,11 +45,7 @@ const Home = () => {
 
 
   const handleClickGames = () => {
-    localStorage.setItem('games', 'active');
-    localStorage.removeItem('dashboard');
-    localStorage.removeItem('marketplace');
-    localStorage.removeItem('giftcards');
-    localStorage.removeItem('crypto');
+    setActivePage('games');
   }
 
   useEffect(() => {
@@ -140,7 +138,7 @@ const Home = () => {
           <h4><FaFire className='faIcons'/>FEATURED GAMES</h4>
           <div className="lndpcFeaturedGames">
             {viewAGData1.slice(0, 10).map((details, i) => (
-            <div className='lndpcfgames website' key={i}>
+            <Link className='lndpcfgames website' to={`/Games/${details.game_canonical}`} key={i}>
               {details.game_cover ?
                 <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="" />
                 :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}
@@ -151,9 +149,9 @@ const Home = () => {
               <div className="lndpcfgPlatform">
                 <img platform={details.game_platform} src="" alt="" />
               </div>
-            </div>))}
+            </Link>))}
             {viewAGData1.slice(0, 4).map((details, i) => (
-            <div className='lndpcfgames mobile' key={i}>
+            <Link className='lndpcfgames mobile' to={`/Games/${details.game_canonical}`} onClick={handleClickGames} key={i}>
               {details.game_cover ?
                 <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="" />
                 :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}
@@ -164,7 +162,7 @@ const Home = () => {
               <div className="lndpcfgPlatform">
                 <img platform={details.game_platform} src="" alt="" />
               </div>
-            </div>))}
+            </Link>))}
           </div>
           <div className="lndpcfgViewMore">
             <Link to="/Games" onClick={handleClickGames}>View All Games</Link>

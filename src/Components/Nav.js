@@ -26,6 +26,7 @@ import {
 } from "react-icons/tb";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { useActivePage } from './Pages/ActivePageContext';
 import CatCaptcha from './Pages/CatCaptcha';
 
 
@@ -87,11 +88,10 @@ const Nav = () => {
   const [agUserPassword, setAGUserPassword] = useState('')
   const [agTimestamp, setAgTimestamp] = useState(new Date().toLocaleDateString())
   const [agUserReferral, setAGUserReferral] = useState('')
+  const [agUserIDHash, setAgUserIDHash] = useState('')
   const [agUserAccount, setAGUserAccount] = useState('Customer')
   const [agUserStatus, setAGUserStatus] = useState('Active')
   const [messageResponse, setMessageResponse] = useState('')
-  const [captcha, setCaptcha] = useState('');
-  const [inputValueCaptcha, setInputValueCaptcha] = useState('');
   const [localTime, setLocalTime] = useState(new Date());
   const [icelandTime, setIcelandTime] = useState('');
   const [captchaComplete, setCaptchaComplete] = useState(null);
@@ -118,7 +118,6 @@ const Nav = () => {
     setMessageResponse('')
   }
 
-
   const handleCaptchaComplete = (isCorrect) => {
     setCaptchaComplete(isCorrect);
     setIsCaptchaOpen(false);
@@ -126,41 +125,6 @@ const Nav = () => {
   const handleOpenCaptchaModal = () => {
     setIsCaptchaOpen(true);
   };
-
-
-  useEffect(() => {
-      const timer = setInterval(() => {
-          setLocalTime(new Date());
-      }, 1000);
-
-      return () => clearInterval(timer);
-  }, []);
-  useEffect(() => {
-      const options = {
-          timeZone: 'Atlantic/Reykjavik',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false, // 24-hour format
-      };
-      const dateOptions = {
-          timeZone: 'Atlantic/Reykjavik',
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-      };
-
-      const icelandFormatter = new Intl.DateTimeFormat([], options);
-      const dateFormatter = new Intl.DateTimeFormat([], dateOptions);
-      const icelandFormattedTime = icelandFormatter.format(localTime);
-      const icelandFormattedDate = dateFormatter.format(localTime);
-
-      // Combine date and time in "yyyy-mm-dd HH:MM:SS" format
-      const [month, day, year] = icelandFormattedDate.split('/');
-      const formattedDate = `${year}-${month}-${day}`;
-      setIcelandTime(`${formattedDate} ${icelandFormattedTime}`);
-  }, [localTime]);
-
 
   const LoginUsername = localStorage.getItem('attractGameUsername');
   const userLoggedIn = localStorage.getItem('isLoggedIn');
@@ -171,6 +135,18 @@ const Nav = () => {
   // console.log(LoginUsername);
 
   useEffect(() => {
+    const generateUserIDHash = async (str) => {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+      const shortHash = hashHex.substring(0, 10);
+      setAgUserIDHash(shortHash);
+    };
+    const userHashID = `AG_Genesis_${agUserUsername}_${agUserEmail}`;
+    generateUserIDHash(userHashID);
+
     if (!userLoggedIn) return;
     const fetchUserData = async () => {
       try {
@@ -189,7 +165,6 @@ const Nav = () => {
           localStorage.removeItem('agAdminLoggedIn');
           localStorage.removeItem('attractGameUsername');
           localStorage.removeItem('profileDataJSON')
-          localStorage.removeItem('setUserCanPost')
           setAGUserUsername('');
           setAGUserPassword('');
           setTimeout(() => {
@@ -200,7 +175,10 @@ const Nav = () => {
           const userData = userDataResponse.data.find(item => item.username === LoginUsername);
           setViewUserCredentials(true);
           const profileDetailsJSON = JSON.stringify(userData);
+          const profileDataJSON = JSON.parse(profileDetailsJSON)
+          const profileGetUserID = profileDataJSON.userid
           localStorage.setItem('profileDataJSON', profileDetailsJSON);
+          localStorage.setItem('profileUserID', profileGetUserID)
 
           if (userDataStatus?.account === 'Admin') {
             localStorage.setItem('agAdminLoggedIn', true);
@@ -222,40 +200,19 @@ const Nav = () => {
       }
     }
 
-
-    const fetchUserPosts = async () => {
-      if (!userLoggedIn) return;
-      try {
-        const response = await axios.get(AGUserPostAPI);
-        const postSortData = response.data.sort((a, b) => b.id - a.id);
-        const postData = postSortData.filter(post => post.user === LoginUsername);
-
-        if (postData.length > 0) {
-          const latestPostDate = new Date(parseDateString(postData[0].user_post_date));
-          const nextPostDate = new Date(latestPostDate.getTime() + 12 * 60 * 60 * 1000);
-          const serverDate = parseDateString(icelandTime);
-          const postDateDifference = nextPostDate - serverDate;
-
-          if (postDateDifference <= 0) {
-            localStorage.setItem('setUserCanPost', true);
-          } else {
-            localStorage.setItem('setUserCanPost', false);
-            const hours = Math.floor(postDateDifference / (1000 * 60 * 60));
-            const minutes = Math.floor((postDateDifference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((postDateDifference % (1000 * 60)) / 1000);
-            setPostTimeRemaining(`${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`);
-          }
-        }
-      } catch (error) {
-          console.error(error);
-      }
-    };
-
-    
     fetchUserData();
     fetchUserProfile();
-    fetchUserPosts();
-  }, [userLoggedIn, LoginUsername, agUserUsername, AGUserListAPI, AGUserDataAPI, AGUserPostAPI, icelandTime]);
+  }, [
+    agUserUsername,
+    agUserEmail,
+    userLoggedIn, 
+    LoginUsername, 
+    agUserUsername, 
+    AGUserListAPI, 
+    AGUserDataAPI, 
+    AGUserPostAPI, 
+    icelandTime
+  ]);
 
 
   const handleUserRegister = async (e) => {
@@ -264,6 +221,7 @@ const Nav = () => {
     const formAddUser = {
       agSetEmail: agUserEmail,
       agSetUsername: agUserUsername,
+      agSetUserID: agUserIDHash,
       agSetPassword: agUserPassword,
       agSetDateRegister: agTimestamp,
       agSetReferral: agUserReferral,
@@ -272,6 +230,7 @@ const Nav = () => {
     }
 
     const jsonUserData = JSON.stringify(formAddUser);
+    // console.log(jsonUserData);
     axios.post(addAGUserAPI, jsonUserData)
     .then(response => {
       const resMessage = response.data;
@@ -340,8 +299,8 @@ const Nav = () => {
         localStorage.removeItem('agAdminLoggedIn');
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('attractGameUsername');
+        localStorage.removeItem('profileUserID');
         localStorage.removeItem('profileDataJSON');
-        localStorage.removeItem('setUserCanPost');
         setViewUserCredentials(false);
         window.location.reload();
       } else {
@@ -359,7 +318,8 @@ const Nav = () => {
     setViewTextPassword(false)
   };
 
-  const [activePage, setActivePage] = useState('');
+  const { activePage, setActivePage } = useActivePage();
+
   const handleNavigation = (page, path) => {
     setActivePage(page);
     navigate(path);
@@ -369,6 +329,7 @@ const Nav = () => {
     const keysToWatch = [
       'isLoggedIn',
       'attractGameUsername',
+      'profileUserID',
       'profileDataJSON',
       'agAdminLoggedIn',
       'setUserCanPost',
@@ -538,7 +499,7 @@ const Nav = () => {
             </div>:
             <div className='userProfileBtn'>
               {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
-              <Link id='agHeartBtn'><TbHeartFilled className='faIcons'/></Link>
+              <Link id='agHeartBtn' to='/MyFavorites'><TbHeartFilled className='faIcons'/></Link>
               <Link id='agCartBtn'><TbShoppingCartBolt className='faIcons'/></Link>
               <Link id='agProfileBtn' to='/MyProfile'>
                 {dataUser.profileimg ?

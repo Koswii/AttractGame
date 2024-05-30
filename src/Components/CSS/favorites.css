@@ -1,0 +1,227 @@
+h1, h2, h3, h4, h5, h6, p{
+    color: white;
+}
+p{
+    font-size: 0.9vw;
+}
+h1{
+    font-size: 10vw;
+}
+h2{
+    font-size: 5vw;
+}
+h3{
+    font-size: 4vw;
+}
+h4{
+    font-size: 2vw;
+}
+h5{
+    font-size: 1.5vw;
+}
+h6{
+    font-size: 1vw;
+}
+
+
+.mainContainer.favorites{
+    height: auto;
+    width: 100%;
+    background: black;
+    position: relative;
+    padding-bottom: 20vw;
+}
+
+
+
+
+
+
+
+section.favPageContainer.top{
+    height: auto;
+    width: 100%;
+    padding: 4vw 20%;
+    padding-top: 7vw;
+    padding-bottom: 2vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.fcpcTopProfile{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.favpctProfile.left{
+    height: 4vw;
+    width: 4vw;
+    margin-right: 2%;
+    border-radius: 50%;
+    border: solid 2px white;
+    overflow: hidden;
+}
+.favpctProfile.left img{
+    height: 100%;
+}
+.favpctProfile.right{
+    height: auto;
+    width: 90%;
+}
+
+
+
+
+
+
+
+
+
+section.favPageContainer.mid{
+    height: auto;
+    width: 100%;
+    padding: 1vw 20%;
+    padding-bottom: 10vw;
+}
+.fcpcMid1Container{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.fcpcMi1Content{
+    height: 20vw;
+    width: 23%;
+    margin-bottom: 2%;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    overflow: hidden;
+    transition: 400ms ease;
+}
+.fcpcMid1Container img{
+    height: 100%;
+    width: 100%;
+}
+.fcpcm1cGamePlatform{
+    height: auto;
+    position: absolute;
+    top: 0.5vw;
+    left: 0.5vw;
+    padding: 3%;
+    border-radius: 0.5vw;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.fcpcm1cGamePlatform img{
+    height: 3vw;
+    width: 3vw;
+}
+.fcpcm1cGamePlatform img[platform='PC']{
+    content: url('../assets/imgs/GamePlatforms/PCGames.png');
+}
+.fcpcm1cGamePlatform img[platform='NintendoSwitch']{
+    content: url('../assets/imgs/GamePlatforms/NintendoSwitch.png');
+}
+.fcpcm1cGamePlatform img[platform='XboxXS']{
+    content: url('../assets/imgs/GamePlatforms/XboxXS.png');
+}
+.fcpcm1cGamePlatform img[platform='XboxOne']{
+    content: url('../assets/imgs/GamePlatforms/XboxOne.png');
+}
+.fcpcm1cGamePlatform img[platform='PlayStation4']{
+    content: url('../assets/imgs/GamePlatforms/PS4.png');
+}
+.fcpcm1cGamePlatform img[platform='PlayStation5']{
+    content: url('../assets/imgs/GamePlatforms/PS5.png');
+}
+.mppcm2GameDiscount{
+    height: auto;
+    position: absolute;
+    bottom: 6.5vw;
+    right: 0.5vw;
+}
+.mppcm2GameDiscount h4{
+    color: red;
+    text-shadow: 0 0 20px black;
+}
+.fcpcm1cGameDetails{
+    height: auto;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 5%;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 30px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 0.5vw;
+    /* opacity: 0; */
+}
+/* .mppContentMid2:hover .mppcm2GameDetails{
+    opacity: 1;
+    transition: 400ms ease;
+} */
+.fcpcm1cGameDetails h5{
+    height: 2vw;
+    font-size: 1vw;
+    line-height: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.fcpcm1cGameDetails p{
+    text-align: center;
+    font-weight: 400;
+    font-size: 0.7vw;
+}
+.fcpcm1cGameDetails div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4%;
+}
+.fcpcm1cGameDetails div #mppcm2GDView{
+    width: 65%;
+    margin: 0;
+    border-radius: 50px;
+    background: none;
+    border: solid 2px white;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    justify-content: center;
+}
+.fcpcm1cGameDetails div #mppcm2GDView h5{
+    line-height: 1vw;
+    font-size: 1vw;
+}
+.fcpcm1cGameDetails div button#mppcm2GDHeart,
+.fcpcm1cGameDetails div button#mppcm2GDCart{
+    font-size: 1.8vw;
+    line-height: 1vw;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    cursor: pointer;
+}

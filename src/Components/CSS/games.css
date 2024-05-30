@@ -251,8 +251,23 @@ section.gamesPageContainer.top{
     background-size:300% 100%;
     animation: l1 1s infinite linear;
     margin: 1%;
+    position: relative;
 }
-
+.gmspct2gpfDummy{
+    height: 3.5vw;
+    width: 3.5vw;
+    position: absolute;
+    top: 0.5vw;
+    left: 0.5vw;
+    padding: 3%;
+    border-radius: 0.5vw;
+    box-shadow: 0 0 10px black;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
 
 
 
@@ -348,7 +363,13 @@ section.gamesPageContainer.top{
         margin: 0.5%;
         margin-bottom: 1.5%;
     }
-
+    .gmspct2gpfDummy{
+        height: 12vw;
+        width: 12vw;
+        top: 1vw;
+        left:1vw;
+        border-radius: 2vw;
+    }
 
 
 

@@ -87,6 +87,7 @@ const UserStoryModal = ({setAddPostStory}) => {
     const [viewProfileImg, setViewProfileImg] = useState('');
     const [viewUsername, setViewUsername] = useState('');
     const [viewVerifiedUser, setViewVerifiedUser] = useState('');
+    const [viewUserID, setViewUserID] = useState('');
     const [randomNumber, setRandomNumber] = useState('');
     const [randomPostID, setRandomPostID] = useState('');
     const [userStorySubmitting, setUserStorySubmitting] = useState(false);
@@ -115,6 +116,7 @@ const UserStoryModal = ({setAddPostStory}) => {
             if(storedProfileData) {
                 const parsedProfileData = JSON.parse(storedProfileData);
                 setViewUsername(parsedProfileData.username);
+                setViewUserID(parsedProfileData.userid);
                 setViewProfileImg(parsedProfileData.profileimg);
                 setViewCoverImg(parsedProfileData.coverimg);
                 setViewVerifiedUser(parsedProfileData.verified);
@@ -153,7 +155,7 @@ const UserStoryModal = ({setAddPostStory}) => {
     
         const formStoryData = {
             user_username: viewUsername,
-            user_verified: viewVerifiedUser,
+            user_id: viewUserID,
             user_story_id: `agStory_${viewUsername}${randomPostID}`,
             user_story_date: new Date(),
             user_story_image: `agStory_${viewUsername}${randomPostID}_${imageStoryName}`,
@@ -179,15 +181,15 @@ const UserStoryModal = ({setAddPostStory}) => {
             if (!resMessageStoryDetails.success) {
                 setAddPostStory(false);
             }
-            if (!resMessageStoryMedia.success) {
-                console.log(resMessageStoryMedia.message);
-            }
+            // if (!resMessageStoryMedia.success) {
+            //     console.log(resMessageStoryMedia.message);
+            // }
             if (!resMessageStoryMedia.failed) {
                 setAddPostStory(false);
             }
-            if (!resMessageStoryMedia.failed) {
-                console.log(resMessageStoryMedia.message);
-            }
+            // if (!resMessageStoryMedia.failed) {
+            //     console.log(resMessageStoryMedia.message);
+            // }
         } catch (error) {
             console.error(error);
         } finally {

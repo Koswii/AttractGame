@@ -529,19 +529,6 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
 .mppcm2GameCategory h4 .faIcons.Preorder{
     display: block;
 }
-.mppcm2GamePrice{
-    height: auto;
-    position: absolute;
-    bottom: 7vw;
-    left: 0.5vw;
-    padding: 2% 5%;
-    background: red;
-    border-radius: 50px;
-    box-shadow: 0 0 20px black;
-}
-.mppcm2GamePrice p{
-    font-size: 0.9vw;
-}
 .mppcm2GameDiscount{
     height: auto;
     position: absolute;
@@ -615,6 +602,52 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     color: white;
     cursor: pointer;
 }
+
+
+
+.mppContentMid2Dummy{
+    height: 20vw;
+    width: 19%;
+    margin-bottom: 2%;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+.mppcm2gpDummy{
+    height: 4vw;
+    width: 4vw;
+    position: absolute;
+    top: 0.5vw;
+    left: 0.5vw;
+    padding: 3%;
+    border-radius: 0.5vw;
+    box-shadow: 0 0 10px black;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+
+
+
+
+
+
+
+
+
+
+
 .mpPageContentMid3{
     height: auto;
     width: 100%;
@@ -905,11 +938,25 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
         display: flex;
     }
     .mppContentMid2{
-        height: auto;
+        height: 60vw;
         width: 49%;
         margin-bottom: 2%;
         border-radius: 1vw;
         border-radius: 3vw;
+    }
+    .mppContentMid2Dummy{
+        height: 60vw;
+        width: 49%;
+        margin-bottom: 2%;
+        border-radius: 1vw;
+        border-radius: 3vw;
+    }
+    .mppcm2gpDummy{
+        height: 12vw;
+        width: 12vw;
+        top: 1.5vw;
+        left: 1.5vw;
+        border-radius: 2vw;
     }
     .mppcm2GamePlatform{
         top: 1vw;

@@ -3,21 +3,14 @@ import "../CSS/games.css";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { 
-    TbShoppingCartBolt,
     TbShoppingCartPlus,  
-    TbDeviceGamepad2,
-    TbGiftCard,
     TbHeart,
-    TbHeartFilled,
-    TbTrendingUp,
-    TbAwardFilled,
-    TbCampfireFilled,
-    TbCalendarStar,
-    TbSquareRoundedArrowRight,      
+    TbHeartFilled,     
 } from "react-icons/tb";
 
 const Games = () => {
     const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
+    const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
     const [viewAGData1, setViewAGData1] = useState([]);
     const [searchGameName, setSearchGameName] = useState('');
     const [loadingMarketData, setLoadingMarketData] = useState(false);
@@ -26,6 +19,17 @@ const Games = () => {
     ); // state to track current page
     const [itemsPerPage] = useState(30); // number of items per page
 
+    const [userLoggedData, setUserLoggedData] = useState('')
+    useEffect(() => {
+        const fetchUserProfile = () => {
+            const storedProfileData = localStorage.getItem('profileDataJSON')
+            if(storedProfileData) {
+                const parsedProfileData = JSON.parse(storedProfileData);
+                setUserLoggedData(JSON.parse(storedProfileData))
+            }
+        }
+        fetchUserProfile();
+    }, []);
     useEffect(() => {
         const fetchGames = async () => {
             try {
@@ -72,6 +76,34 @@ const Games = () => {
         </li>
     ));
 
+    const handleAddFavorite = (details) => {
+        const productFavGameCode = details.game_canonical;
+        const productFavGameName = details.game_title;
+    
+        const formAddfavorite = {
+          agFavUsername: userLoggedData.username,
+          agFavUserID: userLoggedData.userid,
+          agFavGameCode: productFavGameCode,
+          agFavGameName: productFavGameName,
+        }
+    
+        const jsonUserFavData = JSON.stringify(formAddfavorite);
+        console.log(jsonUserFavData);
+        axios.post(AGAddToFavorites, jsonUserFavData)
+        .then(response => {
+          const resMessage = response.data;
+          if (resMessage.success === false) {
+            console.log(resMessage.message);
+          }
+          if (resMessage.success === true) {
+            console.log(resMessage.message);
+          }
+        }) 
+        .catch (error =>{
+            console.log(error);
+        });
+    };
+
     return (
         <div className='mainContainer gameList'>
             <section className="gamesPageContainer top">
@@ -101,43 +133,43 @@ const Games = () => {
                                         <p>{details.game_edition}</p>
                                         <div>
                                             <h6>$ 999.99</h6>
-                                            <button><TbHeart className='faIcons'/></button>
+                                            <button onClick={() => handleAddFavorite(details)}><TbHeart className='faIcons'/></button>
                                             <button><TbShoppingCartPlus className='faIcons'/></button>
                                         </div>
                                     </div>
                                 </div>
                             ))}
                         </>:<>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
-                            <div className="gmspct2GameDummy"></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
                         </>}
                     </div>
                 </div>

@@ -216,37 +216,35 @@ const Highlights = () => {
 
     const [currentStory, setCurrentStory] = useState(null);
     const [seenStories, setSeenStories] = useState([]);
-
     const handleStoryClick = (story) => {
         setCurrentStory(story);
     };
-    
     const handleCloseModal = () => {
         setSeenStories([...seenStories, currentStory.id]);
         setCurrentStory(null);
     };
-
     useEffect(() => {
         let timer;
+    
         if (currentStory) {
           timer = setTimeout(() => {
             const currentIndex = viewFetchStory.findIndex((story) => story.id === currentStory.id);
             const nextIndex = (currentIndex + 1) % viewFetchStory.length;
             const nextStory = viewFetchStory[nextIndex];
-            setSeenStories([...seenStories, currentStory.id]);
+            setSeenStories((prevSeenStories) => [...prevSeenStories, currentStory.id]);
             setCurrentStory(nextStory);
           }, 3000);
         }
+    
         return () => clearTimeout(timer);
-    }, [currentStory, viewFetchStory, seenStories]);
-
+    }, [currentStory, viewFetchStory]);
     useEffect(() => {
         if (seenStories.length === viewFetchStory.length) {
           setSeenStories([]);
         }
     }, [seenStories, viewFetchStory.length]);
-    
     const visibleStories = viewFetchStory.filter(story => !seenStories.includes(story.id));
+
 
     return (
         <div className='mainContainer highlights'>
@@ -466,7 +464,7 @@ const Highlights = () => {
                                         <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
                                     </div>
                                     <span>
-                                        <h6>{post.user}
+                                        <h6>{post.userData.username}
                                             {post.userData.verified ? <>
                                                 {post.userData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
                                                 {post.userData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
