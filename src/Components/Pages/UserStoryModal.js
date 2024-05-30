@@ -125,7 +125,7 @@ const UserStoryModal = ({setAddPostStory}) => {
         }
         fetchUserProfile();
 
-    }, [LoginUsername]);
+    }, []);
     const handleCloseAnyModals = (e) => {
         e.preventDefault();
         setAddPostStory(false)
@@ -154,7 +154,6 @@ const UserStoryModal = ({setAddPostStory}) => {
         setUserStorySubmitting(true)
     
         const formStoryData = {
-            user_username: viewUsername,
             user_id: viewUserID,
             user_story_id: `agStory_${viewUsername}${randomPostID}`,
             user_story_date: new Date(),

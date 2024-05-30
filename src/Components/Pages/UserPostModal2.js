@@ -65,7 +65,7 @@ const UserPostModal2 = ({setAddUserPost2}) => {
         fetchUserProfile();
 
         
-    }, [LoginUsername]);
+    }, []);
     
     const [addPostYoutubeLink, setAddPostYoutubeLink] = useState(false);
     const [addPostMedia, setAddPostMedia] = useState(true);
@@ -125,7 +125,6 @@ const UserPostModal2 = ({setAddUserPost2}) => {
         setUserPostSubmitting(true);
     
         const formPostData = {
-            user_username: viewUsername,
             user_id: viewUserID,
             user_post_id: `agHighlight_${viewUsername}${randomPostID}`,
             user_post_date: new Date(),

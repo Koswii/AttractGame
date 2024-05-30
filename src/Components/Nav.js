@@ -277,7 +277,7 @@ const Nav = () => {
       if (data.success === true) {
         localStorage.setItem('attractGameUsername', data.username);
         localStorage.setItem('isLoggedIn', 'true');
-        // window.location.reload();
+        window.location.reload();
       } else {
         setMessageResponse(data.message);
       }

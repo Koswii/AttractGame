@@ -98,7 +98,7 @@ const fetchUserDataStory = async (setViewFetchStory) => {
         try {
             const userDataResponse = await axios.get(AGUserDataAPI);
             const storiesWithUserData = storySortData.map(story => {
-                const userData = userDataResponse.data.find(user => user.username === story.user);
+                const userData = userDataResponse.data.find(user => user.userid === story.user_id);
                 return { ...story, userData };
             });
             setViewFetchStory(storiesWithUserData);
@@ -109,7 +109,18 @@ const fetchUserDataStory = async (setViewFetchStory) => {
         console.error('Error fetching stories:', storyError);
     }
 };
-
+const defaultImages = [
+    'AG Logo1.png',
+    'AG Logo2.png',
+    'AG Logo3.png',
+    'AG Logo4.png',
+    'AG Logo5.png',
+    'DefaultProfilePic.png',
+    'MaleDP01.png',
+    'MaleDP02.png',
+    'FemaleDP01.png',
+    'FemaleDP02.png'
+];
 
 const Profile = () => {
 
@@ -169,7 +180,7 @@ const Profile = () => {
 
     // console.log(userLoggedData);
 
-    const [pickProfileImg00, setPickProfileImg00] = useState('DefaultProfilePic.png');
+    const [pickProfileImg00, setPickProfileImg00] = useState(null);
     const [editSocialsModal, setEditSocialsModal] = useState(false);
     const [addUserPost, setAddUserPost] = useState(false);
     const [addUserPost2, setAddUserPost2] = useState(false);
@@ -178,36 +189,10 @@ const Profile = () => {
 
     
 
-    const switchToDP01 = () => {
-        setPickProfileImg00('AG Logo1.png')
-    }
-    const switchToDP02 = () => {
-        setPickProfileImg00('AG Logo2.png')
-    }
-    const switchToDP03 = () => {
-        setPickProfileImg00('AG Logo3.png')
-    }
-    const switchToDP04 = () => {
-        setPickProfileImg00('AG Logo4.png')
-    }
-    const switchToDP05 = () => {
-        setPickProfileImg00('AG Logo5.png')
-    }
-    const switchToDP06 = () => {
-        setPickProfileImg00('DefaultProfilePic.png')
-    }
-    const switchToDP07 = () => {
-        setPickProfileImg00('MaleDP01.png')
-    }
-    const switchToDP08 = () => {
-        setPickProfileImg00('MaleDP02.png')
-    }
-    const switchToDP09 = () => {
-        setPickProfileImg00('FemaleDP01.png')
-    }
-    const switchToDP10 = () => {
-        setPickProfileImg00('FemaleDP02.png')
-    }
+    const handleImageSelect = (image) => {
+        setPickProfileImg00(image);
+        setImageDP(null);
+    };
 
     const handleOpenSocialSettings = () => {
         setEditSocialsModal(true)
@@ -255,11 +240,12 @@ const Profile = () => {
             setImageCoverPhotoName(file.name);
         }
     };
-    const handleRemoveUserImage = () => {
+    const handleRemoveUserImage = (e) => {
+        e.preventDefault()
         setImage(null);
         setImageDP(null);
         setImageDPName('');
-        
+        setPickProfileImg00(null);
     };
 
 
@@ -274,7 +260,7 @@ const Profile = () => {
     const AGUserCustomCPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_CP_API;
 
     const renderProfileUser = () => {
-        if (userLoggedData.verified == 'Gold' || userLoggedData.verified == 'Blue'){
+        if (userLoggedData){
             if(userLoggedData.profileimg == ''){
                 return (
                   `${userLoggedData.username}_${randomNumber}_${imageDPName}`
@@ -396,31 +382,32 @@ const Profile = () => {
                         <div className="mdcpSettingsContainer">
                             <div className="mdcpsContent left">
                                 <div className='mdcpscProfileDP'>
-                                    {!imageDP ? <>
-                                        {userLoggedData.verified ? 
-                                        <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg ? userLoggedData.profileimg : 'DefaultProfilePic.png'}`} alt="" />
-                                        :<img src={`https://2wave.io/ProfilePics/${pickProfileImg00 ? pickProfileImg00 : 'DefaultProfilePic.png'}`} alt="" />}
-                                    </>:<>
+                                    {!imageDP ? (<>
+                                        <img 
+                                            src={!pickProfileImg00 ? `https://2wave.io/ProfilePics/${userLoggedData.profileimg}`:`https://2wave.io/ProfilePics/${pickProfileImg00  || 'DefaultProfilePic.png'}`} 
+                                            alt="Profile" 
+                                        />
+                                        <button onClick={handleRemoveUserImage}><FaTimes className='faIcons' /></button>
+                                    </>) : (<>
                                         <img src={URL.createObjectURL(imageDP)} alt="No image Selected" />
-                                        <button onClick={handleRemoveUserImage}><FaTimes className='faIcons'/></button>
-                                    </>}
+                                        <button onClick={handleRemoveUserImage}><FaTimes className='faIcons' /></button>
+                                    </>
+                                    )}
                                 </div>
-                                {!userLoggedData.verified && <div className='mdcpscSampleProfile'>
-                                    <img onClick={switchToDP01} src={require('../assets/imgs/ProfilePics/AG Logo1.png')} alt="" />
-                                    <img onClick={switchToDP02} src={require('../assets/imgs/ProfilePics/AG Logo2.png')} alt="" />
-                                    <img onClick={switchToDP03} src={require('../assets/imgs/ProfilePics/AG Logo3.png')} alt="" />
-                                    <img onClick={switchToDP04} src={require('../assets/imgs/ProfilePics/AG Logo4.png')} alt="" />
-                                    <img onClick={switchToDP05} src={require('../assets/imgs/ProfilePics/AG Logo5.png')} alt="" />
-                                    <img onClick={switchToDP06} src={require('../assets/imgs/ProfilePics/DefaultProfilePic.png')} alt="" />
-                                    <img onClick={switchToDP07} src={require('../assets/imgs/ProfilePics/MaleDP01.png')} alt="" />
-                                    <img onClick={switchToDP08} src={require('../assets/imgs/ProfilePics/MaleDP02.png')} alt="" />
-                                    <img onClick={switchToDP09} src={require('../assets/imgs/ProfilePics/FemaleDP01.png')} alt="" />
-                                    <img onClick={switchToDP10} src={require('../assets/imgs/ProfilePics/FemaleDP02.png')} alt="" />
-                                </div>}
-                                {(userLoggedData.verified) ? <div className='mdcpscCustomProfile'>
-                                    <p><TbUpload className='faIcons'/>Upload from Computer</p>
-                                    <input type="file" onChange={handleUploadUserDP}/>
-                                </div>:<></>}
+                                <div className='mdcpscSampleProfile'>
+                                    {defaultImages.map((image, index) => (
+                                    <img
+                                        key={index}
+                                        onClick={() => handleImageSelect(image)}
+                                        src={require(`../assets/imgs/ProfilePics/${image}`)}
+                                        alt={`Default ${index}`}
+                                    />
+                                    ))}
+                                </div>
+                                <div className='mdcpscCustomProfile'>
+                                    <p><TbUpload className='faIcons' />Upload from Computer</p>
+                                    <input type="file" onChange={handleUploadUserDP} />
+                                </div>
                             </div>
                             <div className="mdcpsContent right">
                                 <h4>{userLoggedData.username} 

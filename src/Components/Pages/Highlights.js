@@ -89,7 +89,7 @@ const fetchUserData = async (url, filterFunc) => {
         const sortedData = filteredData.sort((a, b) => new Date(b.user_post_date || b.user_story_date) - new Date(a.user_post_date || a.user_story_date));
         const userDataResponse = await axios.get(AGUserDataAPI);
         const dataWithUserData = sortedData.map(item => {
-            const userData = userDataResponse.data.find(user => user.username === item.user);
+            const userData = userDataResponse.data.find(user => user.userid === item.user_id);
             return { ...item, userData };
         });
         return dataWithUserData;
@@ -264,7 +264,7 @@ const Highlights = () => {
                     </div>
                     <div className="hpdPostContent right">
                         <h4>
-                            {selectedPostData.user}
+                            {selectedPostData.userData.username}
                             {selectedPostData.userData.verified ? <>
                                 {selectedPostData.userData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
                                 {selectedPostData.userData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
@@ -320,7 +320,7 @@ const Highlights = () => {
                                 </div>
                             </>}
                             <h6>
-                                {currentStory.user} 
+                                {currentStory.userData.username} 
                                 {currentStory.userData.verified ? <>
                                     {currentStory.userData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
                                     {currentStory.userData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
