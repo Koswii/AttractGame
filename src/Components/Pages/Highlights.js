@@ -225,19 +225,17 @@ const Highlights = () => {
     };
     useEffect(() => {
         let timer;
-    
         if (currentStory) {
           timer = setTimeout(() => {
             const currentIndex = viewFetchStory.findIndex((story) => story.id === currentStory.id);
             const nextIndex = (currentIndex + 1) % viewFetchStory.length;
             const nextStory = viewFetchStory[nextIndex];
-            setSeenStories((prevSeenStories) => [...prevSeenStories, currentStory.id]);
+            setSeenStories([...seenStories, currentStory.id]);
             setCurrentStory(nextStory);
           }, 3000);
         }
-    
         return () => clearTimeout(timer);
-    }, [currentStory, viewFetchStory]);
+    }, [currentStory, viewFetchStory, seenStories]);
     useEffect(() => {
         if (seenStories.length === viewFetchStory.length) {
           setSeenStories([]);
