@@ -88,7 +88,6 @@ const Games = () => {
         }
     
         const jsonUserFavData = JSON.stringify(formAddfavorite);
-        console.log(jsonUserFavData);
         axios.post(AGAddToFavorites, jsonUserFavData)
         .then(response => {
           const resMessage = response.data;
@@ -121,7 +120,7 @@ const Games = () => {
                     <div className='gmspContentTop2 right'>
                         {loadingMarketData ? <>
                             {currentItems.map((details, index) => (
-                                <div className="gmspct2Game" key={index} to={`/Games/${details.game_canonical}`}>
+                                <div className="gmspct2Game" key={index}>
                                     <div className="gmspct2gPlatform">
                                         <img src='' platform={details.game_platform} alt="" />
                                     </div>

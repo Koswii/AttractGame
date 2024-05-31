@@ -187,13 +187,10 @@ const Profile = () => {
     const [addCoverImg, setAddCoverImg] = useState(false);
     const [addPostStory, setAddPostStory] = useState(false);
 
-    
-
     const handleImageSelect = (image) => {
         setPickProfileImg00(image);
         setImageDP(null);
     };
-
     const handleOpenSocialSettings = () => {
         setEditSocialsModal(true)
     }
