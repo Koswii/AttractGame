@@ -255,8 +255,17 @@ section.favPageContainer.mid{
     animation: l1 1s infinite linear;
 }
 
-
-
+.fcpcMid1ContainerEmpty{
+    height: 20vw;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.fcpcMid1ContainerEmpty h6{
+    color: gray;
+}
 
 
 
