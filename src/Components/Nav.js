@@ -499,7 +499,7 @@ const Nav = () => {
             </div>:
             <div className='userProfileBtn'>
               {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
-              <Link id='agHeartBtn' to='/MyFavorites'><TbHeartFilled className='faIcons'/></Link>
+              <Link id='agHeartBtn' to='/MyFavorites' onClick={() => handleNavigation('favorites', '/MyFavorites')}><TbHeartFilled className='faIcons'/></Link>
               <Link id='agCartBtn'><TbShoppingCartBolt className='faIcons'/></Link>
               <Link id='agProfileBtn' to='/MyProfile'>
                 {dataUser.profileimg ?

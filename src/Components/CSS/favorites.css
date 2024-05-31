@@ -276,4 +276,116 @@ section.favPageContainer.mid{
 
 
 
+@media screen and (max-width: 500px){
+    section.favPageContainer.top{
+        padding: 5vw 5%;
+        padding-top: 15vh;
+    }
+    .favpctProfile.left{
+        height: 10vw;
+        width: 10vw;
+        margin-right: 5%;
+    }
+    .favpctProfile.right{
+        height: auto;
+        width: 80%;
+    }
+    .favpctProfile.right h5{
+        font-size: 4vw;
+    }
+    .favpctProfile.right p{
+        font-size: 2.3vw;
+    }
 
+
+    section.favPageContainer.mid{
+        height: auto;
+        width: 100%;
+        padding: 0 5%;
+        padding-bottom: 10vw;
+    }
+    .fcpcMid1Container{
+        height: auto;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .fcpcMi1Content{
+        height: 60vw;
+        width: 48.5%;
+        margin: 0;
+        margin-bottom: 3%;
+        border-radius: 2vw;
+        box-shadow: 0 0 5px white;
+    }
+    .fcpcm1cGamePlatform{
+        top: 1vw;
+        left:1vw;
+        border-radius: 2vw;
+    }
+    .fcpcm1cGamePlatform img{
+        height: 10vw;
+        width: 10vw;
+    }
+    .fcpcm1cGameDetails h5{
+        font-size: 4vw;
+        height: 8vw;
+        line-height: 4vw;
+    }
+    .fcpcm1cGameDetails p{
+        font-size: 2.3vw;
+    }
+    .fcpcm1cGameDetails div #mppcm2GDView h5{
+        font-size: 4vw;
+    }
+    .fcpcm1cGameDetails div button#mppcm2GDHeart,
+    .fcpcm1cGameDetails div button#mppcm2GDCart{
+        font-size: 6vw;
+    }
+
+
+    .fcpcMi1CDummy{
+        height: 60vw;
+        width: 48.5%;
+        border-radius: 2vw;
+        margin: 0;
+        margin-bottom: 2.5%;
+    }
+    .fcpcMi1CDummy.mob{
+        display: none;
+    }
+    .fcpcm1cGPDummy{
+        height: 12vw;
+        width: 12vw;
+        top: 1vw;
+        left:1vw;
+        border-radius: 2vw;
+    }
+
+
+    .fcpcMid1ContainerEmpty{
+        height: 60vh;
+        width: 100%;
+        text-align: center;
+    }
+    .fcpcMid1ContainerEmpty h6{
+        font-size: 3vw;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

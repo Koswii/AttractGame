@@ -525,6 +525,7 @@ h6{
     right: 3%;
     z-index: 3;
     padding: 1%;
+    cursor: pointer;
 }
 .mdcppcPostButton{
     height: auto;
@@ -609,6 +610,7 @@ h6{
     outline: none;
     color: white;
     border-radius: 50px;
+    cursor: pointer;
 }
 
 
@@ -732,6 +734,7 @@ h6{
     border: solid 2px white;
     box-shadow: 0 0 10px black;
     text-align: center;
+    cursor: pointer;
 }
 .storySubmit button .faIcons{
     margin-right: 5%;

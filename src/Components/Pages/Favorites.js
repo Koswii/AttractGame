@@ -38,7 +38,6 @@ const fetchFavoriteProducts = async (setProductDetails, setLoadingProducts) => {
 
 
 const Favorites = () => {
-
     const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
     const [userLoggedData, setUserLoggedData] = useState('');
     const [productDetails, setProductDetails] = useState([]);
@@ -105,12 +104,13 @@ const Favorites = () => {
                                     </div>
                                 </div>
                             </div>
-                        ))}</>:<>
+                        ))}
+                        </>:<>
                             <div className="fcpcMi1CDummy"><div className="fcpcm1cGPDummy"></div></div>
                             <div className="fcpcMi1CDummy"><div className="fcpcm1cGPDummy"></div></div>
                             <div className="fcpcMi1CDummy"><div className="fcpcm1cGPDummy"></div></div>
                             <div className="fcpcMi1CDummy"><div className="fcpcm1cGPDummy"></div></div>
-                            <div className="fcpcMi1CDummy"><div className="fcpcm1cGPDummy"></div></div>
+                            <div className="fcpcMi1CDummy mob"><div className="fcpcm1cGPDummy"></div></div>
                     </>}
                 </>
             );
@@ -125,7 +125,7 @@ const Favorites = () => {
                         <div className="fcpcMi1CDummy"><div className="fcpcm1cGPDummy"></div></div>
                         <div className="fcpcMi1CDummy"><div className="fcpcm1cGPDummy"></div></div>
                         <div className="fcpcMi1CDummy"><div className="fcpcm1cGPDummy"></div></div>
-                        <div className="fcpcMi1CDummy"><div className="fcpcm1cGPDummy"></div></div>
+                        <div className="fcpcMi1CDummy mob"><div className="fcpcm1cGPDummy"></div></div>
                     </>}
                 </>
             );
