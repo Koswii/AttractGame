@@ -745,6 +745,8 @@ section.highlightsPageContainer.mid{
     .hpdPostContent.right h6{
         font-size: 3vw;
         text-shadow: 0 0 30px black;
+        white-space: pre-line;
+        margin: 2% 0;
     }
     .hpdpcSocials{
         height: 7vw;
