@@ -1303,8 +1303,8 @@ section.profilePageContainer.mid{
 
 
 @media screen and (max-width: 500px){
-    .modalContainerProfile{
-        z-index: 99;
+    .modalContainerProfile.settings{
+        z-index: 999;
     }
     .modalContentProfile{
         width: 90%;
