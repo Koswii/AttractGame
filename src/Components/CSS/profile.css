@@ -1023,10 +1023,11 @@ section.profilePageContainer.mid{
 }
 .ppclProfileExtra span{
     width: 20%;
+    padding-right: 3%;
 }
 .ppclProfileExtra p{
     display: flex;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
     font-size: 3vw;
 }
@@ -1303,7 +1304,7 @@ section.profilePageContainer.mid{
 
 @media screen and (max-width: 500px){
     .modalContainerProfile{
-        z-index: 999;
+        z-index: 99;
     }
     .modalContentProfile{
         width: 90%;
