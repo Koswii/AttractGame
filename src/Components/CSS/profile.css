@@ -92,6 +92,10 @@ h6{
     align-items: center;
     border-radius: 1vw;
     border: dashed 3px white;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     overflow: hidden;
 }
 .mdcpscProfileDP img{
@@ -99,8 +103,11 @@ h6{
     width: auto;
 }
 .mdcpscProfileDP input{
-    display: none;
     opacity: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
 }
 .mdcpscProfileDP button{
     position: absolute;
@@ -111,6 +118,7 @@ h6{
     outline: none;
     color: white;
     cursor: pointer;
+    z-index: 2;
 }
 .mdcpscSampleProfile{
     height: auto;
@@ -778,7 +786,7 @@ section.profilePageContainer.top img{
 }
 .ppctecimg{
     height: auto;
-    width: 15%;
+    width: 25%;
     display: flex;
     justify-content: right;
     position: relative;
@@ -791,6 +799,14 @@ section.profilePageContainer.top img{
     background: none;
     color: white;
     cursor: pointer;
+}
+.ppctecimg button#ppcteprofileBtn{
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2vw;
+    padding: 1% 3%;
 }
 .ppctecimg button#ppctecimgBtnMob{
     display: none;
@@ -854,7 +870,7 @@ section.profilePageContainer.mid{
     height: 100%;
 }
 .ppclProfileName{
-    height: 4vw;
+    height: 3.5vw;
     width: 100%;
     text-align: center;
 }
@@ -875,6 +891,54 @@ section.profilePageContainer.mid{
     height: 1.5vw;
     font-size: 0.9vw;
     color: gray;
+}
+.ppclProfileBio{
+    height: 4vw;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 2%;
+}
+.ppclProfileBio p{
+    white-space: pre-line;
+}
+.ppclProfileBio button{
+    position: absolute;
+    top: 0.5vw;
+    right: 0.5vw;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 0.9vw;
+    color: white;
+    cursor: pointer;
+    opacity: 30%;
+}
+.ppclProfileBio button:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+}
+.ppclProfileBio textarea{
+    height: 100%;
+    width: 100%;
+    padding: 3%;
+    padding-right: 10%;
+    background: rgb(49, 49, 49);
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: 0.7vw;
+    border-radius: 1vw;
+    color: white;
+}
+.ppclProfileBio span{
+    position: absolute;
+    bottom: 0.5vw;
+    right: 0.5vw;
+    color: white;
+    font-size: 0.7vw;
 }
 .ppclProfileSocials{
     height: 2vw;
@@ -944,7 +1008,7 @@ section.profilePageContainer.mid{
     margin-top: 5%;
 }
 .ppclProfileExtra button{
-    width: 30%;
+    width: 33%;
     padding: 2% 4%;
     border: solid 2px white;
     background: none;
@@ -952,7 +1016,10 @@ section.profilePageContainer.mid{
     color: white;
     border-radius: 50px;
     font-size: 3vw;
-    margin-right: 10%;
+    margin-right: 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .ppclProfileExtra span{
     width: 20%;
@@ -1554,7 +1621,12 @@ section.profilePageContainer.mid{
     .ppctecimg button#ppctecimgBtnWeb{
         display: none;
     }
-
+    .ppctecimg button#ppcteprofileBtn{
+        font-size: 7vw;
+        line-height: 3vw;
+        padding: 0;
+        margin-left: 3%;
+    }
 
     section.profilePageContainer.mid{
         display: block;
@@ -1596,6 +1668,30 @@ section.profilePageContainer.mid{
     .ppclProfileName p{
         height: 4vw;
         font-size: 3vw;
+    }
+    .ppclProfileBio{
+        height: auto;
+        margin: 3% 0;
+    }
+    .ppclProfileBio p{
+        font-size: 3vw;
+        line-height: 4vw;
+    }
+    .ppclProfileBio button{
+        position: absolute;
+        top: 1vw;
+        right: 1vw;
+        font-size: 5vw;
+    }
+    .ppclProfileBio textarea{
+        height: 20vw;
+        font-size: 2.5vw;
+        border-radius: 2vw;
+    }
+    .ppclProfileBio span{
+        bottom: 1vw;
+        right: 1vw;
+        font-size: 2.5vw;
     }
     .ppclProfileSocials{
         height: auto;

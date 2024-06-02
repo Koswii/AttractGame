@@ -270,7 +270,7 @@ const Highlights = () => {
                                 {selectedPostData.userData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
                             </>:<></>}
                         </h4>
-                        <h6>{selectedPostData.userData.email} {selectedPostData.userData.refcode ? `• ${selectedPostData.userData.refcode}` : ''}</h6>
+                        <h6>{selectedPostData.userData.bio ? selectedPostData.userData.bio : 'No Bio Added'}</h6>
                         {(selectedPostData.userData.facebook || selectedPostData.userData.instagram || selectedPostData.userData.tiktok || selectedPostData.userData.youtube || selectedPostData.userData.twitch) && 
                         <div className="hpdpcSocials">
                             {selectedPostData.userData.facebook && <a href={selectedPostData.userData.facebook} target='blank'><FaSquareFacebook className='faIcons'/></a>}

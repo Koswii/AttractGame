@@ -198,7 +198,7 @@ section.favPageContainer.mid{
     align-items: center;
     margin-top: 4%;
 }
-.fcpcm1cGameDetails div #mppcm2GDView{
+.fcpcm1cGameDetails div #fcpcm1GDView{
     width: 65%;
     margin: 0;
     border-radius: 50px;
@@ -209,12 +209,12 @@ section.favPageContainer.mid{
     text-align: center;
     justify-content: center;
 }
-.fcpcm1cGameDetails div #mppcm2GDView h5{
+.fcpcm1cGameDetails div #fcpcm1GDView h5{
     line-height: 1vw;
     font-size: 1vw;
 }
-.fcpcm1cGameDetails div button#mppcm2GDHeart,
-.fcpcm1cGameDetails div button#mppcm2GDCart{
+.fcpcm1cGameDetails div button#fcpcm1cGDHeart,
+.fcpcm1cGameDetails div button#fcpcm1cGDCart{
     font-size: 1.5vw;
     line-height: 1vw;
     background: none;
@@ -223,7 +223,9 @@ section.favPageContainer.mid{
     color: white;
     cursor: pointer;
 }
-
+.fcpcm1cGameDetails div button#fcpcm1cGDHeart{
+    color: red;
+}
 
 
 
@@ -337,11 +339,11 @@ section.favPageContainer.mid{
     .fcpcm1cGameDetails p{
         font-size: 2.3vw;
     }
-    .fcpcm1cGameDetails div #mppcm2GDView h5{
+    .fcpcm1cGameDetails div #fcpcm1GDView h5{
         font-size: 4vw;
     }
-    .fcpcm1cGameDetails div button#mppcm2GDHeart,
-    .fcpcm1cGameDetails div button#mppcm2GDCart{
+    .fcpcm1cGameDetails div button#fcpcm1cGDHeart,
+    .fcpcm1cGameDetails div button#fcpcm1cGDCart{
         font-size: 6vw;
     }
 

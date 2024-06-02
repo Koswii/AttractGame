@@ -6,6 +6,7 @@ import {
     TbShoppingCartBolt,
     TbHeartFilled,   
 } from "react-icons/tb";
+import ImageEmbed from './ImageEmbed';
 
 
 const LoginUserID = localStorage.getItem('profileUserID');
@@ -55,7 +56,6 @@ const Favorites = () => {
         fetchUserProfile();
         fetchFavoriteProducts(setProductDetails, setLoadingProducts);
     }, []);
-
     const handleRemoveFavorite = (favorite) => {
         const removeFav = {favorite: favorite.ag_product_id}
         const removeFavJSON = JSON.stringify(removeFav)
@@ -98,9 +98,9 @@ const Favorites = () => {
                                     <h5>{favorite.productData.game_title}</h5>
                                     <p>{favorite.productData.game_edition}</p>
                                     <div>
-                                        <div id="mppcm2GDView"><h5>$999.99</h5></div>
-                                        <button id='mppcm2GDHeart' onClick={() => handleRemoveFavorite(favorite)}><TbHeartFilled className='faIcons'/></button>
-                                        <button id='mppcm2GDCart'><TbShoppingCartBolt className='faIcons'/></button>
+                                        <div id="fcpcm1GDView"><h5>$999.99</h5></div>
+                                        <button id='fcpcm1cGDHeart' onClick={() => handleRemoveFavorite(favorite)}><TbHeartFilled className='faIcons'/></button>
+                                        <button id='fcpcm1cGDCart'><TbShoppingCartBolt className='faIcons'/></button>
                                     </div>
                                 </div>
                             </div>

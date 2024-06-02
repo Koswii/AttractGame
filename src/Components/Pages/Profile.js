@@ -13,7 +13,9 @@ import {
     FaFacebookSquare,
     FaBitcoin, 
     FaTimes,
-    FaRegImages 
+    FaRegImages,
+    FaEdit,  
+    FaPlus,
 } from 'react-icons/fa';
 import { 
     FaSquareFacebook,
@@ -252,16 +254,35 @@ const Profile = () => {
     const [agEditYoutube, setAGEditYoutube] = useState('');
     const [agEditTwitch, setAGEditTwitch] = useState('');
     const [isEditSubmitting, setIsEditSubmitting] = useState(false);
+    const [agBioContent, setAGBioContent] = useState('');
+    const [agEditBioContent, setAGEditBioContent] = useState(false);
+    const bioMaxCharacters = 50;
     const AGUserDataUPDATEAPI = process.env.REACT_APP_AG_USERS_PROFILE_UPDATE_API;
     const AGUserCustomDPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_DP_API;
     const AGUserCustomCPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_CP_API;
+    const AGUserCustomBioAPI = process.env.REACT_APP_AG_USERS_CUSTOM_BIO_API;
 
+
+    const handleBioCharacters = (event) => {
+        if (event.target.value.length <= bioMaxCharacters) {
+            setAGBioContent(event.target.value);
+        }
+    };
+    const handleViewEditBio = () => {
+        setAGEditBioContent(true);
+    }
     const renderProfileUser = () => {
         if (userLoggedData){
             if(userLoggedData.profileimg == ''){
-                return (
-                  `${userLoggedData.username}_${randomNumber}_${imageDPName}`
-                );
+                if(imageDPName == ''){
+                    return (
+                        `DefaultProfilePic.png`
+                    );
+                }else{
+                    return (
+                        `${userLoggedData.username}_${randomNumber}_${imageDPName}`
+                    );
+                }
             }else{
                 if(imageDPName == ''){
                     return (
@@ -366,6 +387,37 @@ const Profile = () => {
             window.location.reload();
         }, 200);
     };
+    const handleEditProfileBio = async (e) => {
+        e.preventDefault();
+
+        const formBioContent = {
+            userid: userLoggedData.userid,
+            userbio: agBioContent,
+        }
+
+        const jsonUserBioData = JSON.stringify(formBioContent);
+        axios.post(AGUserCustomBioAPI, jsonUserBioData)
+        .then(response => {
+          const resMessage = response.data;
+          if (resMessage.success === false) {
+            console.log(resMessage.message);
+          }
+          if (resMessage.success === true) {
+            window.location.reload();
+            setAGEditBioContent(false);
+          }
+        }) 
+        .catch (error =>{
+            console.log(error);
+        });
+    };
+
+
+
+
+
+
+
 
 
     return (
@@ -382,8 +434,9 @@ const Profile = () => {
                                     {!imageDP ? (<>
                                         <img 
                                             src={!pickProfileImg00 ? `https://2wave.io/ProfilePics/${userLoggedData.profileimg}`:`https://2wave.io/ProfilePics/${pickProfileImg00  || 'DefaultProfilePic.png'}`} 
-                                            alt="Profile" 
+                                            alt="" 
                                         />
+                                        <input type="file" onChange={handleUploadUserDP} />
                                         <button onClick={handleRemoveUserImage}><FaTimes className='faIcons' /></button>
                                     </>) : (<>
                                         <img src={URL.createObjectURL(imageDP)} alt="No image Selected" />
@@ -505,6 +558,7 @@ const Profile = () => {
                     <div className="ppctecimg">
                         <button id='ppctecimgBtnWeb' onClick={handleAddCoverImg}>Change Cover Photo</button>
                         <button id='ppctecimgBtnMob' onClick={handleAddCoverImg}><RiImageEditLine className='faIcons' /></button>
+                        <button id='ppcteprofileBtn' onClick={handleOpenSocialSettings}><TbSettingsBolt className='faIcons'/></button>
                     </div>
                 </div>}
             </section>
@@ -525,15 +579,27 @@ const Profile = () => {
                         </h5>
                         <p>{userLoggedData.email}</p>
                     </div>
+                    <div className="ppclProfileBio">
+                        {!agEditBioContent ? <>
+                            <button onClick={handleViewEditBio}><FaEdit className='faIcons'/></button>
+                            {userLoggedData.bio ?
+                            <p>{userLoggedData.bio}</p>:
+                            <p>No Bio Added</p>}
+                        </>:<>
+                            <button onClick={handleEditProfileBio}><FaCircleCheck className='faIcons'/></button>
+                            <textarea name="" id="" value={agBioContent} maxLength={50} onChange={handleBioCharacters} placeholder='Type Short Bio Here'></textarea>
+                            <span>{agBioContent.length}/{bioMaxCharacters}</span>
+                        </>}
+                    </div>
                     <div className="ppclProfileSocials">
                         {userLoggedData.facebook ? <a href={userLoggedData.facebook} target='blank'><h6><FaSquareFacebook className='faIcons'/></h6></a> : <></>}
                         {userLoggedData.instagram ? <a href={userLoggedData.instagram} target='blank'><h6><FaInstagram className='faIcons'/></h6></a> : <></>}
                         {userLoggedData.tiktok ? <a href={userLoggedData.tiktok} target='blank'><h6><FaTiktok className='faIcons'/></h6></a> : <></>}
                         {userLoggedData.youtube ? <a href={userLoggedData.youtube} target='blank'><h6><FaYoutube className='faIcons'/></h6></a> : <></>}
                         {userLoggedData.twitch ? <a href={userLoggedData.twitch} target='blank'><h6><FaTwitch className='faIcons'/></h6></a> : <></>}
-                        <div>
+                        {/* <div>
                             <button onClick={handleOpenSocialSettings}>Edit Profile <TbSettingsBolt className='faIcons'/></button>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="ppclProfileDetails">
                         <span>
@@ -554,7 +620,7 @@ const Profile = () => {
                         </span>
                     </div>
                     <div className="ppclProfileExtra">
-                        <button onClick={handleAddUserStory}>Add Story</button>
+                        <button onClick={handleAddUserStory}><FaPlus className='faIcons'/>Add Story</button>
                         <span>
                             <p id='agPoints'>0 <FaBolt className='faIcons'/></p>
                         </span>
