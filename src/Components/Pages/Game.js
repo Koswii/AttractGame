@@ -50,12 +50,13 @@ const formatDateToWordedDate = (numberedDate) => {
 const Game = () => {
     const { gameCanonical } = useParams();
     const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
+    const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
     const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
     const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
     const [userLoggedData, setUserLoggedData] = useState('')
-    const [favorites, setFavorites] = useState([]);
+    const [isFavorite, setIsFavorite] = useState(false);
     const [viewAGData1, setViewAGData1] = useState([]);
     const [viewAGData2, setViewAGData2] = useState([]);
     const [viewWikiData, setViewWikiData] = useState([]);
@@ -63,6 +64,12 @@ const Game = () => {
     const [loadingMarketData, setLoadingMarketData] = useState(false);
     const [scrapedMetacriticData, setScrapedMetacriticData] = useState('');
     const [viewGameTrailer, setViewGameTrailer] = useState('');
+    const [suggestedFavorites, setSuggestedFavorites] = useState([]);
+
+    const getRandomItems = (array, numItems) => {
+        const shuffled = array.sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, numItems);
+    };
 
     useEffect(() => {
         const fetchUserProfile = () => {
@@ -71,7 +78,7 @@ const Game = () => {
                 const parsedProfileData = JSON.parse(storedProfileData);
                 setUserLoggedData(JSON.parse(storedProfileData))
             }
-        }
+        };
 
         const fetchGameData = async () => {
             try {
@@ -83,15 +90,20 @@ const Game = () => {
                 setViewAGData1(agGameData);
                 setViewMetacriticData(gameCSFeatMetacritic);
                 setViewWikiData(gameCSFeatWikipedia);
-                setViewAGData2(agOtherGamesData);
+                
+                if (agOtherGamesData.length > 0) {
+                    const randomItems = getRandomItems(agOtherGamesData, 10);
+                    setViewAGData2(randomItems);
+                }
             } catch (error) {
                 console.error(error);
             }
         };
+
         
         fetchUserProfile();
         fetchGameData();
-    }, [LoginUserID]);
+    }, [LoginUserID, gameCanonical]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -122,17 +134,22 @@ const Game = () => {
                     setLoadingMarketData(false);
                 }else{
                     setScrapedMetacriticData(combinedMetaWikiData);
-                    // console.log(combinedMetaWikiData);
                     setLoadingMarketData(true);
                     setViewGameTrailer(combinedMetaWikiData.game_trailer);
+
+                    const response = await axios.get(AGUserFavoritesAPI);
+                    const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
+                    const favoriteGameCodes = filteredData.map(fav => fav.ag_product_id);
+                    setIsFavorite(favoriteGameCodes.includes(scrapedMetacriticData.game_canonical));
                 }
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
         
         fetchData();
-    }, [viewMetacriticData, viewWikiData]);
+    }, [viewMetacriticData, viewWikiData, scrapedMetacriticData]);
     const videoUrl = viewGameTrailer;
 
     const handleClickGames = () => {
@@ -145,16 +162,12 @@ const Game = () => {
             window.location.reload();
         }, 500);
     }
-
-    const handleAddFavorite = (scrapedMetacriticData) => {
-        const productFavGameCode = scrapedMetacriticData.game_canonical;
-        const productFavGameName = scrapedMetacriticData.game_title;
-    
+    const handleAddFavorite = () => {
         const formAddfavorite = {
           agFavUsername: userLoggedData.username,
           agFavUserID: userLoggedData.userid,
-          agFavGameCode: productFavGameCode,
-          agFavGameName: productFavGameName,
+          agFavGameCode: gameCanonical,
+          agFavGameName: scrapedMetacriticData?.game_title,
         }
     
         const jsonUserFavData = JSON.stringify(formAddfavorite);
@@ -163,6 +176,7 @@ const Game = () => {
           const resMessage = response.data;
           if (resMessage.success === true) {
             console.log(resMessage.message);
+            setIsFavorite(true);
           } else {
             console.log(resMessage.message);
           }
@@ -185,6 +199,7 @@ const Game = () => {
         .then(response => {
             if (response.data.success) {
                 console.log('Product removed successfully');
+                setIsFavorite(false);
             } else {
                 console.log(`Error: ${response.data.message}`);
             }
@@ -193,11 +208,11 @@ const Game = () => {
             console.log(`Error: ${error.message}`);
         });
     };
-    const handleFavoriteToggle = (scrapedMetacriticData) => {
-        if (favorites.includes(scrapedMetacriticData.game_canonical)) {
+    const handleFavoriteToggle = () => {
+        if (isFavorite) {
             handleRemoveFavorite(scrapedMetacriticData.game_canonical);
         } else {
-            handleAddFavorite(scrapedMetacriticData);
+            handleAddFavorite();
         }
     };
 
@@ -250,8 +265,8 @@ const Game = () => {
                         <div className="gppctgdrExtras">
                             <h4>$ 999.99</h4>
                             {userLoggedIn ?<>
-                                <button id={favorites.includes(scrapedMetacriticData.game_canonical) ? 'gppct2gdRemoveFav' : 'gppct2gdAddFav'} onClick={() => handleFavoriteToggle(scrapedMetacriticData)}>
-                                    {favorites.includes(scrapedMetacriticData.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
+                                <button id={isFavorite ? 'gppct2gdRemoveFav' : 'gppct2gdAddFav'} onClick={handleFavoriteToggle}>
+                                    {isFavorite ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
                                 </button>
                                 <button><TbShoppingCartPlus className='faIcons'/></button>
                             </>:<>
@@ -313,8 +328,8 @@ const Game = () => {
                                 <p>{details.game_edition}</p>
                                 <div>
                                     <div id="mppcm2GDView"><h5>$999.99</h5></div>
-                                    <button id='mppcm2GDHeart'><TbHeart className='faIcons'/></button>
-                                    <button id='mppcm2GDCart'><TbShoppingCartBolt className='faIcons'/></button>
+                                    {/* <button id='mppcm2GDHeart'><TbHeart className='faIcons'/></button>
+                                    <button id='mppcm2GDCart'><TbShoppingCartBolt className='faIcons'/></button> */}
                                 </div>
                             </div>
                         </Link>
@@ -332,8 +347,8 @@ const Game = () => {
                                 <p>{details.game_edition}</p>
                                 <div>
                                     <div id="mppcm2GDView"><h5>$999.99</h5></div>
-                                    <button id='mppcm2GDHeart'><TbHeart className='faIcons'/></button>
-                                    <button id='mppcm2GDCart'><TbShoppingCartBolt className='faIcons'/></button>
+                                    {/* <button id='mppcm2GDHeart'><TbHeart className='faIcons'/></button>
+                                    <button id='mppcm2GDCart'><TbShoppingCartBolt className='faIcons'/></button> */}
                                 </div>
                             </div>
                         </Link>

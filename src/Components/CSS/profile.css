@@ -1124,7 +1124,7 @@ section.profilePageContainer.mid{
 }
 .postAStory{
     height: 17vw;
-    width: 23%;
+    width: 24%;
     border: solid 2px white;
     border-radius: 1vw;
     overflow: hidden;
@@ -1132,7 +1132,6 @@ section.profilePageContainer.mid{
     justify-content: center;
     align-items: center;
     position: relative;
-    margin-right: 1%;
     cursor: pointer;
 }
 .postAStory img{
@@ -1158,20 +1157,19 @@ section.profilePageContainer.mid{
 }
 .viewAStory{
     height: 17vw;
-    width: 75%;
+    width: 76%;
 }
 .storiesContents{
     height: auto;
     width: 100%;
     display: flex;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: left;
     align-items: top;
 }
 .storiesContents div{
     height: 17vw;
-    width: 11.5vw;
-    /* margin-right: 2%; */
+    width: 12vw;
     border: solid 2px white;
     border-radius: 1vw;
     overflow: hidden;
@@ -1181,6 +1179,7 @@ section.profilePageContainer.mid{
     cursor: pointer;
     position: relative;
     background: black;
+    margin-left: 2%;
 }
 .storiesContents div span{
     position: absolute;
