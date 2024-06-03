@@ -441,10 +441,8 @@ section.gamePageContainer.bot{
     bottom: 0;
     left: 0;
     padding: 5%;
-    background: rgba(0, 0, 0, 0.3);
-    box-shadow: 0 0 30px black;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: linear-gradient(transparent, black 50%);
+    background-size: cover;
     border-radius: 0.5vw;
     /* opacity: 0; */
 }
@@ -464,7 +462,7 @@ section.gamePageContainer.bot{
 }
 .gppcm3ogDetails div{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-top: 4%;
 }

@@ -382,20 +382,18 @@ nav{
     display: flex;
     justify-content: right;
     align-items: center;
+    position: relative;
 }
 
 .userProfileBtn a{
     color: white;
     margin: 0 4%;
 }
-.userProfileBtn a#agAdminBtn,
-.userProfileBtn a#agHeartBtn,
-.userProfileBtn a#agCartBtn,
-.userProfileBtn a#agLogoutBtn{
+.userProfileBtn a#agAdminBtn{
     font-size: 2vw;
     line-height: 1vw;
 }
-.userProfileBtn a#agProfileBtn{
+.agProfileSelect{
     height: 2vw;
     width: 2vw;
     position: relative;
@@ -403,15 +401,201 @@ nav{
     background: white;
     border: solid 2px white;
     border-radius: 100%;
-    margin-right: 0;
+    margin-left: 5%;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
-.userProfileBtn a#agProfileBtn img{
+.agProfileSelect img{
     height: 100%;
     width: auto;
 }
+.profileModalContainer{
+    position: absolute;
+    height: auto;
+    width: 70%;
+    padding: 5%;
+    padding-top: 8%;
+    background: black;
+    box-shadow: 0 0 10px gray;
+    border-radius: 1vw;
+    top: 3.5vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    animation: fade-in-down2 800ms ease;
+} 
+.profileModalContainer{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.profileModalContainer a#agProfileBtn{
+    margin: 0;
+    margin-bottom: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.profileModalContainer a#agProfileBtn div{
+    height: 2vw;
+    width: 2vw;
+    overflow: hidden;
+    border-radius: 50%;
+    border: solid 2px white;
+    margin-right: 5%;
+}
+.profileModalContainer a#agProfileBtn div img{
+    height: 100%;
+}
+.profileModalContainer a#agProfileBtn h6{
+    width: 75%;
+    font-size: 1.2vw;
+    overflow: hidden;
+}
+.profileModalContainer a#agHeartBtn,
+.profileModalContainer a#agCartBtn,
+.profileModalContainer a#agLogoutBtn{
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 3% 0;
+    padding: 0 3%;
+    cursor: pointer;
+}
+.profileModalContainer a .faIcons{
+    margin-right: 5%;
+}
+.navContainer.profileSelect{
+    height: 100vh;
+    width: 100%;
+    padding: 0;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: none;
+    justify-content: right;
+    align-items: start;
+}
+.navContentprofileSel{
+    position: relative;
+    height: 100vh;
+    width: 80%;
+    background: black;
+    animation: fade-in-right 800ms ease;
+    padding: 5%;
+}
+.navContentprofileSel h4{
+    font-size: 8vw;
+    color: gray;
+}
+.navContentprofileSel a#agProfileBtn{
+    margin: 5% 0;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-decoration: none;
+    background: rgba(45, 45, 45, 0.7);
+    padding: 5%;
+    border-radius: 3vw;
+}
+.navContentprofileSel a#agProfileBtn div{
+    height: 10vw;
+    width: 10vw;
+    overflow: hidden;
+    border-radius: 50%;
+    border: solid 2px white;
+    margin-right: 4%;
+}
+.navContentprofileSel a#agProfileBtn div img{
+    height: 100%;
+}
+.navContentprofileSel a#agProfileBtn h6{
+    width: 75%;
+    font-size: 5vw;
+    overflow: hidden;
+}
+.navContentpsAGElite{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2% 0;
+    border: solid 3px gold;
+    border-radius: 3vw;
+}
+.navContentpsAGElite a{
+    width: 100%;
+    text-decoration: none;
+    font-size: 3vw;
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: gold;
+}
+.navContentpsAGElite a .faIcons{
+    margin-right: 3%;
+    font-size: 5vw;
+}
+.navContentpsMyProfile{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: top;
+    margin: 10% 0;
+}
+.navContentpsMyProfile a{
+    height: auto;
+    width: 49%;
+    margin-bottom: 2%;
+    background: rgba(45, 45, 45, 0.7);
+    padding: 5%;
+    border-radius: 3vw;
+    text-decoration: none;
+}
+.navContentpsMyProfile a h6{
+    font-size: 3vw;
+}
+.navContentpsMyLogout{
+    height: auto;
+    width: 100%;
+    background: rgba(45, 45, 45, 0.7);
+}
+.navContentpsMyLogout button{
+    height: auto;
+    width: 100%;
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3vw;
+    font-size: 3vw;
+}
+.navContentpsMyLogout button .faIcons{
+    margin-right: 3%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -522,30 +706,14 @@ nav{
     .userPublicBtn a#agRegisterBtn h6{
         font-size: 3vw;
     }
-    .userProfileBtn a{
-        color: white;
-        margin: 0 7%;
+    .userProfileBtn .agProfileSelect{
+        display: none;
     }
-    .userProfileBtn a#agAdminBtn,
-    .userProfileBtn a#agHeartBtn,
-    .userProfileBtn a#agCartBtn,
-    .userProfileBtn a#agLogoutBtn{
+    .userProfileBtn a#agAdminBtn{
         font-size: 7vw;
         line-height: 5vw;
     }
-    .userProfileBtn a#agLogoutBtn{
-        margin-right: 0;
-    }
-    .userProfileBtn a#agProfileBtn{
-        display: none;
-    }
-    .userProfile a#agProfileBtn{
-        display: none;
-    }
-    .userProfile a#agLogoutBtn{
-        display: none;
-    }
-    .navContainer.mobile a#agProfileBtn{
+    .agProfileBtnMobile{
         height: 8vw;
         width: 8vw;
         display: flex;
@@ -553,14 +721,20 @@ nav{
         align-items: center;
         border-radius: 50%;
         overflow: hidden;
-        border: solid 2px white;
+        border: solid 3px white;
         background: white;
+        cursor: pointer;
     }
-    .navContainer.mobile a#agProfileBtn img{
+    .agProfileBtnMobile img{
         height: 100%;
         width: 100%;
     }
-
+    .profileModalContainer{
+        display: none;
+    }
+    .navContainer.profileSelect{
+        display: flex;
+    }
 
 
 

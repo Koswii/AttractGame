@@ -36,6 +36,10 @@ import {
 import axios from 'axios';
 
 
+
+const LoginUserID = localStorage.getItem('profileUserID');
+const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
+const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
 const formatDateToWordedDate = (numberedDate) => {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const date = new Date(numberedDate);
@@ -45,6 +49,63 @@ const formatDateToWordedDate = (numberedDate) => {
     
     return `${month} ${day}, ${year}`;
 }
+const getRandomItems = (array, numItems) => {
+    const shuffled = array.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, numItems);
+};
+const fetchGames = async (setLoadingMarketData1, setViewAllGamesNum, setViewAGData1, setViewMetacriticData, setViewWikiData, setViewAllListedGames) => {
+    try {
+        setLoadingMarketData1(true);
+        const response1 = await axios.get(AGGamesListAPI1);
+        const agAllGames = response1.data;
+
+        // Get current year
+        const currentYear = new Date().getFullYear();
+        // Filter games based on the current year
+        const currentYearGames = agAllGames.filter(game => {
+            const gameDate = new Date(game.game_released);
+            return gameDate.getFullYear() === currentYear;
+        });
+
+        // Sort the games by release month and year
+        const sortedCurrentYearGames = currentYearGames.sort((a, b) => {
+            const dateA = new Date(a.game_released);
+            const dateB = new Date(b.game_released);
+            if (dateA.getFullYear() === dateB.getFullYear()) {
+                return dateB.getMonth() - dateA.getMonth(); // Sort by month if years are the same
+            }
+            return dateB.getFullYear() - dateA.getFullYear(); // Sort by year
+        });
+
+        const gameCSFeatMetacritic = sortedCurrentYearGames.map(game => game.game_title.toLowerCase().replace(/\s/g, '-'));
+        const gameCSFeatWikipedia = sortedCurrentYearGames.map(game => game.game_title_ext1.replace(/\s/g, '_') || game.game_title.replace(/\s/g, '_'));
+
+        setViewAllGamesNum(agAllGames.length);
+        setViewAGData1(sortedCurrentYearGames);
+        // setViewAllListedGames(sortedCurrentYearGames);
+        setViewMetacriticData(gameCSFeatMetacritic);
+        setViewWikiData(gameCSFeatWikipedia)
+
+        if (sortedCurrentYearGames.length > 0) {
+            const randomItems = getRandomItems(sortedCurrentYearGames, 15);
+            setViewAllListedGames(randomItems);
+        }
+    } catch (error) {
+        console.error(error);
+    } finally {
+        setLoadingMarketData1(false);
+    }
+};
+const fetchFavorites = async (setFavorites) => {
+    try {
+        const response = await axios.get(AGUserFavoritesAPI);
+        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
+        const favoriteGameCodes = filteredData.map(fav => fav.ag_product_id);
+        setFavorites(favoriteGameCodes);
+    } catch (error) {
+        console.error(error);
+    }
+};
 const Marketplace = () => {
     const navigate = useNavigate ();
     const { setActivePage } = useActivePage();
@@ -52,6 +113,13 @@ const Marketplace = () => {
     const AGGamesListAPI2 = process.env.REACT_APP_AG_GAMES_STATUS_API;
     const AGGamesWikiDetails = process.env.REACT_APP_AG_GAMES_WIKI_API;
     const AGGamesRobloxPartners = process.env.REACT_APP_AG_GAMES_ROBLOX_API;
+    const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
+    const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
+    const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
+    const userLoggedIn = localStorage.getItem('isLoggedIn')
+    const LoginUserID = localStorage.getItem('profileUserID');
+    const [userLoggedData, setUserLoggedData] = useState('')
+    const [favorites, setFavorites] = useState([]);
     const [viewAllGamesNum, setViewAllGamesNum] = useState([]);
     const [viewAllListedGames, setViewAllListedGames] = useState([]);
     const [viewAGData1, setViewAGData1] = useState([]);
@@ -65,46 +133,20 @@ const Marketplace = () => {
 
 
     useEffect(() => {
-        const fetchGames = async () => {
-            try {
-                setLoadingMarketData1(true);
-                const response1 = await axios.get(AGGamesListAPI1);
-                const agAllGames = response1.data;
-
-                // Get current year
-                const currentYear = new Date().getFullYear();
-                // Filter games based on the current year
-                const currentYearGames = agAllGames.filter(game => {
-                    const gameDate = new Date(game.game_released);
-                    return gameDate.getFullYear() === currentYear;
-                });
-
-                // Sort the games by release month and year
-                const sortedCurrentYearGames = currentYearGames.sort((a, b) => {
-                    const dateA = new Date(a.game_released);
-                    const dateB = new Date(b.game_released);
-                    if (dateA.getFullYear() === dateB.getFullYear()) {
-                        return dateB.getMonth() - dateA.getMonth(); // Sort by month if years are the same
-                    }
-                    return dateB.getFullYear() - dateA.getFullYear(); // Sort by year
-                });
-
-                const gameCSFeatMetacritic = sortedCurrentYearGames.map(game => game.game_title.toLowerCase().replace(/\s/g, '-'));
-                const gameCSFeatWikipedia = sortedCurrentYearGames.map(game => game.game_title_ext1.replace(/\s/g, '_') || game.game_title.replace(/\s/g, '_'));
-
-                setViewAllGamesNum(agAllGames.length);
-                setViewAGData1(sortedCurrentYearGames);
-                setViewAllListedGames(sortedCurrentYearGames);
-                setViewMetacriticData(gameCSFeatMetacritic);
-                setViewWikiData(gameCSFeatWikipedia)
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoadingMarketData1(false);
+        const fetchUserProfile = () => {
+            const storedProfileData = localStorage.getItem('profileDataJSON')
+            if(storedProfileData) {
+                const parsedProfileData = JSON.parse(storedProfileData);
+                setUserLoggedData(JSON.parse(storedProfileData))
             }
-        };
-        fetchGames();
+        }
+        fetchUserProfile();
     }, []);
+
+    useEffect(() => {
+        fetchFavorites(setFavorites);
+        fetchGames(setLoadingMarketData1, setViewAllGamesNum, setViewAGData1, setViewMetacriticData, setViewWikiData, setViewAllListedGames);
+    }, [LoginUserID]);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -180,7 +222,64 @@ const Marketplace = () => {
     }
 
 
-
+    const handleAddFavorite = (details) => {
+        const productFavGameCode = details.game_canonical;
+        const productFavGameName = details.game_title;
+    
+        const formAddfavorite = {
+          agFavUsername: userLoggedData.username,
+          agFavUserID: userLoggedData.userid,
+          agFavGameCode: productFavGameCode,
+          agFavGameName: productFavGameName,
+        }
+    
+        const jsonUserFavData = JSON.stringify(formAddfavorite);
+        axios.post(AGAddToFavorites, jsonUserFavData)
+        .then(response => {
+          const resMessage = response.data;
+          if (resMessage.success === true) {
+            console.log(resMessage.message);
+            setFavorites([...favorites, productFavGameCode]);
+            fetchGames(setViewAGData1, setLoadingMarketData);
+            fetchFavorites(setFavorites, LoginUserID);
+          } else {
+            console.log(resMessage.message);
+          }
+        }) 
+        .catch (error =>{
+            console.log(error);
+        });
+    };
+    const handleRemoveFavorite = (gameCanonical) => {
+        const removeFav = {favorite: gameCanonical}
+        const removeFavJSON = JSON.stringify(removeFav);
+        axios({
+            method: 'delete',
+            url: AGUserRemoveFavAPI,
+            data: removeFavJSON,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.data.success) {
+                console.log('Product removed successfully');
+                setFavorites(favorites.filter(fav => fav !== gameCanonical));
+            } else {
+                console.log(`Error: ${response.data.message}`);
+            }
+        })
+        .catch(error => {
+            console.log(`Error: ${error.message}`);
+        });
+    };
+    const handleFavoriteToggle = (details) => {
+        if (favorites.includes(details.game_canonical)) {
+            handleRemoveFavorite(details.game_canonical);
+        } else {
+            handleAddFavorite(details);
+        }
+    };
     
 
 
@@ -359,8 +458,15 @@ const Marketplace = () => {
                             <p>{details.game_edition}</p>
                             <div>
                                 <div id="mppcm2GDView"><h5>$999.99</h5></div>
-                                <button id='mppcm2GDHeart'><TbHeart className='faIcons'/></button>
-                                <button id='mppcm2GDCart'><TbShoppingCartPlus className='faIcons'/></button>
+                                {userLoggedIn ?<>
+                                    <button id={favorites.includes(details.game_canonical) ? 'mppcm2GDHRemove' : 'mppcm2GDAdd'} onClick={() => handleFavoriteToggle(details)}>
+                                        {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
+                                    </button>
+                                    <button id='mppcm2GDCart'><TbShoppingCartPlus className='faIcons'/></button>
+                                </>:<>
+                                    <button id='mppcm2GDAdd'><TbHeart className='faIcons'/></button>
+                                    <button id='mppcm2GDCart'><TbShoppingCartPlus className='faIcons'/></button>
+                                </>}
                             </div>
                         </div>
                     </div>
@@ -396,8 +502,15 @@ const Marketplace = () => {
                             <p>{details.game_edition}</p>
                             <div>
                                 <div id="mppcm2GDView"><h5>$999.99</h5></div>
-                                <button id='mppcm2GDHeart'><TbHeart className='faIcons'/></button>
-                                <button id='mppcm2GDCart'><TbShoppingCartBolt className='faIcons'/></button>
+                                {userLoggedIn ?<>
+                                    <button id={favorites.includes(details.game_canonical) ? 'mppcm2GDHRemove' : 'mppcm2GDAdd'} onClick={() => handleFavoriteToggle(details)}>
+                                        {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
+                                    </button>
+                                    <button id='mppcm2GDCart'><TbShoppingCartPlus className='faIcons'/></button>
+                                </>:<>
+                                    <button id='mppcm2GDAdd'><TbHeart className='faIcons'/></button>
+                                    <button id='mppcm2GDCart'><TbShoppingCartPlus className='faIcons'/></button>
+                                </>}
                             </div>
                         </div>
                     </Link>
