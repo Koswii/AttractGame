@@ -10,6 +10,7 @@ import ScrollToTop from './Components/Pages/ScrollToTop';
 import Admin from './Components/Pages/Admin';
 import Profile from './Components/Pages/Profile';
 import Favorites from './Components/Pages/Favorites';
+import Cart from './Components/Pages/Cart';
 
 import Loader from './Components/Pages/Loader';
 import Home from './Components/Pages/Home'
@@ -92,6 +93,7 @@ function App() {
         <>
           <Route exact path="/MyProfile" element={<Profile/>}/>
           <Route exact path="/MyFavorites" element={<Favorites/>}/>
+          <Route exact path="/MyCart" element={<Cart/>}/>
         </>:<Route path="*" element={<Home/>}/>}
         {(getAdminCredentials && userLoggedInState) && <Route path="/Admin" element={<Admin/>}/>}
 

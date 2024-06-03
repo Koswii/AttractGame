@@ -8,18 +8,47 @@ import {
     TbHeartFilled,     
 } from "react-icons/tb";
 
+
+
+const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
+const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
+const fetchGames = async (setViewAGData1, setLoadingMarketData) => {
+    try {
+        const response1 = await axios.get(AGGamesListAPI1);
+        const agAllGames = response1.data;
+        const agSortAllGamesByDate = agAllGames.sort((a, b) => new Date(b.game_released) - new Date(a.game_released));
+        setViewAGData1(agSortAllGamesByDate);
+        setLoadingMarketData(true);
+    } catch (error) {
+        console.error(error);
+    }
+};
+const fetchFavorites = async (setFavorites, LoginUserID) => {
+    try {
+        const response = await axios.get(AGUserFavoritesAPI);
+        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
+        const favoriteGameCodes = filteredData.map(fav => fav.ag_product_id);
+        setFavorites(favoriteGameCodes);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 const Games = () => {
-    const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
     const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
+    const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
+    const userLoggedIn = localStorage.getItem('isLoggedIn')
+    const LoginUserID = localStorage.getItem('profileUserID');
+    const [userLoggedData, setUserLoggedData] = useState('')
     const [viewAGData1, setViewAGData1] = useState([]);
     const [searchGameName, setSearchGameName] = useState('');
     const [loadingMarketData, setLoadingMarketData] = useState(false);
+    const [favorites, setFavorites] = useState([]);
     const [currentPage, setCurrentPage] = useState(
         parseInt(localStorage.getItem('currentPage')) || 1
     ); // state to track current page
     const [itemsPerPage] = useState(30); // number of items per page
 
-    const [userLoggedData, setUserLoggedData] = useState('')
     useEffect(() => {
         const fetchUserProfile = () => {
             const storedProfileData = localStorage.getItem('profileDataJSON')
@@ -29,22 +58,9 @@ const Games = () => {
             }
         }
         fetchUserProfile();
-    }, []);
-    useEffect(() => {
-        const fetchGames = async () => {
-            try {
-                const response1 = await axios.get(AGGamesListAPI1);
-                const agAllGames = response1.data;
-                const agSortAllGamesByDate = agAllGames.sort((a, b) => new Date(b.game_released) - new Date(a.game_released));
-
-                setViewAGData1(agSortAllGamesByDate);
-                setLoadingMarketData(true);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchGames();
-    }, []);
+        fetchGames(setViewAGData1, setLoadingMarketData);
+        fetchFavorites(setFavorites, LoginUserID);
+    }, [LoginUserID]);
     const handleSearchChange = event => {
         setSearchGameName(event.target.value);
         setCurrentPage(1); // Reset to the first page when searching
@@ -91,10 +107,12 @@ const Games = () => {
         axios.post(AGAddToFavorites, jsonUserFavData)
         .then(response => {
           const resMessage = response.data;
-          if (resMessage.success === false) {
-            console.log(resMessage.message);
-          }
           if (resMessage.success === true) {
+            console.log(resMessage.message);
+            setFavorites([...favorites, productFavGameCode]);
+            fetchGames(setViewAGData1, setLoadingMarketData);
+            fetchFavorites(setFavorites, LoginUserID);
+          } else {
             console.log(resMessage.message);
           }
         }) 
@@ -102,7 +120,45 @@ const Games = () => {
             console.log(error);
         });
     };
+    const handleRemoveFavorite = (gameCanonical) => {
+        const removeFav = {favorite: gameCanonical}
+        const removeFavJSON = JSON.stringify(removeFav);
+        axios({
+            method: 'delete',
+            url: AGUserRemoveFavAPI,
+            data: removeFavJSON,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.data.success) {
+                console.log('Product removed successfully');
+                setFavorites(favorites.filter(fav => fav !== gameCanonical));
+            } else {
+                console.log(`Error: ${response.data.message}`);
+            }
+        })
+        .catch(error => {
+            console.log(`Error: ${error.message}`);
+        });
+    };
+    const handleFavoriteToggle = (details) => {
+        if (favorites.includes(details.game_canonical)) {
+            handleRemoveFavorite(details.game_canonical);
+        } else {
+            handleAddFavorite(details);
+        }
+    };
 
+
+
+
+
+
+
+
+    
     return (
         <div className='mainContainer gameList'>
             <section className="gamesPageContainer top">
@@ -132,8 +188,15 @@ const Games = () => {
                                         <p>{details.game_edition}</p>
                                         <div>
                                             <h6>$ 999.99</h6>
-                                            <button onClick={() => handleAddFavorite(details)}><TbHeart className='faIcons'/></button>
-                                            <button><TbShoppingCartPlus className='faIcons'/></button>
+                                            {userLoggedIn ?<>
+                                                <button id={favorites.includes(details.game_canonical) ? 'gmspct2gdRemoveFav' : 'gmspct2gdAddFav'} onClick={() => handleFavoriteToggle(details)}>
+                                                    {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
+                                                </button>
+                                                <button><TbShoppingCartPlus className='faIcons'/></button>
+                                            </>:<>
+                                                <button><TbHeart className='faIcons'/></button>
+                                                <button><TbShoppingCartPlus className='faIcons'/></button>
+                                            </>}
                                         </div>
                                     </div>
                                 </div>

@@ -79,8 +79,6 @@ const Favorites = () => {
             console.log(`Error: ${error.message}`);
         });
     };
-
-
     const renderFavoriteProducts = () => {
         if (productDetails.length){
             return (

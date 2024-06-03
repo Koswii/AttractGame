@@ -50,6 +50,12 @@ const formatDateToWordedDate = (numberedDate) => {
 const Game = () => {
     const { gameCanonical } = useParams();
     const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
+    const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
+    const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
+    const userLoggedIn = localStorage.getItem('isLoggedIn')
+    const LoginUserID = localStorage.getItem('profileUserID');
+    const [userLoggedData, setUserLoggedData] = useState('')
+    const [favorites, setFavorites] = useState([]);
     const [viewAGData1, setViewAGData1] = useState([]);
     const [viewAGData2, setViewAGData2] = useState([]);
     const [viewWikiData, setViewWikiData] = useState([]);
@@ -59,6 +65,14 @@ const Game = () => {
     const [viewGameTrailer, setViewGameTrailer] = useState('');
 
     useEffect(() => {
+        const fetchUserProfile = () => {
+            const storedProfileData = localStorage.getItem('profileDataJSON')
+            if(storedProfileData) {
+                const parsedProfileData = JSON.parse(storedProfileData);
+                setUserLoggedData(JSON.parse(storedProfileData))
+            }
+        }
+
         const fetchGameData = async () => {
             try {
                 const response = await axios.get(AGGamesListAPI1);
@@ -74,8 +88,10 @@ const Game = () => {
                 console.error(error);
             }
         };
+        
+        fetchUserProfile();
         fetchGameData();
-    }, []);
+    }, [LoginUserID]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -130,6 +146,61 @@ const Game = () => {
         }, 500);
     }
 
+    const handleAddFavorite = (scrapedMetacriticData) => {
+        const productFavGameCode = scrapedMetacriticData.game_canonical;
+        const productFavGameName = scrapedMetacriticData.game_title;
+    
+        const formAddfavorite = {
+          agFavUsername: userLoggedData.username,
+          agFavUserID: userLoggedData.userid,
+          agFavGameCode: productFavGameCode,
+          agFavGameName: productFavGameName,
+        }
+    
+        const jsonUserFavData = JSON.stringify(formAddfavorite);
+        axios.post(AGAddToFavorites, jsonUserFavData)
+        .then(response => {
+          const resMessage = response.data;
+          if (resMessage.success === true) {
+            console.log(resMessage.message);
+          } else {
+            console.log(resMessage.message);
+          }
+        }) 
+        .catch (error =>{
+            console.log(error);
+        });
+    };
+    const handleRemoveFavorite = (gameCanonical) => {
+        const removeFav = {favorite: gameCanonical}
+        const removeFavJSON = JSON.stringify(removeFav);
+        axios({
+            method: 'delete',
+            url: AGUserRemoveFavAPI,
+            data: removeFavJSON,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.data.success) {
+                console.log('Product removed successfully');
+            } else {
+                console.log(`Error: ${response.data.message}`);
+            }
+        })
+        .catch(error => {
+            console.log(`Error: ${error.message}`);
+        });
+    };
+    const handleFavoriteToggle = (scrapedMetacriticData) => {
+        if (favorites.includes(scrapedMetacriticData.game_canonical)) {
+            handleRemoveFavorite(scrapedMetacriticData.game_canonical);
+        } else {
+            handleAddFavorite(scrapedMetacriticData);
+        }
+    };
+
     return (
         <div className='mainContainer gameProfile'>
             <section className="gamePageContainer top">
@@ -178,8 +249,15 @@ const Game = () => {
                         </div>
                         <div className="gppctgdrExtras">
                             <h4>$ 999.99</h4>
-                            <button><TbHeart className='faIcons'/></button>
-                            <button><TbShoppingCartPlus gCartBolt className='faIcons'/></button>
+                            {userLoggedIn ?<>
+                                <button id={favorites.includes(scrapedMetacriticData.game_canonical) ? 'gppct2gdRemoveFav' : 'gppct2gdAddFav'} onClick={() => handleFavoriteToggle(scrapedMetacriticData)}>
+                                    {favorites.includes(scrapedMetacriticData.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
+                                </button>
+                                <button><TbShoppingCartPlus className='faIcons'/></button>
+                            </>:<>
+                                <button><TbHeart className='faIcons'/></button>
+                                <button><TbShoppingCartPlus className='faIcons'/></button>
+                            </>}
                             <div>
                                 <h6>Game On-Stock</h6>
                                 <p>24 Stocks</p>

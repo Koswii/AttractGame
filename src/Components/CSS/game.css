@@ -247,6 +247,9 @@ section.gamePageContainer.top{
     margin: 0 1%;
     cursor: pointer;
 }
+.gppctgdrExtras button#gppct2gdRemoveFav{
+    color: red;
+}
 .gppctgdrExtras div{
     width: 30%;
     text-align: right;

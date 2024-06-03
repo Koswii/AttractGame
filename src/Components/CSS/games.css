@@ -239,6 +239,10 @@ section.gamesPageContainer.top{
     outline: none;
     cursor: pointer;
 }
+.gmspct2gDetails div button#gmspct2gdRemoveFav{
+    color: red;
+}
+
 .gmspct2GameDummy{
     height: 15vw;
     width: 18%;
