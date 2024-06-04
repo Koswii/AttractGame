@@ -797,6 +797,9 @@ section.adminPageContainer.mid{
 #orderIcon{
     font-size: .7vw;
 }
+.sortDatafetch{
+    text-transform: capitalize;
+}
 .sortDatafetch:hover .sortingSelection{
     opacity: 1;
     visibility: visible;
@@ -946,6 +949,7 @@ section.adminPageContainer.mid{
     transition: .3s ease;
     cursor: pointer;
     font-size: .7vw;
+    text-transform: capitalize;
 }
 .prdGameinfo-edit buttoN:hover{
     background: white;
@@ -1040,7 +1044,8 @@ section.adminPageContainer.mid{
     border-radius: .5vw;
 }
 .editableGamedata-contents ul li h1{
-    font-size: 1vw;
+    font-size: .8vw;
+    text-transform: uppercase;
 }
 .editableGamedata-contents ul li span{
     outline: .1vw solid white;
@@ -1078,6 +1083,7 @@ section.adminPageContainer.mid{
 }
 .editableGamedata-info h1{
     font-size: .6vw;
+    text-transform: capitalize;
 }
 .editableGamedata-info p{
     font-size: .65vw;
@@ -1146,6 +1152,7 @@ section.adminPageContainer.mid{
     background: none;
     color: white;
     cursor: pointer;
+    text-transform: capitalize;
 }
 .submitEditabledata button:hover{
     background: white;
