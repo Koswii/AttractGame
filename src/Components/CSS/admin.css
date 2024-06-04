@@ -707,6 +707,452 @@ section.adminPageContainer.mid{
 
 
 
+/* product list */
+.admpcm1ProductlistContainer{
+    display: grid;
+    grid-template-columns: 30% 70%;
+    box-sizing: border-box;
+}
+.admpcm1ProductLeft-header p{
+    font-size: .7vw;
+}
+.admpcm1ProductlistContent.left ul{
+    padding: 0;
+    list-style: none;
+    margin: 6% 0;
+}
+.totalGameProducts ul li{
+    width: 100%;
+    margin-bottom: 3%;
+    padding: 4% 6%;
+    text-align: right;
+    border: solid 2px white;
+    border-radius: 1vw;
+}
+.totalGameProducts li h1{
+    font-size: 2vw;
+}
+.totalGameProducts li p{
+    font-size: .7vw;
+    opacity: 50%;
+}
+.admpcm1ProductlistContent.left hr{
+    margin: 3% 0;
+}
+.admpcm1Mostordered{
+    text-align: center;
+}
+.admpcm1Mostordered h1{
+    font-size: 1.5vw;
+}
+.admpcm1Mostordered ul li{
+    color: white;
+    text-align: left;
+    border: .1vw solid white;
+    border-radius: 1vw;
+    padding: 1vw 1.5vw;
+    margin: 0 0 3% 0;
+}
+.admpcm1Mostordered ul li h1{
+    font-size: 1.2vw;
+}
+.admpcm1Mostordered ul li p{
+    font-size: .7vw;
+    opacity: 50%;
+    margin: 1% 0 0 0;
+}
+
+
+.admpcm1ProductlistContent.right{
+    padding: 0 3%;
+}
+.admpcm1ProductlistContent.right hr{
+    margin: 1% 0;
+}
+.admpcm1ProductRight-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.admpcm1ProductRight-header h1{
+    font-size: 1.5vw;
+}
+.admpcm1ProductRight-header span{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 10vw;
+}
+.admpcm1ProductRight-header span p{
+    font-size: .7vw;
+    margin: 0 2%;
+}
+.admpcm1ProductRight-header span h1{
+    font-size: .7vw;
+    cursor: pointer;
+    display: flex;
+    justify-content: right;
+}
+#orderIcon{
+    font-size: .7vw;
+}
+.sortDatafetch:hover .sortingSelection{
+    opacity: 1;
+    visibility: visible;
+    top: 2vw;
+}
+.sortingSelection{
+    list-style: none;
+    color: white;
+    position: absolute;
+    top: 1vw;
+    text-align: center;
+    background: black;
+    border: .1vw solid white;
+    padding: .5vw;
+    border-radius: .5vw;
+    visibility: none;
+    opacity: 0;
+    transition: .5s ease;
+    z-index: 1;
+}
+.admpcm1ProductRight-header span ul li{
+    padding: .5vw;
+    cursor: pointer;
+    border-radius: .5vw;
+}
+.admpcm1ProductRight-header span ul li:hover{
+    outline: .1vw solid white;
+}
+
+
+/* loader */
+.admpcm1ProductRight-loader{
+    height: 30vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.admpcm1ProductRightloader {
+    width: 2vw;
+    height: 2vw;
+    border-radius: 50%;
+    position: relative;
+    animation: rotate 1s linear infinite
+  }
+  .admpcm1ProductRightloader::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0px;
+    border-radius: 50%;
+    border: 5px solid #FFF;
+    animation: prixClipFix 2s linear infinite ;
+  }
+
+  @keyframes rotate {
+    100%   {transform: rotate(360deg)}
+  }
+
+  @keyframes prixClipFix {
+      0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+      25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+      50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+      75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+      100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
+  }
+
+.admpcm1ProductRight-productList ul{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 1vw;
+    list-style: none;
+    width: 100%;
+    height: 40vw;
+    overflow-x: hidden;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.admpcm1ProductRight-productList li{
+    border: .1vw solid white;
+    height: 13vw;
+    width: 10vw;
+    margin: .5vw 0;
+    border-radius: 1vw;
+    transition: .3s ease;
+    cursor: pointer;
+    padding: 1%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.admpcm1ProductRight-productList li:hover{
+    transform: scale(1.03);
+    box-shadow: 0 0 1vw white;
+}
+.admpcm1ProductRight-productList li:hover .prdGameinfo-edit{
+    visibility: visible;
+    opacity: 1;
+}
+.prdGameinfo{
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 5%;
+    box-sizing: border-box;
+    padding: 5%;
+}
+.prdGameinfo h1{
+    font-size: .7vw;
+}
+.prdGameinfo p{
+    font-size: .5vw;
+    text-transform: uppercase;
+    margin: 1% 0 0 0;
+}
+
+
+
+.prdGameinfo-edit{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    top: 0;
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(8.1px);
+    -webkit-backdrop-filter: blur(8.1px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: .3s ease;
+}
+.prdGameinfo-edit button{
+    background: none;
+    color: white;
+    border: none;
+    outline: .1vw solid white;
+    border-radius: .5vw;
+    padding: .2vw;
+    width: 100%;
+    margin: 2% 0;
+    transition: .3s ease;
+    cursor: pointer;
+    font-size: .7vw;
+}
+.prdGameinfo-edit buttoN:hover{
+    background: white;
+    color: black;
+    outline: 0;
+}
+
+
+
+
+.admineditGamedata{
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(8.1px);
+    -webkit-backdrop-filter: blur(8.1px);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.admineditData-container{
+    height: 30vw;
+    width: 50vw;
+    border: .1vw solid white;
+    box-shadow: 0 0 1vw white;
+    border-radius: 1vw;
+    background: black;
+    overflow: hidden;
+    position: relative;
+}
+
+
+/* close modal */
+.closeEditModal{
+    position: absolute;
+    z-index: 1;
+    right: 1vw;
+    top: 1vw;
+}
+#closeEditbtn{
+    color: white;
+    font-size: .7vw;
+    cursor: pointer;
+}
+#closeEditbtn:hover{
+    color: red;
+}
+
+
+.admineditData-contents{
+    display: flex;
+}
+.hrSpace{
+    border: .1vw dashed white;
+}
+.admineditData-contents section{
+    height: 30vw;
+    position: relative;
+}
+#gameEditdetails{
+    width: 100%;
+}
+.editableGamedata{
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+}
+.editableGamedata-header h1{
+    font-size: 1.2vw;
+}
+.editableGamedata-header p{
+    font-size: .7vw;
+    opacity: 50%;
+    text-transform: uppercase;
+}
+.editableGamedata-contents ul{
+    list-style: none;
+    padding: 1vw;
+    display: flex;
+}
+.editableGamedata-contents ul li{
+    width: 100%;
+    border: .1vw solid white;
+    padding: .5vw;
+    margin: 1%;
+    border-radius: .5vw;
+}
+.editableGamedata-contents ul li h1{
+    font-size: 1vw;
+}
+.editableGamedata-contents ul li span{
+    outline: .1vw solid white;
+    border-radius: .3vw;
+    display: flex;
+    align-items: center;
+    padding: .5vw;
+    margin: .5vw 0 0 0;
+}
+.editableGamedata-contents ul li span input{
+    font-size: .8vw;
+    width: 100%;
+    background: none;
+    border: none;
+    color: white;
+    outline: 0;
+}
+
+
+
+
+.editableGamedata-contents hr{
+    margin: 1vw 5vw;
+}
+.editableGamedata-info{
+    display: flex;
+    padding: 0 1vw;
+    box-sizing: border-box;
+}
+.editableGamedata-info hr{
+    margin: 0 .5vw;
+}
+.editableGamedata-info span{
+    margin: 0 .5vw;
+}
+.editableGamedata-info h1{
+    font-size: .6vw;
+}
+.editableGamedata-info p{
+    font-size: .65vw;
+}
+#editItemIcon{
+    color: white;
+    font-size: .7vw;
+    cursor: pointer;
+}
+
+
+/* add code */
+.addgameCodeinfo{
+    height: 100%;
+    width: 15vw;
+    display: flex;
+    box-sizing: border-box;
+    justify-content: center;
+    padding: 3vw 0;
+    position: relative;
+    background: linear-gradient(transparent, black 100%) center center no-repeat, url('https://2wave.io/CoverPics/LoginBackground.jpg');
+    background-size: cover;
+}
+.addgameCodeinfo span{
+    padding: 0 1vw;
+    height: 22vw;
+    overflow-y: scroll;
+    width: 100%;
+}
+.addgameCodeinfo span h1{
+    font-size: 1vw;
+    margin: 0 0 .5vw 0;
+}
+.addgameCodeinfo span input{
+    width: 100%;
+    margin: 0 0 .5vw 0;
+    padding: .2vw .5vw;
+    border-radius: .5vw;
+    border: none;
+    outline: .1vw solid white;
+    background: none;
+    color: white;
+    font-size: .7vw;
+}
+.addgameCodeinfo span button{
+    width: 100%;
+    padding: .2vw;
+    border-radius: .5vw;
+    cursor: pointer;
+    font-size: .7vw;
+}
+.submitEditabledata{
+    position: absolute;
+    bottom: 2vw;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 1vw;
+}
+.submitEditabledata button{
+    width: 100%;
+    font-size: .7vw;
+    padding: .2vw;
+    border-radius: .5vw;
+    outline: .1vw solid white;
+    border: none;
+    background: none;
+    color: white;
+    cursor: pointer;
+}
+.submitEditabledata button:hover{
+    background: white;
+    color: black;
+    outline: 0;
+}
+
 
 
 
