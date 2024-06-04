@@ -305,10 +305,12 @@ const Admin = () => {
     const [discount, setDiscount] = useState('');
     const [gameID, setGameID] = useState('');
     const [inputs, setInputs] = useState([{ id: 'agProd_code' + Date.now(), value: '' }]);
+    const [clickCount,setClickcount] = useState(0)
 
     
     const [sortName, setsortName] = useState('all games');
     const [order, setOrder] = useState(false);
+    const [orderSelect,setOrderselect] = useState(false)
 
     const handleChangePrice = (event) => {
         setPrice(event.target.value);
@@ -328,6 +330,7 @@ const Admin = () => {
     const handleCloseEditModal = () => {
         setEditModal(false);
         setInputs([{ id: 'agProd_code' + Date.now(), value: '' }]);
+        setClickcount(0)
     };
 
     const toggleDisablePrice = () => {
@@ -358,8 +361,8 @@ const Admin = () => {
                 return (a.game_released < b.game_released ? -1 : 1)
             }
         })
-        console.log(sortnewest);
         setViewGameTotal(sortnewest);
+        setOrderselect(false)
     }
 
     const toggleFiltername = () => {
@@ -371,8 +374,8 @@ const Admin = () => {
                 return (a.game_title < b.game_title ? -1 : 1)
             }
         })
-        console.log(sortnewest);
         setViewGameTotal(sortnewest);
+        setOrderselect(false)
     }
     const insertDataApi = 'http://localhost/ag/agInsertProduct.php';
     const insertData2Api = 'http://localhost/ag/agInsertProductIds.php';
@@ -398,7 +401,6 @@ const Admin = () => {
                     productIDcode: productCodesID,
                 };
                 const response = await axios.post(insertData2Api, dataIDInput);
-                console.log(response.data);
                 setPrice('');
                 setDiscount('');
                 setInputs([{ id: 'agProd_code' + Date.now(), value: '' }]);
@@ -422,16 +424,25 @@ const Admin = () => {
         try {
             const response = await fetch(retrieveDataApi);
             const data = await response.json();
-            console.log(data);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     }
 
+    const showOrdering = () => {
+        setOrderselect(prev => !prev)
+    }
+
     async function buyGame() {
         
     }
-    console.log(!viewGameTotal);
+
+    const openEditquick = (game) => {
+        setClickcount(clickCount + 1)
+        if (clickCount === 1) {
+            handleEditProd(game)
+        }
+    }
     return (
         <div className='mainContainer admin'>
             {openEditModal&&(
@@ -879,13 +890,12 @@ const Admin = () => {
                                         <h1>Game List</h1>
                                         <span>
                                             <p>sort by:</p>
-                                            <h1 className='sortDatafetch'>{sortName}
-                                                <ul className='sortingSelection'>
-                                                    <li onClick={toggleFilternewest}>newest</li>
-                                                    <li onClick={toggleFiltername}>game name</li>
-                                                    <li>most ordered</li>
-                                                </ul>
-                                            </h1>
+                                            <button onClick={showOrdering}>{sortName}</button>
+                                            <ul className={`sortingSelection ${orderSelect}`}>
+                                                <li onClick={toggleFilternewest}>newest</li>
+                                                <li onClick={toggleFiltername}>game name</li>
+                                                <li>most ordered</li>
+                                            </ul>
                                             <h1 onClick={toggleOrder}>{order ? <FaSortAlphaDown id='orderIcon'/> : <FaSortAlphaUp id='orderIcon'/>}</h1>
                                         </span>
                                     </div>
@@ -900,7 +910,7 @@ const Admin = () => {
                                             <>
                                             <ul>
                                             {viewGameTotal.map(game => (
-                                                <li key={game.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${game.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                                <li key={game.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${game.game_cover}')no-repeat center`, backgroundSize: 'cover'}} onClick={() => openEditquick(game)}>
                                                     <div className="prdGameinfo-edit">
                                                         <section>
                                                             <Link to={`/Games/${game.game_canonical}`} target='_blank'><button>view game</button></Link>
