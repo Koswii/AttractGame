@@ -773,6 +773,7 @@ section.adminPageContainer.mid{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 .admpcm1ProductRight-header h1{
     font-size: 1.5vw;
@@ -785,55 +786,83 @@ section.adminPageContainer.mid{
 }
 .admpcm1ProductRight-header span p{
     font-size: .7vw;
-    margin: 0 1% 0 0;
+    margin: 0 2%;
 }
-.custom-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    padding: .2vw 1vw;
-    outline: 1px solid #ccc;
-    border: none;
-    border-radius: 4px;
-    background: none;
+.admpcm1ProductRight-header span h1{
+    font-size: .7vw;
     cursor: pointer;
-    font-size: 16px;
-    position: relative;
-    z-index: 1;
-    color: white;
+    display: flex;
+    justify-content: right;
+}
+#orderIcon{
     font-size: .7vw;
 }
-  
-.custom-select::after {
-    content: '▼';
+.sortDatafetch:hover .sortingSelection{
+    opacity: 1;
+    visibility: visible;
+    top: 2vw;
+}
+.sortingSelection{
+    list-style: none;
+    color: white;
     position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    font-size: 12px;
-    color: #333;
+    top: 1vw;
+    text-align: center;
+    background: black;
+    border: .1vw solid white;
+    padding: .5vw;
+    border-radius: .5vw;
+    visibility: none;
+    opacity: 0;
+    transition: .5s ease;
+    z-index: 1;
 }
-  
-.custom-select option {
-    padding: 10px;
-    background-color: white;
-    color: #333;
+.admpcm1ProductRight-header span ul li{
+    padding: .5vw;
+    cursor: pointer;
+    border-radius: .5vw;
 }
-  
-.custom-select option:hover {
-    background-color: #f1f1f1;
-}
-  
-.custom-select:-moz-focusring {
-    color: transparent;
-    text-shadow: 0 0 0 #000;
-}
-  
-.custom-select::-ms-expand {
-    display: none;
+.admpcm1ProductRight-header span ul li:hover{
+    outline: .1vw solid white;
 }
 
+
+/* loader */
+.admpcm1ProductRight-loader{
+    height: 30vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.admpcm1ProductRightloader {
+    width: 2vw;
+    height: 2vw;
+    border-radius: 50%;
+    position: relative;
+    animation: rotate 1s linear infinite
+  }
+  .admpcm1ProductRightloader::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0px;
+    border-radius: 50%;
+    border: 5px solid #FFF;
+    animation: prixClipFix 2s linear infinite ;
+  }
+
+  @keyframes rotate {
+    100%   {transform: rotate(360deg)}
+  }
+
+  @keyframes prixClipFix {
+      0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+      25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+      50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+      75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+      100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
+  }
 
 .admpcm1ProductRight-productList ul{
     display: flex;
@@ -972,12 +1001,17 @@ section.adminPageContainer.mid{
 
 
 .admineditData-contents{
-    display: grid;
-    grid-template-columns: 70% 30%;
+    display: flex;
+}
+.hrSpace{
+    border: .1vw dashed white;
 }
 .admineditData-contents section{
     height: 30vw;
     position: relative;
+}
+#gameEditdetails{
+    width: 100%;
 }
 .editableGamedata{
     width: 100%;
@@ -1043,7 +1077,7 @@ section.adminPageContainer.mid{
     margin: 0 .5vw;
 }
 .editableGamedata-info h1{
-    font-size: .8vw;
+    font-size: .6vw;
 }
 .editableGamedata-info p{
     font-size: .65vw;
@@ -1058,15 +1092,24 @@ section.adminPageContainer.mid{
 /* add code */
 .addgameCodeinfo{
     height: 100%;
+    width: 15vw;
     display: flex;
+    box-sizing: border-box;
     justify-content: center;
     padding: 3vw 0;
     position: relative;
+    background: linear-gradient(transparent, black 100%) center center no-repeat, url('https://2wave.io/CoverPics/LoginBackground.jpg');
+    background-size: cover;
 }
 .addgameCodeinfo span{
-    padding: 1vw;
+    padding: 0 1vw;
     height: 22vw;
     overflow-y: scroll;
+    width: 100%;
+}
+.addgameCodeinfo span h1{
+    font-size: 1vw;
+    margin: 0 0 .5vw 0;
 }
 .addgameCodeinfo span input{
     width: 100%;

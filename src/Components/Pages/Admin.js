@@ -3,6 +3,8 @@ import "../CSS/admin.css";
 import { 
     FaBars,
     FaTimes,
+    FaSortAlphaDown,
+    FaSortAlphaUp,
     FaCheck 
 } from 'react-icons/fa';
 import { FiEdit } from "react-icons/fi";
@@ -304,6 +306,10 @@ const Admin = () => {
     const [gameID, setGameID] = useState('');
     const [inputs, setInputs] = useState([{ id: 'agProd_code' + Date.now(), value: '' }]);
 
+    
+    const [sortName, setsortName] = useState('all games');
+    const [order, setOrder] = useState(false);
+
     const handleChangePrice = (event) => {
         setPrice(event.target.value);
     };
@@ -340,12 +346,38 @@ const Admin = () => {
         setInputs(inputs.map(input => input.id === id ? { ...input, [field]: value } : input));
     };
 
+    const toggleOrder = () => {
+        setOrder(prev => !prev)
+    }
+    const toggleFilternewest = () => {
+        setsortName('newest')
+        const sortnewest = viewGameTotal.sort((a,b) => {
+            if (order === false) {
+                return (a.game_released > b.game_released ? -1 : 1)
+            } else {
+                return (a.game_released < b.game_released ? -1 : 1)
+            }
+        })
+        console.log(sortnewest);
+        setViewGameTotal(sortnewest);
+    }
+
+    const toggleFiltername = () => {
+        setsortName('game name')
+        const sortnewest = viewGameTotal.sort((a,b) => {
+            if (order === false) {
+                return (a.game_title > b.game_title ? -1 : 1)
+            } else {
+                return (a.game_title < b.game_title ? -1 : 1)
+            }
+        })
+        console.log(sortnewest);
+        setViewGameTotal(sortnewest);
+    }
     const insertDataApi = 'http://localhost/ag/agInsertProduct.php';
     const insertData2Api = 'http://localhost/ag/agInsertProductIds.php';
     const retrieveDataApi = 'http://localhost/ag/agretrieveProduct.php';
 
-
-    
     const insertGameData = async () => {
         try {
             const productCodesString = inputs.map(input => input.value).join(',');
@@ -399,6 +431,7 @@ const Admin = () => {
     async function buyGame() {
         
     }
+    console.log(!viewGameTotal);
     return (
         <div className='mainContainer admin'>
             {openEditModal&&(
@@ -431,6 +464,16 @@ const Admin = () => {
                                                 <h1>category</h1>
                                                 <p>{editableData.game_category}</p>
                                             </span>
+                                            <hr />
+                                            <span>
+                                                <h1>inserted date</h1>
+                                                <p>{editableData.date}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>released date</h1>
+                                                <p>{editableData.game_released}</p>
+                                            </span>
                                         </div>
                                         <ul>
                                             <li>
@@ -451,9 +494,11 @@ const Admin = () => {
                                     </div>
                                 </div>
                             </section>
+                            <hr className='hrSpace'/>
                             <section>
                                 <div className="addgameCodeinfo">
                                     <span>
+                                        <h1>Game Codes</h1>
                                         {inputs.map(input => (
                                             <>
                                             <div key={input.id}>
@@ -834,16 +879,23 @@ const Admin = () => {
                                         <h1>Game List</h1>
                                         <span>
                                             <p>sort by:</p>
-                                            <select className='custom-select'>
-                                                <option value="">all games</option>
-                                                <option value="">newest</option>
-                                                <option value="">most ordered</option>
-                                                <option value="">low stock</option>
-                                            </select>
+                                            <h1 className='sortDatafetch'>{sortName}
+                                                <ul className='sortingSelection'>
+                                                    <li onClick={toggleFilternewest}>newest</li>
+                                                    <li onClick={toggleFiltername}>game name</li>
+                                                    <li>most ordered</li>
+                                                </ul>
+                                            </h1>
+                                            <h1 onClick={toggleOrder}>{order ? <FaSortAlphaDown id='orderIcon'/> : <FaSortAlphaUp id='orderIcon'/>}</h1>
                                         </span>
                                     </div>
                                     <hr />
                                     <div className="admpcm1ProductRight-productList">
+                                        {viewGameTotal.length === 0 &&(
+                                        <div className="admpcm1ProductRight-loader">
+                                            <span class="admpcm1ProductRightloader"></span>
+                                        </div>
+                                        )}
                                         {viewGameTotal&&(
                                             <>
                                             <ul>
