@@ -340,14 +340,14 @@ const Admin = () => {
                 setAGSetGameAvailable('');
                 setAGSetGameRestricted('');
             }
-<<<<<<< Koswi
+
     
             // Sending game cover image
             await axios.post(AGAddGameCoverAPI, formImageData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
-=======
+
         }) 
         .catch (error =>{
           console.log(error);
@@ -358,7 +358,7 @@ const Admin = () => {
               headers: {
                 'Content-Type': 'multipart/form-data'
               }
->>>>>>> main
+
             });
     
         } catch (error) {
