@@ -340,31 +340,19 @@ const Admin = () => {
                 setAGSetGameAvailable('');
                 setAGSetGameRestricted('');
             }
-
     
             // Sending game cover image
             await axios.post(AGAddGameCoverAPI, formImageData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
-
-        }) 
-        .catch (error =>{
-          console.log(error);
-        });
-
-        try {
-            const response = await axios.post(AGAddGameCoverAPI, formImageData, {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-
             });
     
         } catch (error) {
             console.error(error);
         }
-    };    
+    };
+    
     const [agAddGameEdition, setAGAddGameEdition] = useState(false)
     const handleViewAddGameEdition = (e) => {
         e.preventDefault();
