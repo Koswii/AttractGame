@@ -456,9 +456,6 @@ const Admin = () => {
     };
 
 
-
-
-
     // product list datas
     // datas
     const [editableData, setEditableData] = useState({});
@@ -479,40 +476,32 @@ const Admin = () => {
     const handleChangePrice = (event) => {
         setPrice(event.target.value);
     };
-
     const handleChangeDiscount = (event) => {
         setDiscount(event.target.value);
     };
-
     const handleEditProd = (game) => {
         setGameID(game.game_canonical);
         setEditableData(game);
         setEditModal(true);
         console.log(game);
     };
-
     const handleCloseEditModal = () => {
         setEditModal(false);
         setInputs([{ id: 'agProd_code' + Date.now(), value: '' }]);
         setClickcount(0)
     };
-
     const toggleDisablePrice = () => {
         setEditInfoPrice((prevState) => !prevState);
     };
-
     const toggleDisableDiscount = () => {
         setEditInfoDiscount((prevState) => !prevState);
     };
-
     const addNewInput = () => {
         setInputs([...inputs, { id: 'agProd_code' + Date.now(), value: '' }]);
     };
-
     const handleInputChange = (id, field, value) => {
         setInputs(inputs.map(input => input.id === id ? { ...input, [field]: value } : input));
     };
-
     const toggleOrder = () => {
         setOrder(prev => !prev)
     }
@@ -528,7 +517,6 @@ const Admin = () => {
         setViewGameTotal(sortnewest);
         setOrderselect(false)
     }
-
     const toggleFiltername = () => {
         setsortName('game name')
         const sortnewest = viewGameTotal.sort((a,b) => {
@@ -541,9 +529,8 @@ const Admin = () => {
         setViewGameTotal(sortnewest);
         setOrderselect(false)
     }
-    const insertDataApi = 'http://localhost/ag/agInsertProduct.php';
-    const insertData2Api = 'http://localhost/ag/agInsertProductIds.php';
-    const retrieveDataApi = 'http://localhost/ag/agretrieveProduct.php';
+    const AGInsertProductCodeAPI = process.env.REACT_APP_AG_INSERT_PRODUCT_CODES_API;
+    const AGProductStateAPI = process.env.REACT_APP_AG_PRODUCT_STATE_CREDENTIALS_API;
 
     const insertGameData = async () => {
         try {
@@ -556,24 +543,19 @@ const Admin = () => {
                 productCannonical: gameID,
                 productIDcode: productCodesID,
                 productCodes: productCodesString,
+                productState: 'Available',
             };
-            const response = await axios.post(insertDataApi, dataInput);
+
+            // console.log(dataInput);
+
+            const response = await axios.post(AGInsertProductCodeAPI, dataInput);
             console.log('Data submitted successfully:', response.data);
-            try {  
-                const dataIDInput = {
-                    productCannonical: gameID,
-                    productIDcode: productCodesID,
-                };
-                const response = await axios.post(insertData2Api, dataIDInput);
-                setPrice('');
-                setDiscount('');
-                setInputs([{ id: 'agProd_code' + Date.now(), value: '' }]);
-                setEditModal(false);
-                setEditInfoDiscount(false)
-                setEditInfoPrice(false)
-            } catch (error) {
-                console.log(error);
-            }
+            setPrice('');
+            setDiscount('');
+            setInputs([{ id: 'agProd_code' + Date.now(), value: '' }]);
+            setEditModal(false);
+            setEditInfoDiscount(false);
+            setEditInfoPrice(false);
         } catch (error) {
             console.error('Error submitting data:', error);
         }
@@ -582,31 +564,29 @@ const Admin = () => {
 
     useEffect(() => {
         fetchProductcodes();
-    }, []);
-
+    }, [])
     async function fetchProductcodes() {
         try {
-            const response = await fetch(retrieveDataApi);
+            const response = await fetch(AGProductStateAPI);
             const data = await response.json();
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     }
-
     const showOrdering = () => {
         setOrderselect(prev => !prev)
     }
-
     async function buyGame() {
         
     }
-
     const openEditquick = (game) => {
         setClickcount(clickCount + 1)
         if (clickCount === 1) {
             handleEditProd(game)
         }
     }
+
+
     return (
         <div className='mainContainer admin'>
             {openEditModal&&(
