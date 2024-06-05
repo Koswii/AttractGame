@@ -776,7 +776,7 @@ section.adminPageContainer.mid{
     position: relative;
 }
 .admpcm1ProductRight-header h1{
-    font-size: 1.5vw;
+    font-size: 1vw;
 }
 .admpcm1ProductRight-header span{
     display: flex;
@@ -793,11 +793,15 @@ section.adminPageContainer.mid{
     cursor: pointer;
     display: flex;
     justify-content: right;
+    text-transform: capitalize;
 }
 #orderIcon{
     font-size: .7vw;
 }
-.sortDatafetch:hover .sortingSelection{
+.sortDatafetch{
+    text-transform: capitalize;
+}
+.sortingSelection.true{
     opacity: 1;
     visibility: visible;
     top: 2vw;
@@ -807,6 +811,7 @@ section.adminPageContainer.mid{
     color: white;
     position: absolute;
     top: 1vw;
+    right: 0;
     text-align: center;
     background: black;
     border: .1vw solid white;
@@ -815,12 +820,23 @@ section.adminPageContainer.mid{
     visibility: none;
     opacity: 0;
     transition: .5s ease;
-    z-index: 1;
+    z-index: 3;
+}
+.admpcm1ProductRight-header span button{
+    padding: 0;
+    cursor: pointer;
+    background: none;
+    border: none;
+    outline: 0;
+    color: white;
+    font-weight: 1000;
+    text-transform: capitalize;
 }
 .admpcm1ProductRight-header span ul li{
     padding: .5vw;
     cursor: pointer;
     border-radius: .5vw;
+    text-transform: capitalize;
 }
 .admpcm1ProductRight-header span ul li:hover{
     outline: .1vw solid white;
@@ -946,6 +962,7 @@ section.adminPageContainer.mid{
     transition: .3s ease;
     cursor: pointer;
     font-size: .7vw;
+    text-transform: capitalize;
 }
 .prdGameinfo-edit buttoN:hover{
     background: white;
@@ -1040,7 +1057,8 @@ section.adminPageContainer.mid{
     border-radius: .5vw;
 }
 .editableGamedata-contents ul li h1{
-    font-size: 1vw;
+    font-size: .8vw;
+    text-transform: uppercase;
 }
 .editableGamedata-contents ul li span{
     outline: .1vw solid white;
@@ -1078,9 +1096,10 @@ section.adminPageContainer.mid{
 }
 .editableGamedata-info h1{
     font-size: .6vw;
+    text-transform: capitalize;
 }
 .editableGamedata-info p{
-    font-size: .65vw;
+    font-size: .6vw;
 }
 #editItemIcon{
     color: white;
@@ -1146,6 +1165,7 @@ section.adminPageContainer.mid{
     background: none;
     color: white;
     cursor: pointer;
+    text-transform: capitalize;
 }
 .submitEditabledata button:hover{
     background: white;
