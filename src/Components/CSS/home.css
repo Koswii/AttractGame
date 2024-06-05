@@ -297,6 +297,7 @@ section.landingPageContainer.mid{
 }
 .lndpcfgPlatform img{
     height: 3vw;
+    width: 3vw;
     border-radius: 0;
 }
 .lndpcfgPlatform img[platform='PC']{
