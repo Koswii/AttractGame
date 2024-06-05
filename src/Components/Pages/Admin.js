@@ -717,11 +717,11 @@ const Admin = () => {
                                     <h6>LISTED GAMES</h6>
                                 </div>
                                 <div>
-                                    <h4>0</h4>
+                                    <h4>{viewGiftcardTotal.length}</h4>
                                     <h6>LISTED GIFTCARDS</h6>
                                 </div>
                                 <div>
-                                    <h4>0</h4>
+                                    <h4>{viewGamecreditTotal.length}</h4>
                                     <h6>LISTED GAME CREDITS</h6>
                                 </div>
                             </div>
@@ -994,7 +994,6 @@ const Admin = () => {
                             </div>
                         </div>
                     </div>}
-
                     {activeView === 'giftCards' && <div className="admpcm1GiftCards">
                         <div className="admpcm1AddGiftCardContainer">
                             <div className="admpcm1AGiftCardContent left">
@@ -1006,12 +1005,12 @@ const Admin = () => {
                                 </p>
                                 <div className="admpcm1AGiftcardsCAll">
                                     <div>
-                                        <h4>{viewGiftcardTotal.length} Vouchers</h4>
-                                        <p>Total Listed Vouchers</p>
+                                        <h4>{viewGiftcardTotal.length} Giftcards</h4>
+                                        <p>Total Listed Giftcards</p>
                                     </div>
                                     <div>
                                         <h4>0 Stocks</h4>
-                                        <p>Total Voucher Stocks</p>
+                                        <p>Total Giftcards Stocks</p>
                                     </div>
                                 </div>
                             </div>
@@ -1152,41 +1151,43 @@ const Admin = () => {
                             </div>
                         </div>
                     </div>}
-
                     {activeView === 'productList' && (
-                        <div className="admpcm1Produt">
+                        <div className="admpcm1Product">
                             <div className="admpcm1ProductlistContainer">
                                 <div className="admpcm1ProductlistContent left">
                                     <div className="admpcm1ProductLeft-header">
                                         <h4>WELCOME ADMIN!</h4><br />
-                                        <p>you can view, edit and monitor your product data(s) here. monitor the product list here.</p>
+                                        <p>
+                                            Within this administrative interface, you have the ability to effortlessly 
+                                            integrate new codes for games, gift cards and vouchers. 
+                                            Every detail is meticulously logged and securely stored in our database, 
+                                            ensuring thorough management and easy access.
+                                        </p>
                                     </div>
                                     <div className="totalGameProducts">
                                         <ul>
                                             <li>
-                                                <h1>{viewGameTotal.length} Total Games</h1>
+                                                <h1>{viewGameTotal.length} Games</h1>
                                                 <p>Total Listed Games</p>
+                                            </li>
+                                            <li>
+                                                <h1>{viewGiftcardTotal.length} Giftcards</h1>
+                                                <p>Total Listed Giftcards</p>
+                                            </li>
+                                            <li>
+                                                <h1>{viewGamecreditTotal.length} GCredits</h1>
+                                                <p>Total Listed Game Credits</p>
+                                            </li><br /><br />
+                                            <li>
+                                                <h1>0 Stocks</h1>
+                                                <p>Total Overall Stocks</p>
+                                            </li>
+                                            <li>
+                                                <h1>0 Sold</h1>
+                                                <p>Total Sold Stocks</p>
                                             </li>
                                         </ul>
                                     </div>
-                                    <hr />
-                                    <section className='admpcm1Mostordered'>
-                                        <h1>Most Ordered Games</h1>
-                                        <ul>
-                                            <li style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/TEKKEN 8.png')no-repeat center center`, backgroundSize: 'cover'}}> 
-                                                <h1>Tekken 8</h1>
-                                                <p>1k sold</p>
-                                            </li>
-                                            <li style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/TEKKEN 8.png')no-repeat center center`, backgroundSize: 'cover'}}> 
-                                                <h1>Tekken 8</h1>
-                                                <p>1k sold</p>
-                                            </li>
-                                            <li style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/TEKKEN 8.png')no-repeat center center`, backgroundSize: 'cover'}}> 
-                                                <h1>Tekken 8</h1>
-                                                <p>1k sold</p>
-                                            </li>
-                                        </ul>
-                                    </section>
                                 </div>
                                 <div className="admpcm1ProductlistContent right">
                                     <div className="admpcm1ProductRight-header">
