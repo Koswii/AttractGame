@@ -80,7 +80,7 @@ const fetchGames = async (setLoadingMarketData1, setViewAllGamesNum, setViewAGDa
         const gameCSFeatMetacritic = sortedCurrentYearGames.map(game => game.game_title.toLowerCase().replace(/\s/g, '-'));
         const gameCSFeatWikipedia = sortedCurrentYearGames.map(game => game.game_title_ext1.replace(/\s/g, '_') || game.game_title.replace(/\s/g, '_'));
 
-        setViewAllGamesNum(agAllGames.length);
+        setViewAllGamesNum(agAllGames);
         setViewAGData1(sortedCurrentYearGames);
         // setViewAllListedGames(sortedCurrentYearGames);
         setViewMetacriticData(gameCSFeatMetacritic);
@@ -112,6 +112,7 @@ const Marketplace = () => {
     const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
     const AGGamesListAPI2 = process.env.REACT_APP_AG_GAMES_STATUS_API;
     const AGGamesWikiDetails = process.env.REACT_APP_AG_GAMES_WIKI_API;
+    const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
     const AGGamesRobloxPartners = process.env.REACT_APP_AG_GAMES_ROBLOX_API;
     const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
     const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
@@ -126,8 +127,9 @@ const Marketplace = () => {
     const [viewAGData2, setViewAGData2] = useState([]);
     const [viewWikiData, setViewWikiData] = useState([]);
     const [viewMetacriticData, setViewMetacriticData] = useState([]);
+    const [viewAllGiftcard, setViewAllGiftcard] = useState([]);
     const [loadingMarketData, setLoadingMarketData] = useState(false);
-    const [loadingMarketData1, setLoadingMarketData1] = useState(true)
+    const [loadingMarketData1, setLoadingMarketData1] = useState(true);
     const [scrapedMetacriticData, setScrapedMetacriticData] = useState('');
     const [viewRobloxPartners, setViewRobloxPartners] = useState([]);
 
@@ -200,8 +202,21 @@ const Marketplace = () => {
                 console.error('Error fetching data:', error);
             }
         };
+
+        const fetchDataGiftcards = async () => {
+            setLoadingMarketData1(true);
+            try {
+                const response = await axios.get(AGGiftcardsListAPI);
+                setViewAllGiftcard(response.data.slice(0, 16));
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoadingMarketData1(false);
+            }
+        }
     
         fetchData();
+        fetchDataGiftcards();
     }, [viewMetacriticData, viewWikiData]);
     useEffect(() => {
         const fetchRobloxPartners = () => {
@@ -219,6 +234,9 @@ const Marketplace = () => {
     }, []);
     const handleClickGames = () => {
         setActivePage('games');
+    }
+    const handleClickGiftcards = () => {
+        setActivePage('giftcards');
     }
 
 
@@ -299,10 +317,10 @@ const Marketplace = () => {
                             <h6>0 <TbShoppingCartPlus  className='faIcons'/></h6>
                         </span>
                         <span>
-                            <h6>{viewAllGamesNum} <TbDeviceGamepad2 className='faIcons'/></h6>
+                            <h6>{viewAllGamesNum.length} <TbDeviceGamepad2 className='faIcons'/></h6>
                         </span>
                         <span>
-                            <h6>0 <TbGiftCard className='faIcons'/></h6>
+                            <h6>{viewAllGiftcard.length} <TbGiftCard className='faIcons'/></h6>
                         </span>
                     </div>
                 </div>
@@ -371,7 +389,7 @@ const Marketplace = () => {
                 </>} */}
             </section>
             <section className="marketplacePageContainer mid">
-                <h4 id='mppcth4Title'><FaGamepad className='faIcons'/> FEATURED GAMES</h4>
+                <h4 id='mppcthTitlesfeatured'><TbDeviceGamepad2 className='faIcons'/> FEATURED GAMES</h4>
                 <div className="mpPageContentMid1">
                     {!loadingMarketData ? <>
                         <div className="mppContentMid1">
@@ -416,7 +434,7 @@ const Marketplace = () => {
                         ))}
                     </>}
                 </div>
-                <h4 id='mppcmh4Title'><FaGamepad className='faIcons'/> AVAILABLE GAMES</h4>
+                <h4 id='mppcmhTitles'><TbDeviceGamepad2 className='faIcons'/> AVAILABLE GAMES</h4>
                 <div className="mpPageContentMid2 website">
                     {loadingMarketData1 ? <>
                         <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
@@ -450,9 +468,9 @@ const Marketplace = () => {
                         <Link to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>{details.game_cover !== '' ?
                         <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
-                        <div className="mppcm2GameDiscount">
+                        {/* <div className="mppcm2GameDiscount">
                             <h4><MdDiscount className='faIcons'/></h4>
-                        </div>
+                        </div> */}
                         <div className="mppcm2GameDetails">
                             <h5>{details.game_title}</h5>
                             <p>{details.game_edition}</p>
@@ -580,6 +598,47 @@ const Marketplace = () => {
                             {viewRobloxPartners.length > 2 ? <button>View More Games</button> : ''}
                         </div>
                     </div>
+                </div>
+                <h4 id='mppcmhTitles'><TbGiftCard className='faIcons'/> AVAILABLE GIFTCARDS</h4>
+                <div className="mpPageContentMid6 website">
+                    {loadingMarketData1 ? <>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                    </>:<>{viewAllGiftcard.slice(0, 15).map((details, i) => (
+                            <div className="mppContentMid6" key={i}>
+                                <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
+                            </div>
+                        ))}
+                    </>}
+                </div>
+                <div className="mpPageContentMid6 mobile">
+                    {loadingMarketData1 ? <>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                    </>:<>{viewAllGiftcard.slice(0, 4).map((details, i) => (
+                            <div className="mppContentMid6" key={i}>
+                                <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
+                            </div>
+                        ))}
+                    </>}
+                </div>
+                <div className="mpPageContentM2ShowMore">
+                    <Link to='/Giftcards' onClick={handleClickGiftcards}><TbSquareRoundedArrowRight className='faIcons'/> View More Giftcards</Link>
                 </div>
             </section>
         </div>

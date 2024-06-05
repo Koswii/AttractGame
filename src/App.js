@@ -18,6 +18,7 @@ import Highlights from './Components/Pages/Highlights';
 import Marketplace from './Components/Pages/Marketplace';
 import Games from './Components/Pages/Games';
 import Game from './Components/Pages/Game';
+import Giftcards from './Components/Pages/Giftcards';
 
 
 
@@ -89,6 +90,7 @@ function App() {
         <Route exact path="/Marketplace" element={<Marketplace/>}/>
         <Route exact path="/Games" element={<Games/>}/>
         <Route exact path="/Games/:gameCanonical" element={<Game/>}/>
+        <Route exact path="/Giftcards" element={<Giftcards/>}/>
         {(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined) ?
         <>
           <Route exact path="/MyProfile" element={<Profile/>}/>

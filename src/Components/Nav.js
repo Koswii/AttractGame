@@ -505,7 +505,7 @@ const Nav = () => {
             <Link to="/News" onClick={() => handleNavigation('news', '/News')}><h6>NEWS</h6></Link>
             <Link to="/Marketplace" onClick={() => handleNavigation('marketplace', '/Marketplace')}><h6>MARKETPLACE</h6></Link>
             <Link to="/Games" onClick={() => handleNavigation('games', '/Games')}><h6>GAMES</h6></Link>
-            <Link onClick={() => handleNavigation('giftcards', '/Giftcards')}><h6>GIFTCARDS</h6></Link>
+            <Link to="/Giftcards" onClick={() => handleNavigation('giftcards', '/Giftcards')}><h6>GIFTCARDS</h6></Link>
           </div>
           <div className="navContent right">
             {(!userLoggedIn) ? <div className='userPublicBtn'>
@@ -552,7 +552,8 @@ const Nav = () => {
           }
         </div>
         <hr />
-        {viewProfileBtn && <div className="navContainer profileSelect">
+        {viewProfileBtn && 
+        <div className="navContainer profileSelect">
           <div className="navContentprofileSel">
             <h4>MENU</h4>
             <Link id='agProfileBtn' to='/MyProfile' onClick={() => handleNavigation('profile', '/Profile')}>
