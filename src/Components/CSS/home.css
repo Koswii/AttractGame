@@ -223,8 +223,14 @@ section.landingPageContainer.mid{
     flex-wrap: wrap;
     margin-top: 2%;
 }
+.lndpcFeaturedGames.website{
+    display: flex;
+}
+.lndpcFeaturedGames.mobile{
+    display: none;
+}
 .lndpcfgames{
-    height: auto;
+    height: 20vw;
     width: 19%;
     overflow: hidden;
     position: relative;
@@ -235,12 +241,6 @@ section.landingPageContainer.mid{
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.lndpcfgames.website{
-    display: flex;
-}
-.lndpcfgames.mobile{
-    display: none;
 }
 .lndpcfgames:hover{
     transform: translateY(-10px);
@@ -334,6 +334,46 @@ section.landingPageContainer.mid{
     opacity: 100%;
     transition: 400ms ease;
 }
+.lndpcfgamesDummy{
+    height: 20vw;
+    width: 19%;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1%;
+    border-radius: 1vw;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+.lndpcfgPlatformDummy{
+    height: 4.5vw;
+    width: 4.5vw;
+    position: absolute;
+    top: 0.5vw;
+    left: 0.5vw;
+    box-shadow: 0 0 10px black;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+    border-radius: 0.5vw;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -476,7 +516,7 @@ section.landingPageContainer.mid{
     margin: 2% 0;
 }
 .lndpcfgc {
-    height: auto;
+    height: 20vw;
     width: 19%;
     overflow: hidden;
     position: relative;
@@ -487,6 +527,9 @@ section.landingPageContainer.mid{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.lndpcfgc.mob{
+    display: none;
 }
 .lndpcfgc img {
     height: auto;
@@ -553,8 +596,21 @@ section.landingPageContainer.mid{
     opacity: 100%;
     transition: 400ms ease;
 }
-
-
+.lndpcfgcDummy{
+    height: 20vw;
+    width: 19%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 1vw;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+.lndpcfgcDummy.mob{
+    display: none;
+}
 
 
 
@@ -781,10 +837,14 @@ section.landingPageContainer.mid{
     .lndpcFeaturedGames{
         margin: 2% 0;
     }
-    .lndpcfgames.website{
+    .lndpcFeaturedGames.website{
         display: none;
     }
-    .lndpcfgames.mobile{
+    .lndpcFeaturedGames.mobile{
+        display: flex;
+    }
+    .lndpcfgames{
+        height: 60vw;
         display: flex;
         flex-wrap: wrap;
         width: 48%;
@@ -874,10 +934,21 @@ section.landingPageContainer.mid{
     .lndPageContent.mid7 h4{
         font-size: 4vw;
     }
-    .lndpcfgc.mobile{
+    .lndpcfgc.web{
         display: none;
     }
+    .lndpcfgc.mob{
+        display: flex;
+    }
     .lndpcfgc {
+        height: 60vw;
+        width: 48%;
+        margin: 1%;
+        border-radius: 3vw;
+    }
+    .lndpcfgcDummy.mob{
+        display: block;
+        height: 60vw;
         width: 48%;
         margin: 1%;
         border-radius: 3vw;
@@ -889,6 +960,33 @@ section.landingPageContainer.mid{
         font-size: 3vw;
         opacity: 100%;
     }
+    .lndpcfgamesDummy{
+        height: 60vw;
+        width: 48%;
+        margin: 1%;
+        border-radius: 2vw;
+    }
+    .lndpcfgPlatformDummy{
+        height: 15vw;
+        width: 15vw;
+        top: 1.5vw;
+        left: 1.5vw;
+        border-radius: 2vw;
+    }
+    .lndpcfgcDummy.web{
+        display: none;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

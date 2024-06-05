@@ -273,7 +273,14 @@ section.marketplacePageContainer.mid{
     height: auto;
     width: 100%;
     padding: 1vw 10%;
-    padding-bottom: 10vw;
+}
+section.marketplacePageContainer.mid h4#mppcthTitlesfeatured{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+section.marketplacePageContainer.mid h4#mppcthTitlesfeatured .faIcons{
+    margin-right: 1%;
 }
 section.marketplacePageContainer.mid h4#mppcth4Title{
     display: flex;
@@ -422,19 +429,18 @@ section.marketplacePageContainer.mid h4#mppcth4Title .faIcons{
 
 
 
-section.marketplacePageContainer.mid h4#mppcmh4Title{
+section.marketplacePageContainer.mid h4#mppcmhTitles{
     display: flex;
     justify-content: left;
     align-items: center;
 }
-section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
+section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     margin-right: 1%;
 }
 .mpPageContentMid2{
     height: auto;
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: top;
@@ -784,6 +790,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     display: flex;
     justify-content: space-between;
     align-items: top;
+    margin-bottom: 10%;
 }
 .mppcm5Join.left{
     height: auto;
@@ -875,11 +882,56 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
 
 
 
-
-
-
-
-
+.mpPageContentMid6{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: top;
+    margin-top: 2%;
+}
+.mppContentMid6{
+    height: 20vw;
+    width: 19%;
+    margin-bottom: 2%;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    overflow: hidden;
+    transition: 400ms ease;
+}
+.mppContentMid6 img{
+    width: 100%;
+}
+.mppContentMid6Dummy{
+    height: 20vw;
+    width: 19%;
+    margin-bottom: 2%;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+.mpPageContentMid6.mobile{
+    display: none;
+}
 
 
 
@@ -911,7 +963,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     }
 
 
-    section.marketplacePageContainer.mid h4#mppcth4Title{
+    section.marketplacePageContainer.mid h4#mppcthTitlesfeatured{
         display: none;
     }
     .mpPageContentTop{
@@ -929,7 +981,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     .mpPageContentMid1{
         display: none;
     }
-    section.marketplacePageContainer.mid h4#mppcmh4Title{
+    section.marketplacePageContainer.mid h4#mppcmhTitles{
         font-size: 5vw;
     }
     .mpPageContentMid2.website{
@@ -1081,8 +1133,20 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     }
 
 
-
-
+    .mpPageContentMid6.website{
+        display: none;
+    }
+    .mpPageContentMid6.mobile{
+        display: flex;
+    }
+    .mppContentMid6,
+    .mppContentMid6Dummy{
+        height: 60vw;
+        width: 49%;
+        margin-bottom: 2%;
+        border-radius: 1vw;
+        border-radius: 3vw;
+    }
 }
 
 

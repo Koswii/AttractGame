@@ -492,7 +492,7 @@ nav{
     padding: 5%;
 }
 .navContentprofileSel h4{
-    font-size: 8vw;
+    font-size: 5vw;
     color: gray;
 }
 .navContentprofileSel a#agProfileBtn{
@@ -507,11 +507,11 @@ nav{
     border-radius: 3vw;
 }
 .navContentprofileSel a#agProfileBtn div{
-    height: 10vw;
-    width: 10vw;
+    height: 8vw;
+    width: 8vw;
     overflow: hidden;
     border-radius: 50%;
-    border: solid 2px white;
+    border: solid 3px white;
     margin-right: 4%;
 }
 .navContentprofileSel a#agProfileBtn div img{
@@ -519,7 +519,7 @@ nav{
 }
 .navContentprofileSel a#agProfileBtn h6{
     width: 75%;
-    font-size: 5vw;
+    font-size: 4vw;
     overflow: hidden;
 }
 .navContentpsAGElite{
@@ -562,8 +562,12 @@ nav{
     border-radius: 3vw;
     text-decoration: none;
 }
+.navContentpsMyProfile a h4{
+    font-size: 7vw;
+}
 .navContentpsMyProfile a h6{
     font-size: 3vw;
+    font-weight: 400;
 }
 .navContentpsMyLogout{
     height: auto;
