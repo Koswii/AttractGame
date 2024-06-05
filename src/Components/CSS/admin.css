@@ -1136,31 +1136,11 @@ section.adminPageContainer.mid{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* product list */
+.admpcm1Product{
+    height: auto;
+    width: 100%;
+    animation: fade-in-left 1s ease;
+}
 .admpcm1ProductlistContainer{
     display: grid;
     grid-template-columns: 30% 70%;
@@ -1191,28 +1171,6 @@ section.adminPageContainer.mid{
 }
 .admpcm1ProductlistContent.left hr{
     margin: 3% 0;
-}
-.admpcm1Mostordered{
-    text-align: center;
-}
-.admpcm1Mostordered h1{
-    font-size: 1.5vw;
-}
-.admpcm1Mostordered ul li{
-    color: white;
-    text-align: left;
-    border: .1vw solid white;
-    border-radius: 1vw;
-    padding: 1vw 1.5vw;
-    margin: 0 0 3% 0;
-}
-.admpcm1Mostordered ul li h1{
-    font-size: 1.2vw;
-}
-.admpcm1Mostordered ul li p{
-    font-size: .7vw;
-    opacity: 50%;
-    margin: 1% 0 0 0;
 }
 
 
