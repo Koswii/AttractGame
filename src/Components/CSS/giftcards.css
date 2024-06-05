@@ -1,0 +1,231 @@
+h1, h2, h3, h4, h5, h6, p{
+    color: white;
+}
+p{
+    font-size: 0.9vw;
+}
+h1{
+    font-size: 10vw;
+}
+h2{
+    font-size: 5vw;
+}
+h3{
+    font-size: 4vw;
+}
+h4{
+    font-size: 2vw;
+}
+h5{
+    font-size: 1.5vw;
+}
+h6{
+    font-size: 1vw;
+}
+
+
+.mainContainer.giftcardList{
+    height: auto;
+    width: 100%;
+    background: black;
+    position: relative;
+    padding-bottom: 20vw;
+}
+
+
+
+
+
+section.giftcardsPageContainer.top{
+    height: auto;
+    width: 100%;
+    padding: 7vw 10%;
+    padding-bottom: 1%;
+    /* background: 
+        linear-gradient(transparent, black 80%),
+        url('../assets/imgs/13551.png') no-repeat center;
+    background-size: cover; */
+}
+.gcspContent.top{
+    height: auto;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.gcspContent.top input{
+    width: 50%;
+    font-size: 0.9vw;
+    padding: 0.7% 1%;
+    border-radius: 1vw;
+    border: solid 2px white;
+    background: none;
+    color: white;
+    outline: none;
+}
+
+
+
+
+
+section.giftcardsPageContainer.mid{
+    height: auto;
+    width: 100%;
+    padding: 1% 10%;
+}
+.gcspContent.mid1{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.gcspContentMid1{
+    height: 20vw;
+    width: 48%;
+    margin: 1%;
+    border-radius: 1vw;
+    box-shadow: 0 0 10px gray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+}
+.gcspcmid1.left{
+    height: 20vw;
+}
+.gcspcmid1.left img{
+    height: 100%;
+    border-radius: 1vw;
+    border: solid 2px white;
+}
+.gcspcmid1.right{
+    height: 100%;
+    width: 65%;
+    padding: 3% 5%;
+    position: relative;
+}
+.gcspcmid1.right h5{
+    height: 3.5vw;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gcspcmid1.right h6{
+    font-weight: 400;
+    color: gray;
+    text-align: center;
+}
+.gcspcmid1.right p{
+    margin: 5% 0;
+}
+.gcspcmid1.right p#gcspcmid1Web{
+    display: block;
+}
+.gcspcmid1.right p#gcspcmid1Mob{
+    display: none;
+}
+.gcspcmid1.right div{
+    position: absolute;
+    bottom: 0;
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gcspContentMid1Dummy{
+    height: 20vw;
+    width: 48%;
+    margin: 1%;
+    border-radius: 1vw;
+    box-shadow: 0 0 10px gray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+
+
+
+
+
+
+
+
+@media screen and (max-width: 500px){
+    section.giftcardsPageContainer.top{
+        padding: 0 5%;
+        padding-top: 15vh;
+    }
+    .gcspContent.top h5{
+        display: none;
+    }
+    .gcspContent.top input{
+        width: 100%;
+        font-size: 3vw;
+        padding: 2% 2%;
+        border-radius: 2vw;
+        border: solid 2px white;
+        background: none;
+        color: white;
+        outline: none;
+    }
+
+
+    section.giftcardsPageContainer.mid{
+        padding: 5vw 5%;
+    }
+    .gcspContent.mid1{
+        display: block;
+    }
+    .gcspContentMid1{
+        height: 60vw;
+        width: 100%;
+        margin: 0;
+        margin-bottom: 3%;
+        border-radius: 2vw;
+    }
+    .gcspcmid1.left{
+        height: 60vw;
+    }
+    .gcspcmid1.left img{
+        border-radius: 2vw;
+    }
+    .gcspcmid1.right h5{
+        height: 8vw;
+        font-size: 4vw;
+        line-height: 5vw;
+    }
+    .gcspcmid1.right h6{
+        font-size: 3vw;
+        height: 4vw;
+        margin: 3% 0;
+    }
+    .gcspcmid1.right p{
+        font-size: 2.5vw;
+    }
+    .gcspcmid1.right p#gcspcmid1Web{
+        display: none;
+    }
+    .gcspcmid1.right p#gcspcmid1Mob{
+        display: block;
+    }
+    .gcspContentMid1Dummy{
+        height: 60vw;
+        width: 100%;
+        margin: 0%;
+        margin-bottom: 3%;
+        border-radius: 2vw;
+    }
+
+
+}

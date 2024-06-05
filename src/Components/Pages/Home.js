@@ -40,44 +40,70 @@ const Home = () => {
   const { setActivePage } = useActivePage();
   const [hasScrolled, setHasScrolled] = useState(false);
   const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
+  const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
   const [viewAllGamesNum, setViewAllGamesNum] = useState([]);
+  const [viewAllGiftcard, setViewAllGiftcard] = useState([]);
   const [viewAGData1, setViewAGData1] = useState([]);
+  const [loading, setLoading] = useState(true);
 
 
   const handleClickGames = () => {
     setActivePage('games');
   }
+  const handleClickGiftcards = () => {
+    setActivePage('giftcards');
+  }
 
   useEffect(() => {
-      const fetchDataGames = async () => {
-          try {
-              const response1 = await axios.get(AGGamesListAPI1);
-              const agAllGames = response1.data;
+    const fetchDataGames = async () => {
+      try {
+        const response1 = await axios.get(AGGamesListAPI1);
+        const agAllGames = response1.data;
 
-              // Get current year
-              const currentYear = new Date().getFullYear();
-              // Filter games based on the current year
-              const currentYearGames = agAllGames.filter(game => {
-                  const gameDate = new Date(game.game_released);
-                  return gameDate.getFullYear() === currentYear;
-              });
+        // Get current year
+        const currentYear = new Date().getFullYear();
+        // Filter games based on the current year
+        const currentYearGames = agAllGames.filter(game => {
+          const gameDate = new Date(game.game_released);
+          return gameDate.getFullYear() === currentYear;
+        });
 
-              // Sort the games by release month and year
-              const sortedCurrentYearGames = currentYearGames.sort((a, b) => {
-                  const dateA = new Date(a.game_released);
-                  const dateB = new Date(b.game_released);
-                  if (dateA.getFullYear() === dateB.getFullYear()) {
-                      return dateB.getMonth() - dateA.getMonth(); // Sort by month if years are the same
-                  }
-                  return dateB.getFullYear() - dateA.getFullYear(); // Sort by year
-              });
-              setViewAllGamesNum(agAllGames.length);
-              setViewAGData1(sortedCurrentYearGames);
-          } catch (error) {
-              console.error(error);
+        // Sort the games by release month and year
+        const sortedCurrentYearGames = currentYearGames.sort((a, b) => {
+          const dateA = new Date(a.game_released);
+          const dateB = new Date(b.game_released);
+          if (dateA.getFullYear() === dateB.getFullYear()) {
+              return dateB.getMonth() - dateA.getMonth(); // Sort by month if years are the same
           }
-      };
-      fetchDataGames();
+          return dateB.getFullYear() - dateA.getFullYear(); // Sort by year
+        });
+        setViewAllGamesNum(agAllGames.length);
+        setViewAGData1(sortedCurrentYearGames);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fetchDataGiftcards = () => {
+      axios.get(AGGiftcardsListAPI)
+      .then((response) => {
+          const giftcardData = response.data;
+          setViewAllGiftcard(giftcardData);
+      })
+      .catch(error => {
+          console.log(error)
+      })
+    }
+
+    const fetchAllData = async () => {
+      setLoading(true); // Set loading to true before data fetch
+      await fetchDataGames();
+      await fetchDataGiftcards();
+      setLoading(false); // Set loading to false after data fetch
+    };
+    fetchAllData();
+
+
   }, []);
   
   
@@ -136,33 +162,53 @@ const Home = () => {
         </div>
         <div className="lndPageContent mid3">
           <h4><FaFire className='faIcons'/>FEATURED GAMES</h4>
-          <div className="lndpcFeaturedGames">
-            {viewAGData1.slice(0, 10).map((details, i) => (
-            <Link className='lndpcfgames website' to={`/Games/${details.game_canonical}`} key={i}>
-              {details.game_cover ?
-                <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="" />
-                :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}
-              <div className='lndpcfgDetails'>
-                <h6>{details.game_title}</h6>
-                <p>{details.game_developer}</p>
-              </div>
-              <div className="lndpcfgPlatform">
-                <img platform={details.game_platform} src="" alt="" />
-              </div>
-            </Link>))}
-            {viewAGData1.slice(0, 4).map((details, i) => (
-            <Link className='lndpcfgames mobile' to={`/Games/${details.game_canonical}`} onClick={handleClickGames} key={i}>
-              {details.game_cover ?
-                <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="" />
-                :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}
-              <div className='lndpcfgDetails'>
-                <h6>{details.game_title}</h6>
-                <p>{details.game_developer}</p>
-              </div>
-              <div className="lndpcfgPlatform">
-                <img platform={details.game_platform} src="" alt="" />
-              </div>
-            </Link>))}
+          <div className="lndpcFeaturedGames website">
+            {!loading ? <>{viewAGData1.slice(0, 10).map((details, i) => (
+              <Link className='lndpcfgames website' to={`/Games/${details.game_canonical}`} key={i}>
+                {details.game_cover ?
+                  <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="" />
+                  :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}
+                <div className='lndpcfgDetails'>
+                  <h6>{details.game_title}</h6>
+                  <p>{details.game_developer}</p>
+                </div>
+                <div className="lndpcfgPlatform">
+                  <img platform={details.game_platform} src="" alt="" />
+                </div>
+              </Link>
+            ))}</>:<>
+              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
+              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
+              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
+              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
+              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
+              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
+              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
+              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
+              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
+              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
+            </>}
+          </div>
+          <div className="lndpcFeaturedGames mobile">
+            {!loading ? <>{viewAGData1.slice(0, 4).map((details, i) => (
+              <Link className='lndpcfgames' to={`/Games/${details.game_canonical}`} onClick={handleClickGames} key={i}>
+                {details.game_cover ?
+                  <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="" />
+                  :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}
+                <div className='lndpcfgDetails'>
+                  <h6>{details.game_title}</h6>
+                  <p>{details.game_developer}</p>
+                </div>
+                <div className="lndpcfgPlatform">
+                  <img platform={details.game_platform} src="" alt="" />
+                </div>
+              </Link>
+            ))}</>:<>
+              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
+              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
+              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
+              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
+            </>}
           </div>
           <div className="lndpcfgViewMore">
             <Link to="/Games" onClick={handleClickGames}>View All Games</Link>
@@ -214,52 +260,56 @@ const Home = () => {
         <div className="lndPageContent mid7">
           <h4><TbGiftCardFilled className='faIcons'/> GIFT CARDS & VOUCHERS</h4>
           <div className="lndpcFeaturedGiftCards">
-            <div className='lndpcfgc'>
-              <img src={require('../assets/imgs/GiftCards/AppleGiftCard.png')} alt="" />
-            </div>
-            <div className='lndpcfgc mobile'>
-              <img src={require('../assets/imgs/GiftCards/GooglePlayGiftCard.png')} alt="" />
-            </div>
-            <div className='lndpcfgc'>
-              <img src={require('../assets/imgs/GiftCards/PlayStationStoreGiftCard.png')} alt="" />
-            </div>
-            <div className='lndpcfgc'>
-              <img src={require('../assets/imgs/GiftCards/SteamGiftCard.png')} alt="" />
-            </div>
-            <div className='lndpcfgc'>
-              <img src={require('../assets/imgs/GiftCards/XboxGiftCard.png')} alt="" />
-            </div>
-            <div className="lndpcfgcRobloxBinance">
-              <div className="lndpcfgcrb left">
-                <h4>ROBLOX</h4>
-                <h5>GIFT CARD</h5>
-                <p>
-                  Surprise a Roblox fan. Choose from dozens of eGift card 
-                  based on your favorite experiences, characters, and more.
-                </p>
-                <Link>View More Game Credits</Link>
+            {!loading ? <>{viewAllGiftcard.slice(0, 5).map((details, i) => (
+              <div className='lndpcfgc web' key={i}>
+                <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
               </div>
-              <div className="lndpcfgcrb right">
-                <img src={require('../assets/imgs/GiftCards/RobloxGiftCard.png')} alt="" />
+            ))}</>:<>
+              <div className="lndpcfgcDummy web"></div>
+              <div className="lndpcfgcDummy web"></div>
+              <div className="lndpcfgcDummy web"></div>
+              <div className="lndpcfgcDummy web"></div>
+              <div className="lndpcfgcDummy web"></div>
+            </>}
+            {!loading ? <>{viewAllGiftcard.slice(0, 4).map((details, i) => (
+              <div className='lndpcfgc mob' key={i}>
+                <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
               </div>
-            </div>
-            <div className="lndpcfgcRobloxBinance">
-              <div className="lndpcfgcrb left">
-                <h4>BINANCE</h4>
-                <h5>GIFT CARD</h5>
-                <p>
-                  Buy, Sell and Send Binance Gift Card to anyone, anywhere instantly! 
-                  Redeem your cryptocurrency with the Gift Card code.
-                </p>
-                <Link>View More Binance Cypto</Link>
+            ))}</>:<>
+              <div className="lndpcfgcDummy mob"></div>
+              <div className="lndpcfgcDummy mob"></div>
+              <div className="lndpcfgcDummy mob"></div>
+              <div className="lndpcfgcDummy mob"></div>
+            </>}
+            {viewAllGiftcard.slice(5, 6).map((details, i) => (
+              <div className="lndpcfgcRobloxBinance" key={i}>
+                <div className="lndpcfgcrb left">
+                  <h4>ROBLOX</h4>
+                  <h5>GIFT CARD</h5>
+                  <p>{details.giftcard_description.slice(0, 150)}...</p>
+                  <Link>View More Game Credits</Link>
+                </div>
+                <div className="lndpcfgcrb right">
+                  <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
+                </div>
               </div>
-              <div className="lndpcfgcrb right">
-                <img src={require('../assets/imgs/GiftCards/BinanceGiftCardTether.png')} alt="" />
+            ))}
+            {viewAllGiftcard.slice(6, 7).map((details, i) => (
+              <div className="lndpcfgcRobloxBinance" key={i}>
+                <div className="lndpcfgcrb left">
+                  <h4>BINANCE</h4>
+                  <h5>GIFT CARD</h5>
+                  <p>{details.giftcard_description.slice(0, 150)}...</p>
+                  <Link>View More Binance Cypto</Link>
+                </div>
+                <div className="lndpcfgcrb right">
+                  <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
+                </div>
               </div>
-            </div>
+            ))}
           </div>
           <div className="lndpcfgcViewMore">
-            <Link>View More</Link>
+            <Link to="/Giftcards" onClick={handleClickGiftcards}>View More</Link>
           </div>
         </div>
         <div className="lndPageContent mid8">

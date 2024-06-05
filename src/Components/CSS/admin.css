@@ -479,7 +479,7 @@ section.adminPageContainer.mid{
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: top;
+    align-items: start;
     padding-left: 5%;
 }
 .admpcm1agcf.left{
@@ -487,7 +487,7 @@ section.adminPageContainer.mid{
     width: 30%;
 }
 .admpc1agcfImage{
-    height: 100%;
+    height: 20vw;
     width: 100%;
     border-radius: 1vw;
     border: dashed 2px white;
@@ -531,7 +531,7 @@ section.adminPageContainer.mid{
     align-items: center;
 }
 .admpcm1agcf.right span{
-    margin-bottom: 2%;
+    margin-bottom: 3%;
     width: 48%;
     position: relative;
 }
@@ -707,6 +707,220 @@ section.adminPageContainer.mid{
 
 
 
+<<<<<<< Koswi
+.admpcm1GiftCards{
+    height: auto;
+    width: 100%;
+    animation: fade-in-left 1s ease;
+}
+.admpcm1AddGiftCardContainer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    padding: 1% 0;
+}
+.admpcm1AGiftCardContent.left{
+    height: auto;
+    width: 30%;
+}
+.admpcm1AGiftCardContent.left p {
+    font-size: 0.7vw;
+}
+.admpcm1AGiftcardsCAll{
+    height: auto;
+    width: 100%;
+    margin-top: 6%;
+}
+.admpcm1AGiftcardsCAll div{
+    width: 100%;
+    padding: 4% 6%;
+    margin-bottom: 3%;
+    text-align: right;
+    border-radius: 1vw;
+    border: solid 2px white;
+}
+.admpcm1AGiftcardsCAll div p{
+    font-size: 0.7vw;
+    margin-top: 1%;
+    opacity: 50%;
+}
+.admpcm1AGiftCardContent.right{
+    height: auto;
+    width: 65%;
+}
+.admpcm1AGiftCardContent.right form{
+    height: auto;
+    width: 100%;
+}
+.admpcm1AGiftCardContent.right form h5{
+    text-align: center;
+    margin-bottom: 2%;
+}
+.admpcm1agcvForm{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 5%;
+    margin: 5% 0;
+}
+.admpcm1agcvf.left{
+    height: auto;
+    width: 30%;
+}
+.admpc1agcvfImage{
+    height: 20vw;
+    width: 100%;
+    border-radius: 1vw;
+    border: dashed 2px white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 3%;
+}
+.admpc1agcvfImage input{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: none;
+    cursor: pointer;
+    opacity: 0;
+}
+.admpc1agcvfImage img{
+    height: 100%;
+    width: 100%;
+    color: white;
+    border-radius: 1vw;
+}
+.admpcm1agcvf.right{
+    height: auto;
+    width: 65%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.admpcm1agcvf.right span{
+    margin-bottom: 3%;
+    width: 48%;
+    position: relative;
+}
+.admpcm1agcvf.right span p,
+.admpcm1agcvf.left span p{
+    font-size: 0.7vw;
+}
+.admpcm1agcvf.right span input,
+.admpcm1agcvf.left span input{
+    width: 100%;
+    margin-top: 2%;
+    padding: 3% 5%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.admpcm1agcvf.right span select{
+    width: 100%;
+    margin-top: 2%;
+    padding: 3% 5%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.admpcm1agcvf.right span#admpcm1agcvfDes{
+    width: 100%;
+}
+.admpcm1agcvf.right span textarea{
+    height: 5vw;
+    width: 100%;
+    margin-top: 1%;
+    padding: 2% 3%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.admpcm1agcvf.right span select option{
+    background: black;
+    border: solid 1px white;
+    font-weight: 400;
+}
+.admpcm1agcvf.right span.admpcm1agcvfDes{
+    height: auto;
+    width: 100%;
+}
+.admpcm1agcvf.right span.admpcm1agcvfDes textarea{
+    height: 5vw;
+    width: 100%;
+    margin-top: 2%;
+    padding: 2% 3%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.giftcardSubmitStatus{
+    height: auto;
+    width: 100%;
+    text-align: center;
+}
+.giftcardSubmitStatus p{
+    height: 1vw;
+    text-align: center;
+    margin: 1%;
+    font-style: italic;
+}
+.admpc1agcvfSubmit{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 2% 0;
+    margin-top: 5%;
+}
+.admpc1agcvfSubmit button{
+    padding: 1% 3%;
+    background: none;
+    border: solid 2px white;
+    outline: none;
+    border-radius: 50px;
+    opacity: 50%;
+    cursor: pointer;
+    font-size: 0.7vw;
+    color: white;
+}
+.admpc1agcvfSubmit button:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+    box-shadow: 0 0 5px white;
+    background: white;
+    color: black;
+}
+
+
+
+
+
+=======
 /* product list */
 .admpcm1ProductlistContainer{
     display: grid;
@@ -1173,6 +1387,222 @@ section.adminPageContainer.mid{
     outline: 0;
 }
 
+>>>>>>> main
 
 
+
+
+
+
+
+
+
+
+.admpcm1GameCredits{
+    height: auto;
+    width: 100%;
+    animation: fade-in-left 1s ease;
+}
+.admpcm1AddGameCreditsContainer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    padding: 1% 0;
+}
+.admpcm1AGameCreditsContent.left{
+    height: auto;
+    width: 30%;
+}
+.admpcm1AGameCreditsContent.left p {
+    font-size: 0.7vw;
+}
+.admpcm1AGameCreditsCAll{
+    height: auto;
+    width: 100%;
+    margin-top: 6%;
+}
+.admpcm1AGameCreditsCAll div{
+    width: 100%;
+    padding: 4% 6%;
+    margin-bottom: 3%;
+    text-align: right;
+    border-radius: 1vw;
+    border: solid 2px white;
+}
+.admpcm1AGameCreditsCAll div p{
+    font-size: 0.7vw;
+    margin-top: 1%;
+    opacity: 50%;
+}
+.admpcm1AGameCreditsContent.right{
+    height: auto;
+    width: 65%;
+}
+.admpcm1AGameCreditsContent.right form{
+    height: auto;
+    width: 100%;
+}
+.admpcm1AGameCreditsContent.right form h5{
+    text-align: center;
+    margin-bottom: 2%;
+}
+.admpcm1agcrForm{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 5%;
+    margin: 5% 0;
+}
+.admpcm1agcrf.left{
+    height: auto;
+    width: 30%;
+}
+.admpc1agcrfImage{
+    height: 20vw;
+    width: 100%;
+    border-radius: 1vw;
+    border: dashed 2px white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 3%;
+}
+.admpc1agcrfImage input{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: none;
+    cursor: pointer;
+    opacity: 0;
+}
+.admpc1agcrfImage img{
+    height: 100%;
+    width: 100%;
+    color: white;
+    border-radius: 1vw;
+}
+.admpcm1agcrf.right{
+    height: auto;
+    width: 65%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.admpcm1agcrf.right span{
+    margin-bottom: 3%;
+    width: 48%;
+    position: relative;
+}
+.admpcm1agcrf.right span p,
+.admpcm1agcrf.left span p{
+    font-size: 0.7vw;
+}
+.admpcm1agcrf.right span input,
+.admpcm1agcrf.left span input{
+    width: 100%;
+    margin-top: 2%;
+    padding: 3% 5%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.admpcm1agcrf.right span select{
+    width: 100%;
+    margin-top: 2%;
+    padding: 3% 5%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.admpcm1agcrf.right span#admpcm1agcrfDes{
+    width: 100%;
+}
+.admpcm1agcrf.right span textarea{
+    height: 5vw;
+    width: 100%;
+    margin-top: 1%;
+    padding: 2% 3%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.admpcm1agcrf.right span select option{
+    background: black;
+    border: solid 1px white;
+    font-weight: 400;
+}
+.admpcm1agcrf.right span.admpcm1agcrfDes{
+    height: auto;
+    width: 100%;
+}
+.admpcm1agcrf.right span.admpcm1agcrfDes textarea{
+    height: 5vw;
+    width: 100%;
+    margin-top: 2%;
+    padding: 2% 3%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.gamecreditSubmitStatus{
+    height: auto;
+    width: 100%;
+    text-align: center;
+}
+.gamecreditSubmitStatus p{
+    height: 1vw;
+    text-align: center;
+    margin: 1%;
+    font-style: italic;
+}
+.admpc1agcrfSubmit{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 2% 0;
+    margin-top: 5%;
+}
+.admpc1agcrfSubmit button{
+    padding: 1% 3%;
+    background: none;
+    border: solid 2px white;
+    outline: none;
+    border-radius: 50px;
+    opacity: 50%;
+    cursor: pointer;
+    font-size: 0.7vw;
+    color: white;
+}
+.admpc1agcrfSubmit button:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+    box-shadow: 0 0 5px white;
+    background: white;
+    color: black;
+}
 

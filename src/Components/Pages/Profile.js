@@ -71,7 +71,7 @@ const formatDate = (date) => {
     const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
   
     if (timeDifference === 0) {
-      return "Now";
+      return "Today";
     } else if (timeDifference === oneDay) {
       return "Yesterday";
     } else {
