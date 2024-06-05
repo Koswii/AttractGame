@@ -3,8 +3,11 @@ import "../CSS/admin.css";
 import { 
     FaBars,
     FaTimes,
+    FaSortAlphaDown,
+    FaSortAlphaUp,
     FaCheck 
 } from 'react-icons/fa';
+import { FiEdit } from "react-icons/fi";
 import { 
     RiArrowUpSFill,
     RiArrowDownSFill,
@@ -12,6 +15,8 @@ import {
 } from "react-icons/ri";
 import axios from 'axios';
 import {getGameReviews} from 'unofficial-metacritic';
+import { Link } from 'react-router-dom';
+import bcrypt from 'bcryptjs';
 
 
 const formatDateToWordedDate = (numberedDate) => {
@@ -335,12 +340,25 @@ const Admin = () => {
                 setAGSetGameAvailable('');
                 setAGSetGameRestricted('');
             }
+<<<<<<< Koswi
     
             // Sending game cover image
             await axios.post(AGAddGameCoverAPI, formImageData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
+=======
+        }) 
+        .catch (error =>{
+          console.log(error);
+        });
+
+        try {
+            const response = await axios.post(AGAddGameCoverAPI, formImageData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+>>>>>>> main
             });
     
         } catch (error) {
@@ -452,8 +470,244 @@ const Admin = () => {
 
 
 
+
+    // product list datas
+    // datas
+    const [editableData, setEditableData] = useState({});
+    const [openEditModal, setEditModal] = useState(false);
+    const [editInfoPrice, setEditInfoPrice] = useState(true);
+    const [editInfoDiscount, setEditInfoDiscount] = useState(true);
+    const [price, setPrice] = useState('');
+    const [discount, setDiscount] = useState('');
+    const [gameID, setGameID] = useState('');
+    const [inputs, setInputs] = useState([{ id: 'agProd_code' + Date.now(), value: '' }]);
+    const [clickCount,setClickcount] = useState(0)
+
+    
+    const [sortName, setsortName] = useState('all games');
+    const [order, setOrder] = useState(false);
+    const [orderSelect,setOrderselect] = useState(false)
+
+    const handleChangePrice = (event) => {
+        setPrice(event.target.value);
+    };
+
+    const handleChangeDiscount = (event) => {
+        setDiscount(event.target.value);
+    };
+
+    const handleEditProd = (game) => {
+        setGameID(game.game_canonical);
+        setEditableData(game);
+        setEditModal(true);
+        console.log(game);
+    };
+
+    const handleCloseEditModal = () => {
+        setEditModal(false);
+        setInputs([{ id: 'agProd_code' + Date.now(), value: '' }]);
+        setClickcount(0)
+    };
+
+    const toggleDisablePrice = () => {
+        setEditInfoPrice((prevState) => !prevState);
+    };
+
+    const toggleDisableDiscount = () => {
+        setEditInfoDiscount((prevState) => !prevState);
+    };
+
+    const addNewInput = () => {
+        setInputs([...inputs, { id: 'agProd_code' + Date.now(), value: '' }]);
+    };
+
+    const handleInputChange = (id, field, value) => {
+        setInputs(inputs.map(input => input.id === id ? { ...input, [field]: value } : input));
+    };
+
+    const toggleOrder = () => {
+        setOrder(prev => !prev)
+    }
+    const toggleFilternewest = () => {
+        setsortName('newest')
+        const sortnewest = viewGameTotal.sort((a,b) => {
+            if (order === false) {
+                return (a.game_released > b.game_released ? -1 : 1)
+            } else {
+                return (a.game_released < b.game_released ? -1 : 1)
+            }
+        })
+        setViewGameTotal(sortnewest);
+        setOrderselect(false)
+    }
+
+    const toggleFiltername = () => {
+        setsortName('game name')
+        const sortnewest = viewGameTotal.sort((a,b) => {
+            if (order === false) {
+                return (a.game_title > b.game_title ? -1 : 1)
+            } else {
+                return (a.game_title < b.game_title ? -1 : 1)
+            }
+        })
+        setViewGameTotal(sortnewest);
+        setOrderselect(false)
+    }
+    const insertDataApi = 'http://localhost/ag/agInsertProduct.php';
+    const insertData2Api = 'http://localhost/ag/agInsertProductIds.php';
+    const retrieveDataApi = 'http://localhost/ag/agretrieveProduct.php';
+
+    const insertGameData = async () => {
+        try {
+            const productCodesString = inputs.map(input => input.value).join(',');
+            const productCodesID = inputs.map(input => input.id).join(',');
+            const dataInput = {
+                productName: editableData.game_title,
+                productPrice: price,
+                productDiscount: discount,
+                productCannonical: gameID,
+                productIDcode: productCodesID,
+                productCodes: productCodesString,
+            };
+            const response = await axios.post(insertDataApi, dataInput);
+            console.log('Data submitted successfully:', response.data);
+            try {  
+                const dataIDInput = {
+                    productCannonical: gameID,
+                    productIDcode: productCodesID,
+                };
+                const response = await axios.post(insertData2Api, dataIDInput);
+                setPrice('');
+                setDiscount('');
+                setInputs([{ id: 'agProd_code' + Date.now(), value: '' }]);
+                setEditModal(false);
+                setEditInfoDiscount(false)
+                setEditInfoPrice(false)
+            } catch (error) {
+                console.log(error);
+            }
+        } catch (error) {
+            console.error('Error submitting data:', error);
+        }
+    };
+
+
+    useEffect(() => {
+        fetchProductcodes();
+    }, []);
+
+    async function fetchProductcodes() {
+        try {
+            const response = await fetch(retrieveDataApi);
+            const data = await response.json();
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    const showOrdering = () => {
+        setOrderselect(prev => !prev)
+    }
+
+    async function buyGame() {
+        
+    }
+
+    const openEditquick = (game) => {
+        setClickcount(clickCount + 1)
+        if (clickCount === 1) {
+            handleEditProd(game)
+        }
+    }
     return (
         <div className='mainContainer admin'>
+            {openEditModal&&(
+                <div className="admineditGamedata">
+                    <div className="admineditData-container">
+                        <div className="closeEditModal">
+                            <FaTimes id='closeEditbtn' onClick={handleCloseEditModal}/>
+                        </div>
+                        <div className="admineditData-contents">
+                            <section id='gameEditdetails'  style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${editableData.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                <div className="editableGamedata">
+                                    <div className="editableGamedata-header">
+                                        <h1>{editableData.game_title}</h1>
+                                        <p>{editableData.game_edition}</p>
+                                    </div>
+                                    <div className="editableGamedata-contents">
+                                        <hr/>
+                                        <div className="editableGamedata-info">
+                                            <span>
+                                                <h1>developer</h1>
+                                                <p>{editableData.game_developer}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>platform</h1>
+                                                <p>{editableData.game_platform}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>category</h1>
+                                                <p>{editableData.game_category}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>inserted date</h1>
+                                                <p>{editableData.date}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>released date</h1>
+                                                <p>{editableData.game_released}</p>
+                                            </span>
+                                        </div>
+                                        <ul>
+                                            <li>
+                                                <h1>price</h1>
+                                                <span>
+                                                    <input type="text" placeholder='input price' value={price} onChange={handleChangePrice} disabled={editInfoPrice}/>
+                                                    <FiEdit id='editItemIcon' onClick={toggleDisablePrice}/>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <h1>discount</h1>
+                                                <span>
+                                                    <input type="text" placeholder='input discount' value={discount} onChange={handleChangeDiscount} disabled={editInfoDiscount}/>
+                                                    <FiEdit id='editItemIcon' onClick={toggleDisableDiscount}/>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                            <hr className='hrSpace'/>
+                            <section>
+                                <div className="addgameCodeinfo">
+                                    <span>
+                                        <h1>Game Codes</h1>
+                                        {inputs.map(input => (
+                                            <>
+                                            <div key={input.id}>
+                                                <input
+                                                    type="text"
+                                                    value={input.value}
+                                                    onChange={(e) => handleInputChange(input.id, 'value', e.target.value)}
+                                                />
+                                            </div>
+                                            </>
+                                        ))}
+                                        <button onClick={addNewInput}>add code</button>
+                                    </span>
+                                    <div className="submitEditabledata">
+                                        <button onClick={insertGameData}>save</button>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            )}
             <section className="adminPageContainer top">
                 <div className="admPageContent top">
                     <div className="admpc top">
@@ -772,6 +1026,7 @@ const Admin = () => {
                             </div>
                         </div>
                     </div>}
+
                     {activeView === 'giftCards' && <div className="admpcm1GiftCards">
                         <div className="admpcm1AddGiftCardContainer">
                             <div className="admpcm1AGiftCardContent left">
@@ -929,6 +1184,89 @@ const Admin = () => {
                             </div>
                         </div>
                     </div>}
+
+                    {activeView === 'productList' && (
+                        <div className="admpcm1Produt">
+                            <div className="admpcm1ProductlistContainer">
+                                <div className="admpcm1ProductlistContent left">
+                                    <div className="admpcm1ProductLeft-header">
+                                        <h4>WELCOME ADMIN!</h4><br />
+                                        <p>you can view, edit and monitor your product data(s) here. monitor the product list here.</p>
+                                    </div>
+                                    <div className="totalGameProducts">
+                                        <ul>
+                                            <li>
+                                                <h1>{viewGameTotal.length} Total Games</h1>
+                                                <p>Total Listed Games</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <hr />
+                                    <section className='admpcm1Mostordered'>
+                                        <h1>Most Ordered Games</h1>
+                                        <ul>
+                                            <li style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/TEKKEN 8.png')no-repeat center center`, backgroundSize: 'cover'}}> 
+                                                <h1>Tekken 8</h1>
+                                                <p>1k sold</p>
+                                            </li>
+                                            <li style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/TEKKEN 8.png')no-repeat center center`, backgroundSize: 'cover'}}> 
+                                                <h1>Tekken 8</h1>
+                                                <p>1k sold</p>
+                                            </li>
+                                            <li style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/TEKKEN 8.png')no-repeat center center`, backgroundSize: 'cover'}}> 
+                                                <h1>Tekken 8</h1>
+                                                <p>1k sold</p>
+                                            </li>
+                                        </ul>
+                                    </section>
+                                </div>
+                                <div className="admpcm1ProductlistContent right">
+                                    <div className="admpcm1ProductRight-header">
+                                        <h1>Game List</h1>
+                                        <span>
+                                            <p>sort by:</p>
+                                            <button onClick={showOrdering}>{sortName}</button>
+                                            <ul className={`sortingSelection ${orderSelect}`}>
+                                                <li onClick={toggleFilternewest}>newest</li>
+                                                <li onClick={toggleFiltername}>game name</li>
+                                                <li>most ordered</li>
+                                            </ul>
+                                            <h1 onClick={toggleOrder}>{order ? <FaSortAlphaDown id='orderIcon'/> : <FaSortAlphaUp id='orderIcon'/>}</h1>
+                                        </span>
+                                    </div>
+                                    <hr />
+                                    <div className="admpcm1ProductRight-productList">
+                                        {viewGameTotal.length === 0 &&(
+                                        <div className="admpcm1ProductRight-loader">
+                                            <span class="admpcm1ProductRightloader"></span>
+                                        </div>
+                                        )}
+                                        {viewGameTotal&&(
+                                            <>
+                                            <ul>
+                                            {viewGameTotal.map(game => (
+                                                <li key={game.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${game.game_cover}')no-repeat center`, backgroundSize: 'cover'}} onClick={() => openEditquick(game)}>
+                                                    <div className="prdGameinfo-edit">
+                                                        <section>
+                                                            <Link to={`/Games/${game.game_canonical}`} target='_blank'><button>view game</button></Link>
+                                                            <button onClick={() => handleEditProd(game)}>edit game</button>
+                                                        </section>
+                                                    </div>
+                                                    <div className="prdGameinfo">
+                                                        <h1>{game.game_title}</h1>
+                                                        <p>{game.game_edition}</p>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                            </ul>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                 </div>
             </section>
         </div>
