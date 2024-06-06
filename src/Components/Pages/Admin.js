@@ -245,6 +245,7 @@ const Admin = () => {
     const [agSetGiftCardDescription, setAGSetGiftCardDescription] = useState('');
     const agSetGiftCardCode1 = agSetGiftCardTitle.replace(/\s/g, '');
     const agSetGiftCardCode2 = agSetGiftCardDenomination.replace(/\s/g, '');
+    const agSetGiftCardCanonical = agSetGiftCardTitle.replace(/ /g, '_');
     const agFullSetGiftCardCode = `AG_${agSetGiftCardCode1}_${agSetGiftCardCode2}`;
 
 
@@ -371,6 +372,7 @@ const Admin = () => {
             agGiftcardCode: agFullSetGiftCardCode,
             agGiftcardCover: agSetGiftCardCover,
             agGiftcardTitle: agSetGiftCardTitle,
+            agGiftcardCanonical : agSetGiftCardCanonical,
             agGiftcardDenomination: agSetGiftCardDenomination,
             agGiftcardSupplier: agSetGiftCardSupplier,
             agGiftcardCategory: agSetGiftCardCategory,
