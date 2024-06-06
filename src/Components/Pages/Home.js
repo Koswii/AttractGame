@@ -309,7 +309,7 @@ const Home = () => {
             ))}
           </div>
           <div className="lndpcfgcViewMore">
-            <Link to="/Giftcards" onClick={handleClickGiftcards}>View More</Link>
+            <Link to="/Giftcards" onClick={handleClickGiftcards}>View All Giftcards</Link>
           </div>
         </div>
         <div className="lndPageContent mid8">
