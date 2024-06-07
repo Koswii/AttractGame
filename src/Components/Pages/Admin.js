@@ -5,7 +5,8 @@ import {
     FaTimes,
     FaSortAlphaDown,
     FaSortAlphaUp,
-    FaCheck 
+    FaCheck,
+    FaSearch 
 } from 'react-icons/fa';
 import { FiEdit } from "react-icons/fi";
 import { 
@@ -13,6 +14,8 @@ import {
     RiArrowDownSFill,
     RiAddBoxFill   
 } from "react-icons/ri";
+import { TiArrowSortedDown } from "react-icons/ti";
+import { VscSaveAs } from "react-icons/vsc";
 import axios from 'axios';
 import {getGameReviews} from 'unofficial-metacritic';
 import { Link } from 'react-router-dom';
@@ -101,6 +104,8 @@ const Admin = () => {
     const [agSetStatus, setAGSetStatus] = useState('');
     const [agSetNotes, setAGSetNotes] = useState('');
     const [formResponse, setFormResponse] = useState('');
+    
+    const [dataListed, setDatalisted]= useState('')
 
     useEffect(() => {
         const fetchDataUser = () => {
@@ -138,6 +143,7 @@ const Admin = () => {
             .then((response) => {
                 const gameData = response.data;
                 setViewGameTotal(gameData);
+                setDatalisted('Games')
             })
             .catch(error => {
                 console.log(error)
@@ -471,9 +477,11 @@ const Admin = () => {
     const [clickCount,setClickcount] = useState(0)
 
     
-    const [sortName, setsortName] = useState('all games');
+    const [sortName, setsortName] = useState('all products');
+    const [filterName,setFiltername] = useState('Game List')
     const [order, setOrder] = useState(false);
     const [orderSelect,setOrderselect] = useState(false)
+
 
     const handleChangePrice = (event) => {
         setPrice(event.target.value);
@@ -508,27 +516,49 @@ const Admin = () => {
         setOrder(prev => !prev)
     }
     const toggleFilternewest = () => {
-        setsortName('newest')
-        const sortnewest = viewGameTotal.sort((a,b) => {
-            if (order === false) {
-                return (a.game_released > b.game_released ? -1 : 1)
-            } else {
-                return (a.game_released < b.game_released ? -1 : 1)
-            }
-        })
-        setViewGameTotal(sortnewest);
+        setsortName('date')
+        if (dataListed === 'Games') {
+            const sortnewest = viewGameTotal.sort((a,b) => {
+                if (order === false) {
+                    return (a.game_released > b.game_released ? -1 : 1)
+                } else {
+                    return (a.game_released < b.game_released ? -1 : 1)
+                }
+            })
+            setViewGameTotal(sortnewest);
+        } else if (dataListed === 'GCards') {
+            const sortnewest = viewGiftcardTotal.sort((a,b) => {
+                if (order === false) {
+                    return (a.date > b.date ? -1 : 1)
+                } else {
+                    return (a.date < b.date ? -1 : 1)
+                }
+            })
+            setViewGiftcardTotal(sortnewest);
+        }
         setOrderselect(false)
     }
     const toggleFiltername = () => {
-        setsortName('game name')
-        const sortnewest = viewGameTotal.sort((a,b) => {
-            if (order === false) {
-                return (a.game_title > b.game_title ? -1 : 1)
-            } else {
-                return (a.game_title < b.game_title ? -1 : 1)
-            }
-        })
-        setViewGameTotal(sortnewest);
+        setsortName('name')
+        if (dataListed === 'Games') {
+            const sortnewest = viewGameTotal.sort((a,b) => {
+                if (order === false) {
+                    return (a.game_title > b.game_title ? -1 : 1)
+                } else {
+                    return (a.game_title < b.game_title ? -1 : 1)
+                }
+            })
+            setViewGameTotal(sortnewest);
+        } else if (dataListed === 'GCards') {
+            const sortnewest = viewGiftcardTotal.sort((a,b) => {
+                if (order === false) {
+                    return (a.giftcard_name > b.giftcard_name ? -1 : 1)
+                } else {
+                    return (a.giftcard_name < b.giftcard_name ? -1 : 1)
+                }
+            })
+            setViewGiftcardTotal(sortnewest);
+        }
         setOrderselect(false)
     }
     const AGInsertProductCodeAPI = process.env.REACT_APP_AG_INSERT_PRODUCT_CODES_API;
@@ -538,26 +568,50 @@ const Admin = () => {
         try {
             const productCodesString = inputs.map(input => input.value).join(',');
             const productCodesID = inputs.map(input => input.id).join(',');
-            const dataInput = {
-                productName: editableData.game_title,
-                productPrice: price,
-                productDiscount: discount,
-                productCannonical: gameID,
-                productIDcode: productCodesID,
-                productCodes: productCodesString,
-                productState: 'Available',
-            };
-
-            // console.log(dataInput);
-
-            const response = await axios.post(AGInsertProductCodeAPI, dataInput);
-            console.log('Data submitted successfully:', response.data);
+            if (dataListed === 'Games') {
+                const dataInput = {
+                    productName: editableData.game_title,
+                    productPrice: price,
+                    productDiscount: discount,
+                    productCannonical: editableData.game_canonical,
+                    productIDcode: productCodesID,
+                    productCodes: productCodesString,
+                    productState: 'Available',
+                };
+                const response = await axios.post(AGInsertProductCodeAPI, dataInput);
+                console.log('Data submitted successfully:', response.data);
+            } else if (dataListed === 'GCards') {
+                const dataInput = {
+                    productName: editableData.giftcard_name,
+                    productPrice: price,
+                    productDiscount: discount,
+                    productCannonical: editableData.giftcard_id,
+                    productIDcode: productCodesID,
+                    productCodes: productCodesString,
+                    productState: 'Available',
+                };
+                const response = await axios.post(AGInsertProductCodeAPI, dataInput);
+                console.log('Data submitted successfully:', response.data);
+            } else {
+                const dataInput = {
+                    productName: editableData.gamecredit_name,
+                    productPrice: price,
+                    productDiscount: discount,
+                    productCannonical: editableData.gamecredit_id,
+                    productIDcode: productCodesID,
+                    productCodes: productCodesString,
+                    productState: 'Available',
+                };
+                const response = await axios.post(AGInsertProductCodeAPI, dataInput);
+                console.log('Data submitted successfully:', response.data);
+            }
+            
             setPrice('');
             setDiscount('');
             setInputs([{ id: 'agProd_code' + Date.now(), value: '' }]);
             setEditModal(false);
-            setEditInfoDiscount(false);
-            setEditInfoPrice(false);
+            setEditInfoDiscount(true);
+            setEditInfoPrice(true);
         } catch (error) {
             console.error('Error submitting data:', error);
         }
@@ -587,11 +641,82 @@ const Admin = () => {
             handleEditProd(game)
         }
     }
+    const [filter, setFilter] = useState(false)
+    const openFilterchange = () => {
+        setFilter(prev => !prev)
+    }
+    const selectGames = () => {
+        setDatalisted('Games')
+        setFiltername('Game List')
+        setFilter(false)
+    }
+    const selectGCards = () => {
+        setDatalisted('GCards')
+        setFiltername('Gift Cards List')
+        setFilter(false)
+    }
+    const selectGCredits = () => {
+        setDatalisted('GCredits')
+        setFiltername('Game Credits List')
+        setFilter(false)
+    }
 
-
+    const [searchInput, setSearchinput] = useState()
+    
+    const handleSearch = (event) => {
+        setSearchinput(event.target.value)
+    }
+    async function searchItem (e) {
+        e.preventDefault()
+        if (dataListed === 'Games') {
+            axios.get(AGGamesListAPI)
+            .then((response) => {
+                const gameData = response.data;
+                const search = gameData.filter(item => {
+                    return Object.values(item).some(value => 
+                        typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
+                    );
+                });
+                setViewGameTotal(search)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        } else if (dataListed === 'GCards') {
+            axios.get(AGGiftcardsListAPI)
+            .then((response) => {
+                const giftcardData = response.data;
+                const search = giftcardData.filter(item => {
+                    return Object.values(item).some(value => 
+                        typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
+                    );
+                });
+                setViewGiftcardTotal(search);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        } else {
+            axios.get(AGGameCreditsListAPI)
+            .then((response) => {
+                const gamecreditData = response.data;
+                const search = gamecreditData.filter(item => {
+                    return Object.values(item).some(value => 
+                        typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
+                    );
+                });
+                setViewGamecreditTotal(search)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+    }
     return (
         <div className='mainContainer admin'>
-            {openEditModal&&(
+            {dataListed === 'Games' &&(
+                <>
+                {openEditModal&&(
                 <div className="admineditGamedata">
                     <div className="admineditData-container">
                         <div className="closeEditModal">
@@ -637,14 +762,14 @@ const Admin = () => {
                                                 <h1>price</h1>
                                                 <span>
                                                     <input type="text" placeholder='input price' value={price} onChange={handleChangePrice} disabled={editInfoPrice}/>
-                                                    <FiEdit id='editItemIcon' onClick={toggleDisablePrice}/>
+                                                    {editInfoPrice ? <FiEdit id='editItemIcon' onClick={toggleDisablePrice}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisablePrice}/>}
                                                 </span>
                                             </li>
                                             <li>
                                                 <h1>discount</h1>
                                                 <span>
                                                     <input type="text" placeholder='input discount' value={discount} onChange={handleChangeDiscount} disabled={editInfoDiscount}/>
-                                                    <FiEdit id='editItemIcon' onClick={toggleDisableDiscount}/>
+                                                    {editInfoDiscount ? <FiEdit id='editItemIcon' onClick={toggleDisableDiscount}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisableDiscount}/>}
                                                 </span>
                                             </li>
                                         </ul>
@@ -677,6 +802,170 @@ const Admin = () => {
                         </div>
                     </div>
                 </div>
+            )}
+            </>
+            )}
+            {dataListed === 'GCards' &&(
+            <>
+                {openEditModal&&(
+                <div className="admineditGamedata">
+                    <div className="admineditData-container">
+                        <div className="closeEditModal">
+                            <FaTimes id='closeEditbtn' onClick={handleCloseEditModal}/>
+                        </div>
+                        <div className="admineditData-contents">
+                            <section id='gameEditdetails'  style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${editableData.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                <div className="editableGamedata">
+                                    <div className="editableGamedata-header">
+                                        <h1>{editableData.giftcard_name}</h1>
+                                        <p>{editableData.giftcard_description}</p>
+                                    </div>
+                                    <div className="editableGamedata-contents">
+                                        <hr/>
+                                        <div className="editableGamedata-info">
+                                            <span>
+                                                <h1>supplier</h1>
+                                                <p>{editableData.giftcard_supplier}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>category</h1>
+                                                <p>{editableData.giftcard_category}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>inserted date</h1>
+                                                <p>{editableData.date}</p>
+                                            </span>
+                                        </div>
+                                        <ul>
+                                            <li>
+                                                <h1>price</h1>
+                                                <span>
+                                                    <input type="text" placeholder='input price' value={price} onChange={handleChangePrice} disabled={editInfoPrice}/>
+                                                    {editInfoPrice ? <FiEdit id='editItemIcon' onClick={toggleDisablePrice}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisablePrice}/>}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <h1>discount</h1>
+                                                <span>
+                                                    <input type="text" placeholder='input discount' value={discount} onChange={handleChangeDiscount} disabled={editInfoDiscount}/>
+                                                    {editInfoDiscount ? <FiEdit id='editItemIcon' onClick={toggleDisableDiscount}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisableDiscount}/>}
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                            <hr className='hrSpace'/>
+                            <section>
+                                <div className="addgameCodeinfo">
+                                    <span>
+                                        <h1>Game Codes</h1>
+                                        {inputs.map(input => (
+                                            <>
+                                            <div key={input.id}>
+                                                <input
+                                                    type="text"
+                                                    value={input.value}
+                                                    onChange={(e) => handleInputChange(input.id, 'value', e.target.value)}
+                                                />
+                                            </div>
+                                            </>
+                                        ))}
+                                        <button onClick={addNewInput}>add code</button>
+                                    </span>
+                                    <div className="submitEditabledata">
+                                        <button onClick={insertGameData}>save</button>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                )}
+            </>
+            )}
+            {dataListed === 'GCredits' &&(
+            <>
+                {openEditModal&&(
+                <div className="admineditGamedata">
+                    <div className="admineditData-container">
+                        <div className="closeEditModal">
+                            <FaTimes id='closeEditbtn' onClick={handleCloseEditModal}/>
+                        </div>
+                        <div className="admineditData-contents">
+                            <section id='gameEditdetails'  style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCreditCovers/${editableData.gamecredit_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                <div className="editableGamedata">
+                                    <div className="editableGamedata-header">
+                                        <h1>{editableData.gamecredit_name}</h1>
+                                        <p>{editableData.gamecredit_description}</p>
+                                    </div>
+                                    <div className="editableGamedata-contents">
+                                        <hr/>
+                                        <div className="editableGamedata-info">
+                                            <span>
+                                                <h1>supplier</h1>
+                                                <p>{editableData.gamecredit_supplier}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>category</h1>
+                                                <p>{editableData.gamecredit_category}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>inserted date</h1>
+                                                <p>{editableData.date}</p>
+                                            </span>
+                                        </div>
+                                        <ul>
+                                            <li>
+                                                <h1>price</h1>
+                                                <span>
+                                                    <input type="text" placeholder='input price' value={price} onChange={handleChangePrice} disabled={editInfoPrice}/>
+                                                    {editInfoPrice ? <FiEdit id='editItemIcon' onClick={toggleDisablePrice}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisablePrice}/>}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <h1>discount</h1>
+                                                <span>
+                                                    <input type="text" placeholder='input discount' value={discount} onChange={handleChangeDiscount} disabled={editInfoDiscount}/>
+                                                    {editInfoDiscount ? <FiEdit id='editItemIcon' onClick={toggleDisableDiscount}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisableDiscount}/>}
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                            <hr className='hrSpace'/>
+                            <section>
+                                <div className="addgameCodeinfo">
+                                    <span>
+                                        <h1>Game Codes</h1>
+                                        {inputs.map(input => (
+                                            <>
+                                            <div key={input.id}>
+                                                <input
+                                                    type="text"
+                                                    value={input.value}
+                                                    onChange={(e) => handleInputChange(input.id, 'value', e.target.value)}
+                                                />
+                                            </div>
+                                            </>
+                                        ))}
+                                        <button onClick={addNewInput}>add code</button>
+                                    </span>
+                                    <div className="submitEditabledata">
+                                        <button onClick={insertGameData}>save</button>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                )}
+            </>
             )}
             <section className="adminPageContainer top">
                 <div className="admPageContent top">
@@ -1193,13 +1482,20 @@ const Admin = () => {
                                 </div>
                                 <div className="admpcm1ProductlistContent right">
                                     <div className="admpcm1ProductRight-header">
-                                        <h1>Game List</h1>
+                                        <div className="admpcmSearch">
+                                            <div className="admproductSearch">
+                                                <form onSubmit={searchItem}>
+                                                    <input type="text" placeholder='search anything here' value={searchInput} onChange={handleSearch}/>
+                                                    <button type='submit'><FaSearch /></button>
+                                                </form>
+                                            </div>
+                                        </div>
                                         <span>
                                             <p>sort by:</p>
                                             <button onClick={showOrdering}>{sortName}</button>
                                             <ul className={`sortingSelection ${orderSelect}`}>
-                                                <li onClick={toggleFilternewest}>newest</li>
-                                                <li onClick={toggleFiltername}>game name</li>
+                                                <li onClick={toggleFilternewest}>date</li>
+                                                <li onClick={toggleFiltername}>name</li>
                                                 <li>most ordered</li>
                                             </ul>
                                             <h1 onClick={toggleOrder}>{order ? <FaSortAlphaDown id='orderIcon'/> : <FaSortAlphaUp id='orderIcon'/>}</h1>
@@ -1207,12 +1503,21 @@ const Admin = () => {
                                     </div>
                                     <hr />
                                     <div className="admpcm1ProductRight-productList">
-                                        {viewGameTotal.length === 0 &&(
+                                        <div className="admpcm1Filter">
+                                            <h1>{filterName} <TiArrowSortedDown id='changeFilter' onClick={openFilterchange}/></h1>
+                                            <section className={`admpcmviewFilterby ${filter}`}>
+                                                <p onClick={selectGames}>Games</p>
+                                                <p onClick={selectGCards}>Gift Cards</p>
+                                                <p onClick={selectGCredits}>Game Credits</p>
+                                            </section>
+                                        </div>
+                                        <hr />
+                                        {dataListed === '' &&(
                                         <div className="admpcm1ProductRight-loader">
                                             <span class="admpcm1ProductRightloader"></span>
                                         </div>
                                         )}
-                                        {viewGameTotal&&(
+                                        {dataListed === 'Games' &&(
                                             <>
                                             <ul>
                                             {viewGameTotal.map(game => (
@@ -1220,12 +1525,52 @@ const Admin = () => {
                                                     <div className="prdGameinfo-edit">
                                                         <section>
                                                             <Link to={`/Games/${game.game_canonical}`} target='_blank'><button>view game</button></Link>
-                                                            <button onClick={() => handleEditProd(game)}>edit game</button>
+                                                            <button onClick={() => handleEditProd(game)}>edit code</button>
                                                         </section>
                                                     </div>
                                                     <div className="prdGameinfo">
                                                         <h1>{game.game_title}</h1>
                                                         <p>{game.game_edition}</p>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                            </ul>
+                                            </>
+                                        )}
+                                        {dataListed === 'GCards' &&(
+                                            <>
+                                            <ul>
+                                            {viewGiftcardTotal.map(cards => (
+                                                <li key={cards.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${cards.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}} onClick={() => openEditquick(cards)}>
+                                                    <div className="prdGameinfo-edit">
+                                                        <section>
+                                                            <Link to={`/Games/${cards.game_canonical}`} target='_blank'><button>view card</button></Link>
+                                                            <button onClick={() => handleEditProd(cards)}>edit code</button>
+                                                        </section>
+                                                    </div>
+                                                    <div className="prdGameinfo">
+                                                        <h1>{cards.giftcard_name}</h1>
+                                                        <p>{cards.giftcard_supplier}</p>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                            </ul>
+                                            </>
+                                        )}
+                                        {dataListed === 'GCredits' &&(
+                                            <>
+                                            <ul>
+                                            {viewGamecreditTotal.map(credits => (
+                                                <li key={credits.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCreditCovers/${credits.gamecredit_cover}')no-repeat center`, backgroundSize: 'cover'}} onClick={() => openEditquick(credits)}>
+                                                    <div className="prdGameinfo-edit">
+                                                        <section>
+                                                            <Link to={`/GameCredits/${credits.gamecredit_id}`} target='_blank'><button>view card</button></Link>
+                                                            <button onClick={() => handleEditProd(credits)}>edit code</button>
+                                                        </section>
+                                                    </div>
+                                                    <div className="prdGameinfo">
+                                                        <h1>{credits.gamecredit_name}</h1>
+                                                        <p>{credits.gamecredit_supplier}</p>
                                                     </div>
                                                 </li>
                                             ))}
