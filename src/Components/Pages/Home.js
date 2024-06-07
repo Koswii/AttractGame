@@ -261,9 +261,9 @@ const Home = () => {
           <h4><TbGiftCardFilled className='faIcons'/> GIFT CARDS & VOUCHERS</h4>
           <div className="lndpcFeaturedGiftCards">
             {!loading ? <>{viewAllGiftcard.slice(0, 5).map((details, i) => (
-              <div className='lndpcfgc web' key={i}>
+              <Link className='lndpcfgc web' key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
                 <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
-              </div>
+              </Link>
             ))}</>:<>
               <div className="lndpcfgcDummy web"></div>
               <div className="lndpcfgcDummy web"></div>
@@ -272,9 +272,9 @@ const Home = () => {
               <div className="lndpcfgcDummy web"></div>
             </>}
             {!loading ? <>{viewAllGiftcard.slice(0, 4).map((details, i) => (
-              <div className='lndpcfgc mob' key={i}>
+              <Link className='lndpcfgc mob' key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
                 <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
-              </div>
+              </Link>
             ))}</>:<>
               <div className="lndpcfgcDummy mob"></div>
               <div className="lndpcfgcDummy mob"></div>
@@ -282,7 +282,7 @@ const Home = () => {
               <div className="lndpcfgcDummy mob"></div>
             </>}
             {viewAllGiftcard.slice(5, 6).map((details, i) => (
-              <div className="lndpcfgcRobloxBinance" key={i}>
+              <Link className="lndpcfgcRobloxBinance" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
                 <div className="lndpcfgcrb left">
                   <h4>ROBLOX</h4>
                   <h5>GIFT CARD</h5>
@@ -292,10 +292,10 @@ const Home = () => {
                 <div className="lndpcfgcrb right">
                   <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
                 </div>
-              </div>
+              </Link>
             ))}
             {viewAllGiftcard.slice(6, 7).map((details, i) => (
-              <div className="lndpcfgcRobloxBinance" key={i}>
+              <Link className="lndpcfgcRobloxBinance" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
                 <div className="lndpcfgcrb left">
                   <h4>BINANCE</h4>
                   <h5>GIFT CARD</h5>
@@ -305,7 +305,7 @@ const Home = () => {
                 <div className="lndpcfgcrb right">
                   <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
           <div className="lndpcfgcViewMore">

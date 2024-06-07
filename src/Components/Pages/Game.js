@@ -219,9 +219,18 @@ const Game = () => {
     return (
         <div className='mainContainer gameProfile'>
             <section className="gamePageContainer top">
-                {!loadingMarketData ? <div className="gpPageContentTop">
+                {!loadingMarketData ? 
+                <div className="gpPageContentTop">
                     <div className="gppctGameDetails loading">
-                        <div className="loader"></div>
+                        <div className="gppctgdlmageDummy"></div>
+                        <div className="gppctgdDetailsDummy">
+                            <div className="gppctgdddTitle"></div>
+                            <div className="gppctgdddCategories"></div>
+                            <div className="gppctgdddRelease"></div><br />
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                        </div>
                     </div>
                 </div>:
                 <div className="gpPageContentTop">
@@ -315,7 +324,7 @@ const Game = () => {
                 </div>
             </section>
             <section className="gamePageContainer bot">
-                <h4>GAMES YOU MIGHT LIKE</h4>
+                <h4>GAMES YOU MIGHT ALSO LIKE</h4>
                 <div className="gpPageContentMid3 website">
                     {viewAGData2.slice(0, 10).map((details, i) => (
                         <Link className="gppcm3OtherGame" key={i} to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>

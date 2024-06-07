@@ -610,6 +610,7 @@ const Admin = () => {
             setDiscount('');
             setInputs([{ id: 'agProd_code' + Date.now(), value: '' }]);
             setEditModal(false);
+
             setEditInfoDiscount(true);
             setEditInfoPrice(true);
         } catch (error) {

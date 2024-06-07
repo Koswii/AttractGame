@@ -378,6 +378,9 @@ section.highlightsPageContainer.top{
     width: 2.5vw;
     top: 0.5vw;
     left: 0.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: solid 2px white;
     box-shadow: 0 0 10px black;
     border-radius: 50%;
