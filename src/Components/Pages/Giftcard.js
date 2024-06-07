@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import "../CSS/giftcard.css";
 import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import { useActivePage } from './ActivePageContext';
 import axios from 'axios';
 import { 
     TbShoppingCartBolt, 
@@ -19,6 +20,7 @@ import {
 
 const Giftcard = () => {
     const { giftcardCanonical } = useParams();
+    const { setActivePage } = useActivePage();
     const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
@@ -70,6 +72,15 @@ const Giftcard = () => {
         fetchGiftcards();
     }, [LoginUserID, giftcardCanonical]);
 
+    const handleClickGiftcard = (e) => {
+        e.preventDefault();
+
+        setActivePage('giftcards');
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
+    }
+
 
     return (
         <div className='mainContainer giftcardProfile'>
@@ -81,7 +92,7 @@ const Giftcard = () => {
                     </div>
                     <div className="gcardspcmContent right">
                         <h3>{giftcardViewContent.giftcard_name}</h3>
-                        <h5>{giftcardViewContent.giftcard_category}</h5>
+                        <h6>{giftcardViewContent.giftcard_category}</h6>
                         <p>{giftcardViewContent.giftcard_description}</p>
                         <div className="gcardspcmcr">
                             {giftcardViewDetails.map((details, i) => (
@@ -95,7 +106,8 @@ const Giftcard = () => {
                             ))}
                         </div>
                     </div>
-                </div>:<div className="gcardspcmContainerDummy">
+                </div>:
+                <div className="gcardspcmContainerDummy">
                     <div className="gcspcmclDummy left"></div>
                     <div className="gcspcmclDummy right">
                         <h3></h3>
@@ -104,14 +116,22 @@ const Giftcard = () => {
                         <p></p>
                         <div></div>
                     </div>
-                </div>}
+                </div>
+                }
             </section>
             <section className="giftcardPageContainer bot">
                 <div className="gcardspcbContainer">
-                    <h4>GIFTCARDS YOU MIGHT ALSO LIKE</h4>
-                    <div className="gcardspcbContent">
+                    <h4>GIFTCARDS YOU MIGHT LIKE</h4>
+                    <div className="gcardspcbContent website">
                         {giftcardViewAll.map((details, i) => (
-                            <div className="gcspcbcOtherGiftcard" key={i}>
+                            <div className="gcspcbcOtherGiftcard" to={`/Giftcards/${details.giftcard_canonical}`} key={i} onClick={handleClickGiftcard}>
+                                <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="gcardspcbContent mobile">
+                        {giftcardViewAll.slice(0, 6).map((details, i) => (
+                            <div className="gcspcbcOtherGiftcard" to={`/Giftcards/${details.giftcard_canonical}`} key={i} onClick={handleClickGiftcard}>
                                 <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
                             </div>
                         ))}
