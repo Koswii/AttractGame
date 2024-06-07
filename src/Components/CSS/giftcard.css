@@ -315,7 +315,7 @@ section.giftcardPageContainer.bot{
         display: block;
     }
     .gcspcmclDummy.left{
-        height: 56vh;
+        height: 121vw;
         width: 100%;
         border-radius: 3vw;
     }
@@ -325,16 +325,13 @@ section.giftcardPageContainer.bot{
         padding-top: 2%;
     }
     .gcspcmclDummy.right h3{
-        font-size: 7vw;
-        height: 15vw;
+        height: 16vw;
         line-height: 5vw;
     }
     .gcspcmclDummy.right h5{
         height: 4vw;
         width: 40%;
-        margin: 0 auto;
-        margin-top: 2%;
-        margin-bottom: 3%;
+        margin: 3% auto;
     }
     .gcspcmclDummy.right p{
         height: 2.5vw;
