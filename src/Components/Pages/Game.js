@@ -154,9 +154,7 @@ const Game = () => {
     }, [viewMetacriticData, viewWikiData, scrapedMetacriticData]);
     const videoUrl = viewGameTrailer;
 
-    const handleClickGames = (e) => {
-        e.preventDefault();
-
+    const handleClickGames = () => {
         setActivePage('games');
         setTimeout(() => {
             window.location.reload();
