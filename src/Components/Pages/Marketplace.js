@@ -618,9 +618,9 @@ const Marketplace = () => {
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
                     </>:<>{viewAllGiftcard.slice(0, 15).map((details, i) => (
-                            <div className="mppContentMid6" key={i}>
+                            <Link className="mppContentMid6" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
                                 <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
-                            </div>
+                            </Link>
                         ))}
                     </>}
                 </div>
@@ -631,9 +631,9 @@ const Marketplace = () => {
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
                     </>:<>{viewAllGiftcard.slice(0, 4).map((details, i) => (
-                            <div className="mppContentMid6" key={i}>
+                            <Link className="mppContentMid6" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
                                 <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
-                            </div>
+                            </Link>
                         ))}
                     </>}
                 </div>
