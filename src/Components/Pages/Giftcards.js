@@ -31,8 +31,17 @@ const Giftcards = () => {
             try {
                 const response = await axios.get(AGGiftcardsListAPI);
                 const unique = filterUniqueData(response.data);
-
-                setGiftcards(response.data.slice(0,16));
+                unique.sort((a, b) => {
+                    if (a.giftcard_name < b.giftcard_name) return -1;
+                    if (a.giftcard_name > b.giftcard_name) return 1;
+                    return 0;
+                });
+                response.data.sort((a, b) => {
+                    if (a.giftcard_name < b.giftcard_name) return -1;
+                    if (a.giftcard_name > b.giftcard_name) return 1;
+                    return 0;
+                });
+                setGiftcards(response.data);
                 setFilteredGiftcards(unique);
             } catch (error) {
                 console.error(error);
@@ -40,7 +49,7 @@ const Giftcards = () => {
                 setLoading(false);
             }
         };
-
+    
         fetchGiftcards();
     }, []);
 
@@ -48,8 +57,8 @@ const Giftcards = () => {
         const results = giftcards.filter(giftcard =>
             giftcard.giftcard_name.toLowerCase().includes(searchTerm.toLowerCase())
         );
-        setFilteredGiftcards(results);
-    }, [searchTerm, giftcards]);
+        setFilteredGiftcards(filterUniqueData(results));
+    }, [searchTerm, filterUniqueData, giftcards]);
 
     const handleSearch = (e) => {
         setSearchTerm(e.target.value);

@@ -734,7 +734,7 @@ section.gamePageContainer.bot{
         padding-bottom: 10vw;
     }
     section.gamePageContainer.bot h4{
-        font-size: 6vw;
+        font-size: 5vw;
     }
     .gpPageContentMid3.website{
         display: none;
@@ -747,7 +747,10 @@ section.gamePageContainer.bot{
         height: auto;
         width: 48%;
         margin: 1%;
+        margin-bottom: 2%;
         border-radius: 2vw;
+        box-shadow: 0 0 0;
+        border: solid 1px white;
     }
     .gppcm3ogPlatform{
         top: 1vw;
