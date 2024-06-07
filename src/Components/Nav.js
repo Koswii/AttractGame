@@ -375,7 +375,7 @@ const Nav = () => {
       {!viewUserCredentials ? <>
         {viewRegForm &&
         <div className="navContainerModal">
-          <div className="navContentModal">
+          <div className="navContentModal register">
             <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
             <form id='userRegistraionFormContainer' className="navRegistrationContent" onSubmit={handleUserRegister}>
               <h6>REGISTER AN ACCOUNT</h6>
@@ -426,7 +426,7 @@ const Nav = () => {
       {!viewUserCredentials ? <>
         {viewLoginForm &&
         <div className="navContainerModal">
-            <div className="navContentModal">
+            <div className="navContentModal login">
               <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
               <form id='userLoginFormContainer' className="navRegistrationContent" onSubmit={handleUserLogin}>
                 <h6>LOGIN ACCOUNT</h6>

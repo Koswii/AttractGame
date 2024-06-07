@@ -397,7 +397,6 @@ const Admin = () => {
             console.log(responseMessage.message);
     
             if (responseMessage.success) {
-                setImageGCV(null);
                 setAGSetGiftCardTitle('');
                 setAGSetGiftCardDenomination('');
                 setAGSetGiftCardSupplier('');

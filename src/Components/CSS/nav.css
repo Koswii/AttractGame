@@ -21,7 +21,7 @@ nav{
     box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    z-index: 999;
+    z-index: 998;
 }
 .mainNavContainer hr{
     display: none;
@@ -29,7 +29,6 @@ nav{
 .navContainerModal{
     height: 100vh;
     width: 100%;
-    padding-top: 4vw;
     position: absolute;
     top: 0;
     left: 0;
@@ -37,14 +36,13 @@ nav{
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    z-index: 998;
+    z-index: 999;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .navContentModal{
     height: auto;
-    width: 25%;
     box-shadow: 0 0 10px white;
     padding: 2%;
     border-radius: 1vw;
@@ -52,6 +50,14 @@ nav{
     background-size: cover;
     position: relative;
     animation: fade-in-down 800ms ease;
+}
+.navContentModal.register{
+    width: 25%;
+    padding: 2%;
+}
+.navContentModal.login{
+    width: 20%;
+    padding: 2% 1%;
 }
 .navContentModal.regRes,
 .navContentModal.blocked{
