@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import "../CSS/game.css";
 import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import { useActivePage } from './ActivePageContext';
 import { 
     FaSearch,
     FaGamepad,
@@ -49,6 +50,7 @@ const formatDateToWordedDate = (numberedDate) => {
 
 const Game = () => {
     const { gameCanonical } = useParams();
+    const { setActivePage } = useActivePage();
     const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
     const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
     const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
@@ -152,12 +154,10 @@ const Game = () => {
     }, [viewMetacriticData, viewWikiData, scrapedMetacriticData]);
     const videoUrl = viewGameTrailer;
 
-    const handleClickGames = () => {
-        localStorage.setItem('games', 'active');
-        localStorage.removeItem('dashboard');
-        localStorage.removeItem('marketplace');
-        localStorage.removeItem('giftcards');
-        localStorage.removeItem('crypto');
+    const handleClickGames = (e) => {
+        e.preventDefault();
+
+        setActivePage('games');
         setTimeout(() => {
             window.location.reload();
         }, 500);
