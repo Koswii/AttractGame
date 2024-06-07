@@ -72,9 +72,7 @@ const Giftcard = () => {
         fetchGiftcards();
     }, [LoginUserID, giftcardCanonical]);
 
-    const handleClickGiftcard = (e) => {
-        e.preventDefault();
-
+    const handleClickGiftcard = () => {
         setActivePage('giftcards');
         setTimeout(() => {
             window.location.reload();
@@ -124,16 +122,16 @@ const Giftcard = () => {
                     <h4>GIFTCARDS YOU MIGHT LIKE</h4>
                     <div className="gcardspcbContent website">
                         {giftcardViewAll.map((details, i) => (
-                            <div className="gcspcbcOtherGiftcard" to={`/Giftcards/${details.giftcard_canonical}`} key={i} onClick={handleClickGiftcard}>
+                            <Link className="gcspcbcOtherGiftcard" to={`/Giftcards/${details.giftcard_canonical}`} key={i} onClick={handleClickGiftcard}>
                                 <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
-                            </div>
+                            </Link>
                         ))}
                     </div>
                     <div className="gcardspcbContent mobile">
                         {giftcardViewAll.slice(0, 6).map((details, i) => (
-                            <div className="gcspcbcOtherGiftcard" to={`/Giftcards/${details.giftcard_canonical}`} key={i} onClick={handleClickGiftcard}>
+                            <Link className="gcspcbcOtherGiftcard" to={`/Giftcards/${details.giftcard_canonical}`} key={i} onClick={handleClickGiftcard}>
                                 <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>
