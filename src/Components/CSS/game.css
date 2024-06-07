@@ -62,7 +62,7 @@ section.gamePageContainer.top{
     height: 40vw;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     background: rgba(0, 0, 0, 0.3);
     box-shadow: 0 0 10px gray;
@@ -70,21 +70,72 @@ section.gamePageContainer.top{
     -webkit-backdrop-filter: blur(15px);
     border-radius: 1vw;
 }
-.gppctGameDetails.loading .loader{
-    width: 80px;
-    aspect-ratio: 1;
-    border: 10px solid #24242400;
+.gppctgdlmageDummy{
+    height: 100%;
+    width: 35%;
     background: 
-        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 0    0/20px 20px,
-        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 100% 0/20px 20px,
-        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2)) 100% 100%/20px 20px,
-        radial-gradient(farthest-side,#fff 98%,rgba(255, 255, 255, 0.2) ) 0 100%/20px 20px,
-        linear-gradient(#fff 0 0) center/40px 40px,
-        #000;
-    background-repeat:no-repeat;
-    filter: blur(4px) contrast(10);
-    animation: b2 0.8s infinite;
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+    border-radius: 1vw;
 }
+.gppctgdDetailsDummy{
+    height: 40vw;
+    position: relative;
+    width: 63%;
+    padding: 2%;
+    padding-right: 4%;
+}
+.gppctgdddTitle{
+    height: 8vw;
+    width: 100%;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+    border-radius: 1vw;
+}
+.gppctgdddCategories{
+    height: 3vw;
+    width: 80%;
+    margin: 2% 0;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+    border-radius: 1vw;
+}
+.gppctgdddRelease{
+    height: 1.5vw;
+    width: 60%;
+    margin: 2% 0;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+    border-radius: 1vw;
+}
+.gppctgdDetailsDummy p{
+    height: 1vw;
+    width: 90%;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+    border-radius: 1vw;
+    margin-bottom: 2%;
+}
+
+
+
+
+
+
 .gppctGameDetails.left{
     height: 40vw;
     width: 35%;
@@ -510,9 +561,38 @@ section.gamePageContainer.bot{
         height: 100vh;
         width: 100%;
         border-radius: 2vw;
+        display: block;
     }
-
-
+    .gppctgdlmageDummy{
+        height: 57vh;
+        width: 100%;
+        border-radius: 2vw;
+    }
+    .gppctgdDetailsDummy{
+        height: auto;
+        width: 100%;
+        padding: 5%;
+    }
+    .gppctgdddTitle{
+        height: 12vw;
+        width: 100%;
+    }
+    .gppctgdddCategories{
+        height: 8vw;
+        width: 80%;
+        margin: 2% auto;
+    }
+    .gppctgdddRelease{
+        height: 5vw;
+        width: 80%;
+        margin: 2% auto;
+    }
+    .gppctgdDetailsDummy p{
+        height: 3vw;
+        width: 100%;
+        margin: 0 auto;
+        margin-bottom: 2%;
+    }
 
 
 

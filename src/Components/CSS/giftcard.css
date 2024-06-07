@@ -44,6 +44,199 @@ section.giftcardPageContainer.top{
     align-items: center;
 }
 
+section.giftcardPageContainer.mid{
+    height: auto;
+    width: 100%;
+    padding: 2vw 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gcardspcmContainer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+.gcardspcmContent.left{
+    height: auto;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1vw;
+    overflow: hidden;
+    box-shadow: 0 0 10px gray;
+}
+.gcardspcmContent.left img{
+    height: auto;
+    width: 100%;
+}
+
+
+.gcardspcmContent.right{
+    height: auto;
+    width: 65%;
+    padding-top: 2%;
+}
+.gcardspcmContent.right p{
+    margin: 2% 0;
+}
+.gcardspcmcr{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5%;
+}
+.gcardspcmcr div{
+    height: auto;
+    width: 19%;
+}
+.gcardspcmcr div img{
+    height: auto;
+    width: 100%;
+    box-shadow: 0 0 10px gray;
+    border-radius: 1vw;
+}
+.gcardspcmcr div span{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid 2px white;
+    padding: 3% 7%;
+    border-radius: 1vw;
+}
+.gcardspcmcr div span h5{
+    color: white;
+}
+.gcardspcmcr div span button{
+    background: none;
+    font-size: 1.5vw;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
+.gcardspcmContainerDummy{
+    height: 33vw;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+.gcspcmclDummy.left{
+    height: 100%;
+    width: 30%;
+    border-radius: 1vw;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+.gcspcmclDummy.right{
+    height: auto;
+    width: 65%;
+    padding-top: 2%;
+}
+.gcspcmclDummy.right h3{
+    height: 4vw;
+    width: 100%;
+    border-radius: 1vw;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+.gcspcmclDummy.right h5{
+    height: 2vw;
+    width: 40%;
+    margin-top: 1%;
+    margin-bottom: 2%;
+    border-radius: 1vw;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+.gcspcmclDummy.right p{
+    height: 1.1vw;
+    width: 100%;
+    margin: 1% 0;
+    border-radius: 1vw;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+.gcspcmclDummy.right div{
+    height: 15vw;
+    width: 100%;
+}
+
+
+
+
+
+
+section.giftcardPageContainer.bot{
+    height: auto;
+    width: 100%;
+    padding: 5vw 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gcardspcbContainer{
+    height: 100%;
+    width: 100%;
+}
+.gcardspcbContent{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2%;
+}
+.gcspcbcOtherGiftcard{
+    height: auto;
+    width: 19%;
+    margin-bottom: 1.5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1vw;
+    box-shadow: 0 0 10px gray;
+    position: relative;
+    overflow: hidden;
+}
+.gcspcbcOtherGiftcard img{
+    height: auto;
+    width: 100%;
+}
+
+
+
+
+
 
 
 

@@ -92,6 +92,7 @@ section.giftcardsPageContainer.mid{
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
+    text-decoration: none;
 }
 .gcspcmid1.left{
     height: 20vw;

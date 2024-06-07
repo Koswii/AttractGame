@@ -558,6 +558,7 @@ const Admin = () => {
             setEditModal(false);
             setEditInfoDiscount(false);
             setEditInfoPrice(false);
+            
         } catch (error) {
             console.error('Error submitting data:', error);
         }

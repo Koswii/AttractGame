@@ -547,6 +547,7 @@ section.landingPageContainer.mid{
     overflow: hidden;
     box-shadow: 0 0 10px gray;
     margin-top: 1%;
+    text-decoration: none;
 }
 .lndpcfgcrb.left{
     height: auto;
