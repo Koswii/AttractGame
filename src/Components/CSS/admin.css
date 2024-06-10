@@ -1660,3 +1660,17 @@ section.adminPageContainer.mid{
     display: flex;
     align-items: center;
 }
+
+
+
+
+
+
+
+
+
+/* news */
+.admpcm1NewsHeader h1{
+    font-size: 2vw;
+    text-transform: uppercase;
+}
