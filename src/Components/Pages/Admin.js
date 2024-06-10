@@ -576,6 +576,7 @@ const Admin = () => {
                     productIDcode: productCodesID,
                     productCodes: productCodesString,
                     productState: 'Available',
+                    productOwner: 'None',
                 };
                 const response = await axios.post(AGInsertProductCodeAPI, dataInput);
                 console.log('Data submitted successfully:', response.data);
@@ -588,6 +589,7 @@ const Admin = () => {
                     productIDcode: productCodesID,
                     productCodes: productCodesString,
                     productState: 'Available',
+                    productOwner: 'None',
                 };
                 const response = await axios.post(AGInsertProductCodeAPI, dataInput);
                 console.log('Data submitted successfully:', response.data);
@@ -600,6 +602,7 @@ const Admin = () => {
                     productIDcode: productCodesID,
                     productCodes: productCodesString,
                     productState: 'Available',
+                    productOwner: 'None',
                 };
                 const response = await axios.post(AGInsertProductCodeAPI, dataInput);
                 console.log('Data submitted successfully:', response.data);
