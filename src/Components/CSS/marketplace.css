@@ -598,7 +598,8 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
 }
 .mppcm2GameDetails div button#mppcm2GDHRemove,
 .mppcm2GameDetails div button#mppcm2GDAdd,
-.mppcm2GameDetails div button#mppcm2GDCart{
+.mppcm2GameDetails div button#mppcm2GDCart,
+.mppcm2GameDetails div button#mppcm2GDAddedCart{
     font-size: 1.8vw;
     line-height: 1vw;
     background: none;
@@ -609,6 +610,9 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
 }
 .mppcm2GameDetails div button#mppcm2GDHRemove{
     color: red;
+}
+.mppcm2GameDetails div button#mppcm2GDAddedCart{
+    color: gold;
 }
 
 
@@ -1045,7 +1049,8 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     }
     .mppcm2GameDetails div button#mppcm2GDHRemove,
     .mppcm2GameDetails div button#mppcm2GDAdd,
-    .mppcm2GameDetails div button#mppcm2GDCart{
+    .mppcm2GameDetails div button#mppcm2GDCart,
+    .mppcm2GameDetails div button#mppcm2GDAddedCart{
         font-size: 6vw;
     }
     .mpPageContentM2ShowMore{
