@@ -20,6 +20,7 @@ import {
 import { 
     TbShoppingCartBolt, 
     TbShoppingCartPlus,
+    TbShoppingCartFilled,  
     TbDeviceGamepad2,
     TbGiftCard,
     TbHeart,
@@ -47,7 +48,6 @@ const formatDateToWordedDate = (numberedDate) => {
     return `${month} ${day}, ${year}`;
 }
 
-
 const Game = () => {
     const { gameCanonical } = useParams();
     const { setActivePage } = useActivePage();
@@ -55,10 +55,13 @@ const Game = () => {
     const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
     const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
     const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
+    const AGUserProductsCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
+    const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
     const [userLoggedData, setUserLoggedData] = useState('')
     const [isFavorite, setIsFavorite] = useState(false);
+    const [isInCart, setIsInCart] = useState(false);
     const [viewAGData1, setViewAGData1] = useState([]);
     const [viewAGData2, setViewAGData2] = useState([]);
     const [viewWikiData, setViewWikiData] = useState([]);
@@ -139,10 +142,15 @@ const Game = () => {
                     setLoadingMarketData(true);
                     setViewGameTrailer(combinedMetaWikiData.game_trailer);
 
-                    const response = await axios.get(AGUserFavoritesAPI);
-                    const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
-                    const favoriteGameCodes = filteredData.map(fav => fav.ag_product_id);
-                    setIsFavorite(favoriteGameCodes.includes(scrapedMetacriticData.game_canonical));
+                    const favoritesResponse = await axios.get(AGUserFavoritesAPI);
+                    const favoriteData = favoritesResponse.data.filter(product => product.ag_user_id === LoginUserID);
+                    const favoriteGameCodes = favoriteData.map(fav => fav.ag_product_id);
+                    setIsFavorite(favoriteGameCodes.includes(combinedMetaWikiData.game_canonical));
+
+                    const cartResponse = await axios.get(AGUserProductsCartAPI);
+                    const cartData = cartResponse.data.filter(product => product.ag_user_id === LoginUserID);
+                    const cartGameCodes = cartData.map(cartItem => cartItem.ag_product_id);
+                    setIsInCart(cartGameCodes.includes(combinedMetaWikiData.game_canonical));
                 }
 
             } catch (error) {
@@ -184,7 +192,10 @@ const Game = () => {
         });
     };
     const handleRemoveFavorite = (gameCanonical) => {
-        const removeFav = {favorite: gameCanonical}
+        const removeFav = {
+            user: userLoggedData.userid,
+            favorite: gameCanonical
+        }
         const removeFavJSON = JSON.stringify(removeFav);
         axios({
             method: 'delete',
@@ -212,6 +223,33 @@ const Game = () => {
         } else {
             handleAddFavorite();
         }
+    };
+
+    const handleAddToCart = () => {
+        const formAddCart = {
+          agCartUsername: userLoggedData.username,
+          agCartUserID: userLoggedData.userid,
+          agCartProductCode: gameCanonical,
+          agCartProductName: scrapedMetacriticData?.game_title,
+          agCartProductPrice: '',
+          agCartProductDiscount: '',
+          agCartProductType: 'Game',
+          agCartProductState: 'Pending',
+        }
+    
+        const jsonUserCartData = JSON.stringify(formAddCart);
+        axios.post(AGAddToCartsAPI, jsonUserCartData)
+        .then(response => {
+          const resMessage = response.data;
+          if (resMessage.success === true) {
+            setIsInCart(true);
+          } else {
+            console.log(resMessage.message);
+          }
+        }) 
+        .catch (error =>{
+            console.log(error);
+        });
     };
 
     return (
@@ -275,7 +313,10 @@ const Game = () => {
                                 <button id={isFavorite ? 'gppct2gdRemoveFav' : 'gppct2gdAddFav'} onClick={handleFavoriteToggle}>
                                     {isFavorite ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
                                 </button>
-                                <button><TbShoppingCartPlus className='faIcons'/></button>
+                                {isInCart ? 
+                                    <button id='gppct2gdGameCart'><TbShoppingCartFilled className='faIcons'/></button>:
+                                    <button onClick={handleAddToCart}><TbShoppingCartPlus className='faIcons'/></button>
+                                }
                             </>:<>
                                 <button><TbHeart className='faIcons'/></button>
                                 <button><TbShoppingCartPlus className='faIcons'/></button>
