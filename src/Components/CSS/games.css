@@ -242,6 +242,9 @@ section.gamesPageContainer.top{
 .gmspct2gDetails div button#gmspct2gdRemoveFav{
     color: red;
 }
+.gmspct2gDetails div button#gmspct2gdCartAdded{
+    color: gold;
+}
 
 .gmspct2GameDummy{
     height: 15vw;

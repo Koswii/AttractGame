@@ -18,6 +18,7 @@ import {
 } from "react-icons/fa6";
 import { 
     TbShoppingCartBolt,
+    TbShoppingCartFilled,
     TbShoppingCartPlus, 
     TbDeviceGamepad2,
     TbGiftCard,
@@ -40,6 +41,7 @@ import axios from 'axios';
 const LoginUserID = localStorage.getItem('profileUserID');
 const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
 const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
+const AGUserProductsCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
 const formatDateToWordedDate = (numberedDate) => {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const date = new Date(numberedDate);
@@ -106,6 +108,16 @@ const fetchFavorites = async (setFavorites) => {
         console.error(error);
     }
 };
+const fetchUserCart = async (setProductCarts, LoginUserID) => {
+    try {
+        const response = await axios.get(AGUserProductsCartAPI);
+        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
+        const gameCartProducts = filteredData.filter(product => product.ag_product_type === 'Game');
+        setProductCarts(gameCartProducts);
+    } catch (error) {
+        console.error(error);
+    }
+};
 const Marketplace = () => {
     const navigate = useNavigate ();
     const { setActivePage } = useActivePage();
@@ -117,10 +129,12 @@ const Marketplace = () => {
     const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
     const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
     const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
+    const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
     const [userLoggedData, setUserLoggedData] = useState('')
     const [favorites, setFavorites] = useState([]);
+    const [productCart, setProductCarts] = useState([]);
     const [viewAllGamesNum, setViewAllGamesNum] = useState([]);
     const [viewAllListedGames, setViewAllListedGames] = useState([]);
     const [viewAGData1, setViewAGData1] = useState([]);
@@ -147,6 +161,7 @@ const Marketplace = () => {
 
     useEffect(() => {
         fetchFavorites(setFavorites);
+        fetchUserCart(setProductCarts, LoginUserID);
         fetchGames(setLoadingMarketData1, setViewAllGamesNum, setViewAGData1, setViewMetacriticData, setViewWikiData, setViewAllListedGames);
     }, [LoginUserID]);
     useEffect(() => {
@@ -269,7 +284,10 @@ const Marketplace = () => {
         });
     };
     const handleRemoveFavorite = (gameCanonical) => {
-        const removeFav = {favorite: gameCanonical}
+        const removeFav = {
+            user: userLoggedData.userid,
+            favorite: gameCanonical
+        }
         const removeFavJSON = JSON.stringify(removeFav);
         axios({
             method: 'delete',
@@ -300,7 +318,35 @@ const Marketplace = () => {
     };
     
 
-
+    const handleAddToCartGame = (details) => {
+        const productCartGameCode = details.game_canonical;
+        const productCartGameName = details.game_title;
+    
+        const formAddCart = {
+          agCartUsername: userLoggedData.username,
+          agCartUserID: userLoggedData.userid,
+          agCartProductCode: productCartGameCode,
+          agCartProductName: productCartGameName,
+          agCartProductPrice: '',
+          agCartProductDiscount: '',
+          agCartProductType: 'Game',
+          agCartProductState: 'Pending',
+        }
+    
+        const jsonUserCartData = JSON.stringify(formAddCart);
+        axios.post(AGAddToCartsAPI, jsonUserCartData)
+        .then(response => {
+          const resMessage = response.data;
+          if (resMessage.success === true) {
+            fetchUserCart(setProductCarts, LoginUserID);
+          } else {
+            console.log(resMessage.message);
+          }
+        }) 
+        .catch (error =>{
+            console.log(error);
+        });
+    };
 
 
     
@@ -480,7 +526,10 @@ const Marketplace = () => {
                                     <button id={favorites.includes(details.game_canonical) ? 'mppcm2GDHRemove' : 'mppcm2GDAdd'} onClick={() => handleFavoriteToggle(details)}>
                                         {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
                                     </button>
-                                    <button id='mppcm2GDCart'><TbShoppingCartPlus className='faIcons'/></button>
+                                    {productCart.some(cartItem => cartItem.ag_product_id === details.game_canonical) ?
+                                        <button id='mppcm2GDAddedCart'><TbShoppingCartFilled className='faIcons'/></button>:
+                                        <button id='mppcm2GDCart' onClick={() => handleAddToCartGame(details)}><TbShoppingCartPlus className='faIcons'/></button>
+                                    }
                                 </>:<>
                                     <button id='mppcm2GDAdd'><TbHeart className='faIcons'/></button>
                                     <button id='mppcm2GDCart'><TbShoppingCartPlus className='faIcons'/></button>
@@ -524,7 +573,10 @@ const Marketplace = () => {
                                     <button id={favorites.includes(details.game_canonical) ? 'mppcm2GDHRemove' : 'mppcm2GDAdd'} onClick={() => handleFavoriteToggle(details)}>
                                         {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
                                     </button>
-                                    <button id='mppcm2GDCart'><TbShoppingCartPlus className='faIcons'/></button>
+                                    {productCart.some(cartItem => cartItem.ag_product_id === details.game_canonical) ?
+                                        <button id='mppcm2GDAddedCart'><TbShoppingCartFilled className='faIcons'/></button>:
+                                        <button id='mppcm2GDCart' onClick={() => handleAddToCartGame(details)}><TbShoppingCartPlus className='faIcons'/></button>
+                                    }
                                 </>:<>
                                     <button id='mppcm2GDAdd'><TbHeart className='faIcons'/></button>
                                     <button id='mppcm2GDCart'><TbShoppingCartPlus className='faIcons'/></button>

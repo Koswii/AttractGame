@@ -7,6 +7,7 @@ import axios from 'axios';
 import { 
     TbShoppingCartBolt, 
     TbShoppingCartPlus,
+    TbShoppingCartFilled,
     TbDeviceGamepad2,
     TbGiftCard,
     TbHeart,
@@ -18,10 +19,24 @@ import {
     TbSquareRoundedArrowRight,      
 } from "react-icons/tb";
 
+
+const AGUserProductsCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
+const fetchUserCart = async (setProductCarts, LoginUserID) => {
+    try {
+        const response = await axios.get(AGUserProductsCartAPI);
+        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
+        const gameCartProducts = filteredData.filter(product => product.ag_product_type === 'Giftcard');
+        setProductCarts(gameCartProducts);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 const Giftcard = () => {
     const { giftcardCanonical } = useParams();
     const { setActivePage } = useActivePage();
     const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
+    const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
     const [userLoggedData, setUserLoggedData] = useState('');
@@ -29,6 +44,7 @@ const Giftcard = () => {
     const [giftcardViewDetails, setGiftcardViewDetails] = useState([]);
     const [giftcardViewContent, setViewGiftcardContent] = useState('');
     const [loadingGiftcard, setLoadingGiftcard] = useState(true);
+    const [productCart, setProductCarts] = useState([]);
 
     const getRandomItems = (array, numItems) => {
         const shuffled = array.sort(() => 0.5 - Math.random());
@@ -43,7 +59,6 @@ const Giftcard = () => {
                 setUserLoggedData(JSON.parse(storedProfileData))
             }
         };
-
         const fetchGiftcards = async () => {
             setLoadingGiftcard(true);
             try {
@@ -70,6 +85,7 @@ const Giftcard = () => {
         
         fetchUserProfile();
         fetchGiftcards();
+        fetchUserCart(setProductCarts, LoginUserID);
     }, [LoginUserID, giftcardCanonical]);
 
     const handleClickGiftcard = () => {
@@ -78,6 +94,35 @@ const Giftcard = () => {
             window.location.reload();
         }, 500);
     }
+    const handleAddToCart = (details) => {
+        const productCartGiftcardCode = details.giftcard_id;
+        const productCartGiftcardName = details.giftcard_name;
+    
+        const formAddCart = {
+          agCartUsername: userLoggedData.username,
+          agCartUserID: userLoggedData.userid,
+          agCartProductCode: productCartGiftcardCode,
+          agCartProductName: productCartGiftcardName,
+          agCartProductPrice: '',
+          agCartProductDiscount: '',
+          agCartProductType: 'Giftcard',
+          agCartProductState: 'Pending',
+        }
+    
+        const jsonUserCartData = JSON.stringify(formAddCart);
+        axios.post(AGAddToCartsAPI, jsonUserCartData)
+        .then(response => {
+          const resMessage = response.data;
+          if (resMessage.success === true) {
+            fetchUserCart(setProductCarts, LoginUserID);
+          } else {
+            console.log(resMessage.message);
+          }
+        }) 
+        .catch (error =>{
+            console.log(error);
+        });
+    };
 
 
     return (
@@ -98,7 +143,10 @@ const Giftcard = () => {
                                     <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
                                     <span>
                                         <h5>$ {details.giftcard_denomination}</h5>
-                                        <button><TbShoppingCartPlus className='faIcons'/></button>
+                                        {productCart.some(cartItem => cartItem.ag_product_id === details.giftcard_id) ?
+                                            <button><TbShoppingCartFilled className='faIcons'/></button>:
+                                            <button onClick={() => handleAddToCart(details)}><TbShoppingCartPlus className='faIcons'/></button>
+                                        }
                                     </span>
                                 </div>
                             ))}

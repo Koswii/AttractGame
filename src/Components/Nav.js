@@ -20,6 +20,8 @@ import {
 } from "react-icons/md";
 import { 
   TbUserSquareRounded,
+  TbShoppingCartPlus,
+  TbShoppingCartFilled,
   TbHeartFilled,
   TbShoppingCartBolt,
   TbCalendarEvent, 
@@ -529,7 +531,7 @@ const Nav = () => {
                   <h6>{dataUser.username}</h6>
                 </Link>
                 <Link id='agHeartBtn' to='/MyFavorites' onClick={() => handleNavigation('favorites', '/MyFavorites')}><TbHeartFilled className='faIcons'/> My Favorites</Link>
-                <Link id='agCartBtn' to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}><TbShoppingCartBolt className='faIcons'/> My Cart</Link>
+                <Link id='agCartBtn' to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}><TbShoppingCartFilled className='faIcons'/> My Cart</Link>
                 <Link id='agCartBtn'><TbCalendarEvent className='faIcons'/> Events</Link>
                 <a id='agLogoutBtn' onClick={handleUserLogout}><TbLogout className='faIcons'/> Logout</a>
               </div>}
@@ -576,7 +578,7 @@ const Nav = () => {
                 <h6>My Favorites</h6>
               </Link>
               <Link to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}>
-                <h4><TbShoppingCartBolt className='faIcons'/></h4>
+                <h4><TbShoppingCartFilled className='faIcons'/></h4>
                 <h6>My Cart</h6>
               </Link>
               <Link>

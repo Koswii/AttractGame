@@ -3,7 +3,8 @@ import "../CSS/games.css";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { 
-    TbShoppingCartPlus,  
+    TbShoppingCartPlus,
+    TbShoppingCartFilled,  
     TbHeart,
     TbHeartFilled,     
 } from "react-icons/tb";
@@ -12,6 +13,7 @@ import {
 
 const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
 const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
+const AGUserProductsCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
 const fetchGames = async (setViewAGData1, setLoadingMarketData) => {
     try {
         const response1 = await axios.get(AGGamesListAPI1);
@@ -33,10 +35,24 @@ const fetchFavorites = async (setFavorites, LoginUserID) => {
         console.error(error);
     }
 };
+const fetchUserCart = async (setProductCarts, LoginUserID) => {
+    try {
+        const response = await axios.get(AGUserProductsCartAPI);
+        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
+        const gameCartProducts = filteredData.filter(product => product.ag_product_type === 'Game');
+        setProductCarts(gameCartProducts);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+
+
 
 const Games = () => {
-    const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
+    const AGAddToFavoritesAPI = process.env.REACT_APP_AG_ADD_USER_FAV_API;
     const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
+    const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
     const [userLoggedData, setUserLoggedData] = useState('')
@@ -44,6 +60,7 @@ const Games = () => {
     const [searchGameName, setSearchGameName] = useState('');
     const [loadingMarketData, setLoadingMarketData] = useState(false);
     const [favorites, setFavorites] = useState([]);
+    const [productCart, setProductCarts] = useState([]);
     const [currentPage, setCurrentPage] = useState(
         parseInt(localStorage.getItem('currentPage')) || 1
     ); // state to track current page
@@ -60,6 +77,7 @@ const Games = () => {
         fetchUserProfile();
         fetchGames(setViewAGData1, setLoadingMarketData);
         fetchFavorites(setFavorites, LoginUserID);
+        fetchUserCart(setProductCarts, LoginUserID);
     }, [LoginUserID]);
     const handleSearchChange = event => {
         setSearchGameName(event.target.value);
@@ -104,7 +122,7 @@ const Games = () => {
         }
     
         const jsonUserFavData = JSON.stringify(formAddfavorite);
-        axios.post(AGAddToFavorites, jsonUserFavData)
+        axios.post(AGAddToFavoritesAPI, jsonUserFavData)
         .then(response => {
           const resMessage = response.data;
           if (resMessage.success === true) {
@@ -121,7 +139,10 @@ const Games = () => {
         });
     };
     const handleRemoveFavorite = (gameCanonical) => {
-        const removeFav = {favorite: gameCanonical}
+        const removeFav = {
+            user: userLoggedData.userid,
+            favorite: gameCanonical,
+        }
         const removeFavJSON = JSON.stringify(removeFav);
         axios({
             method: 'delete',
@@ -152,7 +173,36 @@ const Games = () => {
     };
 
 
-
+    const handleAddToCart = (details) => {
+        const productCartGameCode = details.game_canonical;
+        const productCartGameName = details.game_title;
+    
+        const formAddCart = {
+          agCartUsername: userLoggedData.username,
+          agCartUserID: userLoggedData.userid,
+          agCartProductCode: productCartGameCode,
+          agCartProductName: productCartGameName,
+          agCartProductPrice: '',
+          agCartProductDiscount: '',
+          agCartProductType: 'Game',
+          agCartProductState: 'Pending',
+        }
+    
+        const jsonUserCartData = JSON.stringify(formAddCart);
+        axios.post(AGAddToCartsAPI, jsonUserCartData)
+        .then(response => {
+          const resMessage = response.data;
+          if (resMessage.success === true) {
+            fetchGames(setViewAGData1, setLoadingMarketData);
+            fetchUserCart(setProductCarts, LoginUserID);
+          } else {
+            // console.log(resMessage.message);
+          }
+        }) 
+        .catch (error =>{
+            console.log(error);
+        });
+    };
 
 
 
@@ -192,7 +242,10 @@ const Games = () => {
                                                 <button id={favorites.includes(details.game_canonical) ? 'gmspct2gdRemoveFav' : 'gmspct2gdAddFav'} onClick={() => handleFavoriteToggle(details)}>
                                                     {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
                                                 </button>
-                                                <button><TbShoppingCartPlus className='faIcons'/></button>
+                                                {productCart.some(cartItem => cartItem.ag_product_id === details.game_canonical) ?
+                                                    <button id='gmspct2gdCartAdded'><TbShoppingCartFilled className='faIcons'/></button>:
+                                                    <button onClick={() => handleAddToCart(details)}><TbShoppingCartPlus className='faIcons'/></button>
+                                                }
                                             </>:<>
                                                 <button><TbHeart className='faIcons'/></button>
                                                 <button><TbShoppingCartPlus className='faIcons'/></button>

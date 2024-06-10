@@ -301,6 +301,9 @@ section.gamePageContainer.top{
 .gppctgdrExtras button#gppct2gdRemoveFav{
     color: red;
 }
+.gppctgdrExtras button#gppct2gdGameCart{
+    color: gold;
+}
 .gppctgdrExtras div{
     width: 30%;
     text-align: right;

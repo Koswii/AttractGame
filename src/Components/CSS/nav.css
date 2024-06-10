@@ -475,6 +475,7 @@ nav{
 }
 .profileModalContainer a .faIcons{
     margin-right: 5%;
+    font-size: 1vw;
 }
 .navContainer.profileSelect{
     height: 100vh;
