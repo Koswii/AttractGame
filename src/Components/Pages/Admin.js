@@ -50,6 +50,10 @@ const Admin = () => {
         setActiveView('default');
         setFormResponse('');
     };
+    const handleViewAddNews = () => {
+        setActiveView('news');
+        setFormResponse('');
+    };
     const handleViewAddSupplier = () => {
         setActiveView('supplier');
         setFormResponse('');
@@ -143,7 +147,6 @@ const Admin = () => {
             .then((response) => {
                 const gameData = response.data;
                 setViewGameTotal(gameData);
-                setDatalisted('Games')
             })
             .catch(error => {
                 console.log(error)
@@ -176,8 +179,6 @@ const Admin = () => {
             })
         }
         fetchDataGamecredits();
-
-
 
     }, []);
     const handleAddSupplier = async (e) => {
@@ -477,7 +478,7 @@ const Admin = () => {
 
     
     const [sortName, setsortName] = useState('all products');
-    const [filterName,setFiltername] = useState('Game List')
+    const [filterName,setFiltername] = useState('')
     const [order, setOrder] = useState(false);
     const [orderSelect,setOrderselect] = useState(false)
 
@@ -620,6 +621,12 @@ const Admin = () => {
 
     useEffect(() => {
         fetchProductcodes();
+        const getFiltername = localStorage.getItem('filterName')
+        setFiltername(getFiltername)
+
+        const getDatalisted = localStorage.getItem('dataListed')
+        setDatalisted(getDatalisted)
+
     }, [])
     async function fetchProductcodes() {
         try {
@@ -646,16 +653,22 @@ const Admin = () => {
         setFilter(prev => !prev)
     }
     const selectGames = () => {
+        localStorage.setItem('dataListed', 'Games')
+        localStorage.setItem('filterName','Game List')
         setDatalisted('Games')
         setFiltername('Game List')
         setFilter(false)
     }
     const selectGCards = () => {
+        localStorage.setItem('dataListed', 'GCards')
+        localStorage.setItem('filterName', 'Gift Cards List')
         setDatalisted('GCards')
         setFiltername('Gift Cards List')
         setFilter(false)
     }
     const selectGCredits = () => {
+        localStorage.setItem('dataListed', 'GCredits')
+        localStorage.setItem('filterName', 'Game Credits List')
         setDatalisted('GCredits')
         setFiltername('Game Credits List')
         setFilter(false)
@@ -972,6 +985,7 @@ const Admin = () => {
                     <div className="admpc top">
                         <div className='admpcViewNav'>
                             <button className={activeView === 'default' ? 'activeNav': ''} onClick={handleViewNavigations}><h6>DASHBOARD</h6></button>
+                            <button className={activeView === 'news' ? 'activeNav': ''} onClick={handleViewAddNews}><h6>ADD NEWS</h6></button>
                             <button className={activeView === 'supplier' ? 'activeNav': ''} onClick={handleViewAddSupplier}><h6>ADD SUPPLIER</h6></button>
                             <button className={activeView === 'games' ? 'activeNav': ''} onClick={handleViewAddGames}><h6>ADD GAMES</h6></button>
                             <button className={activeView === 'giftCards' ? 'activeNav': ''} onClick={handleViewAddGiftCards}><h6>ADD GIFTCARDS</h6></button>
@@ -1578,6 +1592,18 @@ const Admin = () => {
                                             </>
                                         )}
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {activeView === 'news' && (
+                        <div className="admpcm1News">
+                            <div className="admpcm1NewsContainer">
+                                <div className="admpcm1NewsHeader">
+                                    <h1>Welcome Admin!</h1>
+                                </div>
+                                <div className="admpcm1NewsContents">
+
                                 </div>
                             </div>
                         </div>
