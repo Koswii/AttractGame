@@ -97,9 +97,7 @@ section.gamesPageContainer.top{
     margin: 2% 0;
     display: flex;
     justify-content: space-between;
-    align-items: center;
 }
-
 
 
 
@@ -118,6 +116,26 @@ section.gamesPageContainer.top{
     flex-wrap: wrap;
     justify-content: left;
     align-items: center;
+}
+
+.gmspContentTop.left section{
+    position: relative;
+    width: 100%;
+}
+.filterSelectgames h1{
+    font-size: 1vw;
+}
+.filterSelectgames ul{
+    list-style: none;
+    position: absolute;
+    z-index: 1;
+    padding: .5vw;
+    top: 2vw;
+    border: 2px solid white;
+}
+.filterSelectgames ul li{
+    font-size: .7vw;
+    color: white;
 }
 
 
