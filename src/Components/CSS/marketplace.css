@@ -706,6 +706,7 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     display: flex;
     justify-content: right;
     align-items: center;
+    margin-bottom: 10%;
 }
 .mpPageContentM2ShowMore a{
     width: 20%;
@@ -734,7 +735,6 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     justify-content: center;
     align-items: center;
     box-shadow: 0 0 10px gray;
-    margin-top: 10%;
     margin-bottom: 2%;
     border-radius: 1vw;
     padding: 2%;
@@ -936,7 +936,15 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
 .mpPageContentMid6.mobile{
     display: none;
 }
-
+.mpPageContentMid7{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: top;
+    margin-top: 2%;
+}
 
 
 
@@ -1054,7 +1062,8 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
         font-size: 6vw;
     }
     .mpPageContentM2ShowMore{
-        margin: 5% 0;
+        margin-top: 5%;
+        margin-bottom: 15%;
     }
     .mpPageContentM2ShowMore a{
         width: 50%;
@@ -1075,7 +1084,6 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
         justify-content: center;
         align-items: center;
         box-shadow: 0 0 10px gray;
-        margin-top: 15%;
         margin-bottom: 2%;
         border-radius: 3vw;
         padding: 5% 2%;
