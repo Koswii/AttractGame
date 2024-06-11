@@ -40,6 +40,9 @@ import axios from 'axios';
 
 const LoginUserID = localStorage.getItem('profileUserID');
 const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
+const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
+const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
+const AGGamesRobloxPartners = process.env.REACT_APP_AG_GAMES_ROBLOX_API;
 const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
 const AGUserProductsCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
 const formatDateToWordedDate = (numberedDate) => {
@@ -98,6 +101,39 @@ const fetchGames = async (setLoadingMarketData1, setViewAllGamesNum, setViewAGDa
         setLoadingMarketData1(false);
     }
 };
+const fetchDataGiftcards = async (setLoadingMarketData1, filterUniqueData, setViewAllGiftcard) => {
+    setLoadingMarketData1(true);
+    try {
+        const response = await axios.get(AGGiftcardsListAPI);
+        const unique = filterUniqueData(response.data);
+        setViewAllGiftcard(unique);
+    } catch (error) {
+        console.error(error);
+    } finally {
+        setLoadingMarketData1(false);
+    }
+}
+const fetchDataGameCredits = async (setLoadingMarketData1, setViewAllGameCredits) => {
+    setLoadingMarketData1(true);
+    try {
+        const response = await axios.get(AGGameCreditsListAPI);
+        setViewAllGameCredits(response.data.slice(0, 10));
+    } catch (error) {
+        console.error(error);
+    } finally {
+        setLoadingMarketData1(false);
+    }
+}
+const fetchRobloxPartners = (setViewRobloxPartners) => {
+    axios.get(AGGamesRobloxPartners)
+    .then((response) => {
+        const robloxData = response.data.sort((a, b) => b.id - a.id);
+        setViewRobloxPartners(robloxData);
+    })
+    .catch(error => {
+        console.log(error)
+    })
+}
 const fetchFavorites = async (setFavorites) => {
     try {
         const response = await axios.get(AGUserFavoritesAPI);
@@ -121,12 +157,6 @@ const fetchUserCart = async (setProductCarts, LoginUserID) => {
 const Marketplace = () => {
     const navigate = useNavigate ();
     const { setActivePage } = useActivePage();
-    const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
-    const AGGamesListAPI2 = process.env.REACT_APP_AG_GAMES_STATUS_API;
-    const AGGamesWikiDetails = process.env.REACT_APP_AG_GAMES_WIKI_API;
-    const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
-    const AGGamesRobloxPartners = process.env.REACT_APP_AG_GAMES_ROBLOX_API;
-    const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
     const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
     const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
@@ -142,6 +172,7 @@ const Marketplace = () => {
     const [viewWikiData, setViewWikiData] = useState([]);
     const [viewMetacriticData, setViewMetacriticData] = useState([]);
     const [viewAllGiftcard, setViewAllGiftcard] = useState([]);
+    const [viewAllGameCredits, setViewAllGameCredits] = useState([]);
     const [loadingMarketData, setLoadingMarketData] = useState(false);
     const [loadingMarketData1, setLoadingMarketData1] = useState(true);
     const [scrapedMetacriticData, setScrapedMetacriticData] = useState('');
@@ -158,11 +189,26 @@ const Marketplace = () => {
         }
         fetchUserProfile();
     }, []);
+    const filterUniqueData = (giftcards) => {
+        const uniqueRecords = [];
+        const recordMap = {};
 
+        giftcards.forEach(record => {
+            if (!recordMap[record.giftcard_name]) {
+                recordMap[record.giftcard_name] = true;
+                uniqueRecords.push(record);
+            }
+        });
+
+        return uniqueRecords;
+    };
     useEffect(() => {
         fetchFavorites(setFavorites);
         fetchUserCart(setProductCarts, LoginUserID);
         fetchGames(setLoadingMarketData1, setViewAllGamesNum, setViewAGData1, setViewMetacriticData, setViewWikiData, setViewAllListedGames);
+        fetchDataGameCredits(setLoadingMarketData1, setViewAllGameCredits);
+        fetchDataGiftcards(setLoadingMarketData1, filterUniqueData, setViewAllGiftcard);
+        fetchRobloxPartners(setViewRobloxPartners);
     }, [LoginUserID]);
     useEffect(() => {
         const fetchData = async () => {
@@ -217,44 +263,14 @@ const Marketplace = () => {
                 console.error('Error fetching data:', error);
             }
         };
-
-        const fetchDataGiftcards = async () => {
-            setLoadingMarketData1(true);
-            try {
-                const response = await axios.get(AGGiftcardsListAPI);
-                setViewAllGiftcard(response.data.slice(0, 16));
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoadingMarketData1(false);
-            }
-        }
-    
-        fetchData();
-        fetchDataGiftcards();
+        fetchData()
     }, [viewMetacriticData, viewWikiData]);
-    useEffect(() => {
-        const fetchRobloxPartners = () => {
-            axios.get(AGGamesRobloxPartners)
-            .then((response) => {
-                const robloxData = response.data.sort((a, b) => b.id - a.id);
-                setViewRobloxPartners(robloxData);
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        }
-        fetchRobloxPartners();
-
-    }, []);
     const handleClickGames = () => {
         setActivePage('games');
     }
     const handleClickGiftcards = () => {
         setActivePage('giftcards');
     }
-
-
     const handleAddFavorite = (details) => {
         const productFavGameCode = details.game_canonical;
         const productFavGameName = details.game_title;
@@ -493,12 +509,7 @@ const Marketplace = () => {
                         <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
                         <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
                         <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
-                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
-                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
-                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
-                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
-                        <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
-                    </>:<>{viewAllListedGames.slice(0, 15).map((details, i) => (
+                    </>:<>{viewAllListedGames.slice(0, 10).map((details, i) => (
                     <div className="mppContentMid2" key={i}>
                         <div className="mppcm2GamePlatform" to={`/Games/${details.game_canonical}`}>
                             <img platform={details.game_platform} src="" alt="" />
@@ -664,12 +675,7 @@ const Marketplace = () => {
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
-                        <div className="mppContentMid6Dummy"></div>
-                        <div className="mppContentMid6Dummy"></div>
-                        <div className="mppContentMid6Dummy"></div>
-                        <div className="mppContentMid6Dummy"></div>
-                        <div className="mppContentMid6Dummy"></div>
-                    </>:<>{viewAllGiftcard.slice(0, 15).map((details, i) => (
+                    </>:<>{viewAllGiftcard.slice(0, 10).map((details, i) => (
                             <Link className="mppContentMid6" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
                                 <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
                             </Link>
@@ -691,6 +697,16 @@ const Marketplace = () => {
                 </div>
                 <div className="mpPageContentM2ShowMore">
                     <Link to='/Giftcards' onClick={handleClickGiftcards}><TbSquareRoundedArrowRight className='faIcons'/> View More Giftcards</Link>
+                </div>
+                <h4 id='mppcmhTitles'><TbGiftCard className='faIcons'/> AVAILABLE GAME CREDITS</h4>
+                <div className="mpPageContentMid7">
+                    <>
+                        {viewAllGameCredits.slice(0, 10).map((details, i) => (
+                            <Link className="mppContentMid6" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
+                                <img src={`https://2wave.io/GameCreditCovers/${details.gamecredit_cover}`} alt="" />
+                            </Link>
+                        ))}
+                    </>
                 </div>
             </section>
         </div>

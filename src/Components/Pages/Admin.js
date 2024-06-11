@@ -137,7 +137,6 @@ const Admin = () => {
         }
         fetchDataSupplier();
 
-
         const fetchDataGames = () => {
             axios.get(AGGamesListAPI)
             .then((response) => {
@@ -151,7 +150,6 @@ const Admin = () => {
         }
         fetchDataGames();
 
-
         const fetchDataGiftcards = () => {
             axios.get(AGGiftcardsListAPI)
             .then((response) => {
@@ -163,7 +161,6 @@ const Admin = () => {
             })
         }
         fetchDataGiftcards();
-
 
         const fetchDataGamecredits = () => {
             axios.get(AGGameCreditsListAPI)
@@ -266,7 +263,10 @@ const Admin = () => {
     const [agSetGameCreditDescription, setAGSetGameCreditDescription] = useState('');
     const agSetGameCreditCode1 = agSetGameCreditTitle.replace(/\s/g, '');
     const agSetGameCreditCode2 = agSetGameCreditDenomination.replace(/\s/g, '');
-    const agFullSetGameCreditCode = `AG_${agSetGameCreditCode1}_${agSetGameCreditCode2}`;
+    const agSetGameCreditCode3 = agSetGameCreditTitle.replace(/[(){}\-.,]/g, '');
+    const agSetGameCreditCode4 = agSetGameCreditCode3.replace(/\s/g, '');
+    const agSetGameCreditCanonical = agSetGameCreditCode3.replace(/ /g, '_');
+    const agFullSetGameCreditCode = `AG_${agSetGameCreditCode4}_${agSetGameCreditCode2}`;
 
 
 
@@ -424,6 +424,7 @@ const Admin = () => {
             agGamecreditCode: agFullSetGameCreditCode,
             agGamecreditCover: agSetGameCreditCover,
             agGamecreditTitle: agSetGameCreditTitle,
+            agGamecreditCanonical : agSetGameCreditCanonical,
             agGamecreditDenomination: agSetGameCreditDenomination,
             agGamecreditSupplier: agSetGameCreditSupplier,
             agGamecreditCategory: agSetGameCreditCategory,
