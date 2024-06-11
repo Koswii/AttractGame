@@ -1374,7 +1374,7 @@ section.adminPageContainer.mid{
     position: absolute;
     bottom: 5%;
     box-sizing: border-box;
-    padding: 5%;
+    padding: 5% 10%;
 }
 .prdGameinfo h1{
     font-size: .7vw;
@@ -1659,4 +1659,82 @@ section.adminPageContainer.mid{
     background: none;
     display: flex;
     align-items: center;
+}
+
+
+
+
+
+
+
+
+
+/* news */
+.admpcm1NewsHeader h1{
+    font-size: 2vw;
+    text-transform: uppercase;
+}
+.admpcm1NewsContainer hr{
+    margin: 1vw 0;
+}
+.admpcm1NewsHeader p{
+    font-size: .7vw;
+}
+.admpcm1NewsCards h1{
+    font-size: 1vw;
+}
+.admpcm1Addnews{
+    margin: 1vw 0;
+}
+.admpcm1Addnews p{
+    font-size: .7vw;
+}
+.admpcm1AddnewsInput{
+    outline: .1vw solid white;
+    padding: .2vw .5vw;
+    margin: .5vw 0;
+    border-radius: 1vw;
+    width: 20vw;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+.admpcm1AddnewsInput input{
+    background: none;
+    font-size: .7vw;
+    width: 100%;
+    border: none;
+    outline: 0;
+    color: white;
+    margin: 0 .5vw 0 0;
+}
+#addNewsbtnIcon{
+    color: white;
+    font-size: 1vw;
+    cursor: pointer;
+}
+.admpcm1NewsCardsList{
+    columns: 4;
+    column-gap: 1vw;
+    margin: 1vw 0 0 0;
+}
+.link-preview-admin{
+    background: white;
+    padding: .5vw;
+    width: auto;
+    border-radius: .5vw;
+    break-inside: avoid;
+}
+.link-preview-admin img{
+    height: auto;
+    width: 100%;
+    border-radius: .5vw;
+}
+.link-preview-admin h3{
+    font-size: 1vw;
+    color: black;
+}
+.link-preview-admin p{
+    font-size: .7vw;
+    color: black;
 }
