@@ -18,13 +18,16 @@
 }
 .mainHeadline section span{
     font-size: .7vw;
+    text-shadow: .2vw .2vw .5vw black;
     color: white;
 }
 .mainHeadline section h1{
     font-size: 2vw;
+    text-shadow: .2vw .2vw .5vw black;
 }
 .mainHeadline section p{
     font-size: .7vw;
+    text-shadow: .2vw .2vw .5vw black;
 }
 .mainHeadline section hr{
     margin: .5vw 0;
@@ -33,14 +36,15 @@
     margin: 1vw 0 0 0;
 }
 .mHHeaderBtns button{
-    padding: .5vw 1vw;
+    padding: .5vw 2vw;
     border: none;
-    outline: .1vw solid white;
+    outline: 2px solid white;
     background: none;
     color: white;
     font-size: .7vw;
     cursor: pointer;
     transition: .3s ease;
+    border-radius: 50px;
 }
 .mHHeaderBtns button:hover{
     background: white;
@@ -59,6 +63,7 @@
 .subNewsContainer h1{
     font-size: 1vw;
     text-transform: uppercase;
+    text-shadow: .5vw .5vw 1vw black;
 }
 .subNewsContainer ul{
     width: 100%;
@@ -90,6 +95,7 @@
 }
 .subNewsContainer ul li p{
     font-size: .7vw;
+    text-shadow: .5vw .5vw 1vw black;
 }
 
 
@@ -149,7 +155,6 @@
         background-size: cover;
         position: relative;
         display: flex;
-        align-items: center;
     }
     .mainHeadline section{
         position: relative;
@@ -157,18 +162,21 @@
         top: 0;
         right: 0;
         text-align: center;
-        padding: 0 10vw 0 10vw;
+        padding: 45vw 10vw 0 10vw;
         box-sizing: border-box;
     }
     .mainHeadline section span{
         font-size: 5vw;
+        text-shadow: .5vw .5vw 1vw black;
         font-weight: 800;
     }
     .mainHeadline section h1{
         font-size: 10vw;
+        text-shadow: .5vw .5vw 1vw black;
     }
     .mainHeadline section p{
         font-size: 3vw;
+        text-shadow: .5vw .5vw 1vw black;
     }
     .mainHeadline section hr{
         margin: 2vw 0;
@@ -177,31 +185,19 @@
         margin: 1vw 0 0 0;
     }
     .mHHeaderBtns button{
-        padding: 2vw 5vw;
-        border: none;
-        outline: .1vw solid white;
-        background: none;
-        color: white;
+        padding: 2vw 10vw;
+        outline: 2px solid white;
         font-size: 3vw;
-        cursor: pointer;
-        transition: .3s ease;
         margin: 2vw 0 0 0;
     }
-    .mHHeaderBtns button:hover{
-        background: white;
-        color: black;
-        outline: 0;
-    }
-    
+
     
     .mainHeadlineContents{
-        position: absolute;
-        padding: 0 10%;
-        width: 100%;
-        box-sizing: border-box;
+        bottom: 30vw;
     }
+    
     .subNewsContainer h1{
-        font-size: 3vw;
+        font-size: 4vw;
         text-transform: uppercase;
     }
     .subNewsContainer ul{
@@ -216,11 +212,7 @@
     .subNewsContainer ul li span{
         height: 20vw;
         width: 38vw;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        margin: 1vw 0;
+        margin: 5vw 0 1vw 0;
         border: .1vw solid white;
         cursor: pointer;
         transition: .3s ease;
@@ -234,7 +226,9 @@
         width: 100%;
     }
     .subNewsContainer ul li p{
-        font-size: 2vw;
+        font-size: 3vw;
+        word-break: normal;
+        width: 38vw;
     }
     
     
