@@ -1374,7 +1374,7 @@ section.adminPageContainer.mid{
     position: absolute;
     bottom: 5%;
     box-sizing: border-box;
-    padding: 5%;
+    padding: 5% 10%;
 }
 .prdGameinfo h1{
     font-size: .7vw;

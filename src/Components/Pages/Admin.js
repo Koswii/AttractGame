@@ -757,6 +757,8 @@ const insertNewslinkApi = 'https://engeenx.com/agAddNews.php';
             console.error('There was an error!', error);
         }
     };
+
+    console.log(viewGiftcardTotal);
     return (
         <div className='mainContainer admin'>
             {dataListed === 'Games' &&(

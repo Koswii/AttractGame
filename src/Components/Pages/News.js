@@ -69,8 +69,6 @@ useEffect(() => {
       setPreviewData(previews);
     };
 
-    console.log(newsList);
-
     const [previewData, setPreviewData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
