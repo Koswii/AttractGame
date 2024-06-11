@@ -24,6 +24,7 @@ import Giftcard from './Components/Pages/Giftcard';
 
 
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import News from './Components/Pages/News';
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -90,6 +91,7 @@ function App() {
         <Route exact path="/Highlights" element={<Highlights/>}/>
         <Route exact path="/Marketplace" element={<Marketplace/>}/>
         <Route exact path="/Games" element={<Games/>}/>
+        <Route exact path="/News" element={<News/>}/>
         <Route exact path="/Games/:gameCanonical" element={<Game/>}/>
         <Route exact path="/Giftcards" element={<Giftcards/>}/>
         <Route exact path="/Giftcards/:giftcardCanonical" element={<Giftcard/>}/>

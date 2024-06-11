@@ -16,6 +16,7 @@ import {
 } from "react-icons/ri";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { VscSaveAs } from "react-icons/vsc";
+import { IoMdAddCircle } from "react-icons/io";
 import axios from 'axios';
 import {getGameReviews} from 'unofficial-metacritic';
 import { Link } from 'react-router-dom';
@@ -48,6 +49,10 @@ const Admin = () => {
     }, [activeView]);
     const handleViewNavigations = () => {
         setActiveView('default');
+        setFormResponse('');
+    };
+    const handleViewAddNews = () => {
+        setActiveView('news');
         setFormResponse('');
     };
     const handleViewAddSupplier = () => {
@@ -142,7 +147,6 @@ const Admin = () => {
             .then((response) => {
                 const gameData = response.data;
                 setViewGameTotal(gameData);
-                setDatalisted('Games')
             })
             .catch(error => {
                 console.log(error)
@@ -173,8 +177,6 @@ const Admin = () => {
             })
         }
         fetchDataGamecredits();
-
-
 
     }, []);
     const handleAddSupplier = async (e) => {
@@ -478,7 +480,7 @@ const Admin = () => {
 
     
     const [sortName, setsortName] = useState('all products');
-    const [filterName,setFiltername] = useState('Game List')
+    const [filterName,setFiltername] = useState('')
     const [order, setOrder] = useState(false);
     const [orderSelect,setOrderselect] = useState(false)
 
@@ -624,6 +626,12 @@ const Admin = () => {
 
     useEffect(() => {
         fetchProductcodes();
+        const getFiltername = localStorage.getItem('filterName')
+        setFiltername(getFiltername)
+
+        const getDatalisted = localStorage.getItem('dataListed')
+        setDatalisted(getDatalisted)
+
     }, [])
     async function fetchProductcodes() {
         try {
@@ -650,16 +658,22 @@ const Admin = () => {
         setFilter(prev => !prev)
     }
     const selectGames = () => {
+        localStorage.setItem('dataListed', 'Games')
+        localStorage.setItem('filterName','Game List')
         setDatalisted('Games')
         setFiltername('Game List')
         setFilter(false)
     }
     const selectGCards = () => {
+        localStorage.setItem('dataListed', 'GCards')
+        localStorage.setItem('filterName', 'Gift Cards List')
         setDatalisted('GCards')
         setFiltername('Gift Cards List')
         setFilter(false)
     }
     const selectGCredits = () => {
+        localStorage.setItem('dataListed', 'GCredits')
+        localStorage.setItem('filterName', 'Game Credits List')
         setDatalisted('GCredits')
         setFiltername('Game Credits List')
         setFilter(false)
@@ -716,6 +730,39 @@ const Admin = () => {
             })
         }
     }
+
+// news
+
+const [newsLink,setNewslink] = useState()
+
+
+
+const handleChangeNewslinkinput = (event) => {
+    setNewslink(event.target.value)
+}
+
+
+const insertNewslinkApi = 'https://engeenx.com/agAddNews.php';
+
+    const addNews = async (e) => {
+        e.preventDefault();
+
+        const newsLinkInput = {
+            agNewsLink: newsLink,
+        };
+        try {
+            console.log(newsLinkInput);
+            const response = await axios.post(insertNewslinkApi, newsLinkInput);
+            console.log(response);
+            setTimeout(() => {
+                window.location.reload()
+            }, 1000);
+        } catch (error) {
+            console.error('There was an error!', error);
+        }
+    };
+
+    console.log(viewGiftcardTotal);
     return (
         <div className='mainContainer admin'>
             {dataListed === 'Games' &&(
@@ -976,6 +1023,7 @@ const Admin = () => {
                     <div className="admpc top">
                         <div className='admpcViewNav'>
                             <button className={activeView === 'default' ? 'activeNav': ''} onClick={handleViewNavigations}><h6>DASHBOARD</h6></button>
+                            <button className={activeView === 'news' ? 'activeNav': ''} onClick={handleViewAddNews}><h6>ADD NEWS</h6></button>
                             <button className={activeView === 'supplier' ? 'activeNav': ''} onClick={handleViewAddSupplier}><h6>ADD SUPPLIER</h6></button>
                             <button className={activeView === 'games' ? 'activeNav': ''} onClick={handleViewAddGames}><h6>ADD GAMES</h6></button>
                             <button className={activeView === 'giftCards' ? 'activeNav': ''} onClick={handleViewAddGiftCards}><h6>ADD GIFTCARDS</h6></button>
@@ -1582,6 +1630,28 @@ const Admin = () => {
                                             </>
                                         )}
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {activeView === 'news' && (
+                        <div className="admpcm1News">
+                            <div className="admpcm1NewsContainer">
+                                <div className="admpcm1NewsHeader">
+                                    <h1>Welcome Admin!</h1>
+                                    <p>Access and add latest news articles here</p>
+                                </div>
+                                <hr />
+                                <div className="admpcm1NewsContents">
+                                    <form onSubmit={addNews}>
+                                        <div className="admpcm1Addnews">
+                                            <p>Add news link here</p>
+                                            <div className="admpcm1AddnewsInput">
+                                                <input type="text" value={newsLink} onChange={handleChangeNewslinkinput}/>
+                                                <IoMdAddCircle id='addNewsbtnIcon'/>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

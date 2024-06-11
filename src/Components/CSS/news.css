@@ -1,0 +1,268 @@
+.newsPage{
+    height: auto;
+    width: 100%;
+}
+.mainHeadline{
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(253,251,251,0) 0%, rgba(0,0,0,1) 100%),url('../assets/imgs/NewsImages/sampleMainnews.jpg') center, no-repeat;
+    background-size: cover;
+    position: relative;
+}
+.mainHeadline section{
+    position: absolute;
+    width: 30vw;
+    top: 30%;
+    right: 5vw;
+    text-align: right;
+}
+.mainHeadline section span{
+    font-size: .7vw;
+    text-shadow: .2vw .2vw .5vw black;
+    color: white;
+}
+.mainHeadline section h1{
+    font-size: 2vw;
+    text-shadow: .2vw .2vw .5vw black;
+}
+.mainHeadline section p{
+    font-size: .7vw;
+    text-shadow: .2vw .2vw .5vw black;
+}
+.mainHeadline section hr{
+    margin: .5vw 0;
+}
+.mHHeaderBtns{
+    margin: 1vw 0 0 0;
+}
+.mHHeaderBtns button{
+    padding: .5vw 2vw;
+    border: none;
+    outline: 2px solid white;
+    background: none;
+    color: white;
+    font-size: .7vw;
+    cursor: pointer;
+    transition: .3s ease;
+    border-radius: 50px;
+}
+.mHHeaderBtns button:hover{
+    background: white;
+    color: black;
+    outline: 0;
+}
+
+
+.mainHeadlineContents{
+    position: absolute;
+    bottom: 3vw;
+    padding: 0 10%;
+    width: 100%;
+    box-sizing: border-box;
+}
+.subNewsContainer h1{
+    font-size: 1vw;
+    text-transform: uppercase;
+    text-shadow: .5vw .5vw 1vw black;
+}
+.subNewsContainer ul{
+    width: 100%;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.subNewsContainer ul li span{
+    height: 10vw;
+    width: 18.5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: .5vw 0;
+    border: .1vw solid white;
+    cursor: pointer;
+    transition: .3s ease;
+}
+.subNewsContainer ul li span:hover{
+    transform: scale(1.05);
+    box-shadow: 0 0 1vw white;
+}
+.subNewsContainer ul li span img{
+    height: auto;
+    width: 100%;
+}
+.subNewsContainer ul li p{
+    font-size: .7vw;
+    text-shadow: .5vw .5vw 1vw black;
+}
+
+
+.breakingNews{
+    padding: 0 10%;
+}
+#brNewsIcon{
+    margin: 0 1vw 0 0;
+}
+.breakingNews h2{
+    font-size: 2vw;
+    display: flex;
+    align-items: center;
+}
+.breakingNewsContainer section{
+    margin: 2vw 0;
+    height: 100vh;
+    padding: .5vw 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.breakingNewsContainer section ul{
+    list-style: none;
+    padding: 0;
+    columns: 5;
+    column-gap: 1vw;
+}
+.breakingNewsContainer section ul li{
+    height: auto;
+    padding: .5vw;
+    border-radius: .5vw;
+    background: white;
+    width: 15vw;
+    margin: .5vw 0;
+    break-inside: avoid;
+}
+.breakingNewsContainer section ul li img{
+    height: auto;
+    width: 100%;
+    border-radius: .5vw;
+}
+.breakingNewsContainer section ul li h3{
+    color: black;
+    font-size: 1vw;
+}
+.breakingNewsContainer section ul li p{
+    color: black;
+    font-size: .7vw;
+}
+
+
+@media screen and (max-width: 500px){
+    .mainHeadline{
+        height: 100vh;
+        width: 100%;
+        background: linear-gradient(180deg, rgba(253,251,251,0) 0%, rgba(0,0,0,1) 100%),url('../assets/imgs/NewsImages/sampleMainnews.jpg') center, no-repeat;
+        background-size: cover;
+        position: relative;
+        display: flex;
+    }
+    .mainHeadline section{
+        position: relative;
+        width: 100%;
+        top: 0;
+        right: 0;
+        text-align: center;
+        padding: 45vw 10vw 0 10vw;
+        box-sizing: border-box;
+    }
+    .mainHeadline section span{
+        font-size: 5vw;
+        text-shadow: .5vw .5vw 1vw black;
+        font-weight: 800;
+    }
+    .mainHeadline section h1{
+        font-size: 10vw;
+        text-shadow: .5vw .5vw 1vw black;
+    }
+    .mainHeadline section p{
+        font-size: 3vw;
+        text-shadow: .5vw .5vw 1vw black;
+    }
+    .mainHeadline section hr{
+        margin: 2vw 0;
+    }
+    .mHHeaderBtns{
+        margin: 1vw 0 0 0;
+    }
+    .mHHeaderBtns button{
+        padding: 2vw 10vw;
+        outline: 2px solid white;
+        font-size: 3vw;
+        margin: 2vw 0 0 0;
+    }
+
+    
+    .mainHeadlineContents{
+        bottom: 30vw;
+    }
+    
+    .subNewsContainer h1{
+        font-size: 4vw;
+        text-transform: uppercase;
+    }
+    .subNewsContainer ul{
+        width: 100%;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .subNewsContainer ul li span{
+        height: 20vw;
+        width: 38vw;
+        margin: 5vw 0 1vw 0;
+        border: .1vw solid white;
+        cursor: pointer;
+        transition: .3s ease;
+    }
+    .subNewsContainer ul li span:hover{
+        transform: scale(1.05);
+        box-shadow: 0 0 1vw white;
+    }
+    .subNewsContainer ul li span img{
+        height: auto;
+        width: 100%;
+    }
+    .subNewsContainer ul li p{
+        font-size: 3vw;
+        word-break: normal;
+        width: 38vw;
+    }
+    
+    
+    .breakingNews{
+        padding: 0 10%;
+    }
+    #brNewsIcon{
+        margin: 0 1vw 0 0;
+    }
+    .breakingNews h2{
+        margin: 5vw 0 0 0;
+        font-size: 4vw;
+        display: flex;
+        align-items: center;
+    }
+    .breakingNewsContainer section{
+        margin: 5vw 0;
+        height: 100vh;
+        padding: 1vw 0;
+    }
+    .breakingNewsContainer section ul{
+        columns: 2;
+        column-gap: 2vw;
+    }
+    .breakingNewsContainer section ul li{
+        padding: 1vw;
+        width: 100%;
+        margin: 2vw 0;
+    }
+    .breakingNewsContainer section ul li h3{
+        font-size: 4vw;
+    }
+    .breakingNewsContainer section ul li p{
+        color: black;
+        font-size: 2.5vw;
+    }
+}

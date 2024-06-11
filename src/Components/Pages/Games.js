@@ -215,6 +215,14 @@ const Games = () => {
                 <div className="gmspContent top1">
                     {/* <h5>ALL GAMES</h5> */}
                     <input type="text" placeholder='Search Game Here...' value={searchGameName} onChange={handleSearchChange}/>
+                    <section>
+                        <div className="filterSelectgames">
+                            <h1></h1>
+                            <ul>
+                                <li></li>
+                            </ul>
+                        </div>
+                    </section>
                     <ul className="pagination">
                         {loadingMarketData ? renderPageNumbers : <li>0</li>}
                     </ul>
