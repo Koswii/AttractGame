@@ -1313,10 +1313,12 @@ section.adminPageContainer.mid{
     cursor: pointer;
 }
 .admpcmviewFilterby{
-    border: .1vw solid white;
+    border: 2px solid white;
     height: auto;
-    padding: .5vw;
-    border-radius: .5vw;
+    width: 30%;
+    padding: 2% 5%;
+    padding-top: 1%;
+    border-radius: 1vw;
     position: absolute;
     display: inline-block;
     z-index: 1;
@@ -1324,32 +1326,35 @@ section.adminPageContainer.mid{
     visibility: hidden;
     opacity: 0;
     transition: .3s ease;
-    left: 5vw;
+    left: 0;
     top: 0;
 }
 .admpcmviewFilterby.true{
     visibility: visible;
     opacity: 1;
-    top: 2vw;
+    top: 3vw;
 }
 .admpcm1Filter section p{
     width: 100%;
     text-align: center;
     font-size: .7vw;
     color: white;
-    padding: .5vw;
-    border-radius: .5vw;
+    padding: 1vw;
+    padding-bottom: 0.5vw;
     cursor: pointer;
 }
 .admpcm1Filter section p:hover{
-    outline: .1vw solid white;
+    border-bottom: 2px solid white;
 }
-
+.admpcm1ProductRight-productList ul{
+    display: flex;
+    justify-content: left;
+}
 .admpcm1ProductRight-productList li{
     border: .1vw solid white;
     height: 13vw;
     width: 10vw;
-    margin: .5vw 0;
+    margin: 1%;
     border-radius: 1vw;
     transition: .3s ease;
     cursor: pointer;
@@ -1367,6 +1372,23 @@ section.adminPageContainer.mid{
 .admpcm1ProductRight-productList li:hover .prdGameinfo-edit{
     visibility: visible;
     opacity: 1;
+}
+.prdgcDenomination{
+    height: 3vw;
+    width: 4vw;
+    position: absolute;
+    top: 0.5vw;
+    left: 0.5vw;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 0.5vw;
+    box-shadow: 0 0 10px gray;
+}
+.prdgcDenomination h6{
+    color: black;
 }
 .prdGameinfo{
     width: 100%;
@@ -1635,8 +1657,8 @@ section.adminPageContainer.mid{
 .admproductSearch{
     border: .1vw solid white;
     border-radius: 1vw;
-    padding: .2vw .5vw;
-    width: 15vw;
+    padding: .2vw 5%;
+    width: 20vw;
     box-sizing: border-box;
 }
 .admproductSearch form{
