@@ -495,7 +495,7 @@ const Admin = () => {
         setGameID(game.game_canonical);
         setEditableData(game);
         setEditModal(true);
-        console.log(game);
+        // console.log(game);
     };
     const handleCloseEditModal = () => {
         setEditModal(false);
@@ -661,21 +661,21 @@ const Admin = () => {
         localStorage.setItem('dataListed', 'Games')
         localStorage.setItem('filterName','Game List')
         setDatalisted('Games')
-        setFiltername('Game List')
+        setFiltername('Game Listed')
         setFilter(false)
     }
     const selectGCards = () => {
         localStorage.setItem('dataListed', 'GCards')
         localStorage.setItem('filterName', 'Gift Cards List')
         setDatalisted('GCards')
-        setFiltername('Gift Cards List')
+        setFiltername('Gift Cards Listed')
         setFilter(false)
     }
     const selectGCredits = () => {
         localStorage.setItem('dataListed', 'GCredits')
         localStorage.setItem('filterName', 'Game Credits List')
         setDatalisted('GCredits')
-        setFiltername('Game Credits List')
+        setFiltername('Game Credits Listed')
         setFilter(false)
     }
 
@@ -949,7 +949,7 @@ const insertNewslinkApi = 'https://engeenx.com/agAddNews.php';
                             <section id='gameEditdetails'  style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCreditCovers/${editableData.gamecredit_cover}')no-repeat center`, backgroundSize: 'cover'}}>
                                 <div className="editableGamedata">
                                     <div className="editableGamedata-header">
-                                        <h1>{editableData.gamecredit_name} {editableData.gamecredit_denomination}</h1>
+                                        <h1>{editableData.gamecredit_name} - ${editableData.gamecredit_denomination}</h1>
                                         <p>{editableData.gamecredit_description}</p>
                                     </div>
                                     <div className="editableGamedata-contents">
@@ -1594,6 +1594,9 @@ const insertNewslinkApi = 'https://engeenx.com/agAddNews.php';
                                             <ul>
                                             {viewGiftcardTotal.map(cards => (
                                                 <li key={cards.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${cards.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}} onClick={() => openEditquick(cards)}>
+                                                    <div className="prdgcDenomination">
+                                                        <h6>${cards.giftcard_denomination}</h6>
+                                                    </div>
                                                     <div className="prdGameinfo-edit">
                                                         <section>
                                                             <Link to={`/Giftcards/${cards.giftcard_canonical}`} target='_blank'><button>view card</button></Link>
@@ -1614,6 +1617,9 @@ const insertNewslinkApi = 'https://engeenx.com/agAddNews.php';
                                             <ul>
                                             {viewGamecreditTotal.map(credits => (
                                                 <li key={credits.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCreditCovers/${credits.gamecredit_cover}')no-repeat center`, backgroundSize: 'cover'}} onClick={() => openEditquick(credits)}>
+                                                    <div className="prdgcDenomination">
+                                                        <h6>${credits.gamecredit_denomination}</h6>
+                                                    </div>
                                                     <div className="prdGameinfo-edit">
                                                         <section>
                                                             <Link to={`/GameCredits/${credits.gamecredit_id}`} target='_blank'><button>view card</button></Link>

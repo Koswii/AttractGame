@@ -702,7 +702,7 @@ const Marketplace = () => {
                 <div className="mpPageContentMid7">
                     <>
                         {viewAllGameCredits.slice(0, 10).map((details, i) => (
-                            <Link className="mppContentMid6" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
+                            <Link className="mppContentMid6" key={i} to={`/GameCredits/Robux`} onClick={handleClickGiftcards}>
                                 <img src={`https://2wave.io/GameCreditCovers/${details.gamecredit_cover}`} alt="" />
                             </Link>
                         ))}
