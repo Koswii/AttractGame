@@ -38,38 +38,59 @@ const handleScroll = () => {
 };
 
 useEffect(() => {
-    const container = document.querySelector('.brNewsContents');
+    const container = document.querySelector(".brNewsContents");
     container.addEventListener('scroll', handleScroll);
     return () => container.removeEventListener('scroll', handleScroll);
 }, []);
 
 
+const [newsList, setNewslist] = useState();
 
-const [url, setUrl] = useState('');
-const [previewData, setPreviewData] = useState(null);
-const [loading, setLoading] = useState(false);
-const [error, setError] = useState('');
 
-const fetchLinkPreview = async () => {
-  setLoading(true);
-  setError('');
-  try {
-    const response = await axios.get(`http://localhost:5000/link-preview?url=${encodeURIComponent(url)}`);
-    setPreviewData(response.data);
-  } catch (err) {
-    setError('Error fetching preview data');
-  } finally {
-    setLoading(false);
-  }
-};
+useEffect(() => {
+  retrieveDatanews();
+}, []);
 
-const handleInputChange = (e) => {
-  setUrl(e.target.value);
-};
 
-const handleFetchPreview = () => {
-  fetchLinkPreview();
-};
+    const retrieveNews = "https://engeenx.com/agNews.php";
+
+    const retrieveDatanews = async () => {
+      const response = await fetch(retrieveNews);
+      const data = await response.json();
+      setNewslist(data);
+
+      const previews = [];
+      for (const linkObj of data) {
+        const data = await fetchLinkPreview(linkObj.link);
+        if (data) {
+          previews.push({ id: linkObj.id, data });
+        }
+      }
+      setPreviewData(previews);
+    };
+
+    console.log(newsList);
+
+    const [previewData, setPreviewData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    const fetchLinkPreview = async (url) => {
+      setLoading(true);
+      setError("");
+      try {
+        const response = await axios.get(
+          `http://82.197.94.35:5000/link-preview?url=${encodeURIComponent(url)}`
+        );
+        return response.data;
+      } catch (err) {
+        setError("Error fetching preview data");
+        return null;
+      } finally {
+        setLoading(false);
+      }
+    };
+
   return (
     <div className="newsPage">
         <div className="newsMain">
@@ -124,47 +145,17 @@ const handleFetchPreview = () => {
                         <div className="breakingNewsContainer">
                             <section className='brNewsContents'>
                                 <ul>
-                                    {newsItems.map((item, index) => {
-                                        return (
-                                            <li key={index}>
-                                                <img src={item.img} alt="" />
-                                                <h3>{item.heading}</h3>
-                                                <p>{item.content}</p>
-                                            </li>
-                                        );
-                                    })}
+                                    {loading && <p>Loading...</p>}
+                                    {error && <p>{error}</p>}
+                                    {previewData.map((preview) => (
+                                    <li key={preview.id}>
+                                        {preview.data.image && <img src={preview.data.image} alt={preview.data.title} />}
+                                        <h3>{preview.data.title}</h3>
+                                        <p>{preview.data.description}</p>
+                                    </li>
+                                    ))}
                                 </ul>
                             </section>
-                        </div>
-                        <div className="ytNews">
-                            <h2><FaYoutube id='brNewsIcon' />Youtuber plays</h2>
-                            <div className="ytNewsContainer">
-                                <div>
-                                <input
-                                    type="text"
-                                    placeholder="Enter URL"
-                                    value={url}
-                                    onChange={handleInputChange}
-                                />
-                                <button onClick={handleFetchPreview}>Preview</button>
-                                {loading && <p>Loading...</p>}
-                                {error && <p>{error}</p>}
-                                {previewData && (
-                                    <div className="link-preview">
-                                    <img src={previewData.image} alt={previewData.title} />
-                                    <div>
-                                        <h3>{previewData.title}</h3>
-                                        <p>{previewData.description}</p>
-                                    </div>
-                                    </div>
-                                )}
-                                </div>
-                                <ul>
-                                    <li>
-
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </div>

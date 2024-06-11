@@ -16,6 +16,7 @@ import {
 } from "react-icons/ri";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { VscSaveAs } from "react-icons/vsc";
+import { IoMdAddCircle } from "react-icons/io";
 import axios from 'axios';
 import {getGameReviews} from 'unofficial-metacritic';
 import { Link } from 'react-router-dom';
@@ -725,6 +726,37 @@ const Admin = () => {
             })
         }
     }
+
+// news
+
+const [newsLink,setNewslink] = useState()
+
+
+
+const handleChangeNewslinkinput = (event) => {
+    setNewslink(event.target.value)
+}
+
+
+const insertNewslinkApi = 'https://engeenx.com/agAddNews.php';
+
+    const addNews = async (e) => {
+        e.preventDefault();
+
+        const newsLinkInput = {
+            agNewsLink: newsLink,
+        };
+        try {
+            console.log(newsLinkInput);
+            const response = await axios.post(insertNewslinkApi, newsLinkInput);
+            console.log(response);
+            setTimeout(() => {
+                window.location.reload()
+            }, 1000);
+        } catch (error) {
+            console.error('There was an error!', error);
+        }
+    };
     return (
         <div className='mainContainer admin'>
             {dataListed === 'Games' &&(
@@ -1601,9 +1633,19 @@ const Admin = () => {
                             <div className="admpcm1NewsContainer">
                                 <div className="admpcm1NewsHeader">
                                     <h1>Welcome Admin!</h1>
+                                    <p>Access and add latest news articles here</p>
                                 </div>
+                                <hr />
                                 <div className="admpcm1NewsContents">
-
+                                    <form onSubmit={addNews}>
+                                        <div className="admpcm1Addnews">
+                                            <p>Add news link here</p>
+                                            <div className="admpcm1AddnewsInput">
+                                                <input type="text" value={newsLink} onChange={handleChangeNewslinkinput}/>
+                                                <IoMdAddCircle id='addNewsbtnIcon'/>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
