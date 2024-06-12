@@ -29,7 +29,7 @@ h6{
     width: 100%;
     background: black;
     position: relative;
-    padding-bottom: 10vw;
+    padding-bottom: 5vw;
 }
 
 
@@ -773,7 +773,7 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     justify-content: right;
     align-items: center;
 }
-.mppcm4GiftCard div button{
+.mppcm4GiftCard div a{
     padding: 2% 10%;
     border: solid 2px white;
     border-radius: 50px;
@@ -782,8 +782,9 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     font-size: 0.7vw;
     color: white;
     cursor: pointer;
+    text-decoration: none;
 }
-.mppcm4GiftCard div button:hover{
+.mppcm4GiftCard div a:hover{
     background: white;
     color: black;
     transition: 400ms ease;
@@ -1111,7 +1112,7 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     .mppcm4GiftCard p{
         font-size: 2.3vw;
     }
-    .mppcm4GiftCard div button{
+    .mppcm4GiftCard div a{
         padding: 2% 10%;
         font-size: 2.3vw;
     }
