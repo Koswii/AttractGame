@@ -19,7 +19,9 @@ import {
 import { 
     TbShoppingCartBolt,
     TbShoppingCartFilled,
-    TbShoppingCartPlus, 
+    TbShoppingCartPlus,
+    TbShoppingCartOff, 
+    TbDiamond,
     TbDeviceGamepad2,
     TbGiftCard,
     TbHeart,
@@ -39,6 +41,7 @@ import axios from 'axios';
 
 
 const LoginUserID = localStorage.getItem('profileUserID');
+const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
 const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
 const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
 const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
@@ -84,6 +87,21 @@ const fetchGames = async (setLoadingMarketData1, setViewAllGamesNum, setViewAGDa
 
         const gameCSFeatMetacritic = sortedCurrentYearGames.map(game => game.game_title.toLowerCase().replace(/\s/g, '-'));
         const gameCSFeatWikipedia = sortedCurrentYearGames.map(game => game.game_title_ext1.replace(/\s/g, '_') || game.game_title.replace(/\s/g, '_'));
+        const stockListResponse = await axios.get(AGStocksListAPI);
+        const stockListData = stockListResponse.data;
+
+
+        const calculateEffectivePrice = (price, discount) => {
+            return price - (price * (discount / 100));
+        };
+        const stockInfo = sortedCurrentYearGames.map(games => {
+            const stock = stockListData.find(stock => stock.ag_product_id === games.game_canonical);
+            const stockCount = stockListData.filter(stock => stock.ag_product_id === games.game_canonical).length;
+            const effectivePrice = calculateEffectivePrice(stock.ag_product_price, stock.ag_product_discount);
+            return {
+                ...games, stock, stockCount,
+            };
+        });
 
         setViewAllGamesNum(agAllGames);
         setViewAGData1(sortedCurrentYearGames);
@@ -91,10 +109,11 @@ const fetchGames = async (setLoadingMarketData1, setViewAllGamesNum, setViewAGDa
         setViewMetacriticData(gameCSFeatMetacritic);
         setViewWikiData(gameCSFeatWikipedia)
 
-        if (sortedCurrentYearGames.length > 0) {
-            const randomItems = getRandomItems(sortedCurrentYearGames, 15);
+        if (stockInfo.length > 0) {
+            const randomItems = getRandomItems(stockInfo, 15);
             setViewAllListedGames(randomItems);
         }
+
     } catch (error) {
         console.error(error);
     } finally {
@@ -496,7 +515,7 @@ const Marketplace = () => {
                         ))}
                     </>}
                 </div>
-                <h4 id='mppcmhTitles'><TbDeviceGamepad2 className='faIcons'/> AVAILABLE GAMES</h4>
+                <h4 id='mppcmhTitles'><TbDeviceGamepad2 className='faIcons'/> LISTED GAMES</h4>
                 <div className="mpPageContentMid2 website">
                     {loadingMarketData1 ? <>
                         <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
@@ -532,14 +551,21 @@ const Marketplace = () => {
                             <h5>{details.game_title}</h5>
                             <p>{details.game_edition}</p>
                             <div>
-                                <div id="mppcm2GDView"><h5>$999.99</h5></div>
+                                <div id="mppcm2GDView">
+                                    <h5>$ {(details.stock === undefined) ? 
+                                        '--.--': 
+                                        ((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
+                                    </h5>
+                                    </div>
                                 {userLoggedIn ?<>
                                     <button id={favorites.includes(details.game_canonical) ? 'mppcm2GDHRemove' : 'mppcm2GDAdd'} onClick={() => handleFavoriteToggle(details)}>
                                         {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
                                     </button>
                                     {productCart.some(cartItem => cartItem.ag_product_id === details.game_canonical) ?
                                         <button id='mppcm2GDAddedCart'><TbShoppingCartFilled className='faIcons'/></button>:
-                                        <button id='mppcm2GDCart' onClick={() => handleAddToCartGame(details)}><TbShoppingCartPlus className='faIcons'/></button>
+                                        <button id='mppcm2GDCart' onClick={() => handleAddToCartGame(details)} disabled={(details.stockCount === 0) ? true : false}>
+                                            {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
+                                        </button>
                                     }
                                 </>:<>
                                     <button id='mppcm2GDAdd'><TbHeart className='faIcons'/></button>
@@ -579,14 +605,21 @@ const Marketplace = () => {
                             <h5>{details.game_title}</h5>
                             <p>{details.game_edition}</p>
                             <div>
-                                <div id="mppcm2GDView"><h5>$999.99</h5></div>
+                                <div id="mppcm2GDView">
+                                    <h5>$ {(details.stock === undefined) ? 
+                                        '--.--': 
+                                        ((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
+                                    </h5>
+                                </div>
                                 {userLoggedIn ?<>
                                     <button id={favorites.includes(details.game_canonical) ? 'mppcm2GDHRemove' : 'mppcm2GDAdd'} onClick={() => handleFavoriteToggle(details)}>
                                         {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
                                     </button>
                                     {productCart.some(cartItem => cartItem.ag_product_id === details.game_canonical) ?
                                         <button id='mppcm2GDAddedCart'><TbShoppingCartFilled className='faIcons'/></button>:
-                                        <button id='mppcm2GDCart' onClick={() => handleAddToCartGame(details)}><TbShoppingCartPlus className='faIcons'/></button>
+                                        <button id='mppcm2GDCart' onClick={() => handleAddToCartGame(details)} disabled={(details.stockCount === 0) ? true : false}>
+                                            {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
+                                        </button>
                                     }
                                 </>:<>
                                     <button id='mppcm2GDAdd'><TbHeart className='faIcons'/></button>
@@ -698,10 +731,10 @@ const Marketplace = () => {
                 <div className="mpPageContentM2ShowMore">
                     <Link to='/Giftcards' onClick={handleClickGiftcards}><TbSquareRoundedArrowRight className='faIcons'/> View More Giftcards</Link>
                 </div>
-                <h4 id='mppcmhTitles'><TbGiftCard className='faIcons'/> AVAILABLE GAME CREDITS</h4>
+                <h4 id='mppcmhTitles'><TbDiamond className='faIcons'/> AVAILABLE GAME CREDITS</h4>
                 <div className="mpPageContentMid7">
                     <>
-                        {viewAllGameCredits.slice(0, 10).map((details, i) => (
+                        {viewAllGameCredits.slice(0, 1).map((details, i) => (
                             <Link className="mppContentMid6" key={i} to={`/GameCredits/Robux`} onClick={handleClickGiftcards}>
                                 <img src={`https://2wave.io/GameCreditCovers/${details.gamecredit_cover}`} alt="" />
                             </Link>

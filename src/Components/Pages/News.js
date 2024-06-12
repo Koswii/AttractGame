@@ -4,7 +4,12 @@ import { Link } from 'react-router-dom';
 // css
 import '../CSS/news.css'
 // icons
-import { ImNewspaper } from "react-icons/im";
+import { 
+    ImNewspaper 
+} from "react-icons/im";
+import { 
+    MdNewspaper,
+  } from "react-icons/md";
 import { FaYoutube } from "react-icons/fa";
 
 const News = () => {
