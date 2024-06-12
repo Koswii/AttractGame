@@ -645,7 +645,7 @@ const Marketplace = () => {
                         <p>Purchase Roblox Giftcards to get AG Points and a chance to win on Attract Game's monthly Raffle</p>
                         <img src={require('../assets/imgs/GiftCards/RobloxGiftCard.png')} alt="" />
                         <div>
-                            <button>View Guide</button>
+                            <Link to='/GameCredits/Robux'>View Guide</Link>
                         </div>
                     </div>
                 </div>
