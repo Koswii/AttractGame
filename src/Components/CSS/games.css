@@ -115,6 +115,7 @@ section.gamesPageContainer.top{
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
+    align-self: start;
 }
 .gmspContentTop2.left section{
     position: relative;
