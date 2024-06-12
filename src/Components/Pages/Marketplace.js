@@ -90,14 +90,9 @@ const fetchGames = async (setLoadingMarketData1, setViewAllGamesNum, setViewAGDa
         const stockListResponse = await axios.get(AGStocksListAPI);
         const stockListData = stockListResponse.data;
 
-
-        const calculateEffectivePrice = (price, discount) => {
-            return price - (price * (discount / 100));
-        };
         const stockInfo = sortedCurrentYearGames.map(games => {
             const stock = stockListData.find(stock => stock.ag_product_id === games.game_canonical);
             const stockCount = stockListData.filter(stock => stock.ag_product_id === games.game_canonical).length;
-            const effectivePrice = calculateEffectivePrice(stock.ag_product_price, stock.ag_product_discount);
             return {
                 ...games, stock, stockCount,
             };
