@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { 
     TbShoppingCartPlus,
-    TbShoppingCartFilled,  
+    TbShoppingCartFilled,
+    TbShoppingCartOff,   
     TbHeart,
     TbHeartFilled,     
 } from "react-icons/tb";
@@ -13,6 +14,7 @@ import { TbCategoryFilled } from "react-icons/tb";
 import { MdOutlineFavorite } from "react-icons/md";
 import { VscVersions } from "react-icons/vsc";
 
+const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
 const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
 const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
 const AGUserProductsCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
@@ -21,7 +23,18 @@ const fetchGames = async (setViewAGData1, setLoadingMarketData) => {
         const response1 = await axios.get(AGGamesListAPI1);
         const agAllGames = response1.data;
         const agSortAllGamesByDate = agAllGames.sort((a, b) => new Date(b.game_released) - new Date(a.game_released));
-        setViewAGData1(agSortAllGamesByDate);
+
+        const stockListResponse = await axios.get(AGStocksListAPI);
+        const stockListData = stockListResponse.data;
+
+        const stockInfo = agSortAllGamesByDate.map(games => {
+            const stock = stockListData.find(stock => stock.ag_product_id === games.game_canonical);
+            const stockCount = stockListData.filter(stock => stock.ag_product_id === games.game_canonical).length;
+            return {
+                ...games, stock, stockCount,
+            };
+        });
+        setViewAGData1(stockInfo);
         setLoadingMarketData(true);
     } catch (error) {
         console.error(error);
@@ -111,7 +124,6 @@ const Games = () => {
         {number}
         </li>
     ));
-
     const handleAddFavorite = (details) => {
         const productFavGameCode = details.game_canonical;
         const productFavGameName = details.game_title;
@@ -173,8 +185,6 @@ const Games = () => {
             handleAddFavorite(details);
         }
     };
-
-
     const handleAddToCart = (details) => {
         const productCartGameCode = details.game_canonical;
         const productCartGameName = details.game_title;
@@ -205,10 +215,6 @@ const Games = () => {
             console.log(error);
         });
     };
-
-
-
-    console.log(viewAGData1);
     
     const [filterChanging,setFilterChanging] = useState(false)
     const gamePlatform = [...new Set(viewAGData1.map(game => game.game_platform))].sort();
@@ -221,7 +227,6 @@ const Games = () => {
       edition: {},
       favorite: false,
     });
-  
     const handleFilterChange = (filterType, value) => {
       setFilters(prevFilters => ({
         ...prevFilters,
@@ -232,14 +237,12 @@ const Games = () => {
       }));
       setFilterChanging(true)
     };
-  
     const handleFavoriteChange = () => {
       setFilters(prevFilters => ({
         ...prevFilters,
         favorite: !prevFilters.favorite
       }));
     };
-  
     const filteredDatagames = viewAGData1.filter(game => {
       const platformMatch = filters.platform[game.game_platform] || Object.values(filters.platform).every(v => !v);
       const categoryMatch = filters.category[game.game_category] || Object.values(filters.category).every(v => !v);
@@ -248,14 +251,16 @@ const Games = () => {
   
       return platformMatch && categoryMatch && editionMatch && favoriteMatch;
     });
-
     useEffect(() => {
         // Check if any filter is active
         if (filterChanging && Object.values(filters.platform).every(v => !v) && Object.values(filters.category).every(v => !v) && Object.values(filters.edition).every(v => !v) && !filters.favorite) {
         setFilterChanging(false);
         }
     }, [filters, filterChanging]);
-    console.log(filterChanging);
+
+
+
+
     return (
         <div className='mainContainer gameList'>
             <section className="gamesPageContainer top">
@@ -268,63 +273,62 @@ const Games = () => {
                 </div>
                 <div className="gmspContent top2">
                     <div className="gmspContentTop2 left">
-                    <section>
-                        <div className="filterSelectgames">
-                            <h1>filter items by:</h1>
-                            <p><GiConsoleController id='filterIconcheck'/> Console Platform</p>
-                            <ul>
-                            {gamePlatform.map(platform => (
-                                <li key={platform}>
-                                <input
+                        <section>
+                            <div className="filterSelectgames">
+                                <h1>filter items by:</h1>
+                                <p><GiConsoleController id='filterIconcheck'/> Console Platform</p>
+                                <ul>
+                                {gamePlatform.map(platform => (
+                                    <li key={platform}>
+                                    <input
+                                        type="checkbox"
+                                        checked={filters.platform[platform] || false}
+                                        onChange={() => handleFilterChange('platform', platform)}
+                                    /> {platform}
+                                    </li>
+                                ))}
+                                </ul>
+                                <p><TbCategoryFilled id='filterIconcheck'/> Category</p>
+                                <ul>
+                                {gameCategory.map(category => (
+                                    <li key={category}>
+                                    <input
+                                        type="checkbox"
+                                        checked={filters.category[category] || false}
+                                        onChange={() => handleFilterChange('category', category)}
+                                    /> {category}
+                                    </li>
+                                ))}
+                                </ul>
+                                <p><VscVersions id='filterIconcheck'/> Edition</p>
+                                <ul>
+                                {gameEdition.map(edition => (
+                                    <li key={edition}>
+                                    <input
+                                        type="checkbox"
+                                        checked={filters.edition[edition] || false}
+                                        onChange={() => handleFilterChange('edition', edition)}
+                                    /> {edition}
+                                    </li>
+                                ))}
+                                </ul>
+                                <p><MdOutlineFavorite id='filterIconcheck'/> Favorite</p>
+                                <ul>
+                                <li>
+                                    <input
                                     type="checkbox"
-                                    checked={filters.platform[platform] || false}
-                                    onChange={() => handleFilterChange('platform', platform)}
-                                /> {platform}
+                                    checked={filters.favorite}
+                                    onChange={handleFavoriteChange}
+                                    /> Favorite
                                 </li>
-                            ))}
-                            </ul>
-                            <p><TbCategoryFilled id='filterIconcheck'/> Category</p>
-                            <ul>
-                            {gameCategory.map(category => (
-                                <li key={category}>
-                                <input
-                                    type="checkbox"
-                                    checked={filters.category[category] || false}
-                                    onChange={() => handleFilterChange('category', category)}
-                                /> {category}
-                                </li>
-                            ))}
-                            </ul>
-                            <p><VscVersions id='filterIconcheck'/> Edition</p>
-                            <ul>
-                            {gameEdition.map(edition => (
-                                <li key={edition}>
-                                <input
-                                    type="checkbox"
-                                    checked={filters.edition[edition] || false}
-                                    onChange={() => handleFilterChange('edition', edition)}
-                                /> {edition}
-                                </li>
-                            ))}
-                            </ul>
-                            <p><MdOutlineFavorite id='filterIconcheck'/> Favorite</p>
-                            <ul>
-                            <li>
-                                <input
-                                type="checkbox"
-                                checked={filters.favorite}
-                                onChange={handleFavoriteChange}
-                                /> Favorite
-                            </li>
-                            </ul>
-                        </div>
+                                </ul>
+                            </div>
                         </section>
                     </div>
                     <div className='gmspContentTop2 right'>
 
                         {!filterChanging ? 
-                            <>
-                            {loadingMarketData ? <>
+                            <>{loadingMarketData ? <>
                                 {currentItems.map((details, index) => (
                                     <div className="gmspct2Game" key={index}>
                                         <div className="gmspct2gPlatform">
@@ -337,14 +341,19 @@ const Games = () => {
                                             <h5>{details.game_title}</h5>
                                             <p>{details.game_edition}</p>
                                             <div>
-                                                <h6>$ 999.99</h6>
+                                                <h6>$ {(details.stock === undefined) ? 
+                                                    '--.--': 
+                                                    ((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
+                                                </h6>
                                                 {userLoggedIn ?<>
                                                     <button id={favorites.includes(details.game_canonical) ? 'gmspct2gdRemoveFav' : 'gmspct2gdAddFav'} onClick={() => handleFavoriteToggle(details)}>
                                                         {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
                                                     </button>
                                                     {productCart.some(cartItem => cartItem.ag_product_id === details.game_canonical) ?
                                                         <button id='gmspct2gdCartAdded'><TbShoppingCartFilled className='faIcons'/></button>:
-                                                        <button onClick={() => handleAddToCart(details)}><TbShoppingCartPlus className='faIcons'/></button>
+                                                        <button onClick={() => handleAddToCart(details)} disabled={(details.stockCount === 0) ? true : false}>
+                                                            {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
+                                                        </button>
                                                     }
                                                 </>:<>
                                                     <button><TbHeart className='faIcons'/></button>
@@ -385,10 +394,7 @@ const Games = () => {
                                 <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
                                 <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
                                 <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            </>}
-                            </> :
-                            <>
-                            {filteredDatagames.map((details, index) => (
+                            </>}</> :<>{filteredDatagames.map((details, index) => (
                                     <div className="gmspct2Game" key={index}>
                                         <div className="gmspct2gPlatform">
                                             <img src='' platform={details.game_platform} alt="" />
@@ -400,14 +406,19 @@ const Games = () => {
                                             <h5>{details.game_title}</h5>
                                             <p>{details.game_edition}</p>
                                             <div>
-                                                <h6>$ 999.99</h6>
+                                                <h6>$ {(details.stock === undefined) ? 
+                                                    '--.--': 
+                                                    ((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
+                                                </h6>
                                                 {userLoggedIn ?<>
                                                     <button id={favorites.includes(details.game_canonical) ? 'gmspct2gdRemoveFav' : 'gmspct2gdAddFav'} onClick={() => handleFavoriteToggle(details)}>
                                                         {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
                                                     </button>
                                                     {productCart.some(cartItem => cartItem.ag_product_id === details.game_canonical) ?
                                                         <button id='gmspct2gdCartAdded'><TbShoppingCartFilled className='faIcons'/></button>:
-                                                        <button onClick={() => handleAddToCart(details)}><TbShoppingCartPlus className='faIcons'/></button>
+                                                        <button onClick={() => handleAddToCart(details)} disabled={(details.stockCount === 0) ? true : false}>
+                                                            {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
+                                                        </button>
                                                     }
                                                 </>:<>
                                                     <button><TbHeart className='faIcons'/></button>
