@@ -14,11 +14,13 @@ body{
 }
 ::-webkit-scrollbar{
   background: none;
+  height: .4vw;
   width: .2vw;
 }
 ::-webkit-scrollbar-thumb{
   background: white;
   border-radius: .5vw;
+  cursor: pointer;
 }
 ::-webkit-scrollbar-track{
   background: none;

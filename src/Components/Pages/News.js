@@ -1,37 +1,16 @@
 import React,{ useState,useEffect } from 'react'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 // css
 import '../CSS/news.css'
 // icons
 import { ImNewspaper } from "react-icons/im";
 import { FaYoutube } from "react-icons/fa";
-// assets
-import sampleImg from '../assets/imgs/NewsImages/subNews.jpg'
-import sampleImg1 from '../assets/imgs/GameBanners/DefaultNoBanner.png'
-import sampleImg2 from '../assets/imgs/ProfilePics/DefaultProfilePic.png'
-import { Link } from 'react-router-dom';
 
 const News = () => {
 // usestate
-const initialNewsItems  = [
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg1 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg2 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg1 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg1 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg1 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg2 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg1 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg1 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg2 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg1 },
-];
-
-const [newsItems, setNewsItems] = useState(initialNewsItems);
-
 const [newsList, setNewslist] = useState();
+const [loader,setLoader] = useState(true)
 
 
 useEffect(() => {
@@ -70,16 +49,14 @@ useEffect(() => {
           otherlink.push({ id: linkObj.id, data });
         }
       }
-      setSubLinkData(sublink);
-      setMainLinkData(mainlink);
-      const mergeData = (otherlink, filterOther) => {
+      const mergeData = (retrievedaata, filterdata) => {
         const dataMap = new Map();
 
-        otherlink.forEach((item) => {
+        retrievedaata.forEach((item) => {
           dataMap.set(item.id, { ...item });
         });
 
-        filterOther.forEach((item) => {
+        filterdata.forEach((item) => {
           if (dataMap.has(item.id)) {
             dataMap.set(item.id, { ...dataMap.get(item.id), ...item });
           } else {
@@ -90,8 +67,13 @@ useEffect(() => {
         return Array.from(dataMap.values());
       };
 
-      const combined = mergeData(otherlink, filterOther);
-      setPreviewData(combined);
+      const combinedother = mergeData(otherlink, filterOther);
+      const combinedmain = mergeData(mainlink, filterMain);
+      const combinedsub = mergeData(sublink, filterSub);
+      setSubLinkData(combinedsub);
+      setMainLinkData(combinedmain);
+      setPreviewData(combinedother);
+      setLoader(false)
     };
 
     const [previewData, setPreviewData] = useState([]);
@@ -115,17 +97,40 @@ useEffect(() => {
         setLoading(false);
       }
     };
-    console.log(previewData);
+
+
   return (
     <div className="newsPage">
       <div className="newsMain">
         <div className="newsContainer">
+          {loader ? 
+          <div className="newsLoader">
+            <div className="newsLoadercontents">
+              <section>
+                <div className="newsLoadercontentsdummy">
+                </div>
+                <div className="newsLoadercontentsdummy">
+                </div>
+                <div className="newsLoadercontentsdummy">
+                </div>
+                <div className="newsLoadercontentsdummy">
+                </div>
+              </section>
+              <div className="dummyLinktext">
+                <div className="dummylinktext"></div>
+                <div className="dummylinktext"></div>
+                <div className="dummylinktext"></div>
+                <div className="dummylinktext"></div>
+              </div>
+            </div>
+          </div>
+          :
           <div className="newsContent">
             {mainLinkData.map((linkdata) => (
               <div
                 className="mainHeadline"
                 style={{
-                  background: `linear-gradient(180deg, rgba(253,251,251,0) 0%, rgba(0,0,0,1) 100%), url('${linkdata.data.image}') center / cover no-repeat`,
+                  background: `linear-gradient(180deg, rgba(253,251,251,0) 0%, rgba(0,0,0,1) 100%), url('${linkdata.data.image}') center no-repeat`, backgroundSize: 'cover'
                 }}
               >
                 <div className="mainHeadlineHeader">
@@ -134,7 +139,7 @@ useEffect(() => {
                     <hr />
                     <p>{linkdata.data.description}</p>
                     <div className="mHHeaderBtns">
-                      <button>Read more</button>
+                      <Link to={linkdata.link} target="_blank"><button>Read more</button></Link>
                     </div>
                   </section>
                 </div>
@@ -144,9 +149,11 @@ useEffect(() => {
                     <ul>
                       {subLinkData.map((link) => (
                         <li key={link.data.id}>
-                          <span>
-                            <img src={link.data.image} alt="" />
-                          </span>
+                          <Link to={link.link} target='_blank'>
+                            <span>
+                              <img src={link.data.image} alt="" />
+                            </span>
+                          </Link>
                           <p>{link.data.description}</p>
                         </li>
                       ))}
@@ -189,7 +196,7 @@ useEffect(() => {
                 </section>
               </div>
             </div>
-          </div>
+          </div>}
         </div>
       </div>
     </div>
