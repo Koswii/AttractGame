@@ -733,36 +733,53 @@ const Admin = () => {
 
 // news
 
-const [newsLink,setNewslink] = useState()
+const [mainnewsLink,setMainNewslink] = useState()
+const [subnewsLink,setSubNewslink] = useState([
+    { id: 'newsID_' + Date.now()+1, type: 'sub', link: '' },
+    { id: 'newsID_' + Date.now()+3, type: 'sub', link: '' },
+    { id: 'newsID_' + Date.now()+4, type: 'sub', link: '' },
+    { id: 'newsID_' + Date.now()+5, type: 'sub', link: '' }
+])
+const [newsLink, setNewsLink] = useState([{ id: 'newsID_' + Date.now(), type: 'other', link: '' }]);
 
+const handleChangeNewsLinkInput = (id, field, value) => {
+    const updatedLinks = newsLink.map(input => input.id === id ? { ...input, [field]: value } : input);
+    setNewsLink(updatedLinks);
+};
 
+const addNewsLinkInput = () => {
+    setNewsLink([...newsLink, { id: 'newsID_' + Date.now(), type: 'other', link: '' }]);
+};
 
-const handleChangeNewslinkinput = (event) => {
-    setNewslink(event.target.value)
+const handleChangeMainNewslinkinput = (event) => {
+    setMainNewslink(event.target.value)
 }
-
-
+const handleChangeSubNewsLinkInput = (id, link) => {
+    const updatedLinks = subnewsLink.map(linkdata => linkdata.id === id ? { ...linkdata, link } : linkdata);
+    setSubNewslink(updatedLinks);
+};
 const insertNewslinkApi = 'https://engeenx.com/agAddNews.php';
 
     const addNews = async (e) => {
         e.preventDefault();
-
-        const newsLinkInput = {
-            agNewsLink: newsLink,
+        const newsData = {
+            mainnewsLink,
+            subnewsLink,
+            newsLink
         };
+
         try {
-            console.log(newsLinkInput);
-            const response = await axios.post(insertNewslinkApi, newsLinkInput);
-            console.log(response);
-            setTimeout(() => {
-                window.location.reload()
-            }, 1000);
+            const response = await axios.post(insertNewslinkApi, newsData);
+            console.log(response.data);
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 1000);
         } catch (error) {
             console.error('There was an error!', error);
         }
     };
 
-    console.log(viewGiftcardTotal);
+    
     return (
         <div className='mainContainer admin'>
             {dataListed === 'Games' &&(
@@ -1649,15 +1666,56 @@ const insertNewslinkApi = 'https://engeenx.com/agAddNews.php';
                                 </div>
                                 <hr />
                                 <div className="admpcm1NewsContents">
-                                    <form onSubmit={addNews}>
-                                        <div className="admpcm1Addnews">
-                                            <p>Add news link here</p>
-                                            <div className="admpcm1AddnewsInput">
-                                                <input type="text" value={newsLink} onChange={handleChangeNewslinkinput}/>
-                                                <IoMdAddCircle id='addNewsbtnIcon'/>
+                                    <h1>Add news link here</h1>
+                                    <div className="admpcm1Addnews">
+                                        <form onSubmit={addNews}>
+                                            <ul>
+                                                <hr />
+                                                <li>
+                                                    <p>Main News</p>
+                                                    <div className="admpcm1AddnewsInput">
+                                                        <input type="text" value={mainnewsLink} onChange={handleChangeMainNewslinkinput} />
+                                                        <IoMdAddCircle id='addNewsbtnIcon'/>
+                                                    </div>
+                                                </li>
+                                                <hr />
+                                                <li>
+                                                    <p>Sub News</p>
+                                                    {subnewsLink.map(input => (
+                                                        <div className="admpcm1AddnewsInput" key={input.id}>
+                                                            <input
+                                                                type="text"
+                                                                value={input.link}
+                                                                onChange={(e) => handleChangeSubNewsLinkInput(input.id, e.target.value)}
+                                                                required
+                                                            />
+                                                            <IoMdAddCircle id='addNewsbtnIcon'/>
+                                                        </div>
+                                                    ))}
+                                                </li>
+                                                <hr />
+                                                <li>
+                                                    <p>Other News</p>
+                                                    {newsLink.map(input => (
+                                                    <div className="admpcm1AddnewsInput" key={input.id}>
+                                                        <input
+                                                            type="text"
+                                                            value={input.link}
+                                                            onChange={(e) => handleChangeNewsLinkInput(input.id, 'link', e.target.value)}
+                                                        />
+                                                        <IoMdAddCircle id='addNewsbtnIcon'/>
+                                                    </div>
+                                                    ))}
+                                                    <button type='button' onClick={addNewsLinkInput}>add link input</button>
+                                                </li>
+                                                <hr />
+                                            </ul>
+                                            <div className="submitLinksbtn">
+                                                <button type='submit'>add link</button>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
+                                    .
                                 </div>
                             </div>
                         </div>
