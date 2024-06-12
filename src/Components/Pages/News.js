@@ -9,6 +9,7 @@ import { FaYoutube } from "react-icons/fa";
 import sampleImg from '../assets/imgs/NewsImages/subNews.jpg'
 import sampleImg1 from '../assets/imgs/GameBanners/DefaultNoBanner.png'
 import sampleImg2 from '../assets/imgs/ProfilePics/DefaultProfilePic.png'
+import { Link } from 'react-router-dom';
 
 const News = () => {
 // usestate
@@ -30,20 +31,6 @@ const initialNewsItems  = [
 
 const [newsItems, setNewsItems] = useState(initialNewsItems);
 
-const handleScroll = () => {
-    const container = document.querySelector('.breakingNewsContainer');
-    if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
-        setNewsItems((prevNewsItems) => [...prevNewsItems, ...initialNewsItems]);
-    }
-};
-
-useEffect(() => {
-    const container = document.querySelector(".brNewsContents");
-    container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
-}, []);
-
-
 const [newsList, setNewslist] = useState();
 
 
@@ -57,19 +44,59 @@ useEffect(() => {
     const retrieveDatanews = async () => {
       const response = await fetch(retrieveNews);
       const data = await response.json();
-      setNewslist(data);
+      const filterMain = data.filter(link => link.type === 'main')
+      const filterSub = data.filter((link) => link.type === "sub");
+      const filterOther = data.filter((link) => link.type === "other");
+      setNewslist(filterOther);
 
-      const previews = [];
-      for (const linkObj of data) {
+      const mainlink = [];
+      const sublink = [];
+      const otherlink = [];
+      for (const linkObj of filterMain) {
         const data = await fetchLinkPreview(linkObj.link);
         if (data) {
-          previews.push({ id: linkObj.id, data });
+          mainlink.push({ id: linkObj.id, data });
         }
       }
-      setPreviewData(previews);
+      for (const linkObj of filterSub) {
+        const data = await fetchLinkPreview(linkObj.link);
+        if (data) {
+          sublink.push({ id: linkObj.id, data });
+        }
+      }
+      for (const linkObj of filterOther) {
+        const data = await fetchLinkPreview(linkObj.link);
+        if (data) {
+          otherlink.push({ id: linkObj.id, data });
+        }
+      }
+      setSubLinkData(sublink);
+      setMainLinkData(mainlink);
+      const mergeData = (otherlink, filterOther) => {
+        const dataMap = new Map();
+
+        otherlink.forEach((item) => {
+          dataMap.set(item.id, { ...item });
+        });
+
+        filterOther.forEach((item) => {
+          if (dataMap.has(item.id)) {
+            dataMap.set(item.id, { ...dataMap.get(item.id), ...item });
+          } else {
+            dataMap.set(item.id, { ...item });
+          }
+        });
+
+        return Array.from(dataMap.values());
+      };
+
+      const combined = mergeData(otherlink, filterOther);
+      setPreviewData(combined);
     };
 
     const [previewData, setPreviewData] = useState([]);
+    const [mainLinkData, setMainLinkData] = useState([]);
+    const [subLinkData, setSubLinkData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -88,79 +115,85 @@ useEffect(() => {
         setLoading(false);
       }
     };
-
+    console.log(previewData);
   return (
     <div className="newsPage">
-        <div className="newsMain">
-            <div className="newsContainer">
-                <div className="newsContent">
-                    <div className="mainHeadline">
-                        <div className="mainHeadlineHeader">
-                            <section>
-                                <span>Source here</span>
-                                <h1>Headline Here</h1>
-                                <hr />
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. </p>
-                                <div className="mHHeaderBtns">
-                                    <button>Read more</button>
-                                </div>
-                            </section>
-                        </div>
-                        <div className="mainHeadlineContents">
-                            <div className="subNewsContainer">
-                                <h1>More game news</h1>
-                                <ul>
-                                    <li>
-                                        <span>
-                                            <img src={sampleImg} alt="" />
-                                        </span>
-                                        <p>News Headline News Headline</p>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <img src={sampleImg} alt="" />
-                                        </span>
-                                        <p>News Headline News Headline</p>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <img src={sampleImg} alt="" />
-                                        </span>
-                                        <p>News Headline News Headline</p>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <img src={sampleImg} alt="" />
-                                        </span>
-                                        <p>News Headline News Headline</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+      <div className="newsMain">
+        <div className="newsContainer">
+          <div className="newsContent">
+            {mainLinkData.map((linkdata) => (
+              <div
+                className="mainHeadline"
+                style={{
+                  background: `linear-gradient(180deg, rgba(253,251,251,0) 0%, rgba(0,0,0,1) 100%), url('${linkdata.data.image}') center / cover no-repeat`,
+                }}
+              >
+                <div className="mainHeadlineHeader">
+                  <section>
+                    <h1>{linkdata.data.title}</h1>
+                    <hr />
+                    <p>{linkdata.data.description}</p>
+                    <div className="mHHeaderBtns">
+                      <button>Read more</button>
                     </div>
-                    <div className="breakingNews">
-                        <h2><ImNewspaper id='brNewsIcon' />Game News</h2>
-                        <div className="breakingNewsContainer">
-                            <section className='brNewsContents'>
-                                <ul>
-                                    {loading && <p>Loading...</p>}
-                                    {error && <p>{error}</p>}
-                                    {previewData.map((preview) => (
-                                    <li key={preview.id}>
-                                        {preview.data.image && <img src={preview.data.image} alt={preview.data.title} />}
-                                        <h3>{preview.data.title}</h3>
-                                        <p>{preview.data.description}</p>
-                                    </li>
-                                    ))}
-                                </ul>
-                            </section>
-                        </div>
-                    </div>
+                  </section>
                 </div>
+                <div className="mainHeadlineContents">
+                  <div className="subNewsContainer">
+                    <h1>More game news</h1>
+                    <ul>
+                      {subLinkData.map((link) => (
+                        <li key={link.data.id}>
+                          <span>
+                            <img src={link.data.image} alt="" />
+                          </span>
+                          <p>{link.data.description}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="breakingNews">
+              <h2>
+                <ImNewspaper id="brNewsIcon" />
+                Game News
+              </h2>
+              <div className="breakingNewsContainer">
+                <section>
+                  <ul>
+                    {loading && <p>Loading...</p>}
+                    {error && <p>{error}</p>}
+                    {previewData.map((preview) => (
+                      <>
+                        <Link
+                          key={preview.id}
+                          to={preview.link}
+                          target="_blank"
+                        >
+                          <li>
+                            {preview.data.image && (
+                              <img
+                                src={preview.data.image}
+                                alt={preview.data.title}
+                              />
+                            )}
+                            <h3>{preview.data.title}</h3>
+                            <p>{preview.data.description}</p>
+                          </li>
+                        </Link>
+                      </>
+                    ))}
+                  </ul>
+                </section>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-  )
+  );
 }
 
 export default News

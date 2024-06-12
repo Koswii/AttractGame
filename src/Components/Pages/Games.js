@@ -8,8 +8,10 @@ import {
     TbHeart,
     TbHeartFilled,     
 } from "react-icons/tb";
-
-
+import { GiConsoleController } from "react-icons/gi";
+import { TbCategoryFilled } from "react-icons/tb";
+import { MdOutlineFavorite } from "react-icons/md";
+import { VscVersions } from "react-icons/vsc";
 
 const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
 const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
@@ -206,9 +208,54 @@ const Games = () => {
 
 
 
-
-
+    console.log(viewAGData1);
     
+    const [filterChanging,setFilterChanging] = useState(false)
+    const gamePlatform = [...new Set(viewAGData1.map(game => game.game_platform))].sort();
+    const gameCategory = [...new Set(viewAGData1.map(game => game.game_category))].sort();
+    const gameEdition = [...new Set(viewAGData1.map(game => game.game_edition))].sort();
+  
+    const [filters, setFilters] = useState({
+      platform: {},
+      category: {},
+      edition: {},
+      favorite: false,
+    });
+  
+    const handleFilterChange = (filterType, value) => {
+      setFilters(prevFilters => ({
+        ...prevFilters,
+        [filterType]: {
+          ...prevFilters[filterType],
+          [value]: !prevFilters[filterType][value]
+        }
+      }));
+      setFilterChanging(true)
+    };
+  
+    const handleFavoriteChange = () => {
+      setFilters(prevFilters => ({
+        ...prevFilters,
+        favorite: !prevFilters.favorite
+      }));
+    };
+  
+    const filteredDatagames = viewAGData1.filter(game => {
+      const platformMatch = filters.platform[game.game_platform] || Object.values(filters.platform).every(v => !v);
+      const categoryMatch = filters.category[game.game_category] || Object.values(filters.category).every(v => !v);
+      const editionMatch = filters.edition[game.game_edition] || Object.values(filters.edition).every(v => !v);
+      const favoriteMatch = !filters.favorite || game.favorite; // Assuming `game.favorite` indicates if a game is favorite
+  
+      return platformMatch && categoryMatch && editionMatch && favoriteMatch;
+    });
+
+    useEffect(() => {
+        // Check if any filter is active
+        if (filterChanging && Object.values(filters.platform).every(v => !v) && Object.values(filters.category).every(v => !v) && Object.values(filters.edition).every(v => !v) && !filters.favorite) {
+        setFilterChanging(false);
+        }
+    }, [filters, filterChanging]);
+    console.log(filterChanging);
     return (
         <div className='mainContainer gameList'>
             <section className="gamesPageContainer top">
@@ -220,79 +267,159 @@ const Games = () => {
                     </ul>
                 </div>
                 <div className="gmspContent top2">
-                    <div className="gmspContentTop left">
-                        <section>
-                            <div className="filterSelectgames">
-                                <h1>filter by:</h1>
-                                <ul>
-                                    <li>Game Console</li>
-                                </ul>
-                            </div>
+                    <div className="gmspContentTop2 left">
+                    <section>
+                        <div className="filterSelectgames">
+                            <h1>filter items by:</h1>
+                            <p><GiConsoleController id='filterIconcheck'/> Console Platform</p>
+                            <ul>
+                            {gamePlatform.map(platform => (
+                                <li key={platform}>
+                                <input
+                                    type="checkbox"
+                                    checked={filters.platform[platform] || false}
+                                    onChange={() => handleFilterChange('platform', platform)}
+                                /> {platform}
+                                </li>
+                            ))}
+                            </ul>
+                            <p><TbCategoryFilled id='filterIconcheck'/> Category</p>
+                            <ul>
+                            {gameCategory.map(category => (
+                                <li key={category}>
+                                <input
+                                    type="checkbox"
+                                    checked={filters.category[category] || false}
+                                    onChange={() => handleFilterChange('category', category)}
+                                /> {category}
+                                </li>
+                            ))}
+                            </ul>
+                            <p><VscVersions id='filterIconcheck'/> Edition</p>
+                            <ul>
+                            {gameEdition.map(edition => (
+                                <li key={edition}>
+                                <input
+                                    type="checkbox"
+                                    checked={filters.edition[edition] || false}
+                                    onChange={() => handleFilterChange('edition', edition)}
+                                /> {edition}
+                                </li>
+                            ))}
+                            </ul>
+                            <p><MdOutlineFavorite id='filterIconcheck'/> Favorite</p>
+                            <ul>
+                            <li>
+                                <input
+                                type="checkbox"
+                                checked={filters.favorite}
+                                onChange={handleFavoriteChange}
+                                /> Favorite
+                            </li>
+                            </ul>
+                        </div>
                         </section>
                     </div>
                     <div className='gmspContentTop2 right'>
-                        {loadingMarketData ? <>
-                            {currentItems.map((details, index) => (
-                                <div className="gmspct2Game" key={index}>
-                                    <div className="gmspct2gPlatform">
-                                        <img src='' platform={details.game_platform} alt="" />
-                                    </div>
-                                    <Link to={`/Games/${details.game_canonical}`}>{details.game_cover !== '' ?
-                                    <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
-                                    :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
-                                    <div className="gmspct2gDetails">
-                                        <h5>{details.game_title}</h5>
-                                        <p>{details.game_edition}</p>
-                                        <div>
-                                            <h6>$ 999.99</h6>
-                                            {userLoggedIn ?<>
-                                                <button id={favorites.includes(details.game_canonical) ? 'gmspct2gdRemoveFav' : 'gmspct2gdAddFav'} onClick={() => handleFavoriteToggle(details)}>
-                                                    {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
-                                                </button>
-                                                {productCart.some(cartItem => cartItem.ag_product_id === details.game_canonical) ?
-                                                    <button id='gmspct2gdCartAdded'><TbShoppingCartFilled className='faIcons'/></button>:
-                                                    <button onClick={() => handleAddToCart(details)}><TbShoppingCartPlus className='faIcons'/></button>
-                                                }
-                                            </>:<>
-                                                <button><TbHeart className='faIcons'/></button>
-                                                <button><TbShoppingCartPlus className='faIcons'/></button>
-                                            </>}
+
+                        {!filterChanging ? 
+                            <>
+                            {loadingMarketData ? <>
+                                {currentItems.map((details, index) => (
+                                    <div className="gmspct2Game" key={index}>
+                                        <div className="gmspct2gPlatform">
+                                            <img src='' platform={details.game_platform} alt="" />
+                                        </div>
+                                        <Link to={`/Games/${details.game_canonical}`}>{details.game_cover !== '' ?
+                                        <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
+                                        :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
+                                        <div className="gmspct2gDetails">
+                                            <h5>{details.game_title}</h5>
+                                            <p>{details.game_edition}</p>
+                                            <div>
+                                                <h6>$ 999.99</h6>
+                                                {userLoggedIn ?<>
+                                                    <button id={favorites.includes(details.game_canonical) ? 'gmspct2gdRemoveFav' : 'gmspct2gdAddFav'} onClick={() => handleFavoriteToggle(details)}>
+                                                        {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
+                                                    </button>
+                                                    {productCart.some(cartItem => cartItem.ag_product_id === details.game_canonical) ?
+                                                        <button id='gmspct2gdCartAdded'><TbShoppingCartFilled className='faIcons'/></button>:
+                                                        <button onClick={() => handleAddToCart(details)}><TbShoppingCartPlus className='faIcons'/></button>
+                                                    }
+                                                </>:<>
+                                                    <button><TbHeart className='faIcons'/></button>
+                                                    <button><TbShoppingCartPlus className='faIcons'/></button>
+                                                </>}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
-                        </>:<>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                        </>}
+                                ))}
+                            </>:<>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                                <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
+                            </>}
+                            </> :
+                            <>
+                            {filteredDatagames.map((details, index) => (
+                                    <div className="gmspct2Game" key={index}>
+                                        <div className="gmspct2gPlatform">
+                                            <img src='' platform={details.game_platform} alt="" />
+                                        </div>
+                                        <Link to={`/Games/${details.game_canonical}`}>{details.game_cover !== '' ?
+                                        <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
+                                        :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
+                                        <div className="gmspct2gDetails">
+                                            <h5>{details.game_title}</h5>
+                                            <p>{details.game_edition}</p>
+                                            <div>
+                                                <h6>$ 999.99</h6>
+                                                {userLoggedIn ?<>
+                                                    <button id={favorites.includes(details.game_canonical) ? 'gmspct2gdRemoveFav' : 'gmspct2gdAddFav'} onClick={() => handleFavoriteToggle(details)}>
+                                                        {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
+                                                    </button>
+                                                    {productCart.some(cartItem => cartItem.ag_product_id === details.game_canonical) ?
+                                                        <button id='gmspct2gdCartAdded'><TbShoppingCartFilled className='faIcons'/></button>:
+                                                        <button onClick={() => handleAddToCart(details)}><TbShoppingCartPlus className='faIcons'/></button>
+                                                    }
+                                                </>:<>
+                                                    <button><TbHeart className='faIcons'/></button>
+                                                    <button><TbShoppingCartPlus className='faIcons'/></button>
+                                                </>}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </>
+                        }
+
                     </div>
                 </div>
                 {searchGameName == '' && <div className="gmspContent top1 mobile">

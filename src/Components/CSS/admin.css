@@ -1702,14 +1702,41 @@ section.adminPageContainer.mid{
 .admpcm1NewsHeader p{
     font-size: .7vw;
 }
-.admpcm1NewsCards h1{
+.admpcm1NewsContents h1{
     font-size: 1vw;
 }
 .admpcm1Addnews{
     margin: 1vw 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.admpcm1Addnews p{
+.admpcm1Addnews ul{
+    list-style: none;
+    padding: 0;
+    display: flex;
+    margin: 1vw 0 0 0;
+}
+.admpcm1Addnews ul hr{
+    margin: 0 1vw;
+}
+.admpcm1Addnews li button{
+    width: 100%;
+    border: none;
+    outline: .1vw solid white;
+    color: white;
+    background: none;
+    padding: .2vw 0;
+    border-radius: 1vw;
     font-size: .7vw;
+    cursor: pointer;
+}
+.admpcm1Addnews li button:hover{
+    background: white;
+    color: black;
+}
+.admpcm1Addnews h1{
+    font-size: 1vw;
 }
 .admpcm1AddnewsInput{
     outline: .1vw solid white;
@@ -1758,5 +1785,24 @@ section.adminPageContainer.mid{
 }
 .link-preview-admin p{
     font-size: .7vw;
+    color: black;
+}
+
+.submitLinksbtn{
+    margin: 1vw 0 0 0;
+    display: flex;
+    justify-content: center;
+}
+.submitLinksbtn button{
+    padding: .5vw 5vw;
+    background: none;
+    color: white;
+    border: none;
+    outline: .1vw solid white;
+    border-radius: 1vw;
+    cursor: pointer;
+}
+.submitLinksbtn button:hover{
+    background: white;
     color: black;
 }
