@@ -115,27 +115,77 @@ section.gamesPageContainer.top{
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
-    align-items: center;
 }
-
-.gmspContentTop.left section{
+.gmspContentTop2.left section{
     position: relative;
-    width: 100%;
 }
 .filterSelectgames h1{
     font-size: 1vw;
 }
 .filterSelectgames ul{
     list-style: none;
-    position: absolute;
-    z-index: 1;
-    padding: .5vw;
-    top: 2vw;
-    border: 2px solid white;
-}
-.filterSelectgames ul li{
-    font-size: .7vw;
     color: white;
+    margin: .5vw 0 0 0;
+    padding: .5vw;
+    border: 2px solid white;
+    border-radius: .5vw;
+}.filterSelectgames ul li {
+    color: white;
+    padding: .5vw;
+    border-radius: .5vw;
+    cursor: pointer;
+    font-size: .8vw;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.filterSelectgames ul li input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 1vw;
+    height: 1vw;
+    border: .1vw solid white;
+    background: transparent;
+    cursor: pointer;
+    margin: 0 .5vw 0 0;
+    position: relative;
+}
+
+.filterSelectgames ul li input[type="checkbox"]::after {
+    content: "";
+    display: block;
+    width: 0.5vw;
+    height: 1vw;
+    border: solid white;
+    border-width: 0 0.2vw 0.2vw 0;
+    transform: rotate(45deg);
+    position: absolute;
+    top: -.5vw;
+    left: 0.2vw;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.filterSelectgames ul li input[type="checkbox"]:checked::after {
+    opacity: 1;
+}
+
+.filterSelectgames ul li:hover {
+    background: rgb(80, 80, 80);
+    color: white;
+}
+#filterIconcheck{
+    margin: 0 .5vw 0 0;
+}
+.filterSelectgames p {
+    margin: 1vw 0 0 0;
+    display: flex;
+    align-items: center;
+    font-size: 1vw;
+    font-weight: 600;
 }
 
 
