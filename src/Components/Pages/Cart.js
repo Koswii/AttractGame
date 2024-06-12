@@ -147,6 +147,11 @@ const Cart = () => {
     const agProductCharge = (4.5/100);
     const checkoutOverallTotal = productSubtotalSum + (agProductCharge*productSubtotalSum);
 
+    
+    const agProductPointsSum = allPrductsDetails.map(subTotal => subTotal.totalPrice).reduce((acc, cur) => acc + cur, 0);
+    const checkoutOverallAGPoints = agProductPointsSum/10;
+
+
     const handleRemoveFromCart = (details) => {
         const removeDetails = {
             user: userLoggedData.userid,
@@ -381,7 +386,7 @@ const Cart = () => {
                                 <hr />
                                 <span>
                                     <p>AG POINTS</p>
-                                    <h6>99 <FaBolt className='faIcons'/></h6>
+                                    <h6>{checkoutOverallAGPoints.toFixed(0)} <FaBolt className='faIcons'/></h6>
                                 </span>
                                 <span>
                                     <p>PAYABLE</p>
