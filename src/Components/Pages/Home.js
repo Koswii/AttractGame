@@ -41,6 +41,7 @@ const Home = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
   const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
   const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
+  const AGGiftcardsListAPI2 = process.env.REACT_APP_AG_GIFTCARDS_LIST_API2;
   const [viewAllGamesNum, setViewAllGamesNum] = useState([]);
   const [viewAllGiftcard, setViewAllGiftcard] = useState([]);
   const [viewAGData1, setViewAGData1] = useState([]);
@@ -85,7 +86,7 @@ const Home = () => {
     };
 
     const fetchDataGiftcards = () => {
-      axios.get(AGGiftcardsListAPI)
+      axios.get(AGGiftcardsListAPI2)
       .then((response) => {
           const giftcardData = response.data;
           setViewAllGiftcard(giftcardData);
