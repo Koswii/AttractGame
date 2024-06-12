@@ -659,21 +659,21 @@ const Admin = () => {
     }
     const selectGames = () => {
         localStorage.setItem('dataListed', 'Games')
-        localStorage.setItem('filterName','Game List')
+        localStorage.setItem('filterName','Game Listed')
         setDatalisted('Games')
         setFiltername('Game Listed')
         setFilter(false)
     }
     const selectGCards = () => {
         localStorage.setItem('dataListed', 'GCards')
-        localStorage.setItem('filterName', 'Gift Cards List')
+        localStorage.setItem('filterName', 'Gift Cards Listed')
         setDatalisted('GCards')
         setFiltername('Gift Cards Listed')
         setFilter(false)
     }
     const selectGCredits = () => {
         localStorage.setItem('dataListed', 'GCredits')
-        localStorage.setItem('filterName', 'Game Credits List')
+        localStorage.setItem('filterName', 'Game Credits Listed')
         setDatalisted('GCredits')
         setFiltername('Game Credits Listed')
         setFilter(false)

@@ -29,8 +29,284 @@ h6{
     width: 100%;
     background: black;
     position: relative;
-    padding-bottom: 20vw;
+    padding-bottom: 10vw;
+    overflow-x: hidden;
 }
+
+
+
+
+section.robuxPageContainer.top{
+    height: auto;
+    width: 100%;
+    padding: 23vw 10%;
+    padding-bottom: 0;
+    background: 
+        linear-gradient(transparent, black 80%),
+        url('../assets/imgs/LandingImg/RobloxCoverImg00.png') no-repeat center;
+    background-size: cover;
+}
+.rbPageContentTop{
+    height: 23vw;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+.rbpcTopContainer.left{
+    height: auto;
+    width: 35%;
+    position: relative;
+}
+.rbpcTopContainer.left img{
+    height: auto;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    box-shadow: 0 0 10px gray;
+    border-radius: 1vw;
+}
+.rbpcTopContainer.right{
+    height: auto;
+    width: 60%;
+    position: relative;
+}
+.rbpcTopContainer.right h6{
+    font-weight: 400;
+    font-size: 1.5vw;
+}
+.rbpcTopContainer.right p span{
+    margin-left: 5%;
+}
+.rbpcTopContainer.right p#rbpcrcrTextMobile{
+    display: none;
+}
+
+section.robuxPageContainer.mid{
+    height: auto;
+    width: 100%;
+    padding: 2vw 10%;
+    padding-bottom: 0;
+    margin-top: -1vw;
+    background: black;
+}
+
+.rbPageContentMid2{
+    height: auto;
+    width: 100%;
+    margin: 7% 0;
+}
+.rbPageContentMid2 h4{
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.rbPageContentMid2 h4 .faIcons{
+    margin-right: 1%;
+}
+.rbPageContentMid2 h5{
+    width: 100%;
+    font-weight: 400;
+    margin-left: 3.5%;
+    color: gray;
+    font-size: 1vw;
+}
+.rbpcMid2Container{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 3% 0;
+}
+.rbpcm2Content{
+    height: auto;
+    width: 19%;
+    position: relative;
+    padding: 1%;
+    background: url('../assets/imgs/13551.png') no-repeat center;
+    background-size: cover;
+    box-shadow: 0 0 10px gray;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: 400ms ease;
+    border-radius: 1.5vw;
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 1.5%;
+}
+.rbpcm2Content:hover{
+    box-shadow: 0 0 10px white;
+    transform: translateY(-10px);
+    transition: 400ms ease;
+}
+.rbpcm2Content img{
+    height: auto;
+    width: 100%;
+    border-radius: 1vw;
+    margin-bottom: 2%;
+}
+.rbpcm2Content div{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2% 5%;
+}
+.rbpcm2Content div h6{
+    font-size: 2vw;
+}
+.rbpcm2Content div button{
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 2vw;
+    line-height: 1vw;
+    color: white;
+    cursor: pointer;
+}
+.rbpcm2Content p{
+    text-align: right;
+    padding: 0 5%;
+    color: gray;
+}
+.rbpcm2Content.noStocks{
+    opacity: 50%;
+}
+.rbpcm2Content.noStocks div button{
+    cursor: not-allowed;
+}
+.rbpcm2Content.noStocks:hover{
+    box-shadow: 0 0 10px gray;
+    transform: translateY(0);
+}
+
+.rbpcm2ContentDummy{
+    height: 24.5vw;
+    width: 19%;
+    border-radius: 1.5vw;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+    margin-bottom: 1%;
+}
+
+
+
+
+
+
+
+
+@media screen and (max-width: 500px){
+    section.robuxPageContainer.top{
+        height: auto;
+        width: 100%;
+        padding: 0 5%;
+        padding-top: 15vh;
+    }
+    .rbPageContentTop{
+        height: auto;
+        width: 100%;
+        position: relative;
+        display: block;
+    }
+    .rbpcTopContainer.left{
+        height: auto;
+        width: 100%;
+        position: relative;
+        padding: 5%;
+    }
+    .rbpcTopContainer.left img{
+        position: relative;
+        border-radius: 3vw;
+    }
+    .rbpcTopContainer.right{
+        width: 100%;
+        text-align: center;
+    }
+    .rbpcTopContainer.right h3{
+        font-size: 6vw;
+    }
+    .rbpcTopContainer.right h6{
+        font-size: 3vw;
+    }
+    .rbpcTopContainer.right p{
+        font-size: 3vw;
+    }
+    .rbpcTopContainer.right p span{
+        display: none;
+    }
+    .rbpcTopContainer.right p#rbpcrcrTextWebsite{
+        display: none;
+    }
+    .rbpcTopContainer.right p#rbpcrcrTextMobile{
+        display: block;
+    }
+    section.robuxPageContainer.mid{
+        padding: 2vw 5%;
+        padding-top: 5vw;
+    }
+    .rbPageContentMid2 h4{
+        font-size: 5vw;
+        text-align: center;
+        justify-content: center;
+    }
+    .rbPageContentMid2 h5{
+        margin-left: 0%;
+        text-align: center;
+        font-size: 3vw;
+    }
+    .rbpcMid2Container{
+        margin: 5% 0;
+    }
+    .rbpcm2Content{
+        width: 48%;
+        margin-bottom: 5%;
+        padding: 1%;
+        border-radius: 3vw;
+    }
+    .rbpcm2Content img {
+        margin-bottom: 0%;
+    }
+    .rbpcm2Content div h6{
+        font-size: 5vw;
+    }
+    .rbpcm2Content div button{
+        font-size: 5vw;
+        line-height: 3vw;
+    }
+    .rbpcm2Content p{
+        font-size: 3vw;
+    }
+    .rbpcm2ContentDummy{
+        height: 71vw;
+        width: 48%;
+        border-radius: 3vw;
+        margin-bottom: 5%;
+    }
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
 
 
 

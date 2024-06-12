@@ -21,6 +21,7 @@ import {
     TbShoppingCartBolt, 
     TbShoppingCartPlus,
     TbShoppingCartFilled,  
+    TbShoppingCartOff,
     TbDeviceGamepad2,
     TbGiftCard,
     TbHeart,
@@ -51,6 +52,7 @@ const formatDateToWordedDate = (numberedDate) => {
 const Game = () => {
     const { gameCanonical } = useParams();
     const { setActivePage } = useActivePage();
+    const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
     const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
     const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
     const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
@@ -84,7 +86,6 @@ const Game = () => {
                 setUserLoggedData(JSON.parse(storedProfileData))
             }
         };
-
         const fetchGameData = async () => {
             try {
                 const response = await axios.get(AGGamesListAPI1);
@@ -133,7 +134,14 @@ const Game = () => {
                 const publisher = targetElementPublisher ? targetElementPublisher.textContent.trim() : '';
                 const genre = targetElementGenre ? targetElementGenre.textContent.trim() : '';
 
-                const combinedMetaWikiData = {...wikipediaResponse, ...viewAGData1, metascore, metadescription, release, publisher, genre}
+
+                const stockListResponse = await axios.get(AGStocksListAPI);
+                const stockListData = stockListResponse.data;
+                const stockCount = stockListData.filter(stock => stock.ag_product_id === gameCanonical).length;
+                const stock = stockListData.find(stock => stock.ag_product_id === gameCanonical);
+
+                const combinedMetaWikiData = {...wikipediaResponse, ...viewAGData1, metascore, metadescription, release, publisher, genre, stockCount, stock};
+                
 
                 if(combinedMetaWikiData.genre === "" && combinedMetaWikiData.title === "Not found."){
                     setLoadingMarketData(false);
@@ -151,6 +159,9 @@ const Game = () => {
                     const cartData = cartResponse.data.filter(product => product.ag_user_id === LoginUserID);
                     const cartGameCodes = cartData.map(cartItem => cartItem.ag_product_id);
                     setIsInCart(cartGameCodes.includes(combinedMetaWikiData.game_canonical));
+
+
+
                 }
 
             } catch (error) {
@@ -308,22 +319,28 @@ const Game = () => {
                             </div>
                         </div>
                         <div className="gppctgdrExtras">
-                            <h4>$ 999.99</h4>
+                            <h4>$ {
+                                (scrapedMetacriticData.stock === undefined) ? 
+                                '--.--': 
+                                ((parseFloat(scrapedMetacriticData.stock.ag_product_price) - parseFloat(scrapedMetacriticData.stock.ag_product_discount / 100) * parseFloat(scrapedMetacriticData.stock.ag_product_price)).toFixed(2))}
+                            </h4>
                             {userLoggedIn ?<>
                                 <button id={isFavorite ? 'gppct2gdRemoveFav' : 'gppct2gdAddFav'} onClick={handleFavoriteToggle}>
                                     {isFavorite ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
                                 </button>
                                 {isInCart ? 
                                     <button id='gppct2gdGameCart'><TbShoppingCartFilled className='faIcons'/></button>:
-                                    <button onClick={handleAddToCart}><TbShoppingCartPlus className='faIcons'/></button>
+                                    <button onClick={handleAddToCart} disabled={(scrapedMetacriticData.stock === undefined) ? true : false}>
+                                        {(scrapedMetacriticData.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
+                                    </button>
                                 }
                             </>:<>
                                 <button><TbHeart className='faIcons'/></button>
                                 <button><TbShoppingCartPlus className='faIcons'/></button>
                             </>}
                             <div>
-                                <h6>Game On-Stock</h6>
-                                <p>24 Stocks</p>
+                                <h6>{(scrapedMetacriticData.stockCount === 0 ? 'Out of Stock':'Game On-Stock')}</h6>
+                                <p>{scrapedMetacriticData.stockCount} Stocks</p>
                             </div>
                         </div>
                     </div>
@@ -375,7 +392,12 @@ const Game = () => {
                                 <h5>{details.game_title}</h5>
                                 <p>{details.game_edition}</p>
                                 <div>
-                                    <div id="mppcm2GDView"><h5>$999.99</h5></div>
+                                    <div id="mppcm2GDView">
+                                        <h5>$ {(details.stock === undefined) ? 
+                                            '--.--': 
+                                            ((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
+                                        </h5>
+                                    </div>
                                     {/* <button id='mppcm2GDHeart'><TbHeart className='faIcons'/></button>
                                     <button id='mppcm2GDCart'><TbShoppingCartBolt className='faIcons'/></button> */}
                                 </div>
@@ -394,7 +416,12 @@ const Game = () => {
                                 <h5>{details.game_title}</h5>
                                 <p>{details.game_edition}</p>
                                 <div>
-                                    <div id="mppcm2GDView"><h5>$999.99</h5></div>
+                                    <div id="mppcm2GDView">
+                                        <h5>$ {(details.stock === undefined) ? 
+                                            '--.--': 
+                                            ((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
+                                        </h5>
+                                    </div>
                                     {/* <button id='mppcm2GDHeart'><TbHeart className='faIcons'/></button>
                                     <button id='mppcm2GDCart'><TbShoppingCartBolt className='faIcons'/></button> */}
                                 </div>

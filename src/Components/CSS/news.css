@@ -13,20 +13,20 @@
     position: absolute;
     width: 30vw;
     top: 30%;
-    right: 5vw;
+    right: 10vw;
     text-align: right;
 }
 .mainHeadline section span{
-    font-size: .7vw;
+    font-size: .9vw;
     text-shadow: .2vw .2vw .5vw black;
     color: white;
 }
 .mainHeadline section h1{
-    font-size: 2vw;
+    font-size: 3vw;
     text-shadow: .2vw .2vw .5vw black;
 }
 .mainHeadline section p{
-    font-size: .7vw;
+    font-size: .9vw;
     text-shadow: .2vw .2vw .5vw black;
 }
 .mainHeadline section hr{
@@ -36,20 +36,20 @@
     margin: 1vw 0 0 0;
 }
 .mHHeaderBtns button{
-    padding: .5vw 2vw;
-    border: none;
-    outline: 2px solid white;
-    background: none;
     color: white;
-    font-size: .7vw;
-    cursor: pointer;
-    transition: .3s ease;
+    text-decoration: none;
+    padding: 1% 5%;
     border-radius: 50px;
+    border: solid 2px white;
+    font-size: 0.9vw;
+    opacity: 50%;
+    background: none;
 }
 .mHHeaderBtns button:hover{
-    background: white;
-    color: black;
-    outline: 0;
+    /* color: black; */
+    opacity: 100%;
+    transition: 400ms ease;
+    box-shadow: 0 0 10px white;
 }
 
 
@@ -61,7 +61,7 @@
     box-sizing: border-box;
 }
 .subNewsContainer h1{
-    font-size: 1vw;
+    font-size: 2vw;
     text-transform: uppercase;
     text-shadow: .5vw .5vw 1vw black;
 }
@@ -81,20 +81,22 @@
     justify-content: center;
     overflow: hidden;
     margin: .5vw 0;
-    border: .1vw solid white;
+    /* border: .1vw solid white; */
+    box-shadow: 0 0 10px gray;
+    border-radius: 1vw;
     cursor: pointer;
     transition: .3s ease;
 }
 .subNewsContainer ul li span:hover{
     transform: scale(1.05);
-    box-shadow: 0 0 1vw white;
+    box-shadow: 0 0 15px white;
 }
 .subNewsContainer ul li span img{
     height: auto;
     width: 100%;
 }
 .subNewsContainer ul li p{
-    font-size: .7vw;
+    font-size: .9vw;
     text-shadow: .5vw .5vw 1vw black;
 }
 
@@ -128,8 +130,8 @@
     padding: .5vw;
     border-radius: .5vw;
     background: white;
-    width: 15vw;
-    margin: .5vw 0;
+    width: 15.5vw;
+    margin-bottom: 5%;
     break-inside: avoid;
 }
 .breakingNewsContainer section ul li img{
@@ -162,7 +164,7 @@
         top: 0;
         right: 0;
         text-align: center;
-        padding: 45vw 10vw 0 10vw;
+        padding: 40vw 10vw 0 10vw;
         box-sizing: border-box;
     }
     .mainHeadline section span{
@@ -182,18 +184,18 @@
         margin: 2vw 0;
     }
     .mHHeaderBtns{
-        margin: 1vw 0 0 0;
+        margin-top: 5%;
     }
     .mHHeaderBtns button{
-        padding: 2vw 10vw;
-        outline: 2px solid white;
+        padding: 1% 10%;
         font-size: 3vw;
-        margin: 2vw 0 0 0;
+        opacity: 100%;
     }
 
     
     .mainHeadlineContents{
-        bottom: 30vw;
+        padding: 0 5%;
+        bottom: 15vw;
     }
     
     .subNewsContainer h1{
@@ -210,11 +212,11 @@
         justify-content: space-between;
     }
     .subNewsContainer ul li span{
-        height: 20vw;
-        width: 38vw;
+        height: 30vw;
+        width: 43vw;
         margin: 5vw 0 1vw 0;
-        border: .1vw solid white;
         cursor: pointer;
+        border-radius: 2vw;
         transition: .3s ease;
     }
     .subNewsContainer ul li span:hover{
@@ -222,8 +224,8 @@
         box-shadow: 0 0 1vw white;
     }
     .subNewsContainer ul li span img{
-        height: auto;
-        width: 100%;
+        height: 100%;
+        width: auto;
     }
     .subNewsContainer ul li p{
         font-size: 3vw;
@@ -233,21 +235,18 @@
     
     
     .breakingNews{
-        padding: 0 10%;
+        padding: 0 5%;
     }
     #brNewsIcon{
         margin: 0 1vw 0 0;
     }
     .breakingNews h2{
-        margin: 5vw 0 0 0;
-        font-size: 4vw;
-        display: flex;
-        align-items: center;
+        display: none;
     }
     .breakingNewsContainer section{
-        margin: 5vw 0;
+        margin: 0;
         height: 100vh;
-        padding: 1vw 0;
+        padding: 0;
     }
     .breakingNewsContainer section ul{
         columns: 2;
@@ -256,7 +255,6 @@
     .breakingNewsContainer section ul li{
         padding: 1vw;
         width: 100%;
-        margin: 2vw 0;
     }
     .breakingNewsContainer section ul li h3{
         font-size: 4vw;
