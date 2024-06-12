@@ -6,7 +6,7 @@ import {
     FaSortAlphaDown,
     FaSortAlphaUp,
     FaCheck,
-    FaSearch 
+    FaSearch
 } from 'react-icons/fa';
 import { FiEdit } from "react-icons/fi";
 import { 
@@ -16,11 +16,10 @@ import {
 } from "react-icons/ri";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { VscSaveAs } from "react-icons/vsc";
-import { IoMdAddCircle } from "react-icons/io";
+import { IoMdAddCircle, IoMdCheckmarkCircle } from "react-icons/io";
 import axios from 'axios';
 import {getGameReviews} from 'unofficial-metacritic';
 import { Link } from 'react-router-dom';
-import bcrypt from 'bcryptjs';
 
 
 const formatDateToWordedDate = (numberedDate) => {
@@ -733,36 +732,78 @@ const Admin = () => {
 
 // news
 
-const [newsLink,setNewslink] = useState()
+const [mainnewsLink,setMainNewslink] = useState()
+const [subnewsLink,setSubNewslink] = useState([
+    { id: 'newsID_' + Date.now()+1, type: 'sub', link: '' },
+    { id: 'newsID_' + Date.now()+3, type: 'sub', link: '' },
+    { id: 'newsID_' + Date.now()+4, type: 'sub', link: '' },
+    { id: 'newsID_' + Date.now()+5, type: 'sub', link: '' }
+])
+const [newsLink, setNewsLink] = useState([{ id: 'newsID_' + Date.now(), type: 'other', link: '' }]);
 
+const handleChangeNewsLinkInput = (id, field, value) => {
+    const updatedLinks = newsLink.map(input => input.id === id ? { ...input, [field]: value } : input);
+    setNewsLink(updatedLinks);
+};
 
+const addNewsLinkInput = () => {
+    setNewsLink([...newsLink, { id: 'newsID_' + Date.now(), type: 'other', link: '' }]);
+};
 
-const handleChangeNewslinkinput = (event) => {
-    setNewslink(event.target.value)
+const handleChangeMainNewslinkinput = (event) => {
+    setMainNewslink(event.target.value)
 }
-
-
+const handleChangeSubNewsLinkInput = (id, link) => {
+    const updatedLinks = subnewsLink.map(linkdata => linkdata.id === id ? { ...linkdata, link } : linkdata);
+    setSubNewslink(updatedLinks);
+};
 const insertNewslinkApi = 'https://engeenx.com/agAddNews.php';
+const retriveNewsapi = "https://engeenx.com/agNews.php";
 
     const addNews = async (e) => {
         e.preventDefault();
-
-        const newsLinkInput = {
-            agNewsLink: newsLink,
+        const newsData = {
+            mainnewsLink,
+            subnewsLink,
+            newsLink
         };
+
         try {
-            console.log(newsLinkInput);
-            const response = await axios.post(insertNewslinkApi, newsLinkInput);
-            console.log(response);
+            const response = await axios.post(insertNewslinkApi, newsData);
             setTimeout(() => {
-                window.location.reload()
+                window.location.reload();
             }, 1000);
         } catch (error) {
             console.error('There was an error!', error);
         }
     };
 
-    console.log(viewGiftcardTotal);
+    const [dataNewsretrieve,setDataNewsRetrieve] = useState()
+    useEffect(() => {
+        retriveNews()
+    }, [])
+    
+    const retriveNews = async () => {
+        const response = await fetch(retriveNewsapi)
+        const data = await response.json()
+        const sortedData = [...data].sort((a,b) => {
+            return a.type.localeCompare(b.type)
+        })
+        setDataNewsRetrieve(sortedData);
+    }
+    const deleteNewsLink = async (news_id, type) => {
+        try {
+            const response = await axios.delete('https://engeenx.com/agDeleteNews.php', { data: { id: news_id, type } });
+            if (response.data.success) {
+                setDataNewsRetrieve(dataNewsretrieve.filter(link => link.news_id !== news_id));
+                retriveNews()
+            } else {
+                console.error('There was an error deleting the link!', response.data.message);
+            }
+        } catch (error) {
+            console.error('There was an error deleting the link!', error);
+        }
+    };
     return (
         <div className='mainContainer admin'>
             {dataListed === 'Games' &&(
@@ -1649,15 +1690,80 @@ const insertNewslinkApi = 'https://engeenx.com/agAddNews.php';
                                 </div>
                                 <hr />
                                 <div className="admpcm1NewsContents">
-                                    <form onSubmit={addNews}>
-                                        <div className="admpcm1Addnews">
-                                            <p>Add news link here</p>
-                                            <div className="admpcm1AddnewsInput">
-                                                <input type="text" value={newsLink} onChange={handleChangeNewslinkinput}/>
-                                                <IoMdAddCircle id='addNewsbtnIcon'/>
+                                    <h1>Add news link here</h1>
+                                    <div className="admpcm1Addnews">
+                                        <section>
+                                            <ul>
+                                                <hr />
+                                                <li>
+                                                    <p>Main News</p>
+                                                    <div className="admpcm1AddnewsInput">
+                                                        <input type="text" value={mainnewsLink} onChange={handleChangeMainNewslinkinput} />
+                                                        {!mainnewsLink ? <IoMdAddCircle id='addNewsbtnIcon'/> : <IoMdCheckmarkCircle id='addNewsbtnIcon'/>}
+                                                    </div>
+                                                </li>
+                                                <hr />
+                                                <li>
+                                                    <p>Sub News</p>
+                                                    {subnewsLink.map(input => (
+                                                        <div className="admpcm1AddnewsInput" key={input.id}>
+                                                            <input
+                                                                type="text"
+                                                                value={input.link}
+                                                                onChange={(e) => handleChangeSubNewsLinkInput(input.id, e.target.value)}
+                                                                required
+                                                            />
+                                                            {!input.link ? <IoMdAddCircle id='addNewsbtnIcon'/> : <IoMdCheckmarkCircle id='addNewsbtnIcon'/> }
+                                                        </div>
+                                                    ))}
+                                                </li>
+                                                <hr />
+                                                <li>
+                                                    <p>Other News</p>
+                                                    <section>
+                                                        {newsLink.map(input => (
+                                                        <div className="admpcm1AddnewsInput" key={input.id}>
+                                                            <input
+                                                                type="text"
+                                                                value={input.link}
+                                                                onChange={(e) => handleChangeNewsLinkInput(input.id, 'link', e.target.value)}
+                                                            />
+                                                            {!input.link ? <IoMdAddCircle id='addNewsbtnIcon'/> : <IoMdCheckmarkCircle id='addNewsbtnIcon'/> }
+                                                        </div>
+                                                        ))}
+                                                    </section>
+                                                    <button type='button' onClick={addNewsLinkInput}>add link input</button>
+                                                </li>
+                                                <hr />
+                                            </ul>
+                                            <div className="submitLinksbtn">
+                                                <button onClick={addNews}>add link</button>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </section>
+                                    </div>
+                                    <div className="newsContentsTable">
+                                        <table id='linksTable'>
+                                            <thead>
+                                                <tr>
+                                                    <th>link id</th>
+                                                    <th>link</th>
+                                                    <th>type</th>
+                                                    <th>delete</th>
+                                                </tr>
+                                            </thead>
+                                            {dataNewsretrieve&&(
+                                                <tbody>
+                                                {dataNewsretrieve.map(link => (
+                                                    <tr key={link.id}>
+                                                        <td>{link.news_id}</td>
+                                                        <td>{link.link}</td>
+                                                        <td>{link.type}</td>
+                                                        <td><button onClick={() => deleteNewsLink(link.news_id, link.type)}>Delete</button></td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>)}
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

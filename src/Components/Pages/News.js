@@ -1,50 +1,16 @@
 import React,{ useState,useEffect } from 'react'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 // css
 import '../CSS/news.css'
 // icons
 import { ImNewspaper } from "react-icons/im";
 import { FaYoutube } from "react-icons/fa";
-// assets
-import sampleImg from '../assets/imgs/NewsImages/subNews.jpg'
-import sampleImg1 from '../assets/imgs/GameBanners/DefaultNoBanner.png'
-import sampleImg2 from '../assets/imgs/ProfilePics/DefaultProfilePic.png'
 
 const News = () => {
 // usestate
-const initialNewsItems  = [
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg1 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg2 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg1 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg1 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg1 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg2 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg1 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg1 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg2 },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg },
-    { heading: 'heading 1', content: 'news contents Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', img: sampleImg1 },
-];
-
-const [newsItems, setNewsItems] = useState(initialNewsItems);
-
-const handleScroll = () => {
-    const container = document.querySelector('.breakingNewsContainer');
-    if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
-        setNewsItems((prevNewsItems) => [...prevNewsItems, ...initialNewsItems]);
-    }
-};
-
-useEffect(() => {
-    const container = document.querySelector(".brNewsContents");
-    container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
-}, []);
-
-
 const [newsList, setNewslist] = useState();
+const [loader,setLoader] = useState(true)
 
 
 useEffect(() => {
@@ -57,19 +23,62 @@ useEffect(() => {
     const retrieveDatanews = async () => {
       const response = await fetch(retrieveNews);
       const data = await response.json();
-      setNewslist(data);
+      const filterMain = data.filter(link => link.type === 'main')
+      const filterSub = data.filter((link) => link.type === "sub");
+      const filterOther = data.filter((link) => link.type === "other");
+      setNewslist(filterOther);
 
-      const previews = [];
-      for (const linkObj of data) {
+      const mainlink = [];
+      const sublink = [];
+      const otherlink = [];
+      for (const linkObj of filterMain) {
         const data = await fetchLinkPreview(linkObj.link);
         if (data) {
-          previews.push({ id: linkObj.id, data });
+          mainlink.push({ id: linkObj.id, data });
         }
       }
-      setPreviewData(previews);
+      for (const linkObj of filterSub) {
+        const data = await fetchLinkPreview(linkObj.link);
+        if (data) {
+          sublink.push({ id: linkObj.id, data });
+        }
+      }
+      for (const linkObj of filterOther) {
+        const data = await fetchLinkPreview(linkObj.link);
+        if (data) {
+          otherlink.push({ id: linkObj.id, data });
+        }
+      }
+      const mergeData = (retrievedaata, filterdata) => {
+        const dataMap = new Map();
+
+        retrievedaata.forEach((item) => {
+          dataMap.set(item.id, { ...item });
+        });
+
+        filterdata.forEach((item) => {
+          if (dataMap.has(item.id)) {
+            dataMap.set(item.id, { ...dataMap.get(item.id), ...item });
+          } else {
+            dataMap.set(item.id, { ...item });
+          }
+        });
+
+        return Array.from(dataMap.values());
+      };
+
+      const combinedother = mergeData(otherlink, filterOther);
+      const combinedmain = mergeData(mainlink, filterMain);
+      const combinedsub = mergeData(sublink, filterSub);
+      setSubLinkData(combinedsub);
+      setMainLinkData(combinedmain);
+      setPreviewData(combinedother);
+      setLoader(false)
     };
 
     const [previewData, setPreviewData] = useState([]);
+    const [mainLinkData, setMainLinkData] = useState([]);
+    const [subLinkData, setSubLinkData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -89,78 +98,109 @@ useEffect(() => {
       }
     };
 
+
   return (
     <div className="newsPage">
-        <div className="newsMain">
-            <div className="newsContainer">
-                <div className="newsContent">
-                    <div className="mainHeadline">
-                        <div className="mainHeadlineHeader">
-                            <section>
-                                <span>Source here</span>
-                                <h1>Headline Here</h1>
-                                <hr />
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. </p>
-                                <div className="mHHeaderBtns">
-                                    <button>Read more</button>
-                                </div>
-                            </section>
-                        </div>
-                        <div className="mainHeadlineContents">
-                            <div className="subNewsContainer">
-                                <h1>More game news</h1>
-                                <ul>
-                                    <li>
-                                        <span>
-                                            <img src={sampleImg} alt="" />
-                                        </span>
-                                        <p>News Headline News Headline</p>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <img src={sampleImg} alt="" />
-                                        </span>
-                                        <p>News Headline News Headline</p>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <img src={sampleImg} alt="" />
-                                        </span>
-                                        <p>News Headline News Headline</p>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <img src={sampleImg} alt="" />
-                                        </span>
-                                        <p>News Headline News Headline</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="breakingNews">
-                        <h2><ImNewspaper id='brNewsIcon' />Game News</h2>
-                        <div className="breakingNewsContainer">
-                            <section className='brNewsContents'>
-                                <ul>
-                                    {loading && <p>Loading...</p>}
-                                    {error && <p>{error}</p>}
-                                    {previewData.map((preview) => (
-                                    <li key={preview.id}>
-                                        {preview.data.image && <img src={preview.data.image} alt={preview.data.title} />}
-                                        <h3>{preview.data.title}</h3>
-                                        <p>{preview.data.description}</p>
-                                    </li>
-                                    ))}
-                                </ul>
-                            </section>
-                        </div>
-                    </div>
+      <div className="newsMain">
+        <div className="newsContainer">
+          {loader ? 
+          <div className="newsLoader">
+            <div className="newsLoadercontents">
+              <section>
+                <div className="newsLoadercontentsdummy">
                 </div>
+                <div className="newsLoadercontentsdummy">
+                </div>
+                <div className="newsLoadercontentsdummy">
+                </div>
+                <div className="newsLoadercontentsdummy">
+                </div>
+              </section>
+              <div className="dummyLinktext">
+                <div className="dummylinktext"></div>
+                <div className="dummylinktext"></div>
+                <div className="dummylinktext"></div>
+                <div className="dummylinktext"></div>
+              </div>
             </div>
+          </div>
+          :
+          <div className="newsContent">
+            {mainLinkData.map((linkdata) => (
+              <div
+                className="mainHeadline"
+                style={{
+                  background: `linear-gradient(180deg, rgba(253,251,251,0) 0%, rgba(0,0,0,1) 100%), url('${linkdata.data.image}') center no-repeat`, backgroundSize: 'cover'
+                }}
+              >
+                <div className="mainHeadlineHeader">
+                  <section>
+                    <h1>{linkdata.data.title}</h1>
+                    <hr />
+                    <p>{linkdata.data.description}</p>
+                    <div className="mHHeaderBtns">
+                      <Link to={linkdata.link} target="_blank"><button>Read more</button></Link>
+                    </div>
+                  </section>
+                </div>
+                <div className="mainHeadlineContents">
+                  <div className="subNewsContainer">
+                    <h1>More game news</h1>
+                    <ul>
+                      {subLinkData.map((link) => (
+                        <li key={link.data.id}>
+                          <Link to={link.link} target='_blank'>
+                            <span>
+                              <img src={link.data.image} alt="" />
+                            </span>
+                          </Link>
+                          <p>{link.data.description}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="breakingNews">
+              <h2>
+                <ImNewspaper id="brNewsIcon" />
+                Game News
+              </h2>
+              <div className="breakingNewsContainer">
+                <section>
+                  <ul>
+                    {loading && <p>Loading...</p>}
+                    {error && <p>{error}</p>}
+                    {previewData.map((preview) => (
+                      <>
+                        <Link
+                          key={preview.id}
+                          to={preview.link}
+                          target="_blank"
+                        >
+                          <li>
+                            {preview.data.image && (
+                              <img
+                                src={preview.data.image}
+                                alt={preview.data.title}
+                              />
+                            )}
+                            <h3>{preview.data.title}</h3>
+                            <p>{preview.data.description}</p>
+                          </li>
+                        </Link>
+                      </>
+                    ))}
+                  </ul>
+                </section>
+              </div>
+            </div>
+          </div>}
         </div>
+      </div>
     </div>
-  )
+  );
 }
 
 export default News
