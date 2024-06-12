@@ -1702,14 +1702,41 @@ section.adminPageContainer.mid{
 .admpcm1NewsHeader p{
     font-size: .7vw;
 }
-.admpcm1NewsCards h1{
+.admpcm1NewsContents h1{
     font-size: 1vw;
 }
 .admpcm1Addnews{
     margin: 1vw 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.admpcm1Addnews p{
+.admpcm1Addnews ul{
+    list-style: none;
+    padding: 0;
+    display: flex;
+    margin: 1vw 0 0 0;
+}
+.admpcm1Addnews ul hr{
+    margin: 0 1vw;
+}
+.admpcm1Addnews li button{
+    width: 100%;
+    border: none;
+    outline: .1vw solid white;
+    color: white;
+    background: none;
+    padding: .2vw 0;
+    border-radius: 1vw;
     font-size: .7vw;
+    cursor: pointer;
+}
+.admpcm1Addnews li button:hover{
+    background: white;
+    color: black;
+}
+.admpcm1Addnews h1{
+    font-size: 1vw;
 }
 .admpcm1AddnewsInput{
     outline: .1vw solid white;
@@ -1729,6 +1756,13 @@ section.adminPageContainer.mid{
     outline: 0;
     color: white;
     margin: 0 .5vw 0 0;
+}
+.admpcm1Addnews li section{
+    height: 13vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 0 .2vw;
+    box-sizing: border-box;
 }
 #addNewsbtnIcon{
     color: white;
@@ -1758,5 +1792,70 @@ section.adminPageContainer.mid{
 }
 .link-preview-admin p{
     font-size: .7vw;
+    color: black;
+}
+
+.submitLinksbtn{
+    margin: 1vw 0 0 0;
+    display: flex;
+    justify-content: center;
+}
+.submitLinksbtn button{
+    padding: .5vw 5vw;
+    background: none;
+    color: white;
+    border: none;
+    outline: .1vw solid white;
+    border-radius: 1vw;
+    cursor: pointer;
+}
+.submitLinksbtn button:hover{
+    background: white;
+    color: black;
+}
+
+
+.newsContentsTable{
+    height: 15vw;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position: relative;
+    border: .1vw solid white;
+}
+#linksTable{
+    font-size: .7vw;
+    color: white;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+#linksTable thead{
+    position: sticky;
+}
+#linksTable th{
+    background: white;
+    color: black;
+}
+#linksTable  th,td{
+    padding: .5vw;
+    border: .1vw solid white;
+}
+#linksTable tbody{ 
+    height: 20vw;
+}
+#linksTable tr:nth-child(even){
+    background-color: #3f3f3f;
+}
+#linksTable tbody tr td button{
+    padding: .2vw .5vw;
+    font-size: .6vw;
+    background: none;
+    color: white;
+    outline: .1vw solid white;
+    border: none;
+    cursor: pointer;
+}
+#linksTable tbody tr td button:hover{
+    background: white;
     color: black;
 }

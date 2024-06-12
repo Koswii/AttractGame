@@ -5,7 +5,7 @@
 .mainHeadline{
     height: 100vh;
     width: 100%;
-    background: linear-gradient(180deg, rgba(253,251,251,0) 0%, rgba(0,0,0,1) 100%),url('../assets/imgs/NewsImages/sampleMainnews.jpg') center, no-repeat;
+    /* background: linear-gradient(180deg, rgba(253,251,251,0) 0%, rgba(0,0,0,1) 100%),url('../assets/imgs/NewsImages/sampleMainnews.jpg') center, no-repeat; */
     background-size: cover;
     position: relative;
 }
@@ -60,6 +60,9 @@
     width: 100%;
     box-sizing: border-box;
 }
+.subNewsContainer{
+    overflow: hidden;
+}
 .subNewsContainer h1{
     font-size: 2vw;
     text-transform: uppercase;
@@ -67,11 +70,16 @@
 }
 .subNewsContainer ul{
     width: 100%;
-    padding: 0;
+    padding: 1vw 0;
+    box-sizing: border-box;
     list-style: none;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+.subNewsContainer ul li{
+    margin: 0 .5vw;
 }
 .subNewsContainer ul li span{
     height: 10vw;
@@ -98,6 +106,7 @@
 .subNewsContainer ul li p{
     font-size: .9vw;
     text-shadow: .5vw .5vw 1vw black;
+    width: 18.5vw;
 }
 
 
@@ -125,6 +134,9 @@
     columns: 5;
     column-gap: 1vw;
 }
+.breakingNewsContainer section ul a{
+    text-decoration: none;
+}
 .breakingNewsContainer section ul li{
     height: auto;
     padding: .5vw;
@@ -140,13 +152,71 @@
     border-radius: .5vw;
 }
 .breakingNewsContainer section ul li h3{
-    color: black;
     font-size: 1vw;
+    color: black;
 }
 .breakingNewsContainer section ul li p{
-    color: black;
     font-size: .7vw;
+    color: black;
 }
+
+
+
+/* loader */
+.newsLoader{
+    width: 100%;
+    height: 100vh;
+}
+.newsLoadercontents section{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 5vw;
+}
+.newsLoadercontentsdummy{
+    height: 10vw;
+    width: 20%;
+    margin: 1%;
+    box-shadow: 0 0 10px gray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+.dummyLinktext{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 2vw;
+}
+.dummylinktext{
+    height: 2vw;
+    width: 20%;
+    margin: 1%;
+    box-shadow: 0 0 10px gray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+
+
+
+
 
 
 @media screen and (max-width: 500px){
@@ -173,7 +243,7 @@
         font-weight: 800;
     }
     .mainHeadline section h1{
-        font-size: 10vw;
+        font-size: 6vw;
         text-shadow: .5vw .5vw 1vw black;
     }
     .mainHeadline section p{
@@ -203,13 +273,11 @@
         text-transform: uppercase;
     }
     .subNewsContainer ul{
-        width: 100%;
-        padding: 0;
-        list-style: none;
-        display: flex;
+        height: 60vw;
+        padding: 1vw 0;
+        overflow-x: hidden;
+        overflow-y: scroll;
         flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
     }
     .subNewsContainer ul li span{
         height: 30vw;
@@ -231,6 +299,8 @@
         font-size: 3vw;
         word-break: normal;
         width: 38vw;
+        height: 20vw;
+        overflow: hidden;
     }
     
     
@@ -263,4 +333,23 @@
         color: black;
         font-size: 2.5vw;
     }
+    /* loader */
+    .newsLoadercontents section{
+        height: auto;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        position: absolute;
+        bottom: 5vw;
+    }
+    .newsLoadercontentsdummy{
+        height: 30vw;
+        width: 45%;
+        margin: 3% 1%;
+    }
+    .dummyLinktext{
+        display: none;
+    }
+    
 }
