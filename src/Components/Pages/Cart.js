@@ -12,18 +12,26 @@ import {
 } from 'react-icons/fa';
 import { 
     TbDeviceGamepad2,
-    TbGiftCard,   
+    TbGiftCard, 
+    TbDiamond,   
 } from "react-icons/tb";
 
 
 
 const LoginUserID = localStorage.getItem('profileUserID');
 const AGUserCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
+const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
 const AGGamesListAPI = process.env.REACT_APP_AG_GAMES_LIST_API;
+const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
 const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
 
 
-const fetchCartProducts = async (setAllProductDetails, setGameProductDetails, setGiftcardProductDetails, setLoadingProducts) => {
+const fetchCartProducts = async (
+    setAllProductDetails, 
+    setGameProductDetails, 
+    setGiftcardProductDetails, 
+    setGamecreditProductDetails, 
+    setLoadingProducts) => {
     setLoadingProducts(true);
     try {
         const response = await axios.get(AGUserCartAPI);
@@ -32,28 +40,52 @@ const fetchCartProducts = async (setAllProductDetails, setGameProductDetails, se
         
         const gameProducts = filteredData.filter(product => product.ag_product_type === 'Game');
         const giftcardProducts = filteredData.filter(product => product.ag_product_type === 'Giftcard');
+        const gamecreditProducts = filteredData.filter(product => product.ag_product_type === 'Game Credit');
         
         try {
-            const [userGameDataResponse, userGiftcardDataResponse] = await Promise.all([
+            const [userGameDataResponse, userGiftcardDataResponse, userGamecreditDataResponse, stockListResponse] = await Promise.all([
                 axios.get(AGGamesListAPI),
-                axios.get(AGGiftcardsListAPI)
+                axios.get(AGGiftcardsListAPI),
+                axios.get(AGGameCreditsListAPI),
+                axios.get(AGStocksListAPI)
             ]);
+
+            const stockListData = stockListResponse.data;
+            const calculateEffectivePrice = (price, discount) => {
+                return price - (price * (discount / 100));
+            };
+
             const cartGameWithData = gameProducts.map(product => {
                 const productData = userGameDataResponse.data.find(game => game.game_canonical === product.ag_product_id);
-                return { ...product, productData };
+                const stock = stockListData.find(stock => stock.ag_product_id === product.ag_product_id);
+                const stockCount = stockListData.filter(stock => stock.ag_product_id === product.ag_product_id).length;
+                const effectivePrice = calculateEffectivePrice(stock.ag_product_price, stock.ag_product_discount);
+                return { ...product, productData , stock, stockCount, effectivePrice, totalPrice: effectivePrice};
             });
             const cartGiftcardWithData = giftcardProducts.map(product => {
                 const productData = userGiftcardDataResponse.data.find(giftcard => giftcard.giftcard_id === product.ag_product_id);
-                return { ...product, productData };
+                const stock = stockListData.find(stock => stock.ag_product_id === product.ag_product_id);
+                const stockCount = stockListData.filter(stock => stock.ag_product_id === product.ag_product_id).length;
+                const effectivePrice = calculateEffectivePrice(stock.ag_product_price, stock.ag_product_discount);
+                return { ...product, productData , stock, stockCount, effectivePrice, totalPrice: effectivePrice};
+            });
+            const cartGamecreditWithData = gamecreditProducts.map(product => {
+                const productData = userGamecreditDataResponse.data.find(gamecredit => gamecredit.gamecredit_id === product.ag_product_id);
+                const stock = stockListData.find(stock => stock.ag_product_id === product.ag_product_id);
+                const stockCount = stockListData.filter(stock => stock.ag_product_id === product.ag_product_id).length;
+                const effectivePrice = calculateEffectivePrice(stock.ag_product_price, stock.ag_product_discount);
+                return { ...product, productData , stock, stockCount, effectivePrice, totalPrice: effectivePrice};
             });
 
             const combinedDataGame = [...cartGameWithData];
             const combinedDataGiftcard = [...cartGiftcardWithData];
-            const combinedAllData = [...cartGameWithData, ...cartGiftcardWithData];
+            const combinedDataGamecredit = [...cartGamecreditWithData];
+            const combinedAllData = [...cartGameWithData, ...cartGiftcardWithData, ...combinedDataGamecredit];
 
             setAllProductDetails(combinedAllData);
             setGameProductDetails(combinedDataGame);
             setGiftcardProductDetails(combinedDataGiftcard);
+            setGamecreditProductDetails(combinedDataGamecredit);
 
         } catch (userDataError) {
             console.error('Error fetching user data:', userDataError);
@@ -68,11 +100,11 @@ const fetchCartProducts = async (setAllProductDetails, setGameProductDetails, se
 
 
 const Cart = () => {
-    const AGUserProductsCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
     const AGUserRemoveToCartAPI = process.env.REACT_APP_AG_REMOVE_USER_CART_API;
     const [userLoggedData, setUserLoggedData] = useState('');
     const [productGameDetails, setGameProductDetails] = useState([]);
     const [productGiftcardDetails, setGiftcardProductDetails] = useState([]);
+    const [productGamecreditDetails, setGamecreditProductDetails] = useState([]);
     const [allPrductsDetails, setAllProductDetails] = useState([]);
     const [loadingProducts, setLoadingProducts] = useState(false);
     const [orderQuantities, setOrderQuantities] = useState({});
@@ -87,21 +119,40 @@ const Cart = () => {
         }
 
         fetchUserProfile();
-        fetchCartProducts(setAllProductDetails, setGameProductDetails, setGiftcardProductDetails, setLoadingProducts);
+        fetchCartProducts(setAllProductDetails, setGameProductDetails, setGiftcardProductDetails, setGamecreditProductDetails, setLoadingProducts);
     }, []);
+    
     const handleQuantityChange = (productId, value) => {
         setOrderQuantities(prevQuantities => ({
             ...prevQuantities,
             [productId]: value
         }));
+    
+        setAllProductDetails(prevProducts => {
+            return prevProducts.map(product => {
+                if (product.ag_product_id === productId) {
+                    const effectivePrice = product.effectivePrice;
+                    // Update numberOfOrder for the current product
+                    product.totalPrice = effectivePrice * value
+                    product.numberOfOrder = value;
+                    return { ...product};
+                }
+                return product;
+            });
+        });
+
     };
+
+    const productSubtotalSum = allPrductsDetails.map(subTotal => subTotal.totalPrice).reduce((acc, cur) => acc + cur, 0);
+    const agProductCharge = (4.5/100);
+    const checkoutOverallTotal = productSubtotalSum + (agProductCharge*productSubtotalSum);
+
     const handleRemoveFromCart = (details) => {
         const removeDetails = {
             user: userLoggedData.userid,
             cart: details.ag_product_id
         }
         const removeToCartJSON = JSON.stringify(removeDetails);
-        console.log(removeToCartJSON);
         axios({
             method: 'delete',
             url: AGUserRemoveToCartAPI,
@@ -113,7 +164,7 @@ const Cart = () => {
         .then(response => {
             if (response.data.success) {
                 // console.log('Product removed from the Cart Successfully');
-                fetchCartProducts(setAllProductDetails, setGameProductDetails, setGiftcardProductDetails, setLoadingProducts);
+                fetchCartProducts(setAllProductDetails, setGameProductDetails, setGiftcardProductDetails, setGamecreditProductDetails, setLoadingProducts);
             } else {
                 console.log(`Error: ${response.data.message}`);
             }
@@ -122,6 +173,8 @@ const Cart = () => {
             console.log(`Error: ${error.message}`);
         });
     };
+
+
     const renderCartProducts = () => {
         if (allPrductsDetails.length){
             return (
@@ -140,8 +193,8 @@ const Cart = () => {
                                     <img src="" platform={details.productData.game_platform} alt="" />
                                 </div>
                                 <div className="cartpcm1clpPrice">
-                                    <input type="number" min={1} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, e.target.value)} placeholder='1'/>
-                                    <h5>$999.99</h5>
+                                    <input type="number" min={1} max={details.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, Number(e.target.value))} placeholder='1'/>
+                                    <h5>$ {(details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
                                 </div>
                             </div>
                         ))}
@@ -154,8 +207,22 @@ const Cart = () => {
                                     <p>DOLLARS</p>
                                 </div>
                                 <div className="cartpcm1clpPrice">
-                                    <input type="number" min={1} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, e.target.value)} placeholder='1'/>
-                                    <h5>$20.99</h5>
+                                    <input type="number" min={1} max={details.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, Number(e.target.value))} placeholder='1'/>
+                                    <h5>$ {(details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
+                                </div>
+                            </div>
+                        ))}
+                        {productGamecreditDetails.map((details, i) => (
+                            <div className="cartpcm1clProduct website" key={i}>
+                                <img src={`https://2wave.io/GiftCardCovers/${details.productData.gamecredit_cover}`} alt="" />
+                                <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
+                                <div className="cartpcm1clpPlatform denomination">
+                                    <h3>{details.productData.gamecredit_denomination}</h3>
+                                    <p>DOLLARS</p>
+                                </div>
+                                <div className="cartpcm1clpPrice">
+                                    <input type="number" min={1} max={details.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, Number(e.target.value))} placeholder='1'/>
+                                    <h5>$ {(details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
                                 </div>
                             </div>
                         ))}
@@ -192,8 +259,8 @@ const Cart = () => {
                                 <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
                                 <h5>{details.productData.game_title} - {details.productData.game_platform}</h5>
                                 <div className="cartpcm1clpPrice">
-                                    <input type="number" min={1} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, e.target.value)} placeholder='1'/>
-                                    <h5>$999.99</h5>
+                                    <input type="number" min={1} max={details.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, e.target.value)} placeholder='1'/>
+                                    <h5>$ {(details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
                                 </div>
                             </div>
                         ))}
@@ -202,8 +269,18 @@ const Cart = () => {
                                 <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
                                 <h5>{details.productData.giftcard_name} - ${details.productData.giftcard_denomination}</h5>
                                 <div className="cartpcm1clpPrice">
-                                    <input type="number" min={1} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, e.target.value)} placeholder='1'/>
-                                    <h5>$20.99</h5>
+                                    <input type="number" min={1} max={details.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, e.target.value)} placeholder='1'/>
+                                    <h5>$ {(details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
+                                </div>
+                            </div>
+                        ))}
+                        {productGamecreditDetails.map((details, i) => (
+                            <div className="cartpcm1clProduct mobile" key={i}>
+                                <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
+                                <h5>{details.productData.gamecredit_name} - ${details.productData.gamecredit_denomination}</h5>
+                                <div className="cartpcm1clpPrice">
+                                    <input type="number" min={1} max={details.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, e.target.value)} placeholder='1'/>
+                                    <h5>$ {(details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
                                 </div>
                             </div>
                         ))}
@@ -261,7 +338,9 @@ const Cart = () => {
                                     <>
                                         <span key={i}>
                                             <p id='productTitle'>{details.productData.game_title} - {details.productData.game_platform}</p>
-                                            <p id='productPrice'>$999.99 x {orderQuantities[details.ag_product_id] || 1}</p>
+                                            <p id='productPrice'>$ {(details.stock === undefined) ? '--.--': 
+                                                ((details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2))} x {orderQuantities[details.ag_product_id] || 1}
+                                            </p>
                                         </span>
                                     </>
                                 ))}
@@ -271,17 +350,29 @@ const Cart = () => {
                                     <>
                                         <span key={i}>
                                             <p id='productTitle'>{details.productData.giftcard_name} - ${details.productData.giftcard_denomination}</p>
-                                            <p id='productPrice'>$20.99 x {orderQuantities[details.ag_product_id] || 1}</p>
+                                            <p id='productPrice'>$ {(details.stock === undefined) ? '--.--': 
+                                                ((details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2))} x {orderQuantities[details.ag_product_id] || 1}
+                                            </p>
                                         </span>
                                     </>
                                 ))}
                                 <br />
-                                <h6><TbGiftCard className='faIcons'/> GAME CREDITS</h6>
+                                <h6><TbDiamond className='faIcons'/> GAME CREDITS</h6>
+                                {productGamecreditDetails.map((details, i) => (
+                                    <>
+                                        <span key={i}>
+                                            <p id='productTitle'>{details.productData.gamecredit_name} - ${details.productData.gamecredit_denomination}</p>
+                                            <p id='productPrice'>$ {(details.stock === undefined) ? '--.--': 
+                                                ((details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2))} x {orderQuantities[details.ag_product_id] || 1}
+                                            </p>
+                                        </span>
+                                    </>
+                                ))}
                             </div>
                             <div className="cartpcm1crCheckout">
                                 <span>
                                     <p>SUBTOTAL</p>
-                                    <h6>$ 999.99</h6>
+                                    <h6>$ {productSubtotalSum.toFixed(2)}</h6>
                                 </span>
                                 <span>
                                     <p>OUR CHARGE</p>
@@ -294,7 +385,7 @@ const Cart = () => {
                                 </span>
                                 <span>
                                     <p>PAYABLE</p>
-                                    <h6>$ 999.99</h6>
+                                    <h6>$ {checkoutOverallTotal.toFixed(2)}</h6>
                                 </span>
                                 <button>CHECKOUT PRODUCTS</button>
                             </div>

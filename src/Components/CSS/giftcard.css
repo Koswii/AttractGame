@@ -78,10 +78,13 @@ section.giftcardPageContainer.mid{
 .gcardspcmContent.right{
     height: auto;
     width: 65%;
-    padding-top: 2%;
 }
 .gcardspcmContent.right p{
     margin: 2% 0;
+}
+.gcardspcmcrItems{
+    height: auto;
+    width: 100%;
 }
 .gcardspcmcr{
     height: auto;
@@ -89,18 +92,22 @@ section.giftcardPageContainer.mid{
     display: flex;
     justify-content: left;
     align-items: center;
-    margin-top: 5%;
+    padding: 2% 1%;
+    overflow-x: scroll;
 }
 .gcardspcmcr div{
     height: auto;
-    width: 19%;
     margin-right: 2%;
-}
-.gcardspcmcr div img{
-    height: auto;
-    width: 100%;
+    padding: 1%;
     box-shadow: 0 0 10px gray;
     border-radius: 1vw;
+    background: url('../assets/imgs/13551.png') no-repeat center;
+    background-size: cover;
+}
+.gcardspcmcr div img{
+    height: 13.5vw;
+    border-radius: 1vw;
+    border: solid 1px white;
 }
 .gcardspcmcr div span{
     height: auto;
@@ -108,8 +115,7 @@ section.giftcardPageContainer.mid{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: solid 2px white;
-    padding: 3% 7%;
+    padding: 3% 5%;
     border-radius: 1vw;
 }
 .gcardspcmcr div span button{
@@ -123,9 +129,18 @@ section.giftcardPageContainer.mid{
     justify-content: center;
     align-items: center;
 }
+.gcardspcmcr div p{
+    text-align: right;
+    color: gray;
+    font-size: 0.7vw;
+}
 
-
-
+.gcardspcmcr div.noStocks{
+    opacity: 50%;
+}
+.gcardspcmcr div.noStocks span button{
+    cursor: not-allowed;
+}
 
 
 .gcardspcmContainerDummy{
@@ -148,7 +163,7 @@ section.giftcardPageContainer.mid{
 .gcspcmclDummy.right{
     height: auto;
     width: 65%;
-    padding-top: 2%;
+    padding-top: 1%;
 }
 .gcspcmclDummy.right h3{
     height: 4vw;
@@ -281,7 +296,7 @@ section.giftcardPageContainer.bot{
         text-align: center;
         font-size: 4vw;
     }
-    .gcardspcmContent.right p{
+    .gcardspcmContent.right p#gcspcmcDef{
         font-size: 2.3vw;
         margin-top: 2%;
         margin-bottom: 10%;
@@ -292,19 +307,28 @@ section.giftcardPageContainer.bot{
     }
     .gcardspcmcr div{
         height: auto;
-        width: 49%;
+        width: 48%;
         margin: 0;
         margin-bottom: 5%;
+        padding: 2%;
+        border-radius: 3vw;
     }
     .gcardspcmcr div img{
+        height: auto;
+        width: 100%;
         border-radius: 2vw;
     }
     .gcardspcmcr div span{
-        padding: 5% 7%;
+        padding: 5%;
         border-radius: 2vw;
     }
     .gcardspcmcr div span h5{
         font-size: 5vw;
+    }
+    .gcardspcmcr div p{
+        font-size: 3vw;
+        padding: 0 5%;
+        margin-bottom: 0;
     }
     .gcardspcmcr div span button{
         font-size: 8vw;

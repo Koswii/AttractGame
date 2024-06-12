@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Giftcards = () => {
+    const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
     const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
     const [giftcards, setGiftcards] = useState([]);
     const [uniqueData, setUniqueData] = useState([]);
@@ -41,8 +42,21 @@ const Giftcards = () => {
                     if (a.giftcard_name > b.giftcard_name) return 1;
                     return 0;
                 });
+
                 setGiftcards(response.data);
-                setFilteredGiftcards(unique);
+
+                const stockListResponse = await axios.get(AGStocksListAPI);
+                const stockListData = stockListResponse.data;
+                const stockInfo = unique.map(giftcard => {
+                    const stockCount = stockListData.filter(stock => stock.ag_product_id === giftcard.giftcard_id).length;
+                    return {
+                        ...giftcard, stocks: stockCount
+                    };
+                });
+
+                setGiftcards(stockInfo);
+                setFilteredGiftcards(stockInfo);
+
             } catch (error) {
                 console.error(error);
             } finally {
@@ -102,8 +116,8 @@ const Giftcards = () => {
                                 <p id='gcspcmid1Web'>{details.giftcard_description}</p>
                                 <p id='gcspcmid1Mob'>{details.giftcard_description.slice(0, 200)}...</p>
                                 <div>
-                                    <p>$20 - $500</p>
-                                    <p>On Stock</p>
+                                    <p>${details.giftcard_denomination} and Up</p>
+                                    <p>{(details.stocks === 0) ? 'Out of Stock' : 'On Stock'}</p>
                                 </div>
                             </div>
                         </Link>

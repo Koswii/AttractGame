@@ -6,12 +6,14 @@ import {
     TbShoppingCartBolt,
     TbHeartFilled, 
     TbShoppingCartPlus,
-    TbShoppingCartFilled,    
+    TbShoppingCartFilled,
+    TbShoppingCartOff,    
 } from "react-icons/tb";
 import ImageEmbed from './ImageEmbed';
 
 
 const LoginUserID = localStorage.getItem('profileUserID');
+const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
 const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
 const AGGamesListAPI = process.env.REACT_APP_AG_GAMES_LIST_API;
 const AGUserProductsCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
@@ -26,9 +28,14 @@ const fetchFavoriteProducts = async (setProductDetails, setLoadingProducts) => {
 
         try {
             const userDataResponse = await axios.get(AGGamesListAPI);
+            const stockListResponse = await axios.get(AGStocksListAPI);
+            const stockListData = stockListResponse.data;
+
             const favoriteWithData = favoritesSortData.map(product => {
                 const productData = userDataResponse.data.find(game => game.game_canonical === product.ag_product_id);
-                return { ...product, productData };
+                const stockCount = stockListData.filter(stock => stock.ag_product_id === product.ag_product_id).length;
+                const stock = stockListData.find(stock => stock.ag_product_id === product.ag_product_id);
+                return { ...product, productData, stock, stockCount };
             });
             setProductDetails(favoriteWithData);
         } catch (userDataError) {
@@ -146,11 +153,19 @@ const Favorites = () => {
                                     <h5>{favorite.productData.game_title}</h5>
                                     <p>{favorite.productData.game_edition}</p>
                                     <div>
-                                        <div id="fcpcm1GDView"><h5>$999.99</h5></div>
+                                        <div id="fcpcm1GDView">
+                                            <h5>$ {
+                                                (favorite.stock === undefined) ? 
+                                                '--.--': 
+                                                ((parseFloat(favorite.stock.ag_product_price) - parseFloat(favorite.stock.ag_product_discount / 100) * parseFloat(favorite.stock.ag_product_price)).toFixed(2))}
+                                            </h5>
+                                        </div>
                                         <button id='fcpcm1cGDHeart' onClick={() => handleRemoveFavorite(favorite)}><TbHeartFilled className='faIcons'/></button>
                                         {productCart.some(cartItem => cartItem.ag_product_id === favorite.productData.game_canonical) ?
                                             <button id='fcpcm1cGDAddedToCart'><TbShoppingCartFilled className='faIcons'/></button>:
-                                            <button id='fcpcm1cGDAddToCart' onClick={() => handleAddToCart(favorite)}><TbShoppingCartPlus className='faIcons'/></button>
+                                            <button id='fcpcm1cGDAddToCart' onClick={() => handleAddToCart(favorite)} disabled={(favorite.stockCount === 0) ? true : false}>
+                                                {(favorite.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
+                                            </button>
                                         }
                                     </div>
                                 </div>
@@ -193,7 +208,7 @@ const Favorites = () => {
                     </div>
                     <div className="favpctProfile right">
                         <h5>{userLoggedData.username}'s Favorites</h5>
-                        <p>Products you liked</p>
+                        <p>Games you liked</p>
                     </div>
                 </div>
             </section>

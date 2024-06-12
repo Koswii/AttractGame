@@ -8,6 +8,7 @@ import {
     TbShoppingCartBolt, 
     TbShoppingCartPlus,
     TbShoppingCartFilled,
+    TbShoppingCartOff,
     TbDeviceGamepad2,
     TbGiftCard,
     TbHeart,
@@ -35,6 +36,7 @@ const fetchUserCart = async (setProductCarts, LoginUserID) => {
 const Giftcard = () => {
     const { giftcardCanonical } = useParams();
     const { setActivePage } = useActivePage();
+    const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
     const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
@@ -67,14 +69,25 @@ const Giftcard = () => {
                 const agGiftcardData = response.data.filter(giftcard => giftcard.giftcard_canonical === giftcardCanonical);
                 const agGiftcardDetails = agGiftcardData[0];
                 const agGiftcardSort = agGiftcardData.sort((a,b) => (a.giftcard_denomination) - (b.giftcard_denomination));
-                setGiftcardViewDetails(agGiftcardSort);
                 setViewGiftcardContent(agGiftcardDetails);
-
 
                 if (agViewAllGiftcards.length > 0) {
                     const randomItems = getRandomItems(agViewAllGiftcards, 10);
                     setGiftcardViewAll(randomItems);
                 }
+
+                const stockListResponse = await axios.get(AGStocksListAPI);
+                const stockListData = stockListResponse.data;
+                const stockInfo = agGiftcardSort.map(giftcard => {
+                    const stock = stockListData.find(stock => stock.ag_product_id === giftcard.giftcard_id);
+                    const stockCount = stockListData.filter(stock => stock.ag_product_id === giftcard.giftcard_id).length;
+                    return {
+                        ...giftcard, stock, stockCount
+                    };
+                });
+                setGiftcardViewDetails(stockInfo);
+
+
             } catch (error) {
                 console.error(error);
             } finally {
@@ -136,20 +149,25 @@ const Giftcard = () => {
                     <div className="gcardspcmContent right">
                         <h3>{giftcardViewContent.giftcard_name}</h3>
                         <h6>{giftcardViewContent.giftcard_category}</h6>
-                        <p>{giftcardViewContent.giftcard_description}</p>
-                        <div className="gcardspcmcr">
-                            {giftcardViewDetails.map((details, i) => (
-                                <div key={i}>
-                                    <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
-                                    <span>
-                                        <h5>$ {details.giftcard_denomination}</h5>
-                                        {productCart.some(cartItem => cartItem.ag_product_id === details.giftcard_id) ?
-                                            <button><TbShoppingCartFilled className='faIcons'/></button>:
-                                            <button onClick={() => handleAddToCart(details)}><TbShoppingCartPlus className='faIcons'/></button>
-                                        }
-                                    </span>
-                                </div>
-                            ))}
+                        <p id='gcspcmcDef'>{giftcardViewContent.giftcard_description}</p>
+                        <div className="gcardspcmcrItems">
+                            <div className="gcardspcmcr">
+                                {giftcardViewDetails.map((details, i) => (
+                                    <div key={i} className={`${(details.stockCount === 0) ? 'noStocks' : ''}`}>
+                                        <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
+                                        <span>
+                                            <h5>$ {details.giftcard_denomination}</h5>
+                                            {productCart.some(cartItem => cartItem.ag_product_id === details.giftcard_id) ?
+                                                <button><TbShoppingCartFilled className='faIcons'/></button>:
+                                                <button onClick={() => handleAddToCart(details)} disabled={(details.stockCount === 0) ? true : false}>
+                                                    {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
+                                                </button>
+                                            }
+                                        </span>
+                                        <p>{details.stockCount} Stocks</p>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>:
