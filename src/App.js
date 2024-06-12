@@ -97,7 +97,7 @@ function App() {
         <Route exact path="/Games/:gameCanonical" element={<Game/>}/>
         <Route exact path="/Giftcards" element={<Giftcards/>}/>
         <Route exact path="/Giftcards/:giftcardCanonical" element={<Giftcard/>}/>
-        <Route exact path="/GameCredits/Robux" element={<Giftcard/>}/>
+        <Route exact path="/GameCredits/Robux" element={<Robux/>}/>
         {/* <Route exact path="/Giftcard" element={<Giftcard/>}/> */}
         {(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined) ?
         <>
