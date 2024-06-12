@@ -207,6 +207,7 @@ const Games = () => {
           if (resMessage.success === true) {
             fetchGames(setViewAGData1, setLoadingMarketData);
             fetchUserCart(setProductCarts, LoginUserID);
+            setLoader(false)
           } else {
             // console.log(resMessage.message);
           }
@@ -215,7 +216,8 @@ const Games = () => {
             console.log(error);
         });
     };
-    
+
+    const [loader,setLoader] = useState(true)
     const [filterChanging,setFilterChanging] = useState(false)
     const gamePlatform = [...new Set(viewAGData1.map(game => game.game_platform))].sort();
     const gameCategory = [...new Set(viewAGData1.map(game => game.game_category))].sort();
@@ -248,7 +250,7 @@ const Games = () => {
       const categoryMatch = filters.category[game.game_category] || Object.values(filters.category).every(v => !v);
       const editionMatch = filters.edition[game.game_edition] || Object.values(filters.edition).every(v => !v);
       const favoriteMatch = !filters.favorite || game.favorite; // Assuming `game.favorite` indicates if a game is favorite
-  
+
       return platformMatch && categoryMatch && editionMatch && favoriteMatch;
     });
     useEffect(() => {
@@ -257,10 +259,6 @@ const Games = () => {
         setFilterChanging(false);
         }
     }, [filters, filterChanging]);
-
-
-
-
     return (
         <div className='mainContainer gameList'>
             <section className="gamesPageContainer top">
@@ -273,56 +271,149 @@ const Games = () => {
                 </div>
                 <div className="gmspContent top2">
                     <div className="gmspContentTop2 left">
-                        <section>
-                            <div className="filterSelectgames">
-                                <h1>filter items by:</h1>
-                                <p><GiConsoleController id='filterIconcheck'/> Console Platform</p>
-                                <ul>
-                                {gamePlatform.map(platform => (
-                                    <li key={platform}>
-                                    <input
-                                        type="checkbox"
-                                        checked={filters.platform[platform] || false}
-                                        onChange={() => handleFilterChange('platform', platform)}
-                                    /> {platform}
-                                    </li>
-                                ))}
-                                </ul>
-                                <p><TbCategoryFilled id='filterIconcheck'/> Category</p>
-                                <ul>
-                                {gameCategory.map(category => (
-                                    <li key={category}>
-                                    <input
-                                        type="checkbox"
-                                        checked={filters.category[category] || false}
-                                        onChange={() => handleFilterChange('category', category)}
-                                    /> {category}
-                                    </li>
-                                ))}
-                                </ul>
-                                <p><VscVersions id='filterIconcheck'/> Edition</p>
-                                <ul>
-                                {gameEdition.map(edition => (
-                                    <li key={edition}>
-                                    <input
-                                        type="checkbox"
-                                        checked={filters.edition[edition] || false}
-                                        onChange={() => handleFilterChange('edition', edition)}
-                                    /> {edition}
-                                    </li>
-                                ))}
-                                </ul>
-                                <p><MdOutlineFavorite id='filterIconcheck'/> Favorite</p>
-                                <ul>
-                                <li>
-                                    <input
-                                    type="checkbox"
-                                    checked={filters.favorite}
-                                    onChange={handleFavoriteChange}
-                                    /> Favorite
-                                </li>
-                                </ul>
-                            </div>
+                    <section>
+                        <div className="filterSelectgames">
+                            <h1>filter items by:</h1>
+                            <p><GiConsoleController id='filterIconcheck'/> Console Platform</p>
+                            <ul>
+                                {!loader ? 
+                                    <>
+                                        {gamePlatform.map(platform => (
+                                            <li key={platform}>
+                                            <input
+                                                type="checkbox"
+                                                checked={filters.platform[platform] || false}
+                                                onChange={() => handleFilterChange('platform', platform)}
+                                            /> {platform}
+                                            </li>
+                                        ))}
+                                    </> :
+                                    <>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />NintendoSwitch
+                                        </li>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />PC
+                                        </li>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />PlayStation4
+                                        </li>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />PlayStation5
+                                        </li>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />XboXs
+                                        </li>
+                                    </>
+                                }
+                            </ul>
+                            <p><TbCategoryFilled id='filterIconcheck'/> Category</p>
+                            <ul>
+                                {!loader ? 
+                                    <>
+                                        {gameCategory.map(category => (
+                                            <li key={category}>
+                                            <input
+                                                type="checkbox"
+                                                checked={filters.category[category] || false}
+                                                onChange={() => handleFilterChange('category', category)}
+                                            /> {category}
+                                            </li>
+                                        ))}
+                                    </> :
+                                    <>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />Classic
+                                        </li>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />Hot
+                                        </li>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />Preorder
+                                        </li>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />Trending
+                                        </li>
+                                    </>
+                                }
+                            </ul>
+                            <p><VscVersions id='filterIconcheck'/> Edition</p>
+                            <ul>
+                                {!loader ?
+                                    <>
+                                        {gameEdition.map(edition => (
+                                            <li key={edition}>
+                                            <input
+                                                type="checkbox"
+                                                checked={filters.edition[edition] || false}
+                                                onChange={() => handleFilterChange('edition', edition)}
+                                            /> {edition}
+                                            </li>
+                                        ))}
+                                    </> :
+                                    <>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />Complete Edition
+                                        </li>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />Deluxe Edition
+                                        </li>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />Royal Edition
+                                        </li>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />Standard Edition
+                                        </li>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />Super Citizen Edition
+                                        </li>
+                                        <li>
+                                            <input
+                                                type="checkbox"
+                                            />Ultimate Edition
+                                        </li>
+                                    </>
+                                }
+                            </ul>
+                            <p><MdOutlineFavorite id='filterIconcheck'/> Favorite</p>
+                            <ul>
+                            <li>
+                                <input
+                                type="checkbox"
+                                checked={filters.favorite}
+                                onChange={handleFavoriteChange}
+                                /> Favorite
+                            </li>
+                            </ul>
+                        </div>
                         </section>
                     </div>
                     <div className='gmspContentTop2 right'>
