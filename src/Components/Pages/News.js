@@ -9,92 +9,74 @@ import { FaYoutube } from "react-icons/fa";
 
 const News = () => {
 // usestate
-  const [newsList, setNewslist] = useState();
-  const [loader,setLoader] = useState(true)
+   const [newsList, setNewsList] = useState([]);
+   const [loader, setLoader] = useState(true);
+   const [previewData, setPreviewData] = useState([]);
+   const [mainLinkData, setMainLinkData] = useState([]);
+   const [subLinkData, setSubLinkData] = useState([]);
+   const [error, setError] = useState("");
 
+   useEffect(() => {
+     retrieveDataNews();
+   }, []);
 
-  useEffect(() => {
-    retrieveDatanews();
-  }, []);
+   const retrieveDataNews = async () => {
+     const retrieveNews = "https://engeenx.com/agNews.php";
 
+     try {
+       const response = await fetch(retrieveNews);
+       const data = await response.json();
 
-  const retrieveNews = "https://engeenx.com/agNews.php";
+       const filterMain = data.filter((link) => link.type === "main");
+       const filterSub = data.filter((link) => link.type === "sub");
+       const filterOther = data.filter((link) => link.type === "other");
 
-  const retrieveDatanews = async () => {
-    const response = await fetch(retrieveNews);
-    const data = await response.json();
-    const filterMain = data.filter(link => link.type === 'main')
-    const filterSub = data.filter((link) => link.type === "sub");
-    const filterOther = data.filter((link) => link.type === "other");
-    setNewslist(filterOther);
+       setNewsList(filterOther);
 
-    const mainlink = [];
-    const sublink = [];
-    const otherlink = [];
-    for (const linkObj of filterMain) {
-      const data = await fetchLinkPreview(linkObj.link);
-      if (data) {
-        mainlink.push({ id: linkObj.id, data });
-      }
-    }
-    for (const linkObj of filterSub) {
-      const data = await fetchLinkPreview(linkObj.link);
-      if (data) {
-        sublink.push({ id: linkObj.id, data });
-      }
-    }
-    for (const linkObj of filterOther) {
-      const data = await fetchLinkPreview(linkObj.link);
-      if (data) {
-        otherlink.push({ id: linkObj.id, data });
-      }
-    }
-    const mergeData = (retrievedaata, filterdata) => {
-      const dataMap = new Map();
+       const mainlink = await Promise.all(
+         filterMain.map(async (linkObj) => {
+           const data = await fetchLinkPreview(linkObj.link);
+           return data ? { id: linkObj.id, data } : null;
+         })
+       );
 
-      retrievedaata.forEach((item) => {
-        dataMap.set(item.id, { ...item });
-      });
+       const sublink = await Promise.all(
+         filterSub.map(async (linkObj) => {
+           const data = await fetchLinkPreview(linkObj.link);
+           return data ? { id: linkObj.id, data } : null;
+         })
+       );
 
-      filterdata.forEach((item) => {
-        if (dataMap.has(item.id)) {
-          dataMap.set(item.id, { ...dataMap.get(item.id), ...item });
-        } else {
-          dataMap.set(item.id, { ...item });
-        }
-      });
+       const otherlink = await Promise.all(
+         filterOther.map(async (linkObj) => {
+           const data = await fetchLinkPreview(linkObj.link);
+           return data ? { id: linkObj.id, data } : null;
+         })
+       );
 
-      return Array.from(dataMap.values());
-    };
+       setMainLinkData(mainlink.filter(Boolean));
+       setSubLinkData(sublink.filter(Boolean));
+       setPreviewData(otherlink.filter(Boolean));
+       setLoader(false);
+     } catch (error) {
+       console.error("Error retrieving data:", error);
+       setError("Error fetching data");
+       setLoader(false);
+     }
+   };
 
-    const combinedother = mergeData(otherlink, filterOther);
-    const combinedmain = mergeData(mainlink, filterMain);
-    const combinedsub = mergeData(sublink, filterSub);
-    setSubLinkData(combinedsub);
-    setMainLinkData(combinedmain);
-    setPreviewData(combinedother);
-    setLoader(false)
-  };
-  const [previewData, setPreviewData] = useState([]);
-  const [mainLinkData, setMainLinkData] = useState([]);
-  const [subLinkData, setSubLinkData] = useState([]);
-  const [error, setError] = useState("");
-  const fetchLinkPreview = async (url) => {
-    setLoader(true);
-    setError("");
-    try {
-      const response = await axios.get(
-        `http://82.197.94.35:5000/link-preview?url=${encodeURIComponent(url)}`
-      );
-      return response.data;
-    } catch (err) {
-      setError("Error fetching preview data");
-      return null;
-    } finally {
-      setLoader(false);
-    }
-  };
-
+   const fetchLinkPreview = async (url) => {
+     try {
+       const response = await axios.get(
+         `http://paranworld.com/link-preview?url=${encodeURIComponent(url)}`
+       );
+       return response.data;
+     } catch (error) {
+       console.error("Error fetching link preview:", error);
+       setError("Error fetching preview data");
+       return null;
+     }
+   };
 
   console.log(mainLinkData);
   return (
