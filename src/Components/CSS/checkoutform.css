@@ -1,0 +1,38 @@
+.formpayment{
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    z-index: 10;
+}
+.formdataContainer{
+    padding: 10vw;
+}
+.formdataContents{
+    background: black;
+    border: .1vw solid white;
+    border-radius: 1vw;
+    padding: 1vw;
+    box-shadow: 0 0 1vw rgba(255, 255, 255, 0.555);
+    display: flex;
+}
+.productCheckout{
+    width: 100%;
+}
+.formdataContents form{
+    width: 100%;
+    padding: 1vw;
+    border-radius: 1vw;
+    box-sizing: border-box;
+}
+.productCheckoutContents ul{
+    display: flex;
+    list-style: none;
+    width: 100%;
+}
+.productCheckoutContents ul li{
+    border: .1vw solid white;
+    padding: .5vw;
+    color: white;
+}
