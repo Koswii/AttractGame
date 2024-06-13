@@ -27,6 +27,8 @@ import Robux from './Components/Pages/Robux';
 
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import News from './Components/Pages/News';
+import Success from './Components/Pages/success';
+
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -104,6 +106,7 @@ function App() {
           <Route exact path="/MyProfile" element={<Profile/>}/>
           <Route exact path="/MyFavorites" element={<Favorites/>}/>
           <Route exact path="/MyCart" element={<Cart/>}/>
+          <Route exact path="/success" element={<Success/>}/>
         </>:<Route path="*" element={<Home/>}/>}
         {(getAdminCredentials && userLoggedInState) && <Route path="/Admin" element={<Admin/>}/>}
 
