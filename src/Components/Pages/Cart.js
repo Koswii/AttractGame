@@ -16,7 +16,14 @@ import {
     TbDiamond,   
 } from "react-icons/tb";
 
+// stripe
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "../Pages/checkoutform";
 
+const stripePromise = loadStripe(
+  "pk_test_51PQqwY09gFZMinIqmpOD5VxhWK4hJ5KYbZVXwVJ1zXTkiUmxDdmlGYmf7PwRaTTWsn9uzUJMGWAUVETEpysIclcq00eUfVDmBH"
+);
 
 const LoginUserID = localStorage.getItem('profileUserID');
 const AGUserCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
@@ -310,96 +317,186 @@ const Cart = () => {
 
 
 
+    const [clientSecret, setClientSecret] = useState();
+
+    const appearance = {
+      theme: "night",
+      labels: "floating",
+    };
+    const options = {
+        clientSecret,
+        appearance,
+    };
+
+
+    console.log(clientSecret);
+
+
+    const checkOutprod = async () => {
+        const body = {
+          product: allPrductsDetails,
+        };
+        const bodyString = JSON.stringify(body)
+        const headers = { "Content-type": "application/json" };
+
+        console.log(parseInt(checkoutOverallTotal));
+
+        try {
+            const response = await fetch(
+              "http://localhost:4242/create-check-out-session",
+              {
+                method: "POST",
+                headers: headers,
+                body: bodyString,
+              }
+            );
+
+            const session = await response.json();
+            console.log(session);
+            setClientSecret(session.clientSecret);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
-        <div className='mainContainer cart'>
-            <section className="cartPageContainer top">
-                <div className="cartpcTopProfile">
-                    <div className="cartpctProfile left">
-                        {userLoggedData.profileimg ? 
-                        <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt=""/>
-                        :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
-                    </div>
-                    <div className="cartpctProfile right">
-                        <h5>{userLoggedData.username}'s Cart</h5>
-                        <p>Products you added to Cart</p>
-                    </div>
+      <div className="mainContainer cart">
+        {clientSecret && (
+          <Elements options={options} stripe={stripePromise}>
+            <CheckoutForm allPrductsDetails={allPrductsDetails} />
+          </Elements>
+        )}
+        <section className="cartPageContainer top">
+          <div className="cartpcTopProfile">
+            <div className="cartpctProfile left">
+              {userLoggedData.profileimg ? (
+                <img
+                  src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`}
+                  alt=""
+                />
+              ) : (
+                <img
+                  src={require("../assets/imgs/ProfilePics/DefaultSilhouette.png")}
+                  alt=""
+                />
+              )}
+            </div>
+            <div className="cartpctProfile right">
+              <h5>{userLoggedData.username}'s Cart</h5>
+              <p>Products you added to Cart</p>
+            </div>
+          </div>
+        </section>
+        <section className="cartPageContainer mid">
+          <div className="cartpcMid1Container">
+            <div className="cartpcm1Content left">
+              <div className="cartpcm1cLeft">
+                {renderCartProducts()}
+                {renderCartProductsMobile()}
+              </div>
+            </div>
+            <div className="cartpcm1Content right">
+              <div className="cartpcm1cRight">
+                <h5>ORDER SUMMARY</h5>
+                <div className="cartpcm1crList">
+                  <h6>
+                    <TbDeviceGamepad2 className="faIcons" /> GAMES
+                  </h6>
+                  {productGameDetails.map((details, i) => (
+                    <>
+                      <span key={i}>
+                        <p id="productTitle">
+                          {details.productData.game_title} -{" "}
+                          {details.productData.game_platform}
+                        </p>
+                        <p id="productPrice">
+                          ${" "}
+                          {details.stock === undefined
+                            ? "--.--"
+                            : details.stock === undefined
+                            ? "--.--"
+                            : details.effectivePrice.toFixed(2)}{" "}
+                          x {orderQuantities[details.ag_product_id] || 1}
+                        </p>
+                      </span>
+                    </>
+                  ))}
+                  <br />
+                  <h6>
+                    <TbGiftCard className="faIcons" /> GIFTCARDS
+                  </h6>
+                  {productGiftcardDetails.map((details, i) => (
+                    <>
+                      <span key={i}>
+                        <p id="productTitle">
+                          {details.productData.giftcard_name} - $
+                          {details.productData.giftcard_denomination}
+                        </p>
+                        <p id="productPrice">
+                          ${" "}
+                          {details.stock === undefined
+                            ? "--.--"
+                            : details.stock === undefined
+                            ? "--.--"
+                            : details.effectivePrice.toFixed(2)}{" "}
+                          x {orderQuantities[details.ag_product_id] || 1}
+                        </p>
+                      </span>
+                    </>
+                  ))}
+                  <br />
+                  <h6>
+                    <TbDiamond className="faIcons" /> GAME CREDITS
+                  </h6>
+                  {productGamecreditDetails.map((details, i) => (
+                    <>
+                      <span key={i}>
+                        <p id="productTitle">
+                          {details.productData.gamecredit_name} - $
+                          {details.productData.gamecredit_denomination}
+                        </p>
+                        <p id="productPrice">
+                          ${" "}
+                          {details.stock === undefined
+                            ? "--.--"
+                            : details.stock === undefined
+                            ? "--.--"
+                            : details.effectivePrice.toFixed(2)}{" "}
+                          x {orderQuantities[details.ag_product_id] || 1}
+                        </p>
+                      </span>
+                    </>
+                  ))}
                 </div>
-            </section>
-            <section className="cartPageContainer mid">
-                <div className="cartpcMid1Container">
-                    <div className="cartpcm1Content left">
-                        <div className="cartpcm1cLeft">
-                            {renderCartProducts()}
-                            {renderCartProductsMobile()}
-                        </div>
-                    </div>
-                    <div className="cartpcm1Content right">
-                        <div className="cartpcm1cRight">
-                            <h5>ORDER SUMMARY</h5>
-                            <div className='cartpcm1crList'>
-                                <h6><TbDeviceGamepad2 className='faIcons'/> GAMES</h6>
-                                {productGameDetails.map((details, i) => (
-                                    <>
-                                        <span key={i}>
-                                            <p id='productTitle'>{details.productData.game_title} - {details.productData.game_platform}</p>
-                                            <p id='productPrice'>$ {(details.stock === undefined) ? '--.--': 
-                                                ((details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2))} x {orderQuantities[details.ag_product_id] || 1}
-                                            </p>
-                                        </span>
-                                    </>
-                                ))}
-                                <br />
-                                <h6><TbGiftCard className='faIcons'/> GIFTCARDS</h6>
-                                {productGiftcardDetails.map((details, i) => (
-                                    <>
-                                        <span key={i}>
-                                            <p id='productTitle'>{details.productData.giftcard_name} - ${details.productData.giftcard_denomination}</p>
-                                            <p id='productPrice'>$ {(details.stock === undefined) ? '--.--': 
-                                                ((details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2))} x {orderQuantities[details.ag_product_id] || 1}
-                                            </p>
-                                        </span>
-                                    </>
-                                ))}
-                                <br />
-                                <h6><TbDiamond className='faIcons'/> GAME CREDITS</h6>
-                                {productGamecreditDetails.map((details, i) => (
-                                    <>
-                                        <span key={i}>
-                                            <p id='productTitle'>{details.productData.gamecredit_name} - ${details.productData.gamecredit_denomination}</p>
-                                            <p id='productPrice'>$ {(details.stock === undefined) ? '--.--': 
-                                                ((details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2))} x {orderQuantities[details.ag_product_id] || 1}
-                                            </p>
-                                        </span>
-                                    </>
-                                ))}
-                            </div>
-                            <div className="cartpcm1crCheckout">
-                                <span>
-                                    <p>SUBTOTAL</p>
-                                    <h6>$ {productSubtotalSum.toFixed(2)}</h6>
-                                </span>
-                                <span>
-                                    <p>OUR CHARGE</p>
-                                    <h6>4.5%</h6>
-                                </span>
-                                <hr />
-                                <span>
-                                    <p>AG POINTS</p>
-                                    <h6>{checkoutOverallAGPoints.toFixed(0)} <FaBolt className='faIcons'/></h6>
-                                </span>
-                                <span>
-                                    <p>PAYABLE</p>
-                                    <h6>$ {checkoutOverallTotal.toFixed(2)}</h6>
-                                </span>
-                                <button>CHECKOUT PRODUCTS</button>
-                            </div>
-                        </div>
-                    </div>
+                <div className="cartpcm1crCheckout">
+                  <span>
+                    <p>SUBTOTAL</p>
+                    <h6>$ {productSubtotalSum.toFixed(2)}</h6>
+                  </span>
+                  <span>
+                    <p>OUR CHARGE</p>
+                    <h6>4.5%</h6>
+                  </span>
+                  <hr />
+                  <span>
+                    <p>AG POINTS</p>
+                    <h6>
+                      {checkoutOverallAGPoints.toFixed(0)}{" "}
+                      <FaBolt className="faIcons" />
+                    </h6>
+                  </span>
+                  <span>
+                    <p>PAYABLE</p>
+                    <h6>$ {checkoutOverallTotal.toFixed(2)}</h6>
+                  </span>
+                  <button onClick={checkOutprod}>CHECKOUT PRODUCTS</button>
                 </div>
-            </section>
-        </div>
-    )
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
 }
 
 export default Cart
