@@ -104,6 +104,9 @@ const Games = () => {
     );
     useEffect(() => {
         localStorage.setItem('currentPage', currentPage);
+        setTimeout(() => {
+            setLoader(false)
+        }, 2000);
     }, [currentPage]);
 
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -207,7 +210,6 @@ const Games = () => {
           if (resMessage.success === true) {
             fetchGames(setViewAGData1, setLoadingMarketData);
             fetchUserCart(setProductCarts, LoginUserID);
-            setLoader(false)
           } else {
             // console.log(resMessage.message);
           }
@@ -252,6 +254,7 @@ const Games = () => {
       const favoriteMatch = !filters.favorite || game.favorite; // Assuming `game.favorite` indicates if a game is favorite
 
       return platformMatch && categoryMatch && editionMatch && favoriteMatch;
+      
     });
     useEffect(() => {
         // Check if any filter is active
@@ -312,7 +315,7 @@ const Games = () => {
                                         <li>
                                             <input
                                                 type="checkbox"
-                                            />XboXs
+                                            />XboxXS
                                         </li>
                                     </>
                                 }
