@@ -78,10 +78,9 @@ const News = () => {
   const [previewData, setPreviewData] = useState([]);
   const [mainLinkData, setMainLinkData] = useState([]);
   const [subLinkData, setSubLinkData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const fetchLinkPreview = async (url) => {
-    setLoading(true);
+    setLoader(true);
     setError("");
     try {
       const response = await axios.get(
@@ -92,11 +91,12 @@ const News = () => {
       setError("Error fetching preview data");
       return null;
     } finally {
-      setLoading(false);
+      setLoader(false);
     }
   };
 
 
+  console.log(mainLinkData);
   return (
     <div className="mainContainer news">
       <section className="newsPageContainer top">
@@ -115,7 +115,8 @@ const News = () => {
                 </div>
               </div>
             </div>
-          </>:<>
+          </>:
+          <>
             {mainLinkData.map((linkdata) => (
               <div className="mainHeadline"
                 style={{
@@ -152,6 +153,9 @@ const News = () => {
       </section>
       <section className="newsPageContainer mid">
         <div className="newsContentPageMid1">
+          {loader ? 
+          <></>
+          :
           <div className="newscpm1BreakingNews">
             <ul>
               {previewData.map((preview) => (
@@ -165,6 +169,7 @@ const News = () => {
               ))}
             </ul>
           </div>
+          }
         </div>
       </section>
     </div>
