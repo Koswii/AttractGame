@@ -1,38 +1,296 @@
 .formpayment{
-    position: absolute;
+    position: fixed;
     height: 100vh;
     width: 100%;
     padding: 0;
     box-sizing: border-box;
-    z-index: 10;
+    z-index: 999;
 }
 .formdataContainer{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 10vw;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(9.5px);
+    -webkit-backdrop-filter: blur(9.5px);
 }
 .formdataContents{
     background: black;
-    border: .1vw solid white;
+    border: .1vw solid rgba(255, 255, 255, 0.301);
     border-radius: 1vw;
     padding: 1vw;
     box-shadow: 0 0 1vw rgba(255, 255, 255, 0.555);
     display: flex;
+    height: 46vw;
+    width: 55vw;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position: relative;
 }
 .productCheckout{
     width: 100%;
 }
-.formdataContents form{
+.transactionPaymentInfo{
     width: 100%;
-    padding: 1vw;
+    height: auto;
+}
+.formdataContents form{
     border-radius: 1vw;
     box-sizing: border-box;
+    padding: .5vw .5vw .5vw 1vw;
+}
+.formdataContents form button{
+    margin: .7vw 0 0 0;
+    width: 100%;
+    padding: 1vw;
+    background: #30313d;
+    border-radius: 5px;
+    border: 1px solid #5c5e748c;
+    color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5), 0px 1px 6px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+.productCheckoutContents h1{
+    font-size: .7vw;
+    margin: 0 0 0 .5vw;
 }
 .productCheckoutContents ul{
     display: flex;
     list-style: none;
-    width: 100%;
+    height: auto;
+    width: 34vw;
+    flex-wrap: wrap;
 }
 .productCheckoutContents ul li{
-    border: .1vw solid white;
-    padding: .5vw;
+    border: .1vw solid rgba(255, 255, 255, 0.411);
+    padding: 1vw 1.5vw;
     color: white;
+    height: 12vw;
+    width: 10vw;
+    border-radius: .5vw;
+    position: relative;
+    text-align: center;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    margin: .5vw;
+}
+.productCheckoutContents ul li h1{
+    font-size: .8vw;
+    margin: 0 0 1.2vw 0;
+    position: absolute;
+}
+.productCheckoutContents ul li span{
+    font-size: .6vw;
+    margin: 0 0 2.2vw 0;
+    position: absolute;
+}
+.productCheckoutContents ul li section{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.productCheckoutContents ul li section p{
+    font-size: .7vw;
+}
+
+.loadingCartCheckout{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.loadingCartCheckout section{
+    text-align: center;
+}
+.loadingCartCheckout section h1{
+    font-size: .7vw;
+    font-weight: 100;
+}
+.cancelPaymentTransaction{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 0 .5vw 0 1vw;
+}
+.cancelPaymentTransaction button{
+    width: 100%;
+    padding: 1vw;
+    background: #30313d;
+    border-radius: 5px;
+    border: 1px solid #5c5e748c;
+    color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5), 0px 1px 6px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+#payment-message{
+    text-align: center;
+    margin: .5vw 0 0 0;
+}
+#payment-message p{
+    font-size: .7vw;
+    font-weight: 500;
+    color: #fe87a1;
+}
+.checkoutProductsummary{
+    margin: 1vw 0 0 0;
+}
+.checkoutProductsummary ul{
+    display: flex;
+    columns: 3;
+    list-style: none;
+    padding: 0 .5vw 0 1vw;
+}
+.checkoutProductsummary ul li{
+    padding: .5vw;
+    border: .1vw solid white;
+    width: 100%;
+    margin: 0 .2vw;
+    border-radius: .5vw;
+}
+#gsIcon{
+    margin: 0 .4vw 0 0;
+}
+.checkoutProductsummary ul li p{
+    font-size: 1vw;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    font-weight: 700;
+}
+.totalpriceDatasummary{
+    text-align: right;
+}
+.totalpriceDatasummary p{
+    font-size: .8vw;
+}
+.totalpriceDatasummary h2{
+    font-size: 1.5vw;
+}
+.totalpriceDatasummary{
+    margin: 1vw 0 0 0;
+    padding: 0 .5vw .5vw 1vw;
+}
+
+
+@media screen and (max-width: 500px){
+    .formdataContents{
+        border: .1vw solid rgba(255, 255, 255, 0.301);
+        border-radius: 5vw;
+        padding: 5vw 3vw;
+        box-shadow: 0 0 1vw rgba(255, 255, 255, 0.555);
+        display: block;
+        height: 80vh;
+        width: 100%;
+    }
+    .productCheckout{
+        width: 100%;
+    }
+    .transactionPaymentInfo{
+        width: 100%;
+        height: auto;
+    }
+    .formdataContents form{
+        padding: 2vw .5vw .5vw 1vw;
+    }
+    .formdataContents form button{
+        margin: 3vw 0 0 0;
+        width: 100%;
+        padding: 4vw 1vw;
+    }
+    .productCheckoutContents h1{
+        font-size: 3vw;
+        margin: 0 0 1vw 0;
+        width: 100%;
+        text-align: center;
+    }
+    .productCheckoutContents ul{
+        width: 100%;
+        columns: 2;
+    }
+    .productCheckoutContents ul li{
+        padding: 1vw 1.5vw;
+        height: 50vw;
+        width: 34vw;
+        border-radius: 5px;
+        margin: 1vw auto;
+    }
+    .productCheckoutContents ul li h1{
+        font-size: 3vw;
+        margin: 0 0 4vw 0;
+        position: absolute;
+    }
+    .productCheckoutContents ul li span{
+        font-size: 2.5vw;
+        margin: 0 0 8vw 0;
+    }
+    .productCheckoutContents ul li section{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .productCheckoutContents ul li section p{
+        font-size: 2vw;
+    }
+
+    .loadingCartCheckout section h1{
+        font-size: 2vw;
+    }
+    .cancelPaymentTransaction{
+        padding: 0 .5vw 0 1vw;
+        margin: 3vw 0 0 0;
+    }
+    .cancelPaymentTransaction button{
+        padding: 4vw 1vw;
+    }
+    #payment-message{
+        margin: 3vw 0 0 0;
+    }
+    #payment-message p{
+        font-size: 3vw;
+    }
+    .checkoutProductsummary{
+        margin: 1vw 0 0 0;
+    }
+    .checkoutProductsummary ul{
+        display: flex;
+        columns: 3;
+        list-style: none;
+        padding: 0 .5vw 0 1vw;
+        margin: 3vw 0 0 0;
+    }
+    .checkoutProductsummary ul li{
+        padding: 3vw;
+        border: .1vw solid white;
+        width: 100%;
+        margin: 0 1vw;
+        border-radius: 5px;
+    }
+    #gsIcon{
+        margin: 0 1vw 0 0;
+    }
+    .checkoutProductsummary ul li p{
+        font-size: 5vw;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        font-weight: 700;
+    }
+    .totalpriceDatasummary p{
+        font-size: 3vw;
+    }
+    .totalpriceDatasummary h2{
+        font-size: 6vw;
+    }
+    .totalpriceDatasummary{
+        margin: 3vw 0 0 0;
+        padding: 0 1vw;
+    }
 }

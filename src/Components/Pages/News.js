@@ -6,6 +6,7 @@ import {
   MdNewspaper,
 } from "react-icons/md";
 import { FaYoutube } from "react-icons/fa";
+import Underdevelop from './underdevelop';
 
 const News = () => {
 // usestate
@@ -68,7 +69,7 @@ const News = () => {
    const fetchLinkPreview = async (url) => {
      try {
        const response = await axios.get(
-         `http://paranworld.com/link-preview?url=${encodeURIComponent(url)}`
+         `https://paranworld.com/link-preview?url=${encodeURIComponent(url)}`
        );
        return response.data;
      } catch (error) {
@@ -81,7 +82,8 @@ const News = () => {
   console.log(mainLinkData);
   return (
     <div className="mainContainer news">
-      <section className="newsPageContainer top">
+      <Underdevelop/>
+      {/* <section className="newsPageContainer top">
         <div className="newsContentPageTop">
           {loader ? (
             <>
@@ -197,7 +199,7 @@ const News = () => {
             </div>
           )}
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }
