@@ -144,6 +144,27 @@ section.robuxPageContainer.mid{
     transform: translateY(-10px);
     transition: 400ms ease;
 }
+.rbpcm2CreditNumber{
+    height: auto;
+    width: 50%;
+    padding: 3% 5%;
+    position: absolute;
+    top: 4vw;
+    text-align: center;
+    left: 0;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.rbpcm2CreditNumber h6{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.rbpcm2CreditNumber h6 .faIcons{
+    margin: 0 5%;
+}
 .rbpcm2Content img{
     height: auto;
     width: 100%;
