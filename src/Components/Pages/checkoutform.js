@@ -6,17 +6,39 @@ import {
 } from "@stripe/react-stripe-js";
 // css
 import '../CSS/checkoutform.css'
+// axios
+import axios from "axios";
+// icons
+import { IoLogoGameControllerB } from "react-icons/io";
+import { MdOutlineCardGiftcard } from "react-icons/md";
+import { SiYoutubegaming } from "react-icons/si";
 
-export default function CheckoutForm(allPrductsDetails) {
+const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalprice,setSuccesstransaction}) => {
   const stripe = useStripe();
   const elements = useElements();
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [checkOutprod,setCheckoutprod] = useState(allPrductsDetails.allPrductsDetails)
+  const [checkOutprod,setCheckoutprod] = useState(allPrductsDetails)
+
+  const [loader,setLoader] = useState(true)
+
+  const [gameData,setGamedata] = useState()
+  const [giftCardData,setGiftCardData] = useState()
+  const [gameCreditsdData,setGameCreditsdata] = useState()
 
   useEffect(() => {
+    if (checkOutprod !== undefined) {
+      const filterdataGiftcard = checkOutprod.filter(item => item.ag_product_type === 'Giftcard')
+      const filterdataGame = checkOutprod.filter(item => item.ag_product_type === 'Game')
+      const filterdataGamecredits = checkOutprod.filter(item => item.ag_product_type === 'Gamecredits')
+
+      setGamedata(filterdataGame)
+      setGiftCardData(filterdataGiftcard)
+      setGameCreditsdata(filterdataGamecredits)
+    }
+
     if (!stripe) {
       return;
     }
@@ -32,7 +54,7 @@ export default function CheckoutForm(allPrductsDetails) {
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent.status) {
         case "succeeded":
-          setMessage("Payment succeeded!");
+          setMessage("Payment succeeded! Buy again?");
           break;
         case "processing":
           setMessage("Your payment is processing.");
@@ -49,7 +71,6 @@ export default function CheckoutForm(allPrductsDetails) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
@@ -62,9 +83,10 @@ export default function CheckoutForm(allPrductsDetails) {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000/success",
+        return_url: "http://localhost:3000/MyCart",
       },
-    });
+      }
+    );
 
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to
@@ -80,39 +102,143 @@ export default function CheckoutForm(allPrductsDetails) {
     setIsLoading(false);
   };
 
+  const cancelPayment = async (e) => {
+    e.preventDefault()
+    try {
+      const res = await axios.post('http://localhost:4242/cancel-payment-intent', { paymentIntentId });
+      console.log(
+        res
+      );
+      setClientSecret()
+    } catch (err) {
+      console.log(err);
+    }
+  }
   const paymentElementOptions = {
     layout: "tabs",
   };
-  console.log(checkOutprod);
+  
+
+
+  
+  setTimeout(() => {
+    setLoader(false)
+  }, 2000);
   return (
     <div className="formpayment">
       <div className="formdataContainer">
         <div className="formdataContents">
-          <div className="productCheckout">
-            <div className="productCheckoutContents">
-              {checkOutprod&&(
-                <>
-                  <ul>
-                    {checkOutprod.map(product => (
-                        <li key={product.key}>{product.ag_product_name}</li>
-                    ))}
-                  </ul>
-                </>
-              )}
-            </div>
+          {loader ? 
+          <>
+          <div className="loadingCartCheckout">
+            <section>
+              <h1>Loading Products...</h1>
+            </section>
           </div>
-          <form id="payment-form" onSubmit={handleSubmit}>
-            <PaymentElement id="payment-element" options={paymentElementOptions} />
-            <button disabled={isLoading || !stripe || !elements} id="submit">
-              <span id="button-text">
-                {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-              </span>
-            </button>
-            {/* Show any error or success messages */}
-            {message && <div id="payment-message">{message}</div>}
-          </form>
+          </> :
+          <>
+            <div className="productCheckout">
+              <div className="productCheckoutContents">
+                <h1>Your Orders</h1>
+                <ul>
+                {gameData&&(
+                  <>
+                    {gameData.map(product => {
+                      const productData = product.productData;
+                      const productDataEntries = Object.entries(productData);
+                      return (
+                      <li style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GameCovers/${productDataEntries[3][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
+                        <span>{productDataEntries[6][1]}</span>
+                        <h1>{productDataEntries[4][1]}</h1>
+                        <section>
+                          <p>${product.effectivePrice}</p>
+                          <p>{product.numberOfOrder === undefined ? 1 : product.numberOfOrder} pcs</p>
+                        </section>
+                      </li>
+                      )
+                    })}
+                  </>
+                )}
+                {giftCardData&&(
+                  <>
+                    {giftCardData.map(product => {
+                      const productData = product.productData;
+                      const productDataEntries = Object.entries(productData);
+                      return (
+                      <li style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GiftCardCovers/${productDataEntries[5][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
+                        <h1>{productDataEntries[3][1]}</h1>
+                        <section>
+                          <p>${product.effectivePrice}</p>
+                          <p>{product.numberOfOrder === undefined ? 1 : product.numberOfOrder} pcs</p>
+                        </section>
+                      </li>
+                      )
+                    })}
+                  </>
+                )}
+                {gameCreditsdData&&(
+                  <>
+                    {gameCreditsdData.map(product => {
+                      const productData = product.productData;
+                      const productDataEntries = Object.entries(productData);
+                      return (
+                      <li style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GiftCardCovers/${productDataEntries[5][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
+                        <h1>{productDataEntries[4][1]}</h1>
+                        <section>
+                          <p>${product.effectivePrice}</p>
+                          <p>{product.numberOfOrder === undefined ? 1 : product.numberOfOrder} pcs</p>
+                        </section>
+                      </li>
+                      )
+                    })}
+                  </>
+                )}
+                </ul>
+              </div>
+            </div>
+            <div className="transactionPaymentInfo">
+              <form id="payment-form" onSubmit={handleSubmit}>
+                  <PaymentElement id="payment-element" options={paymentElementOptions} />
+                  <button disabled={isLoading || !stripe || !elements} id="submit">
+                    <span id="button-text">
+                      {isLoading ? <div className="spinner" id="spinner"></div> : <>{message? 'Buy Again' : 'Pay Now'}</>}
+                    </span>
+                  </button>
+                  {/* Show any error or success messages */}
+                  {message && <div id="payment-message"><p>{message}</p></div>}
+                </form>
+                <div className="cancelPaymentTransaction">
+                  <button disabled={isLoading || !stripe || !elements} onClick={cancelPayment}>Cancel</button>
+                </div>
+                <div className="checkoutProductsummary">
+                  <ul>
+                    {gameData&&(
+                      <li>
+                        <p><IoLogoGameControllerB id="gsIcon"/>{gameData.length}</p>
+                      </li>
+                    )}
+                    {giftCardData&&(
+                      <li>
+                        <p><MdOutlineCardGiftcard id="gsIcon"/>{giftCardData.length}</p>
+                      </li>
+                    )}
+                    {gameCreditsdData&&(
+                      <li>
+                        <p><SiYoutubegaming id="gsIcon"/>{gameCreditsdData.length}</p>
+                      </li>
+                    )}
+                  </ul>
+                  <div className="totalpriceDatasummary">
+                    <p>Total Price</p>
+                    <h2>$ {totalprice.toFixed(2)}</h2>
+                  </div>
+                </div>
+            </div>
+          </>}
         </div>
       </div>
     </div>
   );
 }
+
+export default CheckoutForm

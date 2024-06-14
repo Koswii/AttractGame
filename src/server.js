@@ -44,12 +44,28 @@ app.post("/create-check-out-session", async (req, res) => {
     amount: parseInt(totalPayable),
     currency: "usd",
   });
-
   res.send({
+    paymentIntentID: paymentIntent.id,
     clientSecret: paymentIntent.client_secret,
     line_items: line_items,
   });
 });
+
+app.post("/cancel-payment-intent", async (req, res) => {
+  const { paymentIntentId } = req.body;
+
+  try {
+    const canceledPaymentIntent = await stripe.paymentIntents.cancel(
+      paymentIntentId
+    );
+    console.log(canceledPaymentIntent);
+    res.status(200).send(canceledPaymentIntent);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
+
 app.get("/success", (req, res) => {
   res.send("payment successfull");
 });
