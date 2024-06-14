@@ -38,7 +38,9 @@ app.post("/create-check-out-session", async (req, res) => {
   }));
 
   const totalUnitAmount = calculateTotalUnitAmount(line_items);
-  const totalPayable = totalUnitAmount + ((4.5 / 100) * totalUnitAmount);
+  const agChargeFee = ((4.5 / 100) * totalUnitAmount);
+  const agTaxFee = ((3 / 100) * totalUnitAmount)
+  const totalPayable = totalUnitAmount + agChargeFee + agTaxFee;
   console.log(totalPayable);
   const paymentIntent = await stripe.paymentIntents.create({
     amount: parseInt(totalPayable),
