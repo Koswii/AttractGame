@@ -9,13 +9,10 @@ import '../CSS/checkoutform.css'
 // axios
 import axios from "axios";
 // icons
-import { IoLogoGameControllerB } from "react-icons/io";
-import { MdOutlineCardGiftcard } from "react-icons/md";
-import { SiYoutubegaming } from "react-icons/si";
 import { 
-  TbDeviceGamepad2,
-  TbGiftCard, 
-  TbDiamond,   
+    TbDeviceGamepad2,
+    TbGiftCard, 
+    TbDiamond,   
 } from "react-icons/tb";
 
 const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,setClientSecret,totalprice,transactionData}) => {
@@ -28,8 +25,8 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
 
   const [checkOutprod,setCheckoutprod] = useState(allPrductsDetails)
 
-
   const [loader,setLoader] = useState(true)
+
   const [gameData,setGamedata] = useState()
   const [giftCardData,setGiftCardData] = useState()
   const [gameCreditsdData,setGameCreditsdata] = useState()
@@ -40,9 +37,9 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
       const filterdataGame = checkOutprod.filter(item => item.ag_product_type === 'Game')
       const filterdataGamecredits = checkOutprod.filter(item => item.ag_product_type === 'Game Credit')
 
-      setGamedata(filterdataGame);
-      setGiftCardData(filterdataGiftcard);
-      setGameCreditsdata(filterdataGamecredits);
+      setGamedata(filterdataGame)
+      setGiftCardData(filterdataGiftcard)
+      setGameCreditsdata(filterdataGamecredits)
     }
 
     if (!stripe) {
@@ -62,7 +59,6 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
       switch (paymentIntent.status) {
         case "succeeded":
           setMessage("Payment succeeded! Buy again?");
-          handleTransferProducts();  // Call the transfer function here
           break;
         case "processing":
           setMessage("Your payment is processing.");
@@ -75,7 +71,7 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
           break;
       }
     });
-  }, [stripe, checkOutprod, handleTransferProducts]);
+  }, [stripe]);
 
   const handleSubmitform = async (e) => {
     e.preventDefault();
@@ -93,7 +89,8 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/MyCart", // Ensure you have the correct return URL
+        // Make sure to change this to your payment completion page
+        return_url: "http://localhost:3000/MyCart",
       },
       redirect: 'if_required'
       }
