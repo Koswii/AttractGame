@@ -9,9 +9,11 @@ import '../CSS/checkoutform.css'
 // axios
 import axios from "axios";
 // icons
-import { IoLogoGameControllerB } from "react-icons/io";
-import { MdOutlineCardGiftcard } from "react-icons/md";
-import { SiYoutubegaming } from "react-icons/si";
+import { 
+    TbDeviceGamepad2,
+    TbGiftCard, 
+    TbDiamond,   
+} from "react-icons/tb";
 
 const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,setClientSecret,totalprice,transactionData}) => {
   const stripe = useStripe();
@@ -225,17 +227,17 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
                   <ul>
                     {gameData&&(
                       <li>
-                        <p><IoLogoGameControllerB id="gsIcon"/>{gameData.length}</p>
+                        <p><TbDeviceGamepad2 id="gsIcon"/>{gameData.length}</p>
                       </li>
                     )}
                     {giftCardData&&(
                       <li>
-                        <p><MdOutlineCardGiftcard id="gsIcon"/>{giftCardData.length}</p>
+                        <p><TbGiftCard id="gsIcon"/>{giftCardData.length}</p>
                       </li>
                     )}
                     {gameCreditsdData&&(
                       <li>
-                        <p><SiYoutubegaming id="gsIcon"/>{gameCreditsdData.length}</p>
+                        <p><TbDiamond id="gsIcon"/>{gameCreditsdData.length}</p>
                       </li>
                     )}
                   </ul>
