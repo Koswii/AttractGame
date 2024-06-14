@@ -86,11 +86,11 @@ const Robux = () => {
 
                 const stockListResponse = await axios.get(AGStocksListAPI);
                 const stockListData = stockListResponse.data;
-                const stockInfo = agGamecreditSort.map(giftcard => {
-                    const stock = stockListData.find(stock => stock.ag_product_id === giftcard.giftcard_id);
-                    const stockCount = stockListData.filter(stock => stock.ag_product_id === giftcard.giftcard_id).length;
+                const stockInfo = agGamecreditSort.map(gamecredit => {
+                    const stock = stockListData.find(stock => stock.ag_product_id === gamecredit.gamecredit_id);
+                    const stockCount = stockListData.filter(stock => stock.ag_product_id === gamecredit.gamecredit_id).length;
                     return {
-                        ...giftcard, stock, stockCount
+                        ...gamecredit, stock, stockCount
                     };
                 });
                 setGamecreditViewDetails(stockInfo);
@@ -233,6 +233,9 @@ const Robux = () => {
                     <div className="rbpcMid2Container">
                         {!loadingGamecredit ? <>{gamecreditViewDetails.map((details, i) => (
                             <div className={`rbpcm2Content ${(details.stockCount === 0) ? 'noStocks' : ''}`} key={i}>
+                                <span className="rbpcm2CreditNumber">
+                                    <h6>{details.gamecredit_number} <SiRoblox className='faIcons'/></h6>
+                                </span>
                                 <img src={`https://2wave.io/GiftCardCovers/${details.gamecredit_cover}`} alt="" />
                                 <div>
                                     <h6>$ {details.gamecredit_denomination}</h6>

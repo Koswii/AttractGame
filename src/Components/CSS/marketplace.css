@@ -914,6 +914,11 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     overflow: hidden;
     transition: 400ms ease;
 }
+.mppContentMid6:hover{
+    transform: translateY(-15px);
+    transition: 400ms ease;
+    box-shadow: 0 0 20px white;
+}
 .mppContentMid6 img{
     width: 100%;
 }
