@@ -398,8 +398,8 @@ const Cart = () => {
 
     
     
-    const handleSubmit = async (e) => {
-      e.preventDefault();
+    const handleTransferProducts = () => {
+      // e.preventDefault();
   
       if (!userLoggedData.userid) {
         console.log('Owner field is required.');
@@ -479,6 +479,8 @@ const Cart = () => {
       .catch (error =>{
           console.log(error);
       });
+
+      window.location.href = "http://localhost:3000/MyCart";
     };
 
 
@@ -502,7 +504,7 @@ const Cart = () => {
         </>
         {clientSecret && (
           <Elements options={options} stripe={stripePromise}>
-            <CheckoutForm setSuccesstransaction={setSuccesstransaction} allPrductsDetails={allPrductsDetails} paymentIntentId={paymentIntentid} setClientSecret={setClientSecret} totalprice={checkoutOverallTotal}/>
+            <CheckoutForm setSuccesstransaction={setSuccesstransaction} allPrductsDetails={allPrductsDetails} paymentIntentId={paymentIntentid} setClientSecret={setClientSecret} totalprice={checkoutOverallTotal} handleTransferProducts={handleTransferProducts}/>
           </Elements>
         )}
         <section className="cartPageContainer top">
@@ -633,7 +635,8 @@ const Cart = () => {
                     <h6>$ {checkoutOverallTotal.toFixed(2)}</h6>
                   </span>
                   {/* <button onClick={checkOutprod}>CHECKOUT PRODUCTS</button> */}
-                  <button onClick={handleSubmit} className={(allPrductsDetails.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(allPrductsDetails.length === 0) ? true : false}>
+                  <button onClick={checkOutprod} className={(allPrductsDetails.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(allPrductsDetails.length === 0) ? true : false}>
+                    
                     {(allPrductsDetails.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
                   </button>
                 </div>

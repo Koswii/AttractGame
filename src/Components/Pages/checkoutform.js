@@ -12,8 +12,13 @@ import axios from "axios";
 import { IoLogoGameControllerB } from "react-icons/io";
 import { MdOutlineCardGiftcard } from "react-icons/md";
 import { SiYoutubegaming } from "react-icons/si";
+import { 
+  TbDeviceGamepad2,
+  TbGiftCard, 
+  TbDiamond,   
+} from "react-icons/tb";
 
-const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalprice,setSuccesstransaction}) => {
+const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalprice,setSuccesstransaction,handleTransferProducts}) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -22,21 +27,21 @@ const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalpr
 
   const [checkOutprod,setCheckoutprod] = useState(allPrductsDetails)
 
-  const [loader,setLoader] = useState(true)
 
+  const [loader,setLoader] = useState(true)
   const [gameData,setGamedata] = useState()
   const [giftCardData,setGiftCardData] = useState()
   const [gameCreditsdData,setGameCreditsdata] = useState()
 
   useEffect(() => {
     if (checkOutprod !== undefined) {
-      const filterdataGiftcard = checkOutprod.filter(item => item.ag_product_type === 'Giftcard')
-      const filterdataGame = checkOutprod.filter(item => item.ag_product_type === 'Game')
-      const filterdataGamecredits = checkOutprod.filter(item => item.ag_product_type === 'Gamecredits')
+      const filterdataGiftcard = checkOutprod.filter(item => item.ag_product_type === 'Giftcard');
+      const filterdataGame = checkOutprod.filter(item => item.ag_product_type === 'Game');
+      const filterdataGamecredits = checkOutprod.filter(item => item.ag_product_type === 'Game Credit');
 
-      setGamedata(filterdataGame)
-      setGiftCardData(filterdataGiftcard)
-      setGameCreditsdata(filterdataGamecredits)
+      setGamedata(filterdataGame);
+      setGiftCardData(filterdataGiftcard);
+      setGameCreditsdata(filterdataGamecredits);
     }
 
     if (!stripe) {
@@ -55,6 +60,7 @@ const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalpr
       switch (paymentIntent.status) {
         case "succeeded":
           setMessage("Payment succeeded! Buy again?");
+          handleTransferProducts();  // Call the transfer function here
           break;
         case "processing":
           setMessage("Your payment is processing.");
@@ -67,7 +73,7 @@ const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalpr
           break;
       }
     });
-  }, [stripe]);
+  }, [stripe, checkOutprod, handleTransferProducts]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,21 +88,16 @@ const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalpr
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000/MyCart",
+        return_url: "http://localhost:3000/MyCart", // Ensure you have the correct return URL
       },
-      }
-    );
+    });
 
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, your customer will be redirected to
-    // your `return_url`. For some payment methods like iDEAL, your customer will
-    // be redirected to an intermediate site first to authorize the payment, then
-    // redirected to the `return_url`.
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
-    } else {
-      setMessage("An unexpected error occurred.");
+    if (error) {
+      if (error.type === "card_error" || error.type === "validation_error") {
+        setMessage(error.message);
+      } else {
+        setMessage("An unexpected error occurred.");
+      }
     }
 
     setIsLoading(false);
@@ -183,7 +184,7 @@ const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalpr
                       const productDataEntries = Object.entries(productData);
                       return (
                       <li style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GiftCardCovers/${productDataEntries[5][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
-                        <h1>{productDataEntries[4][1]}</h1>
+                        <h1>{productDataEntries[3][1]}</h1>
                         <section>
                           <p>${product.effectivePrice}</p>
                           <p>{product.numberOfOrder === undefined ? 1 : product.numberOfOrder} pcs</p>
@@ -214,17 +215,17 @@ const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalpr
                   <ul>
                     {gameData&&(
                       <li>
-                        <p><IoLogoGameControllerB id="gsIcon"/>{gameData.length}</p>
+                        <p><TbDeviceGamepad2 id="gsIcon"/>{gameData.length}</p>
                       </li>
                     )}
                     {giftCardData&&(
                       <li>
-                        <p><MdOutlineCardGiftcard id="gsIcon"/>{giftCardData.length}</p>
+                        <p><TbGiftCard id="gsIcon"/>{giftCardData.length}</p>
                       </li>
                     )}
                     {gameCreditsdData&&(
                       <li>
-                        <p><SiYoutubegaming id="gsIcon"/>{gameCreditsdData.length}</p>
+                        <p><TbDiamond id="gsIcon"/>{gameCreditsdData.length}</p>
                       </li>
                     )}
                   </ul>
