@@ -9,6 +9,7 @@ import {
   FaRegUserCircle,
   FaRegEye,
   FaRegEyeSlash, 
+  FaClipboardCheck
 } from 'react-icons/fa';
 import { 
     TbDeviceGamepad2,
@@ -127,6 +128,13 @@ const Cart = () => {
 
         fetchUserProfile();
         fetchCartProducts(setAllProductDetails, setGameProductDetails, setGiftcardProductDetails, setGamecreditProductDetails, setLoadingProducts);
+        const clientSecreturl = new URLSearchParams(window.location.search).get(
+          "payment_intent_client_secret"
+        );
+        
+        if (clientSecreturl) {
+          setSuccesstransaction(true)
+        }
     }, []);
     
     const handleQuantityChange = (productId, value) => {
@@ -318,6 +326,8 @@ const Cart = () => {
 
 
     const [clientSecret, setClientSecret] = useState();
+    const [paymentIntentid, setPaymentIntentID] = useState();
+    const [successtransaction,setSuccesstransaction] = useState(false)
 
     const appearance = {
       theme: "night",
@@ -329,7 +339,6 @@ const Cart = () => {
     };
 
 
-    console.log(clientSecret);
 
 
     const checkOutprod = async () => {
@@ -352,18 +361,43 @@ const Cart = () => {
             );
 
             const session = await response.json();
-            console.log(session);
             setClientSecret(session.clientSecret);
+            setPaymentIntentID(session.paymentIntentID)
         } catch (error) {
             console.log(error);
         }
     }
 
+    const buyAgain = () => {
+      window.location.href = 'http://localhost:3000/MyCart'
+    }
+    const closeSuccess = () => {
+      setSuccesstransaction(false)
+    }
+
+    
+    
     return (
       <div className="mainContainer cart">
+        <>
+        {successtransaction&&(
+          <div className="successTransaction">
+            <div className="successTransactionContainer">
+              <span><FaClipboardCheck /></span>
+              <section>
+                <h1>Successfull purchased</h1>
+              </section>
+              <div className="successTransactionContainerBtn">
+                <button onClick={buyAgain}>Buy Again</button>
+                <button onClick={closeSuccess}>Back to Cart</button>
+              </div>
+            </div>
+          </div>
+        )}
+        </>
         {clientSecret && (
           <Elements options={options} stripe={stripePromise}>
-            <CheckoutForm allPrductsDetails={allPrductsDetails} />
+            <CheckoutForm setSuccesstransaction={setSuccesstransaction} allPrductsDetails={allPrductsDetails} paymentIntentId={paymentIntentid} setClientSecret={setClientSecret} totalprice={checkoutOverallTotal}/>
           </Elements>
         )}
         <section className="cartPageContainer top">
