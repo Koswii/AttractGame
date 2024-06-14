@@ -24,7 +24,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../Pages/checkoutform";
 
 const stripePromise = loadStripe(
-  "pk_test_51PQqwY09gFZMinIqmpOD5VxhWK4hJ5KYbZVXwVJ1zXTkiUmxDdmlGYmf7PwRaTTWsn9uzUJMGWAUVETEpysIclcq00eUfVDmBH"
+  process.env.REACT_APP_AG_STRIPE_PROMISE
 );
 
 const LoginUserID = localStorage.getItem('profileUserID');
