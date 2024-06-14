@@ -13,12 +13,13 @@ import { IoLogoGameControllerB } from "react-icons/io";
 import { MdOutlineCardGiftcard } from "react-icons/md";
 import { SiYoutubegaming } from "react-icons/si";
 
-const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalprice,setSuccesstransaction}) => {
+const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,setClientSecret,totalprice,transactionData}) => {
   const stripe = useStripe();
   const elements = useElements();
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [successTransfer,setSuccessTransfer] = useState(false)
 
   const [checkOutprod,setCheckoutprod] = useState(allPrductsDetails)
 
@@ -32,7 +33,7 @@ const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalpr
     if (checkOutprod !== undefined) {
       const filterdataGiftcard = checkOutprod.filter(item => item.ag_product_type === 'Giftcard')
       const filterdataGame = checkOutprod.filter(item => item.ag_product_type === 'Game')
-      const filterdataGamecredits = checkOutprod.filter(item => item.ag_product_type === 'Gamecredits')
+      const filterdataGamecredits = checkOutprod.filter(item => item.ag_product_type === 'Game Credit')
 
       setGamedata(filterdataGame)
       setGiftCardData(filterdataGiftcard)
@@ -52,6 +53,7 @@ const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalpr
     }
 
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+      console.log(paymentIntent);
       switch (paymentIntent.status) {
         case "succeeded":
           setMessage("Payment succeeded! Buy again?");
@@ -69,36 +71,47 @@ const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalpr
     });
   }, [stripe]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmitform = async (e) => {
     e.preventDefault();
+    setSuccessTransfer(true)
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
-    setIsLoading(true);
 
+
+    
+    setIsLoading(true);
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
         return_url: "http://localhost:3000/MyCart",
       },
+      redirect: 'if_required'
       }
     );
 
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, your customer will be redirected to
-    // your `return_url`. For some payment methods like iDEAL, your customer will
-    // be redirected to an intermediate site first to authorize the payment, then
-    // redirected to the `return_url`.
+    if (successTransfer === false && error.type === "validation_error") {
+      console.log('data error');
+    } else {
+      transactionData()
+      setSuccesstransaction(true)
+      setClientSecret()
+      setTimeout(() => {
+        window.location.href = 'http://localhost:3000/MyCart'
+      }, 3000);
+    }
+
+
     if (error.type === "card_error" || error.type === "validation_error") {
       setMessage(error.message);
     } else {
       setMessage("An unexpected error occurred.");
     }
-
+    // transactionData()
     setIsLoading(false);
   };
 
@@ -106,9 +119,7 @@ const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalpr
     e.preventDefault()
     try {
       const res = await axios.post('http://localhost:4242/cancel-payment-intent', { paymentIntentId });
-      console.log(
-        res
-      );
+      console.log(res);
       setClientSecret()
     } catch (err) {
       console.log(err);
@@ -183,7 +194,7 @@ const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalpr
                       const productDataEntries = Object.entries(productData);
                       return (
                       <li style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GiftCardCovers/${productDataEntries[5][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
-                        <h1>{productDataEntries[4][1]}</h1>
+                        <h1>{productDataEntries[3][1]}</h1>
                         <section>
                           <p>${product.effectivePrice}</p>
                           <p>{product.numberOfOrder === undefined ? 1 : product.numberOfOrder} pcs</p>
@@ -197,11 +208,11 @@ const CheckoutForm = ({allPrductsDetails,paymentIntentId,setClientSecret,totalpr
               </div>
             </div>
             <div className="transactionPaymentInfo">
-              <form id="payment-form" onSubmit={handleSubmit}>
+                <form id="payment-form" onSubmit={handleSubmitform}>
                   <PaymentElement id="payment-element" options={paymentElementOptions} />
                   <button disabled={isLoading || !stripe || !elements} id="submit">
                     <span id="button-text">
-                      {isLoading ? <div className="spinner" id="spinner"></div> : <>{message? 'Buy Again' : 'Pay Now'}</>}
+                      {isLoading ? <div className="spinner" id="spinner"></div> : <>{message === 'Payment succeeded! Buy again?'? 'Buy Again' : 'Pay Now'}</>}
                     </span>
                   </button>
                   {/* Show any error or success messages */}

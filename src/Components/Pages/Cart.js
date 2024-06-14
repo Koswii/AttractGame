@@ -135,13 +135,8 @@ const Cart = () => {
 
         fetchUserProfile();
         fetchCartProducts(setAllProductDetails, setGameProductDetails, setGiftcardProductDetails, setGamecreditProductDetails, setLoadingProducts);
-        const clientSecreturl = new URLSearchParams(window.location.search).get(
-          "payment_intent_client_secret"
-        );
         
-        if (clientSecreturl) {
-          setSuccesstransaction(true)
-        }
+        
     }, []);
     useEffect(() => {
       const interval = setInterval(() => {
@@ -189,9 +184,6 @@ const Cart = () => {
     
     const agProductPointsSum = allPrductsDetails.map(subTotal => subTotal.totalPrice).reduce((acc, cur) => acc + cur, 0);
     const checkoutOverallAGPoints = agProductPointsSum/10;
-
-
-
 
     const handleRemoveFromCart = (details) => {
       const removeDetails = {
@@ -369,8 +361,6 @@ const Cart = () => {
         const bodyString = JSON.stringify(body)
         const headers = { "Content-type": "application/json" };
 
-        console.log(parseInt(checkoutOverallTotal));
-
         try {
             const response = await fetch(
               "http://localhost:4242/create-check-out-session",
@@ -388,19 +378,10 @@ const Cart = () => {
             console.log(error);
         }
     }
-
-    const buyAgain = () => {
-      window.location.href = 'http://localhost:3000/MyCart'
-    }
-    const closeSuccess = () => {
-      setSuccesstransaction(false)
-    }
-
     
     
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-  
+    const handleSubmitTransaction = async () => {
+      console.log(userLoggedData);
       if (!userLoggedData.userid) {
         console.log('Owner field is required.');
         return;
@@ -449,7 +430,6 @@ const Cart = () => {
         productAGPoints: agOverallAGPoints,
       }
 
-      // console.log(transactionData);
       axios.post(AGUserProductTransferAPI, postData)
       .then(response => {
         const resMessage = response.data;
@@ -493,8 +473,8 @@ const Cart = () => {
                 <h1>Successfull purchased</h1>
               </section>
               <div className="successTransactionContainerBtn">
-                <button onClick={buyAgain}>Buy Again</button>
-                <button onClick={closeSuccess}>Back to Cart</button>
+                {/* <button onClick={buyAgain}>Buy Again</button>
+                <button onClick={closeSuccess}>Back to Cart</button> */}
               </div>
             </div>
           </div>
@@ -502,7 +482,7 @@ const Cart = () => {
         </>
         {clientSecret && (
           <Elements options={options} stripe={stripePromise}>
-            <CheckoutForm setSuccesstransaction={setSuccesstransaction} allPrductsDetails={allPrductsDetails} paymentIntentId={paymentIntentid} setClientSecret={setClientSecret} totalprice={checkoutOverallTotal}/>
+            <CheckoutForm setSuccesstransaction={setSuccesstransaction} allPrductsDetails={allPrductsDetails} paymentIntentId={paymentIntentid} setClientSecret={setClientSecret} totalprice={checkoutOverallTotal} transactionData={handleSubmitTransaction}/>
           </Elements>
         )}
         <section className="cartPageContainer top">
@@ -633,7 +613,7 @@ const Cart = () => {
                     <h6>$ {checkoutOverallTotal.toFixed(2)}</h6>
                   </span>
                   {/* <button onClick={checkOutprod}>CHECKOUT PRODUCTS</button> */}
-                  <button onClick={handleSubmit} className={(allPrductsDetails.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(allPrductsDetails.length === 0) ? true : false}>
+                  <button onClick={checkOutprod} className={(allPrductsDetails.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(allPrductsDetails.length === 0) ? true : false}>
                     {(allPrductsDetails.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
                   </button>
                 </div>
