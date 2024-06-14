@@ -259,6 +259,8 @@ const Admin = () => {
     const [agSetGameCreditTitle, setAGSetGameCreditTitle] = useState('');
     const [agSetGameCreditCover, setAGSetGameCreditCover] = useState('');
     const [agSetGameCreditDenomination, setAGSetGameCreditDenomination] = useState('');
+    const [agSetGameCreditNumber, setAGSetGameCreditNumber] = useState('');
+    const [agSetGameCreditType, setAGSetGameCreditType] = useState('');
     const [agSetGameCreditSupplier, setAGSetGameCreditSupplier] = useState('');
     const [agSetGameCreditCategory, setAGSetGameCreditCategory] = useState('');
     const [agSetGameCreditDescription, setAGSetGameCreditDescription] = useState('');
@@ -425,6 +427,8 @@ const Admin = () => {
             agGamecreditCode: agFullSetGameCreditCode,
             agGamecreditCover: agSetGameCreditCover,
             agGamecreditTitle: agSetGameCreditTitle,
+            agGamecreditNumber : agSetGameCreditNumber,
+            agGamecreditType: agSetGameCreditType,
             agGamecreditCanonical : agSetGameCreditCanonical,
             agGamecreditDenomination: agSetGameCreditDenomination,
             agGamecreditSupplier: agSetGameCreditSupplier,
@@ -447,6 +451,8 @@ const Admin = () => {
                 setImageGCR(null);
                 setAGSetGameCreditTitle('');
                 setAGSetGameCreditDenomination('');
+                setAGSetGameCreditNumber('');
+                setAGSetGameCreditType('');
                 setAGSetGameCreditSupplier('');
                 setAGSetGameCreditCategory('');
                 setAGSetGameCreditDescription('');
@@ -577,6 +583,7 @@ const Admin = () => {
                     productCannonical: editableData.game_canonical,
                     productIDcode: productCodesID,
                     productCodes: productCodesString,
+                    productType: 'Games',
                     productState: 'Available',
                     productOwner: 'None',
                 };
@@ -590,6 +597,7 @@ const Admin = () => {
                     productCannonical: editableData.giftcard_id,
                     productIDcode: productCodesID,
                     productCodes: productCodesString,
+                    productType: 'Giftcards',
                     productState: 'Available',
                     productOwner: 'None',
                 };
@@ -603,6 +611,7 @@ const Admin = () => {
                     productCannonical: editableData.gamecredit_id,
                     productIDcode: productCodesID,
                     productCodes: productCodesString,
+                    productType: 'Game Credits',
                     productState: 'Available',
                     productOwner: 'None',
                 };
@@ -884,7 +893,7 @@ const retriveNewsapi = "https://engeenx.com/agNews.php";
                                             </div>
                                             </>
                                         ))}
-                                        <button onClick={addNewInput}>add code</button>
+                                        <button onClick={addNewInput}>Add Code</button>
                                     </span>
                                     <div className="submitEditabledata">
                                         <button onClick={insertGameData}>save</button>
@@ -1059,6 +1068,8 @@ const retriveNewsapi = "https://engeenx.com/agNews.php";
                 )}
             </>
             )}
+
+
             <section className="adminPageContainer top">
                 <div className="admPageContent top">
                     <div className="admpc top">
@@ -1498,6 +1509,14 @@ const retriveNewsapi = "https://engeenx.com/agNews.php";
                                             <span>
                                                 <label htmlFor=""><p>Valuation/Denomination ($)</p></label>
                                                 <input type="number" placeholder='ex. 100' required value={agSetGameCreditDenomination} onChange={(e) => setAGSetGameCreditDenomination(e.target.value)}/>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Number of Credits</p></label>
+                                                <input type="number" placeholder='ex. 100' required  value={agSetGameCreditNumber} onChange={(e) => setAGSetGameCreditNumber(e.target.value)}/>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Type of Credit</p></label>
+                                                <input type="text" placeholder='ex. Robux' required value={agSetGameCreditType} onChange={(e) => setAGSetGameCreditType(e.target.value)}/>
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Supplier</p></label>
