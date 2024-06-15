@@ -120,8 +120,7 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
   const cancelPayment = async (e) => {
     e.preventDefault()
     try {
-      const res = await axios.post('http://localhost:4242/cancel-payment-intent', { paymentIntentId });
-      console.log(res);
+      const res = await axios.post('http://82.197.94.35:4242/cancel-payment-intent', { paymentIntentId });
       setClientSecret()
     } catch (err) {
       console.log(err);
