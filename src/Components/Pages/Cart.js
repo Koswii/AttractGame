@@ -363,7 +363,7 @@ const Cart = () => {
 
         try {
             const response = await fetch(
-              "http://localhost:4242/create-check-out-session",
+              "http://82.197.94.35:4242/create-check-out-session",
               {
                 method: "POST",
                 headers: headers,
