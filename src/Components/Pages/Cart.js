@@ -381,7 +381,6 @@ const Cart = () => {
     
     
     const handleSubmitTransaction = async () => {
-      console.log(userLoggedData);
       if (!userLoggedData.userid) {
         console.log('Owner field is required.');
         return;
