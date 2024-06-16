@@ -753,7 +753,9 @@ section.landingPageContainer.mid{
 @keyframes l2 {
     to{transform: rotate(.5turn)}
 }
-
+@keyframes spinner113{ 
+    100%{transform: rotate(1turn)}
+}
 
 
 

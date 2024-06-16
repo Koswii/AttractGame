@@ -172,6 +172,7 @@ const Profile = () => {
             }
         }
         const fetchUserDataPost = () => {
+            setIsLoading(true);
             axios.get(AGUserPostAPI)
             .then((response) => {
                 const postSortData = response.data.sort((a, b) => b.id - a.id);
@@ -181,8 +182,12 @@ const Profile = () => {
             .catch(error => {
                 console.log(error)
             })
+            .finally(() => {
+                setIsLoading(false); // Set loading to false after the fetch is complete
+            });
         }
         const fetchUserProductIds = async () => {
+            setIsLoading(true);
             const userRequestCode = {
                 ag_product_owner: LoginUserID,
             };
@@ -233,6 +238,8 @@ const Profile = () => {
                 }
             } catch (error) {
                 console.error('Error fetching user data:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
         
@@ -482,6 +489,19 @@ const Profile = () => {
         });
     };
 
+    const [viewUserHighlight, setViewUserHighlight] = useState(true);
+    const [viewUserProducts, setViewUserProducts] = useState(false);
+
+    const handleViewDefault = () => {
+        setViewUserHighlight(true)
+        setViewUserProducts(false)
+    }
+    const handleViewProducts = () => {
+        setViewUserProducts(true)
+        setViewUserHighlight(false)
+    }
+
+
 
     return (
         <div className='mainContainer profile'>
@@ -601,7 +621,7 @@ const Profile = () => {
                             {!isEditSubmitting ?
                             <button type='submit'><FaRegImages className='faIcons'/> UPDATE COVER</button> 
                             :<button type='button'>UPLOADING...</button>}</>:<>
-                            <button type='button'>INSERT COVER</button> 
+                            <button id='emptyCover' type='button'>INSERT COVER</button> 
                             </>}
                         </div>
                     </form>
@@ -697,12 +717,12 @@ const Profile = () => {
                 </div>
                 <div className="profilePageContent right">
                     <div className="ppcrProfileNavigations">
-                        <button className='active'><h6>HIGHLIGHTS</h6></button>
-                        <button><h6>MY PRODUCTS</h6></button>
+                        <button className={viewUserHighlight ? 'active' : ''} onClick={handleViewDefault}><h6>HIGHLIGHTS</h6></button>
+                        <button className={viewUserProducts ? 'active' : ''} onClick={handleViewProducts}><h6>MY PRODUCTS</h6></button>
                         <button><h6>MISSIONS</h6></button>
                         <button><h6>FEEDBACKS</h6></button>
                     </div>
-                    {/* <div className="ppcrProfileContents highlights">
+                    {viewUserHighlight &&<div className="ppcrProfileContents highlights">
                         <div className="ppcrpchPosting">
                             <div className="ppcrpchpWhat">
                                 {userLoggedData.profileimg ? 
@@ -738,83 +758,95 @@ const Profile = () => {
                             </div>
                             <hr /><br />
                             <div className="ppcrpchpMyPosts">
-                                <>
-                                    {viewFetchPost.map((post, i) => (
-                                        <div className='ppcrpchpPost' key={i}>
-                                            <div className='ppcrpchpUser'>
-                                                {userLoggedData.profileimg ? 
-                                                <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt=""/>
-                                                :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
-                                                <span>
-                                                    <h6>
-                                                        {userLoggedData.username} 
-                                                        {userLoggedData.verified ? <>
-                                                            {userLoggedData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
-                                                            {userLoggedData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
-                                                        </>:<></>}
-                                                    </h6>
-                                                    <p>{formatDate(post.user_post_date)}</p>
-                                                </span>
+                                {isLoading ? <>
+                                    <div className='ppcrpchpNoPost'>
+                                        <div className="loader"></div>
+                                    </div>
+                                </>:<>
+                                    {viewFetchPost.length != 0 ? <>
+                                        {viewFetchPost.map((post, i) => (
+                                            <div className='ppcrpchpPost' key={i}>
+                                                <div className='ppcrpchpUser'>
+                                                    {userLoggedData.profileimg ? 
+                                                    <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt=""/>
+                                                    :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
+                                                    <span>
+                                                        <h6>
+                                                            {userLoggedData.username} 
+                                                            {userLoggedData.verified ? <>
+                                                                {userLoggedData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                                                {userLoggedData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                                            </>:<></>}
+                                                        </h6>
+                                                        <p>{formatDate(post.user_post_date)}</p>
+                                                    </span>
+                                                </div>
+                                                <div className="ppcrpchpupWords">
+                                                    <HashtagHighlighter text={post.user_post_text}/>
+                                                </div>
+                                                {post.user_post_image ? <div className="ppcrpchpuPosting">
+                                                    <img id='ppcrpchpuPostingBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
+                                                    <img id='ppcrpchpuPostingImg' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
+                                                </div>:<></>}
+                                                {post.user_post_youtube ? <div className="ppcrpchpuPosting youtube">
+                                                    <YouTubeEmbed videoUrl={post.user_post_youtube} />
+                                                </div>:<></>}
                                             </div>
-                                            <div className="ppcrpchpupWords">
-                                                <HashtagHighlighter text={post.user_post_text}/>
-                                            </div>
-                                            {post.user_post_image ? <div className="ppcrpchpuPosting">
-                                                <img id='ppcrpchpuPostingBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
-                                                <img id='ppcrpchpuPostingImg' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
-                                            </div>:<></>}
-                                            {post.user_post_youtube ? <div className="ppcrpchpuPosting youtube">
-                                                <YouTubeEmbed videoUrl={post.user_post_youtube} />
-                                            </div>:<></>}
-                                        </div>
-                                    ))}
-                                </>
-                                {viewFetchPost.length == 0 ?
-                                <div className='ppcrpchpNoPost'>
-                                    <h6>No Highlights Available...</h6>
-                                </div>:<></>}
+                                        ))}
+                                    </>:<>
+                                    <div className='ppcrpchpNoPost'>
+                                        <h6>No Highlights Available...</h6>
+                                    </div></>}
+                                </>}
                             </div>
                         </div>
-                    </div> */}
-                    <div className="ppcrProfileContents myProducts">
-                        {/* <div className="ppcrpcmpEmpty">
-                            <h6>You don't have any Products yet.</h6>
-                        </div> */}
-                        <h3>PURCHASED PRODUCTS</h3>
-                        <div className="ppcrpcmpProducts">
-                            {userProductCodeIDData.map((details, i) => (
-                                <div className="ppcrpcmppContents" key={i}>
-                                    <div className="ppcrpcmppcImage">
-                                        {details.productData.game_cover && <img src={`https://2wave.io/GameCovers/${details.productData.game_cover}`} alt="" />}
-                                        {details.productData.giftcard_cover && <img src={`https://2wave.io/GiftCardCovers/${details.productData.giftcard_cover}`} alt="" />}
-                                        {details.productData.gamecredit_cover && <img src={`https://2wave.io/GiftCardCovers/${details.productData.gamecredit_cover}`} alt="" />}
-                                        <div>
-                                            <h6>{details.productCode.ag_product_name}</h6>
+                    </div>}
+                    {viewUserProducts &&<div className="ppcrProfileContents myProducts">
+                        {isLoading ?<>
+                            <div className="ppcrpcmpEmpty">
+                                <div className="loader"></div>
+                            </div>
+                        </>:<>{(userProductCodeIDData.length != 0) ?<>
+                                <h3>PURCHASED PRODUCTS</h3>
+                                <div className="ppcrpcmpProducts">
+                                    {userProductCodeIDData.map((details, i) => (
+                                        <div className="ppcrpcmppContents" key={i}>
+                                            <div className="ppcrpcmppcImage">
+                                                {details.productData.game_cover && <img src={`https://2wave.io/GameCovers/${details.productData.game_cover}`} alt="" />}
+                                                {details.productData.giftcard_cover && <img src={`https://2wave.io/GiftCardCovers/${details.productData.giftcard_cover}`} alt="" />}
+                                                {details.productData.gamecredit_cover && <img src={`https://2wave.io/GiftCardCovers/${details.productData.gamecredit_cover}`} alt="" />}
+                                                <div>
+                                                    <h6>{details.productCode.ag_product_name}</h6>
+                                                </div>
+                                            </div>
+                                            <div className="ppcrpcmppcPlatform">
+                                                {details.productData.game_platform && 
+                                                <img src="" platform={details.productData.game_platform} alt="" />}
+                                                {details.productData.giftcard_denomination &&
+                                                <div>
+                                                    <h4>{details.productData.giftcard_denomination}</h4>
+                                                    <p>DOLLARS</p>
+                                                </div>}
+                                                {details.productData.gamecredit_denomination &&
+                                                <div>
+                                                    <h4>{details.productData.gamecredit_denomination}</h4>
+                                                    <p>DOLLARS</p>
+                                                </div>}
+                                            </div>
+                                            <button onClick={() => toggleVisibility(i)}>{isVisible[i] ? <FaRegEyeSlash className='faIcons'/> : <FaRegEye className='faIcons'/>}</button>
+                                            <span>
+                                                <input type={!isVisible[i] ? "password" : "text"} placeholder={!isVisible[i] ? '***** ***** *****' : `${details.productCode.ag_product_code}`} readOnly disabled/>
+                                            </span>
+                                            <p>PRODUCT CODE</p>
                                         </div>
-                                    </div>
-                                    <div className="ppcrpcmppcPlatform">
-                                        {details.productData.game_platform && 
-                                        <img src="" platform={details.productData.game_platform} alt="" />}
-                                        {details.productData.giftcard_denomination &&
-                                        <div>
-                                            <h4>{details.productData.giftcard_denomination}</h4>
-                                            <p>DOLLARS</p>
-                                        </div>}
-                                        {details.productData.gamecredit_denomination &&
-                                        <div>
-                                            <h4>{details.productData.gamecredit_denomination}</h4>
-                                            <p>DOLLARS</p>
-                                        </div>}
-                                    </div>
-                                    <button onClick={() => toggleVisibility(i)}>{isVisible[i] ? <FaRegEyeSlash className='faIcons'/> : <FaRegEye className='faIcons'/>}</button>
-                                    <span>
-                                        <input type={!isVisible[i] ? "password" : "text"} placeholder={!isVisible[i] ? '***** ***** *****' : `${details.productCode.ag_product_code}`} readOnly disabled/>
-                                    </span>
-                                    <p>PRODUCT CODE</p>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                    </div>
+                            </>:<><div className="ppcrpcmpEmpty">
+                                    <h6>You don't have any Products yet.</h6>
+                                </div>
+                            </>}
+                        </>}
+                    </div>}
                 </div>
             </section>
         </div>
