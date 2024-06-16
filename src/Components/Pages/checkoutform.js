@@ -77,17 +77,16 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
 
   const handleSubmitform = async (e) => {
     e.preventDefault();
-    setSuccessTransfer(true)
+    setSuccessTransfer(true);
+
     if (!stripe || !elements) {
-      // Stripe.js hasn't yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
-      return;
+        // Stripe.js hasn't yet loaded.
+        // Make sure to disable form submission until Stripe.js has loaded.
+        return;
     }
 
-
-
-    
     setIsLoading(true);
+
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -98,24 +97,25 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
       }
     );
 
-    if (successTransfer === false && error.type === "validation_error") {
+    if (!successTransfer && error && error.type === "validation_error") {
       console.log('data error');
     } else {
-      transactionData()
-      setSuccesstransaction(true)
-      setClientSecret()
-      setTimeout(() => {
-        navigate('/MyCart');
-      }, 3000);
+      transactionData();
+      setSuccesstransaction(true);
+      setClientSecret();
+      // setTimeout(() => {
+      //   window.location.href = 'http://localhost:3000/MyCart';
+      // }, 3000);
     }
 
-
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
-    } else {
-      setMessage("An unexpected error occurred.");
+    if (error) {
+      if (error.type === "card_error" || error.type === "validation_error") {
+          setMessage(error.message);
+      } else {
+          setMessage("An unexpected error occurred.");
+      }
     }
-    // transactionData()
+
     setIsLoading(false);
   };
 
