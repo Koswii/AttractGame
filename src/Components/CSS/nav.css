@@ -625,6 +625,14 @@ nav{
         border-radius: 5vw;
         padding: 8% 2%;
     }
+    .navContentModal.register{
+        width: 80%;
+        padding: 5% 1%;
+    }
+    .navContentModal.login{
+        width: 80%;
+        padding: 5% 1%;
+    }
     .navContentModal button#closeModalContent{
         font-size: 5vw;
         top: 4vw;
