@@ -363,7 +363,7 @@ const Cart = () => {
 
         try {
             const response = await fetch(
-              "https://paranworld.com:4242/create-check-out-session",
+              "https://paranworld.com/create-check-out-session",
               {
                 method: "POST",
                 headers: headers,
