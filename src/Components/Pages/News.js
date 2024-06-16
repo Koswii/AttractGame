@@ -82,8 +82,8 @@ const News = () => {
   console.log(mainLinkData);
   return (
     <div className="mainContainer news">
-      <Underdevelop/>
-      {/* <section className="newsPageContainer top">
+      {/* <Underdevelop/> */}
+      <section className="newsPageContainer top">
         <div className="newsContentPageTop">
           {loader ? (
             <>
@@ -199,7 +199,7 @@ const News = () => {
             </div>
           )}
         </div>
-      </section> */}
+      </section>
     </div>
   );
 }
