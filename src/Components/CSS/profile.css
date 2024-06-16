@@ -1398,6 +1398,7 @@ section.profilePageContainer.mid{
     justify-content: center;
     align-items: center;
     position: relative;
+    background: black;
 }
 .ppcrpcmppcImage div{
     height: 4vw;
@@ -1422,6 +1423,7 @@ section.profilePageContainer.mid{
 }
 .ppcrpcmppcImage img{
     width: 100%;
+    background: linear-gradient(transparent, black 50%);
 }
 .ppcrpcmppContents span{
     width: 100%;
@@ -1974,7 +1976,11 @@ section.profilePageContainer.mid{
 
 
 
-
+    .ppcrProfileContents.myProducts h3{
+        text-align: center;
+        font-size: 3vw;
+        margin: 5% 0;
+    }
     .ppcrpcmpEmpty{
         height: 25vh;
         width: 100%;
@@ -1985,6 +1991,69 @@ section.profilePageContainer.mid{
     .ppcrpcmpEmpty h6 {
         font-size: 3vw;
     }
+    .ppcrpcmpProducts{
+        justify-content: space-between;
+        align-items: start;
+        margin-top: 3%;
+        padding: 0;
+    }
+    .ppcrpcmppContents{
+        height: auto;
+        width: 49%;
+        margin-right: 0;
+        border-radius: 3vw;
+        margin-bottom: 2%;
+    }
+    .ppcrpcmppcImage{
+        height: 50vw;
+        width: 100%;
+    }
+    .ppcrpcmppcPlatform{
+        height: 15vw;
+        width: 15vw;
+        border-radius: 2vw;
+        top: 1.5vw;
+        left: 1.5vw;
+        padding: 3%;
+    }
+    .ppcrpcmppcPlatform div h4{
+        font-size: 6vw;
+    }
+    .ppcrpcmppcPlatform div p{
+        font-size: 2vw;
+    }
+    .ppcrpcmppcImage div{
+        height: 15vw;
+    }
+    .ppcrpcmppcImage div h6{
+        height: 15vw;
+        font-size: 3vw;
+        padding-bottom: 2%;
+    }
+    .ppcrpcmppContents button{
+        width: 23%;
+        font-size: 5vw;
+        padding: 5% 3%;
+        border-radius: 2vw;
+        top: 1.5vw;
+        right: 1.5vw;
+    }
+    .ppcrpcmppContents span input{
+        padding: 5% 0;
+        font-size: 3vw;
+    }
+    .ppcrpcmppContents p{
+        display: none;
+    }
+
+
+
+
+
+
+
+
+
 
 
 

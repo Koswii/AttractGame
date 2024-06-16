@@ -469,7 +469,8 @@ const Cart = () => {
             <div className="successTransactionContainer">
               <span><FaClipboardCheck /></span>
               <section>
-                <h1>Successfull purchased</h1>
+                <h1>THANK YOU FOR PURCHASING.</h1>
+                <p>Check your Profile for your Products.</p>
               </section>
               <div className="successTransactionContainerBtn">
                 {/* <button onClick={buyAgain}>Buy Again</button>
