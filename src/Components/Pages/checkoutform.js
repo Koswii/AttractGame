@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import {
   PaymentElement,
   useStripe,
@@ -16,6 +17,7 @@ import {
 } from "react-icons/tb";
 
 const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,setClientSecret,totalprice,transactionData}) => {
+  const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
 
@@ -86,13 +88,14 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
     setIsLoading(true);
 
     const { error } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-            // Make sure to change this to your payment completion page
-          return_url: "http://localhost:3000/MyCart",
-        },
-        redirect: 'if_required',
-    });
+      elements,
+      confirmParams: {
+        // Make sure to change this to your payment completion page
+        return_url: navigate('/MyCart'),
+      },
+      redirect: 'if_required'
+      }
+    );
 
     if (!successTransfer && error && error.type === "validation_error") {
       console.log('data error');
@@ -119,7 +122,7 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
   const cancelPayment = async (e) => {
     e.preventDefault()
     try {
-      const res = await axios.post('http://82.197.94.35:4242/cancel-payment-intent', { paymentIntentId });
+      const res = await axios.post('https://paranworld.com/cancel-payment-intent', { paymentIntentId });
       setClientSecret()
     } catch (err) {
       console.log(err);
