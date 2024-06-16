@@ -153,7 +153,7 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
           <>
             <div className="productCheckout">
               <div className="productCheckoutContents">
-                <h1>Your Orders</h1>
+                <h1>On Cart</h1>
                 <ul>
                 {gameData&&(
                   <>
@@ -215,7 +215,7 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
                   <PaymentElement id="payment-element" options={paymentElementOptions} />
                   <button disabled={isLoading || !stripe || !elements} id="submit">
                     <span id="button-text">
-                      {isLoading ? <div className="spinner" id="spinner"></div> : <>{message === 'Payment succeeded! Buy again?'? 'Buy Again' : 'Pay Now'}</>}
+                      {isLoading ? <div className="loader" id="loader"></div> : <>{message === 'Payment succeeded! Buy again?'? 'Buy Again' : 'Pay Now'}</>}
                     </span>
                   </button>
                   {/* Show any error or success messages */}
