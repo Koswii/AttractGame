@@ -380,21 +380,26 @@ section.cartPageContainer.mid{
     z-index: 1;
 }
 .successTransactionContainer{
-    padding: 5vw;
+    padding: 5%;
     background: black;
     border: .1vw solid white;
-    border-radius: .5vw;
+    border-radius: 1vw;
 }
 .successTransactionContainer span{
     width: 100%;
     display: flex;
     justify-content: center;
-    font-size: 3vw;
+    font-size: 10vw;
     color: white;
 }
 .successTransactionContainer section h1{
-    margin: 1vw 0;
+    margin-top: 15%;
     font-size: 1vw;
+}
+.successTransactionContainer section p{
+    font-style: italic;
+    text-align: center;
+    color: gray;
 }
 .successTransactionContainerBtn button{
     width: 100%;
@@ -557,9 +562,19 @@ section.cartPageContainer.mid{
 
 
 
-
-
-
+    .successTransactionContainer{
+        border-radius: 3vw;
+    }
+    .successTransactionContainer span{
+        font-size: 20vw;
+    }
+    .successTransactionContainer section h1{
+        font-size: 3vw;
+    }
+    .successTransactionContainer section p{
+        font-size: 2.5vw;
+        margin-top: 2%;
+    }
 
 
 
