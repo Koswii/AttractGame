@@ -11,9 +11,9 @@ const Underdevelop = () => {
             <section>
                 <img src={underdevelop} alt="" />
             </section>
-            <span>This page is</span>
+            <span>This Page is</span>
             <h1>Under Development</h1>
-            <p>please comeback for the latest gaming news update</p>
+            <p>Please Comeback later for the Latest Update</p>
         </div>
     </div>
   )

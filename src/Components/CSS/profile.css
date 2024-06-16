@@ -345,6 +345,9 @@ h6{
     box-shadow: 0 0 10px black;
     cursor: pointer;
 }
+.mdcpCoverContainer button#emptyCover{
+    opacity: 50%;
+}
 .mdcpCoverContainer button .faIcons{
     margin-right: 5%;
 }
@@ -744,6 +747,9 @@ h6{
     text-align: center;
     cursor: pointer;
 }
+.storySubmit button#emptyStory{
+    opacity: 50%;
+}
 .storySubmit button .faIcons{
     margin-right: 5%;
 }
@@ -833,7 +839,7 @@ section.profilePageContainer.mid{
     align-items: start;
     padding: 2% 10%;
     padding-top: 0;
-    margin-top: -2%;
+    margin-top: -4%;
     position: relative;
     background: black;
     z-index: 2;
@@ -849,8 +855,8 @@ section.profilePageContainer.mid{
     position: relative;
 }
 .ppclProfilePic{
-    height: 20vw;
-    width: 20vw;
+    height: 18vw;
+    width: 18vw;
     overflow: hidden;
     border-radius: 50%;
     background: black;
@@ -863,7 +869,7 @@ section.profilePageContainer.mid{
     cursor: pointer;
     top: 0;
     left: 0;
-    transform: translate(10%, -75%);
+    transform: translate(16%, -75%);
     z-index: 3;
 }
 .ppclProfilePic img{
@@ -1273,7 +1279,7 @@ section.profilePageContainer.mid{
     border-radius: 1vw;
 }
 .ppcrpchpNoPost{
-    height: 10vw;
+    height: 15vw;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -1284,7 +1290,16 @@ section.profilePageContainer.mid{
     color: gray;
     opacity: 50%;
 }
-
+.ppcrpchpNoPost .loader {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: 
+      radial-gradient(farthest-side, gray 94%,#0000) top/8px 8px no-repeat,
+      conic-gradient(#0000 30%, gray);
+    -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+    animation: spinner113 1s infinite linear;
+}
 
 .ppcrProfileContents.myProducts h3{
     width: 100%;
@@ -1298,6 +1313,16 @@ section.profilePageContainer.mid{
     justify-content: center;
     align-items: center;
 }
+.ppcrpcmpEmpty .loader {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: 
+      radial-gradient(farthest-side, gray 94%,#0000) top/8px 8px no-repeat,
+      conic-gradient(#0000 30%, gray);
+    -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+    animation: spinner113 1s infinite linear;
+}
 .ppcrpcmpEmpty h6{
     opacity: 50%;
 }
@@ -1309,11 +1334,11 @@ section.profilePageContainer.mid{
     justify-content: left;
     align-items: start;
     margin-top: 3%;
-    padding-left: 2%;
+    padding-left: 1%;
 }
 .ppcrpcmppContents{
-    height: 25vw;
-    width: 32%;
+    height: 16vw;
+    width: 24%;
     margin-right: 1%;
     border: solid 2px white;
     border-radius: 1vw;
@@ -1367,7 +1392,7 @@ section.profilePageContainer.mid{
     color: black;
 }
 .ppcrpcmppcImage{
-    height: 20vw;
+    height: 12vw;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -1380,35 +1405,37 @@ section.profilePageContainer.mid{
     position: absolute;
     padding: 0 2%;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     bottom: 0;
     left: 0;
     background: linear-gradient(transparent, black 50%);
     background-size: cover;
 }
 .ppcrpcmppcImage div h6{
-    height: 4vw;
+    height: 3vw;
     font-weight: 400;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: end;
 }
 .ppcrpcmppcImage img{
-    height: 100%;
+    width: 100%;
 }
 .ppcrpcmppContents span{
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 3%;
 }
 .ppcrpcmppContents span input{
     width: 100%;
     padding: 2% 0;
-    font-size: 1vw;
+    font-size: 0.9vw;
     text-align: center;
     position: relative;
-    background: none;
+    background: black;
     border: none;
     outline: none;
     color: white;
@@ -1418,12 +1445,15 @@ section.profilePageContainer.mid{
     width: 15%;
     font-size: 1vw;
     cursor: pointer;
-    background: black;
-    border: solid 1px white;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: solid 1px black;
     padding: 3% 0;
     border-radius: 0.5vw;
     outline: none;
-    color: white;
+    color: black;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1432,7 +1462,8 @@ section.profilePageContainer.mid{
 }
 .ppcrpcmppContents p{
     text-align: center;
-    font-size: 0.7vw;
+    font-size: 0.6vw;
+    color: gray;
 }
 
 
@@ -1944,8 +1975,16 @@ section.profilePageContainer.mid{
 
 
 
-
-
+    .ppcrpcmpEmpty{
+        height: 25vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .ppcrpcmpEmpty h6 {
+        font-size: 3vw;
+    }
 
 
 
