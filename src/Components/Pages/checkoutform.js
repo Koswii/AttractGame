@@ -87,34 +87,28 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
 
     setIsLoading(true);
 
-    const { error } = await stripe.confirmPayment({
+
+    const [error] = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: navigate('/MyCart'),
+        // Return URL where the customer should be redirected after the PaymentIntent is confirmed.
+        // return_url: 'https://example.com',
       },
-      redirect: 'if_required'
-      }
-    );
-
-    if (!successTransfer && error && error.type === "validation_error") {
-      console.log('data error');
-    } else {
-      transactionData();
-      setSuccesstransaction(true);
-      setClientSecret();
-      // setTimeout(() => {
-      //   window.location.href = 'http://localhost:3000/MyCart';
-      // }, 3000);
-    }
-
-    if (error) {
-      if (error.type === "card_error" || error.type === "validation_error") {
-          setMessage(error.message);
+        redirect: 'if_required'
+    })
+    .then(function(result) {
+      console.log(result.status);
+      if (result.status === "succeeded") {
+        transactionData();
+        setSuccesstransaction(true);
+        setClientSecret();
       } else {
-          setMessage("An unexpected error occurred.");
+        console.log('error occured');
+        setIsLoading(false);
+        setMessage(result.error.message);
       }
-    }
+    });
+
 
     setIsLoading(false);
   };
