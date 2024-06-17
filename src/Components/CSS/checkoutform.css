@@ -1,105 +1,132 @@
 .formpayment{
-    position: fixed;
-    height: 100vh;
+    height: auto;
     width: 100%;
-    padding: 0;
     box-sizing: border-box;
-    z-index: 999;
+    z-index: 998;
 }
 .formdataContainer{
-    height: 100vh;
+    height: auto;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10vw;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(9.5px);
-    -webkit-backdrop-filter: blur(9.5px);
+    padding: 0 10%;
+    padding-bottom: 5%;
+    background: black;
 }
 .formdataContents{
     background: black;
-    border: .1vw solid rgba(255, 255, 255, 0.301);
-    border-radius: 1vw;
-    padding: 1vw;
-    box-shadow: 0 0 1vw rgba(255, 255, 255, 0.555);
     display: flex;
-    height: 46vw;
-    width: 55vw;
+    justify-content: space-between;
+    height: auto;
+    width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
     position: relative;
 }
 .productCheckout{
-    width: 100%;
+    width: 70%;
 }
-.transactionPaymentInfo{
-    width: 100%;
+
+
+
+
+
+
+
+.productCheckoutContents{
     height: auto;
-}
-.formdataContents form{
-    border-radius: 1vw;
-    box-sizing: border-box;
-    padding: .5vw .5vw .5vw 1vw;
-}
-.formdataContents form button{
-    margin: .7vw 0 0 0;
     width: 100%;
-    padding: 1vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #30313d;
-    border-radius: 5px;
-    border: 1px solid #5c5e748c;
-    color: white;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5), 0px 1px 6px rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-}
-button .loader#loader{
-    width: 25px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: 
-      radial-gradient(farthest-side, gray 94%,#0000) top/8px 8px no-repeat,
-      conic-gradient(#0000 30%, gray);
-    -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
-    animation: spinner113 1s infinite linear;
-}
-.productCheckoutContents h1{
-    font-size: .7vw;
-    margin: 0 0 0 .5vw;
 }
 .productCheckoutContents ul{
     display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: center;
     list-style: none;
     height: auto;
-    width: 34vw;
-    flex-wrap: wrap;
+    width: 100%;
 }
 .productCheckoutContents ul li{
-    border: .1vw solid rgba(255, 255, 255, 0.411);
-    padding: 1vw 1.5vw;
-    color: white;
-    height: 12vw;
-    width: 10vw;
+    border: solid 1px white;
+    padding: 1vw;
+    height: 15vw;
+    width: 19%;
     border-radius: 1vw;
     position: relative;
     text-align: center;
     display: flex;
     align-items: end;
     justify-content: center;
-    margin: .5vw;
+    margin-right: 1%;
+    margin-bottom: 1%;
+    background: black;
 }
-.productCheckoutContents ul li h1{
-    font-size: .8vw;
-    margin: 0 0 1.2vw 0;
+.copProductDetails{
+    height: 3vw;
+    width: 100%;
     position: absolute;
+    margin-bottom: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.productCheckoutContents ul li span{
-    font-size: .6vw;
-    margin: 0 0 2.2vw 0;
+.copProductDetails span{
+    height: auto;
+    width: 100%;
+}
+.copProductDetails h5{
+    font-size: 0.9vw;
+}
+.copProductDetails h6{
+    font-size: .7vw;
+    font-weight: 400;
+}
+.copDenomination{
     position: absolute;
+    top: 0.5vw;
+    left: 0.5vw;
+    border-radius: 0.5vw;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 5%;
+}
+.copDenomination img{
+    height: 2.5vw;
+    width: 2.5vw;
+    margin: auto 0;
+    filter: contrast(100%);
+}
+.copDenomination img[platform='PC']{
+    content: url('../assets/imgs/GamePlatforms/PCGames.png');
+}
+.copDenomination img[platform='NintendoSwitch']{
+    content: url('../assets/imgs/GamePlatforms/NintendoSwitch.png');
+}
+.copDenomination img[platform='XboxXS']{
+    content: url('../assets/imgs/GamePlatforms/XboxXS.png');
+}
+.copDenomination img[platform='XboxOne']{
+    content: url('../assets/imgs/GamePlatforms/XboxOne.png');
+}
+.copDenomination img[platform='PlayStation4']{
+    content: url('../assets/imgs/GamePlatforms/PS4.png');
+}
+.copDenomination img[platform='PlayStation5']{
+    content: url('../assets/imgs/GamePlatforms/PS5.png');
+}
+.copDenomination h5{
+    color: black;
+}
+.copDenomination p{
+    color: black;
+    font-size: 0.5vw;
 }
 .productCheckoutContents ul li section{
     width: 100%;
@@ -107,39 +134,23 @@ button .loader#loader{
     justify-content: space-between;
 }
 .productCheckoutContents ul li section p{
-    font-size: .7vw;
+    font-size: .9vw;
 }
-
 .loadingCartCheckout{
-    height: 100%;
+    height: 50vh;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-.loadingCartCheckout section{
     text-align: center;
 }
-.loadingCartCheckout section h1{
-    font-size: .7vw;
-    font-weight: 100;
+.loadingCartCheckout h3{
+    animation: bounce2 2s ease infinite;
+    line-height: 2vw;
 }
-.cancelPaymentTransaction{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    box-sizing: border-box;
-    padding: 0 .5vw 0 1vw;
-}
-.cancelPaymentTransaction button{
-    width: 100%;
-    padding: 1vw;
-    background: #30313d;
-    border-radius: 5px;
-    border: 1px solid #5c5e748c;
-    color: white;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5), 0px 1px 6px rgba(0, 0, 0, 0.25);
-    cursor: pointer;
+.loadingCartCheckout h6{
+    font-size: .9vw;
+    font-weight: 400;
 }
 #payment-message{
     text-align: center;
@@ -150,24 +161,36 @@ button .loader#loader{
     font-weight: 500;
     color: #fe87a1;
 }
+
+
+
+
+.transactionPaymentInfo{
+    width: 25%;
+    height: auto;
+}
 .checkoutProductsummary{
-    margin: 1vw 0 0 0;
+    height: auto;
+    width: 100%;
+    margin-bottom: 10%;
+}
+.checkoutProductsummary h5{
+    text-align: center;
+    font-size: 1vw;
 }
 .checkoutProductsummary ul{
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     columns: 3;
     list-style: none;
-    padding: 0 .5vw 0 1vw;
+    margin: 5% 0;
 }
 .checkoutProductsummary ul li{
-    padding: .5vw;
+    padding: 2%;
     border: .1vw solid white;
-    width: 100%;
-    margin: 0 .2vw;
+    width: 32%;
     border-radius: .5vw;
-}
-#gsIcon{
-    margin: 0 .4vw 0 0;
 }
 .checkoutProductsummary ul li p{
     font-size: 1vw;
@@ -175,25 +198,69 @@ button .loader#loader{
     align-items: center;
     text-align: center;
     justify-content: center;
-    font-weight: 700;
+    font-weight: 600;
+}
+#gsIcon{
+    margin-right: 10%;
 }
 .totalpriceDatasummary{
     text-align: right;
 }
 .totalpriceDatasummary p{
-    font-size: .8vw;
+    font-size: 0.8vw;
 }
 .totalpriceDatasummary h2{
-    font-size: 1.5vw;
+    font-size: 2vw;
 }
 .totalpriceDatasummary{
     margin: 1vw 0 0 0;
-    padding: 0 .5vw .5vw 1vw;
 }
-button:disabled {
-    opacity: 0.5;
-    cursor: default;
+
+
+.formdataContents form{
+    border-radius: 1vw;
+    box-sizing: border-box;
+    margin-top: 5%;
+    padding-bottom: 15%;
 }
+.paymentSetupBtn{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5%;
+}
+.paymentSetupBtn button{
+    width: 48%;
+    height: 3.5vw;
+    padding: 5% 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #30313d;
+    border-radius: 5px;
+    border: 1px solid #5c5e748c;
+    color: white;
+    cursor: pointer;
+}
+.paymentSetupBtn button .loader#loader{
+    width: 25px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: 
+      radial-gradient(farthest-side, gray 94%,#0000) top/8px 8px no-repeat,
+      conic-gradient(#0000 30%, gray);
+    -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+    animation: spinner113 1s infinite linear;
+}
+.paymentSetupBtn button:disabled {
+    opacity: 50%;
+    cursor: not-allowed;
+}
+
+
+
 
 
 
@@ -214,13 +281,7 @@ button:disabled {
         padding: 5%;
     }
     .formdataContents{
-        border: .1vw solid rgba(255, 255, 255, 0.301);
-        border-radius: 5vw;
-        padding: 5vw 3vw;
-        box-shadow: 0 0 1vw rgba(255, 255, 255, 0.555);
         display: block;
-        height: 80vh;
-        width: 100%;
     }
     .productCheckout{
         width: 100%;
@@ -229,86 +290,49 @@ button:disabled {
         width: 100%;
         height: auto;
     }
-    .formdataContents form{
-        width: 100%;
-        padding: 2vw .5vw .5vw 1vw;
-    }
-    .formdataContents form button{
-        margin: 3vw 0 0 0;
-        width: 100%;
-        padding: 4vw 1vw;
-    }
-    .productCheckoutContents h1{
-        font-size: 5vw;
-        width: 100%;
-        text-align: center;
-    }
-    .productCheckoutContents ul{
-        width: 100%;
-        columns: 2;
-        margin: 5% 0;
-    }
-    .productCheckoutContents ul li{
-        padding: 5%;
-        height: 50vw;
+    .paymentSetupBtn button{
         width: 48%;
-        border-radius: 3vw;
-        margin: 1vw auto;
-        overflow: hidden;
-    }
-    .productCheckoutContents ul li h1{
-        font-size: 3vw;
-        margin-bottom: 15%;
-        position: absolute;
-    }
-    .productCheckoutContents ul li span{
-        font-size: 2.5vw;
-        margin: 0 0 8vw 0;
-    }
-    .productCheckoutContents ul li section{
-        width: 100%;
+        height: 5vw;
+        padding: 5% 1vw;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
+        align-items: center;
+        background: #30313d;
+        border-radius: 5px;
+        border: 1px solid #5c5e748c;
+        color: white;
+        cursor: pointer;
     }
-    .productCheckoutContents ul li section p{
+    .productCheckoutContents{
+        display: none;
+    }
+
+    .loadingCartCheckout h3{
+        font-size: 15vw;
+    }
+    .loadingCartCheckout h6{
         font-size: 3vw;
     }
 
-    .loadingCartCheckout section h1{
-        font-size: 2vw;
-    }
-    .cancelPaymentTransaction{
-        padding: 0 .5vw 0 1vw;
-        margin: 3vw 0 0 0;
-    }
-    .cancelPaymentTransaction button{
-        padding: 4vw 1vw;
-    }
     #payment-message{
         margin: 3vw 0 0 0;
     }
     #payment-message p{
         font-size: 3vw;
     }
+
+
+
+
     .checkoutProductsummary{
         margin: 1vw 0 0 0;
     }
-    .checkoutProductsummary ul{
-        display: flex;
-        columns: 3;
-        list-style: none;
-        padding: 0 .5vw 0 1vw;
-        margin: 3vw 0 0 0;
+    .checkoutProductsummary h5{
+        font-size: 4vw;
     }
     .checkoutProductsummary ul li{
         padding: 3vw;
-        border: .1vw solid white;
-        width: 100%;
-        margin: 0 1vw;
-        border-radius: 5px;
-    }
-    #gsIcon{
-        margin: 0 1vw 0 0;
+        border-radius: 3vw;
     }
     .checkoutProductsummary ul li p{
         font-size: 5vw;
@@ -322,7 +346,7 @@ button:disabled {
         font-size: 3vw;
     }
     .totalpriceDatasummary h2{
-        font-size: 6vw;
+        font-size: 8vw;
     }
     .totalpriceDatasummary{
         margin: 3vw 0 0 0;
