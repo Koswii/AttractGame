@@ -204,13 +204,8 @@ const Games = () => {
           agCartProductState: 'Pending',
         }
     
-        const serializedForm = qs.stringify(formAddCart);
-
-        axios.post(AGAddToCartsAPI, serializedForm, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        })
+        const jsonUserCartData = JSON.stringify(formAddCart);
+        axios.post(AGAddToCartsAPI,jsonUserCartData)
         .then(response => {
           const resMessage = response.data;
           if (resMessage.success === true) {
@@ -221,7 +216,7 @@ const Games = () => {
           }
         }) 
         .catch (error =>{
-            console.log(error);
+            // console.log(error);
         });
     };
 
