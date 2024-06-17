@@ -204,9 +204,9 @@ const Games = () => {
           agCartProductState: 'Pending',
         }
     
-        const jsonUserCartData = JSON.stringify(formAddCart);
-        // axios.post(AGAddToCartsAPI,jsonUserCartData, {
-        axios.post(AGAddToCartsAPI, qs.stringify(formAddCart), {
+        const serializedForm = qs.stringify(formAddCart);
+
+        axios.post(AGAddToCartsAPI, serializedForm, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
