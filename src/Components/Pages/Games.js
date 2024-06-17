@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import "../CSS/games.css";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import qs from 'qs';
 import { 
     TbShoppingCartPlus,
     TbShoppingCartFilled,
@@ -203,8 +204,13 @@ const Games = () => {
           agCartProductState: 'Pending',
         }
     
-        const jsonUserCartData = JSON.stringify(formAddCart);
-        axios.post(AGAddToCartsAPI, jsonUserCartData)
+        // const jsonUserCartData = JSON.stringify(formAddCart);
+        // console.log(jsonUserCartData);
+        axios.post(AGAddToCartsAPI, qs.stringify(formAddCart), {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
         .then(response => {
           const resMessage = response.data;
           if (resMessage.success === true) {
