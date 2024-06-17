@@ -205,12 +205,7 @@ const Games = () => {
         }
     
         const jsonUserCartData = JSON.stringify(formAddCart);
-        axios.post(AGAddToCartsAPI,jsonUserCartData, {
-        // axios.post(AGAddToCartsAPI, qs.stringify(formAddCart), {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        })
+        axios.post(AGAddToCartsAPI,jsonUserCartData)
         .then(response => {
           const resMessage = response.data;
           if (resMessage.success === true) {
@@ -221,7 +216,7 @@ const Games = () => {
           }
         }) 
         .catch (error =>{
-            console.log(error);
+            // console.log(error);
         });
     };
 

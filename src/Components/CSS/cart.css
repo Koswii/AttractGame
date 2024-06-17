@@ -213,8 +213,9 @@ section.cartPageContainer.mid{
 }
 .cartpcm1clDummy{
     height: 15vw;
-    width: 23%;
-    margin: 1%;
+    width: 19%;
+    margin-right: 1%;
+    margin-bottom: 1%;
     border-radius: 1vw;
     box-shadow: 0 0 10px gray;
     overflow: hidden;
