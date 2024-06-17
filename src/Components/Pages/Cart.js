@@ -217,10 +217,9 @@ const Cart = () => {
               <>
                   {loadingProducts ? <>
                       {allPrductsDetails.map((details, i) => (
-                          <div className="cartpcm1clDummy" key={i}><div className="cartpcm1clppDummy"></div></div>
+                          <div className="cartpcm1clDummy"><div className="cartpcm1clppDummy"></div></div>
                       ))}
-                  </>:
-                  <>
+                  </>:<>
                       {productGameDetails.map((details, i) => (
                           <div className="cartpcm1clProduct website" key={i}>
                               <img src={`https://2wave.io/GameCovers/${details.productData.game_cover}`} alt="" />
@@ -286,7 +285,7 @@ const Cart = () => {
               <>
                   {loadingProducts ? <>
                       {allPrductsDetails.map((details, i) => (
-                          <div className="cartpcm1clDummy" key={i}><div className="cartpcm1clppDummy"></div></div>
+                          <div className="cartpcm1clDummy mobile" key={i}><div className="cartpcm1clppDummy"></div></div>
                       ))}
                   </>:
                   <>

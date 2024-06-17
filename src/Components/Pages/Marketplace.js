@@ -370,11 +370,11 @@ const Marketplace = () => {
           if (resMessage.success === true) {
             fetchUserCart(setProductCarts, LoginUserID);
           } else {
-            console.log(resMessage.message);
+            // console.log(resMessage.message);
           }
         }) 
         .catch (error =>{
-            console.log(error);
+            // console.log(error);
         });
     };
 
