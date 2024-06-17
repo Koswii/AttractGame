@@ -250,6 +250,9 @@ section.cartPageContainer.mid{
     background-size:300% 100%;
     animation: l1 1s infinite linear;
 }
+.cartpcm1clDummy.mobile{
+    display: none;
+}
 .cartpcm1clProductEmpty{
     height: 30vw;
     width: 100%;
@@ -513,7 +516,7 @@ section.cartPageContainer.mid{
         display: none;
     }
     .cartpcm1clProductEmpty{
-        height: 50vh;
+        height: 30vh;
     }
     .cartpcm1clProductEmpty h6{
         font-size: 3vw;
