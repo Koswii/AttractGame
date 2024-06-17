@@ -29,7 +29,7 @@ h6{
     width: 100%;
     background: black;
     position: relative;
-    padding-bottom: 5vw;
+    /* padding-bottom: 5vw; */
 }
 
 
@@ -71,7 +71,8 @@ section.cartPageContainer.top{
 section.cartPageContainer.mid{
     height: auto;
     width: 100%;
-    padding: 0 15%;
+    padding: 0 10%;
+    padding-bottom: 5%;
 }
 .cartpcMid1Container{
     height: auto;
@@ -83,7 +84,7 @@ section.cartPageContainer.mid{
 }
 .cartpcm1Content.left{
     height: auto;
-    width: 68%;
+    width: 70%;
 }
 .cartpcm1cLeft{
     height: auto;
@@ -92,15 +93,14 @@ section.cartPageContainer.mid{
     flex-wrap: wrap;
     justify-content: left;
     align-items: start;
-    overflow-y: scroll;
-    padding-right: 1%;
 }
 .cartpcm1clProduct{
     height: 15vw;
-    width: 23%;
-    margin: 1%;
+    width: 19%;
+    margin-right: 1%;
+    margin-bottom: 1%;
     border-radius: 1vw;
-    box-shadow: 0 0 10px gray;
+    border: solid 1px white;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -112,7 +112,7 @@ section.cartPageContainer.mid{
 }
 .cartpcm1clProduct img{
     height: 100%;
-    width: auto;
+    width: 100%;
 }
 .cartpcm1clProduct button{
     position: absolute;
@@ -207,8 +207,9 @@ section.cartPageContainer.mid{
 
 }
 .cartpcm1clpPrice h5{
-    font-size: 1.1vw;
-    margin-bottom: 0.2vw;
+    font-size: 0.9vw;
+    font-weight: 400;
+    margin-bottom: 0.3vw;
 }
 .cartpcm1clDummy{
     height: 15vw;
@@ -274,11 +275,11 @@ section.cartPageContainer.mid{
 
 .cartpcm1Content.right{
     height: auto;
-    width: 30%;
+    width: 28%;
     border-radius: 1vw;
     /* background: red; */
-    box-shadow: 0 0 10px white;
-    padding: 2% 0;
+    /* box-shadow: 0 0 10px white; */
+    /* padding: 2% 0; */
 }
 .cartpcm1cRight{
     height: 100%;
@@ -456,7 +457,7 @@ section.cartPageContainer.mid{
         width: 100%;
     }
     .cartpcm1cLeft{
-        height: 50vh;
+        height: 30vh;
         width: 100%;
         display: block;
         overflow-y: scroll;

@@ -11,10 +11,13 @@ import '../CSS/checkoutform.css'
 import axios from "axios";
 // icons
 import { 
-    TbDeviceGamepad2,
-    TbGiftCard, 
-    TbDiamond,   
+  TbDeviceGamepad2,
+  TbGiftCard, 
+  TbDiamond,   
 } from "react-icons/tb";
+import { 
+  MdOutlinePayment 
+} from "react-icons/md";
 
 const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,setClientSecret,totalprice,transactionData}) => {
   const navigate = useNavigate();
@@ -137,18 +140,16 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
     <div className="formpayment">
       <div className="formdataContainer">
         <div className="formdataContents">
-          {loader ? 
-          <>
-          <div className="loadingCartCheckout">
-            <section>
-              <h1>Loading Products...</h1>
-            </section>
-          </div>
-          </> :
-          <>
+          {loader ? <>
+            <div className="loadingCartCheckout">
+              <div>
+                <h3><MdOutlinePayment className="faIcons"/></h3>
+                <h6>Processing Your Payment</h6>
+              </div>
+            </div>
+          </>:<>
             <div className="productCheckout">
               <div className="productCheckoutContents">
-                <h1>On Cart</h1>
                 <ul>
                 {gameData&&(
                   <>
@@ -157,8 +158,15 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
                       const productDataEntries = Object.entries(productData);
                       return (
                       <li style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GameCovers/${productDataEntries[3][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
-                        <span>{productDataEntries[6][1]}</span>
-                        <h1>{productDataEntries[4][1]}</h1>
+                        <div className="copDenomination">
+                          <img src="" platform={productDataEntries[11][1]} alt="" />
+                        </div>
+                        <div className="copProductDetails">
+                          <span>
+                            <h5>{productDataEntries[4][1]}</h5>
+                            <h6>{productDataEntries[6][1]}</h6>
+                          </span>
+                        </div>
                         <section>
                           <p>${product.effectivePrice}</p>
                           <p>{product.numberOfOrder === undefined ? 1 : product.numberOfOrder} pcs</p>
@@ -175,10 +183,20 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
                       const productDataEntries = Object.entries(productData);
                       return (
                       <li style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GiftCardCovers/${productDataEntries[5][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
-                        <h1>{productDataEntries[3][1]}</h1>
+                        <div className="copDenomination">
+                          <span>
+                            <h5>{productDataEntries[6][1]}</h5>
+                            <p>DOLLARS</p>
+                          </span>
+                        </div>
+                        <div className="copProductDetails">
+                          <span>
+                            <h5>{productDataEntries[3][1]}</h5>
+                          </span>
+                        </div>
                         <section>
                           <p>${product.effectivePrice}</p>
-                          <p>{product.numberOfOrder === undefined ? 1 : product.numberOfOrder} pcs</p>
+                          <p>{product.numberOfOrder === undefined ? 1 : product.numberOfOrder} pc/s</p>
                         </section>
                       </li>
                       )
@@ -192,10 +210,20 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
                       const productDataEntries = Object.entries(productData);
                       return (
                       <li style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GiftCardCovers/${productDataEntries[5][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
-                        <h1>{productDataEntries[3][1]}</h1>
+                        <div className="copDenomination">
+                          <span>
+                            <h5>{productDataEntries[6][1]}</h5>
+                            <p>DOLLARS</p>
+                          </span>
+                        </div>
+                        <div className="copProductDetails">
+                          <span>
+                            <h5>{productDataEntries[3][1]}</h5>
+                          </span>
+                        </div>
                         <section>
                           <p>${product.effectivePrice}</p>
-                          <p>{product.numberOfOrder === undefined ? 1 : product.numberOfOrder} pcs</p>
+                          <p>{product.numberOfOrder === undefined ? 1 : product.numberOfOrder} pc/s</p>
                         </section>
                       </li>
                       )
@@ -206,42 +234,40 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
               </div>
             </div>
             <div className="transactionPaymentInfo">
-                <form id="payment-form" onSubmit={handleSubmitform}>
-                  <PaymentElement id="payment-element" options={paymentElementOptions} />
+              <div className="checkoutProductsummary">
+                <h5>PAYMENT CHECKOUT</h5>
+                <ul>
+                  {gameData&&(
+                    <li>
+                      <p><TbDeviceGamepad2 id="gsIcon"/>{gameData.length}</p>
+                    </li>
+                  )}
+                  {giftCardData&&(
+                    <li>
+                      <p><TbGiftCard id="gsIcon"/>{giftCardData.length}</p>
+                    </li>
+                  )}
+                  {gameCreditsdData&&(
+                    <li>
+                      <p><TbDiamond id="gsIcon"/>{gameCreditsdData.length}</p>
+                    </li>
+                  )}
+                </ul>
+                <div className="totalpriceDatasummary">
+                  <p>Total Amount</p>
+                  <h2>$ {totalprice.toFixed(2)}</h2>
+                </div>
+              </div>
+              <form id="payment-form" onSubmit={handleSubmitform}>
+                <PaymentElement id="payment-element" options={paymentElementOptions} />
+                <div className="paymentSetupBtn">
                   <button disabled={isLoading || !stripe || !elements} id="submit">
-                    <span id="button-text">
-                      {isLoading ? <div className="loader" id="loader"></div> : <>{message === 'Payment succeeded! Buy again?'? 'Buy Again' : 'Pay Now'}</>}
-                    </span>
+                    {isLoading ? <div className="loader" id="loader"></div> : <>{message === 'Payment succeeded! Buy again?' ? 'Buy Again' : 'Pay Now'}</>}
                   </button>
-                  {/* Show any error or success messages */}
-                  {message && <div id="payment-message"><p>{message}</p></div>}
-                </form>
-                <div className="cancelPaymentTransaction">
                   <button disabled={isLoading || !stripe || !elements} onClick={cancelPayment}>Cancel</button>
                 </div>
-                <div className="checkoutProductsummary">
-                  <ul>
-                    {gameData&&(
-                      <li>
-                        <p><TbDeviceGamepad2 id="gsIcon"/>{gameData.length}</p>
-                      </li>
-                    )}
-                    {giftCardData&&(
-                      <li>
-                        <p><TbGiftCard id="gsIcon"/>{giftCardData.length}</p>
-                      </li>
-                    )}
-                    {gameCreditsdData&&(
-                      <li>
-                        <p><TbDiamond id="gsIcon"/>{gameCreditsdData.length}</p>
-                      </li>
-                    )}
-                  </ul>
-                  <div className="totalpriceDatasummary">
-                    <p>Total Price</p>
-                    <h2>$ {totalprice.toFixed(2)}</h2>
-                  </div>
-                </div>
+                {message && <div id="payment-message"><p>{message}</p></div>}
+              </form>
             </div>
           </>}
         </div>
