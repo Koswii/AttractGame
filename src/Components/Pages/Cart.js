@@ -229,8 +229,8 @@ const Cart = () => {
                                   <img src="" platform={details.productData.game_platform} alt="" />
                               </div>
                               <div className="cartpcm1clpPrice">
+                              <h5>$ {(details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
                                   <input type="number" min={1} max={details.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, Number(e.target.value))} placeholder='1'/>
-                                  <h5>$ {(details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
                               </div>
                           </div>
                       ))}
@@ -243,8 +243,8 @@ const Cart = () => {
                                   <p>DOLLARS</p>
                               </div>
                               <div className="cartpcm1clpPrice">
+                              <h5>$ {(details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
                                   <input type="number" min={1} max={details.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, Number(e.target.value))} placeholder='1'/>
-                                  <h5>$ {(details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
                               </div>
                           </div>
                       ))}
@@ -257,8 +257,8 @@ const Cart = () => {
                                   <p>DOLLARS</p>
                               </div>
                               <div className="cartpcm1clpPrice">
+                              <h5>$ {(details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
                                   <input type="number" min={1} max={details.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, Number(e.target.value))} placeholder='1'/>
-                                  <h5>$ {(details.stock === undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
                               </div>
                           </div>
                       ))}
@@ -461,10 +461,15 @@ const Cart = () => {
     };
 
 
+    if(successtransaction){
+      window.document.body.style.overflow = 'hidden';
+    } else{
+      window.document.body.style.overflow = 'auto';
+    }
+
     return (
       <div className="mainContainer cart">
-        <>
-        {successtransaction&&(
+        {successtransaction && (
           <div className="successTransaction">
             <div className="successTransactionContainer">
               <span><FaClipboardCheck /></span>
@@ -472,155 +477,153 @@ const Cart = () => {
                 <h1>THANK YOU FOR PURCHASING.</h1>
                 <p>Check your Profile for your Products.</p>
               </section>
-              <div className="successTransactionContainerBtn">
-                {/* <button onClick={buyAgain}>Buy Again</button>
-                <button onClick={closeSuccess}>Back to Cart</button> */}
-              </div>
             </div>
           </div>
-        )}
-        </>
-        {clientSecret && (
-          <Elements options={options} stripe={stripePromise}>
-            <CheckoutForm setSuccesstransaction={setSuccesstransaction} allPrductsDetails={allPrductsDetails} paymentIntentId={paymentIntentid} setClientSecret={setClientSecret} totalprice={checkoutOverallTotal} transactionData={handleSubmitTransaction}/>
-          </Elements>
         )}
         <section className="cartPageContainer top">
-          <div className="cartpcTopProfile">
-            <div className="cartpctProfile left">
-              {userLoggedData.profileimg ? (
-                <img
-                  src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`}
-                  alt=""
-                />
-              ) : (
-                <img
-                  src={require("../assets/imgs/ProfilePics/DefaultSilhouette.png")}
-                  alt=""
-                />
-              )}
-            </div>
-            <div className="cartpctProfile right">
-              <h5>{userLoggedData.username}'s Cart</h5>
-              <p>Products you added to Cart</p>
-            </div>
-          </div>
-        </section>
-        <section className="cartPageContainer mid">
-          <div className="cartpcMid1Container">
-            <div className="cartpcm1Content left">
-              <div className="cartpcm1cLeft">
-                {renderCartProducts()}
-                {renderCartProductsMobile()}
-              </div>
-            </div>
-            <div className="cartpcm1Content right">
-              <div className="cartpcm1cRight">
-                <h5>ORDER SUMMARY</h5>
-                <div className="cartpcm1crList">
-                  <h6>
-                    <TbDeviceGamepad2 className="faIcons" /> GAMES
-                  </h6>
-                  {productGameDetails.map((details, i) => (
-                    <>
-                      <span key={i}>
-                        <p id="productTitle">
-                          {details.productData.game_title} -{" "}
-                          {details.productData.game_platform}
-                        </p>
-                        <p id="productPrice">
-                          ${" "}
-                          {details.stock === undefined
-                            ? "--.--"
-                            : details.stock === undefined
-                            ? "--.--"
-                            : details.effectivePrice.toFixed(2)}{" "}
-                          x {orderQuantities[details.ag_product_id] || 1}
-                        </p>
-                      </span>
-                    </>
-                  ))}
-                  <br />
-                  <h6>
-                    <TbGiftCard className="faIcons" /> GIFTCARDS
-                  </h6>
-                  {productGiftcardDetails.map((details, i) => (
-                    <>
-                      <span key={i}>
-                        <p id="productTitle">
-                          {details.productData.giftcard_name} - $
-                          {details.productData.giftcard_denomination}
-                        </p>
-                        <p id="productPrice">
-                          ${" "}
-                          {details.stock === undefined
-                            ? "--.--"
-                            : details.stock === undefined
-                            ? "--.--"
-                            : details.effectivePrice.toFixed(2)}{" "}
-                          x {orderQuantities[details.ag_product_id] || 1}
-                        </p>
-                      </span>
-                    </>
-                  ))}
-                  <br />
-                  <h6>
-                    <TbDiamond className="faIcons" /> GAME CREDITS
-                  </h6>
-                  {productGamecreditDetails.map((details, i) => (
-                    <>
-                      <span key={i}>
-                        <p id="productTitle">
-                          {details.productData.gamecredit_name} - $
-                          {details.productData.gamecredit_denomination}
-                        </p>
-                        <p id="productPrice">
-                          ${" "}
-                          {details.stock === undefined
-                            ? "--.--"
-                            : details.stock === undefined
-                            ? "--.--"
-                            : details.effectivePrice.toFixed(2)}{" "}
-                          x {orderQuantities[details.ag_product_id] || 1}
-                        </p>
-                      </span>
-                    </>
-                  ))}
+              <div className="cartpcTopProfile">
+                <div className="cartpctProfile left">
+                  {userLoggedData.profileimg ? (
+                    <img
+                      src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`}
+                      alt=""
+                    />
+                  ) : (
+                    <img
+                      src={require("../assets/imgs/ProfilePics/DefaultSilhouette.png")}
+                      alt=""
+                    />
+                  )}
                 </div>
-                <div className="cartpcm1crCheckout">
-                  <span>
-                    <p>SUBTOTAL</p>
-                    <h6>$ {productSubtotalSum.toFixed(2)}</h6>
-                  </span>
-                  <span>
-                    <p>TAX FEE</p>
-                    <h6>3%</h6>
-                  </span>
-                  <span>
-                    <p>OUR CHARGE</p>
-                    <h6>4.5%</h6>
-                  </span>
-                  <hr />
-                  <span>
-                    <p>AG POINTS</p>
-                    <h6>
-                      {checkoutOverallAGPoints.toFixed(2)}{" "}
-                      <FaBolt className="faIcons" />
-                    </h6>
-                  </span>
-                  <span>
-                    <p>PAYABLE</p>
-                    <h6>$ {checkoutOverallTotal.toFixed(2)}</h6>
-                  </span>
-                  {/* <button onClick={checkOutprod}>CHECKOUT PRODUCTS</button> */}
-                  <button onClick={checkOutprod} className={(allPrductsDetails.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(allPrductsDetails.length === 0) ? true : false}>
-                    {(allPrductsDetails.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
-                  </button>
+                <div className="cartpctProfile right">
+                  <h5>{userLoggedData.username}'s Cart</h5>
+                  <p>Products you added to Cart</p>
                 </div>
               </div>
-            </div>
-          </div>
         </section>
+        {clientSecret ? 
+          <>
+            <Elements options={options} stripe={stripePromise}>
+              <CheckoutForm setSuccesstransaction={setSuccesstransaction} allPrductsDetails={allPrductsDetails} paymentIntentId={paymentIntentid} setClientSecret={setClientSecret} totalprice={checkoutOverallTotal} transactionData={handleSubmitTransaction}/>
+            </Elements>
+          </>:<>
+            <section className="cartPageContainer mid">
+              <div className="cartpcMid1Container">
+                <div className="cartpcm1Content left">
+                  <div className="cartpcm1cLeft">
+                    {renderCartProducts()}
+                    {renderCartProductsMobile()}
+                  </div>
+                </div>
+                <div className="cartpcm1Content right">
+                  <div className="cartpcm1cRight">
+                    <h5>ORDER SUMMARY</h5>
+                    <div className="cartpcm1crList">
+                      <h6>
+                        <TbDeviceGamepad2 className="faIcons" /> GAMES
+                      </h6>
+                      {productGameDetails.map((details, i) => (
+                        <>
+                          <span key={i}>
+                            <p id="productTitle">
+                              {details.productData.game_title} -{" "}
+                              {details.productData.game_platform}
+                            </p>
+                            <p id="productPrice">
+                              ${" "}
+                              {details.stock === undefined
+                                ? "--.--"
+                                : details.stock === undefined
+                                ? "--.--"
+                                : details.effectivePrice.toFixed(2)}{" "}
+                              x {orderQuantities[details.ag_product_id] || 1}
+                            </p>
+                          </span>
+                        </>
+                      ))}
+                      <br />
+                      <h6>
+                        <TbGiftCard className="faIcons" /> GIFTCARDS
+                      </h6>
+                      {productGiftcardDetails.map((details, i) => (
+                        <>
+                          <span key={i}>
+                            <p id="productTitle">
+                              {details.productData.giftcard_name} - $
+                              {details.productData.giftcard_denomination}
+                            </p>
+                            <p id="productPrice">
+                              ${" "}
+                              {details.stock === undefined
+                                ? "--.--"
+                                : details.stock === undefined
+                                ? "--.--"
+                                : details.effectivePrice.toFixed(2)}{" "}
+                              x {orderQuantities[details.ag_product_id] || 1}
+                            </p>
+                          </span>
+                        </>
+                      ))}
+                      <br />
+                      <h6>
+                        <TbDiamond className="faIcons" /> GAME CREDITS
+                      </h6>
+                      {productGamecreditDetails.map((details, i) => (
+                        <>
+                          <span key={i}>
+                            <p id="productTitle">
+                              {details.productData.gamecredit_name} - $
+                              {details.productData.gamecredit_denomination}
+                            </p>
+                            <p id="productPrice">
+                              ${" "}
+                              {details.stock === undefined
+                                ? "--.--"
+                                : details.stock === undefined
+                                ? "--.--"
+                                : details.effectivePrice.toFixed(2)}{" "}
+                              x {orderQuantities[details.ag_product_id] || 1}
+                            </p>
+                          </span>
+                        </>
+                      ))}
+                    </div>
+                    <div className="cartpcm1crCheckout">
+                      <span>
+                        <p>SUBTOTAL</p>
+                        <h6>$ {productSubtotalSum.toFixed(2)}</h6>
+                      </span>
+                      <span>
+                        <p>TAX FEE</p>
+                        <h6>3%</h6>
+                      </span>
+                      <span>
+                        <p>OUR CHARGE</p>
+                        <h6>4.5%</h6>
+                      </span>
+                      <hr />
+                      <span>
+                        <p>AG POINTS</p>
+                        <h6>
+                          {checkoutOverallAGPoints.toFixed(2)}{" "}
+                          <FaBolt className="faIcons" />
+                        </h6>
+                      </span>
+                      <span>
+                        <p>PAYABLE</p>
+                        <h6>$ {checkoutOverallTotal.toFixed(2)}</h6>
+                      </span>
+                      {/* <button onClick={checkOutprod}>CHECKOUT PRODUCTS</button> */}
+                      <button onClick={checkOutprod} className={(allPrductsDetails.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(allPrductsDetails.length === 0) ? true : false}>
+                        {(allPrductsDetails.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </> 
+        }
       </div>
     );
 }
