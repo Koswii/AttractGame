@@ -144,7 +144,7 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
             <div className="loadingCartCheckout">
               <div>
                 <h3><MdOutlinePayment className="faIcons"/></h3>
-                <h6>Processing Your Payment</h6>
+                <h6>Processing For Payment</h6>
               </div>
             </div>
           </>:<>
