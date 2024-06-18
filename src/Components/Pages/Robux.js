@@ -229,7 +229,7 @@ const Robux = () => {
                 </div>
                 <div className="rbPageContentMid2">
                     <h4><SiRoblox className='faIcons'/> ROBLOX GAMECREDITS</h4>
-                    <h5>DISCORD CLAIM</h5>
+                    <h5>AG DISCORD CLAIM</h5>
                     <div className="rbpcMid2Container">
                         {!loadingGamecredit ? <>{gamecreditViewDetails.map((details, i) => (
                             <div className={`rbpcm2Content ${(details.stockCount === 0) ? 'noStocks' : ''}`} key={i}>

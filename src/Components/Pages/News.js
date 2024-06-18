@@ -10,76 +10,75 @@ import Underdevelop from './underdevelop';
 
 const News = () => {
 // usestate
-   const [newsList, setNewsList] = useState([]);
-   const [loader, setLoader] = useState(true);
-   const [previewData, setPreviewData] = useState([]);
-   const [mainLinkData, setMainLinkData] = useState([]);
-   const [subLinkData, setSubLinkData] = useState([]);
-   const [error, setError] = useState("");
+    const AGAllNewsAPI = process.env.REACT_APP_AG_FETCH_NEWS_API;
+    const [newsList, setNewsList] = useState([]);
+    const [loader, setLoader] = useState(true);
+    const [previewData, setPreviewData] = useState([]);
+    const [mainLinkData, setMainLinkData] = useState([]);
+    const [subLinkData, setSubLinkData] = useState([]);
+    const [error, setError] = useState("");
 
-   useEffect(() => {
-     retrieveDataNews();
-   }, []);
+    useEffect(() => {
+      retrieveDataNews();
+    }, []);
 
-   const retrieveDataNews = async () => {
-     const retrieveNews = "https://engeenx.com/agNews.php";
+    const retrieveDataNews = async () => {
+      try {
+        const response = await fetch(AGAllNewsAPI);
+        const data = await response.json();
 
-     try {
-       const response = await fetch(retrieveNews);
-       const data = await response.json();
+        const filterMain = data.filter((link) => link.type === "main");
+        const filterSub = data.filter((link) => link.type === "sub");
+        const filterOther = data.filter((link) => link.type === "other");
 
-       const filterMain = data.filter((link) => link.type === "main");
-       const filterSub = data.filter((link) => link.type === "sub");
-       const filterOther = data.filter((link) => link.type === "other");
+        setNewsList(filterOther);
 
-       setNewsList(filterOther);
+        const mainlink = await Promise.all(
+          filterMain.map(async (linkObj) => {
+            const data = await fetchLinkPreview(linkObj.link);
+            return data ? { id: linkObj.id, data } : null;
+          })
+        );
 
-       const mainlink = await Promise.all(
-         filterMain.map(async (linkObj) => {
-           const data = await fetchLinkPreview(linkObj.link);
-           return data ? { id: linkObj.id, data } : null;
-         })
-       );
+        const sublink = await Promise.all(
+          filterSub.map(async (linkObj) => {
+            const data = await fetchLinkPreview(linkObj.link);
+            return data ? { id: linkObj.id, data } : null;
+          })
+        );
 
-       const sublink = await Promise.all(
-         filterSub.map(async (linkObj) => {
-           const data = await fetchLinkPreview(linkObj.link);
-           return data ? { id: linkObj.id, data } : null;
-         })
-       );
+        const otherlink = await Promise.all(
+          filterOther.map(async (linkObj) => {
+            const data = await fetchLinkPreview(linkObj.link);
+            return data ? { id: linkObj.id, data } : null;
+          })
+        );
 
-       const otherlink = await Promise.all(
-         filterOther.map(async (linkObj) => {
-           const data = await fetchLinkPreview(linkObj.link);
-           return data ? { id: linkObj.id, data } : null;
-         })
-       );
+        setMainLinkData(mainlink.filter(Boolean));
+        setSubLinkData(sublink.filter(Boolean));
+        setPreviewData(otherlink.filter(Boolean));
+        setLoader(false);
+      } catch (error) {
+        console.error("Error retrieving data:", error);
+        setError("Error fetching data");
+        setLoader(false);
+      }
+    };
 
-       setMainLinkData(mainlink.filter(Boolean));
-       setSubLinkData(sublink.filter(Boolean));
-       setPreviewData(otherlink.filter(Boolean));
-       setLoader(false);
-     } catch (error) {
-       console.error("Error retrieving data:", error);
-       setError("Error fetching data");
-       setLoader(false);
-     }
-   };
+    const fetchLinkPreview = async (url) => {
+      try {
+        const response = await axios.get(
+          `https://paranworld.com/link-preview?url=${encodeURIComponent(url)}`
+        );
+        return response.data;
+      } catch (error) {
+        console.error("Error fetching link preview:", error);
+        setError("Error fetching preview data");
+        return null;
+      }
+    };
 
-   const fetchLinkPreview = async (url) => {
-     try {
-       const response = await axios.get(
-         `https://paranworld.com/link-preview?url=${encodeURIComponent(url)}`
-       );
-       return response.data;
-     } catch (error) {
-       console.error("Error fetching link preview:", error);
-       setError("Error fetching preview data");
-       return null;
-     }
-   };
-
-  console.log(mainLinkData);
+    console.log(mainLinkData);
   return (
     <div className="mainContainer news">
       {/* <Underdevelop/> */}
@@ -152,8 +151,18 @@ const News = () => {
                             <MdNewspaper className="faIcons" />
                             MORE GAME NEWS
                           </h3>
-                          <ul>
+                          <ul className='mgnSubNews website'>
                             {subLinkData.map((link) => (
+                              <li key={link.data.id}>
+                                <Link to={link.link} target="_blank">
+                                  <img src={link.data.image} alt="" />
+                                </Link>
+                                <p>{link.data.title}</p>
+                              </li>
+                            ))}
+                          </ul>
+                          <ul className='mgnSubNews mobile'>
+                            {subLinkData.slice(0, 4).map((link) => (
                               <li key={link.data.id}>
                                 <Link to={link.link} target="_blank">
                                   <img src={link.data.image} alt="" />
