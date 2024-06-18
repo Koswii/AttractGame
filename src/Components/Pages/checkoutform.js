@@ -115,7 +115,6 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
 
 
   };
-
   const cancelPayment = async (e) => {
     e.preventDefault()
     try {
