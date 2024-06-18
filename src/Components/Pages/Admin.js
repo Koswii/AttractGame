@@ -733,9 +733,9 @@ const Admin = () => {
     }
 
 // news
-    // const AGInsertNewsLinkAPI = process.env.REACT_APP_AG_INSERT_PRODUCT_CODES_API;
-    // const AGRetriveNewsAPI = process.env.REACT_APP_AG_FETCH_NEWS_API;
-    // const AGDeleteNewsAPI = process.env.REACT_APP_AG_DELETE_NEWS_API;
+    const AGInsertNewsLinkAPI = process.env.REACT_APP_AG_INSERT_PRODUCT_CODES_API;
+    const AGRetriveNewsAPI = process.env.REACT_APP_AG_FETCH_NEWS_API;
+    const AGDeleteNewsAPI = process.env.REACT_APP_AG_DELETE_NEWS_API;
 
     const [mainnewsLink,setMainNewslink] = useState()
     const [subnewsLink,setSubNewslink] = useState([
@@ -762,8 +762,6 @@ const Admin = () => {
         const updatedLinks = subnewsLink.map(linkdata => linkdata.id === id ? { ...linkdata, link } : linkdata);
         setSubNewslink(updatedLinks);
     };
-    const insertNewslinkApi = 'https://engeenx.com/agAddNews.php';
-    const retriveNewsapi = "https://engeenx.com/agNews.php";
 
     const addNews = async (e) => {
         e.preventDefault();
@@ -775,7 +773,7 @@ const Admin = () => {
         };
 
         try {
-            const response = await axios.post(insertNewslinkApi, newsData);
+            const response = await axios.post(AGInsertNewsLinkAPI, newsData);
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
@@ -790,7 +788,7 @@ const Admin = () => {
     }, [])
     
     const retriveNews = async () => {
-        const response = await fetch(retriveNewsapi)
+        const response = await fetch(AGRetriveNewsAPI)
         const data = await response.json()
         const sortedData = [...data].sort((a,b) => {
             return a.type.localeCompare(b.type)
@@ -799,7 +797,7 @@ const Admin = () => {
     }
     const deleteNewsLink = async (news_id, type) => {
         try {
-            const response = await axios.delete('https://engeenx.com/agDeleteNews.php', { data: { id: news_id, type } });
+            const response = await axios.delete(AGDeleteNewsAPI, { data: { id: news_id, type } });
             if (response.data.success) {
                 setDataNewsRetrieve(dataNewsretrieve.filter(link => link.news_id !== news_id));
                 retriveNews()
