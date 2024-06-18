@@ -275,149 +275,149 @@ const Games = () => {
                 </div>
                 <div className="gmspContent top2">
                     <div className="gmspContentTop2 left">
-                    <section>
-                        <div className="filterSelectgames">
-                            <h1>filter items by:</h1>
-                            <p><GiConsoleController id='filterIconcheck'/> Console Platform</p>
-                            <ul>
-                                {!loader ? 
-                                    <>
-                                        {gamePlatform.map(platform => (
-                                            <li key={platform}>
-                                            <input
-                                                type="checkbox"
-                                                checked={filters.platform[platform] || false}
-                                                onChange={() => handleFilterChange('platform', platform)}
-                                            /> {platform}
+                        <section>
+                            <div className="filterSelectgames">
+                                <h4>Filter Games:</h4>
+                                <h6><GiConsoleController id='filterIconcheck'/> Game Platform</h6>
+                                <ul>
+                                    {!loader ? 
+                                        <>
+                                            {gamePlatform.map(platform => (
+                                                <li key={platform}>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={filters.platform[platform] || false}
+                                                    onChange={() => handleFilterChange('platform', platform)}
+                                                /> {platform}
+                                                </li>
+                                            ))}
+                                        </> :
+                                        <>
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />NintendoSwitch
                                             </li>
-                                        ))}
-                                    </> :
-                                    <>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />NintendoSwitch
-                                        </li>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />PC
-                                        </li>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />PlayStation4
-                                        </li>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />PlayStation5
-                                        </li>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />XboxXS
-                                        </li>
-                                    </>
-                                }
-                            </ul>
-                            <p><TbCategoryFilled id='filterIconcheck'/> Category</p>
-                            <ul>
-                                {!loader ? 
-                                    <>
-                                        {gameCategory.map(category => (
-                                            <li key={category}>
-                                            <input
-                                                type="checkbox"
-                                                checked={filters.category[category] || false}
-                                                onChange={() => handleFilterChange('category', category)}
-                                            /> {category}
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />PC
                                             </li>
-                                        ))}
-                                    </> :
-                                    <>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />Classic
-                                        </li>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />Hot
-                                        </li>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />Preorder
-                                        </li>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />Trending
-                                        </li>
-                                    </>
-                                }
-                            </ul>
-                            <p><VscVersions id='filterIconcheck'/> Edition</p>
-                            <ul>
-                                {!loader ?
-                                    <>
-                                        {gameEdition.map(edition => (
-                                            <li key={edition}>
-                                            <input
-                                                type="checkbox"
-                                                checked={filters.edition[edition] || false}
-                                                onChange={() => handleFilterChange('edition', edition)}
-                                            /> {edition}
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />PlayStation4
                                             </li>
-                                        ))}
-                                    </> :
-                                    <>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />Complete Edition
-                                        </li>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />Deluxe Edition
-                                        </li>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />Royal Edition
-                                        </li>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />Standard Edition
-                                        </li>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />Super Citizen Edition
-                                        </li>
-                                        <li>
-                                            <input
-                                                type="checkbox"
-                                            />Ultimate Edition
-                                        </li>
-                                    </>
-                                }
-                            </ul>
-                            <p><MdOutlineFavorite id='filterIconcheck'/> Favorite</p>
-                            <ul>
-                            <li>
-                                <input
-                                type="checkbox"
-                                checked={filters.favorite}
-                                onChange={handleFavoriteChange}
-                                /> Favorite
-                            </li>
-                            </ul>
-                        </div>
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />PlayStation5
+                                            </li>
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />XboxXS
+                                            </li>
+                                        </>
+                                    }
+                                </ul>
+                                <h6><TbCategoryFilled id='filterIconcheck'/> Category</h6>
+                                <ul>
+                                    {!loader ? 
+                                        <>
+                                            {gameCategory.map(category => (
+                                                <li key={category}>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={filters.category[category] || false}
+                                                    onChange={() => handleFilterChange('category', category)}
+                                                /> {category}
+                                                </li>
+                                            ))}
+                                        </> :
+                                        <>
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />Classic
+                                            </li>
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />Hot
+                                            </li>
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />Preorder
+                                            </li>
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />Trending
+                                            </li>
+                                        </>
+                                    }
+                                </ul>
+                                <h6><VscVersions id='filterIconcheck'/> Edition</h6>
+                                <ul>
+                                    {!loader ?
+                                        <>
+                                            {gameEdition.map(edition => (
+                                                <li key={edition}>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={filters.edition[edition] || false}
+                                                    onChange={() => handleFilterChange('edition', edition)}
+                                                /> {edition}
+                                                </li>
+                                            ))}
+                                        </> :
+                                        <>
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />Complete Edition
+                                            </li>
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />Deluxe Edition
+                                            </li>
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />Royal Edition
+                                            </li>
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />Standard Edition
+                                            </li>
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />Super Citizen Edition
+                                            </li>
+                                            <li>
+                                                <input
+                                                    type="checkbox"
+                                                />Ultimate Edition
+                                            </li>
+                                        </>
+                                    }
+                                </ul>
+                                {/* <h6><MdOutlineFavorite id='filterIconcheck'/> Favorite</h6>
+                                <ul>
+                                <li>
+                                    <input
+                                    type="checkbox"
+                                    checked={filters.favorite}
+                                    onChange={handleFavoriteChange}
+                                    /> Favorite
+                                </li>
+                                </ul> */}
+                            </div>
                         </section>
                     </div>
                     <div className='gmspContentTop2 right'>
