@@ -28,8 +28,8 @@ const News = () => {
         const data = await response.json();
 
         const filterMain = data.filter((link) => link.type === "main");
-        const filterSub = data.filter((link) => link.type === "sub");
-        const filterOther = data.filter((link) => link.type === "other");
+        const filterSub = data.filter((link) => link.type === "sub").sort((a,b) => (b.id) - (a.id));
+        const filterOther = data.filter((link) => link.type === "other").sort((a,b) => (b.id) - (a.id));
 
         setNewsList(filterOther);
 
@@ -78,7 +78,6 @@ const News = () => {
       }
     };
 
-    console.log(mainLinkData);
   return (
     <div className="mainContainer news">
       {/* <Underdevelop/> */}

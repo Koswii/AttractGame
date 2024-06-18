@@ -100,18 +100,17 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
         redirect: 'if_required'
     })
     .then(function(result) {
-      console.log(result.paymentIntent.status);
-      if (result.paymentIntent.status === "succeeded") {
+      if (result.paymentIntent === undefined) {
+        console.log('error occured');
+        setIsLoading(false);
+        setMessage(result.error.message);
+      } else if (result.paymentIntent.status === "succeeded") {
         setIsLoading(false);
         transactionData();
         setSuccesstransaction(true);
         setClientSecret();
         const navigatePage = navigate('/MyCart')
-      } else {
-        console.log('error occured');
-        setIsLoading(false);
-        setMessage(result.error.message);
-      }
+      } 
     });
 
 
