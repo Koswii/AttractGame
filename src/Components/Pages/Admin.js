@@ -630,8 +630,6 @@ const Admin = () => {
             console.error('Error submitting data:', error);
         }
     };
-
-
     useEffect(() => {
         fetchProductcodes();
         const getFiltername = localStorage.getItem('filterName')
@@ -651,9 +649,6 @@ const Admin = () => {
     }
     const showOrdering = () => {
         setOrderselect(prev => !prev)
-    }
-    async function buyGame() {
-        
     }
     const openEditquick = (game) => {
         setClickcount(clickCount + 1)
@@ -686,9 +681,7 @@ const Admin = () => {
         setFiltername('Game Credits Listed')
         setFilter(false)
     }
-
     const [searchInput, setSearchinput] = useState()
-    
     const handleSearch = (event) => {
         setSearchinput(event.target.value)
     }
@@ -740,6 +733,9 @@ const Admin = () => {
     }
 
 // news
+    // const AGInsertNewsLinkAPI = process.env.REACT_APP_AG_INSERT_PRODUCT_CODES_API;
+    // const AGRetriveNewsAPI = process.env.REACT_APP_AG_FETCH_NEWS_API;
+    // const AGDeleteNewsAPI = process.env.REACT_APP_AG_DELETE_NEWS_API;
 
     const [mainnewsLink,setMainNewslink] = useState()
     const [subnewsLink,setSubNewslink] = useState([

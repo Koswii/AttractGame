@@ -516,7 +516,7 @@ const Nav = () => {
             </div>:
             <div className='userProfileBtn'>
               {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
-              <Link id='agCartBtn' id='agAddToCartBtn' to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}><TbShoppingCartFilled className='faIcons'/></Link>
+              <Link id='agAddToCartBtn' to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}><TbShoppingCartFilled className='faIcons'/></Link>
               <div className='agProfileSelect' onClick={handleViewProfileBtns}>
                 {dataUser.profileimg ?
                 <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt="" />:
