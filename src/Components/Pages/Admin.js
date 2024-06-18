@@ -741,36 +741,37 @@ const Admin = () => {
 
 // news
 
-const [mainnewsLink,setMainNewslink] = useState()
-const [subnewsLink,setSubNewslink] = useState([
-    { id: 'newsID_' + Date.now()+1, type: 'sub', link: '' },
-    { id: 'newsID_' + Date.now()+3, type: 'sub', link: '' },
-    { id: 'newsID_' + Date.now()+4, type: 'sub', link: '' },
-    { id: 'newsID_' + Date.now()+5, type: 'sub', link: '' }
-])
-const [newsLink, setNewsLink] = useState([{ id: 'newsID_' + Date.now(), type: 'other', link: '' }]);
+    const [mainnewsLink,setMainNewslink] = useState()
+    const [subnewsLink,setSubNewslink] = useState([
+        { id: 'newsID_' + Date.now()+1, type: 'sub', link: '' },
+        { id: 'newsID_' + Date.now()+3, type: 'sub', link: '' },
+        { id: 'newsID_' + Date.now()+4, type: 'sub', link: '' },
+        { id: 'newsID_' + Date.now()+5, type: 'sub', link: '' }
+    ])
+    const [newsLink, setNewsLink] = useState([{ id: 'newsID_' + Date.now(), type: 'other', link: '' }]);
 
-const handleChangeNewsLinkInput = (id, field, value) => {
-    const updatedLinks = newsLink.map(input => input.id === id ? { ...input, [field]: value } : input);
-    setNewsLink(updatedLinks);
-};
+    const handleChangeNewsLinkInput = (id, field, value) => {
+        const updatedLinks = newsLink.map(input => input.id === id ? { ...input, [field]: value } : input);
+        setNewsLink(updatedLinks);
+    };
 
-const addNewsLinkInput = () => {
-    setNewsLink([...newsLink, { id: 'newsID_' + Date.now(), type: 'other', link: '' }]);
-};
+    const addNewsLinkInput = () => {
+        setNewsLink([...newsLink, { id: 'newsID_' + Date.now(), type: 'other', link: '' }]);
+    };
 
-const handleChangeMainNewslinkinput = (event) => {
-    setMainNewslink(event.target.value)
-}
-const handleChangeSubNewsLinkInput = (id, link) => {
-    const updatedLinks = subnewsLink.map(linkdata => linkdata.id === id ? { ...linkdata, link } : linkdata);
-    setSubNewslink(updatedLinks);
-};
-const insertNewslinkApi = 'https://engeenx.com/agAddNews.php';
-const retriveNewsapi = "https://engeenx.com/agNews.php";
+    const handleChangeMainNewslinkinput = (event) => {
+        setMainNewslink(event.target.value)
+    }
+    const handleChangeSubNewsLinkInput = (id, link) => {
+        const updatedLinks = subnewsLink.map(linkdata => linkdata.id === id ? { ...linkdata, link } : linkdata);
+        setSubNewslink(updatedLinks);
+    };
+    const insertNewslinkApi = 'https://engeenx.com/agAddNews.php';
+    const retriveNewsapi = "https://engeenx.com/agNews.php";
 
     const addNews = async (e) => {
         e.preventDefault();
+
         const newsData = {
             mainnewsLink,
             subnewsLink,
@@ -1761,27 +1762,31 @@ const retriveNewsapi = "https://engeenx.com/agNews.php";
                                         </section>
                                     </div>
                                     <div className="newsContentsTable">
-                                        <table id='linksTable'>
+                                        <table>
                                             <thead>
                                                 <tr>
-                                                    <th>link id</th>
-                                                    <th>link</th>
-                                                    <th>type</th>
-                                                    <th>delete</th>
+                                                    <th width="25%"><p>News ID</p></th>
+                                                    <th width="55%"><p>News Link</p></th>
+                                                    <th width="10%"><p>Category</p></th>
+                                                    <th width="10%"><p>Function</p></th>
                                                 </tr>
                                             </thead>
-                                            {dataNewsretrieve&&(
-                                                <tbody>
-                                                {dataNewsretrieve.map(link => (
-                                                    <tr key={link.id}>
-                                                        <td>{link.news_id}</td>
-                                                        <td>{link.link}</td>
-                                                        <td>{link.type}</td>
-                                                        <td><button onClick={() => deleteNewsLink(link.news_id, link.type)}>Delete</button></td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>)}
                                         </table>
+                                        <div>
+                                            <table id='linksTable'>
+                                                {dataNewsretrieve&&(
+                                                    <tbody>
+                                                    {dataNewsretrieve.map(link => (
+                                                        <tr key={link.id}>
+                                                            <td width="25%"><p>{link.news_id}</p></td>
+                                                            <td width="55%"><p>{link.link}</p></td>
+                                                            <td width="10%"><p>{link.type}</p></td>
+                                                            <td width="10%"><button onClick={() => deleteNewsLink(link.news_id, link.type)}>Delete</button></td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>)}
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

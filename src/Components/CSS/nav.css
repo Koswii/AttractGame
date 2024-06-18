@@ -371,16 +371,19 @@ nav{
 }
 .userPublicBtn a#agLoginBtn{
     color: white;
-    font-size: 2.3vw;
+    font-size: 2vw;
     line-height: 1vw;
     cursor: pointer;
 }
 .userPublicBtn a#agRegisterBtn{
     border: solid 2px white;
-    padding: 2% 7%;
+    padding: 2% 10%;
     border-radius: 50px;
     margin-left: 5%;
     cursor: pointer;
+}
+.userPublicBtn a#agRegisterBtn h6{
+    font-size: 0.7vw;
 }
 .userProfileBtn{
     height: auto;
@@ -395,7 +398,8 @@ nav{
     color: white;
     margin: 0 4%;
 }
-.userProfileBtn a#agAdminBtn{
+.userProfileBtn a#agAdminBtn,
+.userProfileBtn a#agAddToCartBtn{
     font-size: 2vw;
     line-height: 1vw;
 }
@@ -728,9 +732,12 @@ nav{
     .userProfileBtn .agProfileSelect{
         display: none;
     }
-    .userProfileBtn a#agAdminBtn{
+    .userProfileBtn a#agAdminBtn,
+    .userProfileBtn a#agAddToCartBtn{
         font-size: 7vw;
         line-height: 5vw;
+        margin: 0;
+        margin-left: 10%;
     }
     .agProfileBtnMobile{
         height: 8vw;
