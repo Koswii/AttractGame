@@ -5,7 +5,7 @@ import axios from 'axios';
 import { ActivePageProvider } from './Components/Pages/ActivePageContext';
 import CookieBanner from './Components/Pages/CookieBanner';
 import Nav from './Components/Nav'
-// import Footer from './Components/Pages/footer';
+import Footer from './Components/Pages/footer';
 import ScrollToTop from './Components/Pages/ScrollToTop';
 import Admin from './Components/Pages/Admin';
 import Profile from './Components/Pages/Profile';
@@ -114,7 +114,7 @@ function App() {
 
         <Route path="*" element={<Home/>}/>
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </div>
     </Router>
     </ActivePageProvider>

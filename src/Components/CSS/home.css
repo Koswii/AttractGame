@@ -205,15 +205,6 @@ section.landingPageContainer.mid{
     width: 100%;
     margin-bottom: 5%;
 }
-.lndPageContent.mid3 h4{
-    display: flex;
-    justify-content: left;
-    align-items: center;
-}
-.lndPageContent.mid3 h4 .faIcons{
-    margin-right: 1%;
-    color: red;
-}
 .lndpcFeaturedGames{
     height: auto;
     width: 100%;
@@ -221,155 +212,124 @@ section.landingPageContainer.mid{
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    margin-top: 2%;
+    margin-top: 10%;
 }
-.lndpcFeaturedGames.website{
-    display: flex;
-}
-.lndpcFeaturedGames.mobile{
-    display: none;
-}
-.lndpcfgames{
-    height: 20vw;
-    width: 19%;
-    overflow: hidden;
-    position: relative;
-    margin-bottom: 1%;
-    border-radius: 1vw;
-    cursor: pointer;
-    transition: 400ms ease;
+.lndpcfgWeb.left{
+    height: 35vw;
+    width: 35%;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    overflow: hidden;
 }
-.lndpcfgames:hover{
-    transform: translateY(-10px);
+.lndpcdgwlSlider{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+.lndpcdgwlSlider.active {
+    opacity: 1;
+}
+.lndpcfgwl{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5% 0;
+    position: relative;
+    transition: opacity 1s ease-in-out;
+}
+.lndpcfgwlImage{
+    height: auto;
+    width: 80%;
+    border-radius: 1vw;
+    box-shadow: 0 0 20px gray;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.lndpcfgwlImage img{
+    height: auto;
+    width: 100%;
+}
+.lndpcfgwlShadow{
+    position: absolute;
+    bottom: 0;
+    height: 30vw;
+    width: 100%;
+    background: linear-gradient(transparent, black 70%);
+    background-size: cover;
+}
+.lndpcfgwlDetails{
+    height: auto;
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    bottom: 15%;
+    left: 0;
+}
+.lndpcfgwlDetails img{
+    height: auto;
+    width: 100%;
+}
+.lndpcfgWeb.right{
+    height: auto;
+    width: 60%;
+    text-align: right;
+}
+.lndpcfgWeb.right h5{
+    margin-bottom: 1%;
+}
+.lndpcfgWeb.right h3{
+    line-height: 3.5vw;
+}
+.lndpcfgWeb.right p{
+    margin: 5% 0;
+    padding-left: 10%;
+}
+.lndpcMarqueeContainer{
+    height: auto;
+    width: 100%;
+    margin: 3% 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.lndpcMarqueeContainer img{
+    height: 3vw;
+    margin: 0 1%;
+    padding: 0.5% 1%;
+    display: inline-block;
+    white-space: nowrap;
+    opacity: 30%;
+    border-radius: 50px;
+    border: solid 2px white;
+    animation: marquee 20s linear infinite;
+}
+.lndpcMarqueeContainer img:hover{
+    opacity: 100%;
+}
+.lndpcfgWeb.right a{
+    color: white;
+    text-decoration: none;
+    padding: 1% 5%;
+    border-radius: 50px;
+    border: solid 2px white;
+    font-size: 0.9vw;
+    opacity: 50%;
+}
+.lndpcfgWeb.right a:hover{
+    opacity: 100%;
     transition: 400ms ease;
     box-shadow: 0 0 10px white;
 }
-.lndpcfgames:hover .lndpcfgDetails{
-    opacity: 1;
-    transition: 400ms ease;
-}
-.lndpcfgames img{
-    height: auto;
-    width: 100%;
-    border-radius: 1vw;
-}
-.lndpcfgDetails{
-    height: auto;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    padding: 8%;
-    background: linear-gradient(transparent, black 50%);
-    background-size: cover;
-    opacity: 0;
-}
-.lndpcfgDetails h6{
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.lndpcfgDetails p{
-    text-align: center;
-    font-size: 0.7vw;
-    margin-top: 2%;
-}
-.lndpcfgPlatform{
-    height: auto;
-    position: absolute;
-    top: 0.5vw;
-    left: 0.5vw;
-    background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 10px black;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 5%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.5vw;
-}
-.lndpcfgPlatform img{
-    height: 3vw;
-    width: 3vw;
-    border-radius: 0;
-}
-.lndpcfgPlatform img[platform='PC']{
-    content: url('../assets/imgs/GamePlatforms/PCGames.png');
-}
-.lndpcfgPlatform img[platform='NintendoSwitch']{
-    content: url('../assets/imgs/GamePlatforms/NintendoSwitch.png');
-}
-.lndpcfgPlatform img[platform='XboxXS']{
-    content: url('../assets/imgs/GamePlatforms/XboxXS.png');
-}
-.lndpcfgPlatform img[platform='XboxOne']{
-    content: url('../assets/imgs/GamePlatforms/XboxOne.png');
-}
-.lndpcfgPlatform img[platform='PlayStation4']{
-    content: url('../assets/imgs/GamePlatforms/PS4.png');
-}
-.lndpcfgPlatform img[platform='PlayStation5']{
-    content: url('../assets/imgs/GamePlatforms/PS5.png');
-}
-.lndpcfgViewMore{
-    height: auto;
-    width: 100%;
-    display: flex;
-    justify-content: right;
-    align-items: center;
-}
-.lndpcfgViewMore a{
-    font-size: 1vw;
-    color: white;
-    opacity: 50%;
-    text-decoration: none;
-}
-.lndpcfgViewMore a:hover{
-    opacity: 100%;
-    transition: 400ms ease;
-}
-.lndpcfgamesDummy{
-    height: 20vw;
-    width: 19%;
-    overflow: hidden;
-    position: relative;
-    margin-bottom: 1%;
-    border-radius: 1vw;
-    background: 
-      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
-      #808080;
-    background-size:300% 100%;
-    animation: l1 1s infinite linear;
-}
-.lndpcfgPlatformDummy{
-    height: 4.5vw;
-    width: 4.5vw;
-    position: absolute;
-    top: 0.5vw;
-    left: 0.5vw;
-    box-shadow: 0 0 10px black;
-    background: 
-      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
-      #808080;
-    background-size:300% 100%;
-    animation: l1 1s infinite linear;
-    border-radius: 0.5vw;
-}
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -380,66 +340,50 @@ section.landingPageContainer.mid{
 .lndPageContent.mid4{
     height: auto;
     width: 100%;
-    border-radius: 1vw;
-    margin: 2% 0;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    position: relative;
+    margin: 10% 0;
 }
-.lndPageContent.mid4 img{
+.lndpcmid4Container{
     height: auto;
     width: 100%;
-    border-radius: 1vw;
-}
-.lndpcAGElite{
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 5%;
-    text-align: right;
-}
-.lndpcageSocials{
     display: flex;
-    justify-content: right;
+    justify-content: space-between;
     align-items: center;
 }
-.lndpcageSocials p{
-    margin-right: 1%;
-    font-size: 0.7vw;
+.lndpcm4Content.left{
+    height: auto;
+    width: 40%;
 }
-.lndpcageSocials a{
-    margin-left: 1%;
+.lndpcm4lBtns{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 3% 0;
+}
+.lndpcm4lBtns a{
+    margin-right: 3%;
     color: white;
-    font-size: 1.2vw;
+    text-decoration: none;
+    padding: 1% 5%;
+    border-radius: 50px;
+    border: solid 2px white;
+    font-size: 0.9vw;
+    opacity: 50%;
 }
-.lndpcageSocials a:hover{
-    color: gold;
+.lndpcm4lBtns a:hover{
+    opacity: 100%;
     transition: 400ms ease;
+    box-shadow: 0 0 10px white;
 }
 
-.lndpcAGElite h3 span{
-    color: gold;
-}
-.lndpcageJoin{
-    height: auto;
-    margin-top: 2%;
-}
-.lndpcageJoin a{
-    margin-top: 20%;
-    padding: 0.5% 3%;
-    text-decoration: none;
-    border: solid 2px white;
-    color: white;
-    border-radius: 50px;
-    font-size: 0.9vw;
-}
-.lndpcageJoin a:hover{
-    box-shadow: 0 0 10px white;
-    transition: 400ms ease;
-}
+
+
+
+
+
+
+
 
 
 .lndPageContent.mid5{
@@ -494,7 +438,6 @@ section.landingPageContainer.mid{
 .lndPageContent.mid7{
     height: auto;
     width: 100%;
-    margin-top: 10%;
 }
 .lndPageContent.mid7 h4{
     display: flex;
@@ -756,7 +699,14 @@ section.landingPageContainer.mid{
 @keyframes spinner113{ 
     100%{transform: rotate(1turn)}
 }
-
+@keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+}
 
 
 
