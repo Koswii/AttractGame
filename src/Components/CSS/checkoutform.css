@@ -258,7 +258,10 @@
     opacity: 50%;
     cursor: not-allowed;
 }
-
+#payment-form p{
+    font-size: 1vw;
+    margin: 5% 0;
+}
 
 
 
@@ -351,5 +354,9 @@
     .totalpriceDatasummary{
         margin: 3vw 0 0 0;
         padding: 0 1vw;
+    }
+    #payment-form p{
+        text-align: center;
+        font-size: 3vw;
     }
 }

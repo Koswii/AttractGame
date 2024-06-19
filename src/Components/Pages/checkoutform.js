@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+// stripe
 import {
   PaymentElement,
   useStripe,
@@ -18,6 +19,7 @@ import {
 import { 
   MdOutlinePayment 
 } from "react-icons/md";
+import PayPalButton from "./PayPalButton";
 
 const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,setClientSecret,totalprice,transactionData}) => {
   const navigate = useNavigate();
@@ -128,12 +130,17 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
     layout: "tabs",
   };
   
+  const initialOptions = {
+    clientId: "ARy8eFogQ46HyArkMEtHNv-IzveFDuW-SbRBHPyyIrDavCkGPR2YzhrWVLnoVfGmf-h0HtjjW_kK4Iif",
+    currency: "USD",
+    intent: "capture",
+  };
 
-
-  
   setTimeout(() => {
     setLoader(false)
   }, 2000);
+
+  
   return (
     <div className="formpayment">
       <div className="formdataContainer">
@@ -265,6 +272,8 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
                   <button disabled={isLoading || !stripe || !elements} onClick={cancelPayment}>Cancel</button>
                 </div>
                 {message && <div id="payment-message"><p>{message}</p></div>}
+                <p>Pay using:</p>
+                <PayPalButton totalprice={totalprice}/>
               </form>
             </div>
           </>}
