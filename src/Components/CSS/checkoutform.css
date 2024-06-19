@@ -251,6 +251,7 @@
     background: 
       radial-gradient(farthest-side, gray 94%,#0000) top/8px 8px no-repeat,
       conic-gradient(#0000 30%, gray);
+    mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
     -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
     animation: spinner113 1s infinite linear;
 }
@@ -258,7 +259,10 @@
     opacity: 50%;
     cursor: not-allowed;
 }
-
+#payment-form p{
+    font-size: .8vw;
+    margin: 5% 0;
+}
 
 
 
@@ -351,5 +355,9 @@
     .totalpriceDatasummary{
         margin: 3vw 0 0 0;
         padding: 0 1vw;
+    }
+    #payment-form p{
+        text-align: center;
+        font-size: 3vw;
     }
 }
