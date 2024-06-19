@@ -245,6 +245,7 @@ section.gamesPageContainer.top{
 }
 .gmspct2gPlatform img{
     height: 3vw;
+    width: 3vw;
 }
 .gmspct2gPlatform img[platform='PC']{
     content: url('../assets/imgs/GamePlatforms/PCGames.png');
