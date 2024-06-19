@@ -604,8 +604,79 @@ nav{
 
 
 
-
-
+.footerContainer{
+    height: auto;
+    width: 100%;
+    background: url('../assets/imgs/13551.png') no-repeat center;
+    background-size: cover;
+}
+.footerContents{
+    height: auto;
+    width: 100%;
+    padding: 3% 5%;
+    padding-bottom: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+.footContent.left{
+    height: auto;
+    width: 30%;
+}
+.footContent.left img{
+    height: 3vw;
+    margin-bottom: 3%;
+}
+.ftcSocialsContainer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.ftcSocialsContainer a{
+    color: white;
+    font-size: 1.2vw;
+    margin: 2% 0;
+    margin-right: 5%;
+}
+.footContent.right{
+    height: auto;
+    width: 60%;
+    display: flex;
+    justify-content: right;
+    align-items: start;
+}
+.footContent.right div{
+    height: auto;
+    width: 30%;
+    text-align: right;
+}
+.footContent.right div ul{
+    list-style: none;
+    margin-top: 3%;
+}
+.footContent.right div ul li{
+    margin: 2% 0;
+}
+.footContent.right div a{
+    text-decoration: none;
+    color: white;
+    opacity: 50%;
+}
+.footContent.right div a:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+}
+.footerContentsBottom{
+    height: auto;
+    width: 100%;
+    background: rgb(25, 25, 25);
+    padding: 1% 5%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
 
 
 
