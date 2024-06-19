@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef  } from 'react'
 import "../CSS/home.css";
 import { Link } from 'react-router-dom';
 import { useActivePage } from './ActivePageContext';
@@ -21,8 +21,6 @@ import {
 } from "react-icons/fa6";
 import { 
   TbShoppingCartBolt, 
-  TbDeviceGamepad2,
-  TbGiftCard,
   TbHeart,
   TbHeartFilled,
   TbTrendingUp,
@@ -30,7 +28,10 @@ import {
   TbCampfireFilled,
   TbCalendarStar,
   TbSquareRoundedArrowRight, 
-  TbGiftCardFilled 
+  TbGiftCardFilled, 
+  TbDeviceGamepad2,
+  TbGiftCard, 
+  TbDiamond,   
 } from "react-icons/tb";
 import axios from 'axios';
 
@@ -38,6 +39,7 @@ import axios from 'axios';
 
 const Home = () => {
   const { setActivePage } = useActivePage();
+  const marqueeRef = useRef(null);
   const [hasScrolled, setHasScrolled] = useState(false);
   const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
   const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
@@ -107,8 +109,36 @@ const Home = () => {
 
   }, []);
   
-  
-  
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex === 10 ? 0 : prevIndex + 1));
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+  useEffect(() => {
+    const marquee = marqueeRef.current;
+    let animationId = null;
+    const animateMarquee = () => {
+      if (!isPaused) {
+        if (marquee.scrollLeft >= marquee.scrollWidth - marquee.clientWidth) {
+          marquee.scrollLeft = 0;
+        } else {
+          marquee.scrollLeft += 1;
+        }
+      }
+      animationId = requestAnimationFrame(animateMarquee);
+    };
+    animationId = requestAnimationFrame(animateMarquee);
+    return () => cancelAnimationFrame(animationId);
+  }, [isPaused]);
+  const handleMouseEnter = () => {
+    setIsPaused(true);
+  };
+  const handleMouseLeave = () => {
+    setIsPaused(false);
+  };
 
   return (
     <div className='mainContainer home'>
@@ -162,79 +192,195 @@ const Home = () => {
           </div>
         </div>
         <div className="lndPageContent mid3">
-          <h4><FaFire className='faIcons'/>FEATURED GAMES</h4>
-          <div className="lndpcFeaturedGames website">
-            {!loading ? <>{viewAGData1.slice(0, 10).map((details, i) => (
-              <Link className='lndpcfgames website' to={`/Games/${details.game_canonical}`} key={i}>
-                {details.game_cover ?
-                  <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="" />
-                  :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}
-                <div className='lndpcfgDetails'>
-                  <h6>{details.game_title}</h6>
-                  <p>{details.game_developer}</p>
+          <div className="lndpcFeaturedGames">
+            <div className="lndpcfgWeb left">
+              <div className={`lndpcdgwlSlider ${currentIndex === 0 ? 'active' : ''}`}>
+                <div className="lndpcfgwl">
+                  <div className="lndpcfgwlImage">
+                    <img src={require('../assets/imgs/GameBanners/TEKKEN 8.png')} alt="" />
+                    <div className="lndpcfgwlShadow"></div>
+                  </div>
+                  <div className='lndpcfgwlDetails'>
+                    <img src={require('../assets/imgs/GameLogos/Tekken8.png')} alt="" />
+                    <p>Bandai Namco Studios</p>
+                  </div>
                 </div>
-                <div className="lndpcfgPlatform">
-                  <img platform={details.game_platform} src="" alt="" />
+              </div>
+              <div className={`lndpcdgwlSlider ${currentIndex === 1 ? 'active' : ''}`}>
+                <div className="lndpcfgwl">
+                  <div className="lndpcfgwlImage">
+                    <img src={require('../assets/imgs/GameBanners/StellarBlade.png')} alt="" />
+                    <div className="lndpcfgwlShadow"></div>
+                  </div>
+                  <div className='lndpcfgwlDetails'>
+                    <img src={require('../assets/imgs/GameLogos/StellarBlade.png')} alt="" />
+                    <p>Sony Entertainment</p>
+                  </div>
                 </div>
-              </Link>
-            ))}</>:<>
-              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
-              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
-              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
-              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
-              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
-              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
-              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
-              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
-              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
-              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
-            </>}
-          </div>
-          <div className="lndpcFeaturedGames mobile">
-            {!loading ? <>{viewAGData1.slice(0, 4).map((details, i) => (
-              <Link className='lndpcfgames' to={`/Games/${details.game_canonical}`} onClick={handleClickGames} key={i}>
-                {details.game_cover ?
-                  <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="" />
-                  :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}
-                <div className='lndpcfgDetails'>
-                  <h6>{details.game_title}</h6>
-                  <p>{details.game_developer}</p>
+              </div>
+              <div className={`lndpcdgwlSlider ${currentIndex === 2 ? 'active' : ''}`}>
+                <div className="lndpcfgwl">
+                  <div className="lndpcfgwlImage">
+                    <img src={require('../assets/imgs/GameBanners/CYBER PUNK 2077.png')} alt="" />
+                    <div className="lndpcfgwlShadow"></div>
+                  </div>
+                  <div className='lndpcfgwlDetails'>
+                    <img src={require('../assets/imgs/GameLogos/CyberPunk2077.png')} alt="" />
+                    <p>Warner Bros Entertainment</p>
+                  </div>
                 </div>
-                <div className="lndpcfgPlatform">
-                  <img platform={details.game_platform} src="" alt="" />
+              </div>
+              <div className={`lndpcdgwlSlider ${currentIndex === 3 ? 'active' : ''}`}>
+                <div className="lndpcfgwl">
+                  <div className="lndpcfgwlImage">
+                    <img src={require('../assets/imgs/GameBanners/HELL DIVERS.png')} alt="" />
+                    <div className="lndpcfgwlShadow"></div>
+                  </div>
+                  <div className='lndpcfgwlDetails'>
+                    <img src={require('../assets/imgs/GameLogos/Helldivers2.png')} alt="" />
+                    <p>Sony Entertainment</p>
+                  </div>
                 </div>
-              </Link>
-            ))}</>:<>
-              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
-              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
-              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
-              <div className="lndpcfgamesDummy"><div className="lndpcfgPlatformDummy"></div></div>
-            </>}
-          </div>
-          <div className="lndpcfgViewMore">
-            <Link to="/Games" onClick={handleClickGames}>View All Games</Link>
+              </div>
+              <div className={`lndpcdgwlSlider ${currentIndex === 4 ? 'active' : ''}`}>
+                <div className="lndpcfgwl">
+                  <div className="lndpcfgwlImage">
+                    <img src={require('../assets/imgs/GameBanners/HOGWARTS LEGACY.png')} alt="" />
+                    <div className="lndpcfgwlShadow"></div>
+                  </div>
+                  <div className='lndpcfgwlDetails'>
+                    <img src={require('../assets/imgs/GameLogos/HogwartsLegacy.png')} alt="" />
+                    <p>Warner Bros Entertainment</p>
+                  </div>
+                </div>
+              </div>
+              <div className={`lndpcdgwlSlider ${currentIndex === 5 ? 'active' : ''}`}>
+                <div className="lndpcfgwl">
+                  <div className="lndpcfgwlImage">
+                    <img src={require('../assets/imgs/GameBanners/SPIDERMAN MILES MORALES.png')} alt="" />
+                    <div className="lndpcfgwlShadow"></div>
+                  </div>
+                  <div className='lndpcfgwlDetails'>
+                    <img src={require('../assets/imgs/GameLogos/SpidermanMilesMorales.png')} alt="" />
+                    <p>Sony Entertainment</p>
+                  </div>
+                </div>
+              </div>
+              <div className={`lndpcdgwlSlider ${currentIndex === 6 ? 'active' : ''}`}>
+                <div className="lndpcfgwl">
+                  <div className="lndpcfgwlImage">
+                    <img src={require('../assets/imgs/GameBanners/LIKE A DRAGON INFINITE WEALTH.png')} alt="" />
+                    <div className="lndpcfgwlShadow"></div>
+                  </div>
+                  <div className='lndpcfgwlDetails'>
+                    <img src={require('../assets/imgs/GameLogos/LikeADragonInfiniteWealth.png')} alt="" />
+                    <p>SEGA</p>
+                  </div>
+                </div>
+              </div>
+              <div className={`lndpcdgwlSlider ${currentIndex === 7 ? 'active' : ''}`}>
+                <div className="lndpcfgwl">
+                  <div className="lndpcfgwlImage">
+                    <img src={require('../assets/imgs/GameBanners/SuperMarioWonders.png')} alt="" />
+                    <div className="lndpcfgwlShadow"></div>
+                  </div>
+                  <div className='lndpcfgwlDetails'>
+                    <img src={require('../assets/imgs/GameLogos/SuperMarioWonders.png')} alt="" />
+                    <p>Nintendo</p>
+                  </div>
+                </div>
+              </div>
+              <div className={`lndpcdgwlSlider ${currentIndex === 8 ? 'active' : ''}`}>
+                <div className="lndpcfgwl">
+                  <div className="lndpcfgwlImage">
+                    <img src={require('../assets/imgs/GameBanners/FORZA MOTORSPORT 7.png')} alt="" />
+                    <div className="lndpcfgwlShadow"></div>
+                  </div>
+                  <div className='lndpcfgwlDetails'>
+                    <img src={require('../assets/imgs/GameLogos/ForzaMotorsport7.png')} alt="" />
+                    <p>Microsoft Game Studio</p>
+                  </div>
+                </div>
+              </div>
+              <div className={`lndpcdgwlSlider ${currentIndex === 9 ? 'active' : ''}`}>
+                <div className="lndpcfgwl">
+                  <div className="lndpcfgwlImage">
+                    <img src={require('../assets/imgs/GameBanners/TheLastOfUsPart2.png')} alt="" />
+                    <div className="lndpcfgwlShadow"></div>
+                  </div>
+                  <div className='lndpcfgwlDetails'>
+                    <img src={require('../assets/imgs/GameLogos/TheLastOfUsPart2.png')} alt="" />
+                    <p>Sony Entertainment</p>
+                  </div>
+                </div>
+              </div>
+              <div className={`lndpcdgwlSlider ${currentIndex === 10 ? 'active' : ''}`}>
+                <div className="lndpcfgwl">
+                  <div className="lndpcfgwlImage">
+                    <img src={require('../assets/imgs/GameBanners/StreetFighter6.png')} alt="" />
+                    <div className="lndpcfgwlShadow"></div>
+                  </div>
+                  <div className='lndpcfgwlDetails'>
+                    <img src={require('../assets/imgs/GameLogos/StreetFighter6.png')} alt="" />
+                    <p>CAPCOM</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="lndpcfgWeb right">
+              <h5>{viewAllGamesNum} Total Listed Games</h5>
+              <h3>SELLING THE<br />BEST GAMES</h3>
+              <p>
+                Attract Game is your ultimate destination for the best games! We proudly offer you access 
+                to the latest and most trending titles, ensuring you always play the hottest games 
+                worldwide at the best prices. Experience the thrill of premier gaming with Attract Game - 
+                where the best games are just a click away!
+              </p>
+              <div className="lndpcMarqueeContainer" ref={marqueeRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                <img src={require('../assets/imgs/GameDeveloper/ActivitionBlizzard.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/BandaiNamco.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/ElectronicArts.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/EpicGames.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/Gameloft.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/Nintendo.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/RockStar.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/Sega.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/SonyInteractiveEntertainment.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/Ubisoft.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/ActivitionBlizzard.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/BandaiNamco.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/ElectronicArts.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/EpicGames.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/Gameloft.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/Nintendo.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/RockStar.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/Sega.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/SonyInteractiveEntertainment.png')} alt="" />
+                <img src={require('../assets/imgs/GameDeveloper/Ubisoft.png')} alt="" />
+              </div>
+              <Link to="/Games" onClick={handleClickGames}>VIEW GAMES</Link>
+            </div>
           </div>
         </div>
         <div className="lndPageContent mid4">
-          <img src={require('../assets/imgs/LandingImg/AGStarFeature.png')} alt="" />
-          <div className='lndpcAGElite'>
-            <div className='lndpcageSocials'>
-              <p>FOLLOW US</p>
-              <a href=""><FaSquareFacebook className='faIcons'/></a>
-              <a href=""><FaInstagram className='faIcons'/></a>
-              <a href=""><FaTiktok className='faIcons'/></a>
-              <a href=""><FaYoutube className='faIcons'/></a>
-              <a href=""><FaTwitch className='faIcons'/></a>
-            </div>
-            <h3>BE AN <span>AG ELITE</span></h3>
-            <h6>JOIN THE AFFILIATE PROGRAM AND GET FREEBIES AND PERKS</h6>
-            <div className='lndpcageJoin'>
-              <Link>Join Here</Link>
+          <div className="lndpcmid4Container">
+            <div className="lndpcm4Content left">
+              <h4>INTERACT TO OUR</h4>
+              <h3>COMMUNITY</h3>
+              <p>
+                Create an account on Attract Game and dive into the action by sharing your game highlights, epic stories, 
+                and game-related content on the Highlight Page. Plus, join our vibrant official Discord Channel to connect 
+                with fellow gamers and be part of an exciting community!
+              </p>
+              <div className="lndpcm4lBtns">
+                <a>REGISTER</a>
+                <a href=''>JOIN DISCORD</a>
+              </div>
             </div>
           </div>
         </div>
         <div className="lndPageContent mid5">
-          <div className="lndpcGameListed">
+          {/* <div className="lndpcGameListed">
             <span>
               <h3>{viewAllGamesNum}</h3>
               <h6>LISTED GAMES</h6>
@@ -251,12 +397,12 @@ const Home = () => {
               <h3>1000+</h3>
               <h6>USERS</h6>
             </span>
-          </div>
+          </div> */}
         </div>
         <div className="lndPageContent mid6">
-          <a href="">
+          {/* <a href="">
             <img src={require('../assets/imgs/DefaultAd.gif')} alt="" />
-          </a>
+          </a> */}
         </div>
         <div className="lndPageContent mid7">
           <h4><TbGiftCardFilled className='faIcons'/> GIFT CARDS & VOUCHERS</h4>
