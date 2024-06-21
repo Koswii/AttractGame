@@ -353,6 +353,12 @@ section.landingPageContainer.mid{
     height: auto;
     width: 40%;
 }
+.lndpcm4Content.left h4{
+    font-size: 2.5vw;
+}
+.lndpcm4Content.left p{
+    margin: 2% 0;
+}
 .lndpcm4lBtns{
     height: auto;
     width: 100%;
@@ -376,7 +382,20 @@ section.landingPageContainer.mid{
     transition: 400ms ease;
     box-shadow: 0 0 10px white;
 }
-
+.lndpcm4Content.right{
+    height: auto;
+    width: 50%;
+    position: relative;
+    background: url('../assets/imgs/Shadow.png') no-repeat center;
+    background-size: contain;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lndpcm4Content.right img#lndpcm4crMobile{
+    height: 40vw;
+    animation: bounce2 5s infinite linear;
+}
 
 
 
@@ -599,12 +618,15 @@ section.landingPageContainer.mid{
 .lndpcfCrypto a{
     color: white;
     text-decoration: none;
-    padding: 2% 7%;
+    padding: 1% 5%;
     border-radius: 50px;
     border: solid 2px white;
+    font-size: 0.9vw;
+    opacity: 50%;
 }
 .lndpcfCrypto a:hover{
     box-shadow: 0 0 10px white;
+    opacity: 100%;
     transition: 400ms ease;
     background: white;
     color: black;
