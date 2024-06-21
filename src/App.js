@@ -29,6 +29,10 @@ import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import News from './Components/Pages/News';
 import Success from './Components/Pages/success';
 
+import Underdevelop from './Components/Pages/underdevelop';
+
+
+
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -112,6 +116,9 @@ function App() {
 
 
 
+        <Route exact path="/AGElite" element={<Underdevelop/>}/>
+        <Route exact path="/ApplyAsSeller" element={<Underdevelop/>}/>
+        <Route exact path="/ContentCreation" element={<Underdevelop/>}/>
         <Route path="*" element={<Home/>}/>
       </Routes>
       <Footer />
