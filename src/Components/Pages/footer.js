@@ -12,9 +12,6 @@ import { useActivePage } from '../Pages/ActivePageContext';
 
 const Footer = () => {
   const { setActivePage } = useActivePage();
-  const handleClickMarketplace = () => {
-    setActivePage('marketplace');
-  }
   const handleClickGames = () => {
     setActivePage('games');
   }
@@ -57,10 +54,9 @@ const Footer = () => {
             <div>
               <h6>PRODUCTS</h6>
               <ul>
-                <li><Link to="/Marketplace" onClick={handleClickMarketplace}>Marketplace</Link></li>
                 <li><Link to="/Games" onClick={handleClickGames}>Games</Link></li>
                 <li><Link to="/Giftcards" onClick={handleClickGiftcards}>Giftcards</Link></li>
-                <li><Link to="/GameCredits/Robux">Game Credits</Link></li>
+                <li><Link to="/GameCredits/Robux">Roblox: Robux</Link></li>
                 <li><Link>AG Crypto</Link></li>
               </ul>
             </div>

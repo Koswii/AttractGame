@@ -58,34 +58,6 @@ const Home = () => {
   }
 
   useEffect(() => {
-    const fetchDataGames = async () => {
-      try {
-        const response1 = await axios.get(AGGamesListAPI1);
-        const agAllGames = response1.data;
-
-        // Get current year
-        const currentYear = new Date().getFullYear();
-        // Filter games based on the current year
-        const currentYearGames = agAllGames.filter(game => {
-          const gameDate = new Date(game.game_released);
-          return gameDate.getFullYear() === currentYear;
-        });
-
-        // Sort the games by release month and year
-        const sortedCurrentYearGames = currentYearGames.sort((a, b) => {
-          const dateA = new Date(a.game_released);
-          const dateB = new Date(b.game_released);
-          if (dateA.getFullYear() === dateB.getFullYear()) {
-              return dateB.getMonth() - dateA.getMonth(); // Sort by month if years are the same
-          }
-          return dateB.getFullYear() - dateA.getFullYear(); // Sort by year
-        });
-        setViewAllGamesNum(agAllGames.length);
-        setViewAGData1(sortedCurrentYearGames);
-      } catch (error) {
-        console.error(error);
-      }
-    };
 
     const fetchDataGiftcards = () => {
       axios.get(AGGiftcardsListAPI2)
@@ -100,7 +72,6 @@ const Home = () => {
 
     const fetchAllData = async () => {
       setLoading(true); // Set loading to true before data fetch
-      await fetchDataGames();
       await fetchDataGiftcards();
       setLoading(false); // Set loading to false after data fetch
     };
@@ -328,7 +299,7 @@ const Home = () => {
               </div>
             </div>
             <div className="lndpcfgWeb right">
-              <h5>{viewAllGamesNum} Total Listed Games</h5>
+              <h5>70+ Total Listed Games</h5>
               <h3>SELLING THE<br />BEST GAMES</h3>
               <p>
                 Attract Game is your ultimate destination for the best games! We proudly offer you access 
@@ -365,8 +336,20 @@ const Home = () => {
         <div className="lndPageContent mid4">
           <div className="lndpcmid4Container">
             <div className="lndpcm4Content left">
-              <h4>INTERACT TO OUR</h4>
+              
+              <img id='lndpcm4crMobileMob' src={require('../assets/imgs/MobileHighlights.png')} alt="" />
+              <h4>INTERACT ON OUR</h4>
               <h3>COMMUNITY</h3>
+              <div className='lndpcm4cStats'>
+                <div>
+                  <h3>100+</h3>
+                  <p>Registered Users</p>
+                </div>
+                <div>
+                  <h3>400+</h3>
+                  <p>Discord Members</p>
+                </div>
+              </div>
               <p>
                 Create an account on Attract Game and dive into the action by sharing your game highlights, epic stories, 
                 and game-related content on the Highlight Page. Plus, join our vibrant official Discord Channel to connect 
@@ -383,86 +366,27 @@ const Home = () => {
           </div>
         </div>
         <div className="lndPageContent mid5">
-          {/* <div className="lndpcGameListed">
-            <span>
-              <h3>{viewAllGamesNum}</h3>
-              <h6>LISTED GAMES</h6>
-            </span>
-            <span>
-              <h3>4 <FaStar className='faIcons'/></h3>
-              <h6>GAMESTORE RATING</h6>
-            </span>
-            <span>
-              <h3>37</h3>
-              <h6>AG ELITE</h6>
-            </span>
-            <span>
-              <h3>1000+</h3>
-              <h6>USERS</h6>
-            </span>
-          </div> */}
+          <h4><TbGiftCardFilled className='faIcons'/> GIFT CARDS & VOUCHERS</h4>
+          <div className="lndpcmid5Giftcard">
+            <div className="lndpcmid5Container">
+              {viewAllGiftcard.slice(0,5).map((details, i) => (
+                <Link className="lndpcm5Content" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
+                  <div className="lndpcm5c left">
+                    <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
+                  </div>
+                  <div className="lndpcm5c right">
+                    <h3>{details.giftcard_name}</h3>
+                    <p>{details.giftcard_description.slice(0, 250)}...</p>
+                  </div>
+                </Link>
+              ))}
+              <Link className="lndpcm5Content" to="/Giftcards" onClick={handleClickGiftcards}>
+                <p>View More</p>
+              </Link>
+            </div>
+          </div>
         </div>
         <div className="lndPageContent mid6">
-          {/* <a href="">
-            <img src={require('../assets/imgs/DefaultAd.gif')} alt="" />
-          </a> */}
-        </div>
-        <div className="lndPageContent mid7">
-          <h4><TbGiftCardFilled className='faIcons'/> GIFT CARDS & VOUCHERS</h4>
-          <div className="lndpcFeaturedGiftCards">
-            {!loading ? <>{viewAllGiftcard.slice(0, 5).map((details, i) => (
-              <Link className='lndpcfgc web' key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
-                <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
-              </Link>
-            ))}</>:<>
-              <div className="lndpcfgcDummy web"></div>
-              <div className="lndpcfgcDummy web"></div>
-              <div className="lndpcfgcDummy web"></div>
-              <div className="lndpcfgcDummy web"></div>
-              <div className="lndpcfgcDummy web"></div>
-            </>}
-            {!loading ? <>{viewAllGiftcard.slice(0, 4).map((details, i) => (
-              <Link className='lndpcfgc mob' key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
-                <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
-              </Link>
-            ))}</>:<>
-              <div className="lndpcfgcDummy mob"></div>
-              <div className="lndpcfgcDummy mob"></div>
-              <div className="lndpcfgcDummy mob"></div>
-              <div className="lndpcfgcDummy mob"></div>
-            </>}
-            {viewAllGiftcard.slice(5, 6).map((details, i) => (
-              <Link className="lndpcfgcRobloxBinance" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
-                <div className="lndpcfgcrb left">
-                  <h4>ROBLOX</h4>
-                  <h5>GIFT CARD</h5>
-                  <p>{details.giftcard_description.slice(0, 150)}...</p>
-                  <Link>View More Game Credits</Link>
-                </div>
-                <div className="lndpcfgcrb right">
-                  <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
-                </div>
-              </Link>
-            ))}
-            {viewAllGiftcard.slice(6, 7).map((details, i) => (
-              <Link className="lndpcfgcRobloxBinance" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
-                <div className="lndpcfgcrb left">
-                  <h4>BINANCE</h4>
-                  <h5>GIFT CARD</h5>
-                  <p>{details.giftcard_description.slice(0, 150)}...</p>
-                  <Link>View More Binance Cypto</Link>
-                </div>
-                <div className="lndpcfgcrb right">
-                  <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
-                </div>
-              </Link>
-            ))}
-          </div>
-          <div className="lndpcfgcViewMore">
-            <Link to="/Giftcards" onClick={handleClickGiftcards}>View All Giftcards</Link>
-          </div>
-        </div>
-        <div className="lndPageContent mid8">
           <h4><FaBitcoin className='faIcons'/> CRYPTOCURRENCY</h4>
           <div className="lndpcFeaturedCrypto">
             <div>
@@ -479,6 +403,32 @@ const Home = () => {
               </span>
             </div>
           </div>
+        </div>
+        <div className="lndPageContent mid7">
+          <div className="lndpcmid7Container">
+            <div className="lndpcmid7content left">
+              <img src={require('../assets/imgs/GameLogos/RobloxLogo.png')} alt="" />
+              <p>
+                We sell Roblox Giftcards from the official Roblox Store and also offer cheap Robux from our 
+                partnered Roblox developers, allowing players to purchase costumes and items at a lower cost. 
+                This Roblox Game Credit originated directly from a Roblox developer, rather than being purchased 
+                through the official Roblox platform. As such, it is sometimes informally referred to as 'Dirty 
+                Robux' since it was not acquired via the standard purchase process.
+              </p>
+              <Link to={`/GameCredits/Robux`} onClick={handleClickGiftcards}>View Roblox Offers</Link>
+            </div>
+            <div className="lndpcmid7content right">
+              <img src={require('../assets/imgs/PlayRoblox.gif')} alt="" />
+            </div>
+          </div>
+        </div>
+        <div className="lndPageContent mid8">
+          <h4>START YOUR GAMING ADVENTURE</h4>
+          <h5>JOIN ATTRACT GAME</h5><br />
+          <p>
+            There are still many amazing games you must play and try. 
+            Let us be a part of your unforgettable gaming journey!
+          </p>
         </div>
       </section>
     </div>
