@@ -418,7 +418,7 @@ const Home = () => {
               <Link to={`/GameCredits/Robux`} onClick={handleClickGiftcards}>View Roblox Offers</Link>
             </div>
             <div className="lndpcmid7content right">
-              <img src={require('../assets/imgs/PlayRoblox.gif')} alt="" />
+              <img src={require('../assets/imgs/LandingImg/RobloxCoverImg00.png')} alt="" />
             </div>
           </div>
         </div>

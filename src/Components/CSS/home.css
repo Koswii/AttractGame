@@ -596,6 +596,7 @@ section.landingPageContainer.mid{
     height: auto;
     width: 40%;
 }
+
 .lndpcmid7content.left img{
     height: 8vw;
 }
@@ -628,6 +629,7 @@ section.landingPageContainer.mid{
 .lndpcmid7content.right img{
     height: auto;
     width: 100%;
+    border-radius: 1vw;
 }
 
 
