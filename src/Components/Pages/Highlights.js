@@ -79,7 +79,7 @@ const isWithinLastTwelveHours = (date) => {
 };
 const isWithinLastThreeDays = (date) => {
     const threeDaysAgo = new Date();
-    threeDaysAgo.setDate(threeDaysAgo.getDate() - 5);
+    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
     return new Date(date) >= threeDaysAgo;
 };
 const fetchUserData = async (url, filterFunc) => {

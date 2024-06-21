@@ -377,6 +377,9 @@ const Home = () => {
                 <a href=''>JOIN DISCORD</a>
               </div>
             </div>
+            <div className="lndpcm4Content right">
+              <img id='lndpcm4crMobile' src={require('../assets/imgs/MobileHighlights.png')} alt="" />
+            </div>
           </div>
         </div>
         <div className="lndPageContent mid5">
@@ -467,8 +470,10 @@ const Home = () => {
             </div>
             <div className='lndpcfCrypto'>
               <h3>AG VOUCHER</h3>
-              <h6>To Purchase Anything on Attract Game Store</h6>
-              <p>Be the Early-Bird for Attract Game Token</p>
+              <p>Unlock endless possibilities with the AG Voucher! Use it to purchase 
+                anything your heart desires from the Attract Game - Gamestore. Be an early bird 
+                and get your hands on the exclusive Attract Game Token - don't miss out on 
+                the fun and excitement!</p>
               <span>
                 <Link>Learn More</Link>
               </span>

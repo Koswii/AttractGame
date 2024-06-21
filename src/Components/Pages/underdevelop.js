@@ -2,7 +2,7 @@ import React from 'react'
 // css
 import '../CSS/underdevelop.css'
 // assets
-import underdevelop from '../assets/imgs/underdevelopment.png'
+import underdevelop from '../assets/imgs/Underdevelopment.gif'
 
 const Underdevelop = () => {
   return (
@@ -11,7 +11,7 @@ const Underdevelop = () => {
             <section>
                 <img src={underdevelop} alt="" />
             </section>
-            <span>This Page is</span>
+            <span>This Feature is</span>
             <h1>Under Development</h1>
             <p>Please Comeback later for the Latest Update</p>
         </div>
