@@ -7,9 +7,26 @@ import {
   FaYoutube,
   FaTwitch 
 } from "react-icons/fa6";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useActivePage } from '../Pages/ActivePageContext';
 
 const Footer = () => {
+  const { setActivePage } = useActivePage();
+  const handleClickMarketplace = () => {
+    setActivePage('marketplace');
+  }
+  const handleClickGames = () => {
+    setActivePage('games');
+  }
+  const handleClickGiftcards = () => {
+    setActivePage('giftcards');
+  }
+
+
+  const handleClickUnderdevelopment = () => {
+    setActivePage('');
+  }
+
   return (
     <div className="footerContainer">
         <div className="footerContents">
@@ -30,14 +47,21 @@ const Footer = () => {
           </div>
           <div className="footContent right">
             <div>
+              <h6>AFFILIATION (Soon)</h6>
+              <ul>
+                <li><Link to="/AGElite" onClick={handleClickUnderdevelopment}>AG Elite</Link></li>
+                <li><Link to="/ApplyAsSeller" onClick={handleClickUnderdevelopment}>Apply as Seller</Link></li>
+                <li><Link to="/ContentCreation" onClick={handleClickUnderdevelopment}>Content Creation</Link></li>
+              </ul>
+            </div>
+            <div>
               <h6>PRODUCTS</h6>
               <ul>
-                <li><Link>Marketplace</Link></li>
-                <li><Link>Games</Link></li>
-                <li><Link>Giftcards</Link></li>
-                <li><Link>Game Credits</Link></li>
+                <li><Link to="/Marketplace" onClick={handleClickMarketplace}>Marketplace</Link></li>
+                <li><Link to="/Games" onClick={handleClickGames}>Games</Link></li>
+                <li><Link to="/Giftcards" onClick={handleClickGiftcards}>Giftcards</Link></li>
+                <li><Link to="/GameCredits/Robux">Game Credits</Link></li>
                 <li><Link>AG Crypto</Link></li>
-                <li><Link>Apply as Seller</Link></li>
               </ul>
             </div>
             <div>
