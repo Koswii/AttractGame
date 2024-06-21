@@ -273,7 +273,7 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
                 </div>
                 {message && <div id="payment-message"><p>{message}</p></div>}
                 <p>Pay using:</p>
-                <PayPalButton totalprice={totalprice}/>
+                <PayPalButton totalprice={totalprice} transactionData={transactionData} setClientSecret={setClientSecret} setSuccesstransaction={setSuccesstransaction}/>
               </form>
             </div>
           </>}
