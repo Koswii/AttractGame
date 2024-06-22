@@ -288,6 +288,9 @@ section.robuxPageContainer.mid{
     .rbpcMid2Container{
         margin: 5% 0;
     }
+    .rbpcm2CreditNumber h6{
+        font-size: 3vw;
+    }
     .rbpcm2Content{
         width: 48%;
         margin-bottom: 5%;
