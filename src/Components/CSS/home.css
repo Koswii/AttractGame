@@ -84,6 +84,7 @@ section.landingPageContainer.top video{
 .lndpcTop.right span a{
     color: white;
     text-decoration: none;
+    text-align: center;
     padding: 1% 5%;
     border-radius: 50px;
     border: solid 2px white;
@@ -805,28 +806,17 @@ section.landingPageContainer.mid{
     section.landingPageContainer.mid{
         padding: 5%;
     }
-    .lndpcSearch{
-        width: 100%;
-        padding: 0.7% 2%;
-        border-radius: 2vw;
-    }
-    .lndpcSearch h6{
-        font-size: 3vw;
-    }
-    .lndpcSearch input{
-        font-size: 3vw;
-    }
-    .lndpcFeatures{
+    .lndPageContent.mid1{
         display: none;
     }
-    .lndpcMid2{
+    .lndPageContent.mid2{
         display: none;
     }
     .lndPageContent.mid3{
         margin: 5% 0;
     }
     .lndpcFeaturedGames{
-        margin: 2% 0;
+        margin: 0;
         display: block;
     }
     .lndpcfgWeb.left{

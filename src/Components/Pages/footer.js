@@ -5,7 +5,9 @@ import {
   FaInstagram,
   FaTiktok,
   FaYoutube,
-  FaTwitch 
+  FaTwitch,
+  FaDiscord 
+
 } from "react-icons/fa6";
 import { Link, useNavigate } from 'react-router-dom';
 import { useActivePage } from '../Pages/ActivePageContext';
@@ -35,11 +37,12 @@ const Footer = () => {
             </p><br />
             <p>FOLLOW US:</p>
             <div className="ftcSocialsContainer">
-              <a href=""><FaSquareFacebook className='faIcons'/></a>
-              <a href=""><FaInstagram className='faIcons'/></a>
-              <a href=""><FaTiktok className='faIcons'/></a>
-              <a href=""><FaYoutube className='faIcons'/></a>
-              <a href=""><FaTwitch className='faIcons'/></a>
+              <a href="https://www.facebook.com/attractgamestore" target='blank'><FaSquareFacebook className='faIcons'/></a>
+              <a href="https://www.instagram.com/attract_gamestore" target='blank'><FaInstagram className='faIcons'/></a>
+              <a href="https://www.tiktok.com/@attractgame" target='blank'><FaTiktok className='faIcons'/></a>
+              <a href="https://www.youtube.com/@ATTRACTGAME" target='blank'><FaYoutube className='faIcons'/></a>
+              <a href="https://www.twitch.tv/attractgamecom" target='blank'><FaTwitch className='faIcons'/></a>
+              <a href="https://discord.gg/jHzDQa9M" target='blank'><FaDiscord className='faIcons'/></a>
             </div>
           </div>
           <div className="footContent right">
@@ -57,17 +60,17 @@ const Footer = () => {
                 <li><Link to="/Games" onClick={handleClickGames}>Games</Link></li>
                 <li><Link to="/Giftcards" onClick={handleClickGiftcards}>Giftcards</Link></li>
                 <li><Link to="/GameCredits/Robux">Roblox: Robux</Link></li>
-                <li><Link>AG Crypto</Link></li>
+                <li><Link to="/AGCrypto">AG Crypto</Link></li>
               </ul>
             </div>
             <div>
               <h6>EXPLORE</h6>
               <ul>
-                <li><Link>About Us</Link></li>
-                <li><Link>Contact Us</Link></li>
-                <li><Link>FAQs</Link></li>
-                <li><Link>Terms and Condition</Link></li>
-                <li><Link>Privacy Policy</Link></li>
+                <li><Link to='/AboutUs' onClick={handleClickUnderdevelopment}>About Us</Link></li>
+                <li><Link to='/ContactUs' onClick={handleClickUnderdevelopment}>Contact Us</Link></li>
+                <li><Link to='/FAQs' onClick={handleClickUnderdevelopment}>FAQs</Link></li>
+                <li><Link to='/TermsAndConditions' onClick={handleClickUnderdevelopment}>Terms and Conditions</Link></li>
+                <li><Link to='/PrivacyAndPolicies' onClick={handleClickUnderdevelopment}>Privacy Policy</Link></li>
               </ul>
             </div>
           </div>

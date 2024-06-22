@@ -13,7 +13,7 @@ const Underdevelop = () => {
             </section>
             <span>This Feature is</span>
             <h1>Under Development</h1>
-            <p>Please comeback again for the Latest Update</p>
+            <p>Please comeback again soon for the Latest Update</p>
         </div>
     </div>
   )
