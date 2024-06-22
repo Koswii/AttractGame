@@ -23,7 +23,11 @@ import Giftcard from './Components/Pages/Giftcard';
 
 import Robux from './Components/Pages/Robux';
 
-
+import AboutUs from './Components/Pages/AboutUs';
+import ContactUs from './Components/Pages/ContactUs';
+import FAQs from './Components/Pages/faqs';
+import TermsAndCondition from './Components/Pages/TermsAndCondition';
+import PrivacyAndPolicies from './Components/Pages/PrivacyAndPolicies';
 
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import News from './Components/Pages/News';
@@ -115,10 +119,17 @@ function App() {
         {(getAdminCredentials && userLoggedInState) && <Route path="/Admin" element={<Admin/>}/>}
 
 
+        <Route exact path="/AboutUs" element={<AboutUs/>}/>
+        <Route exact path="/ContactUS" element={<ContactUs/>}/>
+        <Route exact path="/FAQs" element={<FAQs/>}/>
+        <Route exact path="/TermsAndConditions" element={<TermsAndCondition/>}/>
+        <Route exact path="/PrivacyAndPolicies" element={<PrivacyAndPolicies/>}/>
+
 
         <Route exact path="/AGElite" element={<Underdevelop/>}/>
         <Route exact path="/ApplyAsSeller" element={<Underdevelop/>}/>
         <Route exact path="/ContentCreation" element={<Underdevelop/>}/>
+        <Route exact path="/AGCrypto" element={<Underdevelop/>}/>
         <Route path="*" element={<Home/>}/>
       </Routes>
       <Footer />

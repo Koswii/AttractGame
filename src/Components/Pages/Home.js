@@ -126,7 +126,7 @@ const Home = () => {
               latest and most trending titles at unbeatable prices.
             </p>
             <span>
-              <Link>Read More</Link>
+              <Link to='/AboutUs'>READ MORE</Link>
             </span>
           </div>
         </div>
@@ -356,8 +356,8 @@ const Home = () => {
                 with fellow gamers and be part of an exciting community!
               </p>
               <div className="lndpcm4lBtns">
-                <a>REGISTER</a>
-                <a href=''>JOIN DISCORD</a>
+                {/* <a>REGISTER</a> */}
+                <a href='https://discord.gg/jHzDQa9M' target='blank'>JOIN DISCORD</a>
               </div>
             </div>
             <div className="lndpcm4Content right">
@@ -399,7 +399,7 @@ const Home = () => {
                 and get your hands on the exclusive Attract Game Token - don't miss out on 
                 the fun and excitement!</p>
               <span>
-                <Link>Learn More</Link>
+                <Link to="/AGCrypto">ICO SOON</Link>
               </span>
             </div>
           </div>

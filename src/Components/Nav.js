@@ -413,7 +413,7 @@ const Nav = () => {
                 <div className='registrationTCPP'>
                   <p>
                     By registering, you agree to Attract Game's <br />
-                    <Link>Terms & Conditions</Link> and <Link>Privacy Policy</Link><br /><br />
+                    <Link to='/TermsAndConditions'>Terms & Conditions</Link> and <Link to='/PrivacyAndPolicies'>Privacy Policy</Link><br /><br />
                     <span>{messageResponse}</span><br /><br />
                   </p>
                   <p>
