@@ -12,6 +12,17 @@ body{
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-body::-webkit-scrollbar {
-  display: none;
+::-webkit-scrollbar{
+  background: none;
+  height: .5vw;
+  width: .2vw;
+  cursor: pointer;
+}
+::-webkit-scrollbar-thumb{
+  background: white;
+  border-radius: .5vw;
+  cursor: pointer;
+}
+::-webkit-scrollbar-track{
+  background: none;
 }

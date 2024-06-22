@@ -29,7 +29,7 @@ h6{
     width: 100%;
     background: black;
     position: relative;
-    padding-bottom: 20vw;
+    /* padding-bottom: 5vw; */
 }
 
 
@@ -68,6 +68,205 @@ section.cartPageContainer.top{
 
 
 
+section.cartPageContainer.mid{
+    height: auto;
+    width: 100%;
+    padding: 0 10%;
+    padding-bottom: 5%;
+}
+.cartpcMid1Container{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: start;
+}
+.cartpcm1Content.left{
+    height: auto;
+    width: 70%;
+}
+.cartpcm1cLeft{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: start;
+}
+.cartpcm1clProduct{
+    height: 15vw;
+    width: 19%;
+    margin-right: 1%;
+    margin-bottom: 1%;
+    border-radius: 1vw;
+    border: solid 1px white;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.cartpcm1clProduct.mobile{
+    display: none;
+}
+.cartpcm1clProduct img{
+    height: 100%;
+    width: 100%;
+}
+.cartpcm1clProduct button{
+    position: absolute;
+    top: 0.5vw;
+    right: 0.5vw;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1.2vw;
+    cursor: pointer;
+}
+.cartpcm1clpPlatform{
+    position: absolute;
+    height: 4vw;
+    width: 4vw;
+    top: 0.5vw;
+    left: 0.5vw;
+    padding: 5%;
+    border-radius: 0.5vw;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cartpcm1clpPlatform img{
+    height: 100%;
+    width: 100%;
+}
+.cartpcm1clpPlatform img[platform='PC']{
+    content: url('../assets/imgs/GamePlatforms/PCGames.png');
+}
+.cartpcm1clpPlatform img[platform='NintendoSwitch']{
+    content: url('../assets/imgs/GamePlatforms/NintendoSwitch.png');
+}
+.cartpcm1clpPlatform img[platform='XboxXS']{
+    content: url('../assets/imgs/GamePlatforms/XboxXS.png');
+}
+.cartpcm1clpPlatform img[platform='XboxOne']{
+    content: url('../assets/imgs/GamePlatforms/XboxOne.png');
+}
+.cartpcm1clpPlatform img[platform='PlayStation4']{
+    content: url('../assets/imgs/GamePlatforms/PS4.png');
+}
+.cartpcm1clpPlatform img[platform='PlayStation5']{
+    content: url('../assets/imgs/GamePlatforms/PS5.png');
+}
+
+.cartpcm1clpPlatform.denomination{
+    display: block;
+    text-align: center;
+}
+.cartpcm1clpPlatform.denomination h3{
+    font-size: 1.5vw;
+    color: black;
+    line-height: 2.2vw;
+}
+.cartpcm1clpPlatform.denomination p{
+    font-size: 0.5vw;
+    color: black;
+    font-weight: 600;
+}
+.cartpcm1clpPrice{
+    position: absolute;
+    height: 7vw;
+    width: 100%;
+    bottom: 0;
+    background: linear-gradient(transparent, black 60%);
+    background-size: cover;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    padding: 10%;
+}
+.cartpcm1clpPrice input{
+    width: 35%;
+    padding: 2%;
+    padding-left: 5%;
+    text-align: center;
+    border: solid 2px white;
+    color: white;
+    background: none;
+    outline: none;
+    border-radius: 0.2vw;
+}
+.cartpcm1clpPrice input[type=number]::-webkit-inner-spin-button, 
+.cartpcm1clpPrice input[type=number]::-webkit-outer-spin-button {  
+   opacity: 1;
+
+}
+.cartpcm1clpPrice h5{
+    font-size: 0.9vw;
+    font-weight: 400;
+    margin-bottom: 0.3vw;
+}
+.cartpcm1clDummy{
+    height: 15vw;
+    width: 19%;
+    margin-right: 1%;
+    margin-bottom: 1%;
+    border-radius: 1vw;
+    box-shadow: 0 0 10px gray;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+.cartpcm1clppDummy{
+    position: absolute;
+    height: 4vw;
+    width: 4vw;
+    top: 0.5vw;
+    left: 0.5vw;
+    padding: 5%;
+    border-radius: 0.5vw;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+.cartpcm1clDummy.mobile{
+    display: none;
+}
+.cartpcm1clProductEmpty{
+    height: 30vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.cartpcm1clProductEmpty h6{
+    color: gray;
+}
+.cartpcm1clProductEmpty.mobile{
+    display: none;
+}
 
 
 
@@ -78,5 +277,314 @@ section.cartPageContainer.top{
 
 
 
+.cartpcm1Content.right{
+    height: auto;
+    width: 28%;
+    border-radius: 1vw;
+    /* background: red; */
+    /* box-shadow: 0 0 10px white; */
+    /* padding: 2% 0; */
+}
+.cartpcm1cRight{
+    height: 100%;
+    width: 100%;
+    padding: 0 5%;
+    position: relative;
+}
+.cartpcm1crList{
+    padding: 0 3%;
+}
+.cartpcm1cRight h5{
+    margin-bottom: 10%;
+    text-align: center;
+}
+.cartpcm1crList h6{
+    width: 100%;
+    margin-bottom: 5%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.cartpcm1crList h6 .faIcons{
+    font-size: 1.5vw;
+    margin-right: 3%;
+}
+.cartpcm1crList span{
+    height: auto;
+    margin-bottom: 5%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cartpcm1crList span p#productTitle{
+    width: 70%;
+    font-size: 0.7vw;
+}
+.cartpcm1crList span p#productPrice{
+    text-align: right;
+}
 
 
+.cartpcm1crCheckout{
+    height: auto;
+    width: 100%;
+    background: white;
+    margin-top: 15%;
+    padding: 5% 10%;
+    border-radius: 1vw;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.cartpcm1crCheckout span{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 2%;
+}
+.cartpcm1crCheckout span h6{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.cartpcm1crCheckout hr{
+    margin: 5% 0;
+}
+.cartpcm1crCheckout button{
+    width: 100%;
+    margin-top: 10%;
+    padding: 2%;
+    text-align: center;
+    border: solid 1px white;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+}
+.cartpcm1crCheckout button.hasProducts{
+    color: black;
+}
+.cartpcm1crCheckout button.noProducts{
+    cursor: not-allowed;
+    opacity: 50%;
+}
+
+.successTransaction{
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(9.5px);
+    -webkit-backdrop-filter: blur(9.5px);
+    z-index: 1;
+}
+.successTransactionContainer{
+    padding: 5%;
+    background: black;
+    border: .1vw solid white;
+    border-radius: 1vw;
+}
+.successTransactionContainer span{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 10vw;
+    color: white;
+}
+.successTransactionContainer section h1{
+    margin-top: 15%;
+    font-size: 1vw;
+}
+.successTransactionContainer section p{
+    font-style: italic;
+    text-align: center;
+    color: gray;
+}
+.successTransactionContainerBtn button{
+    width: 100%;
+    margin: .3vw 0;
+    padding: .3vw 0;
+    border: none;
+    outline: .1vw solid white;
+    background: none;
+    font-size: .7vw;
+    border-radius: .2vw;
+    color: white;
+    cursor: pointer;
+}
+
+
+
+
+@media screen and (max-width: 500px){
+    section.cartPageContainer.top{
+        padding: 5vw 5%;
+        padding-top: 15vh;
+    }
+    .cartpctProfile.left{
+        height: 10vw;
+        width: 10vw;
+        margin-right: 5%;
+    }
+    .cartpctProfile.right{
+        height: auto;
+        width: 80%;
+    }
+    .cartpctProfile.right h5{
+        font-size: 4vw;
+    }
+    .cartpctProfile.right p{
+        font-size: 2.3vw;
+    }
+
+
+
+    section.cartPageContainer.mid{
+        height: auto;
+        width: 100%;
+        padding: 0 5%;
+        padding-bottom: 10vw;
+    }
+    .cartpcMid1Container{
+        height: auto;
+        width: 100%;
+        display: block;
+    }
+    .cartpcm1Content.left{
+        height: auto;
+        width: 100%;
+    }
+    .cartpcm1cLeft{
+        height: 30vh;
+        width: 100%;
+        display: block;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding: 0 2%;
+    }
+    .cartpcm1clProduct.website{
+        display: none;
+    }
+    .cartpcm1clProduct.mobile{
+        height: auto;
+        width: 100%;
+        margin: 1%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 3% 5%;
+        margin: 2% 0;
+        margin-bottom: 3%;
+        border-radius: 2vw;
+        overflow: visible;
+    }
+    .cartpcm1clProduct.mobile button{
+        font-size: 5vw;
+        top: -2vw;
+        right: -1vw;
+    }
+    .cartpcm1clProduct.mobile h5{
+        width: 60%;
+        font-size: 3vw;
+    }
+    .cartpcm1clProduct.mobile .cartpcm1clpPrice{
+        position: relative;
+        height: auto;
+        padding: 0;
+        width: 35%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .cartpcm1clProduct.mobile .cartpcm1clpPrice h5{
+        text-align: right;
+        margin: 0;
+    }
+    .cartpcm1clDummy{
+        height: 15vw;
+        width: 100%;
+        margin-bottom: 3%;
+        border-radius: 2vw;
+    }
+    .cartpcm1clppDummy{
+        display: none;
+    }
+    .cartpcm1clProductEmpty{
+        height: 30vh;
+    }
+    .cartpcm1clProductEmpty h6{
+        font-size: 3vw;
+        font-weight: 400;
+    }
+
+
+
+
+
+
+    .cartpcm1Content.right{
+        height: auto;
+        width: 100%;
+        border-radius: 2vw;
+        margin-top: 10%;
+        box-shadow: 0 0 10px white;
+        padding: 5% 0;
+    }
+    .cartpcm1cRight h5{
+        font-size: 4vw;
+    }
+    .cartpcm1crList h6{
+        font-size: 3vw;
+    }
+    .cartpcm1crList h6 .faIcons{
+        font-size: 4vw;
+        margin-right: 3%;
+    }
+    .cartpcm1crList span p#productTitle{
+        font-size: 2.5vw;
+    }
+    .cartpcm1crList span p#productPrice{
+        font-size: 3vw;
+    }
+    .cartpcm1crCheckout{
+        border-radius: 2vw;
+        padding: 10%;
+    }
+    .cartpcm1crCheckout span p{
+        font-size: 3vw;
+    }
+    .cartpcm1crCheckout span h6{
+        font-size: 3vw;
+    }
+
+
+
+
+
+    .successTransactionContainer{
+        border-radius: 3vw;
+    }
+    .successTransactionContainer span{
+        font-size: 20vw;
+    }
+    .successTransactionContainer section h1{
+        font-size: 3vw;
+    }
+    .successTransactionContainer section p{
+        font-size: 2.5vw;
+        margin-top: 2%;
+    }
+
+
+
+
+
+
+
+}

@@ -16,6 +16,8 @@ import {
     FaRegImages,
     FaEdit,  
     FaPlus,
+    FaRegEye,
+    FaRegEyeSlash, 
 } from 'react-icons/fa';
 import { 
     FaSquareFacebook,
@@ -71,7 +73,7 @@ const formatDate = (date) => {
     const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
   
     if (timeDifference === 0) {
-      return "Now";
+      return "Today";
     } else if (timeDifference === oneDay) {
       return "Yesterday";
     } else {
@@ -128,9 +130,17 @@ const Profile = () => {
 
     // User Profile Fetching
     const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
+    const AGGamesListAPI = process.env.REACT_APP_AG_GAMES_LIST_API;
+    const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
+    const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
+    const AGProductIDCodeAPI = process.env.REACT_APP_AG_USER_PRODUCTS_ID_API;
+    const AGUserProductsCodeAPI = process.env.REACT_APP_AG_USER_PRODUCTS_CODE_API;
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const LoginUserID = localStorage.getItem('profileUserID');
     const userLoggedIn = localStorage.getItem('isLoggedIn')
+    const [userProductIDData, setUserProductIDData] = useState([]);
+    const [userProductCodeIDData, setUserProductCodeIDData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const [userLoggedData, setUserLoggedData] = useState('')
     const [randomNumber, setRandomNumber] = useState('');
     const [randomPostID, setRandomPostID] = useState('');
@@ -153,7 +163,6 @@ const Profile = () => {
 
         return () => clearInterval(interval);
     }, []);
-
     useEffect(() => {
         const fetchUserProfile = () => {
             const storedProfileData = localStorage.getItem('profileDataJSON')
@@ -162,9 +171,8 @@ const Profile = () => {
                 setUserLoggedData(JSON.parse(storedProfileData))
             }
         }
-        fetchUserProfile();
-
         const fetchUserDataPost = () => {
+            setIsLoading(true);
             axios.get(AGUserPostAPI)
             .then((response) => {
                 const postSortData = response.data.sort((a, b) => b.id - a.id);
@@ -174,13 +182,74 @@ const Profile = () => {
             .catch(error => {
                 console.log(error)
             })
+            .finally(() => {
+                setIsLoading(false); // Set loading to false after the fetch is complete
+            });
         }
+        const fetchUserProductIds = async () => {
+            setIsLoading(true);
+            const userRequestCode = {
+                ag_product_owner: LoginUserID,
+            };
+        
+            try {
+                const userRequestCodeJSON = JSON.stringify(userRequestCode);
+                const response = await axios.post(AGProductIDCodeAPI, userRequestCodeJSON);
+        
+                const reqData = response.data;
+                if (reqData.success === true) {
+                    const productIDs = reqData.data;
+                    const gameProducts = productIDs.filter(product => product.ag_product_type === 'Games');
+                    const giftcardProducts = productIDs.filter(product => product.ag_product_type === 'Giftcards');
+                    const gamecreditProducts = productIDs.filter(product => product.ag_product_type === 'Game Credits');
+                    const productCodeIDs = productIDs.map(productID => productID.ag_product_id_code);
+                    const requestProductCode = {
+                        userProductCode: productCodeIDs,
+                    };
+                    const requestProductCodeJSON = JSON.stringify(requestProductCode);
+                    const responseCode = await axios.post(AGUserProductsCodeAPI, requestProductCodeJSON);
+                    const userActualCodeData = responseCode.data.data;
+                    const [userGameDataResponse, userGiftcardDataResponse, userGamecreditDataResponse] = await Promise.all([
+                        axios.get(AGGamesListAPI),
+                        axios.get(AGGiftcardsListAPI),
+                        axios.get(AGGameCreditsListAPI)
+                    ]);
+                    const cartGameWithData = gameProducts.map(product => {
+                        const productData = userGameDataResponse.data.find(game => game.game_canonical === product.ag_product_id);
+                        return { ...product, productData};
+                    });
+                    const cartGiftcardWithData = giftcardProducts.map(product => {
+                        const productData = userGiftcardDataResponse.data.find(giftcard => giftcard.giftcard_id === product.ag_product_id);
+                        return { ...product, productData};
+                    });
+                    const cartGamecreditWithData = gamecreditProducts.map(product => {
+                        const productData = userGamecreditDataResponse.data.find(gamecredit => gamecredit.gamecredit_id === product.ag_product_id);
+                        return { ...product, productData};
+                    });
+                    const combinedAllData = [...cartGameWithData, ...cartGiftcardWithData, ...cartGamecreditWithData];
+                    const userProductCodeData = combinedAllData.map(product => {
+                        const productCode = userActualCodeData.find(productCode => productCode.ag_product_id_code === product.ag_product_id_code);
+                        return {...product, productCode};
+                    });
+                    setUserProductCodeIDData(userProductCodeData);
+        
+                } else {
+                    setUserProductCodeIDData([]);
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        
+
+        fetchUserProfile();
         fetchUserDataPost();
         fetchUserDataStory(setViewFetchStory);
-
+        fetchUserProductIds();
+        
     }, [LoginUserID]);
-
-    // console.log(userLoggedData);
 
     const [pickProfileImg00, setPickProfileImg00] = useState(null);
     const [editSocialsModal, setEditSocialsModal] = useState(false);
@@ -261,6 +330,7 @@ const Profile = () => {
     const AGUserCustomDPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_DP_API;
     const AGUserCustomCPAPI = process.env.REACT_APP_AG_USERS_CUSTOM_CP_API;
     const AGUserCustomBioAPI = process.env.REACT_APP_AG_USERS_CUSTOM_BIO_API;
+    const [isVisible, setIsVisible] = useState([]);
 
 
     const handleBioCharacters = (event) => {
@@ -411,12 +481,25 @@ const Profile = () => {
             console.log(error);
         });
     };
+    const toggleVisibility = (i) => {
+        setIsVisible(prev => {
+            const updatedVisibility = [...prev]; // Create a copy of isVisible array
+            updatedVisibility[i] = !updatedVisibility[i]; // Toggle the visibility at the clicked index
+            return updatedVisibility;
+        });
+    };
 
+    const [viewUserHighlight, setViewUserHighlight] = useState(true);
+    const [viewUserProducts, setViewUserProducts] = useState(false);
 
-
-
-
-
+    const handleViewDefault = () => {
+        setViewUserHighlight(true)
+        setViewUserProducts(false)
+    }
+    const handleViewProducts = () => {
+        setViewUserProducts(true)
+        setViewUserHighlight(false)
+    }
 
 
 
@@ -538,7 +621,7 @@ const Profile = () => {
                             {!isEditSubmitting ?
                             <button type='submit'><FaRegImages className='faIcons'/> UPDATE COVER</button> 
                             :<button type='button'>UPLOADING...</button>}</>:<>
-                            <button type='button'>INSERT COVER</button> 
+                            <button id='emptyCover' type='button'>INSERT COVER</button> 
                             </>}
                         </div>
                     </form>
@@ -634,12 +717,12 @@ const Profile = () => {
                 </div>
                 <div className="profilePageContent right">
                     <div className="ppcrProfileNavigations">
-                        <button className='active'><h6>HIGHLIGHTS</h6></button>
-                        <button><h6>MY PRODUCTS</h6></button>
+                        <button className={viewUserHighlight ? 'active' : ''} onClick={handleViewDefault}><h6>HIGHLIGHTS</h6></button>
+                        <button className={viewUserProducts ? 'active' : ''} onClick={handleViewProducts}><h6>MY PRODUCTS</h6></button>
                         <button><h6>MISSIONS</h6></button>
                         <button><h6>FEEDBACKS</h6></button>
                     </div>
-                    <div className="ppcrProfileContents highlights">
+                    {viewUserHighlight &&<div className="ppcrProfileContents highlights">
                         <div className="ppcrpchPosting">
                             <div className="ppcrpchpWhat">
                                 {userLoggedData.profileimg ? 
@@ -675,44 +758,95 @@ const Profile = () => {
                             </div>
                             <hr /><br />
                             <div className="ppcrpchpMyPosts">
-                                <>
-                                    {viewFetchPost.map((post, i) => (
-                                        <div className='ppcrpchpPost' key={i}>
-                                            <div className='ppcrpchpUser'>
-                                                {userLoggedData.profileimg ? 
-                                                <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt=""/>
-                                                :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
-                                                <span>
-                                                    <h6>
-                                                        {userLoggedData.username} 
-                                                        {userLoggedData.verified ? <>
-                                                            {userLoggedData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
-                                                            {userLoggedData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
-                                                        </>:<></>}
-                                                    </h6>
-                                                    <p>{formatDate(post.user_post_date)}</p>
-                                                </span>
+                                {isLoading ? <>
+                                    <div className='ppcrpchpNoPost'>
+                                        <div className="loader"></div>
+                                    </div>
+                                </>:<>
+                                    {viewFetchPost.length != 0 ? <>
+                                        {viewFetchPost.map((post, i) => (
+                                            <div className='ppcrpchpPost' key={i}>
+                                                <div className='ppcrpchpUser'>
+                                                    {userLoggedData.profileimg ? 
+                                                    <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt=""/>
+                                                    :<img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
+                                                    <span>
+                                                        <h6>
+                                                            {userLoggedData.username} 
+                                                            {userLoggedData.verified ? <>
+                                                                {userLoggedData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                                                {userLoggedData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                                            </>:<></>}
+                                                        </h6>
+                                                        <p>{formatDate(post.user_post_date)}</p>
+                                                    </span>
+                                                </div>
+                                                <div className="ppcrpchpupWords">
+                                                    <HashtagHighlighter text={post.user_post_text}/>
+                                                </div>
+                                                {post.user_post_image ? <div className="ppcrpchpuPosting">
+                                                    <img id='ppcrpchpuPostingBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
+                                                    <img id='ppcrpchpuPostingImg' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
+                                                </div>:<></>}
+                                                {post.user_post_youtube ? <div className="ppcrpchpuPosting youtube">
+                                                    <YouTubeEmbed videoUrl={post.user_post_youtube} />
+                                                </div>:<></>}
                                             </div>
-                                            <div className="ppcrpchpupWords">
-                                                <HashtagHighlighter text={post.user_post_text}/>
-                                            </div>
-                                            {post.user_post_image ? <div className="ppcrpchpuPosting">
-                                                <img id='ppcrpchpuPostingBG' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
-                                                <img id='ppcrpchpuPostingImg' src={`https://2wave.io/AGMediaPost/${post.user_post_image}`} alt="" />
-                                            </div>:<></>}
-                                            {post.user_post_youtube ? <div className="ppcrpchpuPosting youtube">
-                                                <YouTubeEmbed videoUrl={post.user_post_youtube} />
-                                            </div>:<></>}
-                                        </div>
-                                    ))}
-                                </>
-                                {viewFetchPost.length == 0 ?
-                                <div className='ppcrpchpNoPost'>
-                                    <h6>No Highlights Available...</h6>
-                                </div>:<></>}
+                                        ))}
+                                    </>:<>
+                                    <div className='ppcrpchpNoPost'>
+                                        <h6>No Highlights Available...</h6>
+                                    </div></>}
+                                </>}
                             </div>
                         </div>
-                    </div>
+                    </div>}
+                    {viewUserProducts &&<div className="ppcrProfileContents myProducts">
+                        {isLoading ?<>
+                            <div className="ppcrpcmpEmpty">
+                                <div className="loader"></div>
+                            </div>
+                        </>:<>{(userProductCodeIDData.length != 0) ?<>
+                                <h3>PURCHASED PRODUCTS</h3>
+                                <div className="ppcrpcmpProducts">
+                                    {userProductCodeIDData.map((details, i) => (
+                                        <div className="ppcrpcmppContents" key={i}>
+                                            <div className="ppcrpcmppcImage">
+                                                {details.productData.game_cover && <img src={`https://2wave.io/GameCovers/${details.productData.game_cover}`} alt="" />}
+                                                {details.productData.giftcard_cover && <img src={`https://2wave.io/GiftCardCovers/${details.productData.giftcard_cover}`} alt="" />}
+                                                {details.productData.gamecredit_cover && <img src={`https://2wave.io/GiftCardCovers/${details.productData.gamecredit_cover}`} alt="" />}
+                                                <div>
+                                                    <h6>{details.productCode.ag_product_name}</h6>
+                                                </div>
+                                            </div>
+                                            <div className="ppcrpcmppcPlatform">
+                                                {details.productData.game_platform && 
+                                                <img src="" platform={details.productData.game_platform} alt="" />}
+                                                {details.productData.giftcard_denomination &&
+                                                <div>
+                                                    <h4>{details.productData.giftcard_denomination}</h4>
+                                                    <p>DOLLARS</p>
+                                                </div>}
+                                                {details.productData.gamecredit_denomination &&
+                                                <div>
+                                                    <h4>{details.productData.gamecredit_denomination}</h4>
+                                                    <p>DOLLARS</p>
+                                                </div>}
+                                            </div>
+                                            <button onClick={() => toggleVisibility(i)}>{isVisible[i] ? <FaRegEyeSlash className='faIcons'/> : <FaRegEye className='faIcons'/>}</button>
+                                            <span>
+                                                <input type={!isVisible[i] ? "password" : "text"} placeholder={!isVisible[i] ? '***** ***** *****' : `${details.productCode.ag_product_code}`} readOnly disabled/>
+                                            </span>
+                                            <p>PRODUCT CODE</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </>:<><div className="ppcrpcmpEmpty">
+                                    <h6>You don't have any Products yet.</h6>
+                                </div>
+                            </>}
+                        </>}
+                    </div>}
                 </div>
             </section>
         </div>

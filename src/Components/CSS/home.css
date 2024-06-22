@@ -28,7 +28,7 @@ h6{
     height: auto;
     width: 100%;
     background: black;
-    padding-bottom: 20vw;
+    padding-bottom: 5vw;
 }
 
 /*----- Landing Section -----*/
@@ -205,15 +205,6 @@ section.landingPageContainer.mid{
     width: 100%;
     margin-bottom: 5%;
 }
-.lndPageContent.mid3 h4{
-    display: flex;
-    justify-content: left;
-    align-items: center;
-}
-.lndPageContent.mid3 h4 .faIcons{
-    margin-right: 1%;
-    color: red;
-}
 .lndpcFeaturedGames{
     height: auto;
     width: 100%;
@@ -221,119 +212,127 @@ section.landingPageContainer.mid{
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    margin-top: 2%;
+    margin-top: 10%;
 }
-.lndpcfgames{
-    height: auto;
-    width: 19%;
-    overflow: hidden;
-    position: relative;
-    margin-bottom: 1%;
-    border-radius: 1vw;
-    cursor: pointer;
-    transition: 400ms ease;
+.lndpcfgWeb.left{
+    height: 35vw;
+    width: 35%;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    overflow: hidden;
 }
-.lndpcfgames.website{
+.lndpcdgwlSlider{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+.lndpcdgwlSlider.active {
+    opacity: 1;
+}
+.lndpcfgwl{
+    height: auto;
+    width: 100%;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5% 0;
+    position: relative;
+    transition: opacity 1s ease-in-out;
 }
-.lndpcfgames.mobile{
-    display: none;
+.lndpcfgwlImage{
+    height: auto;
+    width: 80%;
+    border-radius: 1vw;
+    box-shadow: 0 0 20px gray;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
-.lndpcfgames:hover{
-    transform: translateY(-10px);
+.lndpcfgwlImage img{
+    height: auto;
+    width: 100%;
+}
+.lndpcfgwlShadow{
+    position: absolute;
+    bottom: 0;
+    height: 30vw;
+    width: 100%;
+    background: linear-gradient(transparent, black 70%);
+    background-size: cover;
+}
+.lndpcfgwlDetails{
+    height: auto;
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    bottom: 15%;
+    left: 0;
+}
+.lndpcfgwlDetails img{
+    height: auto;
+    width: 100%;
+}
+.lndpcfgWeb.right{
+    height: auto;
+    width: 60%;
+    text-align: right;
+}
+.lndpcfgWeb.right h5{
+    margin-bottom: 1%;
+}
+.lndpcfgWeb.right h3{
+    line-height: 3.5vw;
+}
+.lndpcfgWeb.right p{
+    margin: 5% 0;
+    padding-left: 10%;
+}
+.lndpcMarqueeContainer{
+    height: auto;
+    width: 100%;
+    margin: 3% 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.lndpcMarqueeContainer img{
+    height: 3vw;
+    margin: 0 1%;
+    padding: 0.5% 1%;
+    display: inline-block;
+    white-space: nowrap;
+    opacity: 30%;
+    border-radius: 50px;
+    border: solid 2px white;
+    animation: marquee 20s linear infinite;
+}
+.lndpcMarqueeContainer img:hover{
+    opacity: 100%;
+}
+.lndpcfgWeb.right a{
+    color: white;
+    text-decoration: none;
+    padding: 1% 5%;
+    border-radius: 50px;
+    border: solid 2px white;
+    font-size: 0.9vw;
+    opacity: 50%;
+}
+.lndpcfgWeb.right a:hover{
+    opacity: 100%;
     transition: 400ms ease;
     box-shadow: 0 0 10px white;
 }
-.lndpcfgames:hover .lndpcfgDetails{
-    opacity: 1;
-    transition: 400ms ease;
-}
-.lndpcfgames img{
-    height: auto;
-    width: 100%;
-    border-radius: 1vw;
-}
-.lndpcfgDetails{
-    height: auto;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    padding: 8%;
-    background: rgba(0, 0, 0, 0.36);
-    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    opacity: 0;
-}
-.lndpcfgDetails h6{
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.lndpcfgDetails p{
-    text-align: center;
-    font-size: 0.7vw;
-    margin-top: 2%;
-}
-.lndpcfgPlatform{
-    height: auto;
-    position: absolute;
-    top: 0.5vw;
-    left: 0.5vw;
-    background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 10px black;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 5%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.5vw;
-}
-.lndpcfgPlatform img{
-    height: 3vw;
-    border-radius: 0;
-}
-.lndpcfgPlatform img[platform='PC']{
-    content: url('../assets/imgs/GamePlatforms/PCGames.png');
-}
-.lndpcfgPlatform img[platform='NintendoSwitch']{
-    content: url('../assets/imgs/GamePlatforms/NintendoSwitch.png');
-}
-.lndpcfgPlatform img[platform='XboxXS']{
-    content: url('../assets/imgs/GamePlatforms/XboxXS.png');
-}
-.lndpcfgPlatform img[platform='XboxOne']{
-    content: url('../assets/imgs/GamePlatforms/XboxOne.png');
-}
-.lndpcfgPlatform img[platform='PlayStation4']{
-    content: url('../assets/imgs/GamePlatforms/PS4.png');
-}
-.lndpcfgPlatform img[platform='PlayStation5']{
-    content: url('../assets/imgs/GamePlatforms/PS5.png');
-}
-.lndpcfgViewMore{
-    height: auto;
-    width: 100%;
-    display: flex;
-    justify-content: right;
-    align-items: center;
-}
-.lndpcfgViewMore a{
-    font-size: 1vw;
-    color: white;
-    opacity: 50%;
-    text-decoration: none;
-}
-.lndpcfgViewMore a:hover{
-    opacity: 100%;
-    transition: 400ms ease;
-}
+
+
+
 
 
 
@@ -341,235 +340,199 @@ section.landingPageContainer.mid{
 .lndPageContent.mid4{
     height: auto;
     width: 100%;
-    border-radius: 1vw;
-    margin: 2% 0;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    position: relative;
+    margin: 10% 0;
 }
-.lndPageContent.mid4 img{
+.lndpcmid4Container{
     height: auto;
     width: 100%;
-    border-radius: 1vw;
-}
-.lndpcAGElite{
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 5%;
-    text-align: right;
-}
-.lndpcageSocials{
     display: flex;
-    justify-content: right;
+    justify-content: space-between;
     align-items: center;
 }
-.lndpcageSocials p{
-    margin-right: 1%;
-    font-size: 0.7vw;
+.lndpcm4Content.left{
+    height: auto;
+    width: 40%;
 }
-.lndpcageSocials a{
-    margin-left: 1%;
+.lndpcm4Content.left #lndpcm4crMobileMob{
+    display: none;
+}
+.lndpcm4cStats{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 3% 0;
+}
+.lndpcm4cStats div{
+    text-align: center;
+    padding: 3% 5%;
+    margin-right: 5%;
+    border-radius: 1vw;
+    border: solid 2px white;
+}
+.lndpcm4cStats div h3{
+    font-size: 3vw;
+}
+.lndpcm4Content.left h4{
+    font-size: 2.5vw;
+}
+.lndpcm4Content.left p{
+    margin: 2% 0;
+}
+.lndpcm4lBtns{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 3% 0;
+}
+.lndpcm4lBtns a{
+    margin-right: 3%;
     color: white;
-    font-size: 1.2vw;
+    text-decoration: none;
+    padding: 1% 5%;
+    border-radius: 50px;
+    border: solid 2px white;
+    font-size: 0.9vw;
+    opacity: 50%;
 }
-.lndpcageSocials a:hover{
-    color: gold;
+.lndpcm4lBtns a:hover{
+    opacity: 100%;
     transition: 400ms ease;
+    box-shadow: 0 0 10px white;
+}
+.lndpcm4Content.right{
+    height: auto;
+    width: 50%;
+    position: relative;
+    background: url('../assets/imgs/Shadow.png') no-repeat center;
+    background-size: contain;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lndpcm4Content.right img#lndpcm4crMobile{
+    height: 40vw;
+    animation: bounce2 5s infinite linear;
 }
 
-.lndpcAGElite h3 span{
-    color: gold;
-}
-.lndpcageJoin{
-    height: auto;
-    margin-top: 2%;
-}
-.lndpcageJoin a{
-    margin-top: 20%;
-    padding: 0.5% 3%;
-    text-decoration: none;
-    border: solid 2px white;
-    color: white;
-    border-radius: 50px;
-    font-size: 0.9vw;
-}
-.lndpcageJoin a:hover{
-    box-shadow: 0 0 10px white;
-    transition: 400ms ease;
-}
+
+
+
+
+
+
 
 
 .lndPageContent.mid5{
     height: auto;
     width: 100%;
 }
-.lndpcGameListed{
+.lndPageContent.mid5 h4{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.lndPageContent.mid5 h4 .faIcons {
+    margin-right: 1%;
+    color: gold;
+}
+.lndpcmid5Giftcard{
     height: auto;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2% 0;
+}
+.lndpcmid5Container{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: top;
+    padding: 2% 0;
+    overflow-x: scroll;
+    position: relative;
+}
+.lndpcm5Content{
+    height: auto;
+    width: 100vw;
+    padding: 1%;
+    background: rgba(40, 40, 40, 0.5);
+    border-radius: 1vw;
+    box-shadow: 0 0 10px rgb(50, 50, 50);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    margin: 0 1%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    text-align: center;
-}
-.lndpcGameListed span{
-    width: 24%;
     padding: 2%;
-    border: solid 1px white;
     border-radius: 1vw;
+    text-decoration: none;
+    transition: 400ms ease;
 }
-.lndpcGameListed span h3{
-    line-height: 3vw;
-    margin-bottom: 2%;
+.lndpcm5Content:hover{
+    transition: 400ms ease;
+    box-shadow: 0 0 20px gray;
 }
-.lndpcGameListed span h3 .faIcons{
+.lndpcm5c.left{
+    height: auto;
+    margin-right: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lndpcm5c.left img{
+    height: 20vw;
+    border-radius: 1vw;
+    box-shadow: 0 0 10px gray;
+}
+.lndpcm5c.right{
+    height: auto;
+    width: 18vw;
+}
+.lndpcm5c.right h3{
+    height: 7vw;
     line-height: 3vw;
     font-size: 2.5vw;
+    display: flex;
+    justify-content: left;
+    align-items: center;
 }
+.lndpcm5c.right p{
+    margin: 2% 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 .lndPageContent.mid6{
     height: auto;
     width: 100%;
-    margin-top: 2%;
-    border-radius: 1vw;
-    overflow: hidden;
-}
-.lndPageContent.mid6 a{
-    height: auto;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.lndPageContent.mid6 a img{
-    height: auto;
-    width: 100%;
-}
-
-
-
-.lndPageContent.mid7{
-    height: auto;
-    width: 100%;
-    margin-top: 10%;
-}
-.lndPageContent.mid7 h4{
-    display: flex;
-    justify-content: left;
-    align-items: center;
-}
-.lndPageContent.mid7 h4 .faIcons {
-    margin-right: 1%;
-    color: gold;
-}
-.lndpcFeaturedGiftCards {
-    height: auto;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    margin: 2% 0;
-}
-.lndpcfgc {
-    height: auto;
-    width: 19%;
-    overflow: hidden;
-    position: relative;
-    margin-bottom: 1%;
-    border-radius: 1vw;
-    cursor: pointer;
-    transition: 400ms ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.lndpcfgc img {
-    height: auto;
-    width: 100%;
-    border-radius: 1vw;
-}
-.lndpcfgcRobloxBinance{
-    height: auto;
-    width: 49%;
-    display: flex;
-    justify-content: space-between;
-    align-items: top;
-    border-radius: 1vw;
-    overflow: hidden;
-    box-shadow: 0 0 10px gray;
-    margin-top: 1%;
-}
-.lndpcfgcrb.left{
-    height: auto;
-    width: 60%;
-    padding: 10% 5%;
-}
-.lndpcfgcrb.left h4{
-    font-size: 3vw;
-    line-height: 3vw;
-    display: flex;
-    justify-content: left;
-    align-items: end;
-}
-.lndpcfgcrb.left p{
     margin: 5% 0;
 }
-.lndpcfgcrb.left a{
-    color: white;
-}
-
-
-.lndpcfgcrb.right{
-    height: auto;
-    width: 40%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.lndpcfgcrb.right img{
-    height: auto;
-    width: 100%;
-    border-radius: 1vw;
-    box-shadow: 0 0 10px white;
-}
-.lndpcfgcViewMore{
-    height: auto;
-    width: 100%;
-    display: flex;
-    justify-content: right;
-}
-.lndpcfgcViewMore a{
-    color: white;
-    text-decoration: none;
-    font-size: 1vw;
-    opacity: 50%;
-}
-.lndpcfgcViewMore a:hover{
-    opacity: 100%;
-    transition: 400ms ease;
-}
-
-
-
-
-
-
-.lndPageContent.mid8{
-    height: auto;
-    width: 100%;
-    margin-top: 5%;
-}
-.lndPageContent.mid8 h4{
+.lndPageContent.mid6 h4{
     display: flex;
     justify-content: left;
     align-items: center;
 }
-.lndPageContent.mid8 h4 .faIcons {
+.lndPageContent.mid6 h4 .faIcons {
     margin-right: 1%;
     color: orange;
 }
@@ -600,15 +563,93 @@ section.landingPageContainer.mid{
 .lndpcfCrypto a{
     color: white;
     text-decoration: none;
-    padding: 2% 7%;
+    padding: 1% 5%;
     border-radius: 50px;
     border: solid 2px white;
+    font-size: 0.9vw;
+    opacity: 50%;
 }
 .lndpcfCrypto a:hover{
     box-shadow: 0 0 10px white;
+    opacity: 100%;
     transition: 400ms ease;
     background: white;
     color: black;
+}
+
+
+
+
+.lndPageContent.mid7{
+    height: auto;
+    width: 100%;
+    margin: 15% 0;
+}
+.lndpcmid7Container{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.lndpcmid7content.left{
+    height: auto;
+    width: 40%;
+}
+
+.lndpcmid7content.left img{
+    height: 8vw;
+}
+.lndpcmid7content.left p{
+    margin-bottom: 5%;
+}
+.lndpcmid7content.left a{
+    color: white;
+    text-decoration: none;
+    padding: 1% 5%;
+    border-radius: 50px;
+    border: solid 2px white;
+    font-size: 0.9vw;
+    opacity: 50%;
+}
+.lndpcmid7content.left a:hover{
+    box-shadow: 0 0 10px white;
+    opacity: 100%;
+    transition: 400ms ease;
+    background: white;
+    color: black;
+}
+.lndpcmid7content.right{
+    height: auto;
+    width: 55%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lndpcmid7content.right img{
+    height: auto;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.lndPageContent.mid8{
+    height: auto;
+    width: 100%;
+    text-align: center;
+    margin-top: 25%;
 }
 
 
@@ -619,6 +660,16 @@ section.landingPageContainer.mid{
     0% {
       opacity: 0;
       transform: translateY(-50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
+@keyframes fade-in-down2 {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
     }
     100% {
       opacity: 1;
@@ -642,6 +693,16 @@ section.landingPageContainer.mid{
     0% {
       opacity: 0;
       transform: translateX(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+}
+@keyframes fade-in-right {
+    0% {
+      opacity: 0;
+      transform: translateX(20px);
     }
     100% {
       opacity: 1;
@@ -677,8 +738,17 @@ section.landingPageContainer.mid{
 @keyframes l2 {
     to{transform: rotate(.5turn)}
 }
-
-
+@keyframes spinner113{ 
+    100%{transform: rotate(1turn)}
+}
+@keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+}
 
 
 
@@ -755,124 +825,131 @@ section.landingPageContainer.mid{
     .lndPageContent.mid3{
         margin: 5% 0;
     }
-    .lndPageContent.mid3 h4{
-        font-size: 4vw;
-    }
     .lndpcFeaturedGames{
         margin: 2% 0;
+        display: block;
     }
-    .lndpcfgames.website{
-        display: none;
+    .lndpcfgWeb.left{
+        height: 105vw;
+        width: 100%;
     }
-    .lndpcfgames.mobile{
-        display: flex;
-        flex-wrap: wrap;
-        width: 48%;
-        border-radius: 2vw;
-        margin: 1%;
+    .lndpcfgwlImage{
+        height: auto;
+        width: 70%;
+        border-radius: 3vw;
+        box-shadow: 0 0 30px gray;
     }
-    .lndpcfgames:hover{
-        transform: translateY(0);
-    }
-    .lndpcfgPlatform{
-        top: 1vw;
-        left: 1vw;
-        border-radius: 2vw;
-    }
-    .lndpcfgPlatform img{
-        height: 10vw;
-        width: 10vw;
-    }
-    .lndpcfgDetails h6{
+    .lndpcfgwlDetails p{
         font-size: 3vw;
     }
-    .lndpcfgDetails p{
-        font-size: 2.3vw;
-        margin-top: 5%;
+    .lndpcfgWeb.right{
+        width: 100%;
+        text-align: center;
     }
-    .lndpcfgViewMore a{
+    .lndpcfgWeb.right h5{
+        font-size: 3vw;
+    }
+    .lndpcfgWeb.right h3{
+        line-height: 8vw;
+        font-size: 8vw;
+    }
+    .lndpcfgWeb.right p{
+        margin: 3% 0;
+        padding-left: 0%;
+        font-size: 3vw;
+    }
+    .lndpcMarqueeContainer img{
+        height: 10vw;
+    }
+    .lndpcfgWeb.right a{
+        padding: 1% 10%;
         font-size: 3vw;
         opacity: 100%;
     }
-    .lndpcAGElite{
+
+
+    .lndPageContent.mid4{
+        margin: 30% 0;
+    }
+    .lndpcmid4Container{
+        display: block;
+    }
+    .lndpcm4Content.left{
         height: auto;
         width: 100%;
-        position: relative;
-        padding: 7% 5%;
-        background: url('../assets/imgs/LandingImg/AGStarFeature.png') no-repeat center right;
-        background-size: cover;
-        border-radius: 3vw;
+        text-align: center;
+    }
+    .lndpcm4Content.left #lndpcm4crMobileMob{
+        display: block;
+        height: 70vw;
+        margin: 0 auto;
+        margin-bottom: 10%;
+    }
+    .lndpcm4cStats{
+        justify-content: space-evenly;
         margin: 5% 0;
     }
-    .lndpcageSocials p{
-        font-size: 3vw;
-    }
-    .lndpcageSocials a{
-        margin-left: 3%;
-        color: white;
-        font-size: 3.5vw;
-    }
-    .lndpcAGElite h3{
-        font-size: 9vw;
-    }
-    .lndpcAGElite h6{
-        font-size: 4vw;
-    }
-    .lndPageContent.mid4 img{
-        display: none;
-    }
-    .lndpcageJoin a{
-        margin-top: 20%;
-        padding: 1% 10%;
-        border-radius: 50px;
-        font-size: 3vw;
-    }
-    .lndpcGameListed{
-        flex-wrap: wrap;
-    }
-    .lndpcGameListed span{
-        height: auto;
-        width: 48%;
-        margin: 1%;
-        padding: 5% 2%;
-        border-radius: 2vw;
-    }
-    .lndpcGameListed span h3{
-        line-height: 8vw;
-        font-size: 9vw;
-    }
-    .lndpcGameListed span h3 .faIcons{
-        line-height: 3vw;
-        font-size: 7vw;
-    }
-    .lndpcGameListed span h6{
-        font-size: 2.3vw;
-    }
-    .lndPageContent.mid7{
-        margin: 15% 0;
-    }
-    .lndPageContent.mid7 h4{
-        font-size: 4vw;
-    }
-    .lndpcfgc.mobile{
-        display: none;
-    }
-    .lndpcfgc {
-        width: 48%;
-        margin: 1%;
+    .lndpcm4cStats div{
+        text-align: center;
+        padding: 3% 5%;
+        margin-right: 0%;
         border-radius: 3vw;
     }
-    .lndpcfgcRobloxBinance{
-        display: none;
+    .lndpcm4Content.left h4{
+        font-size: 4vw;
     }
-    .lndpcfgcViewMore a{
+    .lndpcm4Content.left h3{
+        font-size: 8vw;
+    }
+    .lndpcm4Content.left p{
+        margin: 2% 0;
+        font-size: 3vw;
+    }
+    .lndpcm4lBtns{
+        justify-content: center;
+    }
+    .lndpcm4lBtns a{
+        margin: 0 3%;
+        padding: 1% 10%;
         font-size: 3vw;
         opacity: 100%;
     }
+    .lndpcm4Content.right{
+        display: none;
+    }
+
+
+    .lndPageContent.mid5 h4{
+        font-size: 4vw;
+    }
+    .lndpcm5Content{
+        border-radius: 3vw;
+        margin: 0;
+        margin-right: 5%;
+    }
+    .lndpcm5Content p{
+        font-size: 2.3vw;
+    }
+    .lndpcm5c.left img{
+        height: 50vw;
+        border-radius: 3vw;
+    }
+    .lndpcm5c.right{
+        width: 50vw;
+    }
+    .lndpcm5c.right h3{
+        height: 15vw;
+        line-height: 6vw;
+        font-size: 5vw;
+    }
+    .lndpcm5c.right p{
+        font-size: 2.5vw;
+    }
 
 
 
-    .lndPageContent.mid8 h4{
+
+    .lndPageContent.mid6 h4{
         font-size: 4vw;
     }
     .lndpcFeaturedCrypto{
@@ -897,9 +974,62 @@ section.landingPageContainer.mid{
         font-size: 2.3vw;
     }
     .lndpcfCrypto a{
+        padding: 1% 10%;
         font-size: 3vw;
-        padding: 2% 10%;
+        opacity: 100%;
     }
+
+
+
+
+
+
+    .lndpcmid7Container{
+        display: block;
+        margin: 30% 0;
+    }
+    .lndpcmid7content.left{
+        text-align: center;
+        width: 100%;
+    }
+    .lndpcmid7content.left img{
+        height: 20vw;
+    }
+    .lndpcmid7content.left p{
+        font-size: 2.3vw;
+        margin-bottom: 5%;
+    }
+    .lndpcmid7content.left a{
+        padding: 1% 10%;
+        font-size: 3vw;
+        opacity: 100%;
+    }
+    .lndpcmid7content.right{
+        display: none;
+    }
+
+
+
+
+    .lndPageContent.mid8 h4{
+        font-size: 5vw;
+    }
+    .lndPageContent.mid8 h5{
+        font-size: 4vw;
+    }
+    .lndPageContent.mid8 br{
+        display: none;
+    }
+    .lndPageContent.mid8 p{
+        font-size: 2.3vw;
+        margin-top: 3%;
+    }
+
+
+
+
+
+
 
 
 

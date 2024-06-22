@@ -3,15 +3,23 @@ import "../CSS/admin.css";
 import { 
     FaBars,
     FaTimes,
-    FaCheck 
+    FaSortAlphaDown,
+    FaSortAlphaUp,
+    FaCheck,
+    FaSearch
 } from 'react-icons/fa';
+import { FiEdit } from "react-icons/fi";
 import { 
     RiArrowUpSFill,
     RiArrowDownSFill,
     RiAddBoxFill   
 } from "react-icons/ri";
+import { TiArrowSortedDown } from "react-icons/ti";
+import { VscSaveAs } from "react-icons/vsc";
+import { IoMdAddCircle, IoMdCheckmarkCircle } from "react-icons/io";
 import axios from 'axios';
 import {getGameReviews} from 'unofficial-metacritic';
+import { Link } from 'react-router-dom';
 
 
 const formatDateToWordedDate = (numberedDate) => {
@@ -40,6 +48,10 @@ const Admin = () => {
     }, [activeView]);
     const handleViewNavigations = () => {
         setActiveView('default');
+        setFormResponse('');
+    };
+    const handleViewAddNews = () => {
+        setActiveView('news');
         setFormResponse('');
     };
     const handleViewAddSupplier = () => {
@@ -81,12 +93,14 @@ const Admin = () => {
     
     const AGUserProfileListAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const AGAddSupplieAPI = process.env.REACT_APP_AG_ADD_SUPPLIER_API;
-    const AGSupplieListAPI = process.env.REACT_APP_AG_SUPPLIER_LIST_API;
+    const AGSupplierListAPI = process.env.REACT_APP_AG_SUPPLIER_LIST_API;
     const [viewUserProfiles, setViewUserProfiles] = useState([]);
     const [viewTotalAGElite, setViewTotalAGElite] = useState('');
     const [viewSupplierProfiles, setViewSupplierProfiles] = useState([]);
     const [viewActiveSupplier, setViewActiveSupplie] = useState('');
     const [viewGameTotal, setViewGameTotal] = useState([]);
+    const [viewGiftcardTotal, setViewGiftcardTotal] = useState([]);
+    const [viewGamecreditTotal, setViewGamecreditTotal] = useState([]);
     const [agSetCompany, setAGSetCompany] = useState('');
     const [agSetContact, setAGSetContact] = useState('');
     const [agSetEmail, setAGSetEmail] = useState('');
@@ -94,6 +108,8 @@ const Admin = () => {
     const [agSetStatus, setAGSetStatus] = useState('');
     const [agSetNotes, setAGSetNotes] = useState('');
     const [formResponse, setFormResponse] = useState('');
+    
+    const [dataListed, setDatalisted]= useState('')
 
     useEffect(() => {
         const fetchDataUser = () => {
@@ -112,7 +128,7 @@ const Admin = () => {
         fetchDataUser();
 
         const fetchDataSupplier = () => {
-            axios.get(AGSupplieListAPI)
+            axios.get(AGSupplierListAPI)
             .then((response) => {
                 const supplierData = response.data;
                 const userAGActiveSupplier = response.data.filter(supplier => supplier.status == 'Active');
@@ -125,7 +141,6 @@ const Admin = () => {
         }
         fetchDataSupplier();
 
-
         const fetchDataGames = () => {
             axios.get(AGGamesListAPI)
             .then((response) => {
@@ -137,6 +152,30 @@ const Admin = () => {
             })
         }
         fetchDataGames();
+
+        const fetchDataGiftcards = () => {
+            axios.get(AGGiftcardsListAPI)
+            .then((response) => {
+                const giftcardData = response.data;
+                setViewGiftcardTotal(giftcardData);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+        fetchDataGiftcards();
+
+        const fetchDataGamecredits = () => {
+            axios.get(AGGameCreditsListAPI)
+            .then((response) => {
+                const gamecreditData = response.data;
+                setViewGamecreditTotal(gamecreditData);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+        fetchDataGamecredits();
 
     }, []);
     const handleAddSupplier = async (e) => {
@@ -172,14 +211,6 @@ const Admin = () => {
           console.log(error);
         });
     };
-    const [image, setImage] = useState(null);
-    const handleFileInputChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setImage(file);
-            setAGSetGameCover(file.name);
-        }
-    };
 
     const AGAddGamesAPI = process.env.REACT_APP_AG_ADD_GAMES_API;
     const AGAddGameCoverAPI = process.env.REACT_APP_AG_ADD_GAME_COVER_API;
@@ -206,9 +237,72 @@ const Admin = () => {
     const agGameCanonical = `${agSetGameCode1}${agSetGamePlatform}_${agSetGameCode3}`;
     const MAX_PAYLOAD_SIZE = 5 * 1024 * 1024;
 
+    
+    const AGAddGiftcardsAPI = process.env.REACT_APP_AG_ADD_GIFTCARD_API;
+    const AGAddGiftcardCoverAPI = process.env.REACT_APP_AG_ADD_GIFTCARD_COVER_API;
+    const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
+    const [agSetGiftCardTitle, setAGSetGiftCardTitle] = useState('');
+    const [agSetGiftCardCover, setAGSetGiftCardCover] = useState('');
+    const [agSetGiftCardDenomination, setAGSetGiftCardDenomination] = useState('');
+    const [agSetGiftCardSupplier, setAGSetGiftCardSupplier] = useState('');
+    const [agSetGiftCardCategory, setAGSetGiftCardCategory] = useState('');
+    const [agSetGiftCardDescription, setAGSetGiftCardDescription] = useState('');
+    const agSetGiftCardCode1 = agSetGiftCardTitle.replace(/\s/g, '');
+    const agSetGiftCardCode2 = agSetGiftCardDenomination.replace(/\s/g, '');
+    const agSetGiftCardCanonical = agSetGiftCardTitle.replace(/ /g, '_');
+    const agFullSetGiftCardCode = `AG_${agSetGiftCardCode1}_${agSetGiftCardCode2}`;
+
+
+    const AGAddGameCreditsAPI = process.env.REACT_APP_AG_ADD_GAMECREDIT_API;
+    const AGAddGameCreditCoverAPI = process.env.REACT_APP_AG_ADD_GAMECREDIT_COVER_API;
+    const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
+    const [agSetGameCreditTitle, setAGSetGameCreditTitle] = useState('');
+    const [agSetGameCreditCover, setAGSetGameCreditCover] = useState('');
+    const [agSetGameCreditDenomination, setAGSetGameCreditDenomination] = useState('');
+    const [agSetGameCreditNumber, setAGSetGameCreditNumber] = useState('');
+    const [agSetGameCreditType, setAGSetGameCreditType] = useState('');
+    const [agSetGameCreditSupplier, setAGSetGameCreditSupplier] = useState('');
+    const [agSetGameCreditCategory, setAGSetGameCreditCategory] = useState('');
+    const [agSetGameCreditDescription, setAGSetGameCreditDescription] = useState('');
+    const agSetGameCreditCode1 = agSetGameCreditTitle.replace(/\s/g, '');
+    const agSetGameCreditCode2 = agSetGameCreditDenomination.replace(/\s/g, '');
+    const agSetGameCreditCode3 = agSetGameCreditTitle.replace(/[(){}\-.,]/g, '');
+    const agSetGameCreditCode4 = agSetGameCreditCode3.replace(/\s/g, '');
+    const agSetGameCreditCanonical = agSetGameCreditCode3.replace(/ /g, '_');
+    const agFullSetGameCreditCode = `AG_${agSetGameCreditCode4}_${agSetGameCreditCode2}`;
+
+
+
+    const [image, setImage] = useState(null);
+    const handleFileInputChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setImage(file);
+            setAGSetGameCover(file.name);
+        }
+    };
+    const [imageGCV, setImageGCV] = useState(null);
+    const handleFileInputGCVChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setImageGCV(file);
+            setAGSetGiftCardCover(file.name);
+        }
+    };
+    const [imageGCR, setImageGCR] = useState(null);
+    const handleFileInputGCRChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setImageGCR(file);
+            setAGSetGameCreditCover(file.name);
+        }
+    };
+
+
+    // Add Game Details
     const handleAddGame = async (e) => {
         e.preventDefault();
-  
+    
         const formAddGameDetails = {
             agGameCode: agFullSetGameCode,
             agGameCover: agSetGameCover,
@@ -226,22 +320,20 @@ const Admin = () => {
             agGameSeller: agSetGameSeller,
             agGameAvailable: agSetGameAvailable,
             agGameRestricted: agSetGameRestricted,
-        }
-
+        };
+    
         const formImageData = new FormData();
         formImageData.append('agGameCover', image);
-
-        const jsonAddGames = JSON.stringify(formAddGameDetails);
-        axios.post(AGAddGamesAPI, jsonAddGames)
-        .then(response => {
-            const responseMessage = response.data;
-            if (responseMessage.success === false) {
-                setFormResponse(responseMessage.message);
-                console.log(responseMessage.message);
-            }
-            if (responseMessage.success === true) {
-                setFormResponse(responseMessage.message);
-                console.log(responseMessage.message);
+    
+        try {
+            // Sending game details
+            const addGameResponse = await axios.post(AGAddGamesAPI, formAddGameDetails);
+            const responseMessage = addGameResponse.data;
+    
+            setFormResponse(responseMessage.message);
+            console.log(responseMessage.message);
+    
+            if (responseMessage.success) {
                 setImage(null);
                 setAGSetGameCover('');
                 setAGSetGameTitle('');
@@ -258,26 +350,19 @@ const Admin = () => {
                 setAGSetGameAvailable('');
                 setAGSetGameRestricted('');
             }
-        }) 
-        .catch (error =>{
-          console.log(error);
-        });
-
-
-        try {
-            const response = await axios.post(AGAddGameCoverAPI, formImageData, {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
+    
+            // Sending game cover image
+            await axios.post(AGAddGameCoverAPI, formImageData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
-            // console.log(response.data);
+    
         } catch (error) {
             console.error(error);
         }
-
     };
-
-
+    
     const [agAddGameEdition, setAGAddGameEdition] = useState(false)
     const handleViewAddGameEdition = (e) => {
         e.preventDefault();
@@ -288,15 +373,704 @@ const Admin = () => {
         setAGAddGameEdition(false)
     }
 
+    // Add Giftcard/Voucher Details
+    const handleAddGiftcard = async (e) => {
+        e.preventDefault();
+    
+        const formAddGiftcardsDetails = {
+            agGiftcardCode: agFullSetGiftCardCode,
+            agGiftcardCover: agSetGiftCardCover,
+            agGiftcardTitle: agSetGiftCardTitle,
+            agGiftcardCanonical : agSetGiftCardCanonical,
+            agGiftcardDenomination: agSetGiftCardDenomination,
+            agGiftcardSupplier: agSetGiftCardSupplier,
+            agGiftcardCategory: agSetGiftCardCategory,
+            agGiftcardDescription: agSetGiftCardDescription,
+        };
+    
+        const formImageGCVData = new FormData();
+        formImageGCVData.append('agGiftcardCover', imageGCV);
+
+        try {
+            // Sending gift card details
+            const addGiftcardsResponse = await axios.post(AGAddGiftcardsAPI, formAddGiftcardsDetails);
+            const responseMessage = addGiftcardsResponse.data;
+    
+            setFormResponse(responseMessage.message);
+            console.log(responseMessage.message);
+    
+            if (responseMessage.success) {
+                setAGSetGiftCardTitle('');
+                setAGSetGiftCardDenomination('');
+                setAGSetGiftCardSupplier('');
+                setAGSetGiftCardCategory('');
+                setAGSetGiftCardDescription('');
+            }
+    
+            // Sending gift card cover image
+            // await axios.post(AGAddGiftcardCoverAPI, formImageGCVData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data'
+            //     }
+            // });
+    
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    // Add Game Credits Details
+    const handleAddGamecredit = async (e) => {
+        e.preventDefault();
+    
+        const formAddGamecreditsDetails = {
+            agGamecreditCode: agFullSetGameCreditCode,
+            agGamecreditCover: agSetGameCreditCover,
+            agGamecreditTitle: agSetGameCreditTitle,
+            agGamecreditNumber : agSetGameCreditNumber,
+            agGamecreditType: agSetGameCreditType,
+            agGamecreditCanonical : agSetGameCreditCanonical,
+            agGamecreditDenomination: agSetGameCreditDenomination,
+            agGamecreditSupplier: agSetGameCreditSupplier,
+            agGamecreditCategory: agSetGameCreditCategory,
+            agGamecreditDescription: agSetGameCreditDescription,
+        };
+    
+        const formImageGCRData = new FormData();
+        formImageGCRData.append('agGiftcardCover', imageGCR);
+    
+        try {
+            // Sending game credit details
+            const addGameCreditsResponse = await axios.post(AGAddGameCreditsAPI, formAddGamecreditsDetails);
+            const responseMessage = addGameCreditsResponse.data;
+    
+            setFormResponse(responseMessage.message);
+            console.log(responseMessage.message);
+    
+            if (responseMessage.success) {
+                setImageGCR(null);
+                setAGSetGameCreditTitle('');
+                setAGSetGameCreditDenomination('');
+                setAGSetGameCreditNumber('');
+                setAGSetGameCreditType('');
+                setAGSetGameCreditSupplier('');
+                setAGSetGameCreditCategory('');
+                setAGSetGameCreditDescription('');
+            }
+    
+            // Sending game credit cover image
+            // await axios.post(AGAddGameCreditCoverAPI, formImageGCRData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data'
+            //     }
+            // });
+    
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
 
+    // product list datas
+    // datas
+    const [editableData, setEditableData] = useState({});
+    const [openEditModal, setEditModal] = useState(false);
+    const [editInfoPrice, setEditInfoPrice] = useState(true);
+    const [editInfoDiscount, setEditInfoDiscount] = useState(true);
+    const [price, setPrice] = useState('');
+    const [discount, setDiscount] = useState('');
+    const [gameID, setGameID] = useState('');
+    const [inputs, setInputs] = useState([{ id: 'agProd_code' + Date.now(), value: '' }]);
+    const [clickCount,setClickcount] = useState(0)
+
+    
+    const [sortName, setsortName] = useState('all products');
+    const [filterName,setFiltername] = useState('')
+    const [order, setOrder] = useState(false);
+    const [orderSelect,setOrderselect] = useState(false)
+
+
+    const handleChangePrice = (event) => {
+        setPrice(event.target.value);
+    };
+    const handleChangeDiscount = (event) => {
+        setDiscount(event.target.value);
+    };
+    const handleEditProd = (game) => {
+        setGameID(game.game_canonical);
+        setEditableData(game);
+        setEditModal(true);
+        // console.log(game);
+    };
+    const handleCloseEditModal = () => {
+        setEditModal(false);
+        setInputs([{ id: 'agProd_code' + Date.now(), value: '' }]);
+        setClickcount(0)
+    };
+    const toggleDisablePrice = () => {
+        setEditInfoPrice((prevState) => !prevState);
+    };
+    const toggleDisableDiscount = () => {
+        setEditInfoDiscount((prevState) => !prevState);
+    };
+    const addNewInput = () => {
+        setInputs([...inputs, { id: 'agProd_code' + Date.now(), value: '' }]);
+    };
+    const handleInputChange = (id, field, value) => {
+        setInputs(inputs.map(input => input.id === id ? { ...input, [field]: value } : input));
+    };
+    const toggleOrder = () => {
+        setOrder(prev => !prev)
+    }
+    const toggleFilternewest = () => {
+        setsortName('date')
+        if (dataListed === 'Games') {
+            const sortnewest = viewGameTotal.sort((a,b) => {
+                if (order === false) {
+                    return (a.game_released > b.game_released ? -1 : 1)
+                } else {
+                    return (a.game_released < b.game_released ? -1 : 1)
+                }
+            })
+            setViewGameTotal(sortnewest);
+        } else if (dataListed === 'GCards') {
+            const sortnewest = viewGiftcardTotal.sort((a,b) => {
+                if (order === false) {
+                    return (a.date > b.date ? -1 : 1)
+                } else {
+                    return (a.date < b.date ? -1 : 1)
+                }
+            })
+            setViewGiftcardTotal(sortnewest);
+        }
+        setOrderselect(false)
+    }
+    const toggleFiltername = () => {
+        setsortName('name')
+        if (dataListed === 'Games') {
+            const sortnewest = viewGameTotal.sort((a,b) => {
+                if (order === false) {
+                    return (a.game_title > b.game_title ? -1 : 1)
+                } else {
+                    return (a.game_title < b.game_title ? -1 : 1)
+                }
+            })
+            setViewGameTotal(sortnewest);
+        } else if (dataListed === 'GCards') {
+            const sortnewest = viewGiftcardTotal.sort((a,b) => {
+                if (order === false) {
+                    return (a.giftcard_name > b.giftcard_name ? -1 : 1)
+                } else {
+                    return (a.giftcard_name < b.giftcard_name ? -1 : 1)
+                }
+            })
+            setViewGiftcardTotal(sortnewest);
+        }
+        setOrderselect(false)
+    }
+    const AGInsertProductCodeAPI = process.env.REACT_APP_AG_INSERT_PRODUCT_CODES_API;
+    const AGProductStateAPI = process.env.REACT_APP_AG_PRODUCT_STATE_CREDENTIALS_API;
+
+    const insertGameData = async () => {
+        try {
+            const productCodesString = inputs.map(input => input.value).join(',');
+            const productCodesID = inputs.map(input => input.id).join(',');
+            if (dataListed === 'Games') {
+                const dataInput = {
+                    productName: editableData.game_title,
+                    productPrice: price,
+                    productDiscount: discount,
+                    productCannonical: editableData.game_canonical,
+                    productIDcode: productCodesID,
+                    productCodes: productCodesString,
+                    productType: 'Games',
+                    productState: 'Available',
+                    productOwner: 'None',
+                };
+                const response = await axios.post(AGInsertProductCodeAPI, dataInput);
+                console.log('Data submitted successfully:', response.data);
+            } else if (dataListed === 'GCards') {
+                const dataInput = {
+                    productName: editableData.giftcard_name,
+                    productPrice: price,
+                    productDiscount: discount,
+                    productCannonical: editableData.giftcard_id,
+                    productIDcode: productCodesID,
+                    productCodes: productCodesString,
+                    productType: 'Giftcards',
+                    productState: 'Available',
+                    productOwner: 'None',
+                };
+                const response = await axios.post(AGInsertProductCodeAPI, dataInput);
+                console.log('Data submitted successfully:', response.data);
+            } else {
+                const dataInput = {
+                    productName: editableData.gamecredit_name,
+                    productPrice: price,
+                    productDiscount: discount,
+                    productCannonical: editableData.gamecredit_id,
+                    productIDcode: productCodesID,
+                    productCodes: productCodesString,
+                    productType: 'Game Credits',
+                    productState: 'Available',
+                    productOwner: 'None',
+                };
+                const response = await axios.post(AGInsertProductCodeAPI, dataInput);
+                console.log('Data submitted successfully:', response.data);
+            }
+            
+            setPrice('');
+            setDiscount('');
+            setInputs([{ id: 'agProd_code' + Date.now(), value: '' }]);
+            setEditModal(false);
+
+            setEditInfoDiscount(true);
+            setEditInfoPrice(true);
+        } catch (error) {
+            console.error('Error submitting data:', error);
+        }
+    };
+    useEffect(() => {
+        fetchProductcodes();
+        const getFiltername = localStorage.getItem('filterName')
+        setFiltername(getFiltername)
+
+        const getDatalisted = localStorage.getItem('dataListed')
+        setDatalisted(getDatalisted)
+
+    }, [])
+    async function fetchProductcodes() {
+        try {
+            const response = await fetch(AGProductStateAPI);
+            const data = await response.json();
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+    const showOrdering = () => {
+        setOrderselect(prev => !prev)
+    }
+    const openEditquick = (game) => {
+        setClickcount(clickCount + 1)
+        if (clickCount === 1) {
+            handleEditProd(game)
+        }
+    }
+    const [filter, setFilter] = useState(false)
+    const openFilterchange = () => {
+        setFilter(prev => !prev)
+    }
+    const selectGames = () => {
+        localStorage.setItem('dataListed', 'Games')
+        localStorage.setItem('filterName','Game Listed')
+        setDatalisted('Games')
+        setFiltername('Game Listed')
+        setFilter(false)
+    }
+    const selectGCards = () => {
+        localStorage.setItem('dataListed', 'GCards')
+        localStorage.setItem('filterName', 'Gift Cards Listed')
+        setDatalisted('GCards')
+        setFiltername('Gift Cards Listed')
+        setFilter(false)
+    }
+    const selectGCredits = () => {
+        localStorage.setItem('dataListed', 'GCredits')
+        localStorage.setItem('filterName', 'Game Credits Listed')
+        setDatalisted('GCredits')
+        setFiltername('Game Credits Listed')
+        setFilter(false)
+    }
+    const [searchInput, setSearchinput] = useState()
+    const handleSearch = (event) => {
+        setSearchinput(event.target.value)
+    }
+    async function searchItem (e) {
+        e.preventDefault()
+        if (dataListed === 'Games') {
+            axios.get(AGGamesListAPI)
+            .then((response) => {
+                const gameData = response.data;
+                const search = gameData.filter(item => {
+                    return Object.values(item).some(value => 
+                        typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
+                    );
+                });
+                setViewGameTotal(search)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        } else if (dataListed === 'GCards') {
+            axios.get(AGGiftcardsListAPI)
+            .then((response) => {
+                const giftcardData = response.data;
+                const search = giftcardData.filter(item => {
+                    return Object.values(item).some(value => 
+                        typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
+                    );
+                });
+                setViewGiftcardTotal(search);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        } else {
+            axios.get(AGGameCreditsListAPI)
+            .then((response) => {
+                const gamecreditData = response.data;
+                const search = gamecreditData.filter(item => {
+                    return Object.values(item).some(value => 
+                        typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
+                    );
+                });
+                setViewGamecreditTotal(search)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+    }
+
+// news
+    const AGInsertNewsLinkAPI = process.env.REACT_APP_AG_INSERT_PRODUCT_CODES_API;
+    const AGRetriveNewsAPI = process.env.REACT_APP_AG_FETCH_NEWS_API;
+    const AGDeleteNewsAPI = process.env.REACT_APP_AG_DELETE_NEWS_API;
+
+    const [mainnewsLink,setMainNewslink] = useState()
+    const [subnewsLink,setSubNewslink] = useState([
+        { id: 'newsID_' + Date.now()+1, type: 'sub', link: '' },
+        { id: 'newsID_' + Date.now()+3, type: 'sub', link: '' },
+        { id: 'newsID_' + Date.now()+4, type: 'sub', link: '' },
+        { id: 'newsID_' + Date.now()+5, type: 'sub', link: '' }
+    ])
+    const [newsLink, setNewsLink] = useState([{ id: 'newsID_' + Date.now(), type: 'other', link: '' }]);
+
+    const handleChangeNewsLinkInput = (id, field, value) => {
+        const updatedLinks = newsLink.map(input => input.id === id ? { ...input, [field]: value } : input);
+        setNewsLink(updatedLinks);
+    };
+
+    const addNewsLinkInput = () => {
+        setNewsLink([...newsLink, { id: 'newsID_' + Date.now(), type: 'other', link: '' }]);
+    };
+
+    const handleChangeMainNewslinkinput = (event) => {
+        setMainNewslink(event.target.value)
+    }
+    const handleChangeSubNewsLinkInput = (id, link) => {
+        const updatedLinks = subnewsLink.map(linkdata => linkdata.id === id ? { ...linkdata, link } : linkdata);
+        setSubNewslink(updatedLinks);
+    };
+
+    const addNews = async (e) => {
+        e.preventDefault();
+
+        const newsData = {
+            mainnewsLink,
+            subnewsLink,
+            newsLink
+        };
+
+        try {
+            const response = await axios.post(AGInsertNewsLinkAPI, newsData);
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } catch (error) {
+            console.error('There was an error!', error);
+        }
+    };
+
+    const [dataNewsretrieve,setDataNewsRetrieve] = useState()
+    useEffect(() => {
+        retriveNews()
+    }, [])
+    
+    const retriveNews = async () => {
+        const response = await fetch(AGRetriveNewsAPI)
+        const data = await response.json()
+        const sortedData = [...data].sort((a,b) => {
+            return a.type.localeCompare(b.type)
+        })
+        setDataNewsRetrieve(sortedData);
+    }
+    const deleteNewsLink = async (news_id, type) => {
+        try {
+            const response = await axios.delete(AGDeleteNewsAPI, { data: { id: news_id, type } });
+            if (response.data.success) {
+                setDataNewsRetrieve(dataNewsretrieve.filter(link => link.news_id !== news_id));
+                retriveNews()
+            } else {
+                console.error('There was an error deleting the link!', response.data.message);
+            }
+        } catch (error) {
+            console.error('There was an error deleting the link!', error);
+        }
+    };
     return (
         <div className='mainContainer admin'>
+            {dataListed === 'Games' &&(
+                <>
+                {openEditModal&&(
+                <div className="admineditGamedata">
+                    <div className="admineditData-container">
+                        <div className="closeEditModal">
+                            <FaTimes id='closeEditbtn' onClick={handleCloseEditModal}/>
+                        </div>
+                        <div className="admineditData-contents">
+                            <section id='gameEditdetails'  style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${editableData.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                <div className="editableGamedata">
+                                    <div className="editableGamedata-header">
+                                        <h1>{editableData.game_title}</h1>
+                                        <p>{editableData.game_edition}</p>
+                                    </div>
+                                    <div className="editableGamedata-contents">
+                                        <hr/>
+                                        <div className="editableGamedata-info">
+                                            <span>
+                                                <h1>developer</h1>
+                                                <p>{editableData.game_developer}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>platform</h1>
+                                                <p>{editableData.game_platform}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>category</h1>
+                                                <p>{editableData.game_category}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>inserted date</h1>
+                                                <p>{editableData.date}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>released date</h1>
+                                                <p>{editableData.game_released}</p>
+                                            </span>
+                                        </div>
+                                        <ul>
+                                            <li>
+                                                <h1>price</h1>
+                                                <span>
+                                                    <input type="text" placeholder='input price' value={price} onChange={handleChangePrice} disabled={editInfoPrice}/>
+                                                    {editInfoPrice ? <FiEdit id='editItemIcon' onClick={toggleDisablePrice}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisablePrice}/>}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <h1>discount</h1>
+                                                <span>
+                                                    <input type="text" placeholder='input discount' value={discount} onChange={handleChangeDiscount} disabled={editInfoDiscount}/>
+                                                    {editInfoDiscount ? <FiEdit id='editItemIcon' onClick={toggleDisableDiscount}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisableDiscount}/>}
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                            <hr className='hrSpace'/>
+                            <section>
+                                <div className="addgameCodeinfo">
+                                    <span>
+                                        <h1>Game Codes</h1>
+                                        {inputs.map(input => (
+                                            <>
+                                            <div key={input.id}>
+                                                <input
+                                                    type="text"
+                                                    value={input.value}
+                                                    onChange={(e) => handleInputChange(input.id, 'value', e.target.value)}
+                                                />
+                                            </div>
+                                            </>
+                                        ))}
+                                        <button onClick={addNewInput}>Add Code</button>
+                                    </span>
+                                    <div className="submitEditabledata">
+                                        <button onClick={insertGameData}>save</button>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            )}
+            </>
+            )}
+            {dataListed === 'GCards' &&(
+            <>
+                {openEditModal&&(
+                <div className="admineditGamedata">
+                    <div className="admineditData-container">
+                        <div className="closeEditModal">
+                            <FaTimes id='closeEditbtn' onClick={handleCloseEditModal}/>
+                        </div>
+                        <div className="admineditData-contents">
+                            <section id='gameEditdetails'  style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${editableData.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                <div className="editableGamedata">
+                                    <div className="editableGamedata-header">
+                                        <h1>{editableData.giftcard_name} - ${editableData.giftcard_denomination}</h1>
+                                        <p>{editableData.giftcard_description}</p>
+                                    </div>
+                                    <div className="editableGamedata-contents">
+                                        <hr/>
+                                        <div className="editableGamedata-info">
+                                            <span>
+                                                <h1>supplier</h1>
+                                                <p>{editableData.giftcard_supplier}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>category</h1>
+                                                <p>{editableData.giftcard_category}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>inserted date</h1>
+                                                <p>{editableData.date}</p>
+                                            </span>
+                                        </div>
+                                        <ul>
+                                            <li>
+                                                <h1>price</h1>
+                                                <span>
+                                                    <input type="text" placeholder='input price' value={price} onChange={handleChangePrice} disabled={editInfoPrice}/>
+                                                    {editInfoPrice ? <FiEdit id='editItemIcon' onClick={toggleDisablePrice}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisablePrice}/>}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <h1>discount</h1>
+                                                <span>
+                                                    <input type="text" placeholder='input discount' value={discount} onChange={handleChangeDiscount} disabled={editInfoDiscount}/>
+                                                    {editInfoDiscount ? <FiEdit id='editItemIcon' onClick={toggleDisableDiscount}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisableDiscount}/>}
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                            <hr className='hrSpace'/>
+                            <section>
+                                <div className="addgameCodeinfo">
+                                    <span>
+                                        <h1>Game Codes</h1>
+                                        {inputs.map(input => (
+                                            <>
+                                            <div key={input.id}>
+                                                <input
+                                                    type="text"
+                                                    value={input.value}
+                                                    onChange={(e) => handleInputChange(input.id, 'value', e.target.value)}
+                                                />
+                                            </div>
+                                            </>
+                                        ))}
+                                        <button onClick={addNewInput}>add code</button>
+                                    </span>
+                                    <div className="submitEditabledata">
+                                        <button onClick={insertGameData}>save</button>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                )}
+            </>
+            )}
+            {dataListed === 'GCredits' &&(
+            <>
+                {openEditModal&&(
+                <div className="admineditGamedata">
+                    <div className="admineditData-container">
+                        <div className="closeEditModal">
+                            <FaTimes id='closeEditbtn' onClick={handleCloseEditModal}/>
+                        </div>
+                        <div className="admineditData-contents">
+                            <section id='gameEditdetails'  style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCreditCovers/${editableData.gamecredit_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                <div className="editableGamedata">
+                                    <div className="editableGamedata-header">
+                                        <h1>{editableData.gamecredit_name} - ${editableData.gamecredit_denomination}</h1>
+                                        <p>{editableData.gamecredit_description}</p>
+                                    </div>
+                                    <div className="editableGamedata-contents">
+                                        <hr/>
+                                        <div className="editableGamedata-info">
+                                            <span>
+                                                <h1>supplier</h1>
+                                                <p>{editableData.gamecredit_supplier}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>category</h1>
+                                                <p>{editableData.gamecredit_category}</p>
+                                            </span>
+                                            <hr />
+                                            <span>
+                                                <h1>inserted date</h1>
+                                                <p>{editableData.date}</p>
+                                            </span>
+                                        </div>
+                                        <ul>
+                                            <li>
+                                                <h1>price</h1>
+                                                <span>
+                                                    <input type="text" placeholder='input price' value={price} onChange={handleChangePrice} disabled={editInfoPrice}/>
+                                                    {editInfoPrice ? <FiEdit id='editItemIcon' onClick={toggleDisablePrice}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisablePrice}/>}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <h1>discount</h1>
+                                                <span>
+                                                    <input type="text" placeholder='input discount' value={discount} onChange={handleChangeDiscount} disabled={editInfoDiscount}/>
+                                                    {editInfoDiscount ? <FiEdit id='editItemIcon' onClick={toggleDisableDiscount}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisableDiscount}/>}
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                            <hr className='hrSpace'/>
+                            <section>
+                                <div className="addgameCodeinfo">
+                                    <span>
+                                        <h1>Game Codes</h1>
+                                        {inputs.map(input => (
+                                            <>
+                                            <div key={input.id}>
+                                                <input
+                                                    type="text"
+                                                    value={input.value}
+                                                    onChange={(e) => handleInputChange(input.id, 'value', e.target.value)}
+                                                />
+                                            </div>
+                                            </>
+                                        ))}
+                                        <button onClick={addNewInput}>add code</button>
+                                    </span>
+                                    <div className="submitEditabledata">
+                                        <button onClick={insertGameData}>save</button>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                )}
+            </>
+            )}
+
+
             <section className="adminPageContainer top">
                 <div className="admPageContent top">
                     <div className="admpc top">
                         <div className='admpcViewNav'>
                             <button className={activeView === 'default' ? 'activeNav': ''} onClick={handleViewNavigations}><h6>DASHBOARD</h6></button>
+                            <button className={activeView === 'news' ? 'activeNav': ''} onClick={handleViewAddNews}><h6>ADD NEWS</h6></button>
                             <button className={activeView === 'supplier' ? 'activeNav': ''} onClick={handleViewAddSupplier}><h6>ADD SUPPLIER</h6></button>
                             <button className={activeView === 'games' ? 'activeNav': ''} onClick={handleViewAddGames}><h6>ADD GAMES</h6></button>
                             <button className={activeView === 'giftCards' ? 'activeNav': ''} onClick={handleViewAddGiftCards}><h6>ADD GIFTCARDS</h6></button>
@@ -333,11 +1107,11 @@ const Admin = () => {
                                     <h6>LISTED GAMES</h6>
                                 </div>
                                 <div>
-                                    <h4>0</h4>
+                                    <h4>{viewGiftcardTotal.length}</h4>
                                     <h6>LISTED GIFTCARDS</h6>
                                 </div>
                                 <div>
-                                    <h4>0</h4>
+                                    <h4>{viewGamecreditTotal.length}</h4>
                                     <h6>LISTED GAME CREDITS</h6>
                                 </div>
                             </div>
@@ -610,6 +1384,409 @@ const Admin = () => {
                             </div>
                         </div>
                     </div>}
+                    {activeView === 'giftCards' && <div className="admpcm1GiftCards">
+                        <div className="admpcm1AddGiftCardContainer">
+                            <div className="admpcm1AGiftCardContent left">
+                                <h4>WELCOME ADMIN!</h4><br />
+                                <p>
+                                    Within this interface, you possess the capability to seamlessly add new giftcards and vouchers, 
+                                    each detail meticulously recorded and securely stored within our database, ensuring 
+                                    comprehensive management and accessibility.
+                                </p>
+                                <div className="admpcm1AGiftcardsCAll">
+                                    <div>
+                                        <h4>{viewGiftcardTotal.length} Giftcards</h4>
+                                        <p>Total Listed Giftcards</p>
+                                    </div>
+                                    <div>
+                                        <h4>0 Stocks</h4>
+                                        <p>Total Giftcards Stocks</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="admpcm1AGiftCardContent right">
+                                <form id='addGiftCardFormContainer' onSubmit={handleAddGiftcard}>
+                                    <h5>ADD GIFTCARDS/VOUCHER FORM</h5>
+                                    <div className="admpcm1agcvForm">
+                                        <div className="admpcm1agcvf left">
+                                            <div className="admpc1agcvfImage">
+                                                {imageGCV && (
+                                                    <img src={URL.createObjectURL(imageGCV)} alt="No image Selected" />
+                                                )}
+                                                <input type="file" accept="image/*" onChange={handleFileInputGCVChange}/>
+                                            </div>
+                                        </div>
+                                        <div className="admpcm1agcvf right">
+                                            <span>
+                                                <label htmlFor=""><p>GiftCard/Voucher Name</p></label>
+                                                <input type="text" placeholder='ex. AG Voucher' required  value={agSetGiftCardTitle} onChange={(e) => setAGSetGiftCardTitle(e.target.value)}/>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Valuation/Denomination ($)</p></label>
+                                                <input type="number" placeholder='ex. 100' required value={agSetGiftCardDenomination} onChange={(e) => setAGSetGiftCardDenomination(e.target.value)}/>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Supplier</p></label>
+                                                <select name="" id="" value={agSetGiftCardSupplier} onChange={(e) => setAGSetGiftCardSupplier(e.target.value)}>
+                                                    <option value="">Select Supplier</option>
+                                                    {viewSupplierProfiles.slice(0,8).map((item, i) => (
+                                                        <option key={i} value={item.company}>{item.company}</option>
+                                                    ))}
+                                                </select>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Category</p></label>
+                                                <select name="" id="" value={agSetGiftCardCategory} onChange={(e) => setAGSetGiftCardCategory(e.target.value)}>
+                                                    <option value="">Select Supplier</option>
+                                                    <option value="Gaming">Gaming</option>
+                                                    <option value="Utilities">Utilities</option>
+                                                    <option value="Shopping">Shopping</option>
+                                                    <option value="Cosmetics">Cosmetics</option>
+                                                    <option value="Subscription">Subscription</option>
+                                                    <option value="Foods and Groceries">Foods and Groceries</option>
+                                                    <option value="Online Payment">Online Payment</option>
+                                                    <option value="Crypto">Crypto</option>
+                                                </select>
+                                            </span>
+                                            <span id='admpcm1agcvfDes'>
+                                                <label htmlFor=""><p>Giftcard/Voucher Description</p></label>
+                                                <textarea name="" id="" placeholder='Add Giftcard/Voucher Description here' value={agSetGiftCardDescription} onChange={(e) => setAGSetGiftCardDescription(e.target.value)}></textarea>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span className='giftcardSubmitStatus'>
+                                        <p>{formResponse}</p>
+                                    </span>
+                                    <div className="admpc1agcvfSubmit">
+                                        <button type='submit' name='addGames'>Add Giftcards/Voucher</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>}
+                    {activeView === 'gameCredit' && <div className="admpcm1GameCredits">
+                        <div className="admpcm1AddGameCreditsContainer">
+                            <div className="admpcm1AGameCreditsContent left">
+                                <h4>WELCOME ADMIN!</h4><br />
+                                <p>
+                                    Within this interface, you possess the capability to seamlessly add new game credits, 
+                                    each detail meticulously recorded and securely stored within our database, ensuring 
+                                    comprehensive management and accessibility.
+                                </p>
+                                <div className="admpcm1AGameCreditsCAll">
+                                    <div>
+                                        <h4>{viewGamecreditTotal.length} GCredits</h4>
+                                        <p>Total Listed Game Credits</p>
+                                    </div>
+                                    <div>
+                                        <h4>0 Stocks</h4>
+                                        <p>Total Game Credits Stocks</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="admpcm1AGameCreditsContent right">
+                                <form id='addGiftCardFormContainer' onSubmit={handleAddGamecredit}>
+                                    <h5>ADD GAME CREDITS FORM</h5>
+                                    <div className="admpcm1agcrForm">
+                                        <div className="admpcm1agcrf left">
+                                            <div className="admpc1agcrfImage">
+                                                {imageGCR && (
+                                                    <img src={URL.createObjectURL(imageGCR)} alt="No image Selected" />
+                                                )}
+                                                <input type="file" accept="image/*" onChange={handleFileInputGCRChange}/>
+                                            </div>
+                                        </div>
+                                        <div className="admpcm1agcrf right">
+                                            <span>
+                                                <label htmlFor=""><p>Game Credit Name</p></label>
+                                                <input type="text" placeholder='ex. AG Voucher' required  value={agSetGameCreditTitle} onChange={(e) => setAGSetGameCreditTitle(e.target.value)}/>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Valuation/Denomination ($)</p></label>
+                                                <input type="number" placeholder='ex. 100' required value={agSetGameCreditDenomination} onChange={(e) => setAGSetGameCreditDenomination(e.target.value)}/>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Number of Credits</p></label>
+                                                <input type="number" placeholder='ex. 100' required  value={agSetGameCreditNumber} onChange={(e) => setAGSetGameCreditNumber(e.target.value)}/>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Type of Credit</p></label>
+                                                <input type="text" placeholder='ex. Robux' required value={agSetGameCreditType} onChange={(e) => setAGSetGameCreditType(e.target.value)}/>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Supplier</p></label>
+                                                <select name="" id="" value={agSetGameCreditSupplier} onChange={(e) => setAGSetGameCreditSupplier(e.target.value)}>
+                                                    <option value="">Select Supplier</option>
+                                                    <option value="Roblox Developer">Roblox Developer</option>
+                                                    {viewSupplierProfiles.slice(0,8).map((item, i) => (
+                                                        <option key={i} value={item.company}>{item.company}</option>
+                                                    ))}
+                                                </select>
+                                            </span>
+                                            <span>
+                                                <label htmlFor=""><p>Category</p></label>
+                                                <select name="" id="" value={agSetGameCreditCategory} onChange={(e) => setAGSetGameCreditCategory(e.target.value)}>
+                                                    <option value="">Select Category</option>
+                                                    <option value="Gaming">Gaming</option>
+                                                    <option value="Utilities">Utilities</option>
+                                                    <option value="Shopping">Shopping</option>
+                                                    <option value="Crypto">Crypto</option>
+                                                </select>
+                                            </span>
+                                            <span id='admpcm1agcrfDes'>
+                                                <label htmlFor=""><p>Game Credit Description</p></label>
+                                                <textarea name="" id="" placeholder='Add Game Credit Description here' value={agSetGameCreditDescription} onChange={(e) => setAGSetGameCreditDescription(e.target.value)}></textarea>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span className='gamecreditSubmitStatus'>
+                                        <p>{formResponse}</p>
+                                    </span>
+                                    <div className="admpc1agcrfSubmit">
+                                        <button type='submit' name='addGames'>Add Game Credit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>}
+                    {activeView === 'productList' && (
+                        <div className="admpcm1Product">
+                            <div className="admpcm1ProductlistContainer">
+                                <div className="admpcm1ProductlistContent left">
+                                    <div className="admpcm1ProductLeft-header">
+                                        <h4>WELCOME ADMIN!</h4><br />
+                                        <p>
+                                            Within this administrative interface, you have the ability to effortlessly 
+                                            integrate new codes for games, gift cards and vouchers. 
+                                            Every detail is meticulously logged and securely stored in our database, 
+                                            ensuring thorough management and easy access.
+                                        </p>
+                                    </div>
+                                    <div className="totalGameProducts">
+                                        <ul>
+                                            <li>
+                                                <h1>{viewGameTotal.length} Games</h1>
+                                                <p>Total Listed Games</p>
+                                            </li>
+                                            <li>
+                                                <h1>{viewGiftcardTotal.length} Giftcards</h1>
+                                                <p>Total Listed Giftcards</p>
+                                            </li>
+                                            <li>
+                                                <h1>{viewGamecreditTotal.length} GCredits</h1>
+                                                <p>Total Listed Game Credits</p>
+                                            </li><br /><br />
+                                            <li>
+                                                <h1>0 Stocks</h1>
+                                                <p>Total Overall Stocks</p>
+                                            </li>
+                                            <li>
+                                                <h1>0 Sold</h1>
+                                                <p>Total Sold Stocks</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className="admpcm1ProductlistContent right">
+                                    <div className="admpcm1ProductRight-header">
+                                        <div className="admpcmSearch">
+                                            <div className="admproductSearch">
+                                                <form onSubmit={searchItem}>
+                                                    <input type="text" placeholder='Search Anything Here' value={searchInput} onChange={handleSearch}/>
+                                                    <button type='submit'><FaSearch /></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <span>
+                                            <p>sort by:</p>
+                                            <button onClick={showOrdering}>{sortName}</button>
+                                            <ul className={`sortingSelection ${orderSelect}`}>
+                                                <li onClick={toggleFilternewest}>date</li>
+                                                <li onClick={toggleFiltername}>name</li>
+                                                <li>most ordered</li>
+                                            </ul>
+                                            <h1 onClick={toggleOrder}>{order ? <FaSortAlphaDown id='orderIcon'/> : <FaSortAlphaUp id='orderIcon'/>}</h1>
+                                        </span>
+                                    </div>
+                                    <hr />
+                                    <div className="admpcm1ProductRight-productList">
+                                        <div className="admpcm1Filter">
+                                            <h1>{filterName} <TiArrowSortedDown id='changeFilter' onClick={openFilterchange}/></h1>
+                                            <section className={`admpcmviewFilterby ${filter}`}>
+                                                <p onClick={selectGames}>Games</p>
+                                                <p onClick={selectGCards}>Gift Cards</p>
+                                                <p onClick={selectGCredits}>Game Credits</p>
+                                            </section>
+                                        </div>
+                                        <hr />
+                                        {dataListed === '' &&(
+                                        <div className="admpcm1ProductRight-loader">
+                                            <span class="admpcm1ProductRightloader"></span>
+                                        </div>
+                                        )}
+                                        {dataListed === 'Games' &&(
+                                            <>
+                                            <ul>
+                                            {viewGameTotal.map(game => (
+                                                <li key={game.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${game.game_cover}')no-repeat center`, backgroundSize: 'cover'}} onClick={() => openEditquick(game)}>
+                                                    <div className="prdGameinfo-edit">
+                                                        <section>
+                                                            <Link to={`/Games/${game.game_canonical}`} target='_blank'><button>view game</button></Link>
+                                                            <button onClick={() => handleEditProd(game)}>edit code</button>
+                                                        </section>
+                                                    </div>
+                                                    <div className="prdGameinfo">
+                                                        <h1>{game.game_title}</h1>
+                                                        <p>{game.game_edition}</p>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                            </ul>
+                                            </>
+                                        )}
+                                        {dataListed === 'GCards' &&(
+                                            <>
+                                            <ul>
+                                            {viewGiftcardTotal.map(cards => (
+                                                <li key={cards.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${cards.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}} onClick={() => openEditquick(cards)}>
+                                                    <div className="prdgcDenomination">
+                                                        <h6>${cards.giftcard_denomination}</h6>
+                                                    </div>
+                                                    <div className="prdGameinfo-edit">
+                                                        <section>
+                                                            <Link to={`/Giftcards/${cards.giftcard_canonical}`} target='_blank'><button>view card</button></Link>
+                                                            <button onClick={() => handleEditProd(cards)}>edit code</button>
+                                                        </section>
+                                                    </div>
+                                                    <div className="prdGameinfo">
+                                                        <h1>{cards.giftcard_name}</h1>
+                                                        <p>{cards.giftcard_supplier}</p>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                            </ul>
+                                            </>
+                                        )}
+                                        {dataListed === 'GCredits' &&(
+                                            <>
+                                            <ul>
+                                            {viewGamecreditTotal.map(credits => (
+                                                <li key={credits.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCreditCovers/${credits.gamecredit_cover}')no-repeat center`, backgroundSize: 'cover'}} onClick={() => openEditquick(credits)}>
+                                                    <div className="prdgcDenomination">
+                                                        <h6>${credits.gamecredit_denomination}</h6>
+                                                    </div>
+                                                    <div className="prdGameinfo-edit">
+                                                        <section>
+                                                            <Link to={`/GameCredits/${credits.gamecredit_id}`} target='_blank'><button>view card</button></Link>
+                                                            <button onClick={() => handleEditProd(credits)}>edit code</button>
+                                                        </section>
+                                                    </div>
+                                                    <div className="prdGameinfo">
+                                                        <h1>{credits.gamecredit_name}</h1>
+                                                        <p>{credits.gamecredit_supplier}</p>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                            </ul>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {activeView === 'news' && (
+                        <div className="admpcm1News">
+                            <div className="admpcm1NewsContainer">
+                                <div className="admpcm1NewsHeader">
+                                    <h1>Welcome Admin!</h1>
+                                    <p>Access and add latest news articles here</p>
+                                </div>
+                                <hr />
+                                <div className="admpcm1NewsContents">
+                                    <h1>Add news link here</h1>
+                                    <div className="admpcm1Addnews">
+                                        <section>
+                                            <ul>
+                                                <hr />
+                                                <li>
+                                                    <p>Main News</p>
+                                                    <div className="admpcm1AddnewsInput">
+                                                        <input type="text" value={mainnewsLink} onChange={handleChangeMainNewslinkinput} />
+                                                        {!mainnewsLink ? <IoMdAddCircle id='addNewsbtnIcon'/> : <IoMdCheckmarkCircle id='addNewsbtnIcon'/>}
+                                                    </div>
+                                                </li>
+                                                <hr />
+                                                <li>
+                                                    <p>Sub News</p>
+                                                    {subnewsLink.map(input => (
+                                                        <div className="admpcm1AddnewsInput" key={input.id}>
+                                                            <input
+                                                                type="text"
+                                                                value={input.link}
+                                                                onChange={(e) => handleChangeSubNewsLinkInput(input.id, e.target.value)}
+                                                                required
+                                                            />
+                                                            {!input.link ? <IoMdAddCircle id='addNewsbtnIcon'/> : <IoMdCheckmarkCircle id='addNewsbtnIcon'/> }
+                                                        </div>
+                                                    ))}
+                                                </li>
+                                                <hr />
+                                                <li>
+                                                    <p>Other News</p>
+                                                    <section>
+                                                        {newsLink.map(input => (
+                                                        <div className="admpcm1AddnewsInput" key={input.id}>
+                                                            <input
+                                                                type="text"
+                                                                value={input.link}
+                                                                onChange={(e) => handleChangeNewsLinkInput(input.id, 'link', e.target.value)}
+                                                            />
+                                                            {!input.link ? <IoMdAddCircle id='addNewsbtnIcon'/> : <IoMdCheckmarkCircle id='addNewsbtnIcon'/> }
+                                                        </div>
+                                                        ))}
+                                                    </section>
+                                                    <button type='button' onClick={addNewsLinkInput}>add link input</button>
+                                                </li>
+                                                <hr />
+                                            </ul>
+                                            <div className="submitLinksbtn">
+                                                <button onClick={addNews}>add link</button>
+                                            </div>
+                                        </section>
+                                    </div>
+                                    <div className="newsContentsTable">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th width="25%"><p>News ID</p></th>
+                                                    <th width="55%"><p>News Link</p></th>
+                                                    <th width="10%"><p>Category</p></th>
+                                                    <th width="10%"><p>Function</p></th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <div>
+                                            <table id='linksTable'>
+                                                {dataNewsretrieve&&(
+                                                    <tbody>
+                                                    {dataNewsretrieve.map(link => (
+                                                        <tr key={link.id}>
+                                                            <td width="25%"><p>{link.news_id}</p></td>
+                                                            <td width="55%"><p>{link.link}</p></td>
+                                                            <td width="10%"><p>{link.type}</p></td>
+                                                            <td width="10%"><button onClick={() => deleteNewsLink(link.news_id, link.type)}>Delete</button></td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>)}
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                 </div>
             </section>
         </div>

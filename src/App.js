@@ -5,7 +5,7 @@ import axios from 'axios';
 import { ActivePageProvider } from './Components/Pages/ActivePageContext';
 import CookieBanner from './Components/Pages/CookieBanner';
 import Nav from './Components/Nav'
-// import Footer from './Components/Pages/footer';
+import Footer from './Components/Pages/footer';
 import ScrollToTop from './Components/Pages/ScrollToTop';
 import Admin from './Components/Pages/Admin';
 import Profile from './Components/Pages/Profile';
@@ -18,10 +18,21 @@ import Highlights from './Components/Pages/Highlights';
 import Marketplace from './Components/Pages/Marketplace';
 import Games from './Components/Pages/Games';
 import Game from './Components/Pages/Game';
+import Giftcards from './Components/Pages/Giftcards';
+import Giftcard from './Components/Pages/Giftcard';
+
+import Robux from './Components/Pages/Robux';
 
 
 
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import News from './Components/Pages/News';
+import Success from './Components/Pages/success';
+
+import Underdevelop from './Components/Pages/underdevelop';
+
+
+
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -88,20 +99,29 @@ function App() {
         <Route exact path="/Highlights" element={<Highlights/>}/>
         <Route exact path="/Marketplace" element={<Marketplace/>}/>
         <Route exact path="/Games" element={<Games/>}/>
+        <Route exact path="/News" element={<News/>}/>
         <Route exact path="/Games/:gameCanonical" element={<Game/>}/>
+        <Route exact path="/Giftcards" element={<Giftcards/>}/>
+        <Route exact path="/Giftcards/:giftcardCanonical" element={<Giftcard/>}/>
+        <Route exact path="/GameCredits/Robux" element={<Robux/>}/>
+        {/* <Route exact path="/Giftcard" element={<Giftcard/>}/> */}
         {(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined) ?
         <>
           <Route exact path="/MyProfile" element={<Profile/>}/>
           <Route exact path="/MyFavorites" element={<Favorites/>}/>
           <Route exact path="/MyCart" element={<Cart/>}/>
+          <Route exact path="/success" element={<Success/>}/>
         </>:<Route path="*" element={<Home/>}/>}
         {(getAdminCredentials && userLoggedInState) && <Route path="/Admin" element={<Admin/>}/>}
 
 
 
+        <Route exact path="/AGElite" element={<Underdevelop/>}/>
+        <Route exact path="/ApplyAsSeller" element={<Underdevelop/>}/>
+        <Route exact path="/ContentCreation" element={<Underdevelop/>}/>
         <Route path="*" element={<Home/>}/>
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </div>
     </Router>
     </ActivePageProvider>

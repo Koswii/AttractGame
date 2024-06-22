@@ -345,6 +345,9 @@ h6{
     box-shadow: 0 0 10px black;
     cursor: pointer;
 }
+.mdcpCoverContainer button#emptyCover{
+    opacity: 50%;
+}
 .mdcpCoverContainer button .faIcons{
     margin-right: 5%;
 }
@@ -744,6 +747,9 @@ h6{
     text-align: center;
     cursor: pointer;
 }
+.storySubmit button#emptyStory{
+    opacity: 50%;
+}
 .storySubmit button .faIcons{
     margin-right: 5%;
 }
@@ -833,7 +839,7 @@ section.profilePageContainer.mid{
     align-items: start;
     padding: 2% 10%;
     padding-top: 0;
-    margin-top: -2%;
+    margin-top: -4%;
     position: relative;
     background: black;
     z-index: 2;
@@ -849,8 +855,8 @@ section.profilePageContainer.mid{
     position: relative;
 }
 .ppclProfilePic{
-    height: 20vw;
-    width: 20vw;
+    height: 18vw;
+    width: 18vw;
     overflow: hidden;
     border-radius: 50%;
     background: black;
@@ -863,7 +869,7 @@ section.profilePageContainer.mid{
     cursor: pointer;
     top: 0;
     left: 0;
-    transform: translate(10%, -75%);
+    transform: translate(16%, -75%);
     z-index: 3;
 }
 .ppclProfilePic img{
@@ -1124,7 +1130,7 @@ section.profilePageContainer.mid{
 }
 .postAStory{
     height: 17vw;
-    width: 23%;
+    width: 24%;
     border: solid 2px white;
     border-radius: 1vw;
     overflow: hidden;
@@ -1132,7 +1138,6 @@ section.profilePageContainer.mid{
     justify-content: center;
     align-items: center;
     position: relative;
-    margin-right: 1%;
     cursor: pointer;
 }
 .postAStory img{
@@ -1158,20 +1163,19 @@ section.profilePageContainer.mid{
 }
 .viewAStory{
     height: 17vw;
-    width: 75%;
+    width: 76%;
 }
 .storiesContents{
     height: auto;
     width: 100%;
     display: flex;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: left;
     align-items: top;
 }
 .storiesContents div{
     height: 17vw;
-    width: 11.5vw;
-    /* margin-right: 2%; */
+    width: 12vw;
     border: solid 2px white;
     border-radius: 1vw;
     overflow: hidden;
@@ -1181,6 +1185,7 @@ section.profilePageContainer.mid{
     cursor: pointer;
     position: relative;
     background: black;
+    margin-left: 2%;
 }
 .storiesContents div span{
     position: absolute;
@@ -1274,7 +1279,7 @@ section.profilePageContainer.mid{
     border-radius: 1vw;
 }
 .ppcrpchpNoPost{
-    height: 10vw;
+    height: 15vw;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -1285,16 +1290,183 @@ section.profilePageContainer.mid{
     color: gray;
     opacity: 50%;
 }
+.ppcrpchpNoPost .loader {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: 
+      radial-gradient(farthest-side, gray 94%,#0000) top/8px 8px no-repeat,
+      conic-gradient(#0000 30%, gray);
+    -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+    animation: spinner113 1s infinite linear;
+}
 
-
-
-
-
-
-
-
-
-
+.ppcrProfileContents.myProducts h3{
+    width: 100%;
+    font-size: 1.2vw;
+    font-weight: 400;
+}
+.ppcrpcmpEmpty{
+    height: 19.5vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ppcrpcmpEmpty .loader {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: 
+      radial-gradient(farthest-side, gray 94%,#0000) top/8px 8px no-repeat,
+      conic-gradient(#0000 30%, gray);
+    -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+    animation: spinner113 1s infinite linear;
+}
+.ppcrpcmpEmpty h6{
+    opacity: 50%;
+}
+.ppcrpcmpProducts{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: start;
+    margin-top: 3%;
+    padding-left: 1%;
+}
+.ppcrpcmppContents{
+    height: 16vw;
+    width: 24%;
+    margin-right: 1%;
+    border: solid 2px white;
+    border-radius: 1vw;
+    margin-bottom: 1%;
+    overflow: hidden;
+    position: relative;
+    background: black;
+}
+.ppcrpcmppcPlatform{
+    height: 5vw;
+    width: 5vw;
+    border-radius: 1vw;
+    position: absolute;
+    top: 0.5vw;
+    left: 0.5vw;
+    padding: 3%;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ppcrpcmppcPlatform img{
+    height: 100%;
+}
+.ppcrpcmppcPlatform img[platform='PC']{
+    content: url('../assets/imgs/GamePlatforms/PCGames.png');
+}
+.ppcrpcmppcPlatform img[platform='NintendoSwitch']{
+    content: url('../assets/imgs/GamePlatforms/NintendoSwitch.png');
+}
+.ppcrpcmppcPlatform img[platform='XboxXS']{
+    content: url('../assets/imgs/GamePlatforms/XboxXS.png');
+}
+.ppcrpcmppcPlatform img[platform='XboxOne']{
+    content: url('../assets/imgs/GamePlatforms/XboxOne.png');
+}
+.ppcrpcmppcPlatform img[platform='PlayStation4']{
+    content: url('../assets/imgs/GamePlatforms/PS4.png');
+}
+.ppcrpcmppcPlatform img[platform='PlayStation5']{
+    content: url('../assets/imgs/GamePlatforms/PS5.png');
+}
+.ppcrpcmppcPlatform div{
+    text-align: center;
+}
+.ppcrpcmppcPlatform div h4,
+.ppcrpcmppcPlatform div p{
+    color: black;
+}
+.ppcrpcmppcImage{
+    height: 12vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: black;
+}
+.ppcrpcmppcImage div{
+    height: 4vw;
+    width: 100%;
+    position: absolute;
+    padding: 0 2%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(transparent, black 50%);
+    background-size: cover;
+}
+.ppcrpcmppcImage div h6{
+    height: 3vw;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+.ppcrpcmppcImage img{
+    width: 100%;
+    background: linear-gradient(transparent, black 50%);
+}
+.ppcrpcmppContents span{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ppcrpcmppContents span input{
+    width: 100%;
+    padding: 2% 0;
+    font-size: 0.9vw;
+    text-align: center;
+    position: relative;
+    background: black;
+    border: none;
+    outline: none;
+    color: white;
+}
+.ppcrpcmppContents button{
+    position: absolute;
+    width: 15%;
+    font-size: 1vw;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: solid 1px black;
+    padding: 3% 0;
+    border-radius: 0.5vw;
+    outline: none;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0.5vw;
+    right: 0.5vw;
+}
+.ppcrpcmppContents p{
+    text-align: center;
+    font-size: 0.6vw;
+    color: gray;
+}
 
 
 
@@ -1798,6 +1970,81 @@ section.profilePageContainer.mid{
         border-radius: 2vw;
     }
 
+
+
+
+
+
+
+    .ppcrProfileContents.myProducts h3{
+        text-align: center;
+        font-size: 3vw;
+        margin: 5% 0;
+    }
+    .ppcrpcmpEmpty{
+        height: 25vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .ppcrpcmpEmpty h6 {
+        font-size: 3vw;
+    }
+    .ppcrpcmpProducts{
+        justify-content: space-between;
+        align-items: start;
+        margin-top: 3%;
+        padding: 0;
+    }
+    .ppcrpcmppContents{
+        height: auto;
+        width: 49%;
+        margin-right: 0;
+        border-radius: 3vw;
+        margin-bottom: 2%;
+    }
+    .ppcrpcmppcImage{
+        height: 50vw;
+        width: 100%;
+    }
+    .ppcrpcmppcPlatform{
+        height: 15vw;
+        width: 15vw;
+        border-radius: 2vw;
+        top: 1.5vw;
+        left: 1.5vw;
+        padding: 3%;
+    }
+    .ppcrpcmppcPlatform div h4{
+        font-size: 6vw;
+    }
+    .ppcrpcmppcPlatform div p{
+        font-size: 2vw;
+    }
+    .ppcrpcmppcImage div{
+        height: 15vw;
+    }
+    .ppcrpcmppcImage div h6{
+        height: 15vw;
+        font-size: 3vw;
+        padding-bottom: 2%;
+    }
+    .ppcrpcmppContents button{
+        width: 23%;
+        font-size: 5vw;
+        padding: 5% 3%;
+        border-radius: 2vw;
+        top: 1.5vw;
+        right: 1.5vw;
+    }
+    .ppcrpcmppContents span input{
+        padding: 5% 0;
+        font-size: 3vw;
+    }
+    .ppcrpcmppContents p{
+        display: none;
+    }
 
 
 

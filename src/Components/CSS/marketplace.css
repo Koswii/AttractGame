@@ -29,7 +29,7 @@ h6{
     width: 100%;
     background: black;
     position: relative;
-    padding-bottom: 20vw;
+    padding-bottom: 5vw;
 }
 
 
@@ -273,7 +273,14 @@ section.marketplacePageContainer.mid{
     height: auto;
     width: 100%;
     padding: 1vw 10%;
-    padding-bottom: 10vw;
+}
+section.marketplacePageContainer.mid h4#mppcthTitlesfeatured{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+section.marketplacePageContainer.mid h4#mppcthTitlesfeatured .faIcons{
+    margin-right: 1%;
 }
 section.marketplacePageContainer.mid h4#mppcth4Title{
     display: flex;
@@ -422,19 +429,18 @@ section.marketplacePageContainer.mid h4#mppcth4Title .faIcons{
 
 
 
-section.marketplacePageContainer.mid h4#mppcmh4Title{
+section.marketplacePageContainer.mid h4#mppcmhTitles{
     display: flex;
     justify-content: left;
     align-items: center;
 }
-section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
+section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     margin-right: 1%;
 }
 .mpPageContentMid2{
     height: auto;
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: top;
@@ -590,8 +596,10 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     line-height: 1vw;
     font-size: 1vw;
 }
-.mppcm2GameDetails div button#mppcm2GDHeart,
-.mppcm2GameDetails div button#mppcm2GDCart{
+.mppcm2GameDetails div button#mppcm2GDHRemove,
+.mppcm2GameDetails div button#mppcm2GDAdd,
+.mppcm2GameDetails div button#mppcm2GDCart,
+.mppcm2GameDetails div button#mppcm2GDAddedCart{
     font-size: 1.8vw;
     line-height: 1vw;
     background: none;
@@ -600,7 +608,12 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     color: white;
     cursor: pointer;
 }
-
+.mppcm2GameDetails div button#mppcm2GDHRemove{
+    color: red;
+}
+.mppcm2GameDetails div button#mppcm2GDAddedCart{
+    color: gold;
+}
 
 
 .mppContentMid2Dummy{
@@ -693,6 +706,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     display: flex;
     justify-content: right;
     align-items: center;
+    margin-bottom: 10%;
 }
 .mpPageContentM2ShowMore a{
     width: 20%;
@@ -721,7 +735,6 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     justify-content: center;
     align-items: center;
     box-shadow: 0 0 10px gray;
-    margin-top: 10%;
     margin-bottom: 2%;
     border-radius: 1vw;
     padding: 2%;
@@ -760,7 +773,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     justify-content: right;
     align-items: center;
 }
-.mppcm4GiftCard div button{
+.mppcm4GiftCard div a{
     padding: 2% 10%;
     border: solid 2px white;
     border-radius: 50px;
@@ -769,8 +782,9 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     font-size: 0.7vw;
     color: white;
     cursor: pointer;
+    text-decoration: none;
 }
-.mppcm4GiftCard div button:hover{
+.mppcm4GiftCard div a:hover{
     background: white;
     color: black;
     transition: 400ms ease;
@@ -781,6 +795,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     display: flex;
     justify-content: space-between;
     align-items: top;
+    margin-bottom: 10%;
 }
 .mppcm5Join.left{
     height: auto;
@@ -872,12 +887,70 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
 
 
 
-
-
-
-
-
-
+.mpPageContentMid6{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: top;
+    margin-top: 2%;
+}
+.mppContentMid6{
+    height: 20vw;
+    width: 19%;
+    margin-bottom: 2%;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    overflow: hidden;
+    transition: 400ms ease;
+}
+.mppContentMid6:hover{
+    transform: translateY(-15px);
+    transition: 400ms ease;
+    box-shadow: 0 0 20px white;
+}
+.mppContentMid6 img{
+    width: 100%;
+}
+.mppContentMid6Dummy{
+    height: 20vw;
+    width: 19%;
+    margin-bottom: 2%;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+.mpPageContentMid6.mobile{
+    display: none;
+}
+.mpPageContentMid7{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: top;
+    margin-top: 2%;
+}
 
 
 
@@ -908,7 +981,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     }
 
 
-    section.marketplacePageContainer.mid h4#mppcth4Title{
+    section.marketplacePageContainer.mid h4#mppcthTitlesfeatured{
         display: none;
     }
     .mpPageContentTop{
@@ -926,7 +999,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     .mpPageContentMid1{
         display: none;
     }
-    section.marketplacePageContainer.mid h4#mppcmh4Title{
+    section.marketplacePageContainer.mid h4#mppcmhTitles{
         font-size: 5vw;
     }
     .mpPageContentMid2.website{
@@ -988,12 +1061,15 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     .mppcm2GameDetails div #mppcm2GDView h5{
         font-size: 3.5vw;
     }
-    .mppcm2GameDetails div button#mppcm2GDHeart,
-    .mppcm2GameDetails div button#mppcm2GDCart{
+    .mppcm2GameDetails div button#mppcm2GDHRemove,
+    .mppcm2GameDetails div button#mppcm2GDAdd,
+    .mppcm2GameDetails div button#mppcm2GDCart,
+    .mppcm2GameDetails div button#mppcm2GDAddedCart{
         font-size: 6vw;
     }
     .mpPageContentM2ShowMore{
-        margin: 5% 0;
+        margin-top: 5%;
+        margin-bottom: 15%;
     }
     .mpPageContentM2ShowMore a{
         width: 50%;
@@ -1014,7 +1090,6 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
         justify-content: center;
         align-items: center;
         box-shadow: 0 0 10px gray;
-        margin-top: 15%;
         margin-bottom: 2%;
         border-radius: 3vw;
         padding: 5% 2%;
@@ -1042,7 +1117,7 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     .mppcm4GiftCard p{
         font-size: 2.3vw;
     }
-    .mppcm4GiftCard div button{
+    .mppcm4GiftCard div a{
         padding: 2% 10%;
         font-size: 2.3vw;
     }
@@ -1077,8 +1152,20 @@ section.marketplacePageContainer.mid h4#mppcmh4Title .faIcons{
     }
 
 
-
-
+    .mpPageContentMid6.website{
+        display: none;
+    }
+    .mpPageContentMid6.mobile{
+        display: flex;
+    }
+    .mppContentMid6,
+    .mppContentMid6Dummy{
+        height: 60vw;
+        width: 49%;
+        margin-bottom: 2%;
+        border-radius: 1vw;
+        border-radius: 3vw;
+    }
 }
 
 

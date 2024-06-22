@@ -239,7 +239,7 @@ const UserStoryModal = ({setAddPostStory}) => {
                             {!userStorySubmitting ? 
                             <button type='submit'><FaRegImages className='faIcons'/> ADD STORY</button>
                             :<button type='button'>UPLOADING...</button>}</>:<>
-                            <button type='button'>ADD STORY</button> 
+                            <button id='emptyStory' type='button'>ADD STORY</button> 
                             </>}
                         </div>
                     </form>

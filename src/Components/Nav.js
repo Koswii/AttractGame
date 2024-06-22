@@ -20,10 +20,18 @@ import {
 } from "react-icons/md";
 import { 
   TbUserSquareRounded,
+  TbShoppingCartPlus,
+  TbShoppingCartFilled,
   TbHeartFilled,
   TbShoppingCartBolt,
+  TbCalendarEvent, 
   TbLogout 
 } from "react-icons/tb";
+import { 
+  RiVerifiedBadgeFill,
+  RiSparklingFill,
+  RiImageEditLine    
+} from "react-icons/ri";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useActivePage } from './Pages/ActivePageContext';
@@ -73,6 +81,7 @@ const Nav = () => {
   const [viewRegForm, setViewRegForm] = useState(false);
   const [viewRegFormRes, setViewRegFormRes] = useState(false);
   const [viewLoginForm, setViewLoginForm] = useState(false);
+  const [viewProfileBtn, setViewProfileBtn] = useState(false);
   const [viewUserCredentials, setViewUserCredentials] = useState(false);
   const [viewAdminCredentials, setViewAdminCredentials] = useState(false);
 
@@ -112,11 +121,19 @@ const Nav = () => {
     setUserBlockedStatus(false);
     setMessageResponse('');
   }
-  const handleCloseModal = () => {
-    setViewRegForm(false)
-    setViewLoginForm(false)
-    setMessageResponse('')
+  const handleViewProfileBtns = () => {
+    setViewProfileBtn(true)
+    const timer = setTimeout(() => {
+      setViewProfileBtn(false);
+    }, 5000);
   }
+  const handleCloseModal = () => {
+    setViewProfileBtn(false);
+    setViewRegForm(false);
+    setViewLoginForm(false);
+    setMessageResponse('');
+  }
+  
 
   const handleCaptchaComplete = (isCorrect) => {
     setCaptchaComplete(isCorrect);
@@ -319,8 +336,8 @@ const Nav = () => {
   };
 
   const { activePage, setActivePage } = useActivePage();
-
   const handleNavigation = (page, path) => {
+    setViewProfileBtn(false);
     setActivePage(page);
     navigate(path);
   };
@@ -360,7 +377,7 @@ const Nav = () => {
       {!viewUserCredentials ? <>
         {viewRegForm &&
         <div className="navContainerModal">
-          <div className="navContentModal">
+          <div className="navContentModal register">
             <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
             <form id='userRegistraionFormContainer' className="navRegistrationContent" onSubmit={handleUserRegister}>
               <h6>REGISTER AN ACCOUNT</h6>
@@ -411,7 +428,7 @@ const Nav = () => {
       {!viewUserCredentials ? <>
         {viewLoginForm &&
         <div className="navContainerModal">
-            <div className="navContentModal">
+            <div className="navContentModal login">
               <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
               <form id='userLoginFormContainer' className="navRegistrationContent" onSubmit={handleUserLogin}>
                 <h6>LOGIN ACCOUNT</h6>
@@ -490,7 +507,7 @@ const Nav = () => {
             <Link to="/News" onClick={() => handleNavigation('news', '/News')}><h6>NEWS</h6></Link>
             <Link to="/Marketplace" onClick={() => handleNavigation('marketplace', '/Marketplace')}><h6>MARKETPLACE</h6></Link>
             <Link to="/Games" onClick={() => handleNavigation('games', '/Games')}><h6>GAMES</h6></Link>
-            <Link onClick={() => handleNavigation('giftcards', '/Giftcards')}><h6>GIFTCARDS</h6></Link>
+            <Link to="/Giftcards" onClick={() => handleNavigation('giftcards', '/Giftcards')}><h6>GIFTCARDS</h6></Link>
           </div>
           <div className="navContent right">
             {(!userLoggedIn) ? <div className='userPublicBtn'>
@@ -499,14 +516,26 @@ const Nav = () => {
             </div>:
             <div className='userProfileBtn'>
               {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
-              <Link id='agHeartBtn' to='/MyFavorites' onClick={() => handleNavigation('favorites', '/MyFavorites')}><TbHeartFilled className='faIcons'/></Link>
-              <Link id='agCartBtn' to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}><TbShoppingCartBolt className='faIcons'/></Link>
-              <Link id='agProfileBtn' to='/MyProfile'>
+              <Link id='agAddToCartBtn' to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}><TbShoppingCartFilled className='faIcons'/></Link>
+              <div className='agProfileSelect' onClick={handleViewProfileBtns}>
                 {dataUser.profileimg ?
                 <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt="" />:
                 <img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
-              </Link>
-              <a id='agLogoutBtn' onClick={handleUserLogout}><TbLogout /></a>
+              </div>
+              {viewProfileBtn && <div className="profileModalContainer">
+                <Link id='agProfileBtn' to='/MyProfile' onClick={() => handleNavigation('profile', '/Profile')}>
+                  <div>
+                    {dataUser.profileimg ?
+                    <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt="" />:
+                    <img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
+                  </div>
+                  <h6>{dataUser.username}</h6>
+                </Link>
+                <Link id='agHeartBtn' to='/MyFavorites' onClick={() => handleNavigation('favorites', '/MyFavorites')}><TbHeartFilled className='faIcons'/> My Favorites</Link>
+                <Link id='agCartBtn' to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}><TbShoppingCartFilled className='faIcons'/> My Cart</Link>
+                <Link id='agCartBtn'><TbCalendarEvent className='faIcons'/> Events</Link>
+                <a id='agLogoutBtn' onClick={handleUserLogout}><TbLogout className='faIcons'/> Logout</a>
+              </div>}
             </div>}
           </div>
         </div>
@@ -518,14 +547,55 @@ const Nav = () => {
           <button className={`${activePage === 'giftcards' ? 'active' : ''}`} onClick={() => handleNavigation('giftcards', '/Giftcards')}><h5><MdOutlineCardGiftcard className='faIcons'/></h5></button>
           {/* <button className={localStorage.getItem('crypto')} onClick={handleClickCrypto}><h5><MdCurrencyBitcoin className='faIcons'/></h5></button> */}
           {(userLoggedIn) && 
-            <Link id='agProfileBtn' to='/MyProfile' className={`${activePage === 'profile' ? 'active' : ''}`} onClick={() => handleNavigation('profile', '/Profile')}>
+            <div className='agProfileBtnMobile' onClick={handleViewProfileBtns}>
               {dataUser.profileimg ? 
               <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt=""/>
               :<img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
-            </Link>
+            </div>
           }
         </div>
         <hr />
+        {viewProfileBtn && 
+        <div className="navContainer profileSelect">
+          <div className="navContentprofileSel">
+            <h4>MENU</h4>
+            <Link id='agProfileBtn' to='/MyProfile' onClick={() => handleNavigation('profile', '/Profile')}>
+              <div>
+                {dataUser.profileimg ?
+                <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt="" />:
+                <img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
+              </div>
+              <h6>{dataUser.username}</h6>
+            </Link>
+            <div className="navContentpsAGElite">
+              {dataUser.verified ?
+                <Link id="ncpsagelite"><RiVerifiedBadgeFill className='faIcons'/> VERIFIED AG ELITE</Link>:
+                <Link id="ncpsagelite"><RiSparklingFill className='faIcons'/>APPLY AG ELITE</Link>
+              }
+            </div>
+            <div className="navContentpsMyProfile">
+              <Link to='/MyFavorites' onClick={() => handleNavigation('favorites', '/MyFavorites')}>
+                <h4><TbHeartFilled className='faIcons'/></h4>
+                <h6>My Favorites</h6>
+              </Link>
+              <Link to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}>
+                <h4><TbShoppingCartFilled className='faIcons'/></h4>
+                <h6>My Cart</h6>
+              </Link>
+              <Link>
+                <h4><TbCalendarEvent className='faIcons'/></h4>
+                <h6>Events</h6>
+              </Link>
+              <Link>
+                {/* <h4><TbHeartFilled className='faIcons'/></h4>
+                <h6>My Favorites</h6> */}
+              </Link>
+            </div>
+            <div className="navContentpsMyLogout">
+              <button onClick={handleUserLogout}><TbLogout className='faIcons'/> Logout</button>
+            </div>
+          </div>
+        </div>}
       </div>
     </nav>
   ); 

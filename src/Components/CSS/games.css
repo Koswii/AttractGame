@@ -29,7 +29,7 @@ h6{
     width: 100%;
     background: black;
     position: relative;
-    padding-bottom: 20vw;
+    padding-bottom: 5vw;
 }
 
 
@@ -97,9 +97,7 @@ section.gamesPageContainer.top{
     margin: 2% 0;
     display: flex;
     justify-content: space-between;
-    align-items: center;
 }
-
 
 
 
@@ -117,9 +115,81 @@ section.gamesPageContainer.top{
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
+    align-self: start;
+}
+.gmspContentTop2.left section{
+    position: relative;
+}
+.filterSelectgames h1{
+    font-size: 1vw;
+    margin-bottom: 5%;
+}
+.filterSelectgames ul{
+    list-style: none;
+    color: white;
+    margin-top: 5%;
+    padding: 5%;
+    border: 2px solid white;
+    border-radius: 1vw;
+}.filterSelectgames ul li {
+    color: white;
+    padding: .5vw;
+    border-radius: .5vw;
+    cursor: pointer;
+    font-size: .8vw;
+    font-weight: 600;
+    display: flex;
     align-items: center;
+    position: relative;
 }
 
+.filterSelectgames ul li input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 1vw;
+    height: 1vw;
+    border: .1vw solid white;
+    background: none;
+    cursor: pointer;
+    margin: 0 .5vw 0 0;
+    position: relative;
+}
+
+.filterSelectgames ul li input[type="checkbox"]::after {
+    content: "";
+    display: block;
+    width: 0.5vw;
+    height: 1vw;
+    border: solid white;
+    border-width: 0 0.2vw 0.2vw 0;
+    transform: rotate(45deg);
+    position: absolute;
+    top: -.5vw;
+    left: 0.2vw;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.filterSelectgames ul li input[type="checkbox"]:checked::after {
+    opacity: 1;
+}
+
+.filterSelectgames ul li:hover {
+    background: gray;
+    color: white;
+}
+.filterSelectgames h6{
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-top: 10%;
+}
+.filterSelectgames h6 #filterIconcheck{
+    margin-right: 3%;
+    font-size: 1.5vw;
+}
 
 
 
@@ -175,6 +245,7 @@ section.gamesPageContainer.top{
 }
 .gmspct2gPlatform img{
     height: 3vw;
+    width: 3vw;
 }
 .gmspct2gPlatform img[platform='PC']{
     content: url('../assets/imgs/GamePlatforms/PCGames.png');
@@ -241,6 +312,9 @@ section.gamesPageContainer.top{
 }
 .gmspct2gDetails div button#gmspct2gdRemoveFav{
     color: red;
+}
+.gmspct2gDetails div button#gmspct2gdCartAdded{
+    color: gold;
 }
 
 .gmspct2GameDummy{

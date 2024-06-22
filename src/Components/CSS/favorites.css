@@ -29,7 +29,7 @@ h6{
     width: 100%;
     background: black;
     position: relative;
-    padding-bottom: 20vw;
+    padding-bottom: 5vw;
 }
 
 
@@ -83,7 +83,6 @@ section.favPageContainer.mid{
     height: auto;
     width: 100%;
     padding: 0 15%;
-    padding-bottom: 10vw;
 }
 .fcpcMid1Container{
     height: auto;
@@ -214,7 +213,9 @@ section.favPageContainer.mid{
     font-size: 1vw;
 }
 .fcpcm1cGameDetails div button#fcpcm1cGDHeart,
-.fcpcm1cGameDetails div button#fcpcm1cGDCart{
+.fcpcm1cGameDetails div button#fcpcm1cGDCart,
+.fcpcm1cGameDetails div button#fcpcm1cGDAddedToCart,
+.fcpcm1cGameDetails div button#fcpcm1cGDAddToCart{
     font-size: 1.5vw;
     line-height: 1vw;
     background: none;
@@ -226,7 +227,9 @@ section.favPageContainer.mid{
 .fcpcm1cGameDetails div button#fcpcm1cGDHeart{
     color: red;
 }
-
+.fcpcm1cGameDetails div button#fcpcm1cGDAddedToCart{
+    color: gold;
+}
 
 
 .fcpcMi1CDummy{
@@ -258,7 +261,7 @@ section.favPageContainer.mid{
 }
 
 .fcpcMid1ContainerEmpty{
-    height: 20vw;
+    height: 70vh;
     width: 100%;
     text-align: center;
     display: flex;
@@ -343,7 +346,9 @@ section.favPageContainer.mid{
         font-size: 4vw;
     }
     .fcpcm1cGameDetails div button#fcpcm1cGDHeart,
-    .fcpcm1cGameDetails div button#fcpcm1cGDCart{
+    .fcpcm1cGameDetails div button#fcpcm1cGDCart,
+    .fcpcm1cGameDetails div button#fcpcm1cGDAddedToCart,
+    .fcpcm1cGameDetails div button#fcpcm1cGDAddToCart{
         font-size: 6vw;
     }
 
