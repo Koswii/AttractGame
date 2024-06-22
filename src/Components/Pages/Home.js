@@ -420,7 +420,7 @@ const Home = () => {
             <div className="lndpcmid7content right">
               <img src={require('../assets/imgs/PlayRoblox.gif')} alt="" />
             </div>
-          </div>
+          </div> 
         </div>
         <div className="lndPageContent mid8">
           <h4>START YOUR GAMING ADVENTURE</h4>
