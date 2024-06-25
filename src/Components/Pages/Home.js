@@ -148,12 +148,35 @@ const Home = () => {
   const [searchGame,setSearchgame] = useState()
   const [searching,setSearching] = useState(false)
   const [viewfiltergame,setViewfiltergame] = useState()
+  const [previewAllgame,setpreviewAllgame] = useState()
   
 
   const handleSearch = (event) => {
     setSearchinput(event.target.value)
     if (event.target.value === '') {
       setSearching(false)
+    } else {
+      setSearching(true)
+      const unique = filterUniqueData(viewAllGiftcard)
+      unique.sort((a, b) => {
+        if (a.giftcard_name < b.giftcard_name) return -1;
+        if (a.giftcard_name > b.giftcard_name) return 1;
+        return 0;
+      });
+      const searchGiftcard = unique.filter(item => {
+        return Object.values(item).some(value => 
+            typeof value === 'string' && value.toLowerCase().includes(event.target.value.toLowerCase())
+        );
+      });
+      const searchGames = viewAllGames.filter(item => {
+        return Object.values(item).some(value => 
+            typeof value === 'string' && value.toLowerCase().includes(event.target.value.toLowerCase())
+        );
+      });
+
+      setpreviewAllgame(searchGames)
+      setSearchgc(searchGiftcard)
+      setSearchgame(searchGames)
     }
   }
   const filterUniqueData = (giftcards) => {
@@ -170,34 +193,12 @@ const Home = () => {
     return uniqueRecords;
 };
 
-  const searchItem = (e) => {
-    e.preventDefault()
-    setSearching(true)
-    const unique = filterUniqueData(viewAllGiftcard)
-    unique.sort((a, b) => {
-      if (a.giftcard_name < b.giftcard_name) return -1;
-      if (a.giftcard_name > b.giftcard_name) return 1;
-      return 0;
-    });
-    const searchGiftcard = unique.filter(item => {
-      return Object.values(item).some(value => 
-          typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
-      );
-    });
-    const searchGames = viewAllGames.filter(item => {
-      return Object.values(item).some(value => 
-          typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
-      );
-    });
-    setSearchgc(searchGiftcard)
-    setSearchgame(searchGames)
-  }
   const filtertoTrending = () => {
     if (searching === false) {
       const filteredData = viewAllGames.filter(item => item.game_category === 'Trending')
       setViewfiltergame(filteredData)
     } else {
-      const filteredData = searchGame.filter(item => item.game_category === 'Trending')
+      const filteredData = previewAllgame.filter(item => item.game_category === 'Trending')
       setSearchgame(filteredData)
       setViewfiltergame()
     }
@@ -208,7 +209,7 @@ const Home = () => {
       console.log(filteredData);
       setViewfiltergame(filteredData)
     } else {
-      const filteredData = searchGame.filter(item => item.game_category === 'Classic')
+      const filteredData = previewAllgame.filter(item => item.game_category === 'Classic')
       console.log(filteredData);
       setSearchgame(filteredData)
       setViewfiltergame()
@@ -220,7 +221,7 @@ const Home = () => {
       console.log(filteredData);
       setViewfiltergame(filteredData)
     } else {
-      const filteredData = searchGame.filter(item => item.game_category === 'Hot')
+      const filteredData = previewAllgame.filter(item => item.game_category === 'Hot')
       console.log(filteredData);
       setSearchgame(filteredData)
       setViewfiltergame()
@@ -249,12 +250,10 @@ const Home = () => {
       </section>
       <section className="landingPageContainer mid">
         <div className="lndPageContent mid1">
-          <form onSubmit={searchItem}>
-            <div className='lndpcSearch'>
-              <h6><FaSearch className='faIcons'/></h6>
-              <input type="text" placeholder='Search Games / Voucher / Giftcards / Crypto / Merchandise' onChange={handleSearch}/>
-            </div>
-          </form>
+          <div className='lndpcSearch'>
+            <h6><FaSearch className='faIcons'/></h6>
+            <input type="text" placeholder='Search Games / Voucher / Giftcards / Crypto / Merchandise' onChange={handleSearch}/>
+          </div>
           <div className="lndpcFeatures">
             <Link>
               <h6><FaTicketAlt className='faIcons'/></h6>
@@ -293,9 +292,11 @@ const Home = () => {
                           <ul>
                             <section>
                               {viewfiltergame.map(items => (
-                                <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                                  <h1>{items.game_title}</h1>
-                                </li>
+                                <Link key={items.id} to={`/Games/${items.game_canonical}`}>
+                                  <li style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                    <h1>{items.game_title}</h1>
+                                  </li>
+                                </Link>
                               ))}
                             </section>
                           </ul>
@@ -311,39 +312,39 @@ const Home = () => {
           <>
             {searchGc &&(
               <>
-                <div className="searchedItemresults">
-                  <div className="searchItems-container">
-                    <div className="searchItems-contents">
-                      {searchGame &&(
-                        <>
-                          {searchGame.length !== 0 &&(<h3><TbDeviceGamepad2 className='faIcons'/> Games</h3>)}
-                          <div className='seachContentsItems'>
-                            <section>
-                              {searchGame.map(items => (
-                                <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                                  <h1>{items.game_title}</h1>
-                                </li>
-                              ))}
-                            </section>
-                          </div>
-                        </>
-                      )}
-                      {searchGc &&(
-                        <>
-                          {searchGc.length !== 0 &&(<h3><TbGiftCard className='faIcons'/>GiftCards</h3>)}
-                          <div className='seachContentsItems'>
-                            <section>
-                              {searchGc.map(items => (
-                                <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${items.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                                  <h1>{items.giftcard_name}</h1>
-                                </li>
-                              ))}
-                            </section>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
+                <div className="lndpcm2ContentResults">
+                  {searchGame &&(
+                    <>
+                      {searchGame.length !== 0 &&(<h5>Games</h5>)}
+                      <div className='searchItemContainers'>
+                        {searchGame.map(items => (
+                          <Link key={items.id} to={`/Games/${items.game_canonical}`}>
+                            <div className='searchItemContents' style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                              <div className="searchICName">
+                                <h6>{items.game_title}</h6>
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                  {searchGc &&(
+                    <>
+                      {searchGc.length !== 0 &&(<h5>GiftCards</h5>)}
+                      <div className='searchItemContainers'>
+                        {searchGc.map(items => (
+                          <Link key={items.id} to={`/Giftcards/${items.giftcard_canonical}`}>
+                            <div className='searchItemContents' style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${items.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                              <div className="searchICName">
+                                <h6>{items.giftcard_name}</h6>
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
               </>
             )}

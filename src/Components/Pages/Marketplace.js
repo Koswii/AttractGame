@@ -384,10 +384,10 @@ const Marketplace = () => {
         <div className='mainContainer marketplace'>
             <section className="marketplacePageContainer top">
                 <div className="mpPageContentTopNav">
-                    <div className='mppctn left'>
+                    {/* <div className='mppctn left'>
                         <h6><FaSearch className='faIcons'/></h6>
                         <input type="text" placeholder='Search Games / Vouchers / Giftcards / Crypto / Merchandise'/>
-                    </div>
+                    </div> */}
                     <div className="mppctn right">
                         <span>
                             <h6>0 <TbShoppingCartPlus  className='faIcons'/></h6>
