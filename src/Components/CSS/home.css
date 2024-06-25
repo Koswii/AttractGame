@@ -117,13 +117,10 @@ section.landingPageContainer.mid{
     display: flex;
     justify-content: space-between;
 }
-.lndPageContent.mid1 form{
+.lndpcSearch{
     height: auto;
     width: 100%;
     margin-bottom: 2%;
-}
-.lndpcSearch{
-    height: auto;
     display: flex;
     justify-content: left;
     align-items: center;
@@ -166,13 +163,6 @@ section.landingPageContainer.mid{
 
 .searchedItemresults{
     margin-top: 2%;
-}
-.searchItems-contents h1{
-    font-size: 1vw;
-    margin-bottom: 1%;
-}
-.searchItems-contents h1 span{
-    text-decoration: underline;
 }
 .searchItems-contents ul{
     list-style: none;
