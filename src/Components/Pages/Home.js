@@ -146,16 +146,34 @@ const Home = () => {
   const [searchInput, setSearchinput] = useState()
   const [searchGc,setSearchgc] = useState()
   const [searchGame,setSearchgame] = useState()
+  const [passGc,setGetpassgc] = useState()
   
 
   const handleSearch = (event) => {
       setSearchinput(event.target.value)
   }
+  const filterUniqueData = (giftcards) => {
+    const uniqueRecords = [];
+    const recordMap = {};
 
+    giftcards.forEach(record => {
+        if (!recordMap[record.giftcard_name]) {
+            recordMap[record.giftcard_name] = true;
+            uniqueRecords.push(record);
+        }
+    });
+
+    return uniqueRecords;
+};
   const searchItem = (e) => {
     e.preventDefault()
-    const itemlist = [...viewAGData1,...viewAllGiftcard]
-    const searchGiftcard = viewAllGiftcard.filter(item => {
+    const unique = filterUniqueData(viewAllGiftcard)
+    unique.sort((a, b) => {
+      if (a.giftcard_name < b.giftcard_name) return -1;
+      if (a.giftcard_name > b.giftcard_name) return 1;
+      return 0;
+    });
+    const searchGiftcard = unique.filter(item => {
       return Object.values(item).some(value => 
           typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
       );
@@ -236,7 +254,11 @@ const Home = () => {
               <div className="searchItems-container">
                 <div className="searchItems-contents">
                   <h1>Result for: <span>{searchInput}</span></h1>
-                  <p>Games</p>
+                  {searchGame &&(
+                    <>
+                      {searchGame.length !== 0 &&(<p>Games</p>)}
+                    </>
+                  )}
                   <ul>
                     <section>
                       {searchGame.map(items => (
@@ -246,12 +268,16 @@ const Home = () => {
                       ))}
                     </section>
                   </ul>
-                  {searchGc &&(<p>GiftCards</p>)}
+                  {searchGc &&(
+                    <>
+                      {searchGc.length !== 0 &&(<p>GiftCards</p>)}
+                    </>
+                  )}
                   <ul>
                     <section>
                       {searchGc.map(items => (
                         <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${items.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                          <h1>{items.giftcard_name} {items.giftcard_denomination}</h1>
+                          <h1>{items.giftcard_name}</h1>
                         </li>
                       ))}
                     </section>
