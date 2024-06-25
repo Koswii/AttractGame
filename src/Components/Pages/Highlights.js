@@ -76,12 +76,12 @@ const AGUserStoryAPI = process.env.REACT_APP_AG_FETCH_STORY_API;
 const PAGE_SIZE = 5; // Number of items to fetch per page
 const isWithinLastTwelveHours = (date) => {
     const twelveHoursAgo = new Date();
-    twelveHoursAgo.setHours(twelveHoursAgo.getHours() - 12);
+    twelveHoursAgo.setHours(twelveHoursAgo.getHours() - 72);
     return new Date(date) >= twelveHoursAgo;
 };
 const isWithinLastThreeDays = (date) => {
     const threeDaysAgo = new Date();
-    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+    threeDaysAgo.setDate(threeDaysAgo.getDate() - 30);
     return new Date(date) >= threeDaysAgo;
 };
 const fetchUserData = async (url, filterFunc) => {
@@ -253,59 +253,59 @@ const Highlights = () => {
     const [dislikeCount, setDislikeCount] = useState(null);
     const [clickCount, setClickCount] = useState(0);
     
-    const toggleLike = async (userId, postId) => {
-        setClickCount(clickCount + 1);
-        if (clickCount <= 5) {
-            try {
-                const likeData = {
-                    postId: postId,
-                    customerId: userId,
-                    isLiked: !isLike,
-                };
-                console.log(likeData);
-                const response = await axios.post('https://engeenx.com/agAddLike.php', likeData); // Replace with your actual PHP endpoint URL
-                const updatedLikes = response.data;
-                console.log(updatedLikes);
+    // const toggleLike = async (userId, postId) => {
+    //     setClickCount(clickCount + 1);
+    //     if (clickCount <= 5) {
+    //         try {
+    //             const likeData = {
+    //                 postId: postId,
+    //                 customerId: userId,
+    //                 isLiked: !isLike,
+    //             };
+    //             console.log(likeData);
+    //             const response = await axios.post('https://engeenx.com/agAddLike.php', likeData); // Replace with your actual PHP endpoint URL
+    //             const updatedLikes = response.data;
+    //             console.log(updatedLikes);
 
-                const updatedPosts = viewFetchPost.map((post) => {
-                    if (post.user_post_id === postId) {
-                        return {
-                            ...post,
-                            likes: updatedLikes.likeCount,
-                            isLiked: !isLike,
-                        };
-                    }
-                    return post;
-                });
-                setViewFetchPost(updatedPosts);
-                setIsLike(!isLike);
-                setLikeCount(updatedLikes.likeCount);
+    //             const updatedPosts = viewFetchPost.map((post) => {
+    //                 if (post.user_post_id === postId) {
+    //                     return {
+    //                         ...post,
+    //                         likes: updatedLikes.likeCount,
+    //                         isLiked: !isLike,
+    //                     };
+    //                 }
+    //                 return post;
+    //             });
+    //             setViewFetchPost(updatedPosts);
+    //             setIsLike(!isLike);
+    //             setLikeCount(updatedLikes.likeCount);
 
-                if (isDislike) {
-                    setIsDislike(false);
-                    setDislikeCount(dislikeCount - 1);
-                }
-            } catch (error) {
-                console.error("Error toggling like:", error);
-            }
-        } else {
-            alert('Click limit exceeded');
-        }
-    };
+    //             if (isDislike) {
+    //                 setIsDislike(false);
+    //                 setDislikeCount(dislikeCount - 1);
+    //             }
+    //         } catch (error) {
+    //             console.error("Error toggling like:", error);
+    //         }
+    //     } else {
+    //         alert('Click limit exceeded');
+    //     }
+    // };
 
-    const toggleDislike = (postId, userId) => {
-        if (isDislike) {
-            setIsDislike(false);
-            setDislikeCount(dislikeCount - 1);
-        } else {
-            setIsDislike(true);
-            setDislikeCount(dislikeCount + 1);
-            if (isLike) {
-                setIsLike(false);
-                setLikeCount(likeCount - 1);
-            }
-        }
-    };
+    // const toggleDislike = (postId, userId) => {
+    //     if (isDislike) {
+    //         setIsDislike(false);
+    //         setDislikeCount(dislikeCount - 1);
+    //     } else {
+    //         setIsDislike(true);
+    //         setDislikeCount(dislikeCount + 1);
+    //         if (isLike) {
+    //             setIsLike(false);
+    //             setLikeCount(likeCount - 1);
+    //         }
+    //     }
+    // };
 
     console.log(viewFetchPost);
     return (
@@ -556,7 +556,7 @@ const Highlights = () => {
                                 <YouTubeEmbed videoUrl={post.user_post_youtube} />
                             </div>:<></>}
                             <div className="hldpcMid1-rct-container">
-                                <div className="hldpcMid1-rct-containents">
+                                {/* <div className="hldpcMid1-rct-containents">
                                     <ul>
                                         <li id='likereactIcons'>
                                             {isLike === post.user_post_id ? (
@@ -577,7 +577,7 @@ const Highlights = () => {
                                             <p>1</p>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     ))}
