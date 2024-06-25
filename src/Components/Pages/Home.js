@@ -148,12 +148,35 @@ const Home = () => {
   const [searchGame,setSearchgame] = useState()
   const [searching,setSearching] = useState(false)
   const [viewfiltergame,setViewfiltergame] = useState()
+  const [previewAllgame,setpreviewAllgame] = useState()
   
 
   const handleSearch = (event) => {
     setSearchinput(event.target.value)
     if (event.target.value === '') {
       setSearching(false)
+    } else {
+      setSearching(true)
+      const unique = filterUniqueData(viewAllGiftcard)
+      unique.sort((a, b) => {
+        if (a.giftcard_name < b.giftcard_name) return -1;
+        if (a.giftcard_name > b.giftcard_name) return 1;
+        return 0;
+      });
+      const searchGiftcard = unique.filter(item => {
+        return Object.values(item).some(value => 
+            typeof value === 'string' && value.toLowerCase().includes(event.target.value.toLowerCase())
+        );
+      });
+      const searchGames = viewAllGames.filter(item => {
+        return Object.values(item).some(value => 
+            typeof value === 'string' && value.toLowerCase().includes(event.target.value.toLowerCase())
+        );
+      });
+
+      setpreviewAllgame(searchGames)
+      setSearchgc(searchGiftcard)
+      setSearchgame(searchGames)
     }
   }
   const filterUniqueData = (giftcards) => {
@@ -170,34 +193,12 @@ const Home = () => {
     return uniqueRecords;
 };
 
-  const searchItem = (e) => {
-    e.preventDefault()
-    setSearching(true)
-    const unique = filterUniqueData(viewAllGiftcard)
-    unique.sort((a, b) => {
-      if (a.giftcard_name < b.giftcard_name) return -1;
-      if (a.giftcard_name > b.giftcard_name) return 1;
-      return 0;
-    });
-    const searchGiftcard = unique.filter(item => {
-      return Object.values(item).some(value => 
-          typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
-      );
-    });
-    const searchGames = viewAllGames.filter(item => {
-      return Object.values(item).some(value => 
-          typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
-      );
-    });
-    setSearchgc(searchGiftcard)
-    setSearchgame(searchGames)
-  }
   const filtertoTrending = () => {
     if (searching === false) {
       const filteredData = viewAllGames.filter(item => item.game_category === 'Trending')
       setViewfiltergame(filteredData)
     } else {
-      const filteredData = searchGame.filter(item => item.game_category === 'Trending')
+      const filteredData = previewAllgame.filter(item => item.game_category === 'Trending')
       setSearchgame(filteredData)
       setViewfiltergame()
     }
@@ -208,7 +209,7 @@ const Home = () => {
       console.log(filteredData);
       setViewfiltergame(filteredData)
     } else {
-      const filteredData = searchGame.filter(item => item.game_category === 'Classic')
+      const filteredData = previewAllgame.filter(item => item.game_category === 'Classic')
       console.log(filteredData);
       setSearchgame(filteredData)
       setViewfiltergame()
@@ -220,7 +221,7 @@ const Home = () => {
       console.log(filteredData);
       setViewfiltergame(filteredData)
     } else {
-      const filteredData = searchGame.filter(item => item.game_category === 'Hot')
+      const filteredData = previewAllgame.filter(item => item.game_category === 'Hot')
       console.log(filteredData);
       setSearchgame(filteredData)
       setViewfiltergame()
@@ -249,12 +250,10 @@ const Home = () => {
       </section>
       <section className="landingPageContainer mid">
         <div className="lndPageContent mid1">
-          <form onSubmit={searchItem}>
-            <div className='lndpcSearch'>
-              <h6><FaSearch className='faIcons'/></h6>
-              <input type="text" placeholder='Search Games / Voucher / Giftcards / Crypto / Merchandise' onChange={handleSearch}/>
-            </div>
-          </form>
+          <div className='lndpcSearch'>
+            <h6><FaSearch className='faIcons'/></h6>
+            <input type="text" placeholder='Search Games / Voucher / Giftcards / Crypto / Merchandise' onChange={handleSearch}/>
+          </div>
           <div className="lndpcFeatures">
             <Link>
               <h6><FaTicketAlt className='faIcons'/></h6>
@@ -287,7 +286,6 @@ const Home = () => {
                 <div className="searchedItemresults">
                   <div className="searchItems-container">
                     <div className="searchItems-contents">
-                      <h1>Result for: <span>{searchInput}</span></h1>
                       {viewfiltergame &&(
                         <>
                           {viewfiltergame.length !== 0 &&(<p>Games</p>)}
@@ -317,7 +315,6 @@ const Home = () => {
                 <div className="searchedItemresults">
                   <div className="searchItems-container">
                     <div className="searchItems-contents">
-                      <h1>Result for: <span>{searchInput}</span></h1>
                       {searchGame &&(
                         <>
                           {searchGame.length !== 0 &&(<p>Games</p>)}
