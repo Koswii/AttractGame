@@ -936,6 +936,7 @@ section.landingPageContainer.mid{
         font-size: 2.3vw;
     }
     .lndpcTop.right span a{
+        width: 50%;
         padding: 1% 10%;
         font-size: 3vw;
         opacity: 100%;
