@@ -57,6 +57,9 @@ section.cartPageContainer.top{
     border-radius: 50%;
     border: solid 2px white;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .cartpctProfile.left img{
     height: 100%;

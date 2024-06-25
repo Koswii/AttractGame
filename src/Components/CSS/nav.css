@@ -834,6 +834,64 @@ nav{
     }
 
 
+    .footerContents{
+        display: block;
+        padding: 10% 5%;
+    }
+    .footContent.left{
+        height: auto;
+        width: 100%;
+        text-align: center;
+    }
+    .footContent.left img{
+        height: 10vw;
+        display: flex;
+        margin: 0 auto;
+        margin-bottom: 5%;
+    }
+    .footContent.left h6{
+        font-size: 3vw;
+    }
+    .footContent.left p{
+        display: none;
+    }
+    .footContent.left br{
+        display: none;
+    }
+    .ftcSocialsContainer{
+        justify-content: center;
+    }
+    .ftcSocialsContainer a{
+        color: white;
+        font-size: 5vw;
+        margin: 5% 3%;
+    }
+    .footContent.right{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .footContent.right div{
+        height: auto;
+        width: 30%;
+        text-align: center;
+    }
+    .footContent.right div h6{
+        font-size: 3vw;
+    }
+    .footContent.right div a{
+        font-size: 2.5vw;
+    }
+    .footerContentsBottom{
+        justify-content: center;
+    }
+    .footerContentsBottom p{
+        font-size: 3vw;
+    }
+
+
+
+
 
 
 

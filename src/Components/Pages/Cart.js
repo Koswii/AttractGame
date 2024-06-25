@@ -50,62 +50,65 @@ const fetchCartProducts = async (
         const gameProducts = filteredData.filter(product => product.ag_product_type === 'Game');
         const giftcardProducts = filteredData.filter(product => product.ag_product_type === 'Giftcard');
         const gamecreditProducts = filteredData.filter(product => product.ag_product_type === 'Game Credit');
-        
+
         try {
-            const [userGameDataResponse, userGiftcardDataResponse, userGamecreditDataResponse, stockListResponse] = await Promise.all([
-                axios.get(AGGamesListAPI),
-                axios.get(AGGiftcardsListAPI),
-                axios.get(AGGameCreditsListAPI),
-                axios.get(AGStocksListAPI)
-            ]);
+          const [userGameDataResponse, userGiftcardDataResponse, userGamecreditDataResponse, stockListResponse] = await Promise.all([
+            axios.get(AGGamesListAPI),
+            axios.get(AGGiftcardsListAPI),
+            axios.get(AGGameCreditsListAPI),
+            axios.get(AGStocksListAPI)
+          ]);
 
-            const stockListData = stockListResponse.data;
-            const calculateEffectivePrice = (price, discount) => {
-                return price - (price * (discount / 100));
-            };
 
-            const cartGameWithData = gameProducts.map(product => {
-                const productData = userGameDataResponse.data.find(game => game.game_canonical === product.ag_product_id);
-                const stock = stockListData.find(stock => stock.ag_product_id === product.ag_product_id);
-                const stockCount = stockListData.filter(stock => stock.ag_product_id === product.ag_product_id).length;
-                const effectivePrice = calculateEffectivePrice(stock.ag_product_price, stock.ag_product_discount);
-                const numberOfOrder = 1;
-                return { ...product, productData , stock, stockCount, effectivePrice, numberOfOrder, totalPrice: effectivePrice};
-            });
-            const cartGiftcardWithData = giftcardProducts.map(product => {
-                const productData = userGiftcardDataResponse.data.find(giftcard => giftcard.giftcard_id === product.ag_product_id);
-                const stock = stockListData.find(stock => stock.ag_product_id === product.ag_product_id);
-                const stockCount = stockListData.filter(stock => stock.ag_product_id === product.ag_product_id).length;
-                const effectivePrice = calculateEffectivePrice(stock.ag_product_price, stock.ag_product_discount);
-                const numberOfOrder = 1;
-                return { ...product, productData , stock, stockCount, effectivePrice, numberOfOrder, totalPrice: effectivePrice};
-            });
-            const cartGamecreditWithData = gamecreditProducts.map(product => {
-                const productData = userGamecreditDataResponse.data.find(gamecredit => gamecredit.gamecredit_id === product.ag_product_id);
-                const stock = stockListData.find(stock => stock.ag_product_id === product.ag_product_id);
-                const stockCount = stockListData.filter(stock => stock.ag_product_id === product.ag_product_id).length;
-                const effectivePrice = calculateEffectivePrice(stock.ag_product_price, stock.ag_product_discount);
-                const numberOfOrder = 1;
-                return { ...product, productData , stock, stockCount, effectivePrice, numberOfOrder, totalPrice: effectivePrice};
-            });
+          const stockListData = stockListResponse.data;
+          const calculateEffectivePrice = (price, discount) => {
+              return price - (price * (discount / 100));
+          };
 
-            const combinedDataGame = [...cartGameWithData];
-            const combinedDataGiftcard = [...cartGiftcardWithData];
-            const combinedDataGamecredit = [...cartGamecreditWithData];
-            const combinedAllData = [...cartGameWithData, ...cartGiftcardWithData, ...combinedDataGamecredit];
+          const cartGameWithData = gameProducts.map(product => {
+              const productData = userGameDataResponse.data.find(game => game.game_canonical === product.ag_product_id);
+              const stock = stockListData.find(stock => stock.ag_product_id === product.ag_product_id);
+              const stockCount = stockListData.filter(stock => stock.ag_product_id === product.ag_product_id).length;
+              const effectivePrice = calculateEffectivePrice(stock.ag_product_price, stock.ag_product_discount);
+              const numberOfOrder = 1;
+              return { ...product, productData , stock, stockCount, effectivePrice, numberOfOrder, totalPrice: effectivePrice};
+          });
+          const cartGiftcardWithData = giftcardProducts.map(product => {
+              const productData = userGiftcardDataResponse.data.find(giftcard => giftcard.giftcard_id === product.ag_product_id);
+              const stock = stockListData.find(stock => stock.ag_product_id === product.ag_product_id);
+              const stockCount = stockListData.filter(stock => stock.ag_product_id === product.ag_product_id).length;
+              const effectivePrice = calculateEffectivePrice(stock.ag_product_price, stock.ag_product_discount);
+              const numberOfOrder = 1;
+              return { ...product, productData , stock, stockCount, effectivePrice, numberOfOrder, totalPrice: effectivePrice};
+          });
+          const cartGamecreditWithData = gamecreditProducts.map(product => {
+              const productData = userGamecreditDataResponse.data.find(gamecredit => gamecredit.gamecredit_id === product.ag_product_id);
+              const stock = stockListData.find(stock => stock.ag_product_id === product.ag_product_id);
+              const stockCount = stockListData.filter(stock => stock.ag_product_id === product.ag_product_id).length;
+              const effectivePrice = calculateEffectivePrice(stock.ag_product_price, stock.ag_product_discount);
+              const numberOfOrder = 1;
+              return { ...product, productData , stock, stockCount, effectivePrice, numberOfOrder, totalPrice: effectivePrice};
+          });
 
-            setAllProductDetails(combinedAllData);
-            setGameProductDetails(combinedDataGame);
-            setGiftcardProductDetails(combinedDataGiftcard);
-            setGamecreditProductDetails(combinedDataGamecredit);
+          const combinedDataGame = [...cartGameWithData];
+          const combinedDataGiftcard = [...cartGiftcardWithData];
+          const combinedDataGamecredit = [...cartGamecreditWithData];
+          const combinedAllData = [...cartGameWithData, ...cartGiftcardWithData, ...combinedDataGamecredit];
+
+          setAllProductDetails(combinedAllData);
+          setGameProductDetails(combinedDataGame);
+          setGiftcardProductDetails(combinedDataGiftcard);
+          setGamecreditProductDetails(combinedDataGamecredit);
+
+
 
         } catch (userDataError) {
-            console.error('Error fetching user data:', userDataError);
+          console.error('Error fetching user data:', userDataError);
         }
     } catch (storyError) {
-        console.error('Error fetching stories:', storyError);
+      console.error('Error fetching stories:', storyError);
     } finally {
-        setLoadingProducts(false);
+      setLoadingProducts(false);
     }
 };
 
@@ -124,19 +127,19 @@ const Cart = () => {
     const [loadingProducts, setLoadingProducts] = useState(false);
     const [orderQuantities, setOrderQuantities] = useState({});
 
-    useEffect(() => {
-        const fetchUserProfile = () => {
-            const storedProfileData = localStorage.getItem('profileDataJSON')
-            if(storedProfileData) {
-                const parsedProfileData = JSON.parse(storedProfileData);
-                setUserLoggedData(JSON.parse(storedProfileData))
-            }
-        }
 
-        fetchUserProfile();
-        fetchCartProducts(setAllProductDetails, setGameProductDetails, setGiftcardProductDetails, setGamecreditProductDetails, setLoadingProducts);
-        
-        
+    useEffect(() => {
+      const fetchUserProfile = () => {
+          const storedProfileData = localStorage.getItem('profileDataJSON')
+          if(storedProfileData) {
+              const parsedProfileData = JSON.parse(storedProfileData);
+              setUserLoggedData(JSON.parse(storedProfileData))
+          }
+      }
+
+      fetchUserProfile();
+      fetchCartProducts(setAllProductDetails, setGameProductDetails, setGiftcardProductDetails, setGamecreditProductDetails, setLoadingProducts);
+
     }, []);
     useEffect(() => {
       const interval = setInterval(() => {
@@ -155,7 +158,11 @@ const Cart = () => {
   
       return () => clearInterval(interval);
     }, [allPrductsDetails]);
+
     
+    // console.log(allPrductsDetails);
+
+
     const handleQuantityChange = (productId, value) => {
       setOrderQuantities(prevQuantities => ({
           ...prevQuantities,
@@ -458,6 +465,7 @@ const Cart = () => {
           console.log(error);
       });
     };
+
 
 
     if(successtransaction){

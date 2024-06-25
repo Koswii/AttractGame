@@ -84,6 +84,7 @@ section.landingPageContainer.top video{
 .lndpcTop.right span a{
     color: white;
     text-decoration: none;
+    text-align: center;
     padding: 1% 5%;
     border-radius: 50px;
     border: solid 2px white;
@@ -478,67 +479,95 @@ section.landingPageContainer.mid{
 
 .lndPageContent.mid5{
     height: auto;
-    width: 100%;
+    width: 40%;
 }
-.lndpcGameListed{
+.lndpcm4Content.left #lndpcm4crMobileMob{
+    display: none;
+}
+.lndpcm4cStats{
     height: auto;
+    width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     align-items: center;
+    margin: 3% 0;
+}
+.lndpcm4cStats div{
     text-align: center;
-}
-.lndpcGameListed span{
-    width: 24%;
-    padding: 2%;
-    border: solid 1px white;
+    padding: 3% 5%;
+    margin-right: 5%;
     border-radius: 1vw;
+    border: solid 2px white;
 }
-.lndpcGameListed span h3{
-    line-height: 3vw;
-    margin-bottom: 2%;
+.lndpcm4cStats div h3{
+    font-size: 3vw;
 }
-.lndpcGameListed span h3 .faIcons{
-    line-height: 3vw;
+.lndpcm4Content.left h4{
     font-size: 2.5vw;
 }
-
-
-
-.lndPageContent.mid6{
-    height: auto;
-    width: 100%;
-    margin-top: 2%;
-    border-radius: 1vw;
-    overflow: hidden;
+.lndpcm4Content.left p{
+    margin: 2% 0;
 }
-.lndPageContent.mid6 a{
+.lndpcm4lBtns{
     height: auto;
     width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 3% 0;
+}
+.lndpcm4lBtns a{
+    margin-right: 3%;
+    color: white;
+    text-decoration: none;
+    padding: 1% 5%;
+    border-radius: 50px;
+    border: solid 2px white;
+    font-size: 0.9vw;
+    opacity: 50%;
+}
+.lndpcm4lBtns a:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+    box-shadow: 0 0 10px white;
+}
+.lndpcm4Content.right{
+    height: auto;
+    width: 50%;
+    position: relative;
+    background: url('../assets/imgs/Shadow.png') no-repeat center;
+    background-size: contain;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.lndPageContent.mid6 a img{
-    height: auto;
-    width: 100%;
+.lndpcm4Content.right img#lndpcm4crMobile{
+    height: 40vw;
+    animation: bounce2 5s infinite linear;
 }
 
 
 
-.lndPageContent.mid7{
+
+
+
+
+
+
+.lndPageContent.mid5{
     height: auto;
     width: 100%;
 }
-.lndPageContent.mid7 h4{
+.lndPageContent.mid5 h4{
     display: flex;
     justify-content: left;
     align-items: center;
 }
-.lndPageContent.mid7 h4 .faIcons {
+.lndPageContent.mid5 h4 .faIcons {
     margin-right: 1%;
     color: gold;
 }
-.lndpcFeaturedGiftCards {
+.lndpcmid5Giftcard{
     height: auto;
     width: 100%;
     display: flex;
@@ -551,83 +580,69 @@ section.landingPageContainer.mid{
     height: 20vw;
     width: 19%;
     overflow: hidden;
-    position: relative;
-    margin-bottom: 1%;
-    border-radius: 1vw;
-    cursor: pointer;
-    transition: 400ms ease;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 2% 0;
 }
-.lndpcfgc.mob{
-    display: none;
-}
-.lndpcfgc img {
+.lndpcmid5Container{
     height: auto;
     width: 100%;
-    border-radius: 1vw;
-}
-.lndpcfgcRobloxBinance{
-    height: auto;
-    width: 49%;
-    display: flex;
-    justify-content: space-between;
-    align-items: top;
-    border-radius: 1vw;
-    overflow: hidden;
-    box-shadow: 0 0 10px gray;
-    margin-top: 1%;
-    text-decoration: none;
-}
-.lndpcfgcrb.left{
-    height: auto;
-    width: 60%;
-    padding: 10% 5%;
-}
-.lndpcfgcrb.left h4{
-    font-size: 3vw;
-    line-height: 3vw;
     display: flex;
     justify-content: left;
-    align-items: end;
+    align-items: top;
+    padding: 2% 0;
+    overflow-x: scroll;
+    position: relative;
 }
-.lndpcfgcrb.left p{
-    margin: 5% 0;
-}
-.lndpcfgcrb.left a{
-    color: white;
-}
-
-
-.lndpcfgcrb.right{
+.lndpcm5Content{
     height: auto;
-    width: 40%;
+    width: 100vw;
+    padding: 1%;
+    background: rgba(40, 40, 40, 0.5);
+    border-radius: 1vw;
+    box-shadow: 0 0 10px rgb(50, 50, 50);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    margin: 0 1%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2%;
+    border-radius: 1vw;
+    text-decoration: none;
+    transition: 400ms ease;
+}
+.lndpcm5Content:hover{
+    transition: 400ms ease;
+    box-shadow: 0 0 20px gray;
+}
+.lndpcm5c.left{
+    height: auto;
+    margin-right: 5%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.lndpcfgcrb.right img{
-    height: auto;
-    width: 100%;
+.lndpcm5c.left img{
+    height: 20vw;
     border-radius: 1vw;
-    box-shadow: 0 0 10px white;
+    box-shadow: 0 0 10px gray;
 }
-.lndpcfgcViewMore{
+.lndpcm5c.right{
     height: auto;
-    width: 100%;
+    width: 18vw;
+}
+.lndpcm5c.right h3{
+    height: 7vw;
+    line-height: 3vw;
+    font-size: 2.5vw;
     display: flex;
-    justify-content: right;
+    justify-content: left;
+    align-items: center;
 }
-.lndpcfgcViewMore a{
-    color: white;
-    text-decoration: none;
-    font-size: 1vw;
-    opacity: 50%;
-}
-.lndpcfgcViewMore a:hover{
-    opacity: 100%;
-    transition: 400ms ease;
+.lndpcm5c.right p{
+    margin: 2% 0;
 }
 .lndpcfgcDummy{
     height: 20vw;
@@ -648,17 +663,26 @@ section.landingPageContainer.mid{
 
 
 
-.lndPageContent.mid8{
+
+
+
+
+
+
+
+
+
+.lndPageContent.mid6{
     height: auto;
     width: 100%;
-    margin-top: 5%;
+    margin: 5% 0;
 }
-.lndPageContent.mid8 h4{
+.lndPageContent.mid6 h4{
     display: flex;
     justify-content: left;
     align-items: center;
 }
-.lndPageContent.mid8 h4 .faIcons {
+.lndPageContent.mid6 h4 .faIcons {
     margin-right: 1%;
     color: orange;
 }
@@ -701,6 +725,81 @@ section.landingPageContainer.mid{
     transition: 400ms ease;
     background: white;
     color: black;
+}
+
+
+
+
+.lndPageContent.mid7{
+    height: auto;
+    width: 100%;
+    margin: 15% 0;
+}
+.lndpcmid7Container{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.lndpcmid7content.left{
+    height: auto;
+    width: 40%;
+}
+
+.lndpcmid7content.left img{
+    height: 8vw;
+}
+.lndpcmid7content.left p{
+    margin-bottom: 5%;
+}
+.lndpcmid7content.left a{
+    color: white;
+    text-decoration: none;
+    padding: 1% 5%;
+    border-radius: 50px;
+    border: solid 2px white;
+    font-size: 0.9vw;
+    opacity: 50%;
+}
+.lndpcmid7content.left a:hover{
+    box-shadow: 0 0 10px white;
+    opacity: 100%;
+    transition: 400ms ease;
+    background: white;
+    color: black;
+}
+.lndpcmid7content.right{
+    height: auto;
+    width: 55%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lndpcmid7content.right img{
+    height: auto;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.lndPageContent.mid8{
+    height: auto;
+    width: 100%;
+    text-align: center;
+    margin-top: 25%;
 }
 
 
@@ -856,154 +955,134 @@ section.landingPageContainer.mid{
     section.landingPageContainer.mid{
         padding: 5%;
     }
-    .lndpcSearch{
-        width: 100%;
-        padding: 0.7% 2%;
-        border-radius: 2vw;
-    }
-    .lndpcSearch h6{
-        font-size: 3vw;
-    }
-    .lndpcSearch input{
-        font-size: 3vw;
-    }
-    .lndpcFeatures{
+    .lndPageContent.mid1{
         display: none;
     }
-    .lndpcMid2{
+    .lndPageContent.mid2{
         display: none;
     }
     .lndPageContent.mid3{
         margin: 5% 0;
     }
-    .lndPageContent.mid3 h4{
-        font-size: 4vw;
-    }
     .lndpcFeaturedGames{
-        margin: 2% 0;
+        margin: 0;
+        display: block;
     }
-    .lndpcFeaturedGames.website{
-        display: none;
+    .lndpcfgWeb.left{
+        height: 105vw;
+        width: 100%;
     }
-    .lndpcFeaturedGames.mobile{
-        display: flex;
+    .lndpcfgwlImage{
+        height: auto;
+        width: 70%;
+        border-radius: 3vw;
+        box-shadow: 0 0 30px gray;
     }
-    .lndpcfgames{
-        height: 60vw;
-        display: flex;
-        flex-wrap: wrap;
-        width: 48%;
-        border-radius: 2vw;
-        margin: 1%;
-    }
-    .lndpcfgames:hover{
-        transform: translateY(0);
-    }
-    .lndpcfgPlatform{
-        top: 1vw;
-        left: 1vw;
-        border-radius: 2vw;
-    }
-    .lndpcfgPlatform img{
-        height: 10vw;
-        width: 10vw;
-    }
-    .lndpcfgDetails h6{
+    .lndpcfgwlDetails p{
         font-size: 3vw;
     }
-    .lndpcfgDetails p{
-        font-size: 2.3vw;
-        margin-top: 5%;
+    .lndpcfgWeb.right{
+        width: 100%;
+        text-align: center;
     }
-    .lndpcfgViewMore a{
+    .lndpcfgWeb.right h5{
+        font-size: 3vw;
+    }
+    .lndpcfgWeb.right h3{
+        line-height: 8vw;
+        font-size: 8vw;
+    }
+    .lndpcfgWeb.right p{
+        margin: 3% 0;
+        padding-left: 0%;
+        font-size: 3vw;
+    }
+    .lndpcMarqueeContainer img{
+        height: 10vw;
+    }
+    .lndpcfgWeb.right a{
+        padding: 1% 10%;
         font-size: 3vw;
         opacity: 100%;
     }
-    .lndpcAGElite{
+
+
+    .lndPageContent.mid4{
+        margin: 30% 0;
+    }
+    .lndpcmid4Container{
+        display: block;
+    }
+    .lndpcm4Content.left{
         height: auto;
         width: 100%;
-        position: relative;
-        padding: 7% 5%;
-        background: url('../assets/imgs/LandingImg/AGStarFeature.png') no-repeat center right;
-        background-size: cover;
-        border-radius: 3vw;
+        text-align: center;
+    }
+    .lndpcm4Content.left #lndpcm4crMobileMob{
+        display: block;
+        height: 70vw;
+        margin: 0 auto;
+        margin-bottom: 10%;
+    }
+    .lndpcm4cStats{
+        justify-content: space-evenly;
         margin: 5% 0;
     }
-    .lndpcageSocials p{
-        font-size: 3vw;
+    .lndpcm4cStats div{
+        text-align: center;
+        padding: 3% 5%;
+        margin-right: 0%;
+        border-radius: 3vw;
     }
-    .lndpcageSocials a{
-        margin-left: 3%;
-        color: white;
-        font-size: 3.5vw;
-    }
-    .lndpcAGElite h3{
-        font-size: 9vw;
-    }
-    .lndpcAGElite h6{
+    .lndpcm4Content.left h4{
         font-size: 4vw;
     }
-    .lndPageContent.mid4 img{
-        display: none;
+    .lndpcm4Content.left h3{
+        font-size: 8vw;
     }
-    .lndpcageJoin a{
-        margin-top: 20%;
+    .lndpcm4Content.left p{
+        margin: 2% 0;
+        font-size: 3vw;
+    }
+    .lndpcm4lBtns{
+        justify-content: center;
+    }
+    .lndpcm4lBtns a{
+        margin: 0 3%;
         padding: 1% 10%;
-        border-radius: 50px;
-        font-size: 3vw;
-    }
-    .lndpcGameListed{
-        flex-wrap: wrap;
-    }
-    .lndpcGameListed span{
-        height: auto;
-        width: 48%;
-        margin: 1%;
-        padding: 5% 2%;
-        border-radius: 2vw;
-    }
-    .lndpcGameListed span h3{
-        line-height: 8vw;
-        font-size: 9vw;
-    }
-    .lndpcGameListed span h3 .faIcons{
-        line-height: 3vw;
-        font-size: 7vw;
-    }
-    .lndpcGameListed span h6{
-        font-size: 2.3vw;
-    }
-    .lndPageContent.mid7{
-        margin: 15% 0;
-    }
-    .lndPageContent.mid7 h4{
-        font-size: 4vw;
-    }
-    .lndpcfgc.web{
-        display: none;
-    }
-    .lndpcfgc.mob{
-        display: flex;
-    }
-    .lndpcfgc {
-        height: 60vw;
-        width: 48%;
-        margin: 1%;
-        border-radius: 3vw;
-    }
-    .lndpcfgcDummy.mob{
-        display: block;
-        height: 60vw;
-        width: 48%;
-        margin: 1%;
-        border-radius: 3vw;
-    }
-    .lndpcfgcRobloxBinance{
-        display: none;
-    }
-    .lndpcfgcViewMore a{
         font-size: 3vw;
         opacity: 100%;
+    }
+    .lndpcm4Content.right{
+        display: none;
+    }
+
+
+    .lndPageContent.mid5 h4{
+        font-size: 4vw;
+    }
+    .lndpcm5Content{
+        border-radius: 3vw;
+        margin: 0;
+        margin-right: 5%;
+    }
+    .lndpcm5Content p{
+        font-size: 2.3vw;
+    }
+    .lndpcm5c.left img{
+        height: 50vw;
+        border-radius: 3vw;
+    }
+    .lndpcm5c.right{
+        width: 50vw;
+    }
+    .lndpcm5c.right h3{
+        height: 15vw;
+        line-height: 6vw;
+        font-size: 5vw;
+    }
+    .lndpcm5c.right p{
+        font-size: 2.5vw;
     }
     .lndpcfgamesDummy{
         height: 60vw;
@@ -1035,7 +1114,8 @@ section.landingPageContainer.mid{
 
 
 
-    .lndPageContent.mid8 h4{
+
+    .lndPageContent.mid6 h4{
         font-size: 4vw;
     }
     .lndpcFeaturedCrypto{
@@ -1060,9 +1140,62 @@ section.landingPageContainer.mid{
         font-size: 2.3vw;
     }
     .lndpcfCrypto a{
+        padding: 1% 10%;
         font-size: 3vw;
-        padding: 2% 10%;
+        opacity: 100%;
     }
+
+
+
+
+
+
+    .lndpcmid7Container{
+        display: block;
+        margin: 30% 0;
+    }
+    .lndpcmid7content.left{
+        text-align: center;
+        width: 100%;
+    }
+    .lndpcmid7content.left img{
+        height: 20vw;
+    }
+    .lndpcmid7content.left p{
+        font-size: 2.3vw;
+        margin-bottom: 5%;
+    }
+    .lndpcmid7content.left a{
+        padding: 1% 10%;
+        font-size: 3vw;
+        opacity: 100%;
+    }
+    .lndpcmid7content.right{
+        display: none;
+    }
+
+
+
+
+    .lndPageContent.mid8 h4{
+        font-size: 5vw;
+    }
+    .lndPageContent.mid8 h5{
+        font-size: 4vw;
+    }
+    .lndPageContent.mid8 br{
+        display: none;
+    }
+    .lndPageContent.mid8 p{
+        font-size: 2.3vw;
+        margin-top: 3%;
+    }
+
+
+
+
+
+
 
 
 
