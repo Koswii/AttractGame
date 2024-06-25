@@ -254,44 +254,30 @@ const Highlights = () => {
     const [clickCount, setClickCount] = useState(0);
     
     const toggleLike = async (userId, postId) => {
-        setClickCount(clickCount + 1);
-        if (clickCount <= 5) {
-            try {
-                const likeData = {
-                    postId: postId,
-                    customerId: userId,
-                    isLiked: !isLike,
-                };
-                console.log(likeData);
-                const response = await axios.post('https://engeenx.com/agAddLike.php', likeData); // Replace with your actual PHP endpoint URL
-                const updatedLikes = response.data;
-                console.log(updatedLikes);
+        try {
+            const likeData = {
+                postId: postId,
+                customerId: userId,
+                isLiked: !isLike, // Ensure isLike variable is correctly defined
+            };
+    
 
-                const updatedPosts = viewFetchPost.map((post) => {
-                    if (post.user_post_id === postId) {
-                        return {
-                            ...post,
-                            likes: updatedLikes.likeCount,
-                            isLiked: !isLike,
-                        };
-                    }
-                    return post;
-                });
-                setViewFetchPost(updatedPosts);
-                setIsLike(!isLike);
-                setLikeCount(updatedLikes.likeCount);
-
-                if (isDislike) {
-                    setIsDislike(false);
-                    setDislikeCount(dislikeCount - 1);
-                }
-            } catch (error) {
-                console.error("Error toggling like:", error);
+            console.log(likeData);
+            const response = await axios.post('http://localhost/ag/like.php', likeData); // Replace with your actual PHP endpoint URL
+            const updatedLikes = response.data;
+            console.log("Updated Likes:", updatedLikes);
+    
+            // Update UI or state based on updatedLikes
+            // Example: update viewFetchPost, setIsLike, setLikeCount, etc.
+    
+        } catch (error) {
+            console.error("Error toggling like:", error);
+            if (error.response && error.response.data) {
+                console.error("Server error:", error.response.data.error);
             }
-        } else {
-            alert('Click limit exceeded');
         }
     };
+    
 
     const toggleDislike = (postId, userId) => {
         if (isDislike) {
@@ -307,7 +293,6 @@ const Highlights = () => {
         }
     };
 
-    console.log(viewFetchPost);
     return (
         <div className='mainContainer highlights'>
             {addPostStory && <UserStoryModal setAddPostStory={setAddPostStory}/>}
