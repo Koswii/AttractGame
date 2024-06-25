@@ -294,9 +294,11 @@ const Home = () => {
                           <ul>
                             <section>
                               {viewfiltergame.map(items => (
-                                <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                                  <h1>{items.game_title}</h1>
-                                </li>
+                                <Link key={items.id} to={`/Games/${items.game_canonical}`}>
+                                  <li style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                    <h1>{items.game_title}</h1>
+                                  </li>
+                                </Link>
                               ))}
                             </section>
                           </ul>
@@ -322,9 +324,11 @@ const Home = () => {
                           <ul>
                             <section>
                               {searchGame.map(items => (
-                                <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                                  <h1>{items.game_title}</h1>
-                                </li>
+                                <Link key={items.id} to={`/Games/${items.game_canonical}`}>
+                                  <li style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                    <h1>{items.game_title}</h1>
+                                  </li>
+                                </Link>
                               ))}
                             </section>
                           </ul>
@@ -336,9 +340,11 @@ const Home = () => {
                           <ul>
                             <section>
                               {searchGc.map(items => (
-                                <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${items.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                                  <h1>{items.giftcard_name}</h1>
-                                </li>
+                                <Link key={items.id} to={`/Giftcards/${items.giftcard_canonical}`}>
+                                  <li  style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${items.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                    <h1>{items.giftcard_name}</h1>
+                                  </li>
+                                </Link>
                               ))}
                             </section>
                           </ul>
