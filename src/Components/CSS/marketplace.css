@@ -46,7 +46,7 @@ section.marketplacePageContainer.top{
     height: auto;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
     align-items: center;
     margin: 5% 0;
 }

@@ -312,43 +312,39 @@ const Home = () => {
           <>
             {searchGc &&(
               <>
-                <div className="searchedItemresults">
-                  <div className="searchItems-container">
-                    <div className="searchItems-contents">
-                      {searchGame &&(
-                        <>
-                          {searchGame.length !== 0 &&(<p>Games</p>)}
-                          <ul>
-                            <section>
-                              {searchGame.map(items => (
-                                <Link key={items.id} to={`/Games/${items.game_canonical}`}>
-                                  <li style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                                    <h1>{items.game_title}</h1>
-                                  </li>
-                                </Link>
-                              ))}
-                            </section>
-                          </ul>
-                        </>
-                      )}
-                      {searchGc &&(
-                        <>
-                          {searchGc.length !== 0 &&(<p>GiftCards</p>)}
-                          <ul>
-                            <section>
-                              {searchGc.map(items => (
-                                <Link key={items.id} to={`/Giftcards/${items.giftcard_canonical}`}>
-                                  <li  style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${items.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                                    <h1>{items.giftcard_name}</h1>
-                                  </li>
-                                </Link>
-                              ))}
-                            </section>
-                          </ul>
-                        </>
-                      )}
-                    </div>
-                  </div>
+                <div className="lndpcm2ContentResults">
+                  {searchGame &&(
+                    <>
+                      {searchGame.length !== 0 &&(<h5>Games</h5>)}
+                      <div className='searchItemContainers'>
+                        {searchGame.map(items => (
+                          <Link key={items.id} to={`/Games/${items.game_canonical}`}>
+                            <div className='searchItemContents' style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                              <div className="searchICName">
+                                <h6>{items.game_title}</h6>
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                  {searchGc &&(
+                    <>
+                      {searchGc.length !== 0 &&(<h5>GiftCards</h5>)}
+                      <div className='searchItemContainers'>
+                        {searchGc.map(items => (
+                          <Link key={items.id} to={`/Giftcards/${items.giftcard_canonical}`}>
+                            <div className='searchItemContents' style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${items.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                              <div className="searchICName">
+                                <h6>{items.giftcard_name}</h6>
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
               </>
             )}
