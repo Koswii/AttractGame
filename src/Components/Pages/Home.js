@@ -287,7 +287,6 @@ const Home = () => {
                 <div className="searchedItemresults">
                   <div className="searchItems-container">
                     <div className="searchItems-contents">
-                      <h1>Result for: <span>{searchInput}</span></h1>
                       {viewfiltergame &&(
                         <>
                           {viewfiltergame.length !== 0 &&(<p>Games</p>)}
@@ -315,11 +314,10 @@ const Home = () => {
                 <div className="searchedItemresults">
                   <div className="searchItems-container">
                     <div className="searchItems-contents">
-                      <h1>Result for: <span>{searchInput}</span></h1>
                       {searchGame &&(
                         <>
-                          {searchGame.length !== 0 &&(<p>Games</p>)}
-                          <ul>
+                          {searchGame.length !== 0 &&(<h3><TbDeviceGamepad2 className='faIcons'/> Games</h3>)}
+                          <div className='seachContentsItems'>
                             <section>
                               {searchGame.map(items => (
                                 <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
@@ -327,13 +325,13 @@ const Home = () => {
                                 </li>
                               ))}
                             </section>
-                          </ul>
+                          </div>
                         </>
                       )}
                       {searchGc &&(
                         <>
-                          {searchGc.length !== 0 &&(<p>GiftCards</p>)}
-                          <ul>
+                          {searchGc.length !== 0 &&(<h3><TbGiftCard className='faIcons'/>GiftCards</h3>)}
+                          <div className='seachContentsItems'>
                             <section>
                               {searchGc.map(items => (
                                 <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${items.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}}>
@@ -341,7 +339,7 @@ const Home = () => {
                                 </li>
                               ))}
                             </section>
-                          </ul>
+                          </div>
                         </>
                       )}
                     </div>

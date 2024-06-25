@@ -167,37 +167,37 @@ section.landingPageContainer.mid{
 .searchedItemresults{
     margin-top: 2%;
 }
-.searchItems-contents h1{
-    font-size: 1vw;
-    margin-bottom: 1%;
-}
-.searchItems-contents h1 span{
-    text-decoration: underline;
-}
-.searchItems-contents ul{
+.seachContentsItems{
     list-style: none;
     display: flex;
     justify-content: center;
     width: 100%;
 }
-.searchItems-contents p{
-    font-size: .8vw;
+.searchItems-contents h3{
+    font-size: 2vw;
     margin: 2% 0;
+    display: flex;
+    justify-content: left;
+    align-items: center;
 }
-.searchItems-contents ul section{
-    column-gap: 1%;
-    columns: 5;
+.searchItems-contents h3 .faIcons{
+    margin-right: 1%;
+}
+.searchContentsItems section{
+    height: auto;
     width: 100%;
-    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    justify-content: left;
 }
-.searchItems-contents ul section li{
+.searchContentsItems section li{
     color: white;
-    height: 20vw;
-    width: 13.5vw;
+    height: 15vw;
+    width: 12.6%;
     padding: .5vw;
     border: solid 2px white;
     border-radius: 1vw;
-    margin-bottom: 2vw;
     break-inside: avoid;
     display: flex;
     align-items: end;
@@ -205,11 +205,9 @@ section.landingPageContainer.mid{
     position: relative;
     box-sizing: border-box;
     cursor: pointer;
+    margin: 0.8%;
 }
-.searchItems-contents ul section li:hover{
-    
-}
-.searchItems-contents ul section li h1{
+.searchContentsItems section li h1{
     font-size: 1vw;
     position: absolute;
     width: 100%;
