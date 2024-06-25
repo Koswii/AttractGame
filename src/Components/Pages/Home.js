@@ -146,11 +146,15 @@ const Home = () => {
   const [searchInput, setSearchinput] = useState()
   const [searchGc,setSearchgc] = useState()
   const [searchGame,setSearchgame] = useState()
-  const [passGc,setGetpassgc] = useState()
+  const [searching,setSearching] = useState(false)
+  const [viewfiltergame,setViewfiltergame] = useState()
   
 
   const handleSearch = (event) => {
-      setSearchinput(event.target.value)
+    setSearchinput(event.target.value)
+    if (event.target.value === '') {
+      setSearching(false)
+    }
   }
   const filterUniqueData = (giftcards) => {
     const uniqueRecords = [];
@@ -165,8 +169,10 @@ const Home = () => {
 
     return uniqueRecords;
 };
+
   const searchItem = (e) => {
     e.preventDefault()
+    setSearching(true)
     const unique = filterUniqueData(viewAllGiftcard)
     unique.sort((a, b) => {
       if (a.giftcard_name < b.giftcard_name) return -1;
@@ -187,12 +193,38 @@ const Home = () => {
     setSearchgame(searchGames)
   }
   const filtertoTrending = () => {
-    const filteredData = searchGame.filter(item => item.game_category === 'Trending')
-    setSearchgame(filteredData)
+    if (searching === false) {
+      const filteredData = viewAllGames.filter(item => item.game_category === 'Trending')
+      setViewfiltergame(filteredData)
+    } else {
+      const filteredData = searchGame.filter(item => item.game_category === 'Trending')
+      setSearchgame(filteredData)
+      setViewfiltergame()
+    }
   }
   const filtertoClassic = () => {
-    const filteredData = searchGame.filter(item => item.game_category === 'Classic')
-    setSearchgame(filteredData)
+    if (searching === false) {
+      const filteredData = viewAllGames.filter(item => item.game_category === 'Classic')
+      console.log(filteredData);
+      setViewfiltergame(filteredData)
+    } else {
+      const filteredData = searchGame.filter(item => item.game_category === 'Classic')
+      console.log(filteredData);
+      setSearchgame(filteredData)
+      setViewfiltergame()
+    }
+  }
+  const filtertoHot = () => {
+    if (searching === false) {
+      const filteredData = viewAllGames.filter(item => item.game_category === 'Hot')
+      console.log(filteredData);
+      setViewfiltergame(filteredData)
+    } else {
+      const filteredData = searchGame.filter(item => item.game_category === 'Hot')
+      console.log(filteredData);
+      setSearchgame(filteredData)
+      setViewfiltergame()
+    }
   }
 
   return (
@@ -240,7 +272,7 @@ const Home = () => {
             <div id='lndpcTrending' onClick={filtertoTrending}>
               <h5>TRENDING GAMES</h5>
             </div>
-            <div id='lndpcHot'>
+            <div id='lndpcHot' onClick={filtertoHot}>
               <h5>HOT GAMES</h5>
             </div>
             <div id='lndpcClassic' onClick={filtertoClassic}>
@@ -248,45 +280,77 @@ const Home = () => {
             </div>
           </div>
         </div>
-        {searchGc&&(
+        {!searching ?
           <>
-            <div className="searchedItemresults">
-              <div className="searchItems-container">
-                <div className="searchItems-contents">
-                  <h1>Result for: <span>{searchInput}</span></h1>
-                  {searchGame &&(
-                    <>
-                      {searchGame.length !== 0 &&(<p>Games</p>)}
-                    </>
-                  )}
-                  <ul>
-                    <section>
-                      {searchGame.map(items => (
-                        <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                          <h1>{items.game_title}</h1>
-                        </li>
-                      ))}
-                    </section>
-                  </ul>
-                  {searchGc &&(
-                    <>
-                      {searchGc.length !== 0 &&(<p>GiftCards</p>)}
-                    </>
-                  )}
-                  <ul>
-                    <section>
-                      {searchGc.map(items => (
-                        <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${items.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                          <h1>{items.giftcard_name}</h1>
-                        </li>
-                      ))}
-                    </section>
-                  </ul>
+            {viewfiltergame &&(
+              <>
+                <div className="searchedItemresults">
+                  <div className="searchItems-container">
+                    <div className="searchItems-contents">
+                      <h1>Result for: <span>{searchInput}</span></h1>
+                      {viewfiltergame &&(
+                        <>
+                          {viewfiltergame.length !== 0 &&(<p>Games</p>)}
+                          <ul>
+                            <section>
+                              {viewfiltergame.map(items => (
+                                <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                  <h1>{items.game_title}</h1>
+                                </li>
+                              ))}
+                            </section>
+                          </ul>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </>
+            )}
           </>
-        )}
+          : 
+          <>
+            {searchGc &&(
+              <>
+                <div className="searchedItemresults">
+                  <div className="searchItems-container">
+                    <div className="searchItems-contents">
+                      <h1>Result for: <span>{searchInput}</span></h1>
+                      {searchGame &&(
+                        <>
+                          {searchGame.length !== 0 &&(<p>Games</p>)}
+                          <ul>
+                            <section>
+                              {searchGame.map(items => (
+                                <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                  <h1>{items.game_title}</h1>
+                                </li>
+                              ))}
+                            </section>
+                          </ul>
+                        </>
+                      )}
+                      {searchGc &&(
+                        <>
+                          {searchGc.length !== 0 &&(<p>GiftCards</p>)}
+                          <ul>
+                            <section>
+                              {searchGc.map(items => (
+                                <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${items.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                  <h1>{items.giftcard_name}</h1>
+                                </li>
+                              ))}
+                            </section>
+                          </ul>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </>
+          }
         <div className="lndPageContent mid3">
           <div className="lndpcFeaturedGames">
             <div className="lndpcfgWeb left">
