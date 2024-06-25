@@ -51,7 +51,6 @@ const fetchCartProducts = async (
         const giftcardProducts = filteredData.filter(product => product.ag_product_type === 'Giftcard');
         const gamecreditProducts = filteredData.filter(product => product.ag_product_type === 'Game Credit');
 
-        
         try {
           const [userGameDataResponse, userGiftcardDataResponse, userGamecreditDataResponse, stockListResponse] = await Promise.all([
             axios.get(AGGamesListAPI),
@@ -466,6 +465,7 @@ const Cart = () => {
           console.log(error);
       });
     };
+
 
 
     if(successtransaction){

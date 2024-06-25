@@ -14,6 +14,9 @@ import { useActivePage } from '../Pages/ActivePageContext';
 
 const Footer = () => {
   const { setActivePage } = useActivePage();
+  const handleClickMarketplace = () => {
+    setActivePage('marketplace');
+  }
   const handleClickGames = () => {
     setActivePage('games');
   }

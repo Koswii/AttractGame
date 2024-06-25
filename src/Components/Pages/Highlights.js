@@ -10,6 +10,7 @@ import {
     FaTiktok,
     FaYoutube,
     FaTwitch,
+    FaRegComment
 } from "react-icons/fa6";
 import { 
     MdAdminPanelSettings,
@@ -29,6 +30,7 @@ import {
     GiPlantSeed,
     GiSharkJaws  
 } from "react-icons/gi";
+import { AiOutlineLike, AiOutlineDislike, AiFillLike, AiFillDislike } from "react-icons/ai";
 import axios from 'axios';
 import YouTubeEmbed from './YouTubeEmbed';
 import HashtagHighlighter from './HashtagHighlighter';
@@ -244,6 +246,68 @@ const Highlights = () => {
     const visibleStories = viewFetchStory.filter(story => !seenStories.includes(story.id));
 
 
+    // reacts
+    const [isLike, setIsLike] = useState(null);
+    const [isDislike, setIsDislike] = useState(false);
+    const [likeCount, setLikeCount] = useState(null);
+    const [dislikeCount, setDislikeCount] = useState(null);
+    const [clickCount, setClickCount] = useState(0);
+    
+    const toggleLike = async (userId, postId) => {
+        setClickCount(clickCount + 1);
+        if (clickCount <= 5) {
+            try {
+                const likeData = {
+                    postId: postId,
+                    customerId: userId,
+                    isLiked: !isLike,
+                };
+                console.log(likeData);
+                const response = await axios.post('https://engeenx.com/agAddLike.php', likeData); // Replace with your actual PHP endpoint URL
+                const updatedLikes = response.data;
+                console.log(updatedLikes);
+
+                const updatedPosts = viewFetchPost.map((post) => {
+                    if (post.user_post_id === postId) {
+                        return {
+                            ...post,
+                            likes: updatedLikes.likeCount,
+                            isLiked: !isLike,
+                        };
+                    }
+                    return post;
+                });
+                setViewFetchPost(updatedPosts);
+                setIsLike(!isLike);
+                setLikeCount(updatedLikes.likeCount);
+
+                if (isDislike) {
+                    setIsDislike(false);
+                    setDislikeCount(dislikeCount - 1);
+                }
+            } catch (error) {
+                console.error("Error toggling like:", error);
+            }
+        } else {
+            alert('Click limit exceeded');
+        }
+    };
+
+    const toggleDislike = (postId, userId) => {
+        if (isDislike) {
+            setIsDislike(false);
+            setDislikeCount(dislikeCount - 1);
+        } else {
+            setIsDislike(true);
+            setDislikeCount(dislikeCount + 1);
+            if (isLike) {
+                setIsLike(false);
+                setLikeCount(likeCount - 1);
+            }
+        }
+    };
+
+    console.log(viewFetchPost);
     return (
         <div className='mainContainer highlights'>
             {addPostStory && <UserStoryModal setAddPostStory={setAddPostStory}/>}
@@ -491,6 +555,30 @@ const Highlights = () => {
                             {post.user_post_youtube ? <div className="hldpcMid1PostYT">
                                 <YouTubeEmbed videoUrl={post.user_post_youtube} />
                             </div>:<></>}
+                            <div className="hldpcMid1-rct-container">
+                                <div className="hldpcMid1-rct-containents">
+                                    <ul>
+                                        <li id='likereactIcons'>
+                                            {isLike === post.user_post_id ? (
+                                                <AiFillLike className='likeIcon' onClick={() => toggleLike(post.user_id, post.user_post_id)} />
+                                            ) : (
+                                                <AiOutlineLike className='likeIcon' onClick={() => toggleLike(post.user_id, post.user_post_id)} />
+                                            )}
+                                            <p>{likeCount !== 0 ? likeCount : ''}</p>
+                                            {!isDislike ? (
+                                                <AiOutlineDislike className='dislikeIcon' onClick={() => toggleDislike(post.user_id, isLike)} />
+                                            ) : (
+                                                <AiFillDislike className='dislikeIcon' onClick={() => toggleDislike(post.user_id, isLike)} />
+                                            )}
+                                            <p>{dislikeCount !== 0 ? dislikeCount : ''}</p>
+                                        </li>
+                                        <li id='commentreactIcons'>
+                                            <FaRegComment className='commenIcon'/>
+                                            <p>1</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     ))}
                     {postLoading && 

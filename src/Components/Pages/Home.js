@@ -45,6 +45,7 @@ const Home = () => {
   const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
   const AGGiftcardsListAPI2 = process.env.REACT_APP_AG_GIFTCARDS_LIST_API2;
   const [viewAllGamesNum, setViewAllGamesNum] = useState([]);
+  const [viewAllGames, setViewAllGames] = useState([]);
   const [viewAllGiftcard, setViewAllGiftcard] = useState([]);
   const [viewAGData1, setViewAGData1] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -58,11 +59,39 @@ const Home = () => {
   }
 
   useEffect(() => {
+    const fetchDataGames = async () => {
+      try {
+        const response1 = await axios.get(AGGamesListAPI1);
+        const agAllGames = response1.data;
+        setViewAllGames(agAllGames)
+        // Get current year
+        const currentYear = new Date().getFullYear();
+        // Filter games based on the current year
+        const currentYearGames = agAllGames.filter(game => {
+          const gameDate = new Date(game.game_released);
+          return gameDate.getFullYear() === currentYear;
+        });
+
+        // Sort the games by release month and year
+        const sortedCurrentYearGames = currentYearGames.sort((a, b) => {
+          const dateA = new Date(a.game_released);
+          const dateB = new Date(b.game_released);
+          if (dateA.getFullYear() === dateB.getFullYear()) {
+              return dateB.getMonth() - dateA.getMonth(); // Sort by month if years are the same
+          }
+          return dateB.getFullYear() - dateA.getFullYear(); // Sort by year
+        });
+        setViewAllGamesNum(agAllGames.length);
+        setViewAGData1(sortedCurrentYearGames);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     const fetchDataGiftcards = () => {
       axios.get(AGGiftcardsListAPI2)
       .then((response) => {
-          const giftcardData = response.data;
+          const giftcardData = response.data; 
           setViewAllGiftcard(giftcardData);
       })
       .catch(error => {
@@ -72,6 +101,7 @@ const Home = () => {
 
     const fetchAllData = async () => {
       setLoading(true); // Set loading to true before data fetch
+      await fetchDataGames();
       await fetchDataGiftcards();
       setLoading(false); // Set loading to false after data fetch
     };
@@ -111,6 +141,42 @@ const Home = () => {
     setIsPaused(false);
   };
 
+
+  
+  const [searchInput, setSearchinput] = useState()
+  const [searchGc,setSearchgc] = useState()
+  const [searchGame,setSearchgame] = useState()
+  
+
+  const handleSearch = (event) => {
+      setSearchinput(event.target.value)
+  }
+
+  const searchItem = (e) => {
+    e.preventDefault()
+    const itemlist = [...viewAGData1,...viewAllGiftcard]
+    const searchGiftcard = viewAllGiftcard.filter(item => {
+      return Object.values(item).some(value => 
+          typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
+      );
+    });
+    const searchGames = viewAllGames.filter(item => {
+      return Object.values(item).some(value => 
+          typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
+      );
+    });
+    setSearchgc(searchGiftcard)
+    setSearchgame(searchGames)
+  }
+  const filtertoTrending = () => {
+    const filteredData = searchGame.filter(item => item.game_category === 'Trending')
+    setSearchgame(filteredData)
+  }
+  const filtertoClassic = () => {
+    const filteredData = searchGame.filter(item => item.game_category === 'Classic')
+    setSearchgame(filteredData)
+  }
+
   return (
     <div className='mainContainer home'>
       <section className="landingPageContainer top">
@@ -133,10 +199,12 @@ const Home = () => {
       </section>
       <section className="landingPageContainer mid">
         <div className="lndPageContent mid1">
-          <div className='lndpcSearch'>
-            <h6><FaSearch className='faIcons'/></h6>
-            <input type="text" placeholder='Search Games / Voucher / Giftcards / Crypto / Merchandise'/>
-          </div>
+          <form onSubmit={searchItem}>
+            <div className='lndpcSearch'>
+              <h6><FaSearch className='faIcons'/></h6>
+              <input type="text" placeholder='Search Games / Voucher / Giftcards / Crypto / Merchandise' onChange={handleSearch}/>
+            </div>
+          </form>
           <div className="lndpcFeatures">
             <Link>
               <h6><FaTicketAlt className='faIcons'/></h6>
@@ -151,17 +219,48 @@ const Home = () => {
         </div>
         <div className="lndPageContent mid2">
           <div className="lndpcMid2">
-            <div id='lndpcTrending'>
+            <div id='lndpcTrending' onClick={filtertoTrending}>
               <h5>TRENDING GAMES</h5>
             </div>
             <div id='lndpcHot'>
               <h5>HOT GAMES</h5>
             </div>
-            <div id='lndpcClassic'>
+            <div id='lndpcClassic' onClick={filtertoClassic}>
               <h5>CLASSIC GAMES</h5>
             </div>
           </div>
         </div>
+        {searchGc&&(
+          <>
+            <div className="searchedItemresults">
+              <div className="searchItems-container">
+                <div className="searchItems-contents">
+                  <h1>Result for: <span>{searchInput}</span></h1>
+                  <p>Games</p>
+                  <ul>
+                    <section>
+                      {searchGame.map(items => (
+                        <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                          <h1>{items.game_title}</h1>
+                        </li>
+                      ))}
+                    </section>
+                  </ul>
+                  {searchGc &&(<p>GiftCards</p>)}
+                  <ul>
+                    <section>
+                      {searchGc.map(items => (
+                        <li key={items.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${items.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                          <h1>{items.giftcard_name} {items.giftcard_denomination}</h1>
+                        </li>
+                      ))}
+                    </section>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
         <div className="lndPageContent mid3">
           <div className="lndpcFeaturedGames">
             <div className="lndpcfgWeb left">
@@ -366,6 +465,7 @@ const Home = () => {
           </div>
         </div>
         <div className="lndPageContent mid5">
+
           <h4><TbGiftCardFilled className='faIcons'/> GIFT CARDS & VOUCHERS</h4>
           <div className="lndpcmid5Giftcard">
             <div className="lndpcmid5Container">

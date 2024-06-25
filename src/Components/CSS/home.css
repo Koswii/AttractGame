@@ -116,10 +116,14 @@ section.landingPageContainer.mid{
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+}
+.lndPageContent.mid1 form{
+    height: auto;
+    width: 100%;
     margin-bottom: 2%;
 }
 .lndpcSearch{
+    height: auto;
     display: flex;
     justify-content: left;
     align-items: center;
@@ -159,13 +163,80 @@ section.landingPageContainer.mid{
 }
 
 
+
+.searchedItemresults{
+    margin-top: 2%;
+}
+.searchItems-contents h1{
+    font-size: 1vw;
+    margin-bottom: 1%;
+}
+.searchItems-contents h1 span{
+    text-decoration: underline;
+}
+.searchItems-contents ul{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.searchItems-contents p{
+    font-size: .8vw;
+    margin: 2% 0;
+}
+.searchItems-contents ul section{
+    column-gap: 1%;
+    columns: 5;
+    width: 100%;
+    box-sizing: border-box;
+}
+.searchItems-contents ul section li{
+    color: white;
+    height: 20vw;
+    width: 13.5vw;
+    padding: .5vw;
+    border: solid 2px white;
+    border-radius: 1vw;
+    margin-bottom: 2vw;
+    break-inside: avoid;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.searchItems-contents ul section li:hover{
+    
+}
+.searchItems-contents ul section li h1{
+    font-size: 1vw;
+    position: absolute;
+    width: 100%;
+    padding: 0 1vw;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .lndPageContent.mid2{
     height: auto;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8%;
 }
 .lndpcMid2{
     height: auto;
@@ -354,6 +425,62 @@ section.landingPageContainer.mid{
     height: auto;
     width: 40%;
 }
+.lndpcm4Content.left h4{
+    font-size: 2.5vw;
+}
+.lndpcm4Content.left p{
+    margin: 2% 0;
+}
+.lndpcm4lBtns{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 3% 0;
+}
+.lndpcm4lBtns a{
+    margin-right: 3%;
+    color: white;
+    text-decoration: none;
+    padding: 1% 5%;
+    border-radius: 50px;
+    border: solid 2px white;
+    font-size: 0.9vw;
+    opacity: 50%;
+}
+.lndpcm4lBtns a:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+    box-shadow: 0 0 10px white;
+}
+.lndpcm4Content.right{
+    height: auto;
+    width: 50%;
+    position: relative;
+    background: url('../assets/imgs/Shadow.png') no-repeat center;
+    background-size: contain;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lndpcm4Content.right img#lndpcm4crMobile{
+    height: 40vw;
+    animation: bounce2 5s infinite linear;
+}
+
+
+
+
+
+
+
+
+
+.lndPageContent.mid5{
+    height: auto;
+    width: 40%;
+}
 .lndpcm4Content.left #lndpcm4crMobileMob{
     display: none;
 }
@@ -443,6 +570,15 @@ section.landingPageContainer.mid{
 .lndpcmid5Giftcard{
     height: auto;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 2% 0;
+}
+.lndpcfgc {
+    height: 20vw;
+    width: 19%;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -508,8 +644,21 @@ section.landingPageContainer.mid{
 .lndpcm5c.right p{
     margin: 2% 0;
 }
-
-
+.lndpcfgcDummy{
+    height: 20vw;
+    width: 19%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 1vw;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
+.lndpcfgcDummy.mob{
+    display: none;
+}
 
 
 
@@ -935,6 +1084,33 @@ section.landingPageContainer.mid{
     .lndpcm5c.right p{
         font-size: 2.5vw;
     }
+    .lndpcfgamesDummy{
+        height: 60vw;
+        width: 48%;
+        margin: 1%;
+        border-radius: 2vw;
+    }
+    .lndpcfgPlatformDummy{
+        height: 15vw;
+        width: 15vw;
+        top: 1.5vw;
+        left: 1.5vw;
+        border-radius: 2vw;
+    }
+    .lndpcfgcDummy.web{
+        display: none;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
