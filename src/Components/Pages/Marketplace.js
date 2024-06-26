@@ -389,9 +389,9 @@ const Marketplace = () => {
                         <input type="text" placeholder='Search Games / Vouchers / Giftcards / Crypto / Merchandise'/>
                     </div> */}
                     <div className="mppctn right">
-                        <span>
+                        {/* <span>
                             <h6>0 <TbShoppingCartPlus  className='faIcons'/></h6>
-                        </span>
+                        </span> */}
                         <span>
                             <h6>{viewAllGamesNum.length} <TbDeviceGamepad2 className='faIcons'/></h6>
                         </span>

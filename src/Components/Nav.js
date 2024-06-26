@@ -91,6 +91,7 @@ const Nav = () => {
   const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
   const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
   const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
+  const AGUserCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
 
   const [agUserEmail, setAGUserEmail] = useState('')
   const [agUserUsername, setAGUserUsername] = useState('')
@@ -145,10 +146,12 @@ const Nav = () => {
 
   const LoginUsername = localStorage.getItem('attractGameUsername');
   const userLoggedIn = localStorage.getItem('isLoggedIn');
+  const LoginUserID = localStorage.getItem('profileUserID');
   const [dataUser, setDataUser] = useState([]);
   const [userBlockedStatus, setUserBlockedStatus] = useState('');
   const [viewTextPassword, setViewTextPassword] = useState(false);
   const [postTimeRemaining, setPostTimeRemaining] = useState('');
+  const [agUserProductCart, setUserProductCart] = useState('');
   // console.log(LoginUsername);
 
   useEffect(() => {
@@ -230,7 +233,22 @@ const Nav = () => {
     AGUserPostAPI, 
     icelandTime
   ]);
+  useEffect(() => {
+    const fetchUserCart = async () => {
+      try {
+          const response = await axios.get(AGUserCartAPI);
+          const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
+          setUserProductCart(filteredData.length);
+      } catch (error) {
+          console.error(error);
+      }
+    };
+    const interval = setInterval(() => {
+      fetchUserCart();
+    }, 1000); // Increment every second
 
+    return () => clearInterval(interval); 
+  }, [LoginUserID, setUserProductCart]);
 
   const handleUserRegister = async (e) => {
     e.preventDefault();
@@ -516,7 +534,10 @@ const Nav = () => {
             </div>:
             <div className='userProfileBtn'>
               {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
-              <Link id='agAddToCartBtn' to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}><TbShoppingCartFilled className='faIcons'/></Link>
+              <Link id='agAddToCartBtn' to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}>
+                {!agUserProductCart ? '' : <p><sup>{agUserProductCart}</sup></p>}
+                <TbShoppingCartFilled className='faIcons'/>
+              </Link>
               <div className='agProfileSelect' onClick={handleViewProfileBtns}>
                 {dataUser.profileimg ?
                 <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt="" />:

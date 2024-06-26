@@ -400,8 +400,22 @@ nav{
 }
 .userProfileBtn a#agAdminBtn,
 .userProfileBtn a#agAddToCartBtn{
+    position: relative;
     font-size: 2vw;
     line-height: 1vw;
+}
+.userProfileBtn a#agAddToCartBtn p{
+    position: absolute;
+    background: red;
+    height: 1.2vw;
+    width: 1.2vw;
+    text-align: center;
+    border-radius: 50px;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7vw;
 }
 .agProfileSelect{
     height: 2vw;
@@ -809,6 +823,11 @@ nav{
         line-height: 5vw;
         margin: 0;
         margin-left: 10%;
+    }
+    .userProfileBtn a#agAddToCartBtn p{
+        height: 4vw;
+        width: 4vw;
+        font-size: 3vw;
     }
     .agProfileBtnMobile{
         height: 8vw;
