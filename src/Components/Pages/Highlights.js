@@ -307,7 +307,6 @@ const Highlights = () => {
     //     }
     // };
 
-    console.log(viewFetchPost);
     return (
         <div className='mainContainer highlights'>
             {addPostStory && <UserStoryModal setAddPostStory={setAddPostStory}/>}

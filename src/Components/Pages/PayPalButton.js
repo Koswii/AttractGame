@@ -1,5 +1,5 @@
 import React from 'react';
-import { PayPalScriptProvider, PayPalButtons, PayPalNameField, PayPalCardFieldsForm } from '@paypal/react-paypal-js';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { useNavigate } from "react-router-dom";
 
 const PayPalButton = ({
@@ -8,9 +8,10 @@ const PayPalButton = ({
   setSuccesstransaction,
   setClientSecret,
 }) => {
+  const clientIDPaypal = process.env.REACT_APP_PAYPAL_CLIENT_ID
   const paypalOptions = {
     "client-id":
-      "ARy8eFogQ46HyArkMEtHNv-IzveFDuW-SbRBHPyyIrDavCkGPR2YzhrWVLnoVfGmf-h0HtjjW_kK4Iif", // Replace with your own PayPal client ID
+      `${clientIDPaypal}`, 
     currency: "USD",
     intent: "capture",
     "disable-funding": "card",
