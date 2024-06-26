@@ -46,7 +46,7 @@ section.marketplacePageContainer.top{
     height: auto;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
     align-items: center;
     margin: 5% 0;
 }
@@ -774,6 +774,7 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     align-items: center;
 }
 .mppcm4GiftCard div a{
+    text-align: center;
     padding: 2% 10%;
     border: solid 2px white;
     border-radius: 50px;
@@ -1118,8 +1119,9 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
         font-size: 2.3vw;
     }
     .mppcm4GiftCard div a{
+        width: 100%;
         padding: 2% 10%;
-        font-size: 2.3vw;
+        font-size: 2.5vw;
     }
     .mpPageContentMid5{
         display: block;

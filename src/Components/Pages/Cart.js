@@ -7,9 +7,6 @@ import {
   FaBars, 
   FaTimes,
   FaBolt,
-  FaRegUserCircle,
-  FaRegEye,
-  FaRegEyeSlash, 
   FaClipboardCheck
 } from 'react-icons/fa';
 import { 
@@ -24,7 +21,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../Pages/checkoutform";
 
 const stripePromise = loadStripe(
-  process.env.REACT_APP_AG_STRIPE_PROMISE
+  'pk_live_51NpiTWGmWxGfJOSJJkBZLErq1wH9iElM7ixsOF0WRi7HG812NxEsHlsbQwKATn9vZm13e7iu8XsllV0VoY8LT7qJ00p1y83XlO'
 );
 
 const LoginUserID = localStorage.getItem('profileUserID');
@@ -361,28 +358,29 @@ const Cart = () => {
     };
     
     const checkOutprod = async () => {
-        const body = {
-          product: allPrductsDetails,
-        };
-        const bodyString = JSON.stringify(body)
-        const headers = { "Content-type": "application/json" };
-
-        try {
-            const response = await fetch(
-              "https://paranworld.com/create-check-out-session",
-              {
-                method: "POST",
-                headers: headers,
-                body: bodyString,
-              }
-            );
-
-            const session = await response.json();
-            setClientSecret(session.clientSecret);
-            setPaymentIntentID(session.paymentIntentID)
-        } catch (error) {
-            console.log(error);
-        }
+      const body = {
+        product: allPrductsDetails,
+      };
+      const bodyString = JSON.stringify(body)
+      const headers = { "Content-type": "application/json" };
+    
+      try {
+        const response = await fetch(
+          "https://paranworld.com/create-check-out-session",
+          // "http://localhost:4242/create-check-out-session",
+          {
+            method: "POST",
+            headers: headers,
+            body: bodyString,
+          }
+        );
+    
+        const session = await response.json();
+        setClientSecret(session.clientSecret);
+        setPaymentIntentID(session.paymentIntentID)
+      } catch (error) {
+        console.log(error);
+      }
     }
     
     
@@ -511,7 +509,7 @@ const Cart = () => {
         {clientSecret ? 
           <>
             <Elements options={options} stripe={stripePromise}>
-              <CheckoutForm setSuccesstransaction={setSuccesstransaction} allPrductsDetails={allPrductsDetails} paymentIntentId={paymentIntentid} setClientSecret={setClientSecret} totalprice={checkoutOverallTotal} transactionData={handleSubmitTransaction}/>
+              <CheckoutForm checkOutprod={checkOutprod} setSuccesstransaction={setSuccesstransaction} allPrductsDetails={allPrductsDetails} paymentIntentId={paymentIntentid} setClientSecret={setClientSecret} totalprice={checkoutOverallTotal} transactionData={handleSubmitTransaction}/>
             </Elements>
           </>:<>
             <section className="cartPageContainer mid">

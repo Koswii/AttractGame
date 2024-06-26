@@ -1,34 +1,32 @@
 const express = require("express");
-const stripe = require("stripe")(
-  "sk_test_51PQqwY09gFZMinIq2Ktr9A3FgkahEYy5rMu0nou0UhwTAoyU1W6Lc9MVgok8Va908IUqL9Ej8YAE1o2vWxjGjj5H00H7MBKQyO"
-); // Replace with your actual secret key
+const stripe = require("stripe")(process.env.REACT_APP_AG_STRIPE_PROMISE); // Ensure this is correctly set in your environment
 const bodyParser = require("body-parser");
+const axios = require("axios");
 const cors = require("cors");
+const path = require("path");
 
-
-const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT = 8888 } = process.env;
+const {
+  REACT_APP_PAYPAL_CLIENT_ID,
+  REACT_APP_PAYPAL_CLIENT_SECRET
+} = process.env;
 const base = "https://api-m.sandbox.paypal.com";
+
 const app = express();
 
-// host static files
 app.use(express.static("client"));
-
-// parse post params sent in body in json format
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
 
-/**
- * Generate an OAuth 2.0 access token for authenticating with PayPal REST APIs.
- * @see https://developer.paypal.com/api/rest/authentication/
- */
+// PayPal
+
 const generateAccessToken = async () => {
   try {
-    if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {
+    if (!REACT_APP_PAYPAL_CLIENT_ID || !REACT_APP_PAYPAL_CLIENT_SECRET) {
       throw new Error("MISSING_API_CREDENTIALS");
     }
     const auth = Buffer.from(
-      PAYPAL_CLIENT_ID + ":" + PAYPAL_CLIENT_SECRET
+      `${REACT_APP_PAYPAL_CLIENT_ID}:${REACT_APP_PAYPAL_CLIENT_SECRET}`
     ).toString("base64");
     const response = await fetch(`${base}/v1/oauth2/token`, {
       method: "POST",
@@ -42,32 +40,12 @@ const generateAccessToken = async () => {
     return data.access_token;
   } catch (error) {
     console.error("Failed to generate Access Token:", error);
+    throw error;
   }
 };
 
-async function handleResponse(response) {
-  try {
-    const jsonResponse = await response.json();
-    return {
-      jsonResponse,
-      httpStatusCode: response.status,
-    };
-  } catch (err) {
-    const errorMessage = await response.text();
-    throw new Error(errorMessage);
-  }
-}
-
-/**
- * Create an order to start the transaction.
- * @see https://developer.paypal.com/docs/api/orders/v2/#orders_create
- */
 const createOrder = async (cart) => {
-  // use the cart information passed from the front-end to calculate the purchase unit details
-  console.log(
-    "shopping cart information passed from the frontend createOrder() callback:",
-    cart
-  );
+  console.log("Shopping cart information:", cart);
 
   const accessToken = await generateAccessToken();
   const url = `${base}/v2/checkout/orders`;
@@ -83,17 +61,11 @@ const createOrder = async (cart) => {
       },
     ],
   };
-  
 
   const response = await fetch(url, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
-      // Uncomment one of these to force an error for negative testing (in sandbox mode only).
-      // Documentation: https://developer.paypal.com/tools/sandbox/negative-testing/request-headers/
-      // "PayPal-Mock-Response": '{"mock_application_codes": "MISSING_REQUIRED_PARAMETER"}'
-      // "PayPal-Mock-Response": '{"mock_application_codes": "PERMISSION_DENIED"}'
-      // "PayPal-Mock-Response": '{"mock_application_codes": "INTERNAL_SERVER_ERROR"}'
     },
     method: "POST",
     body: JSON.stringify(payload),
@@ -102,10 +74,17 @@ const createOrder = async (cart) => {
   return handleResponse(response);
 };
 
-// createOrder route
+const handleResponse = async (response) => {
+  const jsonResponse = await response.json();
+  const httpStatusCode = response.status;
+  if (!response.ok) {
+    throw new Error(`HTTP ${httpStatusCode}: ${JSON.stringify(jsonResponse)}`);
+  }
+  return { jsonResponse, httpStatusCode };
+};
+
 app.post("/api/orders", async (req, res) => {
   try {
-    // use the cart information passed from the front-end to calculate the order amount detals
     const { cart } = req.body;
     const { jsonResponse, httpStatusCode } = await createOrder(cart);
     res.status(httpStatusCode).json(jsonResponse);
@@ -113,11 +92,8 @@ app.post("/api/orders", async (req, res) => {
     console.error("Failed to create order:", error);
     res.status(500).json({ error: "Failed to create order." });
   }
-}); 
-/**
- * Capture payment for the created order to complete the transaction.
- * @see https://developer.paypal.com/docs/api/orders/v2/#orders_capture
- */
+});
+
 const captureOrder = async (orderID) => {
   const accessToken = await generateAccessToken();
   const url = `${base}/v2/checkout/orders/${orderID}/capture`;
@@ -127,33 +103,107 @@ const captureOrder = async (orderID) => {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
-      // Uncomment one of these to force an error for negative testing (in sandbox mode only).
-      // Documentation:
-      // https://developer.paypal.com/tools/sandbox/negative-testing/request-headers/
-      // "PayPal-Mock-Response": '{"mock_application_codes": "INSTRUMENT_DECLINED"}'
-      // "PayPal-Mock-Response": '{"mock_application_codes": "TRANSACTION_REFUSED"}'
-      // "PayPal-Mock-Response": '{"mock_application_codes": "INTERNAL_SERVER_ERROR"}'
     },
   });
 
   return handleResponse(response);
 };
 
-// captureOrder route
 app.post("/api/orders/:orderID/capture", async (req, res) => {
   try {
     const { orderID } = req.params;
     const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
-    console.error("Failed to create order:", error);
+    console.error("Failed to capture order:", error);
     res.status(500).json({ error: "Failed to capture order." });
   }
-}); // serve index.html
+});
+
 app.get("/", (req, res) => {
   res.sendFile(path.resolve("./checkout.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Node server listening at http://localhost:${PORT}/`);
-}); 
+// Stripe
+
+const calculateTotalUnitAmount = (lineItems) => {
+  return lineItems.reduce((total, item) => total + item.price_data.unit_amount, 0);
+};
+
+app.post("/create-check-out-session", async (req, res) => {
+  const { product } = req.body;
+
+  const line_items = product.map((item) => ({
+    price_data: {
+      currency: "usd",
+      product_data: {
+        name: item.ag_product_name,
+        images: [item.productData.game_cover],
+      },
+      unit_amount: Math.round(item.totalPrice * 100), // Convert to cents
+    },
+    quantity: item.numberOfOrder,
+  }));
+
+  const totalUnitAmount = calculateTotalUnitAmount(line_items);
+  const agChargeFee = (4.5 / 100) * totalUnitAmount;
+  const agTaxFee = (3 / 100) * totalUnitAmount;
+  const totalPayable = totalUnitAmount + agChargeFee + agTaxFee;
+
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.round(totalPayable),
+      currency: "usd",
+    });
+    res.send({
+      paymentIntentID: paymentIntent.id,
+      clientSecret: paymentIntent.client_secret,
+      line_items,
+    });
+  } catch (error) {
+    console.error("Failed to create payment intent:", error);
+    res.status(500).json({ error: "Failed to create payment intent." });
+  }
+});
+
+app.post("/cancel-payment-intent", async (req, res) => {
+  const { paymentIntentId } = req.body;
+
+  try {
+    const canceledPaymentIntent = await stripe.paymentIntents.cancel(paymentIntentId);
+    res.status(200).send(canceledPaymentIntent);
+  } catch (error) {
+    console.error("Failed to cancel payment intent:", error);
+    res.status(500).send({ error: error.message });
+  }
+});
+
+// Link Preview
+
+app.get("/link-preview", async (req, res) => {
+  const { url } = req.query;
+  try {
+    const response = await axios.get(url);
+    const html = response.data;
+
+    const titleMatch = html.match(/<title>([^<]*)<\/title>/);
+    const title = titleMatch ? titleMatch[1] : "No title found";
+    const descriptionMatch = html.match(/<meta name="description" content="([^"]*)"/);
+    const description = descriptionMatch ? descriptionMatch[1] : "No description found";
+    const imageMatch = html.match(/<meta property="og:image" content="([^"]*)"/);
+    const image = imageMatch ? imageMatch[1] : "No image found";
+
+    res.json({ title, description, image });
+  } catch (error) {
+    console.error("Error fetching metadata:", error);
+    res.status(500).json({ error: "Error fetching metadata" });
+  }
+});
+
+app.get("/success", (req, res) => {
+  res.send("Payment successful");
+});
+
+// Increase timeout settings
+const server = app.listen(4242, () => console.log("Node server listening on port 4242!"));
+server.setTimeout(10 * 60 * 1000); // 10 minutes

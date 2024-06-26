@@ -116,11 +116,12 @@ section.landingPageContainer.mid{
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2%;
 }
 .lndpcSearch{
     height: auto;
     width: 100%;
-    margin-bottom: 2%;
     display: flex;
     justify-content: left;
     align-items: center;
@@ -161,55 +162,54 @@ section.landingPageContainer.mid{
 
 
 
-.searchedItemresults{
-    margin-top: 2%;
+.lndpcm2ContentResults{
+    margin-top: 5%;
 }
-.searchItems-contents ul{
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-.searchItems-contents p{
-    font-size: .8vw;
+.lndpcm2ContentResults h5{
     margin: 2% 0;
 }
-.searchItems-contents ul section{
-    column-gap: 1%;
-    columns: 5;
+.searchItemContainers{
+    height: auto;
     width: 100%;
-    box-sizing: border-box;
-}
-.searchItems-contents ul section li{
-    color: white;
-    height: 20vw;
-    width: 13.5vw;
-    padding: .5vw;
-    border: solid 2px white;
-    border-radius: 1vw;
-    margin-bottom: 2vw;
-    break-inside: avoid;
     display: flex;
-    align-items: end;
-    justify-content: center;
-    position: relative;
-    box-sizing: border-box;
-    cursor: pointer;
+    flex-wrap: wrap;
+    align-items: start;
 }
-.searchItems-contents ul section li:hover{
-    
+.searchItemContainers a{
+    text-decoration: none;
+    height: 5vw;
+    width: 13.25%;
+    margin: 0.5%;
+    border-radius: 1vw;
+    overflow: hidden;
+    box-shadow: 0 0 5px white;
+    transition: 400ms ease;
 }
-.searchItems-contents ul section li h1{
-    font-size: 1vw;
-    position: absolute;
+.searchItemContainers a:hover{
+    box-shadow: 0 0 10px white;
+    transition: 400ms ease;
+    transform: translateY(-10px);
+}
+.searchItemContents{
+    height: 100%;
     width: 100%;
-    padding: 0 1vw;
+    position: relative;
+}
+.searchICName{
+    height: 100%;
+    width: 100%;
+    padding: 2% 5%;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
-
-
-
-
+.searchICName h6{
+    font-size: 0.9vw;
+    /* font-weight: 400; */
+}
 
 
 
@@ -936,6 +936,7 @@ section.landingPageContainer.mid{
         font-size: 2.3vw;
     }
     .lndpcTop.right span a{
+        width: 50%;
         padding: 1% 10%;
         font-size: 3vw;
         opacity: 100%;
@@ -946,6 +947,9 @@ section.landingPageContainer.mid{
         padding: 5%;
     }
     .lndPageContent.mid1{
+        display: none;
+    }
+    .lndpcm2ContentResults{
         display: none;
     }
     .lndPageContent.mid2{

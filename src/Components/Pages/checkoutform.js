@@ -120,7 +120,8 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
   const cancelPayment = async (e) => {
     e.preventDefault()
     try {
-      const res = await axios.post('https://paranworld.com/cancel-payment-intent', { paymentIntentId });
+      const cancelPaymentAPI = process.env.REACT_APP_AG_CHECKOUT_CANCEL
+      const res = await axios.post(cancelPaymentAPI, { paymentIntentId });
       setClientSecret()
     } catch (err) {
       console.log(err);
@@ -129,13 +130,8 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
   const paymentElementOptions = {
     layout: "tabs",
   };
-  
-  const initialOptions = {
-    clientId: "ARy8eFogQ46HyArkMEtHNv-IzveFDuW-SbRBHPyyIrDavCkGPR2YzhrWVLnoVfGmf-h0HtjjW_kK4Iif",
-    currency: "USD",
-    intent: "capture",
-  };
 
+  
   setTimeout(() => {
     setLoader(false)
   }, 2000);
