@@ -90,6 +90,7 @@ const Games = () => {
                 setUserLoggedData(JSON.parse(storedProfileData))
             }
         }
+        
         fetchUserProfile();
         fetchGames(setViewAGData1, setLoadingMarketData);
         fetchFavorites(setFavorites, LoginUserID);

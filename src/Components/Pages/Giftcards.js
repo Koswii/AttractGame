@@ -45,7 +45,6 @@ const Giftcards = () => {
 
                 const stockListResponse = await axios.get(AGStocksListAPI);
                 const stockListData = stockListResponse.data;
-                console.log(stockListData);
                 const stockInfo = unique.map(giftcard => {
                     const stockCount = stockListData.filter(stock => stock.ag_product_id === giftcard.giftcard_id).length;
                     return {

@@ -219,11 +219,11 @@ const Cart = () => {
       if (allPrductsDetails.length){
           return (
               <>
-                  {loadingProducts ? <>
+                  {/* {loadingProducts ? <>
                       {allPrductsDetails.map((details, i) => (
                           <div className="cartpcm1clDummy"><div className="cartpcm1clppDummy"></div></div>
                       ))}
-                  </>:<>
+                  </>:<> */}
                       {productGameDetails.map((details, i) => (
                           <div className="cartpcm1clProduct website" key={i}>
                               <img src={`https://2wave.io/GameCovers/${details.productData.game_cover}`} alt="" />
@@ -265,7 +265,7 @@ const Cart = () => {
                               </div>
                           </div>
                       ))}
-                  </>}
+                  {/* </>} */}
               </>
           );
       } else {
@@ -287,12 +287,12 @@ const Cart = () => {
       if (allPrductsDetails.length){
           return (
               <>
-                  {loadingProducts ? <>
+                  {/* {loadingProducts ? <>
                       {allPrductsDetails.map((details, i) => (
                           <div className="cartpcm1clDummy mobile" key={i}><div className="cartpcm1clppDummy"></div></div>
                       ))}
                   </>:
-                  <>
+                  <> */}
                       {productGameDetails.map((details, i) => (
                           <div className="cartpcm1clProduct mobile" key={i}>
                               <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
@@ -323,7 +323,7 @@ const Cart = () => {
                               </div>
                           </div>
                       ))}
-                  </>}
+                  {/* </>} */}
               </>
           );
       } else {
