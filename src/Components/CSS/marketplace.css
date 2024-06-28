@@ -29,7 +29,7 @@ h6{
     width: 100%;
     background: black;
     position: relative;
-    padding-bottom: 5vw;
+    padding-bottom: 10vw;
 }
 
 
@@ -608,10 +608,12 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     color: white;
     cursor: pointer;
 }
-.mppcm2GameDetails div button#mppcm2GDHRemove{
+.mppcm2GameDetails div button#mppcm2GDHRemove,
+.mppcm2GameDetails div button .faIcons.red{
     color: red;
 }
-.mppcm2GameDetails div button#mppcm2GDAddedCart{
+.mppcm2GameDetails div button#mppcm2GDAddedCart,
+.mppcm2GameDetails div button .faIcons.gold{
     color: gold;
 }
 

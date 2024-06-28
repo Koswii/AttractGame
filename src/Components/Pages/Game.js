@@ -72,6 +72,8 @@ const Game = () => {
     const [scrapedMetacriticData, setScrapedMetacriticData] = useState('');
     const [viewGameTrailer, setViewGameTrailer] = useState('');
     const [suggestedFavorites, setSuggestedFavorites] = useState([]);
+    const [productFavAdded, setProductFavAdded] = useState(false);
+    const [productCartAdded, setProductCartAdded] = useState(false);
 
     const getRandomItems = (array, numItems) => {
         const shuffled = array.sort(() => 0.5 - Math.random());
@@ -146,29 +148,26 @@ const Game = () => {
                 if(combinedMetaWikiData.genre === "" && combinedMetaWikiData.title === "Not found."){
                     setLoadingMarketData(false);
                 }else{
-                    setScrapedMetacriticData(combinedMetaWikiData);
-                    setLoadingMarketData(true);
-                    setViewGameTrailer(combinedMetaWikiData.game_trailer);
+                    const cartResponse = await axios.get(AGUserProductsCartAPI);
+                    const cartData = cartResponse.data.filter(product => product.ag_user_id === LoginUserID);
+                    const cartGameCodes = cartData.map(cartItem => cartItem.ag_product_id);
+                    setIsInCart(cartGameCodes.includes(combinedMetaWikiData.game_canonical));
 
                     const favoritesResponse = await axios.get(AGUserFavoritesAPI);
                     const favoriteData = favoritesResponse.data.filter(product => product.ag_user_id === LoginUserID);
                     const favoriteGameCodes = favoriteData.map(fav => fav.ag_product_id);
                     setIsFavorite(favoriteGameCodes.includes(combinedMetaWikiData.game_canonical));
 
-                    const cartResponse = await axios.get(AGUserProductsCartAPI);
-                    const cartData = cartResponse.data.filter(product => product.ag_user_id === LoginUserID);
-                    const cartGameCodes = cartData.map(cartItem => cartItem.ag_product_id);
-                    setIsInCart(cartGameCodes.includes(combinedMetaWikiData.game_canonical));
 
-
-
+                    setScrapedMetacriticData(combinedMetaWikiData);
+                    setLoadingMarketData(true);
+                    setViewGameTrailer(combinedMetaWikiData.game_trailer);
                 }
 
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
-        
         fetchData();
     }, [viewMetacriticData, viewWikiData, scrapedMetacriticData]);
     const videoUrl = viewGameTrailer;
@@ -180,6 +179,7 @@ const Game = () => {
         }, 500);
     }
     const handleAddFavorite = () => {
+        setProductFavAdded(true)
         const formAddfavorite = {
           agFavUsername: userLoggedData.username,
           agFavUserID: userLoggedData.userid,
@@ -203,6 +203,7 @@ const Game = () => {
         });
     };
     const handleRemoveFavorite = (gameCanonical) => {
+        setProductFavAdded(false)
         const removeFav = {
             user: userLoggedData.userid,
             favorite: gameCanonical
@@ -237,6 +238,7 @@ const Game = () => {
     };
 
     const handleAddToCart = () => {
+        setProductCartAdded(true)
         const formAddCart = {
           agCartUsername: userLoggedData.username,
           agCartUserID: userLoggedData.userid,
@@ -326,12 +328,23 @@ const Game = () => {
                             </h4>
                             {userLoggedIn ?<>
                                 <button id={isFavorite ? 'gppct2gdRemoveFav' : 'gppct2gdAddFav'} onClick={handleFavoriteToggle}>
-                                    {isFavorite ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
+                                    {isFavorite ? <TbHeartFilled className='faIcons'/> : 
+                                    <>
+                                        {(productFavAdded) ? 
+                                        <TbHeartFilled className='faIcons red'/>:
+                                        <TbHeart className='faIcons'/>}
+                                    </>
+                                    }
                                 </button>
                                 {isInCart ? 
                                     <button id='gppct2gdGameCart'><TbShoppingCartFilled className='faIcons'/></button>:
                                     <button onClick={handleAddToCart} disabled={(scrapedMetacriticData.stock === undefined) ? true : false}>
-                                        {(scrapedMetacriticData.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
+                                        {(scrapedMetacriticData.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : 
+                                        <>
+                                            {(productCartAdded) ? 
+                                            <TbShoppingCartFilled className='faIcons gold'/>:
+                                            <TbShoppingCartPlus className='faIcons'/>}
+                                        </>}
                                     </button>
                                 }
                             </>:<>

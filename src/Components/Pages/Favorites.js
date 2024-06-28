@@ -140,7 +140,7 @@ const Favorites = () => {
         if (productDetails.length){
             return (
                 <>
-                    {!loadingProducts ? <>
+                    {/* {!loadingProducts ? <> */}
                         {productDetails.map((favorite, i) => (
                             <div className="fcpcMi1Content" key={i}>
                                 <div className="fcpcm1cGamePlatform">
@@ -171,13 +171,13 @@ const Favorites = () => {
                                 </div>
                             </div>
                         ))}
-                        </>:<>
+                        {/* </>:<>
                         {productDetails.map((favorite, i) => (
                             <div className="fcpcMi1CDummy" key={i}>
                                 <div className="fcpcm1cGPDummy"></div>
                             </div>
-                        ))}
-                    </>}
+                        ))} */}
+                    {/* </>} */}
                 </>
             );
         } else {

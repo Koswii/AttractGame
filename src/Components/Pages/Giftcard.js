@@ -47,6 +47,7 @@ const Giftcard = () => {
     const [giftcardViewContent, setViewGiftcardContent] = useState('');
     const [loadingGiftcard, setLoadingGiftcard] = useState(true);
     const [productCart, setProductCarts] = useState([]);
+    const [productCartAdded, setProductCartAdded] = useState('');
 
     const getRandomItems = (array, numItems) => {
         const shuffled = array.sort(() => 0.5 - Math.random());
@@ -110,6 +111,7 @@ const Giftcard = () => {
     const handleAddToCart = (details) => {
         const productCartGiftcardCode = details.giftcard_id;
         const productCartGiftcardName = details.giftcard_name;
+        setProductCartAdded(productCartGiftcardCode)
     
         const formAddCart = {
           agCartUsername: userLoggedData.username,
@@ -160,7 +162,13 @@ const Giftcard = () => {
                                             {productCart.some(cartItem => cartItem.ag_product_id === details.giftcard_id) ?
                                                 <button><TbShoppingCartFilled className='faIcons'/></button>:
                                                 <button onClick={() => handleAddToCart(details)} disabled={(details.stockCount === 0) ? true : false}>
-                                                    {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
+                                                    {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : 
+                                                    <>
+                                                    {(productCartAdded === details.giftcard_id) ? 
+                                                        <TbShoppingCartFilled className='faIcons'/>:
+                                                        <TbShoppingCartPlus className='faIcons'/>}
+                                                    </>
+                                                    }
                                                 </button>
                                             }
                                         </span>

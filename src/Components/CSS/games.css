@@ -29,7 +29,7 @@ h6{
     width: 100%;
     background: black;
     position: relative;
-    padding-bottom: 5vw;
+    padding-bottom: 10vw;
 }
 
 
@@ -310,10 +310,12 @@ section.gamesPageContainer.top{
     outline: none;
     cursor: pointer;
 }
-.gmspct2gDetails div button#gmspct2gdRemoveFav{
+.gmspct2gDetails div button#gmspct2gdRemoveFav,
+.gmspct2gDetails div button .faIcons.red{
     color: red;
 }
-.gmspct2gDetails div button#gmspct2gdCartAdded{
+.gmspct2gDetails div button#gmspct2gdCartAdded,
+.gmspct2gDetails div button .faIcons.gold{
     color: gold;
 }
 
