@@ -283,27 +283,23 @@ const Home = () => {
           <>
             {viewfiltergame &&(
               <>
-                <div className="searchedItemresults">
-                  <div className="searchItems-container">
-                    <div className="searchItems-contents">
-                      {viewfiltergame &&(
-                        <>
-                          {viewfiltergame.length !== 0 &&(<p>Games</p>)}
-                          <ul>
-                            <section>
-                              {viewfiltergame.map(items => (
-                                <Link key={items.id} to={`/Games/${items.game_canonical}`}>
-                                  <li style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                                    <h1>{items.game_title}</h1>
-                                  </li>
-                                </Link>
-                              ))}
-                            </section>
-                          </ul>
-                        </>
-                      )}
-                    </div>
-                  </div>
+                <div className="lndpcm2ContentResults">
+                  {viewfiltergame &&(
+                    <>
+                      {/* {viewfiltergame.length !== 0 &&(<h5>Games</h5>)} */}
+                      <div className='searchItemContainers'>
+                        {viewfiltergame.map(items => (
+                          <Link key={items.id} to={`/Games/${items.game_canonical}`}>
+                            <div className='searchItemContents' style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${items.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                              <div className="searchICName">
+                                <h6>{items.game_title}</h6>
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
               </>
             )}

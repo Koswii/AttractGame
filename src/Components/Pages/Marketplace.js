@@ -191,6 +191,8 @@ const Marketplace = () => {
     const [loadingMarketData1, setLoadingMarketData1] = useState(true);
     const [scrapedMetacriticData, setScrapedMetacriticData] = useState('');
     const [viewRobloxPartners, setViewRobloxPartners] = useState([]);
+    const [productFavAdded, setProductFavAdded] = useState('');
+    const [productCartAdded, setProductCartAdded] = useState('');
 
 
     useEffect(() => {
@@ -288,6 +290,7 @@ const Marketplace = () => {
     const handleAddFavorite = (details) => {
         const productFavGameCode = details.game_canonical;
         const productFavGameName = details.game_title;
+        setProductFavAdded(productFavGameCode)
     
         const formAddfavorite = {
           agFavUsername: userLoggedData.username,
@@ -314,6 +317,7 @@ const Marketplace = () => {
         });
     };
     const handleRemoveFavorite = (gameCanonical) => {
+        setProductFavAdded('')
         const removeFav = {
             user: userLoggedData.userid,
             favorite: gameCanonical
@@ -351,6 +355,7 @@ const Marketplace = () => {
     const handleAddToCartGame = (details) => {
         const productCartGameCode = details.game_canonical;
         const productCartGameName = details.game_title;
+        setProductCartAdded(productCartGameCode)
     
         const formAddCart = {
           agCartUsername: userLoggedData.username,
@@ -554,12 +559,23 @@ const Marketplace = () => {
                                     </div>
                                 {userLoggedIn ?<>
                                     <button id={favorites.includes(details.game_canonical) ? 'mppcm2GDHRemove' : 'mppcm2GDAdd'} onClick={() => handleFavoriteToggle(details)}>
-                                        {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
+                                        {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : 
+                                        <>
+                                            {(productFavAdded === details.game_canonical) ? 
+                                            <TbHeartFilled className='faIcons red'/>:
+                                            <TbHeart className='faIcons'/>}
+                                        </>
+                                        }
                                     </button>
                                     {productCart.some(cartItem => cartItem.ag_product_id === details.game_canonical) ?
                                         <button id='mppcm2GDAddedCart'><TbShoppingCartFilled className='faIcons'/></button>:
                                         <button id='mppcm2GDCart' onClick={() => handleAddToCartGame(details)} disabled={(details.stockCount === 0) ? true : false}>
-                                            {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
+                                            {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : 
+                                            <>
+                                                {(productCartAdded === details.game_canonical) ? 
+                                                <TbShoppingCartFilled className='faIcons gold'/>:
+                                                <TbShoppingCartPlus className='faIcons'/>}
+                                            </>}
                                         </button>
                                     }
                                 </>:<>

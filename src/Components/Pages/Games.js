@@ -19,6 +19,27 @@ const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
 const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
 const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
 const AGUserProductsCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
+
+const fetchFavorites = async (setFavorites, LoginUserID) => {
+    try {
+        const response = await axios.get(AGUserFavoritesAPI);
+        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
+        const favoriteGameCodes = filteredData.map(fav => fav.ag_product_id);
+        setFavorites(favoriteGameCodes);
+    } catch (error) {
+        console.error(error);
+    }
+};
+const fetchUserCart = async (setProductCarts, LoginUserID) => {
+    try {
+        const response = await axios.get(AGUserProductsCartAPI);
+        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
+        const gameCartProducts = filteredData.filter(product => product.ag_product_type === 'Game');
+        setProductCarts(gameCartProducts);
+    } catch (error) {
+        console.error(error);
+    }
+};
 const fetchGames = async (setViewAGData1, setLoadingMarketData) => {
     try {
         const response1 = await axios.get(AGGamesListAPI1);
@@ -41,27 +62,6 @@ const fetchGames = async (setViewAGData1, setLoadingMarketData) => {
         console.error(error);
     }
 };
-const fetchFavorites = async (setFavorites, LoginUserID) => {
-    try {
-        const response = await axios.get(AGUserFavoritesAPI);
-        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
-        const favoriteGameCodes = filteredData.map(fav => fav.ag_product_id);
-        setFavorites(favoriteGameCodes);
-    } catch (error) {
-        console.error(error);
-    }
-};
-const fetchUserCart = async (setProductCarts, LoginUserID) => {
-    try {
-        const response = await axios.get(AGUserProductsCartAPI);
-        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
-        const gameCartProducts = filteredData.filter(product => product.ag_product_type === 'Game');
-        setProductCarts(gameCartProducts);
-    } catch (error) {
-        console.error(error);
-    }
-};
-
 
 
 
@@ -77,6 +77,8 @@ const Games = () => {
     const [loadingMarketData, setLoadingMarketData] = useState(false);
     const [favorites, setFavorites] = useState([]);
     const [productCart, setProductCarts] = useState([]);
+    const [productFavAdded, setProductFavAdded] = useState('');
+    const [productCartAdded, setProductCartAdded] = useState('');
     const [currentPage, setCurrentPage] = useState(
         parseInt(localStorage.getItem('currentPage')) || 1
     ); // state to track current page
@@ -92,9 +94,9 @@ const Games = () => {
         }
         
         fetchUserProfile();
-        fetchGames(setViewAGData1, setLoadingMarketData);
         fetchFavorites(setFavorites, LoginUserID);
         fetchUserCart(setProductCarts, LoginUserID);
+        fetchGames(setViewAGData1, setLoadingMarketData);
     }, [LoginUserID]);
     const handleSearchChange = event => {
         setSearchGameName(event.target.value);
@@ -132,6 +134,7 @@ const Games = () => {
     const handleAddFavorite = (details) => {
         const productFavGameCode = details.game_canonical;
         const productFavGameName = details.game_title;
+        setProductFavAdded(productFavGameCode)
     
         const formAddfavorite = {
           agFavUsername: userLoggedData.username,
@@ -158,6 +161,7 @@ const Games = () => {
         });
     };
     const handleRemoveFavorite = (gameCanonical) => {
+        setProductFavAdded('')
         const removeFav = {
             user: userLoggedData.userid,
             favorite: gameCanonical,
@@ -193,6 +197,7 @@ const Games = () => {
     const handleAddToCart = (details) => {
         const productCartGameCode = details.game_canonical;
         const productCartGameName = details.game_title;
+        setProductCartAdded(productCartGameCode)
     
         const formAddCart = {
           agCartUsername: userLoggedData.username,
@@ -264,6 +269,7 @@ const Games = () => {
         setFilterChanging(false);
         }
     }, [filters, filterChanging]);
+    
     return (
         <div className='mainContainer gameList'>
             <section className="gamesPageContainer top">
@@ -443,12 +449,24 @@ const Games = () => {
                                                 </h6>
                                                 {userLoggedIn ?<>
                                                     <button id={favorites.includes(details.game_canonical) ? 'gmspct2gdRemoveFav' : 'gmspct2gdAddFav'} onClick={() => handleFavoriteToggle(details)}>
-                                                        {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}
+                                                        {favorites.includes(details.game_canonical) ? 
+                                                        <TbHeartFilled className='faIcons'/> : 
+                                                        <>
+                                                            {(productFavAdded === details.game_canonical) ? 
+                                                            <TbHeartFilled className='faIcons red'/>:
+                                                            <TbHeart className='faIcons'/>}
+                                                        </>
+                                                        }
                                                     </button>
                                                     {productCart.some(cartItem => cartItem.ag_product_id === details.game_canonical) ?
                                                         <button id='gmspct2gdCartAdded'><TbShoppingCartFilled className='faIcons'/></button>:
                                                         <button onClick={() => handleAddToCart(details)} disabled={(details.stockCount === 0) ? true : false}>
-                                                            {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
+                                                            {(details.stock === undefined || 0 || '') ? <TbShoppingCartOff className='faIcons'/> : 
+                                                            <>
+                                                                {(productCartAdded === details.game_canonical) ? 
+                                                                <TbShoppingCartFilled className='faIcons gold'/>:
+                                                                <TbShoppingCartPlus className='faIcons'/>}
+                                                            </>}
                                                         </button>
                                                     }
                                                 </>:<>

@@ -298,10 +298,12 @@ section.gamePageContainer.top{
     margin: 0 1%;
     cursor: pointer;
 }
-.gppctgdrExtras button#gppct2gdRemoveFav{
+.gppctgdrExtras button#gppct2gdRemoveFav,
+.gppctgdrExtras button .faIcons.red{
     color: red;
 }
-.gppctgdrExtras button#gppct2gdGameCart{
+.gppctgdrExtras button#gppct2gdGameCart,
+.gppctgdrExtras button .faIcons.gold{
     color: gold;
 }
 .gppctgdrExtras div{
