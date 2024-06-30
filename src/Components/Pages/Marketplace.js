@@ -37,13 +37,13 @@ import {
     MdDiscount 
 } from "react-icons/md";
 import axios from 'axios';
+import { UserProfileData } from './UserProfileContext';
+import { GamesFetchData } from './GamesFetchContext';
+import { GiftcardsFetchData } from './GiftcardsFetchContext';
 
-
+ 
 
 const LoginUserID = localStorage.getItem('profileUserID');
-const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
-const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
-const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
 const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
 const AGGamesRobloxPartners = process.env.REACT_APP_AG_GAMES_ROBLOX_API;
 const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
@@ -61,72 +61,6 @@ const getRandomItems = (array, numItems) => {
     const shuffled = array.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, numItems);
 };
-const fetchGames = async (setLoadingMarketData1, setViewAllGamesNum, setViewAGData1, setViewMetacriticData, setViewWikiData, setViewAllListedGames) => {
-    try {
-        setLoadingMarketData1(true);
-        const response1 = await axios.get(AGGamesListAPI1);
-        const agAllGames = response1.data;
-
-        // Get current year
-        const currentYear = new Date().getFullYear();
-        // Filter games based on the current year
-        const currentYearGames = agAllGames.filter(game => {
-            const gameDate = new Date(game.game_released);
-            return gameDate.getFullYear() === currentYear;
-        });
-
-        // Sort the games by release month and year
-        const sortedCurrentYearGames = currentYearGames.sort((a, b) => {
-            const dateA = new Date(a.game_released);
-            const dateB = new Date(b.game_released);
-            if (dateA.getFullYear() === dateB.getFullYear()) {
-                return dateB.getMonth() - dateA.getMonth(); // Sort by month if years are the same
-            }
-            return dateB.getFullYear() - dateA.getFullYear(); // Sort by year
-        });
-
-        const gameCSFeatMetacritic = sortedCurrentYearGames.map(game => game.game_title.toLowerCase().replace(/\s/g, '-'));
-        const gameCSFeatWikipedia = sortedCurrentYearGames.map(game => game.game_title_ext1.replace(/\s/g, '_') || game.game_title.replace(/\s/g, '_'));
-        const stockListResponse = await axios.get(AGStocksListAPI);
-        const stockListData = stockListResponse.data;
-
-        const stockInfo = sortedCurrentYearGames.map(games => {
-            const stock = stockListData.find(stock => stock.ag_product_id === games.game_canonical);
-            const stockCount = stockListData.filter(stock => stock.ag_product_id === games.game_canonical).length;
-            return {
-                ...games, stock, stockCount,
-            };
-        });
-
-        setViewAllGamesNum(agAllGames);
-        setViewAGData1(sortedCurrentYearGames);
-        // setViewAllListedGames(sortedCurrentYearGames);
-        setViewMetacriticData(gameCSFeatMetacritic);
-        setViewWikiData(gameCSFeatWikipedia)
-
-        if (stockInfo.length > 0) {
-            const randomItems = getRandomItems(stockInfo, 15);
-            setViewAllListedGames(randomItems);
-        }
-
-    } catch (error) {
-        console.error(error);
-    } finally {
-        setLoadingMarketData1(false);
-    }
-};
-const fetchDataGiftcards = async (setLoadingMarketData1, filterUniqueData, setViewAllGiftcard) => {
-    setLoadingMarketData1(true);
-    try {
-        const response = await axios.get(AGGiftcardsListAPI);
-        const unique = filterUniqueData(response.data);
-        setViewAllGiftcard(unique);
-    } catch (error) {
-        console.error(error);
-    } finally {
-        setLoadingMarketData1(false);
-    }
-}
 const fetchDataGameCredits = async (setLoadingMarketData1, setViewAllGameCredits) => {
     setLoadingMarketData1(true);
     try {
@@ -168,24 +102,31 @@ const fetchUserCart = async (setProductCarts, LoginUserID) => {
         console.error(error);
     }
 };
+
+
 const Marketplace = () => {
     const navigate = useNavigate ();
     const { setActivePage } = useActivePage();
+    const { userLoggedData } = UserProfileData();
+    const { viewAllGames } = GamesFetchData();
+    const { viewAllGamesNum } = GamesFetchData();
+    const { viewAllListedGames } = GamesFetchData();
+    const { viewAGData2 } = GamesFetchData();
+    const { viewWikiData } = GamesFetchData();
+    const { viewMetacriticData } = GamesFetchData();
+    const { loadingMarketData2 } = GamesFetchData();
+
+    const { filteredGiftcards } = GiftcardsFetchData();
+
+
+
     const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
     const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
-    const [userLoggedData, setUserLoggedData] = useState('')
     const [favorites, setFavorites] = useState([]);
     const [productCart, setProductCarts] = useState([]);
-    const [viewAllGamesNum, setViewAllGamesNum] = useState([]);
-    const [viewAllListedGames, setViewAllListedGames] = useState([]);
-    const [viewAGData1, setViewAGData1] = useState([]);
-    const [viewAGData2, setViewAGData2] = useState([]);
-    const [viewWikiData, setViewWikiData] = useState([]);
-    const [viewMetacriticData, setViewMetacriticData] = useState([]);
-    const [viewAllGiftcard, setViewAllGiftcard] = useState([]);
     const [viewAllGameCredits, setViewAllGameCredits] = useState([]);
     const [loadingMarketData, setLoadingMarketData] = useState(false);
     const [loadingMarketData1, setLoadingMarketData1] = useState(true);
@@ -194,36 +135,10 @@ const Marketplace = () => {
     const [productFavAdded, setProductFavAdded] = useState('');
     const [productCartAdded, setProductCartAdded] = useState('');
 
-
-    useEffect(() => {
-        const fetchUserProfile = () => {
-            const storedProfileData = localStorage.getItem('profileDataJSON')
-            if(storedProfileData) {
-                const parsedProfileData = JSON.parse(storedProfileData);
-                setUserLoggedData(JSON.parse(storedProfileData))
-            }
-        }
-        fetchUserProfile();
-    }, []);
-    const filterUniqueData = (giftcards) => {
-        const uniqueRecords = [];
-        const recordMap = {};
-
-        giftcards.forEach(record => {
-            if (!recordMap[record.giftcard_name]) {
-                recordMap[record.giftcard_name] = true;
-                uniqueRecords.push(record);
-            }
-        });
-
-        return uniqueRecords;
-    };
     useEffect(() => {
         fetchFavorites(setFavorites);
         fetchUserCart(setProductCarts, LoginUserID);
-        fetchGames(setLoadingMarketData1, setViewAllGamesNum, setViewAGData1, setViewMetacriticData, setViewWikiData, setViewAllListedGames);
         fetchDataGameCredits(setLoadingMarketData1, setViewAllGameCredits);
-        fetchDataGiftcards(setLoadingMarketData1, filterUniqueData, setViewAllGiftcard);
         fetchRobloxPartners(setViewRobloxPartners);
     }, [LoginUserID]);
     useEffect(() => {
@@ -263,7 +178,7 @@ const Marketplace = () => {
                         const genre = targetElementGenre ? targetElementGenre.textContent.trim() : '';
         
                         const wikiDetailsData = wikipediaResponses[index] ? wikipediaResponses[index].data : {};
-                        return { metascore, metadescription, release, publisher, genre, ...wikiDetailsData, agData1: viewAGData1[index] };
+                        return { metascore, metadescription, release, publisher, genre, ...wikiDetailsData, agData1: viewAGData2[index] };
                     });
         
                     if(combinedData.length == 0){
@@ -306,7 +221,6 @@ const Marketplace = () => {
           if (resMessage.success === true) {
             console.log(resMessage.message);
             setFavorites([...favorites, productFavGameCode]);
-            fetchGames(setViewAGData1, setLoadingMarketData);
             fetchFavorites(setFavorites, LoginUserID);
           } else {
             console.log(resMessage.message);
@@ -401,7 +315,7 @@ const Marketplace = () => {
                             <h6>{viewAllGamesNum.length} <TbDeviceGamepad2 className='faIcons'/></h6>
                         </span>
                         <span>
-                            <h6>{viewAllGiftcard.length} <TbGiftCard className='faIcons'/></h6>
+                            <h6>{filteredGiftcards.length} <TbGiftCard className='faIcons'/></h6>
                         </span>
                     </div>
                 </div>
@@ -517,7 +431,7 @@ const Marketplace = () => {
                 </div>
                 <h4 id='mppcmhTitles'><TbDeviceGamepad2 className='faIcons'/> LISTED GAMES</h4>
                 <div className="mpPageContentMid2 website">
-                    {loadingMarketData1 ? <>
+                    {loadingMarketData2 ? <>
                         <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
                         <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
                         <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
@@ -708,7 +622,7 @@ const Marketplace = () => {
                 </div>
                 <h4 id='mppcmhTitles'><TbGiftCard className='faIcons'/> AVAILABLE GIFTCARDS</h4>
                 <div className="mpPageContentMid6 website">
-                    {loadingMarketData1 ? <>
+                    {loadingMarketData2 ? <>
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
@@ -719,7 +633,7 @@ const Marketplace = () => {
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
-                    </>:<>{viewAllGiftcard.slice(0, 10).map((details, i) => (
+                    </>:<>{filteredGiftcards.slice(0, 10).map((details, i) => (
                             <Link className="mppContentMid6" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
                                 <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
                             </Link>
@@ -727,12 +641,12 @@ const Marketplace = () => {
                     </>}
                 </div>
                 <div className="mpPageContentMid6 mobile">
-                    {loadingMarketData1 ? <>
+                    {loadingMarketData2 ? <>
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
-                    </>:<>{viewAllGiftcard.slice(0, 4).map((details, i) => (
+                    </>:<>{filteredGiftcards.slice(0, 4).map((details, i) => (
                             <Link className="mppContentMid6" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
                                 <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
                             </Link>

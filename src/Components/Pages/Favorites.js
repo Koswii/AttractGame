@@ -10,6 +10,7 @@ import {
     TbShoppingCartOff,    
 } from "react-icons/tb";
 import ImageEmbed from './ImageEmbed';
+import { UserProfileData } from './UserProfileContext';
 
 
 const LoginUserID = localStorage.getItem('profileUserID');
@@ -59,23 +60,14 @@ const fetchUserCart = async (setProductCarts, LoginUserID) => {
 };
 
 const Favorites = () => {
+    const { userLoggedData } = UserProfileData();
     const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
-    const [userLoggedData, setUserLoggedData] = useState('');
     const [productDetails, setProductDetails] = useState([]);
     const [loadingProducts, setLoadingProducts] = useState(false);
     const [productCart, setProductCarts] = useState([]);
 
     useEffect(() => {
-        const fetchUserProfile = () => {
-            const storedProfileData = localStorage.getItem('profileDataJSON')
-            if(storedProfileData) {
-                const parsedProfileData = JSON.parse(storedProfileData);
-                setUserLoggedData(JSON.parse(storedProfileData))
-            }
-        }
-
-        fetchUserProfile();
         fetchFavoriteProducts(setProductDetails, setLoadingProducts);
         fetchUserCart(setProductCarts, LoginUserID);
     }, []);

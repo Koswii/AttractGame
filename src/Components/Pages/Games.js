@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import "../CSS/games.css";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import qs from 'qs';
 import { 
     TbShoppingCartPlus,
     TbShoppingCartFilled,
@@ -12,8 +11,9 @@ import {
 } from "react-icons/tb";
 import { GiConsoleController } from "react-icons/gi";
 import { TbCategoryFilled } from "react-icons/tb";
-import { MdOutlineFavorite } from "react-icons/md";
 import { VscVersions } from "react-icons/vsc";
+import { UserProfileData } from './UserProfileContext';
+import { GamesFetchData } from './GamesFetchContext';
 
 const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
 const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
@@ -40,41 +40,18 @@ const fetchUserCart = async (setProductCarts, LoginUserID) => {
         console.error(error);
     }
 };
-const fetchGames = async (setViewAGData1, setLoadingMarketData) => {
-    try {
-        const response1 = await axios.get(AGGamesListAPI1);
-        const agAllGames = response1.data;
-        const agSortAllGamesByDate = agAllGames.sort((a, b) => new Date(b.game_released) - new Date(a.game_released));
-
-        const stockListResponse = await axios.get(AGStocksListAPI);
-        const stockListData = stockListResponse.data;
-
-        const stockInfo = agSortAllGamesByDate.map(games => {
-            const stock = stockListData.find(stock => stock.ag_product_id === games.game_canonical);
-            const stockCount = stockListData.filter(stock => stock.ag_product_id === games.game_canonical).length;
-            return {
-                ...games, stock, stockCount,
-            };
-        });
-        setViewAGData1(stockInfo);
-        setLoadingMarketData(true);
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-
 
 const Games = () => {
+    const { userLoggedData } = UserProfileData();
+    const { viewAGData1 } = GamesFetchData();
+    const { loadingMarketData } = GamesFetchData();
     const AGAddToFavoritesAPI = process.env.REACT_APP_AG_ADD_USER_FAV_API;
     const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
-    const [userLoggedData, setUserLoggedData] = useState('')
-    const [viewAGData1, setViewAGData1] = useState([]);
     const [searchGameName, setSearchGameName] = useState('');
-    const [loadingMarketData, setLoadingMarketData] = useState(false);
+    // const [loadingMarketData, setLoadingMarketData] = useState(false);
     const [favorites, setFavorites] = useState([]);
     const [productCart, setProductCarts] = useState([]);
     const [productFavAdded, setProductFavAdded] = useState('');
@@ -84,19 +61,16 @@ const Games = () => {
     ); // state to track current page
     const [itemsPerPage] = useState(30); // number of items per page
 
+
     useEffect(() => {
-        const fetchUserProfile = () => {
-            const storedProfileData = localStorage.getItem('profileDataJSON')
-            if(storedProfileData) {
-                const parsedProfileData = JSON.parse(storedProfileData);
-                setUserLoggedData(JSON.parse(storedProfileData))
-            }
-        }
-        
-        fetchUserProfile();
         fetchFavorites(setFavorites, LoginUserID);
         fetchUserCart(setProductCarts, LoginUserID);
-        fetchGames(setViewAGData1, setLoadingMarketData);
+
+        // const loadTimer = setTimeout(() => {
+        //     setLoadingMarketData(true);
+        // }, 1000);
+        // return () => clearTimeout(loadTimer);
+
     }, [LoginUserID]);
     const handleSearchChange = event => {
         setSearchGameName(event.target.value);
@@ -150,7 +124,6 @@ const Games = () => {
           if (resMessage.success === true) {
             console.log(resMessage.message);
             setFavorites([...favorites, productFavGameCode]);
-            fetchGames(setViewAGData1, setLoadingMarketData);
             fetchFavorites(setFavorites, LoginUserID);
           } else {
             console.log(resMessage.message);
@@ -215,7 +188,6 @@ const Games = () => {
         .then(response => {
           const resMessage = response.data;
           if (resMessage.success === true) {
-            fetchGames(setViewAGData1, setLoadingMarketData);
             fetchUserCart(setProductCarts, LoginUserID);
           } else {
             // console.log(resMessage.message);
@@ -248,12 +220,12 @@ const Games = () => {
       }));
       setFilterChanging(true)
     };
-    const handleFavoriteChange = () => {
-      setFilters(prevFilters => ({
-        ...prevFilters,
-        favorite: !prevFilters.favorite
-      }));
-    };
+    // const handleFavoriteChange = () => {
+    //   setFilters(prevFilters => ({
+    //     ...prevFilters,
+    //     favorite: !prevFilters.favorite
+    //   }));
+    // };
     const filteredDatagames = viewAGData1.filter(game => {
       const platformMatch = filters.platform[game.game_platform] || Object.values(filters.platform).every(v => !v);
       const categoryMatch = filters.category[game.game_category] || Object.values(filters.category).every(v => !v);
