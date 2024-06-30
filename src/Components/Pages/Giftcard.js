@@ -19,6 +19,7 @@ import {
     TbCalendarStar,
     TbSquareRoundedArrowRight,      
 } from "react-icons/tb";
+import { UserProfileData } from './UserProfileContext';
 
 
 const AGUserProductsCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
@@ -36,12 +37,12 @@ const fetchUserCart = async (setProductCarts, LoginUserID) => {
 const Giftcard = () => {
     const { giftcardCanonical } = useParams();
     const { setActivePage } = useActivePage();
+    const { userLoggedData } = UserProfileData();
     const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
     const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
-    const [userLoggedData, setUserLoggedData] = useState('');
     const [giftcardViewAll, setGiftcardViewAll] = useState([]);
     const [giftcardViewDetails, setGiftcardViewDetails] = useState([]);
     const [giftcardViewContent, setViewGiftcardContent] = useState('');
@@ -55,13 +56,6 @@ const Giftcard = () => {
     };
 
     useEffect(() => {
-        const fetchUserProfile = () => {
-            const storedProfileData = localStorage.getItem('profileDataJSON')
-            if(storedProfileData) {
-                const parsedProfileData = JSON.parse(storedProfileData);
-                setUserLoggedData(JSON.parse(storedProfileData))
-            }
-        };
         const fetchGiftcards = async () => {
             setLoadingGiftcard(true);
             try {
@@ -96,8 +90,6 @@ const Giftcard = () => {
             }
         };
 
-        
-        fetchUserProfile();
         fetchGiftcards();
         fetchUserCart(setProductCarts, LoginUserID);
     }, [LoginUserID, giftcardCanonical]);

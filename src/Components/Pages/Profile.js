@@ -44,6 +44,7 @@ import {
     IoIosImages,
     IoMdAddCircle  
 } from "react-icons/io";
+import { UserProfileData } from './UserProfileContext';
 import HashtagHighlighter from './HashtagHighlighter';
 import YouTubeEmbed from './YouTubeEmbed';
 import UserPostModal from './UserPostModal';
@@ -127,7 +128,7 @@ const defaultImages = [
 ];
 
 const Profile = () => {
-
+    const { userLoggedData } = UserProfileData();
     // User Profile Fetching
     const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
     const AGGamesListAPI = process.env.REACT_APP_AG_GAMES_LIST_API;
@@ -141,7 +142,6 @@ const Profile = () => {
     const [userProductIDData, setUserProductIDData] = useState([]);
     const [userProductCodeIDData, setUserProductCodeIDData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [userLoggedData, setUserLoggedData] = useState('')
     const [randomNumber, setRandomNumber] = useState('');
     const [randomPostID, setRandomPostID] = useState('');
     const [viewFetchPost, setViewFetchPost] = useState([]);
@@ -164,13 +164,7 @@ const Profile = () => {
         return () => clearInterval(interval);
     }, []);
     useEffect(() => {
-        const fetchUserProfile = () => {
-            const storedProfileData = localStorage.getItem('profileDataJSON')
-            if(storedProfileData) {
-                const parsedProfileData = JSON.parse(storedProfileData);
-                setUserLoggedData(JSON.parse(storedProfileData))
-            }
-        }
+        
         const fetchUserDataPost = () => {
             setIsLoading(true);
             axios.get(AGUserPostAPI)
@@ -243,8 +237,6 @@ const Profile = () => {
             }
         };
         
-
-        fetchUserProfile();
         fetchUserDataPost();
         fetchUserDataStory(setViewFetchStory);
         fetchUserProductIds();

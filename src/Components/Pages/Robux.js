@@ -11,6 +11,7 @@ import {
     TbShoppingCartFilled,
     TbShoppingCartOff,    
 } from "react-icons/tb";
+import { UserProfileData } from './UserProfileContext';
 
 
 
@@ -28,28 +29,22 @@ const fetchUserCart = async (setProductCarts, LoginUserID) => {
 
 
 const Robux = () => {
+    const { userLoggedData } = UserProfileData();
     const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
     const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
     const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
-    const [userLoggedData, setUserLoggedData] = useState('');
     const [giftcardViewDetails, setGiftcardViewDetails] = useState([]);
     const [gamecreditViewDetails, setGamecreditViewDetails] = useState([]);
     const [loadingGiftcard, setLoadingGiftcard] = useState(true);
     const [loadingGamecredit, setLoadingGamecredit] = useState(true);
     const [productCart, setProductCarts] = useState([]);
+    const [productCartAdded, setProductCartAdded] = useState('');
 
 
     useEffect(() => {
-        const fetchUserProfile = () => {
-            const storedProfileData = localStorage.getItem('profileDataJSON')
-            if(storedProfileData) {
-                const parsedProfileData = JSON.parse(storedProfileData);
-                setUserLoggedData(JSON.parse(storedProfileData))
-            }
-        };
         const fetchGiftcards = async () => {
             setLoadingGiftcard(true);
             try {
@@ -102,7 +97,6 @@ const Robux = () => {
             }
         }
 
-        fetchUserProfile();
         fetchGiftcards();
         fetchGameCredits();
         fetchUserCart(setProductCarts, LoginUserID);
@@ -112,6 +106,7 @@ const Robux = () => {
     const handleAddToCartGiftcard = (details) => {
         const productCartGiftcardCode = details.giftcard_id;
         const productCartGiftcardName = details.giftcard_name;
+        setProductCartAdded(productCartGiftcardCode)
     
         const formAddCart = {
           agCartUsername: userLoggedData.username,
@@ -141,6 +136,7 @@ const Robux = () => {
     const handleAddToCartGamecredit = (details) => {
         const productCartGamecreditCode = details.gamecredit_id;
         const productCartGamecreditName = details.gamecredit_name;
+        setProductCartAdded(productCartGamecreditCode)
     
         const formAddCart = {
           agCartUsername: userLoggedData.username,
@@ -211,7 +207,12 @@ const Robux = () => {
                                     {productCart.some(cartItem => cartItem.ag_product_id === details.giftcard_id) ?
                                         <button><TbShoppingCartFilled className='faIcons'/></button>:
                                         <button onClick={() => handleAddToCartGiftcard(details)} disabled={(details.stockCount === 0) ? true : false}>
-                                            {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
+                                            {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : 
+                                            <>
+                                            {(productCartAdded === details.giftcard_id) ? 
+                                                <TbShoppingCartFilled className='faIcons'/>:
+                                                <TbShoppingCartPlus className='faIcons'/>}
+                                            </>}
                                         </button>
                                     }
                                 </div>
@@ -242,7 +243,12 @@ const Robux = () => {
                                     {productCart.some(cartItem => cartItem.ag_product_id === details.gamecredit_id) ?
                                         <button><TbShoppingCartFilled className='faIcons'/></button>:
                                         <button onClick={() => handleAddToCartGamecredit(details)} disabled={(details.stockCount === 0) ? true : false}>
-                                            {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
+                                            {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : 
+                                            <>
+                                            {(productCartAdded === details.gamecredit_id) ? 
+                                                <TbShoppingCartFilled className='faIcons'/>:
+                                                <TbShoppingCartPlus className='faIcons'/>}
+                                            </>}
                                         </button>
                                     }
                                 </div>

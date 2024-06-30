@@ -34,21 +34,23 @@ import {
   TbDiamond,   
 } from "react-icons/tb";
 import axios from 'axios';
+import { GamesFetchData } from './GamesFetchContext';
+import { GiftcardsFetchData } from './GiftcardsFetchContext';
 
 
 
 const Home = () => {
   const { setActivePage } = useActivePage();
+  const { viewAllGames } = GamesFetchData();
+  const { viewAllGamesNum } = GamesFetchData();
+  const { viewAllListedGames } = GamesFetchData();
+  const { viewAGData2 } = GamesFetchData();
+  const { viewWikiData } = GamesFetchData();
+  const { viewMetacriticData } = GamesFetchData();
+  const { loadingMarketData2 } = GamesFetchData();
+  const { filteredGiftcards } = GiftcardsFetchData();
   const marqueeRef = useRef(null);
   const [hasScrolled, setHasScrolled] = useState(false);
-  const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
-  const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
-  const AGGiftcardsListAPI2 = process.env.REACT_APP_AG_GIFTCARDS_LIST_API2;
-  const [viewAllGamesNum, setViewAllGamesNum] = useState([]);
-  const [viewAllGames, setViewAllGames] = useState([]);
-  const [viewAllGiftcard, setViewAllGiftcard] = useState([]);
-  const [viewAGData1, setViewAGData1] = useState([]);
-  const [loading, setLoading] = useState(true);
 
 
   const handleClickGames = () => {
@@ -58,57 +60,57 @@ const Home = () => {
     setActivePage('giftcards');
   }
 
-  useEffect(() => {
-    const fetchDataGames = async () => {
-      try {
-        const response1 = await axios.get(AGGamesListAPI1);
-        const agAllGames = response1.data;
-        setViewAllGames(agAllGames)
-        // Get current year
-        const currentYear = new Date().getFullYear();
-        // Filter games based on the current year
-        const currentYearGames = agAllGames.filter(game => {
-          const gameDate = new Date(game.game_released);
-          return gameDate.getFullYear() === currentYear;
-        });
+  // useEffect(() => {
+  //   const fetchDataGames = async () => {
+  //     try {
+  //       const response1 = await axios.get(AGGamesListAPI1);
+  //       const agAllGames = response1.data;
+  //       setViewAllGames(agAllGames)
+  //       // Get current year
+  //       const currentYear = new Date().getFullYear();
+  //       // Filter games based on the current year
+  //       const currentYearGames = agAllGames.filter(game => {
+  //         const gameDate = new Date(game.game_released);
+  //         return gameDate.getFullYear() === currentYear;
+  //       });
 
-        // Sort the games by release month and year
-        const sortedCurrentYearGames = currentYearGames.sort((a, b) => {
-          const dateA = new Date(a.game_released);
-          const dateB = new Date(b.game_released);
-          if (dateA.getFullYear() === dateB.getFullYear()) {
-              return dateB.getMonth() - dateA.getMonth(); // Sort by month if years are the same
-          }
-          return dateB.getFullYear() - dateA.getFullYear(); // Sort by year
-        });
-        setViewAllGamesNum(agAllGames.length);
-        setViewAGData1(sortedCurrentYearGames);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  //       // Sort the games by release month and year
+  //       const sortedCurrentYearGames = currentYearGames.sort((a, b) => {
+  //         const dateA = new Date(a.game_released);
+  //         const dateB = new Date(b.game_released);
+  //         if (dateA.getFullYear() === dateB.getFullYear()) {
+  //             return dateB.getMonth() - dateA.getMonth(); // Sort by month if years are the same
+  //         }
+  //         return dateB.getFullYear() - dateA.getFullYear(); // Sort by year
+  //       });
+  //       setViewAllGamesNum(agAllGames.length);
+  //       setViewAGData1(sortedCurrentYearGames);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-    const fetchDataGiftcards = () => {
-      axios.get(AGGiftcardsListAPI2)
-      .then((response) => {
-          const giftcardData = response.data; 
-          setViewAllGiftcard(giftcardData);
-      })
-      .catch(error => {
-          console.log(error)
-      })
-    }
+  //   const fetchDataGiftcards = () => {
+  //     axios.get(AGGiftcardsListAPI2)
+  //     .then((response) => {
+  //         const giftcardData = response.data; 
+  //         setViewAllGiftcard(giftcardData);
+  //     })
+  //     .catch(error => {
+  //         console.log(error)
+  //     })
+  //   }
 
-    const fetchAllData = async () => {
-      setLoading(true); // Set loading to true before data fetch
-      await fetchDataGames();
-      await fetchDataGiftcards();
-      setLoading(false); // Set loading to false after data fetch
-    };
-    fetchAllData();
+  //   const fetchAllData = async () => {
+  //     setLoading(true); // Set loading to true before data fetch
+  //     await fetchDataGames();
+  //     await fetchDataGiftcards();
+  //     setLoading(false); // Set loading to false after data fetch
+  //   };
+  //   fetchAllData();
 
 
-  }, []);
+  // }, []);
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -157,7 +159,7 @@ const Home = () => {
       setSearching(false)
     } else {
       setSearching(true)
-      const unique = filterUniqueData(viewAllGiftcard)
+      const unique = filterUniqueData(filteredGiftcards)
       unique.sort((a, b) => {
         if (a.giftcard_name < b.giftcard_name) return -1;
         if (a.giftcard_name > b.giftcard_name) return 1;
@@ -554,7 +556,7 @@ const Home = () => {
           <h4><TbGiftCardFilled className='faIcons'/> GIFT CARDS & VOUCHERS</h4>
           <div className="lndpcmid5Giftcard">
             <div className="lndpcmid5Container">
-              {viewAllGiftcard.slice(0,5).map((details, i) => (
+              {filteredGiftcards.slice(0,5).map((details, i) => (
                 <Link className="lndpcm5Content" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
                   <div className="lndpcm5c left">
                     <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />

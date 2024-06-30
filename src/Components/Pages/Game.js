@@ -3,6 +3,7 @@ import "../CSS/game.css";
 import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { useActivePage } from './ActivePageContext';
+import { UserProfileData } from './UserProfileContext';
 import { 
     FaSearch,
     FaGamepad,
@@ -52,6 +53,7 @@ const formatDateToWordedDate = (numberedDate) => {
 const Game = () => {
     const { gameCanonical } = useParams();
     const { setActivePage } = useActivePage();
+    const { userLoggedData } = UserProfileData();
     const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
     const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
     const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
@@ -61,7 +63,6 @@ const Game = () => {
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
-    const [userLoggedData, setUserLoggedData] = useState('')
     const [isFavorite, setIsFavorite] = useState(false);
     const [isInCart, setIsInCart] = useState(false);
     const [viewAGData1, setViewAGData1] = useState([]);
@@ -81,13 +82,6 @@ const Game = () => {
     };
 
     useEffect(() => {
-        const fetchUserProfile = () => {
-            const storedProfileData = localStorage.getItem('profileDataJSON')
-            if(storedProfileData) {
-                const parsedProfileData = JSON.parse(storedProfileData);
-                setUserLoggedData(JSON.parse(storedProfileData))
-            }
-        };
         const fetchGameData = async () => {
             try {
                 const response = await axios.get(AGGamesListAPI1);
@@ -108,8 +102,6 @@ const Game = () => {
             }
         };
 
-        
-        fetchUserProfile();
         fetchGameData();
     }, [LoginUserID, gameCanonical]);
 

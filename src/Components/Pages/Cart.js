@@ -19,6 +19,7 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../Pages/checkoutform";
+import { UserProfileData } from './UserProfileContext';
 
 const stripePromise = loadStripe(
   'pk_live_51NpiTWGmWxGfJOSJJkBZLErq1wH9iElM7ixsOF0WRi7HG812NxEsHlsbQwKATn9vZm13e7iu8XsllV0VoY8LT7qJ00p1y83XlO'
@@ -112,10 +113,10 @@ const fetchCartProducts = async (
 
 
 const Cart = () => {
+    const { userLoggedData } = UserProfileData();
     const AGUserRemoveToCartAPI = process.env.REACT_APP_AG_REMOVE_USER_CART_API;
     const AGUserProductTransferAPI = process.env.REACT_APP_AG_TRANSFER_PRODUCTS_API;
     const AGUserTransactionHistoryAPI = process.env.REACT_APP_AG_TRANSACTION_HISTORY_API;
-    const [userLoggedData, setUserLoggedData] = useState('');
     const [productGameDetails, setGameProductDetails] = useState([]);
     const [productGiftcardDetails, setGiftcardProductDetails] = useState([]);
     const [productGamecreditDetails, setGamecreditProductDetails] = useState([]);
@@ -126,17 +127,7 @@ const Cart = () => {
 
 
     useEffect(() => {
-      const fetchUserProfile = () => {
-          const storedProfileData = localStorage.getItem('profileDataJSON')
-          if(storedProfileData) {
-              const parsedProfileData = JSON.parse(storedProfileData);
-              setUserLoggedData(JSON.parse(storedProfileData))
-          }
-      }
-
-      fetchUserProfile();
       fetchCartProducts(setAllProductDetails, setGameProductDetails, setGiftcardProductDetails, setGamecreditProductDetails, setLoadingProducts);
-
     }, []);
     useEffect(() => {
       const interval = setInterval(() => {
