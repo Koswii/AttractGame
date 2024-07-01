@@ -1,14 +1,10 @@
 const express = require("express");
-const stripe = require("stripe")(process.env.REACT_APP_AG_STRIPE_PROMISE); // Ensure this is correctly set in your environment
+const stripe = require("stripe")('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'); 
 const bodyParser = require("body-parser");
 const axios = require("axios");
 const cors = require("cors");
 const path = require("path");
 
-const {
-  REACT_APP_PAYPAL_CLIENT_ID,
-  REACT_APP_PAYPAL_CLIENT_SECRET
-} = process.env;
 const base = "https://api-m.sandbox.paypal.com";
 
 const app = express();
@@ -19,7 +15,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // PayPal
-
+const REACT_APP_PAYPAL_CLIENT_ID = 'AbG0MUcovhrxJlymwu3xTjHje2b6skTcrGtfNOot0gDsNdw6aBBkuwqs5M_OD-XbQ0DE6kafCGslYOVd'
+const REACT_APP_PAYPAL_CLIENT_SECRET = 'ECaISBNP9EsDLDIpzVXsaiAcZQNm14o0JNQ021g0NsW15II41qXIrk1oDPL53M89VnbDG_VsdHYeegyL'
 const generateAccessToken = async () => {
   try {
     if (!REACT_APP_PAYPAL_CLIENT_ID || !REACT_APP_PAYPAL_CLIENT_SECRET) {
@@ -28,16 +25,16 @@ const generateAccessToken = async () => {
     const auth = Buffer.from(
       `${REACT_APP_PAYPAL_CLIENT_ID}:${REACT_APP_PAYPAL_CLIENT_SECRET}`
     ).toString("base64");
-    const response = await fetch(`${base}/v1/oauth2/token`, {
-      method: "POST",
-      body: "grant_type=client_credentials",
-      headers: {
-        Authorization: `Basic ${auth}`,
-      },
-    });
+    const response = await axios.post(`${base}/v1/oauth2/token`, 
+      "grant_type=client_credentials", 
+      {
+        headers: {
+          Authorization: `Basic ${auth}`,
+        },
+      }
+    );
 
-    const data = await response.json();
-    return data.access_token;
+    return response.data.access_token;
   } catch (error) {
     console.error("Failed to generate Access Token:", error);
     throw error;
@@ -62,22 +59,20 @@ const createOrder = async (cart) => {
     ],
   };
 
-  const response = await fetch(url, {
+  const response = await axios.post(url, payload, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
-    method: "POST",
-    body: JSON.stringify(payload),
   });
 
   return handleResponse(response);
 };
 
-const handleResponse = async (response) => {
-  const jsonResponse = await response.json();
+const handleResponse = (response) => {
+  const jsonResponse = response.data;
   const httpStatusCode = response.status;
-  if (!response.ok) {
+  if (!response.status) {
     throw new Error(`HTTP ${httpStatusCode}: ${JSON.stringify(jsonResponse)}`);
   }
   return { jsonResponse, httpStatusCode };
@@ -98,8 +93,7 @@ const captureOrder = async (orderID) => {
   const accessToken = await generateAccessToken();
   const url = `${base}/v2/checkout/orders/${orderID}/capture`;
 
-  const response = await fetch(url, {
-    method: "POST",
+  const response = await axios.post(url, {}, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
