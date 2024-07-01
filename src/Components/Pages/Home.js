@@ -41,13 +41,15 @@ import { GiftcardsFetchData } from './GiftcardsFetchContext';
 
 const Home = () => {
   const { setActivePage } = useActivePage();
-  const { viewAllGames } = GamesFetchData();
-  const { viewAllGamesNum } = GamesFetchData();
-  const { viewAllListedGames } = GamesFetchData();
-  const { viewAGData2 } = GamesFetchData();
-  const { viewWikiData } = GamesFetchData();
-  const { viewMetacriticData } = GamesFetchData();
-  const { loadingMarketData2 } = GamesFetchData();
+  const { 
+    viewAllGames,
+    viewAllGamesNum,
+    viewAllListedGames,
+    viewAGData2,
+    viewWikiData,
+    viewMetacriticData,
+    loadingMarketData2 
+  } = GamesFetchData();
   const { filteredGiftcards } = GiftcardsFetchData();
   const marqueeRef = useRef(null);
   const [hasScrolled, setHasScrolled] = useState(false);

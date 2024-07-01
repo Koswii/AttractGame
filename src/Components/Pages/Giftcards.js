@@ -5,11 +5,13 @@ import axios from 'axios';
 import { GiftcardsFetchData } from './GiftcardsFetchContext';
 
 const Giftcards = () => {
-    const { filterUniqueData } = GiftcardsFetchData();
-    const { setFilteredGiftcards } = GiftcardsFetchData();
-    const { giftcards } = GiftcardsFetchData();
-    const { filteredGiftcards } = GiftcardsFetchData();
-    const { loading } = GiftcardsFetchData();
+    const { 
+        filterUniqueData,
+        setFilteredGiftcards,
+        giftcards,
+        filteredGiftcards,
+        loading 
+    } = GiftcardsFetchData();
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {

@@ -107,7 +107,17 @@ export const GamesFetchDataProvider = ({ children }) => {
     }, []);
 
     return (
-        <GamesFetchContext.Provider value={{ viewAllGames, viewAllGamesNum, viewAllListedGames, viewAGData1, viewAGData2, loadingMarketData, loadingMarketData2, viewMetacriticData, viewWikiData}}>
+        <GamesFetchContext.Provider value={{ 
+            viewAllGames, 
+            viewAllGamesNum, 
+            viewAllListedGames, 
+            viewAGData1, 
+            viewAGData2, 
+            loadingMarketData, 
+            loadingMarketData2, 
+            viewMetacriticData, 
+            viewWikiData
+        }}>
             {children}
         </GamesFetchContext.Provider>
     );

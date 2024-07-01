@@ -106,15 +106,17 @@ const fetchUserCart = async (setProductCarts, LoginUserID) => {
 
 const Marketplace = () => {
     const navigate = useNavigate ();
-    const { setActivePage } = useActivePage();
-    const { userLoggedData } = UserProfileData();
-    const { viewAllGames } = GamesFetchData();
-    const { viewAllGamesNum } = GamesFetchData();
-    const { viewAllListedGames } = GamesFetchData();
-    const { viewAGData2 } = GamesFetchData();
-    const { viewWikiData } = GamesFetchData();
-    const { viewMetacriticData } = GamesFetchData();
-    const { loadingMarketData2 } = GamesFetchData();
+    const { 
+        setActivePage, 
+        userLoggedData,
+        viewAllGames,
+        viewAllGamesNum,
+        viewAllListedGames,
+        viewAGData2,
+        viewWikiData,
+        viewMetacriticData,
+        loadingMarketData2 
+    } = GamesFetchData();
 
     const { filteredGiftcards } = GiftcardsFetchData();
 
