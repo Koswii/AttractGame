@@ -100,7 +100,6 @@ const fetchUserData = async (url, filterFunc) => {
         return [];
     }
 };
-
 const fetchAllUserData = async (setViewFetchStory, setViewFetchPost, offset, setLoading) => {
     setLoading(true);
     const [storyData, postData] = await Promise.all([

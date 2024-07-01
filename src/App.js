@@ -6,6 +6,11 @@ import { ActivePageProvider } from './Components/Pages/ActivePageContext';
 import { UserProfileDataProvider } from './Components/Pages/UserProfileContext';
 import { GamesFetchDataProvider } from './Components/Pages/GamesFetchContext';
 import { GiftcardsFetchDataProvider } from './Components/Pages/GiftcardsFetchContext';
+import { NewsFetchDataProvider } from './Components/Pages/NewsFetchContext';
+
+
+
+
 import CookieBanner from './Components/Pages/CookieBanner';
 import Nav from './Components/Nav'
 import Footer from './Components/Pages/footer';
@@ -98,51 +103,53 @@ function App() {
     <ActivePageProvider>
       <UserProfileDataProvider>
         <GamesFetchDataProvider>
-          <GiftcardsFetchDataProvider>
-          <Router>
-          <div>
-            <ScrollToTop />
-            <Nav />
-            <CookieBanner />
-            <Routes>
-              <Route exact path="/" element={<Home/>}/>
-              <Route exact path="/Highlights" element={<Highlights/>}/>
-              <Route exact path="/Marketplace" element={<Marketplace/>}/>
-              <Route exact path="/Games" element={<Games/>}/>
-              <Route exact path="/News" element={<News/>}/>
-              <Route exact path="/Games/:gameCanonical" element={<Game/>}/>
-              <Route exact path="/Giftcards" element={<Giftcards/>}/>
-              <Route exact path="/Giftcards/:giftcardCanonical" element={<Giftcard/>}/>
-              <Route exact path="/GameCredits/Robux" element={<Robux/>}/>
-              {/* <Route exact path="/Giftcard" element={<Giftcard/>}/> */}
-              {(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined) ?
-              <>
-                <Route exact path="/MyProfile" element={<Profile/>}/>
-                <Route exact path="/MyFavorites" element={<Favorites/>}/>
-                <Route exact path="/MyCart" element={<Cart/>}/>
-                <Route exact path="/success" element={<Success/>}/>
-              </>:<Route path="*" element={<Home/>}/>}
-              {(getAdminCredentials && userLoggedInState) && <Route path="/Admin" element={<Admin/>}/>}
+        <GiftcardsFetchDataProvider>
+        <NewsFetchDataProvider>
+        <Router>
+        <div>
+          <ScrollToTop />
+          <Nav />
+          <CookieBanner />
+          <Routes>
+            <Route exact path="/" element={<Home/>}/>
+            <Route exact path="/Highlights" element={<Highlights/>}/>
+            <Route exact path="/Marketplace" element={<Marketplace/>}/>
+            <Route exact path="/Games" element={<Games/>}/>
+            <Route exact path="/News" element={<News/>}/>
+            <Route exact path="/Games/:gameCanonical" element={<Game/>}/>
+            <Route exact path="/Giftcards" element={<Giftcards/>}/>
+            <Route exact path="/Giftcards/:giftcardCanonical" element={<Giftcard/>}/>
+            <Route exact path="/GameCredits/Robux" element={<Robux/>}/>
+            {/* <Route exact path="/Giftcard" element={<Giftcard/>}/> */}
+            {(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined) ?
+            <>
+              <Route exact path="/MyProfile" element={<Profile/>}/>
+              <Route exact path="/MyFavorites" element={<Favorites/>}/>
+              <Route exact path="/MyCart" element={<Cart/>}/>
+              <Route exact path="/success" element={<Success/>}/>
+            </>:<Route path="*" element={<Home/>}/>}
+            {(getAdminCredentials && userLoggedInState) && <Route path="/Admin" element={<Admin/>}/>}
 
-                
+              
 
-              <Route exact path="/AboutUs" element={<AboutUs/>}/>
-              <Route exact path="/ContactUS" element={<ContactUs/>}/>
-              <Route exact path="/FAQs" element={<FAQs/>}/>
-              <Route exact path="/TermsAndConditions" element={<TermsAndCondition/>}/>
-              <Route exact path="/PrivacyAndPolicies" element={<PrivacyAndPolicies/>}/>
+            <Route exact path="/AboutUs" element={<AboutUs/>}/>
+            <Route exact path="/ContactUS" element={<ContactUs/>}/>
+            <Route exact path="/FAQs" element={<FAQs/>}/>
+            <Route exact path="/TermsAndConditions" element={<TermsAndCondition/>}/>
+            <Route exact path="/PrivacyAndPolicies" element={<PrivacyAndPolicies/>}/>
 
 
-              <Route exact path="/AGElite" element={<Underdevelop/>}/>
-              <Route exact path="/ApplyAsSeller" element={<Underdevelop/>}/>
-              <Route exact path="/ContentCreation" element={<Underdevelop/>}/>
-              <Route exact path="/AGCrypto" element={<Underdevelop/>}/>
-              <Route path="*" element={<Home/>}/>
-            </Routes>
-            <Footer />
-          </div>
-          </Router>
-          </GiftcardsFetchDataProvider>
+            <Route exact path="/AGElite" element={<Underdevelop/>}/>
+            <Route exact path="/ApplyAsSeller" element={<Underdevelop/>}/>
+            <Route exact path="/ContentCreation" element={<Underdevelop/>}/>
+            <Route exact path="/AGCrypto" element={<Underdevelop/>}/>
+            <Route path="*" element={<Home/>}/>
+          </Routes>
+          <Footer />
+        </div>
+        </Router>
+        </NewsFetchDataProvider>
+        </GiftcardsFetchDataProvider>
         </GamesFetchDataProvider>
       </UserProfileDataProvider>
     </ActivePageProvider>
