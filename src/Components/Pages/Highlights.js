@@ -37,6 +37,7 @@ import HashtagHighlighter from './HashtagHighlighter';
 import UserPostModal from './UserPostModal';
 import UserPostModal2 from './UserPostModal2';
 import UserStoryModal from './UserStoryModal';
+import { HighlightsFetchData } from './HighlightsFetchContext';
 
 
 
@@ -76,12 +77,12 @@ const AGUserStoryAPI = process.env.REACT_APP_AG_FETCH_STORY_API;
 const PAGE_SIZE = 5; // Number of items to fetch per page
 const isWithinLastTwelveHours = (date) => {
     const twelveHoursAgo = new Date();
-    twelveHoursAgo.setHours(twelveHoursAgo.getHours() - 72);
+    twelveHoursAgo.setHours(twelveHoursAgo.getHours() - 24);
     return new Date(date) >= twelveHoursAgo;
 };
 const isWithinLastThreeDays = (date) => {
     const threeDaysAgo = new Date();
-    threeDaysAgo.setDate(threeDaysAgo.getDate() - 30);
+    threeDaysAgo.setDate(threeDaysAgo.getDate() - 15);
     return new Date(date) >= threeDaysAgo;
 };
 const fetchUserData = async (url, filterFunc) => {
@@ -117,12 +118,15 @@ const fetchAllUserData = async (setViewFetchStory, setViewFetchPost, offset, set
 
 
 const Highlights = () => {
-    const userStateLogin = localStorage.getItem('isLoggedIn');
-    const adminLoggedIn = localStorage.getItem('agAdminLoggedIn');
-    const userDetailData = localStorage.getItem('profileDataJSON');
+    const {
+        userStateLogin, 
+        adminLoggedIn,
+        userDetailData,
+        userLoggedData,
+        fetchUserProfile,
+    } = HighlightsFetchData();
+
     const AGUserDeletePostAPI = process.env.REACT_APP_AG_DELETE_USER_POST_API;
-    
-    const [userLoggedData, setUserLoggedData] = useState('')
     const [viewFetchPost, setViewFetchPost] = useState([]);
     const [viewFetchStory, setViewFetchStory] = useState([]);
     const [postLoading, setPostLoading] = useState(true);
@@ -140,12 +144,6 @@ const Highlights = () => {
             setOffset(prevOffset => prevOffset + PAGE_SIZE);
         }
     }, [postLoading]);
-    const fetchUserProfile = () => {
-        const storedProfileData = localStorage.getItem('profileDataJSON');
-        if (storedProfileData) {
-            setUserLoggedData(JSON.parse(storedProfileData));
-        }
-    }
     useEffect(() => {
         if (initialLoad || offset !== 0) {
             fetchAllUserData(setViewFetchStory, setViewFetchPost, offset, setPostLoading);
@@ -154,13 +152,12 @@ const Highlights = () => {
         if (userStateLogin && userDetailData !== undefined){
             fetchUserProfile()
         }
-    }, [offset, initialLoad]);
-    useEffect(() => {
+
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [handleScroll]);
+    }, [offset, initialLoad, handleScroll]);
 
     
     const [addUserPost, setAddUserPost] = useState(false);
@@ -241,70 +238,9 @@ const Highlights = () => {
         if (seenStories.length === viewFetchStory.length) {
           setSeenStories([]);
         }
-    }, [seenStories, viewFetchStory.length]);
+    }, [seenStories, viewFetchStory]);
     const visibleStories = viewFetchStory.filter(story => !seenStories.includes(story.id));
-
-
-    // reacts
-    const [isLike, setIsLike] = useState(null);
-    const [isDislike, setIsDislike] = useState(false);
-    const [likeCount, setLikeCount] = useState(null);
-    const [dislikeCount, setDislikeCount] = useState(null);
-    const [clickCount, setClickCount] = useState(0);
-    
-    // const toggleLike = async (userId, postId) => {
-    //     setClickCount(clickCount + 1);
-    //     if (clickCount <= 5) {
-    //         try {
-    //             const likeData = {
-    //                 postId: postId,
-    //                 customerId: userId,
-    //                 isLiked: !isLike,
-    //             };
-    //             console.log(likeData);
-    //             const response = await axios.post('https://engeenx.com/agAddLike.php', likeData); // Replace with your actual PHP endpoint URL
-    //             const updatedLikes = response.data;
-    //             console.log(updatedLikes);
-
-    //             const updatedPosts = viewFetchPost.map((post) => {
-    //                 if (post.user_post_id === postId) {
-    //                     return {
-    //                         ...post,
-    //                         likes: updatedLikes.likeCount,
-    //                         isLiked: !isLike,
-    //                     };
-    //                 }
-    //                 return post;
-    //             });
-    //             setViewFetchPost(updatedPosts);
-    //             setIsLike(!isLike);
-    //             setLikeCount(updatedLikes.likeCount);
-
-    //             if (isDislike) {
-    //                 setIsDislike(false);
-    //                 setDislikeCount(dislikeCount - 1);
-    //             }
-    //         } catch (error) {
-    //             console.error("Error toggling like:", error);
-    //         }
-    //     } else {
-    //         alert('Click limit exceeded');
-    //     }
-    // };
-
-    // const toggleDislike = (postId, userId) => {
-    //     if (isDislike) {
-    //         setIsDislike(false);
-    //         setDislikeCount(dislikeCount - 1);
-    //     } else {
-    //         setIsDislike(true);
-    //         setDislikeCount(dislikeCount + 1);
-    //         if (isLike) {
-    //             setIsLike(false);
-    //             setLikeCount(likeCount - 1);
-    //         }
-    //     }
-    // };
+    // console.log(visibleStories);
 
     return (
         <div className='mainContainer highlights'>

@@ -65,7 +65,13 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
     }, []);
 
     return (
-        <GiftcardsFetchContext.Provider value={{ filterUniqueData, setFilteredGiftcards, giftcards, filteredGiftcards, loading }}>
+        <GiftcardsFetchContext.Provider value={{ 
+            filterUniqueData, 
+            setFilteredGiftcards, 
+            giftcards, 
+            filteredGiftcards, 
+            loading 
+        }}>
             {children}
         </GiftcardsFetchContext.Provider>
     );

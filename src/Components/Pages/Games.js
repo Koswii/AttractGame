@@ -43,8 +43,10 @@ const fetchUserCart = async (setProductCarts, LoginUserID) => {
 
 const Games = () => {
     const { userLoggedData } = UserProfileData();
-    const { viewAGData1 } = GamesFetchData();
-    const { loadingMarketData } = GamesFetchData();
+    const { 
+        viewAGData1,
+        loadingMarketData 
+    } = GamesFetchData();
     const AGAddToFavoritesAPI = process.env.REACT_APP_AG_ADD_USER_FAV_API;
     const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;

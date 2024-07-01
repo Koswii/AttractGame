@@ -77,7 +77,14 @@ export const NewsFetchDataProvider = ({ children }) => {
 
 
     return (
-        <NewsFetchDataContext.Provider value={{ newsList, loader, previewData, mainLinkData, subLinkData, error}}>
+        <NewsFetchDataContext.Provider value={{ 
+          newsList, 
+          loader, 
+          previewData, 
+          mainLinkData, 
+          subLinkData, 
+          error
+        }}>
             {children}
         </NewsFetchDataContext.Provider>
     );

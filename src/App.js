@@ -7,6 +7,7 @@ import { UserProfileDataProvider } from './Components/Pages/UserProfileContext';
 import { GamesFetchDataProvider } from './Components/Pages/GamesFetchContext';
 import { GiftcardsFetchDataProvider } from './Components/Pages/GiftcardsFetchContext';
 import { NewsFetchDataProvider } from './Components/Pages/NewsFetchContext';
+import { HighlightsFetchDataProvider } from './Components/Pages/HighlightsFetchContext';
 
 
 
@@ -105,6 +106,7 @@ function App() {
         <GamesFetchDataProvider>
         <GiftcardsFetchDataProvider>
         <NewsFetchDataProvider>
+        <HighlightsFetchDataProvider>
         <Router>
         <div>
           <ScrollToTop />
@@ -148,6 +150,7 @@ function App() {
           <Footer />
         </div>
         </Router>
+        </HighlightsFetchDataProvider>
         </NewsFetchDataProvider>
         </GiftcardsFetchDataProvider>
         </GamesFetchDataProvider>
