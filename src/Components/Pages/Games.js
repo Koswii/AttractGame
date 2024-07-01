@@ -124,7 +124,7 @@ const Games = () => {
         .then(response => {
           const resMessage = response.data;
           if (resMessage.success === true) {
-            console.log(resMessage.message);
+            // console.log(resMessage.message);
             setFavorites([...favorites, productFavGameCode]);
             fetchFavorites(setFavorites, LoginUserID);
           } else {
@@ -152,7 +152,7 @@ const Games = () => {
         })
         .then(response => {
             if (response.data.success) {
-                console.log('Product removed successfully');
+                // console.log('Product removed successfully');
                 setFavorites(favorites.filter(fav => fav !== gameCanonical));
             } else {
                 console.log(`Error: ${response.data.message}`);
