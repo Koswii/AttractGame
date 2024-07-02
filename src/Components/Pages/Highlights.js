@@ -563,7 +563,7 @@ const Highlights = () => {
                             <div className="hldpcMid1-rct-container">
                                 <div className="hldpcMid1-rct-containents">
                                     <ul>
-                                        <li id='likereactIcons' onClick={() => toggleLike(post.isLike, post.user_post_id)} disabled={clickCount >= 5}>
+                                        <li id='likereactIcons' onClick={() => toggleLike(post.isLiked, post.user_post_id)} disabled={clickCount >= 5}>
                                             {post.isLiked ? (
                                                 <AiFillLike className='likeIcon'/>
                                             ) : (
@@ -571,10 +571,10 @@ const Highlights = () => {
                                             )}
                                             <p>{post.likes !== 0 ? post.likes : ''}</p>
                                         </li>
-                                        <li id='commentreactIcons'>
+                                        {/* <li id='commentreactIcons'>
                                             <FaRegComment className='commenIcon'/>
                                             <p>1</p>
-                                        </li>
+                                        </li> */}
                                     </ul>
                                 </div>
                             </div>

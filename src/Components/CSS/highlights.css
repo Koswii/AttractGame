@@ -712,6 +712,7 @@ section.highlightsPageContainer.mid{
     align-items: center;
     border-radius: 1vw;
     margin: 0 1vw 0 0;
+    cursor: pointer;
 }
 #likereactIcons p{
     margin: 0 .2vw;
