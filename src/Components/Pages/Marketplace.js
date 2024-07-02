@@ -40,14 +40,13 @@ import axios from 'axios';
 import { UserProfileData } from './UserProfileContext';
 import { GamesFetchData } from './GamesFetchContext';
 import { GiftcardsFetchData } from './GiftcardsFetchContext';
+import { FavoritesFetchData } from './FavoritesFetchContext';
+import { CartsFetchData } from './CartsFetchContext';
 
  
 
-const LoginUserID = localStorage.getItem('profileUserID');
 const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
 const AGGamesRobloxPartners = process.env.REACT_APP_AG_GAMES_ROBLOX_API;
-const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
-const AGUserProductsCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
 const formatDateToWordedDate = (numberedDate) => {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const date = new Date(numberedDate);
@@ -82,33 +81,13 @@ const fetchRobloxPartners = (setViewRobloxPartners) => {
         console.log(error)
     })
 }
-const fetchFavorites = async (setFavorites) => {
-    try {
-        const response = await axios.get(AGUserFavoritesAPI);
-        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
-        const favoriteGameCodes = filteredData.map(fav => fav.ag_product_id);
-        setFavorites(favoriteGameCodes);
-    } catch (error) {
-        console.error(error);
-    }
-};
-const fetchUserCart = async (setProductCarts, LoginUserID) => {
-    try {
-        const response = await axios.get(AGUserProductsCartAPI);
-        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
-        const gameCartProducts = filteredData.filter(product => product.ag_product_type === 'Game');
-        setProductCarts(gameCartProducts);
-    } catch (error) {
-        console.error(error);
-    }
-};
 
 
 const Marketplace = () => {
+    const { setActivePage } = useActivePage();
     const navigate = useNavigate ();
+    const { userLoggedData } = UserProfileData();
     const { 
-        setActivePage, 
-        userLoggedData,
         viewAllGames,
         viewAllGamesNum,
         viewAllListedGames,
@@ -117,8 +96,17 @@ const Marketplace = () => {
         viewMetacriticData,
         loadingMarketData2 
     } = GamesFetchData();
-
     const { filteredGiftcards } = GiftcardsFetchData();
+    const { 
+        fetchFavorites, 
+        favorites, 
+        setFavorites 
+    } = FavoritesFetchData();
+    const { 
+        fetchUserCart, 
+        productCart, 
+        setProductCarts 
+    } = CartsFetchData();
 
 
 
@@ -127,8 +115,6 @@ const Marketplace = () => {
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
-    const [favorites, setFavorites] = useState([]);
-    const [productCart, setProductCarts] = useState([]);
     const [viewAllGameCredits, setViewAllGameCredits] = useState([]);
     const [loadingMarketData, setLoadingMarketData] = useState(false);
     const [loadingMarketData1, setLoadingMarketData1] = useState(true);
@@ -138,8 +124,8 @@ const Marketplace = () => {
     const [productCartAdded, setProductCartAdded] = useState('');
 
     useEffect(() => {
-        fetchFavorites(setFavorites);
-        fetchUserCart(setProductCarts, LoginUserID);
+        fetchUserCart();
+        fetchFavorites();
         fetchDataGameCredits(setLoadingMarketData1, setViewAllGameCredits);
         fetchRobloxPartners(setViewRobloxPartners);
     }, [LoginUserID]);
@@ -221,7 +207,6 @@ const Marketplace = () => {
         .then(response => {
           const resMessage = response.data;
           if (resMessage.success === true) {
-            console.log(resMessage.message);
             setFavorites([...favorites, productFavGameCode]);
             fetchFavorites(setFavorites, LoginUserID);
           } else {
@@ -266,8 +251,6 @@ const Marketplace = () => {
             handleAddFavorite(details);
         }
     };
-    
-
     const handleAddToCartGame = (details) => {
         const productCartGameCode = details.game_canonical;
         const productCartGameName = details.game_title;

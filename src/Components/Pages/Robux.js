@@ -12,24 +12,17 @@ import {
     TbShoppingCartOff,    
 } from "react-icons/tb";
 import { UserProfileData } from './UserProfileContext';
+import { CartsFetchData } from './CartsFetchContext';
 
-
-
-const AGUserProductsCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
-const fetchUserCart = async (setProductCarts, LoginUserID) => {
-    try {
-        const response = await axios.get(AGUserProductsCartAPI);
-        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
-        const gameCartProducts = filteredData.filter(product => product.ag_product_type === 'Giftcard' || 'Game Credit');
-        setProductCarts(gameCartProducts);
-    } catch (error) {
-        console.error(error);
-    }
-};
 
 
 const Robux = () => {
     const { userLoggedData } = UserProfileData();
+    const { 
+        fetchUserCart, 
+        productCart, 
+        setProductCarts 
+    } = CartsFetchData();
     const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
     const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
     const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
@@ -40,7 +33,6 @@ const Robux = () => {
     const [gamecreditViewDetails, setGamecreditViewDetails] = useState([]);
     const [loadingGiftcard, setLoadingGiftcard] = useState(true);
     const [loadingGamecredit, setLoadingGamecredit] = useState(true);
-    const [productCart, setProductCarts] = useState([]);
     const [productCartAdded, setProductCartAdded] = useState('');
 
 
@@ -97,9 +89,9 @@ const Robux = () => {
             }
         }
 
+        
         fetchGiftcards();
         fetchGameCredits();
-        fetchUserCart(setProductCarts, LoginUserID);
     }, [LoginUserID]);
 
 
@@ -204,17 +196,21 @@ const Robux = () => {
                                 <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
                                 <div>
                                     <h6>$ {details.giftcard_denomination}</h6>
-                                    {productCart.some(cartItem => cartItem.ag_product_id === details.giftcard_id) ?
-                                        <button><TbShoppingCartFilled className='faIcons'/></button>:
-                                        <button onClick={() => handleAddToCartGiftcard(details)} disabled={(details.stockCount === 0) ? true : false}>
-                                            {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : 
-                                            <>
-                                            {(productCartAdded === details.giftcard_id) ? 
-                                                <TbShoppingCartFilled className='faIcons'/>:
-                                                <TbShoppingCartPlus className='faIcons'/>}
-                                            </>}
-                                        </button>
-                                    }
+                                    {userLoggedIn ? <>
+                                        {productCart.some(cartItem => cartItem.ag_product_id === details.giftcard_id) ?
+                                            <button><TbShoppingCartFilled className='faIcons'/></button>:
+                                            <button onClick={() => handleAddToCartGiftcard(details)} disabled={(details.stockCount === 0) ? true : false}>
+                                                {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : 
+                                                <>
+                                                {(productCartAdded === details.giftcard_id) ? 
+                                                    <TbShoppingCartFilled className='faIcons'/>:
+                                                    <TbShoppingCartPlus className='faIcons'/>}
+                                                </>}
+                                            </button>
+                                        }
+                                    </>:<>
+                                        <button><TbShoppingCartPlus className='faIcons'/></button>
+                                    </>}
                                 </div>
                                 <p>{details.stockCount} Stocks</p>
                             </div>
@@ -240,17 +236,21 @@ const Robux = () => {
                                 <img src={`https://2wave.io/GiftCardCovers/${details.gamecredit_cover}`} alt="" />
                                 <div>
                                     <h6>$ {details.gamecredit_denomination}</h6>
-                                    {productCart.some(cartItem => cartItem.ag_product_id === details.gamecredit_id) ?
-                                        <button><TbShoppingCartFilled className='faIcons'/></button>:
-                                        <button onClick={() => handleAddToCartGamecredit(details)} disabled={(details.stockCount === 0) ? true : false}>
-                                            {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : 
-                                            <>
-                                            {(productCartAdded === details.gamecredit_id) ? 
-                                                <TbShoppingCartFilled className='faIcons'/>:
-                                                <TbShoppingCartPlus className='faIcons'/>}
-                                            </>}
-                                        </button>
-                                    }
+                                    {userLoggedIn ? <>
+                                        {productCart.some(cartItem => cartItem.ag_product_id === details.gamecredit_id) ?
+                                            <button><TbShoppingCartFilled className='faIcons'/></button>:
+                                            <button onClick={() => handleAddToCartGamecredit(details)} disabled={(details.stockCount === 0) ? true : false}>
+                                                {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : 
+                                                <>
+                                                {(productCartAdded === details.gamecredit_id) ? 
+                                                    <TbShoppingCartFilled className='faIcons'/>:
+                                                    <TbShoppingCartPlus className='faIcons'/>}
+                                                </>}
+                                            </button>
+                                        }
+                                    </>:<>
+                                        <button><TbShoppingCartPlus className='faIcons'/></button>
+                                    </>}
                                 </div>
                                 <p>{details.stockCount} Stocks</p>
                             </div>

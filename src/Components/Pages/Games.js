@@ -14,32 +14,8 @@ import { TbCategoryFilled } from "react-icons/tb";
 import { VscVersions } from "react-icons/vsc";
 import { UserProfileData } from './UserProfileContext';
 import { GamesFetchData } from './GamesFetchContext';
-
-const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
-const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
-const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
-const AGUserProductsCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
-
-const fetchFavorites = async (setFavorites, LoginUserID) => {
-    try {
-        const response = await axios.get(AGUserFavoritesAPI);
-        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
-        const favoriteGameCodes = filteredData.map(fav => fav.ag_product_id);
-        setFavorites(favoriteGameCodes);
-    } catch (error) {
-        console.error(error);
-    }
-};
-const fetchUserCart = async (setProductCarts, LoginUserID) => {
-    try {
-        const response = await axios.get(AGUserProductsCartAPI);
-        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
-        const gameCartProducts = filteredData.filter(product => product.ag_product_type === 'Game');
-        setProductCarts(gameCartProducts);
-    } catch (error) {
-        console.error(error);
-    }
-};
+import { FavoritesFetchData } from './FavoritesFetchContext';
+import { CartsFetchData } from './CartsFetchContext';
 
 const Games = () => {
     const { userLoggedData } = UserProfileData();
@@ -47,15 +23,22 @@ const Games = () => {
         viewAGData1,
         loadingMarketData 
     } = GamesFetchData();
+    const { 
+        fetchFavorites, 
+        favorites, 
+        setFavorites 
+    } = FavoritesFetchData();
+    const { 
+        fetchUserCart, 
+        productCart, 
+        setProductCarts 
+    } = CartsFetchData();
     const AGAddToFavoritesAPI = process.env.REACT_APP_AG_ADD_USER_FAV_API;
     const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
     const [searchGameName, setSearchGameName] = useState('');
-    // const [loadingMarketData, setLoadingMarketData] = useState(false);
-    const [favorites, setFavorites] = useState([]);
-    const [productCart, setProductCarts] = useState([]);
     const [productFavAdded, setProductFavAdded] = useState('');
     const [productCartAdded, setProductCartAdded] = useState('');
     const [currentPage, setCurrentPage] = useState(
@@ -63,17 +46,6 @@ const Games = () => {
     ); // state to track current page
     const [itemsPerPage] = useState(30); // number of items per page
 
-
-    useEffect(() => {
-        fetchFavorites(setFavorites, LoginUserID);
-        fetchUserCart(setProductCarts, LoginUserID);
-
-        // const loadTimer = setTimeout(() => {
-        //     setLoadingMarketData(true);
-        // }, 1000);
-        // return () => clearTimeout(loadTimer);
-
-    }, [LoginUserID]);
     const handleSearchChange = event => {
         setSearchGameName(event.target.value);
         setCurrentPage(1); // Reset to the first page when searching
@@ -83,6 +55,8 @@ const Games = () => {
       game.game_title.toLowerCase().includes(searchGameName.toLowerCase())
     );
     useEffect(() => {
+        fetchUserCart();
+        fetchFavorites();
         localStorage.setItem('currentPage', currentPage);
         setTimeout(() => {
             setLoader(false)

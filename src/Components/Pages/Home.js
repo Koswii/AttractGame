@@ -545,7 +545,7 @@ const Home = () => {
               </p>
               <div className="lndpcm4lBtns">
                 {/* <a>REGISTER</a> */}
-                <a href='https://discord.gg/jHzDQa9M' target='blank'>JOIN DISCORD</a>
+                <a href='https://discord.com/invite/3Rc2QF3Zqz' target='blank'>JOIN DISCORD</a>
               </div>
             </div>
             <div className="lndpcm4Content right">

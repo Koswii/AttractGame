@@ -8,6 +8,8 @@ import { GamesFetchDataProvider } from './Components/Pages/GamesFetchContext';
 import { GiftcardsFetchDataProvider } from './Components/Pages/GiftcardsFetchContext';
 import { NewsFetchDataProvider } from './Components/Pages/NewsFetchContext';
 import { HighlightsFetchDataProvider } from './Components/Pages/HighlightsFetchContext';
+import { FavoritesFetchDataProvider } from './Components/Pages/FavoritesFetchContext';
+import { CartsFetchDataProvider } from './Components/Pages/CartsFetchContext';
 
 
 
@@ -107,6 +109,9 @@ function App() {
         <GiftcardsFetchDataProvider>
         <NewsFetchDataProvider>
         <HighlightsFetchDataProvider>
+        
+        <FavoritesFetchDataProvider>
+        <CartsFetchDataProvider>
         <Router>
         <div>
           <ScrollToTop />
@@ -150,6 +155,9 @@ function App() {
           <Footer />
         </div>
         </Router>
+        </CartsFetchDataProvider>
+        </FavoritesFetchDataProvider>
+
         </HighlightsFetchDataProvider>
         </NewsFetchDataProvider>
         </GiftcardsFetchDataProvider>
