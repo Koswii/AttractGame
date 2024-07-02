@@ -111,6 +111,7 @@ const fetchAllUserData = async (setViewFetchStory, setViewFetchPost, offset, set
     if (storyData.length > 0 || postData.length > 0) {
         setViewFetchStory(prevData => [...prevData, ...storyData]);
         setViewFetchPost(prevData => [...prevData, ...postData]);
+        
     }
     setLoading(false);
 };
@@ -157,6 +158,7 @@ const Highlights = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
+        
     }, [offset, initialLoad, handleScroll]);
 
     
@@ -214,6 +216,8 @@ const Highlights = () => {
 
     const [currentStory, setCurrentStory] = useState(null);
     const [seenStories, setSeenStories] = useState([]);
+
+
     const handleStoryClick = (story) => {
         setCurrentStory(story);
     };
@@ -232,6 +236,8 @@ const Highlights = () => {
             setCurrentStory(nextStory);
           }, 3000);
         }
+        
+        fetchPost()
         return () => clearTimeout(timer);
     }, [currentStory, viewFetchStory, seenStories]);
     useEffect(() => {
@@ -240,7 +246,72 @@ const Highlights = () => {
         }
     }, [seenStories, viewFetchStory]);
     const visibleStories = viewFetchStory.filter(story => !seenStories.includes(story.id));
-    // console.log(visibleStories);
+
+    // like
+
+
+
+    const likePost = 'https://engeenx.com/agAddLike.php'
+    const [likeCount,setLikecount] = useState(0)
+    const [clickCount,setClickCount] = useState(0)
+
+    const fetchPost = async () => {
+        const mappedPost = viewFetchPost.map((post) => {
+            const likesData =JSON.parse(post.user_post_like)
+            console.log(likesData);
+            const likeCount = likesData.likeCount || 0; // Get the like count
+            const likedBy = Array.isArray(likesData.likedBy) ? likesData.likedBy : [];
+            console.log(likedBy);
+            const isLiked = likedBy.includes(userLoggedData.userid);
+            console.log(isLiked);
+
+            return {
+                ...post,
+                likes: likeCount, // Update like count
+                isLiked: isLiked,
+                likedBy, // store likedBy to use it elsewhere, but don't render it directly
+            };
+        })
+        console.log(viewFetchPost);
+        console.log(mappedPost);
+        if (viewFetchPost.length > 0) {
+            setViewFetchPost(mappedPost)
+        }
+    }
+
+    const toggleLike = async (isLiked, user_post_id) => {
+        setClickCount(clickCount + 1)
+        if (clickCount <= 5) {
+            try {
+                const likeData = {
+                    postId: user_post_id,
+                    customerId: userLoggedData.userid,
+                    isLiked: !isLiked,
+                };
+    
+                console.log(likeData);
+                const response = await axios.post(likePost, likeData);
+                const updatedLikes = response.data;
+                console.log(updatedLikes);
+                const updatedPosts = viewFetchPost.map((post) => {
+                    if (post.user_post_id === user_post_id) {
+                        return {
+                            ...post,
+                            likes: updatedLikes.likeCount,
+                            isLiked: !isLiked,
+                        };
+                    }
+                    return post;
+                });
+                setViewFetchPost(updatedPosts);
+            } catch (error) {
+                console.error("Error toggling like:", error);
+            }
+        } else {
+            alert('click disable')
+        }
+    };
+
 
     return (
         <div className='mainContainer highlights'>
@@ -334,7 +405,7 @@ const Highlights = () => {
 
             <section className="highlightsPageContainer top">
                 <div className="hlsPageContent top">
-                    {(userStateLogin && userDetailData != undefined) && <div className="hldpcTop1">
+                    {(userStateLogin && userDetailData !== undefined) && <div className="hldpcTop1">
                         <div className="hldpct1">
                             <div>
                                 {userLoggedData.profileimg ?
@@ -346,7 +417,7 @@ const Highlights = () => {
                         </div>
                     </div>}
                     <div className="hldpcTop2 website">
-                        {(userStateLogin && userDetailData != undefined) && <div className="hldpcT2 addStory" onClick={handleAddUserStory}>
+                        {(userStateLogin && userDetailData !== undefined) && <div className="hldpcT2 addStory" onClick={handleAddUserStory}>
                             {userLoggedData.profileimg ?
                             <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt="" />:
                             <img src={require('../assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
@@ -355,7 +426,7 @@ const Highlights = () => {
                                 <p>Add Story</p>
                             </span>
                         </div>}
-                        {(userStateLogin && userDetailData != undefined) ? 
+                        {(userStateLogin && userDetailData !== undefined) ? 
                         <div className="hldpcT2 stories">
                             {!postLoading ?
                             <>{visibleStories.slice(0, 4).map((story, i) => (
@@ -395,14 +466,14 @@ const Highlights = () => {
                         </div>}
                     </div>
                     <div className="hldpcTop2 mobile">
-                        {(userStateLogin && userDetailData != undefined) &&<div className="hldpcT2 addStory" onClick={handleAddUserStory}>
+                        {(userStateLogin && userDetailData !== undefined) &&<div className="hldpcT2 addStory" onClick={handleAddUserStory}>
                             <img src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`} alt="" />
                             <span>
                                 <h5><IoMdAddCircle className='faIcons'/></h5>
                                 <p>Add Story</p>
                             </span>
                         </div>}
-                        {(userStateLogin && userDetailData != undefined) ? 
+                        {(userStateLogin && userDetailData !== undefined) ? 
                             <div className="hldpcT2 stories">
                                 {!postLoading ?
                                 <>{visibleStories.slice(0, 3).map((story, i) => (
@@ -490,28 +561,22 @@ const Highlights = () => {
                                 <YouTubeEmbed videoUrl={post.user_post_youtube} />
                             </div>:<></>}
                             <div className="hldpcMid1-rct-container">
-                                {/* <div className="hldpcMid1-rct-containents">
+                                <div className="hldpcMid1-rct-containents">
                                     <ul>
-                                        <li id='likereactIcons'>
-                                            {isLike === post.user_post_id ? (
-                                                <AiFillLike className='likeIcon' onClick={() => toggleLike(post.user_id, post.user_post_id)} />
+                                        <li id='likereactIcons' onClick={() => toggleLike(post.isLike, post.user_post_id)} disabled={clickCount >= 5}>
+                                            {post.isLiked ? (
+                                                <AiFillLike className='likeIcon'/>
                                             ) : (
-                                                <AiOutlineLike className='likeIcon' onClick={() => toggleLike(post.user_id, post.user_post_id)} />
+                                                <AiOutlineLike className='likeIcon'  />
                                             )}
-                                            <p>{likeCount !== 0 ? likeCount : ''}</p>
-                                            {!isDislike ? (
-                                                <AiOutlineDislike className='dislikeIcon' onClick={() => toggleDislike(post.user_id, isLike)} />
-                                            ) : (
-                                                <AiFillDislike className='dislikeIcon' onClick={() => toggleDislike(post.user_id, isLike)} />
-                                            )}
-                                            <p>{dislikeCount !== 0 ? dislikeCount : ''}</p>
+                                            <p>{post.likes !== 0 ? post.likes : ''}</p>
                                         </li>
                                         <li id='commentreactIcons'>
                                             <FaRegComment className='commenIcon'/>
                                             <p>1</p>
                                         </li>
                                     </ul>
-                                </div> */}
+                                </div>
                             </div>
                         </div>
                     ))}
