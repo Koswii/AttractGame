@@ -45,7 +45,7 @@ const Footer = () => {
               <a href="https://www.tiktok.com/@attractgame" target='blank'><FaTiktok className='faIcons'/></a>
               <a href="https://www.youtube.com/@ATTRACTGAME" target='blank'><FaYoutube className='faIcons'/></a>
               <a href="https://www.twitch.tv/attractgamecom" target='blank'><FaTwitch className='faIcons'/></a>
-              <a href="https://discord.gg/jHzDQa9M" target='blank'><FaDiscord className='faIcons'/></a>
+              <a href="https://discord.com/invite/3Rc2QF3Zqz" target='blank'><FaDiscord className='faIcons'/></a>
             </div>
           </div>
           <div className="footContent right">
