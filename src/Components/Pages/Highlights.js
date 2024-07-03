@@ -107,6 +107,7 @@ const fetchAllUserData = async (setViewFetchStory, setViewFetchPost, offset, set
         fetchUserData(`${AGUserStoryAPI}?offset=${offset}&limit=${PAGE_SIZE}`, isWithinLastTwelveHours),
         fetchUserData(`${AGUserPostAPI}?offset=${offset}&limit=${PAGE_SIZE}`, isWithinLastThreeDays)
     ]);
+    
 
     if (storyData.length > 0 || postData.length > 0) {
         setViewFetchStory(prevData => [...prevData, ...storyData]);
@@ -152,13 +153,13 @@ const Highlights = () => {
         }
         if (userStateLogin && userDetailData !== undefined){
             fetchUserProfile()
+            fetchPost()
         }
 
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-        
     }, [offset, initialLoad, handleScroll]);
 
     
@@ -236,34 +237,27 @@ const Highlights = () => {
             setCurrentStory(nextStory);
           }, 3000);
         }
-        
-        fetchPost()
         return () => clearTimeout(timer);
     }, [currentStory, viewFetchStory, seenStories]);
     useEffect(() => {
-        if (seenStories.length === viewFetchStory.length) {
-          setSeenStories([]);
+        if (seenStories.length === viewFetchStory.length && seenStories.length > 0) {
+            setSeenStories([]);
         }
     }, [seenStories, viewFetchStory]);
+
     const visibleStories = viewFetchStory.filter(story => !seenStories.includes(story.id));
-
-    // like
-
-
+    
 
     const likePost = process.env.REACT_APP_AG_USERS_LIKE_POST_API;
     const [likeCount,setLikecount] = useState(0)
     const [clickCount,setClickCount] = useState(0)
-
+    
     const fetchPost = async () => {
         const mappedPost = viewFetchPost.map((post) => {
             const likesData =JSON.parse(post.user_post_like)
-            console.log(likesData);
             const likeCount = likesData.likeCount || 0; // Get the like count
             const likedBy = Array.isArray(likesData.likedBy) ? likesData.likedBy : [];
-            console.log(likedBy);
             const isLiked = likedBy.includes(userLoggedData.userid);
-            console.log(isLiked);
 
             return {
                 ...post,
@@ -272,28 +266,39 @@ const Highlights = () => {
                 likedBy, // store likedBy to use it elsewhere, but don't render it directly
             };
         })
-        console.log(viewFetchPost);
-        console.log(mappedPost);
         if (viewFetchPost.length > 0) {
             setViewFetchPost(mappedPost)
         }
     }
 
     const toggleLike = async (isLiked, user_post_id) => {
-        setClickCount(clickCount + 1)
+        setClickCount(clickCount + 1);
         if (clickCount <= 5) {
-            try {
-                const likeData = {
-                    postId: user_post_id,
-                    customerId: userLoggedData.userid,
-                    isLiked: !isLiked,
-                };
+            const likeData = {
+                postId: user_post_id,
+                customerId: userLoggedData.userid,
+                isLiked: !isLiked,
+            };
     
-                console.log(likeData);
+            // Optimistically update the UI
+            const updatedPosts = viewFetchPost.map((post) => {
+                if (post.user_post_id === user_post_id) {
+                    return {
+                        ...post,
+                        likes: post.likes + (isLiked ? -1 : 1),
+                        isLiked: !isLiked,
+                    };
+                }
+                return post;
+            });
+            setViewFetchPost(updatedPosts);
+    
+            try {
                 const response = await axios.post(likePost, likeData);
                 const updatedLikes = response.data;
-                console.log(updatedLikes);
-                const updatedPosts = viewFetchPost.map((post) => {
+                
+                // Reconcile with the response from the server
+                const finalUpdatedPosts = viewFetchPost.map((post) => {
                     if (post.user_post_id === user_post_id) {
                         return {
                             ...post,
@@ -303,14 +308,27 @@ const Highlights = () => {
                     }
                     return post;
                 });
-                setViewFetchPost(updatedPosts);
+                setViewFetchPost(finalUpdatedPosts);
             } catch (error) {
                 console.error("Error toggling like:", error);
+                // Revert optimistic update if there's an error
+                const revertedPosts = viewFetchPost.map((post) => {
+                    if (post.user_post_id === user_post_id) {
+                        return {
+                            ...post,
+                            likes: post.likes + (isLiked ? 1 : -1),
+                            isLiked: isLiked,
+                        };
+                    }
+                    return post;
+                });
+                setViewFetchPost(revertedPosts);
             }
         } else {
-            alert('click disable')
+            alert('Click disabled');
         }
     };
+    
 
 
     return (
