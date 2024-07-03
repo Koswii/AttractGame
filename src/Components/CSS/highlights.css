@@ -726,10 +726,6 @@ section.highlightsPageContainer.mid{
     cursor: pointer;
     margin: 0 .5vw;
 }
-.dislikeIcon{
-    cursor: pointer;
-    margin: 0 .5vw;
-}
 #commenIcon{
     cursor: pointer;
 }
@@ -1070,6 +1066,28 @@ section.highlightsPageContainer.mid{
     }
 
 
+    
+    .hldpcMid1-rct-container{
+        margin: 4vw 0 0 0;
+    }
+    .hldpcMid1-rct-containents ul li{
+        color: white;
+        font-size: 3vw;
+        padding: 2vw 3vw;
+        border-radius: 2vw;
+        margin: 0 1vw 0 0;
+        cursor: pointer;
+    }
+    #likereactIcons p{
+        margin: 0 2vw;
+        font-size: 2vw;
+    }
+    #commentreactIcons p{
+        font-size: 2vw;
+    }
+    .likeIcon{
+        margin: 0 1vw;
+    }
 }
 
 
