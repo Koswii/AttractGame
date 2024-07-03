@@ -37,24 +37,25 @@ export const NewsFetchDataProvider = ({ children }) => {
   
           setNewsList(filterOther);
   
+
           const mainlink = await Promise.all(
             filterMain.map(async (linkObj) => {
               const data = await fetchLinkPreview(linkObj.link);
-              return data ? { id: linkObj.id, data } : null;
+              return data ? { id: linkObj.id, data, link: linkObj.link } : null;
             })
           );
   
           const sublink = await Promise.all(
             filterSub.map(async (linkObj) => {
               const data = await fetchLinkPreview(linkObj.link);
-              return data ? { id: linkObj.id, data } : null;
+              return data ? { id: linkObj.id, data, link: linkObj.link } : null;
             })
           );
   
           const otherlink = await Promise.all(
             filterOther.map(async (linkObj) => {
               const data = await fetchLinkPreview(linkObj.link);
-              return data ? { id: linkObj.id, data } : null;
+              return data ? { id: linkObj.id, data, link: linkObj.link } : null;
             })
           );
   
