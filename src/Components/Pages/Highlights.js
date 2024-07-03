@@ -251,7 +251,7 @@ const Highlights = () => {
 
 
 
-    const likePost = 'https://engeenx.com/agAddLike.php'
+    const likePost = process.env.REACT_APP_AG_USERS_LIKE_POST_API;
     const [likeCount,setLikecount] = useState(0)
     const [clickCount,setClickCount] = useState(0)
 
