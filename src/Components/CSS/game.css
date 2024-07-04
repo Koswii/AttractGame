@@ -288,6 +288,9 @@ section.gamePageContainer.top{
     font-size: 4vw;
     line-height: 2vw;
 }
+.gppctgdrExtras h4#gameNoStock{
+    font-size: 2vw;
+}
 .gppctgdrExtras button{
     background: none;
     border: none;
@@ -536,6 +539,9 @@ section.gamePageContainer.bot{
 .gppcm3ogDetails div #mppcm2GDView h5{
     line-height: 1vw;
     font-size: 1vw;
+}
+.gppcm3ogDetails div #mppcm2GDView h5#gameNoStocks{
+    color: gray;
 }
 .gppcm3ogDetails div button#mppcm2GDHeart,
 .gppcm3ogDetails div button#mppcm2GDCart{

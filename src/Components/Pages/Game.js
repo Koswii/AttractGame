@@ -313,11 +313,10 @@ const Game = () => {
                             </div>
                         </div>
                         <div className="gppctgdrExtras">
-                            <h4>$ {
-                                (scrapedMetacriticData.stock === undefined) ? 
-                                '--.--': 
-                                ((parseFloat(scrapedMetacriticData.stock.ag_product_price) - parseFloat(scrapedMetacriticData.stock.ag_product_discount / 100) * parseFloat(scrapedMetacriticData.stock.ag_product_price)).toFixed(2))}
-                            </h4>
+                            {(scrapedMetacriticData.stock === undefined) ?
+                            <h4 id='gameNoStock'>No Stocks</h4>:
+                            <h4>$ {((parseFloat(scrapedMetacriticData.stock.ag_product_price) - parseFloat(scrapedMetacriticData.stock.ag_product_discount / 100) * parseFloat(scrapedMetacriticData.stock.ag_product_price)).toFixed(2))}
+                            </h4>}
                             {userLoggedIn ?<>
                                 <button id={isFavorite ? 'gppct2gdRemoveFav' : 'gppct2gdAddFav'} onClick={handleFavoriteToggle}>
                                     {isFavorite ? <TbHeartFilled className='faIcons'/> : 
@@ -398,10 +397,10 @@ const Game = () => {
                                 <p>{details.game_edition}</p>
                                 <div>
                                     <div id="mppcm2GDView">
-                                        <h5>$ {(details.stock === undefined) ? 
-                                            '--.--': 
-                                            ((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
-                                        </h5>
+                                        {(details.stock === undefined) ?
+                                        <h5 id='gameNoStocks'>No Stocks</h5>:
+                                        <h5>$ {((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
+                                        </h5>}
                                     </div>
                                     {/* <button id='mppcm2GDHeart'><TbHeart className='faIcons'/></button>
                                     <button id='mppcm2GDCart'><TbShoppingCartBolt className='faIcons'/></button> */}
