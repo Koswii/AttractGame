@@ -301,6 +301,11 @@ section.gamesPageContainer.top{
     border: solid 2px white;
     border-radius: 50px;
 }
+.gmspct2gDetails div h6#gameNoStocks{
+    font-size: 0.8vw;
+    padding: 3% 2%;
+    color: gray;
+}
 .gmspct2gDetails div button{
     font-size: 1.2vw;
     line-height: 1vw;

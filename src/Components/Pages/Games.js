@@ -391,10 +391,10 @@ const Games = () => {
                                             <h5>{details.game_title}</h5>
                                             <p>{details.game_edition}</p>
                                             <div>
-                                                <h6>$ {(details.stock === undefined) ? 
-                                                    '--.--': 
-                                                    ((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
-                                                </h6>
+                                                {(details.stock === undefined) ?
+                                                <h6 id='gameNoStocks'>No Stocks</h6>:
+                                                <h6>$ {((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
+                                                </h6>}
                                                 {userLoggedIn ?<>
                                                     <button id={favorites.includes(details.game_canonical) ? 'gmspct2gdRemoveFav' : 'gmspct2gdAddFav'} onClick={() => handleFavoriteToggle(details)}>
                                                         {favorites.includes(details.game_canonical) ? 
@@ -468,10 +468,10 @@ const Games = () => {
                                             <h5>{details.game_title}</h5>
                                             <p>{details.game_edition}</p>
                                             <div>
-                                                <h6>$ {(details.stock === undefined) ? 
-                                                    '--.--': 
-                                                    ((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
-                                                </h6>
+                                                {(details.stock === undefined) ?
+                                                <h6 id='gameNoStocks'>No Stocks</h6>:
+                                                <h6>$ {((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
+                                                </h6>}
                                                 {userLoggedIn ?<>
                                                     <button id={favorites.includes(details.game_canonical) ? 'gmspct2gdRemoveFav' : 'gmspct2gdAddFav'} onClick={() => handleFavoriteToggle(details)}>
                                                         {favorites.includes(details.game_canonical) ? <TbHeartFilled className='faIcons'/> : <TbHeart className='faIcons'/>}

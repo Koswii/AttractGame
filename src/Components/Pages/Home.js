@@ -62,6 +62,10 @@ const Home = () => {
     setActivePage('giftcards');
   }
 
+  const getRandomItems = (array, numItems) => {
+    const shuffled = array.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, numItems);
+  };
   // useEffect(() => {
   //   const fetchDataGames = async () => {
   //     try {
@@ -116,6 +120,7 @@ const Home = () => {
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex === 10 ? 0 : prevIndex + 1));
@@ -154,7 +159,6 @@ const Home = () => {
   const [viewfiltergame,setViewfiltergame] = useState()
   const [previewAllgame,setpreviewAllgame] = useState()
   
-
   const handleSearch = (event) => {
     setSearchinput(event.target.value)
     if (event.target.value === '') {
@@ -195,7 +199,7 @@ const Home = () => {
     });
 
     return uniqueRecords;
-};
+  };
 
   const filtertoTrending = () => {
     if (searching === false) {

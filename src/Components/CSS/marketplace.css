@@ -596,6 +596,9 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     line-height: 1vw;
     font-size: 1vw;
 }
+.mppcm2GameDetails div #mppcm2GDView h5#gameNoStocks{
+    color: gray;
+}
 .mppcm2GameDetails div button#mppcm2GDHRemove,
 .mppcm2GameDetails div button#mppcm2GDAdd,
 .mppcm2GameDetails div button#mppcm2GDCart,

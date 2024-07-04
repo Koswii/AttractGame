@@ -20,6 +20,7 @@ import {
     TbSquareRoundedArrowRight,      
 } from "react-icons/tb";
 import { UserProfileData } from './UserProfileContext';
+import { GiftcardsFetchData } from './GiftcardsFetchContext';
 import { CartsFetchData } from './CartsFetchContext';
 
 
@@ -32,66 +33,38 @@ const Giftcard = () => {
         productCart, 
         setProductCarts 
     } = CartsFetchData();
-    const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
-    const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
+    const { 
+        filterUniqueData,
+        setFilteredGiftcards,
+        viewAllGiftcards,
+        giftcards,
+        filteredGiftcards,
+        loading 
+    } = GiftcardsFetchData();
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
-    const [giftcardViewAll, setGiftcardViewAll] = useState([]);
-    const [giftcardViewDetails, setGiftcardViewDetails] = useState([]);
-    const [giftcardViewContent, setViewGiftcardContent] = useState('');
-    const [loadingGiftcard, setLoadingGiftcard] = useState(true);
     const [productCartAdded, setProductCartAdded] = useState('');
 
     const getRandomItems = (array, numItems) => {
         const shuffled = array.sort(() => 0.5 - Math.random());
         return shuffled.slice(0, numItems);
     };
+    const giftcardDetails = filteredGiftcards.filter(giftcard => giftcard.giftcard_canonical === giftcardCanonical);
+    const agGiftcardData = giftcards.filter(giftcard => giftcard.giftcard_canonical === giftcardCanonical);
+    const agGCCoverImg = giftcardDetails.map(giftcard => giftcard.giftcard_cover);
+    const agGCName = giftcardDetails.map(giftcard => giftcard.giftcard_name);
+    const agGCCategory = giftcardDetails.map(giftcard => giftcard.giftcard_category);
+    const agGCDescription = giftcardDetails.map(giftcard => giftcard.giftcard_description);
+    const agGiftcardSort = agGiftcardData.sort((a,b) => (a.giftcard_denomination) - (b.giftcard_denomination));
+    const randomItemsGiftcards = getRandomItems(filteredGiftcards, 10);
 
     useEffect(() => {
-        const fetchGiftcards = async () => {
-            setLoadingGiftcard(true);
-            try {
-                const response = await axios.get(AGGiftcardsListAPI);
-                const agViewAllGiftcards = response.data.slice(0, 16)
-                const agGiftcardData = response.data.filter(giftcard => giftcard.giftcard_canonical === giftcardCanonical);
-                const agGiftcardDetails = agGiftcardData[0];
-                const agGiftcardSort = agGiftcardData.sort((a,b) => (a.giftcard_denomination) - (b.giftcard_denomination));
-                setViewGiftcardContent(agGiftcardDetails);
-
-                if (agViewAllGiftcards.length > 0) {
-                    const randomItems = getRandomItems(agViewAllGiftcards, 10);
-                    setGiftcardViewAll(randomItems);
-                }
-
-                const stockListResponse = await axios.get(AGStocksListAPI);
-                const stockListData = stockListResponse.data;
-                const stockInfo = agGiftcardSort.map(giftcard => {
-                    const stock = stockListData.find(stock => stock.ag_product_id === giftcard.giftcard_id);
-                    const stockCount = stockListData.filter(stock => stock.ag_product_id === giftcard.giftcard_id).length;
-                    return {
-                        ...giftcard, stock, stockCount
-                    };
-                });
-                setGiftcardViewDetails(stockInfo);
-
-
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoadingGiftcard(false);
-            }
-        };
-        
         fetchUserCart();
-        fetchGiftcards();
-    }, [LoginUserID, giftcardCanonical]);
+    }, []);
 
     const handleClickGiftcard = () => {
         setActivePage('giftcards');
-        setTimeout(() => {
-            window.location.reload();
-        }, 500);
     }
     const handleAddToCart = (details) => {
         const productCartGiftcardCode = details.giftcard_id;
@@ -130,26 +103,26 @@ const Giftcard = () => {
         <div className='mainContainer giftcardProfile'>
             <section className="giftcardPageContainer top"></section>
             <section className="giftcardPageContainer mid">
-                {!loadingGiftcard ? <div className="gcardspcmContainer">
+                {!loading ? <div className="gcardspcmContainer">
                     <div className="gcardspcmContent left">
-                        <img src={`https://2wave.io/GiftCardCovers/${giftcardViewContent.giftcard_cover}`} alt="" />
+                        <img src={`https://2wave.io/GiftCardCovers/${agGCCoverImg}`} alt="" />
                     </div>
                     <div className="gcardspcmContent right">
-                        <h3>{giftcardViewContent.giftcard_name}</h3>
-                        <h6>{giftcardViewContent.giftcard_category}</h6>
-                        <p id='gcspcmcDef'>{giftcardViewContent.giftcard_description}</p>
+                        <h3>{agGCName}</h3>
+                        <h6>{agGCCategory}</h6>
+                        <p id='gcspcmcDef'>{agGCDescription}</p>
                         <div className="gcardspcmcrItems">
                             <div className="gcardspcmcr">
-                                {giftcardViewDetails.map((details, i) => (
-                                    <div key={i} className={`${(details.stockCount === 0) ? 'noStocks' : ''}`}>
+                                {agGiftcardSort.map((details, i) => (
+                                    <div key={i} className={`${(details.stocks === 0) ? 'noStocks' : ''}`}>
                                         <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
                                         <span>
                                             <h5>$ {details.giftcard_denomination}</h5>
                                             {userLoggedIn ? <> 
                                                 {productCart.some(cartItem => cartItem.ag_product_id === details.giftcard_id) ?
                                                     <button><TbShoppingCartFilled className='faIcons'/></button>:
-                                                    <button onClick={() => handleAddToCart(details)} disabled={(details.stockCount === 0) ? true : false}>
-                                                        {(details.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : 
+                                                    <button onClick={() => handleAddToCart(details)} disabled={(details.stocks === 0) ? true : false}>
+                                                        {(details.stocks === undefined) ? <TbShoppingCartOff className='faIcons'/> : 
                                                         <>
                                                             {(productCartAdded === details.giftcard_denomination) ? 
                                                                 <TbShoppingCartFilled className='faIcons'/>:
@@ -163,7 +136,7 @@ const Giftcard = () => {
                                                 <button><TbShoppingCartPlus className='faIcons'/></button>
                                             </>}
                                         </span>
-                                        <p>{details.stockCount} Stocks</p>
+                                        <p>{details.stocks} Stocks</p>
                                     </div>
                                 ))}
                             </div>
@@ -186,14 +159,14 @@ const Giftcard = () => {
                 <div className="gcardspcbContainer">
                     <h4>GIFTCARDS YOU MIGHT LIKE</h4>
                     <div className="gcardspcbContent website">
-                        {giftcardViewAll.map((details, i) => (
+                        {randomItemsGiftcards.slice(0, 10).map((details, i) => (
                             <Link className="gcspcbcOtherGiftcard" to={`/Giftcards/${details.giftcard_canonical}`} key={i} onClick={handleClickGiftcard}>
                                 <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
                             </Link>
                         ))}
                     </div>
                     <div className="gcardspcbContent mobile">
-                        {giftcardViewAll.slice(0, 6).map((details, i) => (
+                        {randomItemsGiftcards.slice(0, 6).map((details, i) => (
                             <Link className="gcspcbcOtherGiftcard" to={`/Giftcards/${details.giftcard_canonical}`} key={i} onClick={handleClickGiftcard}>
                                 <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
                             </Link>
