@@ -6,6 +6,7 @@ const GiftcardsFetchContext = createContext();
 export const GiftcardsFetchDataProvider = ({ children }) => {
     const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
     const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
+    const [viewAllGiftcards, setViewAllGiftcards] = useState([]);
     const [giftcards, setGiftcards] = useState([]);
     const [filteredGiftcards, setFilteredGiftcards] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -30,6 +31,7 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
             setLoading(true);
             try {
                 const response = await axios.get(AGGiftcardsListAPI);
+                const gcAll = response.data;
                 const unique = filterUniqueData(response.data);
                 unique.sort((a, b) => {
                     if (a.giftcard_name < b.giftcard_name) return -1;
@@ -44,15 +46,16 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
 
                 const stockListResponse = await axios.get(AGStocksListAPI);
                 const stockListData = stockListResponse.data;
-                const stockInfo = unique.map(giftcard => {
+                const stockInfo = gcAll.map(giftcard => {
                     const stockCount = stockListData.filter(stock => stock.ag_product_id === giftcard.giftcard_id).length;
                     return {
                         ...giftcard, stocks: stockCount
                     };
                 });
 
+                setViewAllGiftcards(gcAll);
                 setGiftcards(stockInfo);
-                setFilteredGiftcards(stockInfo);
+                setFilteredGiftcards(unique);
 
             } catch (error) {
                 console.error(error);
@@ -68,6 +71,7 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
         <GiftcardsFetchContext.Provider value={{ 
             filterUniqueData, 
             setFilteredGiftcards, 
+            viewAllGiftcards,
             giftcards, 
             filteredGiftcards, 
             loading 

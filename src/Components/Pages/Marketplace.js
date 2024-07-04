@@ -451,10 +451,10 @@ const Marketplace = () => {
                             <p>{details.game_edition}</p>
                             <div>
                                 <div id="mppcm2GDView">
-                                    <h5>$ {(details.stock === undefined) ? 
-                                        '--.--': 
-                                        ((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
-                                    </h5>
+                                    {(details.stock === undefined) ?
+                                    <h5 id='gameNoStocks'>No Stocks</h5>:
+                                    <h5>$ {((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
+                                    </h5>}
                                     </div>
                                 {userLoggedIn ?<>
                                     <button id={favorites.includes(details.game_canonical) ? 'mppcm2GDHRemove' : 'mppcm2GDAdd'} onClick={() => handleFavoriteToggle(details)}>

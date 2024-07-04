@@ -420,7 +420,7 @@ const Highlights = () => {
                 </div>
             </div>}
 
-
+            {(userStateLogin && userDetailData !== undefined) ? 
             <section className="highlightsPageContainer top">
                 <div className="hlsPageContent top">
                     {(userStateLogin && userDetailData !== undefined) && <div className="hldpcTop1">
@@ -531,7 +531,7 @@ const Highlights = () => {
                     </div>
                 </div>
                 <hr />
-            </section>
+            </section>:<><section className="highlightsPageContainer top"></section></>}
             <section className="highlightsPageContainer mid">
                 {deletePostResponse && <div className="hlsPageContentDelete">
                     <div>
