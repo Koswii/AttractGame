@@ -579,7 +579,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="lndPageContent mid6">
+        {/* <div className="lndPageContent mid6">
           <h4><FaBitcoin className='faIcons'/> CRYPTOCURRENCY</h4>
           <div className="lndpcFeaturedCrypto">
             <div>
@@ -596,7 +596,7 @@ const Home = () => {
               </span>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="lndPageContent mid7">
           <div className="lndpcmid7Container">
             <div className="lndpcmid7content left">
