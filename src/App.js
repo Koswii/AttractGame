@@ -150,7 +150,7 @@ function App() {
             <Route exact path="/AGElite" element={<Underdevelop/>}/>
             <Route exact path="/ApplyAsSeller" element={<Underdevelop/>}/>
             <Route exact path="/ContentCreation" element={<Underdevelop/>}/>
-            <Route exact path="/AGCrypto" element={<Underdevelop/>}/>
+            {/* <Route exact path="/AGCrypto" element={<Underdevelop/>}/> */}
             <Route path="*" element={<Home/>}/>
           </Routes>
           <FacebookMsg/>

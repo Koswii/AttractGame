@@ -63,7 +63,7 @@ const Footer = () => {
                 <li><Link to="/Games" onClick={handleClickGames}>Games</Link></li>
                 <li><Link to="/Giftcards" onClick={handleClickGiftcards}>Giftcards</Link></li>
                 <li><Link to="/GameCredits/Robux">Roblox: Robux</Link></li>
-                <li><Link to="/AGCrypto">AG Crypto</Link></li>
+                {/* <li><Link to="/AGCrypto">AG Crypto</Link></li> */}
               </ul>
             </div>
             <div>
