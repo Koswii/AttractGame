@@ -14,7 +14,7 @@ import { CartsFetchDataProvider } from './Components/Pages/CartsFetchContext';
 
 
 
-import FacebookMsg from './Components/Pages/FacebookMsg';
+// import FacebookMsg from './Components/Pages/FacebookMsg';
 import CookieBanner from './Components/Pages/CookieBanner';
 import Nav from './Components/Nav'
 import Footer from './Components/Pages/footer';
@@ -153,7 +153,7 @@ function App() {
             {/* <Route exact path="/AGCrypto" element={<Underdevelop/>}/> */}
             <Route path="*" element={<Home/>}/>
           </Routes>
-          <FacebookMsg/>
+          {/* <FacebookMsg/> */}
           <Footer />
         </div>
         </Router>

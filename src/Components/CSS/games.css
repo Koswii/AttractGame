@@ -440,6 +440,9 @@ section.gamesPageContainer.top{
     .gmspct2gDetails div h6{
         font-size: 4vw;
     }
+    .gmspct2gDetails div h6#gameNoStocks{
+        font-size: 3.5vw;
+    }
     .gmspct2gDetails div button{
         font-size: 6vw;
     }

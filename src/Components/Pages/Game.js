@@ -4,6 +4,9 @@ import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { useActivePage } from './ActivePageContext';
 import { UserProfileData } from './UserProfileContext';
+import { GamesFetchData } from './GamesFetchContext';
+import { FavoritesFetchData } from './FavoritesFetchContext';
+import { CartsFetchData } from './CartsFetchContext';
 import { 
     FaSearch,
     FaGamepad,
@@ -50,29 +53,61 @@ const formatDateToWordedDate = (numberedDate) => {
     return `${month} ${day}, ${year}`;
 }
 
+const ImageComponentGames = ({ imageName }) => {
+    const { fetchAndCacheImageGames, imageCache } = GamesFetchData();
+    const [loading, setLoading] = useState(true);
+    const baseUrl = 'https://2wave.io/GameCovers/';
+    const url = `${baseUrl}${imageName}`;
+
+    useEffect(() => {
+        fetchAndCacheImageGames(imageName);
+    }, [imageName]);
+
+    useEffect(() => {
+        if (imageCache[url]) {
+            setLoading(false);
+        }
+    }, [imageCache, url]);
+
+    return (
+        <img src={imageCache[url]} alt="Loading..." />
+    );
+};
+
+
+
+
 const Game = () => {
     const { gameCanonical } = useParams();
     const { setActivePage } = useActivePage();
     const { userLoggedData } = UserProfileData();
-    const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
-    const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
-    const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
+    const { 
+        viewAGData1,
+        loadingMarketData,
+        viewAllListedGames,
+        setLoadingMarketData,
+        fetchAndCacheImage,
+        imageCache 
+    } = GamesFetchData();
+    const { 
+        fetchFavorites, 
+        favorites, 
+        setFavorites 
+    } = FavoritesFetchData();
+    const { 
+        fetchUserCart, 
+        carts,
+        productCart, 
+        setProductCarts 
+    } = CartsFetchData();
     const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
     const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
-    const AGUserProductsCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
     const [isFavorite, setIsFavorite] = useState(false);
     const [isInCart, setIsInCart] = useState(false);
-    const [viewAGData1, setViewAGData1] = useState([]);
-    const [viewAGData2, setViewAGData2] = useState([]);
-    const [viewWikiData, setViewWikiData] = useState([]);
-    const [viewMetacriticData, setViewMetacriticData] = useState([]);
-    const [loadingMarketData, setLoadingMarketData] = useState(false);
     const [scrapedMetacriticData, setScrapedMetacriticData] = useState('');
-    const [viewGameTrailer, setViewGameTrailer] = useState('');
-    const [suggestedFavorites, setSuggestedFavorites] = useState([]);
     const [productFavAdded, setProductFavAdded] = useState(false);
     const [productCartAdded, setProductCartAdded] = useState(false);
 
@@ -81,38 +116,61 @@ const Game = () => {
         return shuffled.slice(0, numItems);
     };
 
-    useEffect(() => {
-        const fetchGameData = async () => {
-            try {
-                const response = await axios.get(AGGamesListAPI1);
-                const agOtherGamesData = response.data;
-                const agGameData = response.data.find(game => game.game_canonical === gameCanonical);
-                const gameCSFeatMetacritic = agGameData.game_title_ext2.toLowerCase().replace(/\s/g, '-') || agGameData.game_title.toLowerCase().replace(/\s/g, '-');
-                const gameCSFeatWikipedia = agGameData.game_title_ext1.replace(/\s/g, '_') || agGameData.game_title.replace(/\s/g, '_');
-                setViewAGData1(agGameData);
-                setViewMetacriticData(gameCSFeatMetacritic);
-                setViewWikiData(gameCSFeatWikipedia);
-                
-                if (agOtherGamesData.length > 0) {
-                    const randomItems = getRandomItems(agOtherGamesData, 10);
-                    setViewAGData2(randomItems);
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        };
+    const agGameData = viewAGData1.filter(game => game.game_canonical === gameCanonical);
+    const agGameTitle = agGameData.map(game => game.game_title);
+    const agGameTitleExt1 = agGameData.map(game => game.game_title_ext1);
+    const agGameTitleExt2 = agGameData.map(game => game.game_title_ext2);
+    
+    const gameTitleExt2 = agGameTitleExt2.length > 0 ? agGameTitleExt2[0].toLowerCase().replace(/\s/g, '-') : null;
+    const gameTitle = agGameTitle.length > 0 ? agGameTitle[0].toLowerCase().replace(/\s/g, '-') : null;
+    const gameCSFeatMetacritic = gameTitleExt2 || gameTitle;
+    
+    const gameTitleExt1 = agGameTitleExt1.length > 0 ? agGameTitleExt1[0].replace(/\s/g, '_') : null;
+    const gameTitleForWikipedia = agGameTitle.length > 0 ? agGameTitle[0].replace(/\s/g, '_') : null;
+    const gameCSFeatWikipedia = gameTitleExt1 || gameTitleForWikipedia;
 
-        fetchGameData();
-    }, [LoginUserID, gameCanonical]);
+    const agGameDataCanonical = agGameData.map(game => game.game_canonical);
+    const agGameDataName = agGameData.map(game => game.game_title);
+    const agGameDataCover = agGameData.map(game => game.game_cover);
+    const agGameDataCategory = agGameData.map(game => game.game_category);
+    const agGameDataEdition = agGameData.map(game => game.game_edition);
+    const agGameDataPlatform = agGameData.map(game => game.game_platform);
+    const agGameDataDeveloper = agGameData.map(game => game.game_developer);
+    const agGameDataReleased = agGameData.map(game => game.game_released);
+    const agGameDataTrailer = agGameData.map(game => game.game_trailer);
+    const agGameStockCount = agGameData.map(game => game.stockCount);
+    const agGameStock = `${agGameData.map(game => game.stock)}`;
+    const agGameStockPrice = (agGameStock !== '') ? agGameData.map(game => game.stock.ag_product_price) : 0;
+    const agGameStockDiscount = (agGameStock !== '') ? agGameData.map(game => game.stock.ag_product_discount) : 0;
+    const agGameTotalPrice = ((parseFloat(agGameStockPrice) - parseFloat(agGameStockDiscount / 100) * parseFloat(agGameStockPrice)).toFixed(2))
+
+    const agGameOnCart = agGameDataCanonical.filter(game => carts.includes(game));
+    const agGameOnFavorites = agGameDataCanonical.filter(game => favorites.includes(game));
+
+
+    useEffect(() => {
+        if(`${agGameOnCart}` === `${agGameDataCanonical}`){
+            setIsInCart(true);
+        }else{
+            setIsInCart(false);
+        }
+    }, []);
+    useEffect(() => {
+        if(`${agGameOnFavorites}` === `${agGameDataCanonical}`){
+            setIsFavorite(true);
+        }else{
+            setIsFavorite(false);
+        }
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 // Fetch details for a single game from Wikipedia
-                const wikipediaUrl = await axios.get(`https://engeenx.com/proxyWikipedia.php?game=${viewWikiData}`);
+                const wikipediaUrl = await axios.get(`https://engeenx.com/proxyWikipedia.php?game=${gameCSFeatWikipedia}`);
                 const wikipediaResponse = wikipediaUrl.data;
 
-                const metacriticUrls = await axios.get(`https://engeenx.com/proxyMetacritic.php?game=${viewMetacriticData}/`);
+                const metacriticUrls = await axios.get(`https://engeenx.com/proxyMetacritic.php?game=${gameCSFeatMetacritic}/`);
                 const html = metacriticUrls.data;
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
@@ -129,46 +187,20 @@ const Game = () => {
                 const genre = targetElementGenre ? targetElementGenre.textContent.trim() : '';
 
 
-                const stockListResponse = await axios.get(AGStocksListAPI);
-                const stockListData = stockListResponse.data;
-                const stockCount = stockListData.filter(stock => stock.ag_product_id === gameCanonical).length;
-                const stock = stockListData.find(stock => stock.ag_product_id === gameCanonical);
-
-                const combinedMetaWikiData = {...wikipediaResponse, ...viewAGData1, metascore, metadescription, release, publisher, genre, stockCount, stock};
-                
-
-                if(combinedMetaWikiData.genre === "" && combinedMetaWikiData.title === "Not found."){
-                    setLoadingMarketData(false);
-                }else{
-                    const cartResponse = await axios.get(AGUserProductsCartAPI);
-                    const cartData = cartResponse.data.filter(product => product.ag_user_id === LoginUserID);
-                    const cartGameCodes = cartData.map(cartItem => cartItem.ag_product_id);
-                    setIsInCart(cartGameCodes.includes(combinedMetaWikiData.game_canonical));
-
-                    const favoritesResponse = await axios.get(AGUserFavoritesAPI);
-                    const favoriteData = favoritesResponse.data.filter(product => product.ag_user_id === LoginUserID);
-                    const favoriteGameCodes = favoriteData.map(fav => fav.ag_product_id);
-                    setIsFavorite(favoriteGameCodes.includes(combinedMetaWikiData.game_canonical));
-
-
-                    setScrapedMetacriticData(combinedMetaWikiData);
-                    setLoadingMarketData(true);
-                    setViewGameTrailer(combinedMetaWikiData.game_trailer);
-                }
+                const combinedMetaWikiData = {...wikipediaResponse, metascore, metadescription, release, publisher, genre};
+                setScrapedMetacriticData(combinedMetaWikiData);
 
             } catch (error) {
                 console.error('Error fetching data:', error);
-            }
+            } 
         };
         fetchData();
-    }, [viewMetacriticData, viewWikiData, scrapedMetacriticData]);
-    const videoUrl = viewGameTrailer;
+        fetchUserCart();
+        fetchFavorites();
+    }, [gameCSFeatMetacritic, gameCSFeatWikipedia, scrapedMetacriticData]);
 
     const handleClickGames = () => {
         setActivePage('games');
-        setTimeout(() => {
-            window.location.reload();
-        }, 500);
     }
     const handleAddFavorite = () => {
         setProductFavAdded(true)
@@ -176,7 +208,7 @@ const Game = () => {
           agFavUsername: userLoggedData.username,
           agFavUserID: userLoggedData.userid,
           agFavGameCode: gameCanonical,
-          agFavGameName: scrapedMetacriticData?.game_title,
+          agFavGameName: `${agGameDataName}`,
         }
     
         const jsonUserFavData = JSON.stringify(formAddfavorite);
@@ -184,8 +216,8 @@ const Game = () => {
         .then(response => {
           const resMessage = response.data;
           if (resMessage.success === true) {
-            console.log(resMessage.message);
             setIsFavorite(true);
+            fetchFavorites();
           } else {
             console.log(resMessage.message);
           }
@@ -194,11 +226,11 @@ const Game = () => {
             console.log(error);
         });
     };
-    const handleRemoveFavorite = (gameCanonical) => {
+    const handleRemoveFavorite = () => {
         setProductFavAdded(false)
         const removeFav = {
             user: userLoggedData.userid,
-            favorite: gameCanonical
+            favorite: gameCanonical,
         }
         const removeFavJSON = JSON.stringify(removeFav);
         axios({
@@ -211,8 +243,8 @@ const Game = () => {
         })
         .then(response => {
             if (response.data.success) {
-                console.log('Product removed successfully');
                 setIsFavorite(false);
+                fetchFavorites();
             } else {
                 console.log(`Error: ${response.data.message}`);
             }
@@ -223,21 +255,20 @@ const Game = () => {
     };
     const handleFavoriteToggle = () => {
         if (isFavorite) {
-            handleRemoveFavorite(scrapedMetacriticData.game_canonical);
+            handleRemoveFavorite();
         } else {
             handleAddFavorite();
         }
     };
-
     const handleAddToCart = () => {
         setProductCartAdded(true)
         const formAddCart = {
           agCartUsername: userLoggedData.username,
           agCartUserID: userLoggedData.userid,
           agCartProductCode: gameCanonical,
-          agCartProductName: scrapedMetacriticData?.game_title,
-          agCartProductPrice: '',
-          agCartProductDiscount: '',
+          agCartProductName: `${agGameDataName}`,
+          agCartProductPrice: `${agGameStockPrice}`,
+          agCartProductDiscount: `${agGameStockDiscount}`,
           agCartProductType: 'Game',
           agCartProductState: 'Pending',
         }
@@ -247,6 +278,7 @@ const Game = () => {
         .then(response => {
           const resMessage = response.data;
           if (resMessage.success === true) {
+            fetchUserCart(setProductCarts, LoginUserID);
             setIsInCart(true);
           } else {
             console.log(resMessage.message);
@@ -256,6 +288,12 @@ const Game = () => {
             console.log(error);
         });
     };
+
+
+
+
+
+
 
     return (
         <div className='mainContainer gameProfile'>
@@ -276,46 +314,62 @@ const Game = () => {
                 </div>:
                 <div className="gpPageContentTop">
                     <div className="gppctGameDetails left">
+                        {scrapedMetacriticData.metascore ?
                         <div className="gppctgdMetacritic">
                             <h3>{scrapedMetacriticData.metascore ? scrapedMetacriticData.metascore : 'tbd'}</h3>
                             <p>Metascore</p>
-                        </div>
+                        </div>:
+                        <div className="gppctgdMetacriticDummy"></div>
+                        }
                         <div className="gppctgdCategory">
                             <h5>
-                                {(scrapedMetacriticData.game_category === 'Trending') && <><TbTrendingUp className={`faIcons ${(scrapedMetacriticData.game_category === 'Trending') ? 'Trending' : ''}`}/> TRENDING</>}
-                                {(scrapedMetacriticData.game_category === 'Hot') && <><TbCampfireFilled className={`faIcons ${(scrapedMetacriticData.game_category === 'Hot') ? 'Hot' : ''}`}/> HOT</>}
-                                {(scrapedMetacriticData.game_category === 'Classic') && <><TbAwardFilled className={`faIcons ${(scrapedMetacriticData.game_category === 'Classic') ? 'Classic' : ''}`}/> CLASSIC</>}
-                                {(scrapedMetacriticData.game_category === 'Preorder') && <><TbCalendarStar className={`faIcons ${(scrapedMetacriticData.game_category === 'Preorder') ? 'Preorder' : ''}`}/> PREORDER</>}
+                                {(agGameDataCategory === 'Trending') && <><TbTrendingUp className={`faIcons ${(agGameDataCategory === 'Trending') ? 'Trending' : ''}`}/> TRENDING</>}
+                                {(agGameDataCategory === 'Hot') && <><TbCampfireFilled className={`faIcons ${(agGameDataCategory === 'Hot') ? 'Hot' : ''}`}/> HOT</>}
+                                {(agGameDataCategory === 'Classic') && <><TbAwardFilled className={`faIcons ${(agGameDataCategory === 'Classic') ? 'Classic' : ''}`}/> CLASSIC</>}
+                                {(agGameDataCategory === 'Preorder') && <><TbCalendarStar className={`faIcons ${(agGameDataCategory === 'Preorder') ? 'Preorder' : ''}`}/> PREORDER</>}
                             </h5>
                         </div>
                         <>{scrapedMetacriticData.game_cover !== '' ?
-                        <img src={`https://2wave.io/GameCovers/${scrapedMetacriticData.game_cover}`} alt="" />
-                        :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />}</>
+                        <img src={`https://2wave.io/GameCovers/${agGameDataCover}`} alt="" />
+                        :<img src={scrapedMetacriticData.originalimage.source} alt="" />}</>
                     </div>
                     <div className="gppctGameDetails right">
-                        <h3>{scrapedMetacriticData.game_title}</h3>
+                        <h3>{agGameDataName}</h3>
                         <div className='gppctgdrDetails'>
-                            {scrapedMetacriticData.game_edition ? <h6>{scrapedMetacriticData.game_edition}</h6> : <></>}
-                            {scrapedMetacriticData.game_platform ? <h6>{scrapedMetacriticData.game_platform ? scrapedMetacriticData.game_platform + ' Game' : ''}</h6> : <></>}
-                            {scrapedMetacriticData.game_developer ? <h6>{scrapedMetacriticData.game_developer}</h6> : <></>}
-                            {scrapedMetacriticData.publisher ? <h6>{scrapedMetacriticData.publisher}</h6> : <></>}
-                            {scrapedMetacriticData.genre ? <h6>{scrapedMetacriticData.genre}</h6> : <></>}
+                            {agGameDataEdition ? <h6>{agGameDataEdition}</h6> : <></>}
+                            {agGameDataPlatform ? <h6>{agGameDataPlatform ? agGameDataPlatform + ' Game' : ''}</h6> : <></>}
+                            {agGameDataDeveloper ? <h6>{agGameDataDeveloper}</h6> : <></>}
+                            {scrapedMetacriticData.publisher ? 
+                                <h6>{scrapedMetacriticData.publisher}</h6> : 
+                                <h6 className='gppctgdrdDummy'></h6>
+                            }
+                            {scrapedMetacriticData.genre ? 
+                                <h6>{scrapedMetacriticData.genre}</h6> : 
+                                <h6 className='gppctgdrdDummy'></h6>
+                            }
                         </div>
-                        <h5>GAME RELEASED: {scrapedMetacriticData.game_released ? formatDateToWordedDate(scrapedMetacriticData.game_released) : '-'}</h5>
+                        <h5>GAME RELEASED: {agGameDataReleased ? formatDateToWordedDate(agGameDataReleased) : '-'}</h5>
                         <div className="gppctgdrMetacritic">
-                            <p>{scrapedMetacriticData.metadescription ? 
-                                <>{(scrapedMetacriticData.metadescription.slice(0, 300)+ '...')}</> 
-                                :<>No Metacritic and Wikipedia details yet. <br /><br /><br /><br /><br /></>}
-                            </p>
+                            {scrapedMetacriticData.metadescription ?
+                                <p>{scrapedMetacriticData.metadescription ? 
+                                    <>{(scrapedMetacriticData.metadescription.slice(0, 300)+ '...')}</> 
+                                    :<>No Metacritic and Wikipedia details yet. <br /><br /><br /><br /><br /></>}
+                                </p>:
+                                <>
+                                    <p className='gppctgdrmDummy'></p>
+                                    <p className='gppctgdrmDummy'></p>
+                                    <p className='gppctgdrmDummy'></p>
+                                </>
+                            }
                             <div>
-                                {scrapedMetacriticData.metadescription ? <a href={`https://www.metacritic.com/game/${viewMetacriticData}/`} target='blank'>View Metacritic</a> : <></>}
-                                {scrapedMetacriticData.extract ? <a href={`https://en.wikipedia.org/wiki/${viewWikiData}`} target='blank'>View Wikipedia</a> : <></>}
+                                {scrapedMetacriticData.metadescription ? <a href={`https://www.metacritic.com/game/${gameCSFeatMetacritic}/`} target='blank'>View Metacritic</a> : <></>}
+                                {scrapedMetacriticData.extract ? <a href={`https://en.wikipedia.org/wiki/${gameCSFeatWikipedia}`} target='blank'>View Wikipedia</a> : <></>}
                             </div>
                         </div>
                         <div className="gppctgdrExtras">
-                            {(scrapedMetacriticData.stock === undefined) ?
+                            {(agGameStock === '' || 0) ?
                             <h4 id='gameNoStock'>No Stocks</h4>:
-                            <h4>$ {((parseFloat(scrapedMetacriticData.stock.ag_product_price) - parseFloat(scrapedMetacriticData.stock.ag_product_discount / 100) * parseFloat(scrapedMetacriticData.stock.ag_product_price)).toFixed(2))}
+                            <h4>$ {agGameTotalPrice}
                             </h4>}
                             {userLoggedIn ?<>
                                 <button id={isFavorite ? 'gppct2gdRemoveFav' : 'gppct2gdAddFav'} onClick={handleFavoriteToggle}>
@@ -329,8 +383,8 @@ const Game = () => {
                                 </button>
                                 {isInCart ? 
                                     <button id='gppct2gdGameCart'><TbShoppingCartFilled className='faIcons'/></button>:
-                                    <button onClick={handleAddToCart} disabled={(scrapedMetacriticData.stock === undefined) ? true : false}>
-                                        {(scrapedMetacriticData.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : 
+                                    <button onClick={handleAddToCart} disabled={(agGameStock === '' || 0) ? true : false}>
+                                        {(agGameStock === '' || 0) ? <TbShoppingCartOff className='faIcons'/> : 
                                         <>
                                             {(productCartAdded) ? 
                                             <TbShoppingCartFilled className='faIcons gold'/>:
@@ -343,8 +397,8 @@ const Game = () => {
                                 <button><TbShoppingCartPlus className='faIcons'/></button>
                             </>}
                             <div>
-                                <h6>{(scrapedMetacriticData.stockCount === 0 ? 'Out of Stock':'Game On-Stock')}</h6>
-                                <p>{scrapedMetacriticData.stockCount} Stocks</p>
+                                <h6>{(agGameStockCount === 0 ? 'Out of Stock':'Game On-Stock')}</h6>
+                                <p>{agGameStockCount} Stocks</p>
                             </div>
                         </div>
                     </div>
@@ -353,7 +407,7 @@ const Game = () => {
             <section className="gamePageContainer mid">
                 <div className="gpPageContentMid1">
                     <div className="gppcm1Container left">
-                        <YouTubeEmbed videoUrl={videoUrl} />
+                        <YouTubeEmbed videoUrl={`${agGameDataTrailer}`} />
                     </div>
                     <div className="gppcm1Container right">
                         <h4>LATEST REVIEWS <span>3 Reviews</span></h4>
@@ -386,9 +440,9 @@ const Game = () => {
             <section className="gamePageContainer bot">
                 <h4>GAMES YOU MIGHT ALSO LIKE</h4>
                 <div className="gpPageContentMid3 website">
-                    {viewAGData2.slice(0, 10).map((details, i) => (
+                    {viewAllListedGames.slice(0, 10).map((details, i) => (
                         <Link className="gppcm3OtherGame" key={i} to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>
-                            <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="" />
+                            <ImageComponentGames imageName={details.game_cover} />
                             <div className="gppcm3ogPlatform">
                                 <img src="" platform={details.game_platform} alt="" />
                             </div>
@@ -410,9 +464,9 @@ const Game = () => {
                     ))}
                 </div>
                 <div className="gpPageContentMid3 mobile">
-                    {viewAGData2.slice(0, 6).map((details, i) => (
+                    {viewAllListedGames.slice(0, 6).map((details, i) => (
                         <Link className="gppcm3OtherGame" key={i} to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>
-                            <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="" />
+                            <ImageComponentGames imageName={details.game_cover} />
                             <div className="gppcm3ogPlatform">
                                 <img src="" platform={details.game_platform} alt="" />
                             </div>

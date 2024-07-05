@@ -17,11 +17,35 @@ import { GamesFetchData } from './GamesFetchContext';
 import { FavoritesFetchData } from './FavoritesFetchContext';
 import { CartsFetchData } from './CartsFetchContext';
 
+
+const ImageComponentGames = ({ imageName }) => {
+    const { fetchAndCacheImageGames, imageCache } = GamesFetchData();
+    const [loading, setLoading] = useState(true);
+    const baseUrl = 'https://2wave.io/GameCovers/';
+    const url = `${baseUrl}${imageName}`;
+
+    useEffect(() => {
+        fetchAndCacheImageGames(imageName);
+    }, [imageName]);
+
+    useEffect(() => {
+        if (imageCache[url]) {
+            setLoading(false);
+        }
+    }, [imageCache, url]);
+
+    return (
+        <img src={imageCache[url]} alt="Loading..." />
+    );
+};
+
+
 const Games = () => {
     const { userLoggedData } = UserProfileData();
     const { 
         viewAGData1,
-        loadingMarketData 
+        loadingMarketData,
+        setLoadingMarketData,
     } = GamesFetchData();
     const { 
         fetchFavorites, 
@@ -217,6 +241,8 @@ const Games = () => {
         setFilterChanging(false);
         }
     }, [filters, filterChanging]);
+
+
     
     return (
         <div className='mainContainer gameList'>
@@ -385,7 +411,7 @@ const Games = () => {
                                             <img src='' platform={details.game_platform} alt="" />
                                         </div>
                                         <Link to={`/Games/${details.game_canonical}`}>{details.game_cover !== '' ?
-                                        <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
+                                        <ImageComponentGames imageName={details.game_cover} />
                                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
                                         <div className="gmspct2gDetails">
                                             <h5>{details.game_title}</h5>
@@ -462,7 +488,7 @@ const Games = () => {
                                             <img src='' platform={details.game_platform} alt="" />
                                         </div>
                                         <Link to={`/Games/${details.game_canonical}`}>{details.game_cover !== '' ?
-                                        <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
+                                        <ImageComponentGames imageName={details.game_cover} />
                                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
                                         <div className="gmspct2gDetails">
                                             <h5>{details.game_title}</h5>

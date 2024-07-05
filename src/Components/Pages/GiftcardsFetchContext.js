@@ -10,6 +10,7 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
     const [giftcards, setGiftcards] = useState([]);
     const [filteredGiftcards, setFilteredGiftcards] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [imageCache, setImageCache] = useState({});
 
     // Fetch data once when component mounts
     const filterUniqueData = (giftcards) => {
@@ -67,6 +68,22 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
         fetchGiftcards();
     }, []);
 
+    const fetchAndCacheImageGiftcards = async (imageName) => {
+        const baseUrl = 'https://2wave.io/GiftCardCovers/';
+        const url = `${baseUrl}${imageName}`;
+        if (!imageCache[url]) {
+            try {
+                const img = new Image();
+                img.src = url;
+                img.onload = () => {
+                    setImageCache(prevCache => ({ ...prevCache, [url]: img.src }));
+                };
+            } catch (error) {
+                console.error('Error fetching image:', error);
+            }
+        }
+    };
+
     return (
         <GiftcardsFetchContext.Provider value={{ 
             filterUniqueData, 
@@ -74,7 +91,9 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
             viewAllGiftcards,
             giftcards, 
             filteredGiftcards, 
-            loading 
+            loading,
+            fetchAndCacheImageGiftcards,
+            imageCache 
         }}>
             {children}
         </GiftcardsFetchContext.Provider>

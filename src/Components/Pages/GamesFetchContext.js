@@ -13,6 +13,7 @@ export const GamesFetchDataProvider = ({ children }) => {
     const [viewMetacriticData, setViewMetacriticData] = useState([]);
     const [loadingMarketData, setLoadingMarketData] = useState(true);
     const [loadingMarketData2, setLoadingMarketData2] = useState(true);
+    const [imageCache, setImageCache] = useState({});
     const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
     const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
     const getRandomItems = (array, numItems) => {
@@ -100,6 +101,22 @@ export const GamesFetchDataProvider = ({ children }) => {
         }
     };
 
+
+    const fetchAndCacheImageGames = async (imageName) => {
+        const baseUrl = 'https://2wave.io/GameCovers/';
+        const url = `${baseUrl}${imageName}`;
+        if (!imageCache[url]) {
+            try {
+                const img = new Image();
+                img.src = url;
+                img.onload = () => {
+                    setImageCache(prevCache => ({ ...prevCache, [url]: img.src }));
+                };
+            } catch (error) {
+                console.error('Error fetching image:', error);
+            }
+        }
+    };
     // Fetch data once when component mounts
     useEffect(() => {
         fetchGames1();
@@ -113,10 +130,13 @@ export const GamesFetchDataProvider = ({ children }) => {
             viewAllListedGames, 
             viewAGData1, 
             viewAGData2, 
+            setLoadingMarketData,
             loadingMarketData, 
             loadingMarketData2, 
             viewMetacriticData, 
-            viewWikiData
+            viewWikiData,
+            fetchAndCacheImageGames,
+            imageCache
         }}>
             {children}
         </GamesFetchContext.Provider>

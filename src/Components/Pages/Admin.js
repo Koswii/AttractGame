@@ -1429,6 +1429,7 @@ const Admin = () => {
                                                 <label htmlFor=""><p>Supplier</p></label>
                                                 <select name="" id="" value={agSetGiftCardSupplier} onChange={(e) => setAGSetGiftCardSupplier(e.target.value)}>
                                                     <option value="">Select Supplier</option>
+                                                    <option value="Local">Local</option>
                                                     {viewSupplierProfiles.slice(0,8).map((item, i) => (
                                                         <option key={i} value={item.company}>{item.company}</option>
                                                     ))}

@@ -4,6 +4,27 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { GiftcardsFetchData } from './GiftcardsFetchContext';
 
+const ImageComponentGiftcards = ({ imageName }) => {
+    const { fetchAndCacheImageGiftcards, imageCache } = GiftcardsFetchData();
+    const [loading, setLoading] = useState(true);
+    const baseUrl = 'https://2wave.io/GiftCardCovers/';
+    const url = `${baseUrl}${imageName}`;
+
+    useEffect(() => {
+        fetchAndCacheImageGiftcards(imageName);
+    }, [imageName]);
+
+    useEffect(() => {
+        if (imageCache[url]) {
+            setLoading(false);
+        }
+    }, [imageCache, url]);
+
+    return (
+        <img src={imageCache[url]} alt="Loading..." />
+    );
+};
+
 const Giftcards = () => {
     const { 
         filterUniqueData,
@@ -55,7 +76,7 @@ const Giftcards = () => {
                     </>:<>{filteredGiftcards.map((details, i) => (
                         <Link className="gcspContentMid1" key={i} to={`/Giftcards/${details.giftcard_canonical}`}>
                             <div className="gcspcmid1 left">
-                                <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
+                                <ImageComponentGiftcards imageName={details.giftcard_cover} />
                             </div>
                             <div className="gcspcmid1 right">
                                 <h5>{details.giftcard_name}</h5>

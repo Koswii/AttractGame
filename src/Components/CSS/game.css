@@ -120,7 +120,7 @@ section.gamePageContainer.top{
     border-radius: 1vw;
 }
 .gppctgdDetailsDummy p{
-    height: 1vw;
+    height: 0.9vw;
     width: 90%;
     background: 
       linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
@@ -128,7 +128,7 @@ section.gamePageContainer.top{
     background-size:300% 100%;
     animation: l1 1s infinite linear;
     border-radius: 1vw;
-    margin-bottom: 2%;
+    margin-bottom: 1%;
 }
 
 
@@ -162,6 +162,22 @@ section.gamePageContainer.top{
     box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
+}
+.gppctgdMetacriticDummy{
+    height: 8vw;
+    width: 8vw;
+    position: absolute;
+    padding: 3% 5%;
+    top: 1vw;
+    left: 1vw;
+    text-align: center;
+    border-radius: 1vw;
+    border: solid 2px white;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
 }
 .gppctgdCategory{
     height: auto;
@@ -234,6 +250,19 @@ section.gamePageContainer.top{
     margin-right: 2%;
     margin-bottom: 2%;
 }
+.gppctgdrDetails h6.gppctgdrdDummy{
+    height: 2vw;
+    width: 10vw;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    margin-right: 2%;
+    margin-bottom: 2%;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
+}
 .gppctGameDetails.right h5{
     font-size: 0.9vw;
     font-weight: 400;
@@ -247,6 +276,16 @@ section.gamePageContainer.top{
 }
 .gppctgdrMetacritic p{
     margin-top: 1%;
+}
+.gppctgdrMetacritic p.gppctgdrmDummy{
+    width: 100%;
+    height: 0.9vw;
+    border-radius: 50px;
+    background: 
+      linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
+      #808080;
+    background-size:300% 100%;
+    animation: l1 1s infinite linear;
 }
 .gppctgdrMetacritic div{
     display: flex;
@@ -617,6 +656,13 @@ section.gamePageContainer.bot{
         left: 2vw;
         border-radius: 2vw;
     }
+    .gppctgdMetacriticDummy{
+        top: 2vw;
+        left: 2vw;
+        border-radius: 2vw;
+        height: 25vw;
+        width: 25vw;
+    }
     .gppctgdMetacritic h3{
         font-size: 10vw;
     }
@@ -652,6 +698,12 @@ section.gamePageContainer.bot{
         padding: 2% 4%;
         margin: 2%;
     }
+    .gppctgdrDetails h6.gppctgdrdDummy{
+        height: 6.5vw;
+        width: 20vw;
+        padding: 2% 4%;
+        margin: 2%;
+    }
     .gppctGameDetails.right h5{
         font-size: 3vw;
         text-align: center;
@@ -662,6 +714,10 @@ section.gamePageContainer.bot{
     }
     .gppctgdrMetacritic p{
         font-size: 2.3vw;
+    }
+    .gppctgdrMetacritic p.gppctgdrmDummy{
+        width: 100%;
+        height: 2.3vw;
     }
     .gppctgdrMetacritic div{
         margin-top: 5%;
@@ -681,6 +737,9 @@ section.gamePageContainer.bot{
         text-align: center;
         margin-right: 5%;
         font-size: 8vw;
+    }
+    .gppctgdrExtras h4#gameNoStock{
+        font-size: 5vw;
     }
     .gppctgdrExtras button{
         font-size: 8vw;
@@ -782,6 +841,10 @@ section.gamePageContainer.bot{
         font-size: 3vw;
     }
     .gppcm3ogDetails div #mppcm2GDView h5{
+        height: 7vw;
+        font-size: 4vw;
+    }
+    .gppcm3ogDetails div #mppcm2GDView h5#gameNoStocks{
         height: 7vw;
         font-size: 4vw;
     }

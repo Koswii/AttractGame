@@ -23,6 +23,26 @@ import { UserProfileData } from './UserProfileContext';
 import { GiftcardsFetchData } from './GiftcardsFetchContext';
 import { CartsFetchData } from './CartsFetchContext';
 
+const ImageComponentGiftcards = ({ imageName }) => {
+    const { fetchAndCacheImageGiftcards, imageCache } = GiftcardsFetchData();
+    const [loading, setLoading] = useState(true);
+    const baseUrl = 'https://2wave.io/GiftCardCovers/';
+    const url = `${baseUrl}${imageName}`;
+
+    useEffect(() => {
+        fetchAndCacheImageGiftcards(imageName);
+    }, [imageName]);
+
+    useEffect(() => {
+        if (imageCache[url]) {
+            setLoading(false);
+        }
+    }, [imageCache, url]);
+
+    return (
+        <img src={imageCache[url]} alt="Loading..." />
+    );
+};
 
 const Giftcard = () => {
     const { giftcardCanonical } = useParams();
@@ -115,7 +135,7 @@ const Giftcard = () => {
                             <div className="gcardspcmcr">
                                 {agGiftcardSort.map((details, i) => (
                                     <div key={i} className={`${(details.stocks === 0) ? 'noStocks' : ''}`}>
-                                        <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
+                                        <ImageComponentGiftcards imageName={details.giftcard_cover} />
                                         <span>
                                             <h5>$ {details.giftcard_denomination}</h5>
                                             {userLoggedIn ? <> 
@@ -161,14 +181,14 @@ const Giftcard = () => {
                     <div className="gcardspcbContent website">
                         {randomItemsGiftcards.slice(0, 10).map((details, i) => (
                             <Link className="gcspcbcOtherGiftcard" to={`/Giftcards/${details.giftcard_canonical}`} key={i} onClick={handleClickGiftcard}>
-                                <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
+                                <ImageComponentGiftcards imageName={details.giftcard_cover} />
                             </Link>
                         ))}
                     </div>
                     <div className="gcardspcbContent mobile">
                         {randomItemsGiftcards.slice(0, 6).map((details, i) => (
                             <Link className="gcspcbcOtherGiftcard" to={`/Giftcards/${details.giftcard_canonical}`} key={i} onClick={handleClickGiftcard}>
-                                <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
+                                <ImageComponentGiftcards imageName={details.giftcard_cover} />
                             </Link>
                         ))}
                     </div>

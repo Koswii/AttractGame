@@ -16,7 +16,8 @@ import {
   MdOutlineVideogameAsset,
   MdOutlineGamepad,
   MdOutlineCardGiftcard,
-  MdCurrencyBitcoin    
+  MdCurrencyBitcoin,
+  MdOutlinePostAdd   
 } from "react-icons/md";
 import { 
   TbUserSquareRounded,
@@ -25,13 +26,19 @@ import {
   TbHeartFilled,
   TbShoppingCartBolt,
   TbCalendarEvent, 
-  TbLogout 
+  TbLogout,
+  TbGiftCard,
+  TbDeviceGamepad2,
+  TbNews,
+  TbTimelineEvent     
 } from "react-icons/tb";
 import { 
   RiVerifiedBadgeFill,
   RiSparklingFill,
-  RiImageEditLine    
+  RiImageEditLine,
+  RiGamepadFill     
 } from "react-icons/ri";
+import { AiOutlineShop } from "react-icons/ai";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useActivePage } from './Pages/ActivePageContext';
@@ -561,11 +568,11 @@ const Nav = () => {
           </div>
         </div>
         <div className="navContainer mobile">
-          <button className={`${activePage === 'dashboard' ? 'active' : ''}`} onClick={() => handleNavigation('dashboard', '/Highlights')}><h5><MdOutlineSpaceDashboard className='faIcons'/></h5></button>
+          <button className={`${activePage === 'dashboard' ? 'active' : ''}`} onClick={() => handleNavigation('dashboard', '/Highlights')}><h5><MdOutlinePostAdd className='faIcons'/></h5></button>
           <button className={`${activePage === 'news' ? 'active' : ''}`} onClick={() => handleNavigation('news', '/News')}><h5><MdNewspaper className='faIcons'/></h5></button>
-          <button className={`${activePage === 'marketplace' ? 'active' : ''}`} onClick={() => handleNavigation('marketplace', '/Marketplace')}><h5><MdOutlineShoppingBag className='faIcons'/></h5></button>
-          <button className={`${activePage === 'games' ? 'active' : ''}`} onClick={() => handleNavigation('games', '/Games')}><h5><MdOutlineGamepad  className='faIcons'/></h5></button>
-          <button className={`${activePage === 'giftcards' ? 'active' : ''}`} onClick={() => handleNavigation('giftcards', '/Giftcards')}><h5><MdOutlineCardGiftcard className='faIcons'/></h5></button>
+          <button className={`${activePage === 'marketplace' ? 'active' : ''}`} onClick={() => handleNavigation('marketplace', '/Marketplace')}><h5><AiOutlineShop className='faIcons'/></h5></button>
+          <button className={`${activePage === 'games' ? 'active' : ''}`} onClick={() => handleNavigation('games', '/Games')}><h5><TbDeviceGamepad2  className='faIcons'/></h5></button>
+          <button className={`${activePage === 'giftcards' ? 'active' : ''}`} onClick={() => handleNavigation('giftcards', '/Giftcards')}><h5><TbGiftCard className='faIcons'/></h5></button>
           {/* <button className={localStorage.getItem('crypto')} onClick={handleClickCrypto}><h5><MdCurrencyBitcoin className='faIcons'/></h5></button> */}
           {(userLoggedIn) && 
             <div className='agProfileBtnMobile' onClick={handleViewProfileBtns}>
