@@ -20,6 +20,7 @@ import {
     RiVerifiedBadgeFill,
 } from "react-icons/ri";
 import { 
+    IoIosCloseCircle,
     IoIosImages,
     IoMdAddCircle
 } from "react-icons/io";
@@ -31,6 +32,7 @@ import {
     GiSharkJaws  
 } from "react-icons/gi";
 import { AiOutlineLike, AiOutlineDislike, AiFillLike, AiFillDislike } from "react-icons/ai";
+import { PiGifFill } from "react-icons/pi";
 import axios from 'axios';
 import YouTubeEmbed from './YouTubeEmbed';
 import HashtagHighlighter from './HashtagHighlighter';
@@ -38,6 +40,9 @@ import UserPostModal from './UserPostModal';
 import UserPostModal2 from './UserPostModal2';
 import UserStoryModal from './UserStoryModal';
 import { HighlightsFetchData } from './HighlightsFetchContext';
+import { RiEmojiStickerFill } from "react-icons/ri";
+import EmojiPicker from 'emoji-picker-react';
+import GifPicker from 'gif-picker-react';
 
 
 
@@ -136,6 +141,7 @@ const Highlights = () => {
     const [viewProfileDetails, setViewProfileDetails] = useState(false);
     const [selectedPostData, setSelectedPostData] = useState(null);
     const [initialLoad, setInitialLoad] = useState(true);
+    const [userData,setUserdata] = useState()
 
     const handleScroll = useCallback(() => {
         const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
@@ -150,12 +156,16 @@ const Highlights = () => {
         if (initialLoad || offset !== 0) {
             fetchAllUserData(setViewFetchStory, setViewFetchPost, offset, setPostLoading);
             setInitialLoad(false);
+            fetchPost()
         }
         if (userStateLogin && userDetailData !== undefined){
+            const data = JSON.parse(userDetailData)
+            setUserdata(data)
             fetchUserProfile()
             fetchPost()
         }
 
+        fetchPost()
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
@@ -214,7 +224,6 @@ const Highlights = () => {
     }
 
 
-
     const [currentStory, setCurrentStory] = useState(null);
     const [seenStories, setSeenStories] = useState([]);
 
@@ -252,24 +261,89 @@ const Highlights = () => {
     const [likeCount,setLikecount] = useState(0)
     const [clickCount,setClickCount] = useState(0)
     
-    const fetchPost = async () => {
-        const mappedPost = viewFetchPost.map((post) => {
-            const likesData =JSON.parse(post.user_post_like)
-            const likeCount = likesData.likeCount || 0; // Get the like count
-            const likedBy = Array.isArray(likesData.likedBy) ? likesData.likedBy : [];
-            const isLiked = likedBy.includes(userLoggedData.userid);
 
-            return {
-                ...post,
-                likes: likeCount, // Update like count
-                isLiked: isLiked,
-                likedBy, // store likedBy to use it elsewhere, but don't render it directly
-            };
-        })
-        if (viewFetchPost.length > 0) {
-            setViewFetchPost(mappedPost)
+    // Function to calculate time difference
+    const calculateTimeDifference = (registeredTimestamp) => {
+        const currentTime = new Date();
+        const registeredTime = new Date(registeredTimestamp);
+
+        const differenceInMilliseconds = currentTime - registeredTime;
+
+        const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
+        const differenceInMinutes = Math.floor(differenceInSeconds / 60);
+        const differenceInHours = Math.floor(differenceInMinutes / 60);
+        const differenceInDays = Math.floor(differenceInHours / 24);
+        const differenceInWeeks = Math.floor(differenceInDays / 7);
+
+        if (differenceInWeeks > 0) {
+        const options = { year: "numeric", month: "short", day: "numeric" };
+        return registeredTime.toLocaleDateString(undefined, options);
+        } else if (differenceInDays > 0) {
+        return `${differenceInDays} day${differenceInDays > 1 ? "s" : ""} ago`;
+        } else if (differenceInHours > 0) {
+        return `${differenceInHours} hour${differenceInHours > 1 ? "s" : ""} ago`;
+        } else if (differenceInMinutes > 0) {
+        return `${differenceInMinutes} minute${
+            differenceInMinutes > 1 ? "s" : ""
+        } ago`;
+        } else {
+        return `${differenceInSeconds} second${
+            differenceInSeconds > 1 ? "s" : ""
+        } ago`;
         }
-    }
+  };
+
+  const fetchPost = async () => {
+        try {
+            const retrieveComment = "https://engeenx.com/agRetrieveComments.php";
+            const commentDataResponse = await fetch(retrieveComment);
+            const commentData = await commentDataResponse.json();
+
+            console.log(commentData);
+
+            // If userData is a single object
+            const mappedPost = viewFetchPost.map((post) => {
+                const likesData = JSON.parse(post.user_post_like);
+                const likeCount = likesData.likeCount || 0;
+                const likedBy = Array.isArray(likesData.likedBy) ? likesData.likedBy : [];
+                const isLiked = likedBy.includes(userLoggedData.userid);
+
+                const commentsForPost = commentData
+                    .filter(comment => comment.user_post_id === post.user_post_id)
+                    .map(comment => {
+                        const timeDiff = calculateTimeDifference(comment.timestamp);
+                        const userDataForComment = (userData.userid === comment.user_id) ? userData : null;
+
+                        if (!userDataForComment) {
+                            console.error(`No user data found for comment with user_id: ${comment.user_id}`);
+                        }
+
+                        return {
+                            ...comment,
+                            timeDiffcom: timeDiff,
+                            userData: userDataForComment
+                        };
+                    });
+
+                return {
+                    ...post,
+                    likes: likeCount,
+                    isLiked: isLiked,
+                    likedBy,
+                    comments: commentsForPost
+                };
+            });
+
+            console.log(mappedPost);
+
+            if (viewFetchPost.length > 0) {
+                setViewFetchPost(mappedPost);
+            }
+        } catch (error) {
+            console.error("Error fetching posts or comments:", error);
+        }
+    };
+
 
     const toggleLike = async (isLiked, user_post_id) => {
         setClickCount(clickCount + 1);
@@ -328,9 +402,86 @@ const Highlights = () => {
             alert('Click disabled');
         }
     };
+
     
+    // comment
+    const [commentValue, setCommentvalue ] = useState([''])
+    const [openGIF, setOpenGif] = useState(null)
+    const [displayGif,setDisplaygif] = useState(null)
+    const [gifvalue,setGifvalue] = useState(null)
+
+    const [openEMOJI, setOpenemoji] = useState(null)
+
+    const commentIDGenerator = (length) => {
+        const charset =
+          "abcdefghijklmnopqrstuvwxyzABCDEFGHIKLMNOPQRSTUVWXYZ0123456789";
+        let result = "";
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * charset.length);
+          result += charset.charAt(randomIndex);
+        }
+        return result;
+      };
+    
+    // comment 
+    const handleCommentChange = (index, value) => {
+        setCommentvalue((prev) => ({
+        ...prev,
+        [index]: value,
+        }));
+    };
+
+    const handleGifSelect = (gif, index) => {
+        setGifvalue(gif.url);
+        setDisplaygif(index);
+        setOpenGif(null)
+    };
+
+    const handleEmojiSelect = (emoji, index) => {
+        setCommentvalue((prev) => ({
+        ...prev,
+        [index]: (prev[index] || '') + emoji.emoji,
+        }));
+        setOpenGif(null)
+    };
+
+    const removeGIF = () => {
+        setGifvalue('');
+        setDisplaygif(null);
+    };
+
+    const openGif = (index) => {
+        setOpenGif((prev) => (prev === index ? null : index));
+        setOpenemoji(null)
+    };
+
+    const openEmoji = (index) => {
+        setOpenemoji((prev) => (prev === index ? null : index));
+        setOpenGif(null)
+    };
 
 
+    const commentSubmit = async (e,postid,index) => {
+        e.preventDefault();
+
+        const commentPost = "https://engeenx.com/agAddComment.php"
+
+        const generatedID = "agComment" + userData.username + commentIDGenerator(20)
+
+        const dataComment = {
+            customerID: userData.userid,
+            postID: postid,
+            commentID: generatedID,
+            image: gifvalue === null ? "" : gifvalue,
+            comment: commentValue[index]
+        }
+        const response = await axios.post(commentPost,dataComment)
+        console.log(response);
+        fetchPost()
+        setCommentvalue("")
+        setGifvalue('');
+        setDisplaygif(null);
+    }
     return (
         <div className='mainContainer highlights'>
             {addPostStory && <UserStoryModal setAddPostStory={setAddPostStory}/>}
@@ -581,6 +732,16 @@ const Highlights = () => {
                             <div className="hldpcMid1-rct-container">
                                 <div className="hldpcMid1-rct-containents">
                                     <ul>
+                                        {userDetailData === null ? 
+                                        <li id='likereactIcons'>
+                                            {post.isLiked ? (
+                                                <AiFillLike className='likeIcon'/>
+                                            ) : (
+                                                <AiOutlineLike className='likeIcon'  />
+                                            )}
+                                            <p>{post.likes !== 0 ? post.likes : ''}</p>
+                                        </li>
+                                        :
                                         <li id='likereactIcons' onClick={() => toggleLike(post.isLiked, post.user_post_id)} disabled={clickCount >= 5}>
                                             {post.isLiked ? (
                                                 <AiFillLike className='likeIcon'/>
@@ -589,13 +750,81 @@ const Highlights = () => {
                                             )}
                                             <p>{post.likes !== 0 ? post.likes : ''}</p>
                                         </li>
-                                        {/* <li id='commentreactIcons'>
+                                        }
+                                        <li id='commentreactIcons'>
                                             <FaRegComment className='commenIcon'/>
-                                            <p>1</p>
-                                        </li> */}
+                                            <p>{post.comments.length === 0 ? "" : post.comments.length}</p>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
+                            {userData &&(
+                            <form onSubmit={(e) => commentSubmit(e,post.user_post_id,i)}>
+                                <div className="hldpcMid1-comment-input">
+                                    <img src={`https://2wave.io/ProfilePics/${userData.profileimg}`} alt="" id='comPrfimg'/>
+                                    <span>
+                                        <section>
+                                            <ul>
+                                                <input type="text" placeholder={`comment as ${userData.username}`} value={commentValue[i] ?? ''} onChange={(e) => handleCommentChange(i, e.target.value)}/>
+                                                <li onClick={() => openGif(i)}><PiGifFill /></li>
+                                                <li onClick={() => openEmoji(i)}><RiEmojiStickerFill /></li>
+                                                {openGIF === i && (
+                                                    <div className="gifPick">
+                                                        <GifPicker tenorApiKey={"AIzaSyCbguq2zBSDlAwuHH4lIcZNtFA47Q6ycBY"} height={300} width={400} onGifClick={(gif) => handleGifSelect(gif, i)} />
+                                                    </div>
+                                                )}
+                                            </ul>
+                                        </section>
+                                        {openEMOJI === i && (
+                                            <div className="emojiPick">
+                                                <EmojiPicker height={500} width={400} onEmojiClick={(emoji) => handleEmojiSelect(emoji, i)} />
+                                            </div>
+                                        )}
+                                        {displayGif === i && (
+                                            <div className="gifSelected">
+                                                <IoIosCloseCircle id="removeGif" onClick={removeGIF} />
+                                                <img src={gifvalue} alt="" />
+                                            </div>
+                                        )}
+                                    </span>
+                                </div>
+                            </form>
+                            )}
+                            {post.comments && (
+                            <div className="prContent-Comments">
+                                <ul>
+                                {post.comments
+                                    .sort((a, b) => {
+                                    const timestampA = new Date(a.timestamp).getTime();
+                                    const timestampB = new Date(b.timestamp).getTime();
+                                    return timestampB - timestampA; // Sort in descending order by timestamp
+                                    })
+                                    .slice(0, 3) // Take the first three comments after sorting
+                                    .map((comment, i) => (
+                                    <li key={i}>
+                                        <div className="comPrfpic">
+                                        <img src={`https://2wave.io/ProfilePics/${comment.userData.profileimg}`} alt="User" />
+                                        </div>
+                                        <span>
+                                        <h2>{comment.userData.username}</h2>
+                                        <h1>{comment.user_comment}</h1>
+                                        {comment.user_comment_image && (
+                                            <div className="commImg">
+                                            <img src={comment.user_comment_image} alt="" />
+                                            </div>
+                                        )}
+                                        <p>{comment.timeDiffcom}</p>
+                                        </span>
+                                    </li>
+                                    ))}
+                                {post.comments.length > 3 && (
+                                    <div className="rmComments">
+                                    <p>Read more comments</p>
+                                    </div>
+                                )}
+                                </ul>
+                            </div>
+                            )}
                         </div>
                     ))}
                     {postLoading && 
