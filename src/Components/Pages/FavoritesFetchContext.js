@@ -7,6 +7,7 @@ export const FavoritesFetchDataProvider = ({ children }) => {
     const LoginUserID = localStorage.getItem('profileUserID');
     const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
     const [favorites, setFavorites] = useState([]);
+    const [favoritesData, setFavoritesData] = useState([]);
 
 
     // Fetch data once when component mounts
@@ -16,6 +17,7 @@ export const FavoritesFetchDataProvider = ({ children }) => {
             const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
             const favoriteGameCodes = filteredData.map(fav => fav.ag_product_id);
             setFavorites(favoriteGameCodes);
+            setFavoritesData(filteredData);
         } catch (error) {
             console.error(error);
         }
@@ -26,7 +28,7 @@ export const FavoritesFetchDataProvider = ({ children }) => {
     }, []);
 
     return (
-        <FavoritesFetchContext.Provider value={{ fetchFavorites, favorites, setFavorites }}>
+        <FavoritesFetchContext.Provider value={{ fetchFavorites, favorites, setFavorites, favoritesData }}>
             {children}
         </FavoritesFetchContext.Provider>
     );

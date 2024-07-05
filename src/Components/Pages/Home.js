@@ -587,7 +587,7 @@ const Home = () => {
             </div>
             <div className='lndpcfCrypto'>
               <h3>AG VOUCHER</h3>
-              <p>Unlock endless possibilities with the AG Voucher! Use it to purchase 
+              <p>Unlock endless possibilities with the AG Giftcard! Use it to purchase 
                 anything your heart desires from the Attract Game - Gamestore. Be an early bird 
                 and get your hands on the exclusive Attract Game Token - don't miss out on 
                 the fun and excitement!</p>

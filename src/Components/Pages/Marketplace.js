@@ -83,6 +83,48 @@ const fetchRobloxPartners = (setViewRobloxPartners) => {
 }
 
 
+
+const ImageComponentGames = ({ imageName }) => {
+    const { fetchAndCacheImageGames, imageCache } = GamesFetchData();
+    const [loading, setLoading] = useState(true);
+    const baseUrl = 'https://2wave.io/GameCovers/';
+    const url = `${baseUrl}${imageName}`;
+
+    useEffect(() => {
+        fetchAndCacheImageGames(imageName);
+    }, [imageName]);
+
+    useEffect(() => {
+        if (imageCache[url]) {
+            setLoading(false);
+        }
+    }, [imageCache, url]);
+
+    return (
+        <img src={imageCache[url]} alt="Loading..." />
+    );
+};
+const ImageComponentGiftcards = ({ imageName }) => {
+    const { fetchAndCacheImageGiftcards, imageCache } = GiftcardsFetchData();
+    const [loading, setLoading] = useState(true);
+    const baseUrl = 'https://2wave.io/GiftCardCovers/';
+    const url = `${baseUrl}${imageName}`;
+
+    useEffect(() => {
+        fetchAndCacheImageGiftcards(imageName);
+    }, [imageName]);
+
+    useEffect(() => {
+        if (imageCache[url]) {
+            setLoading(false);
+        }
+    }, [imageCache, url]);
+
+    return (
+        <img src={imageCache[url]} alt="Loading..." />
+    );
+};
+
 const Marketplace = () => {
     const { setActivePage } = useActivePage();
     const navigate = useNavigate ();
@@ -441,7 +483,7 @@ const Marketplace = () => {
                             </h4>
                         </div>
                         <Link to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>{details.game_cover !== '' ?
-                        <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
+                        <ImageComponentGames imageName={details.game_cover} />
                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
                         {/* <div className="mppcm2GameDiscount">
                             <h4><MdDiscount className='faIcons'/></h4>
@@ -506,7 +548,7 @@ const Marketplace = () => {
                             </h4>
                         </div>
                         <>{details.game_cover !== '' ?
-                        <img src={`https://2wave.io/GameCovers/${details.game_cover}`} alt="Image Not Available" />
+                        <ImageComponentGames imageName={details.game_cover} />
                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</>
                         <div className="mppcm2GameDiscount">
                             <h4><MdDiscount className='faIcons'/></h4>
@@ -516,10 +558,10 @@ const Marketplace = () => {
                             <p>{details.game_edition}</p>
                             <div>
                                 <div id="mppcm2GDView">
-                                    <h5>$ {(details.stock === undefined) ? 
-                                        '--.--': 
-                                        ((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
-                                    </h5>
+                                    {(details.stock === undefined) ?
+                                    <h5 id='gameNoStocks'>No Stocks</h5>:
+                                    <h5>$ {((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
+                                    </h5>}
                                 </div>
                                 {userLoggedIn ?<>
                                     <button id={favorites.includes(details.game_canonical) ? 'mppcm2GDHRemove' : 'mppcm2GDAdd'} onClick={() => handleFavoriteToggle(details)}>
@@ -620,7 +662,7 @@ const Marketplace = () => {
                         <div className="mppContentMid6Dummy"></div>
                     </>:<>{filteredGiftcards.slice(0, 10).map((details, i) => (
                             <Link className="mppContentMid6" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
-                                <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
+                                <ImageComponentGiftcards imageName={details.giftcard_cover} />
                             </Link>
                         ))}
                     </>}
@@ -633,7 +675,7 @@ const Marketplace = () => {
                         <div className="mppContentMid6Dummy"></div>
                     </>:<>{filteredGiftcards.slice(0, 4).map((details, i) => (
                             <Link className="mppContentMid6" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
-                                <img src={`https://2wave.io/GiftCardCovers/${details.giftcard_cover}`} alt="" />
+                                <ImageComponentGiftcards imageName={details.giftcard_cover} />
                             </Link>
                         ))}
                     </>}
