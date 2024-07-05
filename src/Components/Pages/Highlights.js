@@ -753,7 +753,7 @@ const Highlights = () => {
                                         }
                                         <li id='commentreactIcons'>
                                             <FaRegComment className='commenIcon'/>
-                                            <p>{post.comments.length === 0 ? "" : post.comments.length}</p>
+                                            {post.comments &&(<p>{post.comments.length === 0 ? "" : post.comments.length}</p>)}
                                         </li>
                                     </ul>
                                 </div>
