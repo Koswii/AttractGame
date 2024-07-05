@@ -731,14 +731,160 @@ section.highlightsPageContainer.mid{
 }
 
 
+.hldpcMid1-comment-input{
+    margin: 1vw 0 0 0;
+    display: flex;
+    align-items: start;
+    width: 100%;
+}
+#comPrfimg{
+    height: auto;
+    width: 2vw;
+    border-radius: 50%;
+    margin: 0 .5vw 0 0;
+}
+.hldpcMid1-comment-input span{
+    border: .1vw solid white;
+    border-radius: .5vw;
+    height: auto;
+    width: 100%;
+    padding: .3vw .5vw;
+    box-sizing: border-box;
+    position: relative;
+}
+.hldpcMid1-comment-input span section{
+    width: 100%;
+}
+.hldpcMid1-comment-input span section ul{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.hldpcMid1-comment-input span section ul input{
+    width: 100%;
+    font-size: .7vw;
+    background: none;
+    border: none;
+    outline: 0;
+    margin: 0 .2vw 0 0;
+    color: white;
+}
+.hldpcMid1-comment-input span section ul li{
+    background: white;
+    border-radius: .3vw;
+    padding: .2vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .7vw;
+    cursor: pointer;
+    margin: 0 .2vw;
+}
 
 
 
+.gifPick{
+    position: absolute;
+    right: 0;
+    z-index: 2;
+    top: 1vw;
+}
+.emojiPick{
+    position: absolute;
+    right: 0;
+    z-index: 2;
+    top: 1vw;
+}
+#commicon{
+    font-size: .7vw;
+}
+.gifSelected{
+    margin: .5vw 0 0 0;
+    height: auto;
+    display: flex;
+    align-items: center;
+    width: 10vw;
+    overflow: hidden;
+    position: relative;
+    border-radius: .5vw;
+}
+.gifSelected img{
+    height: auto;
+    width: 100%;
+}
+#removeGif{
+    position: absolute;
+    font-size: 1vw;
+    top: .2vw;
+    right: .2vw;
+    cursor: pointer;
+    color: white;
+}
+.gifPick{
+    position: absolute;
+    right: 0;
+    z-index: 3;
+    top: 1.5vw;
+}
+.emojiPick{
+    position: absolute;
+    right: 0;
+    z-index: 3;
+    top: 1.5vw;
+}
 
 
 
+/* comments */
 
-
+.prContent-Comments{
+    margin: .5vw 0 0 0;
+}
+.prContent-Comments ul li{
+    display: flex;
+    align-items: start;
+    margin: 0 0 .5vw 0;
+}
+.prContent-Comments ul li span{
+    padding: .2vw .4vw;
+    border-radius: .4vw;
+    background: #2e2e2ecc;
+}
+.prContent-Comments ul li span h2{
+    font-size: .7vw;
+    font-weight: 600;
+}
+.prContent-Comments ul li span h1{
+    font-size: .7vw;
+    font-weight: 400;
+    margin: .2vw 0;
+}
+.prContent-Comments ul li span p{
+    font-size: .45vw;
+}
+.prContent-Comments ul li span img{
+    height: auto;
+    width: 10vw;
+    border-radius: .5vw;
+    margin: .1vw 0;
+}
+.comPrfpic{
+    margin: 0 .5vw 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+}
+.comPrfpic img{
+    height: 1.7vw;
+    width: 1.7vw;
+    border-radius: 50%;
+}
+.rmComments p{
+    font-size: .7vw;
+}
 
 
 @media screen and (max-width: 500px){
