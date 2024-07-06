@@ -332,9 +332,6 @@ const Highlights = () => {
             };
         });
 
-        console.log(viewFetchPost);
-        console.log(mappedPost);
-
         if (viewFetchPost.length > 0) {
             setViewFetchPost(mappedPost);
         }
