@@ -821,25 +821,31 @@ const Highlights = () => {
                                         .map((comment, i) => (
                                         <li key={i}>
                                             <div className="comPrfpic">
-                                            <img src={`https://2wave.io/ProfilePics/${comment.userData.profileimg}`} alt="User" />
+                                                <img src={`https://2wave.io/ProfilePics/${comment.userData.profileimg}`} alt="User" />
                                             </div>
                                             <span>
-                                            <h2>{comment.userData.username}</h2>
-                                            <h1>{comment.user_comment}</h1>
-                                            {comment.user_comment_image && (
-                                                <div className="commImg">
-                                                <img src={comment.user_comment_image} alt="" />
-                                                </div>
-                                            )}
-                                            <p>{comment.timeDiffcom}</p>
+                                                <h2>
+                                                    {comment.userData.username}
+                                                    {comment.userData.verified ? <>
+                                                        {comment.userData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                                        {comment.userData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                                    </>:<></>}
+                                                </h2>
+                                                <h1>{comment.user_comment}</h1>
+                                                {comment.user_comment_image && (
+                                                    <div className="commImg">
+                                                    <img src={comment.user_comment_image} alt="" />
+                                                    </div>
+                                                )}
+                                                {/* <p>{comment.timeDiffcom}</p> */}
                                             </span>
                                         </li>
                                         ))}
-                                    {post.comments.length > 3 && (
+                                    {/* {post.comments.length > 3 && (
                                         <div className="rmComments">
                                         <p>Read more comments</p>
                                         </div>
-                                    )}
+                                    )} */}
                                     </ul>
                                 </div>
                             )}
