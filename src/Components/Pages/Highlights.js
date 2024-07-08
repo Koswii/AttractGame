@@ -483,7 +483,7 @@ const Highlights = () => {
     const commentSubmit = async (e,postid,index) => {
         e.preventDefault();
 
-        const commentPost = "https://engeenx.com/agAddComment.php"
+        const commentPost = process.env.REACT_APP_AG_USERS_ADD_COMMENT
 
         const generatedID = "agComment" + userData.username + commentIDGenerator(20)
 
