@@ -65,6 +65,7 @@ const Giftcard = () => {
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
     const [productCartAdded, setProductCartAdded] = useState('');
+    const [getRandomGiftcards, setGetRandomGiftcards] = useState([]);
 
     const getRandomItems = (array, numItems) => {
         const shuffled = array.sort(() => 0.5 - Math.random());
@@ -77,11 +78,14 @@ const Giftcard = () => {
     const agGCCategory = giftcardDetails.map(giftcard => giftcard.giftcard_category);
     const agGCDescription = giftcardDetails.map(giftcard => giftcard.giftcard_description);
     const agGiftcardSort = agGiftcardData.sort((a,b) => (a.giftcard_denomination) - (b.giftcard_denomination));
-    const randomItemsGiftcards = getRandomItems(filteredGiftcards, 10);
 
     useEffect(() => {
         fetchUserCart();
+        const randomItemsGiftcards = getRandomItems(filteredGiftcards, 10);
+        setGetRandomGiftcards(randomItemsGiftcards)
     }, []);
+    
+    // console.log(getRandomGiftcards);
 
     const handleClickGiftcard = () => {
         setActivePage('giftcards');
@@ -179,14 +183,14 @@ const Giftcard = () => {
                 <div className="gcardspcbContainer">
                     <h4>GIFTCARDS YOU MIGHT LIKE</h4>
                     <div className="gcardspcbContent website">
-                        {randomItemsGiftcards.slice(0, 10).map((details, i) => (
+                        {getRandomGiftcards.slice(0, 10).map((details, i) => (
                             <Link className="gcspcbcOtherGiftcard" to={`/Giftcards/${details.giftcard_canonical}`} key={i} onClick={handleClickGiftcard}>
                                 <ImageComponentGiftcards imageName={details.giftcard_cover} />
                             </Link>
                         ))}
                     </div>
                     <div className="gcardspcbContent mobile">
-                        {randomItemsGiftcards.slice(0, 6).map((details, i) => (
+                        {getRandomGiftcards.slice(0, 6).map((details, i) => (
                             <Link className="gcspcbcOtherGiftcard" to={`/Giftcards/${details.giftcard_canonical}`} key={i} onClick={handleClickGiftcard}>
                                 <ImageComponentGiftcards imageName={details.giftcard_cover} />
                             </Link>
