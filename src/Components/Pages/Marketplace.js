@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import "../CSS/marketplace.css";
+import placeholderImage from '../assets/imgs/GameBanners/DefaultNoBanner.png'
 import { Link, useNavigate } from 'react-router-dom';
 import { useActivePage } from './ActivePageContext';
 import { 
@@ -101,7 +102,7 @@ const ImageComponentGames = ({ imageName }) => {
     }, [imageCache, url]);
 
     return (
-        <img src={imageCache[url]} alt="Loading..." />
+        <img src={loading ? placeholderImage : imageCache[url]} alt="Loading..." />
     );
 };
 const ImageComponentGiftcards = ({ imageName }) => {
@@ -121,7 +122,7 @@ const ImageComponentGiftcards = ({ imageName }) => {
     }, [imageCache, url]);
 
     return (
-        <img src={imageCache[url]} alt="Loading..." />
+        <img src={loading ? placeholderImage : imageCache[url]} alt="Loading..." />
     );
 };
 

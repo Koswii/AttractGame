@@ -176,6 +176,9 @@ section.cartPageContainer.mid{
     color: black;
     line-height: 2.2vw;
 }
+.cartpcm1clpPlatform.denomination h3 sup{
+    font-size: 0.7vw;
+}
 .cartpcm1clpPlatform.denomination p{
     font-size: 0.5vw;
     color: black;

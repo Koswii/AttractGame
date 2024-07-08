@@ -21,7 +21,7 @@ import {
 } from "react-icons/md";
 import PayPalButton from "./PayPalButton";
 
-const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,setClientSecret,totalprice,transactionData}) => {
+const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction,paymentIntentId,setClientSecret,totalprice,transactionData}) => {
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
@@ -30,7 +30,7 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
   const [isLoading, setIsLoading] = useState(false);
   const [successTransfer,setSuccessTransfer] = useState(false)
 
-  const [checkOutprod,setCheckoutprod] = useState(allPrductsDetails)
+  const [checkOutprod,setCheckoutprod] = useState(cartTotalPayment)
 
   const [loader,setLoader] = useState(true)
 
@@ -39,10 +39,10 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
   const [gameCreditsdData,setGameCreditsdata] = useState()
 
   useEffect(() => {
-    if (checkOutprod !== undefined) {
-      const filterdataGiftcard = checkOutprod.filter(item => item.ag_product_type === 'Giftcard')
-      const filterdataGame = checkOutprod.filter(item => item.ag_product_type === 'Game')
-      const filterdataGamecredits = checkOutprod.filter(item => item.ag_product_type === 'Game Credit')
+    if (cartTotalPayment !== undefined) {
+      const filterdataGiftcard = cartTotalPayment.filter(item => item.ag_product_type === 'Giftcard')
+      const filterdataGame = cartTotalPayment.filter(item => item.ag_product_type === 'Game')
+      const filterdataGamecredits = cartTotalPayment.filter(item => item.ag_product_type === 'Game Credit')
 
       setGamedata(filterdataGame)
       setGiftCardData(filterdataGiftcard)
@@ -79,6 +79,8 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
       }
     });
   }, [stripe]);
+
+  // console.log(cartTotalPayment);
 
   const handleSubmitform = async (e) => {
     e.preventDefault();
@@ -170,7 +172,7 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
                         </div>
                         <section>
                           <p>${product.effectivePrice}</p>
-                          <p>{product.numberOfOrder === undefined ? 1 : product.numberOfOrder} pcs</p>
+                          <p>x {product.numberOfOrder === 0 || undefined ? 1 : product.numberOfOrder} pc/s</p>
                         </section>
                       </li>
                       )
@@ -197,7 +199,7 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
                         </div>
                         <section>
                           <p>${product.effectivePrice}</p>
-                          <p>{product.numberOfOrder === undefined ? 1 : product.numberOfOrder} pc/s</p>
+                          <p>x {product.numberOfOrder === 0 || undefined ? 1 : product.numberOfOrder} pc/s</p>
                         </section>
                       </li>
                       )
@@ -213,8 +215,8 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
                       <li style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GiftCardCovers/${productDataEntries[5][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
                         <div className="copDenomination">
                           <span>
-                            <h5>{productDataEntries[6][1]}</h5>
-                            <p>DOLLARS</p>
+                            <h5><sup>$</sup>{productDataEntries[8][1]}</h5>
+                            <p>CREDIT</p>
                           </span>
                         </div>
                         <div className="copProductDetails">
@@ -224,7 +226,7 @@ const CheckoutForm = ({allPrductsDetails,setSuccesstransaction,paymentIntentId,s
                         </div>
                         <section>
                           <p>${product.effectivePrice}</p>
-                          <p>{product.numberOfOrder === undefined ? 1 : product.numberOfOrder} pc/s</p>
+                          <p>x {product.numberOfOrder === 0 || undefined ? 1 : product.numberOfOrder} pc/s</p>
                         </section>
                       </li>
                       )

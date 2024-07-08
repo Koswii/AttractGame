@@ -16,7 +16,7 @@ const News = () => {
   const { subLinkData } = NewsFetchData();
   const { error } = NewsFetchData();
 
-  console.log(mainLinkData);
+  // console.log(mainLinkData);
 
   return (
     <div className="mainContainer news">

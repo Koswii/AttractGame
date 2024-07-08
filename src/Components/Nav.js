@@ -160,6 +160,57 @@ const Nav = () => {
   const [postTimeRemaining, setPostTimeRemaining] = useState('');
   const [agUserProductCart, setUserProductCart] = useState('');
   // console.log(LoginUsername);
+  const fetchUserData = async () => {
+    try {
+      const [userListResponse, userDataResponse] = await Promise.all([
+        axios.get(AGUserListAPI),
+        axios.get(AGUserDataAPI)
+      ]);
+      const userDataStatus = userListResponse.data.find(item => item.username === LoginUsername);
+      // console.log(userDataStatus);
+
+      if (userDataStatus?.status === 'Blocked') {
+        setUserBlockedStatus(true);
+        setViewUserCredentials(false)
+        setViewLoginForm(false);
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('agAdminLoggedIn');
+        localStorage.removeItem('attractGameUsername');
+        localStorage.removeItem('profileDataJSON')
+        setAGUserUsername('');
+        setAGUserPassword('');
+        setTimeout(() => {
+          setUserBlockedStatus(false);
+        }, 10000)
+        return;
+      }else {
+        const userData = userDataResponse.data.find(item => item.username === LoginUsername);
+        setViewUserCredentials(true);
+        const profileDetailsJSON = JSON.stringify(userData);
+        const profileDataJSON = JSON.parse(profileDetailsJSON)
+        const profileGetUserID = profileDataJSON.userid
+        localStorage.setItem('profileDataJSON', profileDetailsJSON);
+        localStorage.setItem('profileUserID', profileGetUserID)
+
+        if (userDataStatus?.account === 'Admin') {
+          localStorage.setItem('agAdminLoggedIn', true);
+        }
+
+        const storedProfileData = localStorage.getItem('profileDataJSON');
+        const storedUserState = localStorage.getItem('agAdminLoggedIn');
+        if(storedProfileData) {
+          setDataUser(JSON.parse(storedProfileData))
+        }
+        if(storedUserState) {
+          setViewAdminCredentials(JSON.parse(storedUserState))
+        }
+        
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     const generateUserIDHash = async (str) => {
@@ -175,60 +226,58 @@ const Nav = () => {
     generateUserIDHash(userHashID);
 
     if (!userLoggedIn) return;
-    const fetchUserData = async () => {
-      try {
-        const [userListResponse, userDataResponse] = await Promise.all([
-          axios.get(AGUserListAPI),
-          axios.get(AGUserDataAPI)
-        ]);
-        const userDataStatus = userListResponse.data.find(item => item.username === LoginUsername);
-        // console.log(userDataStatus);
+    // const fetchUserData = async () => {
+    //   try {
+    //     const [userListResponse, userDataResponse] = await Promise.all([
+    //       axios.get(AGUserListAPI),
+    //       axios.get(AGUserDataAPI)
+    //     ]);
+    //     const userDataStatus = userListResponse.data.find(item => item.username === LoginUsername);
+    //     // console.log(userDataStatus);
 
-        if (userDataStatus?.status === 'Blocked') {
-          setUserBlockedStatus(true);
-          setViewUserCredentials(false)
-          setViewLoginForm(false);
-          localStorage.removeItem('isLoggedIn');
-          localStorage.removeItem('agAdminLoggedIn');
-          localStorage.removeItem('attractGameUsername');
-          localStorage.removeItem('profileDataJSON')
-          setAGUserUsername('');
-          setAGUserPassword('');
-          setTimeout(() => {
-            setUserBlockedStatus(false);
-          }, 10000)
-          return;
-        }else {
-          const userData = userDataResponse.data.find(item => item.username === LoginUsername);
-          setViewUserCredentials(true);
-          const profileDetailsJSON = JSON.stringify(userData);
-          const profileDataJSON = JSON.parse(profileDetailsJSON)
-          const profileGetUserID = profileDataJSON.userid
-          localStorage.setItem('profileDataJSON', profileDetailsJSON);
-          localStorage.setItem('profileUserID', profileGetUserID)
+    //     if (userDataStatus?.status === 'Blocked') {
+    //       setUserBlockedStatus(true);
+    //       setViewUserCredentials(false)
+    //       setViewLoginForm(false);
+    //       localStorage.removeItem('isLoggedIn');
+    //       localStorage.removeItem('agAdminLoggedIn');
+    //       localStorage.removeItem('attractGameUsername');
+    //       localStorage.removeItem('profileDataJSON')
+    //       setAGUserUsername('');
+    //       setAGUserPassword('');
+    //       setTimeout(() => {
+    //         setUserBlockedStatus(false);
+    //       }, 10000)
+    //       return;
+    //     }else {
+    //       const userData = userDataResponse.data.find(item => item.username === LoginUsername);
+    //       setViewUserCredentials(true);
+    //       const profileDetailsJSON = JSON.stringify(userData);
+    //       const profileDataJSON = JSON.parse(profileDetailsJSON)
+    //       const profileGetUserID = profileDataJSON.userid
+    //       localStorage.setItem('profileDataJSON', profileDetailsJSON);
+    //       localStorage.setItem('profileUserID', profileGetUserID)
 
-          if (userDataStatus?.account === 'Admin') {
-            localStorage.setItem('agAdminLoggedIn', true);
-          }
-        }
+    //       if (userDataStatus?.account === 'Admin') {
+    //         localStorage.setItem('agAdminLoggedIn', true);
+    //       }
 
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    const fetchUserProfile = () => {
-      const storedProfileData = localStorage.getItem('profileDataJSON');
-      const storedUserState = localStorage.getItem('agAdminLoggedIn');
-      if(storedProfileData) {
-        setDataUser(JSON.parse(storedProfileData))
-      }
-      if(storedUserState) {
-        setViewAdminCredentials(JSON.parse(storedUserState))
-      }
-    }
+    //       const storedProfileData = localStorage.getItem('profileDataJSON');
+    //       const storedUserState = localStorage.getItem('agAdminLoggedIn');
+    //       if(storedProfileData) {
+    //         setDataUser(JSON.parse(storedProfileData))
+    //       }
+    //       if(storedUserState) {
+    //         setViewAdminCredentials(JSON.parse(storedUserState))
+    //       }
+          
+    //     }
 
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
     fetchUserData();
-    fetchUserProfile();
   }, [
     agUserUsername,
     agUserEmail,
@@ -320,12 +369,12 @@ const Nav = () => {
         localStorage.setItem('attractGameUsername', data.username);
         localStorage.setItem('isLoggedIn', 'true');
         window.location.reload();
+        fetchUserData();
       } else {
         setMessageResponse(data.message);
       }
     })
     .catch(error => console.error('Error:', error));
-    
   };
   const handleUserLogout = () => {
     if (!userLoggedIn) return;
@@ -345,6 +394,7 @@ const Nav = () => {
         localStorage.removeItem('profileDataJSON');
         setViewUserCredentials(false);
         window.location.reload();
+        navigate('/')
       } else {
         setMessageResponse('Logout failed. Please try again.');
       }

@@ -148,6 +148,7 @@ const Game = () => {
     const agGameOnFavorites = agGameDataCanonical.filter(game => favorites.includes(game));
 
 
+
     useEffect(() => {
         if(`${agGameOnCart}` === `${agGameDataCanonical}`){
             setIsInCart(true);

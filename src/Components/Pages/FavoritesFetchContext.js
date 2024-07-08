@@ -23,6 +23,8 @@ export const FavoritesFetchDataProvider = ({ children }) => {
         }
     };
 
+    // console.log(favoritesData);
+
     useEffect(() => {
         fetchFavorites();
     }, []);

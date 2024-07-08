@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import "../CSS/giftcards.css";
 import { Link } from 'react-router-dom';
+import placeholderImage from '../assets/imgs/GameBanners/DefaultNoBanner.png'
 import axios from 'axios';
 import { GiftcardsFetchData } from './GiftcardsFetchContext';
 
@@ -21,7 +22,7 @@ const ImageComponentGiftcards = ({ imageName }) => {
     }, [imageCache, url]);
 
     return (
-        <img src={imageCache[url]} alt="Loading..." />
+        <img src={loading ? placeholderImage : imageCache[url]} alt="Loading..." />
     );
 };
 

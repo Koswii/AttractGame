@@ -24,12 +24,30 @@ export const CartsFetchDataProvider = ({ children }) => {
         }
     };
 
+    // console.log(productCart);
+
+
+    const gameProducts = productCart.filter(product => product.ag_product_type === 'Game');
+    const giftcardProducts = productCart.filter(product => product.ag_product_type === 'Giftcard');
+    const gamecreditProducts = productCart.filter(product => product.ag_product_type === 'Game Credit');
+
+    // console.log(gameProducts);
+
+
     useEffect(() => {
         fetchUserCart();
-    }, []);
+    }, [carts]);
 
     return (
-        <CartsFetchContext.Provider value={{ fetchUserCart, carts, productCart, setProductCarts }}>
+        <CartsFetchContext.Provider value={{ 
+            fetchUserCart, 
+            carts, 
+            productCart, 
+            setProductCarts,
+            gameProducts,
+            giftcardProducts,
+            gamecreditProducts
+        }}>
             {children}
         </CartsFetchContext.Provider>
     );
