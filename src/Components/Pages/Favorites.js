@@ -11,6 +11,9 @@ import {
 } from "react-icons/tb";
 import ImageEmbed from './ImageEmbed';
 import { UserProfileData } from './UserProfileContext';
+import { FavoritesFetchData } from './FavoritesFetchContext';
+import { CartsFetchData } from './CartsFetchContext';
+import { GamesFetchData } from './GamesFetchContext';
 
 
 const LoginUserID = localStorage.getItem('profileUserID');
@@ -48,29 +51,34 @@ const fetchFavoriteProducts = async (setProductDetails, setLoadingProducts) => {
         setLoadingProducts(false);
     }
 };
-const fetchUserCart = async (setProductCarts, LoginUserID) => {
-    try {
-        const response = await axios.get(AGUserProductsCartAPI);
-        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
-        const gameCartProducts = filteredData.filter(product => product.ag_product_type === 'Game');
-        setProductCarts(gameCartProducts);
-    } catch (error) {
-        console.error(error);
-    }
-};
 
 const Favorites = () => {
     const { userLoggedData } = UserProfileData();
+    const { 
+        fetchFavorites, 
+        favorites, 
+        setFavorites,
+        favoritesData 
+    } = FavoritesFetchData();
+    const { 
+        fetchUserCart, 
+        productCart, 
+        setProductCarts 
+    } = CartsFetchData();
+    const { viewAGData1 } = GamesFetchData();
     const AGUserRemoveFavAPI = process.env.REACT_APP_AG_REMOVE_USER_FAV_API;
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const [productDetails, setProductDetails] = useState([]);
     const [loadingProducts, setLoadingProducts] = useState(false);
-    const [productCart, setProductCarts] = useState([]);
+    // const [productCart, setProductCarts] = useState([]);
+
+    // console.log(productDetails);
+
 
     useEffect(() => {
-        fetchFavoriteProducts(setProductDetails, setLoadingProducts);
         fetchUserCart(setProductCarts, LoginUserID);
-    }, []);
+        fetchFavoriteProducts(setProductDetails, setLoadingProducts);
+    }, [favorites, favoritesData]);
     const handleRemoveFavorite = (favorite) => {
         const removeFav = {
             user: userLoggedData.userid,
@@ -88,7 +96,7 @@ const Favorites = () => {
         .then(response => {
             if (response.data.success) {
                 console.log('Product removed successfully');
-                fetchFavoriteProducts(setProductDetails, setLoadingProducts);
+                // fetchFavoriteProducts(setProductDetails, setLoadingProducts);
             } else {
                 console.log(`Error: ${response.data.message}`);
             }
@@ -147,7 +155,7 @@ const Favorites = () => {
                                     <div>
                                         <div id="fcpcm1GDView">
                                             <h5>$ {
-                                                (favorite.stock === undefined) ? 
+                                                (favorite.stockCount === 0) ? 
                                                 '--.--': 
                                                 ((parseFloat(favorite.stock.ag_product_price) - parseFloat(favorite.stock.ag_product_discount / 100) * parseFloat(favorite.stock.ag_product_price)).toFixed(2))}
                                             </h5>
@@ -156,7 +164,7 @@ const Favorites = () => {
                                         {productCart.some(cartItem => cartItem.ag_product_id === favorite.productData.game_canonical) ?
                                             <button id='fcpcm1cGDAddedToCart'><TbShoppingCartFilled className='faIcons'/></button>:
                                             <button id='fcpcm1cGDAddToCart' onClick={() => handleAddToCart(favorite)} disabled={(favorite.stockCount === 0) ? true : false}>
-                                                {(favorite.stock === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
+                                                {(favorite.stockCount === undefined) ? <TbShoppingCartOff className='faIcons'/> : <TbShoppingCartPlus className='faIcons'/>}
                                             </button>
                                         }
                                     </div>

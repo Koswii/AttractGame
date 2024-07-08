@@ -6,6 +6,7 @@ import { ActivePageProvider } from './Components/Pages/ActivePageContext';
 import { UserProfileDataProvider } from './Components/Pages/UserProfileContext';
 import { GamesFetchDataProvider } from './Components/Pages/GamesFetchContext';
 import { GiftcardsFetchDataProvider } from './Components/Pages/GiftcardsFetchContext';
+import { GamecreditsFetchDataProvider } from './Components/Pages/GamecreditFetchContext';
 import { NewsFetchDataProvider } from './Components/Pages/NewsFetchContext';
 import { HighlightsFetchDataProvider } from './Components/Pages/HighlightsFetchContext';
 import { FavoritesFetchDataProvider } from './Components/Pages/FavoritesFetchContext';
@@ -108,6 +109,7 @@ function App() {
       <UserProfileDataProvider>
         <GamesFetchDataProvider>
         <GiftcardsFetchDataProvider>
+        <GamecreditsFetchDataProvider>
         <NewsFetchDataProvider>
         <HighlightsFetchDataProvider>
         
@@ -162,6 +164,7 @@ function App() {
 
         </HighlightsFetchDataProvider>
         </NewsFetchDataProvider>
+        </GamecreditsFetchDataProvider>
         </GiftcardsFetchDataProvider>
         </GamesFetchDataProvider>
       </UserProfileDataProvider>
