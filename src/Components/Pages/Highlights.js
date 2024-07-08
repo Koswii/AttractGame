@@ -171,9 +171,7 @@ const Highlights = () => {
         if (initialLoad || offset !== 0) {
             fetchAllUserData(setViewFetchStory, setViewFetchPost, offset, setPostLoading);
             setInitialLoad(false);
-            console.log('asd');
             setTimeout(() => {
-                console.log(viewFetchPost);
                 fetchPost()
             }, 3000);
         }
