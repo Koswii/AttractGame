@@ -854,11 +854,22 @@ section.highlightsPageContainer.mid{
 .prContent-Comments ul li span h2{
     font-size: .7vw;
     font-weight: 600;
+    display: flex;
+    align-items: center;
 }
 .prContent-Comments ul li span h1{
     font-size: .7vw;
     font-weight: 400;
     margin: .2vw 0;
+}
+
+.prContent-Comments ul li span h2 .faIcons.gold{
+    color: gold;
+    margin: 0 0 0 .2vw;
+}
+.prContent-Comments ul li span h2 .faIcons.blue{
+    color: royalblue;
+    margin: 0 0 0 .2vw;
 }
 .prContent-Comments ul li span p{
     font-size: .45vw;

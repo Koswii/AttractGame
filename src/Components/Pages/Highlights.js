@@ -55,16 +55,16 @@ const formatDateToWordedDate = (numberedDate) => {
     
     return `${month} ${day}, ${year}`;
 }
+
 const formatDate = (date) => {
     const givenDate = new Date(date);
     const currentDate = new Date();
   
-    // Clear the time part of the dates
     const currentDateNoTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
     const givenDateNoTime = new Date(givenDate.getFullYear(), givenDate.getMonth(), givenDate.getDate());
   
     const timeDifference = currentDateNoTime - givenDateNoTime;
-    const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
+    const oneDay = 24 * 60 * 60 * 1000;
   
     if (timeDifference === 0) {
       return "Today";
@@ -75,21 +75,30 @@ const formatDate = (date) => {
     }
 };
 
-
 const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
 const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
 const AGUserStoryAPI = process.env.REACT_APP_AG_FETCH_STORY_API;
 const PAGE_SIZE = 5; // Number of items to fetch per page
+
 const isWithinLastTwelveHours = (date) => {
     const twelveHoursAgo = new Date();
-    twelveHoursAgo.setHours(twelveHoursAgo.getHours() - 24);
+    twelveHoursAgo.setHours(twelveHoursAgo.getHours() - 12);
     return new Date(date) >= twelveHoursAgo;
 };
+
 const isWithinLastThreeDays = (date) => {
     const threeDaysAgo = new Date();
-    threeDaysAgo.setDate(threeDaysAgo.getDate() - 15);
+    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
     return new Date(date) >= threeDaysAgo;
 };
+
+
+const isWithinLastWeek = (date) => {
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    return new Date(date) >= oneWeekAgo;
+};
+
 const fetchUserData = async (url, filterFunc) => {
     try {
         const response = await axios.get(url);
@@ -106,18 +115,23 @@ const fetchUserData = async (url, filterFunc) => {
         return [];
     }
 };
+
 const fetchAllUserData = async (setViewFetchStory, setViewFetchPost, offset, setLoading) => {
     setLoading(true);
     const [storyData, postData] = await Promise.all([
         fetchUserData(`${AGUserStoryAPI}?offset=${offset}&limit=${PAGE_SIZE}`, isWithinLastTwelveHours),
-        fetchUserData(`${AGUserPostAPI}?offset=${offset}&limit=${PAGE_SIZE}`, isWithinLastThreeDays)
+        // fetchUserData(`${AGUserPostAPI}?offset=${offset}&limit=${PAGE_SIZE}`, isWithinLastThreeDays),
+        fetchUserData(`${AGUserPostAPI}?offset=${offset}&limit=${PAGE_SIZE}`, isWithinLastWeek)
     ]);
-    
 
     if (storyData.length > 0 || postData.length > 0) {
-        setViewFetchStory(prevData => [...prevData, ...storyData]);
+        setViewFetchStory(prevData => {
+            const newStoryData = storyData.filter(newStory => !prevData.some(prevStory => prevStory.user_story_id === newStory.user_story_id));
+            return [...prevData, ...newStoryData];
+        });
         setViewFetchPost(prevData => [...prevData, ...postData]);
-        
+    } else {
+        console.log('No story and post uploaded');
     }
     setLoading(false);
 };
@@ -148,29 +162,29 @@ const Highlights = () => {
         const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
         const clientHeight = document.documentElement.clientHeight || window.innerHeight;
 
-        if (!postLoading && scrollTop + clientHeight >= scrollHeight * 0.5) {
+        if (!postLoading && scrollTop + clientHeight >= scrollHeight * 0.8) {
             setOffset(prevOffset => prevOffset + PAGE_SIZE);
         }
     }, [postLoading]);
+
     useEffect(() => {
         if (initialLoad || offset !== 0) {
             fetchAllUserData(setViewFetchStory, setViewFetchPost, offset, setPostLoading);
             setInitialLoad(false);
-            fetchPost()
         }
-        if (userStateLogin && userDetailData !== undefined){
-            const data = JSON.parse(userDetailData)
-            setUserdata(data)
-            fetchUserProfile()
-            fetchPost()
+        if (userStateLogin && userDetailData) {
+            const data = JSON.parse(userDetailData);
+            setUserdata(data);
+            fetchUserProfile();
+            fetchPost();
         }
 
-        fetchPost()
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, [offset, initialLoad, handleScroll]);
+
 
     
     const [addUserPost, setAddUserPost] = useState(false);
@@ -235,26 +249,34 @@ const Highlights = () => {
         setSeenStories([...seenStories, currentStory.id]);
         setCurrentStory(null);
     };
+    
     useEffect(() => {
         let timer;
-        if (currentStory) {
-          timer = setTimeout(() => {
-            const currentIndex = viewFetchStory.findIndex((story) => story.id === currentStory.id);
-            const nextIndex = (currentIndex + 1) % viewFetchStory.length;
-            const nextStory = viewFetchStory[nextIndex];
-            setSeenStories([...seenStories, currentStory.id]);
-            setCurrentStory(nextStory);
-          }, 3000);
+        if (currentStory !== null) {
+            timer = setTimeout(() => {
+                const currentIndex = viewFetchStory.findIndex((story) => story.id === currentStory.id);
+                const nextIndex = (currentIndex + 1) % viewFetchStory.length;
+                const nextStory = viewFetchStory[nextIndex];
+                setSeenStories([...seenStories, currentStory.id]);
+                setCurrentStory(nextStory);
+            }, 3000);
+        } else {
+            setPostLoading(false)
+            setVisiblestories([])
         }
         return () => clearTimeout(timer);
     }, [currentStory, viewFetchStory, seenStories]);
+
+    const [visibleStories, setVisiblestories] = useState()
     useEffect(() => {
         if (seenStories.length === viewFetchStory.length && seenStories.length > 0) {
             setSeenStories([]);
         }
+        
+        const visibleStory = viewFetchStory.filter(story => !seenStories.includes(story.id));
+        setVisiblestories(visibleStory)
     }, [seenStories, viewFetchStory]);
 
-    const visibleStories = viewFetchStory.filter(story => !seenStories.includes(story.id));
     
 
     const likePost = process.env.REACT_APP_AG_USERS_LIKE_POST_API;
@@ -461,7 +483,7 @@ const Highlights = () => {
     const commentSubmit = async (e,postid,index) => {
         e.preventDefault();
 
-        const commentPost = "https://engeenx.com/agAddComment.php"
+        const commentPost = process.env.REACT_APP_AG_USERS_ADD_COMMENT
 
         const generatedID = "agComment" + userData.username + commentIDGenerator(20)
 
@@ -473,7 +495,6 @@ const Highlights = () => {
             comment: commentValue[index]
         }
         const response = await axios.post(commentPost,dataComment)
-        console.log(response);
         fetchPost()
         setCommentvalue("")
         setGifvalue('');
@@ -800,25 +821,31 @@ const Highlights = () => {
                                         .map((comment, i) => (
                                         <li key={i}>
                                             <div className="comPrfpic">
-                                            <img src={`https://2wave.io/ProfilePics/${comment.userData.profileimg}`} alt="User" />
+                                                <img src={`https://2wave.io/ProfilePics/${comment.userData.profileimg}`} alt="User" />
                                             </div>
                                             <span>
-                                            <h2>{comment.userData.username}</h2>
-                                            <h1>{comment.user_comment}</h1>
-                                            {comment.user_comment_image && (
-                                                <div className="commImg">
-                                                <img src={comment.user_comment_image} alt="" />
-                                                </div>
-                                            )}
-                                            <p>{comment.timeDiffcom}</p>
+                                                <h2>
+                                                    {comment.userData.username}
+                                                    {comment.userData.verified ? <>
+                                                        {comment.userData.verified === 'Gold' ? <RiVerifiedBadgeFill className='faIcons gold'/> : <></>}
+                                                        {comment.userData.verified === 'Blue' ? <RiVerifiedBadgeFill className='faIcons blue'/> : <></>}
+                                                    </>:<></>}
+                                                </h2>
+                                                <h1>{comment.user_comment}</h1>
+                                                {comment.user_comment_image && (
+                                                    <div className="commImg">
+                                                    <img src={comment.user_comment_image} alt="" />
+                                                    </div>
+                                                )}
+                                                {/* <p>{comment.timeDiffcom}</p> */}
                                             </span>
                                         </li>
                                         ))}
-                                    {post.comments.length > 3 && (
+                                    {/* {post.comments.length > 3 && (
                                         <div className="rmComments">
                                         <p>Read more comments</p>
                                         </div>
-                                    )}
+                                    )} */}
                                     </ul>
                                 </div>
                             )}

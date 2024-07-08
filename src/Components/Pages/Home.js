@@ -36,6 +36,7 @@ import {
 import axios from 'axios';
 import { GamesFetchData } from './GamesFetchContext';
 import { GiftcardsFetchData } from './GiftcardsFetchContext';
+import webIntro from '../assets/vids/Webintro.mp4'
 
 
 
@@ -240,7 +241,7 @@ const Home = () => {
     <div className='mainContainer home'>
       <section className="landingPageContainer top">
         <video autoPlay muted loop>
-          <source src='https://2wave.io/Videos/WebIntro.mp4' type="video/mp4" />
+          <source src={webIntro} type="video/mp4" />
         </video>
         <div className="lndPageContent top">
           <div className="lndpcTop right">
