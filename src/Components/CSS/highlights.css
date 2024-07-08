@@ -1234,6 +1234,101 @@ section.highlightsPageContainer.mid{
     .likeIcon{
         margin: 0 1vw;
     }
+
+
+
+    .hldpcMid1-comment-input{
+        margin: 4vw 0 0 0;
+        display: flex;
+        align-items: start;
+        width: 100%;
+    }
+    #comPrfimg{
+        width: 10vw;
+        margin: 0 1vw 0 0;
+    }
+    .hldpcMid1-comment-input span{
+        border-radius: 3vw;
+        padding: 3vw 2vw;
+    }
+    .hldpcMid1-comment-input span section ul input{
+        font-size: 3vw;
+        margin: 0 1vw 0 0;
+    }
+    .hldpcMid1-comment-input span section ul li{
+        border-radius: 1vw;
+        padding: 1vw;
+        font-size: 3vw;
+        margin: 0 .5vw;
+    }
+    
+    
+    #commicon{
+        font-size: .7vw;
+    }
+    .gifSelected{
+        margin: 2vw 0 0 0;
+        width: 40vw;
+        border-radius: 1vw;
+    }
+    .gifSelected img{
+        height: auto;
+        width: 100%;
+    }
+    #removeGif{
+        font-size: 3vw;
+        top: 1vw;
+        right: 1vw;
+    }
+    .gifPick{
+        top: 10vw;
+    }
+    .emojiPick{
+        top: 10vw;
+    }
+    
+    
+    
+    /* comments */
+    
+    .prContent-Comments{
+        margin: 4vw 0 0 0;
+    }
+    .prContent-Comments ul li{
+        margin: 0 0 2vw 0;
+    }
+    .prContent-Comments ul li span{
+        padding: 2vw;
+        border-radius: 4vw;
+    }
+    .prContent-Comments ul li span h2{
+        font-size: 3.5vw;
+    }
+    .prContent-Comments ul li span h1{
+        font-size: 3vw;
+        margin: 1vw 0;
+    }
+    .prContent-Comments ul li span p{
+        font-size: 2vw;
+    }
+    .prContent-Comments ul li span img{
+        height: auto;
+        width: 40vw;
+        border-radius: 3vw;
+        margin: .1vw 0;
+    }
+    .comPrfpic{
+        margin: 0 2vw 0 0;
+    }
+    .comPrfpic img{
+        height: 10vw;
+        width: 10vw;
+        border-radius: 50%;
+    }
+    .rmComments p{
+        font-size: .7vw;
+    }
+    
 }
 
 

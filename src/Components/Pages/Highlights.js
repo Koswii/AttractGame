@@ -294,55 +294,52 @@ const Highlights = () => {
   };
 
   const fetchPost = async () => {
-        try {
-            const retrieveComment = "https://engeenx.com/agRetrieveComments.php";
-            const commentDataResponse = await fetch(retrieveComment);
-            const commentData = await commentDataResponse.json();
+    try {
+        const commentDataResponse = await fetch(process.env.REACT_APP_AG_USERS_COMMENTS);
+        const commentData = await commentDataResponse.json();
+        const userDataResponse = await fetch(process.env.REACT_APP_AG_USERS_PROFILE_API);
+        const userDatas = await userDataResponse.json();
 
-            console.log(commentData);
+        // If userData is a single object
+        const mappedPost = viewFetchPost.map((post) => {
+            const likesData = JSON.parse(post.user_post_like);
+            const likeCount = likesData.likeCount || 0;
+            const likedBy = Array.isArray(likesData.likedBy) ? likesData.likedBy : [];
+            const isLiked = likedBy.includes(userLoggedData.userid);
 
-            // If userData is a single object
-            const mappedPost = viewFetchPost.map((post) => {
-                const likesData = JSON.parse(post.user_post_like);
-                const likeCount = likesData.likeCount || 0;
-                const likedBy = Array.isArray(likesData.likedBy) ? likesData.likedBy : [];
-                const isLiked = likedBy.includes(userLoggedData.userid);
+            const commentsForPost = commentData
+                .filter(comment => comment.user_post_id === post.user_post_id)
+                .map(comment => {
+                    const timeDiff = calculateTimeDifference(comment.timestamp);
+                    const userDataForComment = userDatas.find(user => user.userid === comment.user_id);
+                    if (!userDataForComment) {
+                      console.error(`No user data found for comment with customerID: ${comment.customerID}`);
+                    }
 
-                const commentsForPost = commentData
-                    .filter(comment => comment.user_post_id === post.user_post_id)
-                    .map(comment => {
-                        const timeDiff = calculateTimeDifference(comment.timestamp);
-                        const userDataForComment = (userData.userid === comment.user_id) ? userData : null;
+                    return {
+                        ...comment,
+                        timeDiffcom: timeDiff,
+                        userData: userDataForComment
+                    };
+                });
 
-                        if (!userDataForComment) {
-                            console.error(`No user data found for comment with user_id: ${comment.user_id}`);
-                        }
+            return {
+                ...post,
+                likes: likeCount,
+                isLiked: isLiked,
+                likedBy,
+                comments: commentsForPost
+            };
+        });
 
-                        return {
-                            ...comment,
-                            timeDiffcom: timeDiff,
-                            userData: userDataForComment
-                        };
-                    });
-
-                return {
-                    ...post,
-                    likes: likeCount,
-                    isLiked: isLiked,
-                    likedBy,
-                    comments: commentsForPost
-                };
-            });
-
-            console.log(mappedPost);
-
-            if (viewFetchPost.length > 0) {
-                setViewFetchPost(mappedPost);
-            }
-        } catch (error) {
-            console.error("Error fetching posts or comments:", error);
+        if (viewFetchPost.length > 0) {
+            setViewFetchPost(mappedPost);
         }
-    };
+    } catch (error) {
+        console.error("Error fetching posts or comments:", error);
+    }
+};
+
 
 
     const toggleLike = async (isLiked, user_post_id) => {
@@ -759,6 +756,7 @@ const Highlights = () => {
                                 </div>
                             </div>
                             {userData &&(
+                            <>
                             <form onSubmit={(e) => commentSubmit(e,post.user_post_id,i)}>
                                 <div className="hldpcMid1-comment-input">
                                     <img src={`https://2wave.io/ProfilePics/${userData.profileimg}`} alt="" id='comPrfimg'/>
@@ -770,14 +768,14 @@ const Highlights = () => {
                                                 <li onClick={() => openEmoji(i)}><RiEmojiStickerFill /></li>
                                                 {openGIF === i && (
                                                     <div className="gifPick">
-                                                        <GifPicker tenorApiKey={"AIzaSyCbguq2zBSDlAwuHH4lIcZNtFA47Q6ycBY"} height={300} width={400} onGifClick={(gif) => handleGifSelect(gif, i)} />
+                                                        <GifPicker tenorApiKey={"AIzaSyCbguq2zBSDlAwuHH4lIcZNtFA47Q6ycBY"} height={400} width={350} onGifClick={(gif) => handleGifSelect(gif, i)} />
                                                     </div>
                                                 )}
                                             </ul>
                                         </section>
                                         {openEMOJI === i && (
                                             <div className="emojiPick">
-                                                <EmojiPicker height={500} width={400} onEmojiClick={(emoji) => handleEmojiSelect(emoji, i)} />
+                                                <EmojiPicker height={500} width={300} onEmojiClick={(emoji) => handleEmojiSelect(emoji, i)} />
                                             </div>
                                         )}
                                         {displayGif === i && (
@@ -789,41 +787,42 @@ const Highlights = () => {
                                     </span>
                                 </div>
                             </form>
-                            )}
                             {post.comments && (
-                            <div className="prContent-Comments">
-                                <ul>
-                                {post.comments
-                                    .sort((a, b) => {
-                                    const timestampA = new Date(a.timestamp).getTime();
-                                    const timestampB = new Date(b.timestamp).getTime();
-                                    return timestampB - timestampA; // Sort in descending order by timestamp
-                                    })
-                                    .slice(0, 3) // Take the first three comments after sorting
-                                    .map((comment, i) => (
-                                    <li key={i}>
-                                        <div className="comPrfpic">
-                                        <img src={`https://2wave.io/ProfilePics/${comment.userData.profileimg}`} alt="User" />
-                                        </div>
-                                        <span>
-                                        <h2>{comment.userData.username}</h2>
-                                        <h1>{comment.user_comment}</h1>
-                                        {comment.user_comment_image && (
-                                            <div className="commImg">
-                                            <img src={comment.user_comment_image} alt="" />
+                                <div className="prContent-Comments">
+                                    <ul>
+                                    {post.comments
+                                        .sort((a, b) => {
+                                        const timestampA = new Date(a.timestamp).getTime();
+                                        const timestampB = new Date(b.timestamp).getTime();
+                                        return timestampB - timestampA; // Sort in descending order by timestamp
+                                        })
+                                        .slice(0, 3) // Take the first three comments after sorting
+                                        .map((comment, i) => (
+                                        <li key={i}>
+                                            <div className="comPrfpic">
+                                            <img src={`https://2wave.io/ProfilePics/${comment.userData.profileimg}`} alt="User" />
                                             </div>
-                                        )}
-                                        <p>{comment.timeDiffcom}</p>
-                                        </span>
-                                    </li>
-                                    ))}
-                                {post.comments.length > 3 && (
-                                    <div className="rmComments">
-                                    <p>Read more comments</p>
-                                    </div>
-                                )}
-                                </ul>
-                            </div>
+                                            <span>
+                                            <h2>{comment.userData.username}</h2>
+                                            <h1>{comment.user_comment}</h1>
+                                            {comment.user_comment_image && (
+                                                <div className="commImg">
+                                                <img src={comment.user_comment_image} alt="" />
+                                                </div>
+                                            )}
+                                            <p>{comment.timeDiffcom}</p>
+                                            </span>
+                                        </li>
+                                        ))}
+                                    {post.comments.length > 3 && (
+                                        <div className="rmComments">
+                                        <p>Read more comments</p>
+                                        </div>
+                                    )}
+                                    </ul>
+                                </div>
+                            )}
+                            </>
                             )}
                         </div>
                     ))}
