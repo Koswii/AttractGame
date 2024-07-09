@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 const GiftcardsFetchContext = createContext();
@@ -13,7 +13,7 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
     const [imageCache, setImageCache] = useState({});
 
     // Fetch data once when component mounts
-    const filterUniqueData = (giftcards) => {
+    const filterUniqueData = useCallback((giftcards) => {
         const uniqueRecords = [];
         const recordMap = {};
 
@@ -25,7 +25,7 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
         });
 
         return uniqueRecords;
-    };
+    }, []);
 
     useEffect(() => {
         const fetchGiftcards = async () => {

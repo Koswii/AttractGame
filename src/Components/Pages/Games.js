@@ -76,9 +76,12 @@ const Games = () => {
         setCurrentPage(1); // Reset to the first page when searching
     };
     // Filter data based on search term
-    const filteredData = viewAGData1.filter(game =>
+    const viewGameData = viewAGData1.filter(game =>
       game.game_title.toLowerCase().includes(searchGameName.toLowerCase())
     );
+    const filteredData = viewGameData.sort((a, b) => b.stockCount - a.stockCount);
+
+
     useEffect(() => {
         fetchUserCart();
         fetchFavorites();
@@ -91,6 +94,7 @@ const Games = () => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+    // console.log(filteredData);
 
     // Logic for displaying page numbers
     const pageNumbers = [];
@@ -483,7 +487,8 @@ const Games = () => {
                                 <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
                                 <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
                                 <div className="gmspct2GameDummy"><div className="gmspct2gpfDummy"></div></div>
-                            </>}</> :<>{filteredDatagames.map((details, index) => (
+                            </>}</> 
+                            :<>{filteredDatagames.map((details, index) => (
                                     <div className="gmspct2Game" key={index}>
                                         <div className="gmspct2gPlatform">
                                             <img src='' platform={details.game_platform} alt="" />
