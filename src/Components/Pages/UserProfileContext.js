@@ -6,6 +6,7 @@ const UserProfileContext = createContext();
 export const UserProfileDataProvider = ({ children }) => {
     const [userLoggedData, setUserLoggedData] = useState([]);
     const LoginUsername = localStorage.getItem('attractGameUsername');
+    const LoginUserID = localStorage.getItem('profileUserID');
     const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
     const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
 
@@ -17,7 +18,7 @@ export const UserProfileDataProvider = ({ children }) => {
                   axios.get(AGUserListAPI),
                   axios.get(AGUserDataAPI)
                 ]);
-                const userDataStatus = userListResponse.data.find(item => item.username === LoginUsername);
+                const userDataStatus = userListResponse.data.find(item => item.userid === LoginUserID);
                 
                 const storedProfileData = localStorage.getItem('profileDataJSON')
                 if(storedProfileData) {

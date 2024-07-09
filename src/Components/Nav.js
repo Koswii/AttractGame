@@ -151,7 +151,6 @@ const Nav = () => {
     setIsCaptchaOpen(true);
   };
 
-  const LoginUsername = localStorage.getItem('attractGameUsername');
   const userLoggedIn = localStorage.getItem('isLoggedIn');
   const LoginUserID = localStorage.getItem('profileUserID');
   const [dataUser, setDataUser] = useState([]);
@@ -159,15 +158,13 @@ const Nav = () => {
   const [viewTextPassword, setViewTextPassword] = useState(false);
   const [postTimeRemaining, setPostTimeRemaining] = useState('');
   const [agUserProductCart, setUserProductCart] = useState('');
-  // console.log(LoginUsername);
   const fetchUserData = async () => {
     try {
       const [userListResponse, userDataResponse] = await Promise.all([
         axios.get(AGUserListAPI),
         axios.get(AGUserDataAPI)
       ]);
-      const userDataStatus = userListResponse.data.find(item => item.username === LoginUsername);
-      // console.log(userDataStatus);
+      const userDataStatus = userListResponse.data.find(item => item.userid === LoginUserID);
 
       if (userDataStatus?.status === 'Blocked') {
         setUserBlockedStatus(true);
@@ -184,7 +181,7 @@ const Nav = () => {
         }, 10000)
         return;
       }else {
-        const userData = userDataResponse.data.find(item => item.username === LoginUsername);
+        const userData = userDataResponse.data.find(item => item.userid === LoginUserID);
         setViewUserCredentials(true);
         const profileDetailsJSON = JSON.stringify(userData);
         const profileDataJSON = JSON.parse(profileDetailsJSON)
@@ -226,63 +223,12 @@ const Nav = () => {
     generateUserIDHash(userHashID);
 
     if (!userLoggedIn) return;
-    // const fetchUserData = async () => {
-    //   try {
-    //     const [userListResponse, userDataResponse] = await Promise.all([
-    //       axios.get(AGUserListAPI),
-    //       axios.get(AGUserDataAPI)
-    //     ]);
-    //     const userDataStatus = userListResponse.data.find(item => item.username === LoginUsername);
-    //     // console.log(userDataStatus);
-
-    //     if (userDataStatus?.status === 'Blocked') {
-    //       setUserBlockedStatus(true);
-    //       setViewUserCredentials(false)
-    //       setViewLoginForm(false);
-    //       localStorage.removeItem('isLoggedIn');
-    //       localStorage.removeItem('agAdminLoggedIn');
-    //       localStorage.removeItem('attractGameUsername');
-    //       localStorage.removeItem('profileDataJSON')
-    //       setAGUserUsername('');
-    //       setAGUserPassword('');
-    //       setTimeout(() => {
-    //         setUserBlockedStatus(false);
-    //       }, 10000)
-    //       return;
-    //     }else {
-    //       const userData = userDataResponse.data.find(item => item.username === LoginUsername);
-    //       setViewUserCredentials(true);
-    //       const profileDetailsJSON = JSON.stringify(userData);
-    //       const profileDataJSON = JSON.parse(profileDetailsJSON)
-    //       const profileGetUserID = profileDataJSON.userid
-    //       localStorage.setItem('profileDataJSON', profileDetailsJSON);
-    //       localStorage.setItem('profileUserID', profileGetUserID)
-
-    //       if (userDataStatus?.account === 'Admin') {
-    //         localStorage.setItem('agAdminLoggedIn', true);
-    //       }
-
-    //       const storedProfileData = localStorage.getItem('profileDataJSON');
-    //       const storedUserState = localStorage.getItem('agAdminLoggedIn');
-    //       if(storedProfileData) {
-    //         setDataUser(JSON.parse(storedProfileData))
-    //       }
-    //       if(storedUserState) {
-    //         setViewAdminCredentials(JSON.parse(storedUserState))
-    //       }
-          
-    //     }
-
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
     fetchUserData();
   }, [
     agUserUsername,
     agUserEmail,
     userLoggedIn, 
-    LoginUsername, 
+    LoginUserID, 
     agUserUsername, 
     AGUserListAPI, 
     AGUserDataAPI, 
@@ -366,7 +312,9 @@ const Nav = () => {
     .then(response => response.json())
     .then(data => {
       if (data.success === true) {
+        console.log(data);
         localStorage.setItem('attractGameUsername', data.username);
+        localStorage.setItem('profileUserID', data.userid);
         localStorage.setItem('isLoggedIn', 'true');
         window.location.reload();
         fetchUserData();
