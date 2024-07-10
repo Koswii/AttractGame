@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const axios = require("axios");
 const cors = require("cors");
 const path = require("path");
+const nodemailer = require('nodemailer');
 
 const base = "https://api-m.sandbox.paypal.com";
 
@@ -196,6 +197,38 @@ app.get("/link-preview", async (req, res) => {
 
 app.get("/success", (req, res) => {
   res.send("Payment successful");
+});
+
+app.post('/verify-email', async (req, res) => {
+  const { to, subject, text } = req.body;
+
+  let transporter = nodemailer.createTransport({
+      host: 'smtp.office365.com',
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+          user: 'info@attractgame.com',
+          pass: 'Korea@2101',
+      },
+      tls: {
+          ciphers: 'SSLv3'
+      }
+  });
+
+  try {
+      let info = await transporter.sendMail({
+          from: '"Attract Game" <info@attractgame.com>', // sender address
+          to: to, // list of receivers
+          subject: subject, // Subject line
+          text: text, // plain text body
+      });
+
+      console.log('Message sent: %s', info.messageId);
+      res.status(200).send('Email sent successfully');
+  } catch (error) {
+      console.error('Error sending email:', error);
+      res.status(500).send('Error sending email');
+  }
 });
 
 // Increase timeout settings

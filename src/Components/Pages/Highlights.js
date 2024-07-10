@@ -171,6 +171,9 @@ const Highlights = () => {
         if (initialLoad || offset !== 0) {
             fetchAllUserData(setViewFetchStory, setViewFetchPost, offset, setPostLoading);
             setInitialLoad(false);
+            setTimeout(() => {
+                fetchPost()
+            }, 3000);
         }
         if (userStateLogin && userDetailData) {
             const data = JSON.parse(userDetailData);
