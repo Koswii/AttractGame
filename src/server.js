@@ -199,8 +199,27 @@ app.get("/success", (req, res) => {
   res.send("Payment successful");
 });
 
+
+
+
+  
+const codeConfirmationGenerator = (length) => {
+  const charset = "1234567890";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    result += charset.charAt(randomIndex);
+  }
+  return result;
+};
+
+
+
 app.post('/verify-email', async (req, res) => {
-  const { to, subject, text } = req.body;
+  const { to} = req.body;
+  const code = codeConfirmationGenerator(6)
+  const subject = "Confirmation Code"
+  const text = "Your Confirmation Code was " + code
 
   let transporter = nodemailer.createTransport({
       host: 'smtp.office365.com',
@@ -218,13 +237,14 @@ app.post('/verify-email', async (req, res) => {
   try {
       let info = await transporter.sendMail({
           from: '"Attract Game" <info@attractgame.com>', // sender address
-          to: to, // list of receivers
-          subject: subject, // Subject line
-          text: text, // plain text body
+          to: to,
+          subject: subject, 
+          text: text, 
       });
 
       console.log('Message sent: %s', info.messageId);
       res.status(200).send('Email sent successfully');
+      res.json(code)
   } catch (error) {
       console.error('Error sending email:', error);
       res.status(500).send('Error sending email');

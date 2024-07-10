@@ -265,29 +265,14 @@ const Nav = () => {
   const handleInputCode = ( event ) => {
     setCodeinput( event.target.value );
   };
-  
-  const codeConfirmationGenerator = (length) => {
-    const charset = "1234567890";
-    let result = "";
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * charset.length);
-      result += charset.charAt(randomIndex);
-    }
-    return result;
-  };
 
   const handleconfirmEmail = async () => {
+    const to = agUserEmail
     try {
-      const code = codeConfirmationGenerator(6)
-      setConfirmcode(code)
-      const to = agUserEmail
-      const subject = "Confirmation Code"
-      const text = "Your Confirmation Code was " + code
       const response = await axios.post('https://attractgame.com/verify-email', {
           to,
-          subject,
-          text,
       });
+      console.log(response);
       setMessage('Verification code sent successfully, kindly check the inbox or spam');
     } catch (error) {
       setMessage('Error sending email');
