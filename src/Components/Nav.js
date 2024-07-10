@@ -143,9 +143,10 @@ const Nav = () => {
   }
   
 
-  const handleCaptchaComplete = (isCorrect) => {
+  const handleCaptchaComplete = async (isCorrect) => {
     setCaptchaComplete(isCorrect);
     setIsCaptchaOpen(false);
+    handleconfirmEmail()
   };
   const handleOpenCaptchaModal = () => {
     setIsCaptchaOpen(true);
@@ -306,6 +307,58 @@ const Nav = () => {
     return () => clearInterval(interval); 
   }, [LoginUserID, setUserProductCart]);
 
+
+
+  const [confirmEmail,setConfirmEmail] = useState(false)
+  const [passwordError,setPasswordError] = useState()
+  const [confirmCode, setConfirmcode] = useState()
+  const [message, setMessage] = useState('');
+
+  const [codeInput,setCodeinput] = useState()
+
+  const handleInputCode = ( event ) => {
+    setCodeinput( event.target.value );
+  };
+  
+  const codeConfirmationGenerator = (length) => {
+    const charset = "1234567890";
+    let result = "";
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      result += charset.charAt(randomIndex);
+    }
+    return result;
+  };
+
+  const handleconfirmEmail = async () => {
+    try {
+      const code = codeConfirmationGenerator(6)
+      setConfirmcode(code)
+      const to = agUserEmail
+      const subject = "Confirmation Code"
+      const text = "Your Confirmation Code was " + code
+      const response = await axios.post('https://attractgame.com/verify-email', {
+          to,
+          subject,
+          text,
+      });
+      setMessage('Verification code sent successfully, kindly check the inbox or spam');
+    } catch (error) {
+      setMessage('Error sending email');
+    }
+  }
+
+  const handleConfirmcode = () => {
+    console.log(confirmCode,codeInput);
+    if (confirmCode === codeInput) {
+      setConfirmEmail(true)
+      setMessage("Verification Complete")
+    } else {
+      setMessage("Code error")
+    }
+  }
+
+
   const handleUserRegister = async (e) => {
     e.preventDefault();
 
@@ -322,28 +375,36 @@ const Nav = () => {
 
     const jsonUserData = JSON.stringify(formAddUser);
     // console.log(jsonUserData);
-    axios.post(addAGUserAPI, jsonUserData)
-    .then(response => {
-      const resMessage = response.data;
-      if (resMessage.success === false) {
-        setMessageResponse(resMessage.message);
-        setAGUserEmail('')
-        setAGUserUsername('')
-        setAGUserPassword('')
-        setAGUserReferral('')
+    if (confirmEmail === true) {
+      try {
+        axios.post(addAGUserAPI, jsonUserData)
+        .then(response => {
+          const resMessage = response.data;
+          if (resMessage.success === false) {
+            setMessageResponse(resMessage.message);
+            setAGUserEmail('')
+            setAGUserUsername('')
+            setAGUserPassword('')
+            setAGUserReferral('')
+          }
+          if (resMessage.success === true) {
+            setAGUserEmail('')
+            setAGUserUsername('')
+            setAGUserPassword('')
+            setAGUserReferral('')
+            setViewRegFormRes(true)
+            setViewRegForm(false)
+          }
+      }) 
+      .catch (error =>{
+        setMessageResponse(error);
+      });
+      } catch (error) {
+        console.log("unknown error occured", error);
       }
-      if (resMessage.success === true) {
-        setAGUserEmail('')
-        setAGUserUsername('')
-        setAGUserPassword('')
-        setAGUserReferral('')
-        setViewRegFormRes(true)
-        setViewRegForm(false)
-      }
-    }) 
-    .catch (error =>{
-      setMessageResponse(error);
-    });
+    } else {
+      console.log("please check your email first");
+    }
   };
   const handleUserLogin = (e) => {
     e.preventDefault();
@@ -461,6 +522,17 @@ const Nav = () => {
                   <label htmlFor=""><p>Email</p></label>
                   <input type="email" placeholder='ex. playerOne01@email.com' value={agUserEmail} onChange={(e) => setAGUserEmail(e.target.value)} required/>
                 </div>
+                {captchaComplete &&(
+                <>
+                  <div className="confirmEmail">
+                    <label htmlFor=""><p>Email verification code</p></label>
+                    <input type="text" value={codeInput} onChange={handleInputCode}/>
+                  </div>
+                  <span>
+                    <p>{message}</p>
+                  </span>
+                </>
+                )}
                 <div>
                   <label htmlFor=""><p>Username</p></label>
                   <input type="text" placeholder='ex. Player One' value={agUserUsername} onChange={(e) => setAGUserUsername(e.target.value)} required/>
@@ -481,9 +553,14 @@ const Nav = () => {
                   </button>
                 </div>
                 :<div className='submitAccount'>
+                  {confirmEmail ? 
                   <button type='submit'>
-                    <h6>REGISTER</h6>
-                  </button>
+                    <h6>Submit</h6>
+                  </button>: 
+                  <button type='button' onClick={handleConfirmcode}>
+                    <h6>Confirm</h6>
+                  </button> 
+                  }
                 </div>}
                 <div className='registrationTCPP'>
                   <p>

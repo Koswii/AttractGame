@@ -140,8 +140,6 @@ function App() {
             </>:<Route path="*" element={<Home/>}/>}
             {(getAdminCredentials && userLoggedInState) && <Route path="/Admin" element={<Admin/>}/>}
 
-              
-
             <Route exact path="/AboutUs" element={<AboutUs/>}/>
             <Route exact path="/ContactUS" element={<ContactUs/>}/>
             <Route exact path="/FAQs" element={<FAQs/>}/>

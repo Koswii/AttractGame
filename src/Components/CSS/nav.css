@@ -128,6 +128,11 @@ nav{
     outline: none;
     color: white;
 }
+.navRegContents span p{
+    font-size: .7vw;
+    font-weight: 700;
+    margin: .2vw 0 0 0;
+}
 .recaptchaSetup{
     height: auto;
     display: flex;
@@ -748,6 +753,13 @@ nav{
     }
     .navRegContents div input{
         border-radius: 2vw;
+    }
+    .navRegContents span p{
+        font-size: 2.5vw;
+        font-weight: 400;
+        margin: 1vw 0 0 0;
+        width: 100%;
+        text-align: center;
     }
     .captchaContainer h5{
         font-size: 4vw;
