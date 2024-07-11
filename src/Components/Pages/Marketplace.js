@@ -129,7 +129,10 @@ const ImageComponentGiftcards = ({ imageName }) => {
 const Marketplace = () => {
     const { setActivePage } = useActivePage();
     const navigate = useNavigate ();
-    const { userLoggedData } = UserProfileData();
+    const { 
+        userLoggedData,
+        handleLoginForm  
+    } = UserProfileData();
     const { 
         viewAllGames,
         viewAllGamesNum,
@@ -521,8 +524,8 @@ const Marketplace = () => {
                                         </button>
                                     }
                                 </>:<>
-                                    <button id='mppcm2GDAdd'><TbHeart className='faIcons'/></button>
-                                    <button id='mppcm2GDCart'><TbShoppingCartPlus className='faIcons'/></button>
+                                    <button id='mppcm2GDAdd' onClick={handleLoginForm}><TbHeart className='faIcons'/></button>
+                                    <button id='mppcm2GDCart' onClick={handleLoginForm}><TbShoppingCartPlus className='faIcons'/></button>
                                 </>}
                             </div>
                         </div>

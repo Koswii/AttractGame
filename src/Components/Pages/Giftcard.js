@@ -47,7 +47,10 @@ const ImageComponentGiftcards = ({ imageName }) => {
 const Giftcard = () => {
     const { giftcardCanonical } = useParams();
     const { setActivePage } = useActivePage();
-    const { userLoggedData } = UserProfileData();
+    const { 
+        userLoggedData,
+        handleLoginForm
+    } = UserProfileData();
     const { 
         fetchUserCart, 
         productCart, 
@@ -157,7 +160,7 @@ const Giftcard = () => {
                                                     </button>
                                                 }
                                             </>:<>
-                                                <button><TbShoppingCartPlus className='faIcons'/></button>
+                                                <button onClick={handleLoginForm}><TbShoppingCartPlus className='faIcons'/></button>
                                             </>}
                                         </span>
                                         <p>{details.stocks} Stocks</p>

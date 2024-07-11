@@ -8,6 +8,13 @@ import {
 import { FaYoutube } from "react-icons/fa";
 import { NewsFetchData } from './NewsFetchContext';
 
+
+const decodeHtml = (html) => {
+  const txt = document.createElement("textarea");
+  txt.innerHTML = html;
+  return txt.value;
+};
+
 const News = () => {
   const { newsList } = NewsFetchData();
   const { loader } = NewsFetchData();
@@ -75,9 +82,9 @@ const News = () => {
                       }}
                     >
                       <div className="mainHeadLineContent">
-                        <h4>{linkdata.data.title}</h4>
+                        <h4>{decodeHtml(linkdata.data.title)}</h4>
                         <hr />
-                        <p>{linkdata.data.description}</p>
+                        <p>{decodeHtml(linkdata.data.description)}</p>
                         <div className="mHHeaderBtns">
                           <Link to={linkdata.link} target="_blank">
                             Read more
@@ -96,7 +103,7 @@ const News = () => {
                                 <Link to={link.link} target="_blank">
                                   <img src={link.data.image} alt="" />
                                 </Link>
-                                <p>{link.data.title}</p>
+                                <p>{decodeHtml(link.data.title)}</p>
                               </li>
                             ))}
                           </ul>
@@ -106,7 +113,7 @@ const News = () => {
                                 <Link to={link.link} target="_blank">
                                   <img src={link.data.image} alt="" />
                                 </Link>
-                                <p>{link.data.title}</p>
+                                <p>{decodeHtml(link.data.title)}</p>
                               </li>
                             ))}
                           </ul>
@@ -137,8 +144,8 @@ const News = () => {
                             alt={preview.data.title}
                           />
                         )}
-                        <h3>{preview.data.title}</h3>
-                        <p>{preview.data.description}</p>
+                        <h3>{decodeHtml(preview.data.title)}</h3>
+                        <p>{decodeHtml(preview.data.description)}</p>
                       </li>
                     </Link>
                   ))}
