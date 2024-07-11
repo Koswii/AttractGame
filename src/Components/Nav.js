@@ -332,10 +332,6 @@ const Nav = () => {
           const resMessage = response.data;
           if (resMessage.success === false) {
             setMessageResponse(resMessage.message);
-            setAGUserEmail('')
-            setAGUserUsername('')
-            setAGUserPassword('')
-            setAGUserReferral('')
           }
           if (resMessage.success === true) {
             setAGUserEmail('')
