@@ -42,7 +42,10 @@ const ImageComponentGames = ({ imageName }) => {
 
 
 const Games = () => {
-    const { userLoggedData } = UserProfileData();
+    const { 
+        userLoggedData,
+        handleLoginForm  
+    } = UserProfileData();
     const { 
         viewAGData1,
         loadingMarketData,
@@ -449,8 +452,8 @@ const Games = () => {
                                                         </button>
                                                     }
                                                 </>:<>
-                                                    <button><TbHeart className='faIcons'/></button>
-                                                    <button><TbShoppingCartPlus className='faIcons'/></button>
+                                                    <button onClick={handleLoginForm}><TbHeart className='faIcons'/></button>
+                                                    <button onClick={handleLoginForm}><TbShoppingCartPlus className='faIcons'/></button>
                                                 </>}
                                             </div>
                                         </div>
@@ -515,8 +518,8 @@ const Games = () => {
                                                         </button>
                                                     }
                                                 </>:<>
-                                                    <button><TbHeart className='faIcons'/></button>
-                                                    <button><TbShoppingCartPlus className='faIcons'/></button>
+                                                    <button onClick={handleLoginForm}><TbHeart className='faIcons'/></button>
+                                                    <button onClick={handleLoginForm}><TbShoppingCartPlus className='faIcons'/></button>
                                                 </>}
                                             </div>
                                         </div>

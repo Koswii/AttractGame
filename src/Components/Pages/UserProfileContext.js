@@ -6,6 +6,7 @@ const UserProfileContext = createContext();
 export const UserProfileDataProvider = ({ children }) => {
     const [userLoggedData, setUserLoggedData] = useState([]);
     const [userEmail, setUserEmaiil] = useState([]);
+    const [viewLoginForm, setViewLoginForm] = useState(false);
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const LoginUserID = localStorage.getItem('profileUserID');
     const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
@@ -44,8 +45,12 @@ export const UserProfileDataProvider = ({ children }) => {
         fetchUsersEmails();
     }, []);
 
+    const handleLoginForm = () => {
+        setViewLoginForm(true)
+    }
+
     return (
-        <UserProfileContext.Provider value={{ userLoggedData, userEmail, fetchUsersEmails }}>
+        <UserProfileContext.Provider value={{ userLoggedData, userEmail, fetchUsersEmails, viewLoginForm, setViewLoginForm, handleLoginForm }}>
             {children}
         </UserProfileContext.Provider>
     );

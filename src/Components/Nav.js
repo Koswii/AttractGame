@@ -85,11 +85,16 @@ const parseDateString = (dateString) => {
 
 
 const Nav = () => {
-  const { userEmail, fetchUsersEmails } = UserProfileData();
+  const { 
+    userEmail, 
+    fetchUsersEmails,
+    viewLoginForm, 
+    setViewLoginForm 
+  } = UserProfileData();
   const navigate = useNavigate ();
   const [viewRegForm, setViewRegForm] = useState(false);
   const [viewRegFormRes, setViewRegFormRes] = useState(false);
-  const [viewLoginForm, setViewLoginForm] = useState(false);
+  // const [viewLoginForm, setViewLoginForm] = useState(false);
   const [viewProfileBtn, setViewProfileBtn] = useState(false);
   const [viewUserCredentials, setViewUserCredentials] = useState(false);
   const [viewAdminCredentials, setViewAdminCredentials] = useState(false);
@@ -98,7 +103,6 @@ const Nav = () => {
   const loginAGUserAPI = process.env.REACT_APP_AG_USER_LOGIN_API;
   const logoutAGUserAPI = process.env.REACT_APP_AG_USER_LOGOUT_API;
   const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
-  const AGUserEmailsAPI = process.env.REACT_APP_AG_USER_EMAIL_API;
   const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
   const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
   const AGUserCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
@@ -531,7 +535,7 @@ const Nav = () => {
         </div>}
       </>:<></>}
       {!viewUserCredentials ? <>
-        {viewLoginForm &&
+        {(viewLoginForm) &&
         <div className="navContainerModal">
             <div className="navContentModal login">
               <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
