@@ -1915,3 +1915,86 @@ section.adminPageContainer.mid{
     background: white;
     color: black;
 } */
+
+.admpcm1TransactionHistory{
+    height: auto;
+    width: 100%;
+    animation: fade-in-left 1s ease;
+}
+.admpcm1AllTransactionContainer{
+    height: auto;
+    width: 100%;
+    padding: 1% 0;
+}
+.admpcm1atcTop{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.admpcm1AllTransactionContainer table{
+    height: 2vw;
+    width: 100%;
+    margin-top: 1%;
+    border-collapse: collapse;
+}
+.admpcm1AllTransactionContainer table thead tr{
+    height: 100%;
+    width: 100%;
+    padding-right: 3px;
+    display: flex;
+    align-items: center;
+}
+.admpcm1AllTransactionContainer table tr th{
+    border: solid 1px gray;
+    padding: 0.5% 0.2%;
+}
+.admpcm1AllTransactionContainer table tr th p{
+    font-size: 0.7vw;
+    font-weight: 400;
+}
+.admpcm1atContents{
+    height: 35vw;
+    width: 100%;
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background: black;
+}
+.admpcm1atContents table#admpcm1atcs{
+    height: auto;
+    width: 100%;
+    margin-top: 0.5%;
+    border-collapse: separate;
+    position: relative;
+}
+.admpcm1atContents table tbody tr:nth-child(odd){
+    background: rgba(80, 80, 80, 0.5);
+}
+.admpcm1atContents table tbody tr:nth-child(even){
+    background: rgba(80, 80, 80, 0.3);
+}
+.admpcm1atContents table tr td{
+    text-align: center;
+    padding: 0.3%;
+    height: 2vw;
+}
+.admpcm1atContents table tr td p{
+    font-size: 0.7vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
