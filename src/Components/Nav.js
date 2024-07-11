@@ -42,6 +42,7 @@ import { AiOutlineShop } from "react-icons/ai";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useActivePage } from './Pages/ActivePageContext';
+import { UserProfileData } from './Pages/UserProfileContext';
 import CatCaptcha from './Pages/CatCaptcha';
 
 
@@ -84,6 +85,7 @@ const parseDateString = (dateString) => {
 
 
 const Nav = () => {
+  const { userEmail, fetchUsersEmails } = UserProfileData();
   const navigate = useNavigate ();
   const [viewRegForm, setViewRegForm] = useState(false);
   const [viewRegFormRes, setViewRegFormRes] = useState(false);
@@ -96,6 +98,7 @@ const Nav = () => {
   const loginAGUserAPI = process.env.REACT_APP_AG_USER_LOGIN_API;
   const logoutAGUserAPI = process.env.REACT_APP_AG_USER_LOGOUT_API;
   const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
+  const AGUserEmailsAPI = process.env.REACT_APP_AG_USER_EMAIL_API;
   const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
   const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
   const AGUserCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
@@ -144,12 +147,18 @@ const Nav = () => {
   
 
   const handleCaptchaComplete = async (isCorrect) => {
+    if(registeredEmail) return;
+
     setCaptchaComplete(isCorrect);
     setIsCaptchaOpen(false);
-    handleconfirmEmail()
+    handleconfirmEmail();
   };
   const handleOpenCaptchaModal = () => {
-    setIsCaptchaOpen(true);
+    if(registeredEmail || agUserEmail === '' || agUserUsername === '' || agUserPassword === ''){
+      setMessageResponse('Please Fill all fields')
+    }else{
+      setIsCaptchaOpen(true);
+    }
   };
 
   const userLoggedIn = localStorage.getItem('isLoggedIn');
@@ -159,6 +168,9 @@ const Nav = () => {
   const [viewTextPassword, setViewTextPassword] = useState(false);
   const [postTimeRemaining, setPostTimeRemaining] = useState('');
   const [agUserProductCart, setUserProductCart] = useState('');
+
+  const registeredEmail = userEmail.find(email => email.email === agUserEmail);
+
   const fetchUserData = async () => {
     try {
       const [userListResponse, userDataResponse] = await Promise.all([
@@ -222,6 +234,12 @@ const Nav = () => {
     };
     const userHashID = `AG_Genesis_${agUserUsername}_${agUserEmail}`;
     generateUserIDHash(userHashID);
+    if(registeredEmail){
+      setMessageResponse('Email already exist');
+      setAGUserUsername('');
+      setAGUserPassword('');
+      setAGUserReferral('');
+    }
 
     if (!userLoggedIn) return;
     fetchUserData();
@@ -267,13 +285,14 @@ const Nav = () => {
   };
 
   const handleconfirmEmail = async () => {
+    if(registeredEmail) return;
     const to = agUserEmail
     try {
       const response = await axios.post('https://attractgame.com/verify-email', {
           to,
       });
       setConfirmcode(response.data.code)
-      setMessage('Verification code sent successfully, kindly check the inbox or spam');
+      setMessage('Verification code sent successfully, kindly check your inbox or spam');
     } catch (error) {
       console.log(error);
       setMessage('Error sending email');
@@ -281,18 +300,18 @@ const Nav = () => {
   }
 
   const handleConfirmcode = () => {
-    console.log(confirmCode,codeInput);
+    if(registeredEmail) return;
     if (confirmCode === codeInput) {
       setConfirmEmail(true)
       setMessage("Verification Complete")
     } else {
-      setMessage("Code error")
+      setMessage("Code Error")
     }
   }
 
-
   const handleUserRegister = async (e) => {
     e.preventDefault();
+    if(registeredEmail) return;
 
     const formAddUser = {
       agSetEmail: agUserEmail,
@@ -304,9 +323,8 @@ const Nav = () => {
       agSetAccount: agUserAccount,
       agSetStatus: agUserStatus,
     }
-
     const jsonUserData = JSON.stringify(formAddUser);
-    // console.log(jsonUserData);
+    
     if (confirmEmail === true) {
       try {
         axios.post(addAGUserAPI, jsonUserData)
@@ -482,18 +500,23 @@ const Nav = () => {
                   <input type="text" placeholder='ex. PlayerTwo' value={agUserReferral} onChange={(e) => setAGUserReferral(e.target.value)}/>
                 </div>
                 {!captchaComplete ? <div className='recaptchaSetup'>
-                  <button type='button' onClick={handleOpenCaptchaModal}>
-                    <h6>CAT-CAPTCHA</h6>
-                  </button>
+                  {(!registeredEmail || agUserEmail != '') ? 
+                    <button type='button' onClick={handleOpenCaptchaModal}>
+                      <h6>CAT-CAPTCHA</h6>
+                    </button>:
+                    <button type='button'>
+                      <h6>CAT-CAPTCHA</h6>
+                    </button>
+                  }
                 </div>
                 :<div className='submitAccount'>
                   {confirmEmail ? 
-                  <button type='submit'>
-                    <h6>Submit</h6>
-                  </button>: 
-                  <button type='button' onClick={handleConfirmcode}>
-                    <h6>Confirm</h6>
-                  </button> 
+                    <button type='submit'>
+                      <h6>Submit</h6>
+                    </button>: 
+                    <button type='button' onClick={handleConfirmcode}>
+                      <h6>REGISTER</h6>
+                    </button> 
                   }
                 </div>}
                 <div className='registrationTCPP'>
