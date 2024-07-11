@@ -154,8 +154,11 @@ const Nav = () => {
     handleconfirmEmail();
   };
   const handleOpenCaptchaModal = () => {
-    if(registeredEmail || agUserEmail === '') return;
-    setIsCaptchaOpen(true);
+    if(registeredEmail || agUserEmail === '' || agUserUsername === '' || agUserPassword === ''){
+      setMessageResponse('Please Fill all fields')
+    }else{
+      setIsCaptchaOpen(true);
+    }
   };
 
   const userLoggedIn = localStorage.getItem('isLoggedIn');
