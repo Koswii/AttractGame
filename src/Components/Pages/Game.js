@@ -80,7 +80,10 @@ const ImageComponentGames = ({ imageName }) => {
 const Game = () => {
     const { gameCanonical } = useParams();
     const { setActivePage } = useActivePage();
-    const { userLoggedData } = UserProfileData();
+    const { 
+        userLoggedData,
+        handleLoginForm 
+    } = UserProfileData();
     const { 
         viewAGData1,
         loadingMarketData,
@@ -394,8 +397,8 @@ const Game = () => {
                                     </button>
                                 }
                             </>:<>
-                                <button><TbHeart className='faIcons'/></button>
-                                <button><TbShoppingCartPlus className='faIcons'/></button>
+                                <button onClick={handleLoginForm}><TbHeart className='faIcons'/></button>
+                                <button onClick={handleLoginForm}><TbShoppingCartPlus className='faIcons'/></button>
                             </>}
                             <div>
                                 <h6>{(agGameStockCount === 0 ? 'Out of Stock':'Game On-Stock')}</h6>
