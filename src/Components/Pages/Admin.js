@@ -48,7 +48,7 @@ const Admin = () => {
     const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
     const AGInsertProductCodeAPI = process.env.REACT_APP_AG_INSERT_PRODUCT_CODES_API;
     const AGProductStateAPI = process.env.REACT_APP_AG_PRODUCT_STATE_CREDENTIALS_API;
-    const AGInsertNewsLinkAPI = process.env.REACT_APP_AG_INSERT_PRODUCT_CODES_API;
+    const AGInsertNewsLinkAPI = process.env.REACT_APP_AG_INSERT_NEWS_API;
     const AGRetriveNewsAPI = process.env.REACT_APP_AG_FETCH_NEWS_API;
     const AGDeleteNewsAPI = process.env.REACT_APP_AG_DELETE_NEWS_API;
     const AGUsersTransactions = process.env.REACT_APP_AG_USERS_TRANSACTIONS_API;
