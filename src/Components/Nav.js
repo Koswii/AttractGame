@@ -272,9 +272,10 @@ const Nav = () => {
       const response = await axios.post('https://attractgame.com/verify-email', {
           to,
       });
-      console.log(response);
+      setConfirmcode(response.data.code)
       setMessage('Verification code sent successfully, kindly check the inbox or spam');
     } catch (error) {
+      console.log(error);
       setMessage('Error sending email');
     }
   }
@@ -455,7 +456,7 @@ const Nav = () => {
                   <label htmlFor=""><p>Email</p></label>
                   <input type="email" placeholder='ex. playerOne01@email.com' value={agUserEmail} onChange={(e) => setAGUserEmail(e.target.value)} required/>
                 </div>
-                {captchaComplete &&(
+                {confirmCode &&(
                 <>
                   <div className="confirmEmail">
                     <label htmlFor=""><p>Email verification code</p></label>
