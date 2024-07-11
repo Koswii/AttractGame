@@ -96,6 +96,7 @@ const Nav = () => {
   const loginAGUserAPI = process.env.REACT_APP_AG_USER_LOGIN_API;
   const logoutAGUserAPI = process.env.REACT_APP_AG_USER_LOGOUT_API;
   const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
+  const AGUserEmailsAPI = process.env.REACT_APP_AG_USER_EMAIL_API;
   const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
   const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
   const AGUserCartAPI = process.env.REACT_APP_AG_FETCH_USER_CART_API;
@@ -113,6 +114,7 @@ const Nav = () => {
   const [icelandTime, setIcelandTime] = useState('');
   const [captchaComplete, setCaptchaComplete] = useState(null);
   const [isCaptchaOpen, setIsCaptchaOpen] = useState(false);
+  const [agRegisteredEmail, setAGRegisteredEmail] = useState('');
 
 
   const handleViewRegistration = () => {
@@ -223,6 +225,23 @@ const Nav = () => {
     const userHashID = `AG_Genesis_${agUserUsername}_${agUserEmail}`;
     generateUserIDHash(userHashID);
 
+    const fetchUsersEmails = async () => {
+      try {
+        const response = await axios.get(AGUserEmailsAPI);
+        const registeredEmail = response.data
+        const registrationEmail = registeredEmail.find(email => email.email === agUserEmail);
+        if(registrationEmail){
+          setMessageResponse('Email already exist');
+          setAGUserUsername('')
+          setAGUserPassword('')
+          setAGUserReferral('')
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUsersEmails();
     if (!userLoggedIn) return;
     fetchUserData();
   }, [
@@ -279,7 +298,6 @@ const Nav = () => {
       setMessage('Error sending email');
     }
   }
-
   const handleConfirmcode = () => {
     console.log(confirmCode,codeInput);
     if (confirmCode === codeInput) {
@@ -289,8 +307,6 @@ const Nav = () => {
       setMessage("Code error")
     }
   }
-
-
   const handleUserRegister = async (e) => {
     e.preventDefault();
 
