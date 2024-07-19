@@ -25,7 +25,7 @@ h6{
 
 
 .mainContainer.admin{
-    height: 100vh;
+    height: auto;
     width: 100%;
     background: black;
     background: 
@@ -35,6 +35,7 @@ h6{
     display: flex;
     justify-content: space-between;
     align-items: top;
+    padding-bottom: 10vw;
 }
 
 
