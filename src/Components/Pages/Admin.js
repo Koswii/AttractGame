@@ -805,12 +805,20 @@ const Admin = () => {
 
     // Users Transactions History
     const [viewUserTransactionHistory, setViewUserTransaction] = useState([]);
+    const [viewOverallSales, setViewOverAllSales] = useState('');
+    const [viewOverallProfit, setViewOverallProfit] = useState('');
     
     useEffect(() => {
         const fetchUserTransactionHistory = async () => {
             try {
                 const response = await axios.get(AGUsersTransactions);
-                const TransactionHistoryData = response.data;
+                const TransactionHistoryData = response.data.sort((a, b) => b.id - a.id);
+                const overAllSalesSum = TransactionHistoryData.map(sales => parseFloat(sales.ag_product_price)).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                const overAllSalesWithInt = overAllSalesSum + (overAllSalesSum*0.075)
+                const oaswiFixed = overAllSalesWithInt.toFixed(2)
+                const oaswiProfit = oaswiFixed - overAllSalesSum
+                setViewOverAllSales(oaswiFixed);
+                setViewOverallProfit(oaswiProfit.toFixed(2));
                 setViewUserTransaction(TransactionHistoryData);
             } catch (error) {
                 console.error(error);
@@ -1131,14 +1139,14 @@ const Admin = () => {
                             </div>
                             <div className="admpcm1dContent right">
                                 <div>
-                                    <h4>$ 9999999</h4>
+                                    <h4>$ {viewOverallSales}</h4>
                                     <p>TOTAL SALES</p>
                                     <span>
                                         <h6><RiArrowUpSFill className='faIcons'/> 100%</h6>
                                     </span>
                                 </div>
                                 <div>
-                                    <h4>$ 9999999</h4>
+                                    <h4>$ {viewOverallProfit}</h4>
                                     <p>TOTAL PROFIT</p>
                                     <span>
                                         <h6><RiArrowUpSFill className='faIcons'/> 100%</h6>

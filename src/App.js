@@ -131,13 +131,13 @@ function App() {
             <Route exact path="/Giftcards/:giftcardCanonical" element={<Giftcard/>}/>
             <Route exact path="/GameCredits/Robux" element={<Robux/>}/>
             {/* <Route exact path="/Giftcard" element={<Giftcard/>}/> */}
-            {(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined) ?
+            {(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined) &&
             <>
               <Route exact path="/MyProfile" element={<Profile/>}/>
               <Route exact path="/MyFavorites" element={<Favorites/>}/>
               <Route exact path="/MyCart" element={<Cart/>}/>
               <Route exact path="/success" element={<Success/>}/>
-            </>:<Route path="*" element={<Home/>}/>}
+            </>}
             {(getAdminCredentials && userLoggedInState) && <Route path="/Admin" element={<Admin/>}/>}
 
             <Route exact path="/AboutUs" element={<AboutUs/>}/>

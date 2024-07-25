@@ -20,7 +20,7 @@ export const NewsFetchDataProvider = ({ children }) => {
           );
           return response.data;
         } catch (error) {
-          console.error("Error fetching link preview:", error);
+          // console.error("Error fetching link preview:", error);
           setError("Error fetching preview data");
           return null;
         }

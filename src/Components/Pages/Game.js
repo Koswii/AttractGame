@@ -414,9 +414,9 @@ const Game = () => {
                         <YouTubeEmbed videoUrl={`${agGameDataTrailer}`} />
                     </div>
                     <div className="gppcm1Container right">
-                        <h4>LATEST REVIEWS <span>3 Reviews</span></h4>
+                        <h4>LATEST REVIEWS <span>No Reviews</span></h4>
                         <hr />
-                        <div className='gppcm1crReviews'>
+                        {/* <div className='gppcm1crReviews'>
                             <p>
                                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum 
                                 has been the industry's standard dummy text ever since the 1500s, when an unknown printer
@@ -437,7 +437,7 @@ const Game = () => {
                             </p>
                             <h6>Koswi <span>Jan 24, 2024</span></h6>
                         </div>
-                        <button>ADD GAME REVIEW</button>
+                        <button>ADD GAME REVIEW</button> */}
                     </div>
                 </div>
             </section>
