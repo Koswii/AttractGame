@@ -829,7 +829,9 @@ nav{
     .userProfileBtn .agProfileSelect{
         display: none;
     }
-    .userProfileBtn a#agAdminBtn,
+    .userProfileBtn a#agAdminBtn{
+        display: none;
+    }
     .userProfileBtn a#agAddToCartBtn{
         font-size: 7vw;
         line-height: 5vw;
