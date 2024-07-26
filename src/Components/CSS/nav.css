@@ -267,15 +267,67 @@ nav{
 
 
 
+.forgotPassAcc{
+    text-align: center;
+}
+.forgotPassAcc a{
+    font-size: .7vw;
+    color: goldenrod;
+    cursor: pointer;
+}
 
 
 
 
+.navForgotpassword{
+    margin: 1vw 0 0 0;
+}
+.navForgotpassword h1{
+    font-size: 1vw;
+}
+.navForgotpassword p{
+    font-size: .7vw;
+}
+.navForgotpassword input{
+    width: 100%;
+    padding: 2% 3%;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: solid 2px white;
+    outline: none;
+    color: white;
+    border-radius: 0.5vw;
+    margin: .5vw 0;
+}
+.navForgotpassword button{
+    border: solid 2px white;
+    padding: .2vw 1vw;
+    background: white;
+    border-radius: .5vw;
+    cursor: pointer;
+}
+.backToLogin{
+    width: 100%;
+    text-align: center;
+    margin: 2vw 0 0 0;
+}
+.backToLogin a{
+    font-size: .7vw;
+    cursor: pointer;
+    color: goldenrod;
+}
 
 
 
-
-
+.searchFrPassAcc{
+    margin: 0 0 .5vw 0;
+    text-align: center;
+}
+.searchFrPassAcc p{
+    font-size: .7vw;
+}
 
 
 
@@ -784,6 +836,8 @@ nav{
     .errorMessage p{
         height: 2.3vw;
     }
+
+
 
 
 
