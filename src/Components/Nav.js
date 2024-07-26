@@ -567,9 +567,7 @@ const Nav = () => {
             </form>
           </div>
         </div>}
-      </>:<></>}
-      {!viewUserCredentials ? <>
-        {(viewLoginForm) &&
+        {viewLoginForm &&
         <div className="navContainerModal">
             <div className="navContentModal login">
               <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
@@ -608,8 +606,6 @@ const Nav = () => {
               </form>
             </div>
         </div>}
-      </>:<></>}
-      {!viewUserCredentials ?<>
         {viewRegFormRes && <div className="navContainerModal">
           <div className="navContentModal regRes">
             <h4>WELCOME GAMER!</h4>
@@ -623,16 +619,12 @@ const Nav = () => {
             </div>
           </div>
         </div>}
-      </>:<></>}
-      {!viewUserCredentials ?<>
         {userBlockedStatus && <div className="navContainerModal">
           <div className="navContentModal blocked">
             <h4>ACCOUNT BLOCKED</h4>
             <p>If you believe this is an error, please contact AG Website Support.</p>
           </div>
         </div>}
-      </>:<></>}
-      {!viewUserCredentials ?<>
         {isCaptchaOpen && <div className="navContainerModal">
           <div className="navContentModal captcha">
             <CatCaptcha onComplete={handleCaptchaComplete} />

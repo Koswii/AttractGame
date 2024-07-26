@@ -306,6 +306,7 @@ section.newsPageContainer.mid{
         width: 100%;
         font-size: 5vw;
         justify-content: center;
+        margin-top: 10%;
     }
     .subNewsContainer ul{
         width: 100%;
