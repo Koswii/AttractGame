@@ -533,9 +533,7 @@ const Nav = () => {
             </form>
           </div>
         </div>}
-      </>:<></>}
-      {!viewUserCredentials ? <>
-        {(viewLoginForm) &&
+        {viewLoginForm &&
         <div className="navContainerModal">
             <div className="navContentModal login">
               <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
@@ -569,8 +567,6 @@ const Nav = () => {
               </form>
             </div>
         </div>}
-      </>:<></>}
-      {!viewUserCredentials ?<>
         {viewRegFormRes && <div className="navContainerModal">
           <div className="navContentModal regRes">
             <h4>WELCOME GAMER!</h4>
@@ -584,16 +580,12 @@ const Nav = () => {
             </div>
           </div>
         </div>}
-      </>:<></>}
-      {!viewUserCredentials ?<>
         {userBlockedStatus && <div className="navContainerModal">
           <div className="navContentModal blocked">
             <h4>ACCOUNT BLOCKED</h4>
             <p>If you believe this is an error, please contact AG Website Support.</p>
           </div>
         </div>}
-      </>:<></>}
-      {!viewUserCredentials ?<>
         {isCaptchaOpen && <div className="navContainerModal">
           <div className="navContentModal captcha">
             <CatCaptcha onComplete={handleCaptchaComplete} />
@@ -607,7 +599,6 @@ const Nav = () => {
           <div className="navContent left">
               <Link to='/' onClick={() => handleNavigation('home', '/')}>
                   <img id='nclLogoWebsite' src={require('./assets/imgs/AGLogoWhite.png')} alt="" />
-                  {/* <h5>ATTRACT GAME</h5> */}
                   <img id='nclLogoMobile' src={require('./assets/imgs/AGLogoNameWhite2.png')} alt="" />
               </Link>
           </div>
