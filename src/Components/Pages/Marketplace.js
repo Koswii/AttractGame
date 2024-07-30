@@ -339,9 +339,6 @@ const Marketplace = () => {
                         <input type="text" placeholder='Search Games / Vouchers / Giftcards / Crypto / Merchandise'/>
                     </div> */}
                     <div className="mppctn right">
-                        {/* <span>
-                            <h6>0 <TbShoppingCartPlus  className='faIcons'/></h6>
-                        </span> */}
                         <span>
                             <h6>{viewAllGamesNum.length} <TbDeviceGamepad2 className='faIcons'/></h6>
                         </span>
@@ -350,69 +347,6 @@ const Marketplace = () => {
                         </span>
                     </div>
                 </div>
-                {/* <h4 id='mppcth4Title'><FaStar className='faIcons'/> FEATURED GAMES</h4>
-                {!loadingMarketData ? <>
-                    <div className='mpPageContentTop'>
-                        <div className='mppContentTop'>
-                            <div className='mppctl left'>
-                                <div className="loader"></div>
-                            </div>
-                            <div className="mppctl right">
-                                <h4 id='mppctlLoadTitle'></h4>
-                                <h6><MdOutlineFiberNew className='faIcons'/>New Released</h6>
-                                <p id='mppctlLoadTitle'></p>
-                                <div>
-                                    <button id='viewGameDetails'>VIEW GAME</button>
-                                    <button id='addToFavorite'><TbHeart className='faIcons'/></button>
-                                    <button id='addToFavorite'><TbShoppingCartBolt className='faIcons'/></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='mppContentTop'>
-                            <div className='mppctl left'>
-                                <div className="loader"></div>
-                            </div>
-                            <div className="mppctl right">
-                                <h4 id='mppctlLoadTitle'></h4>
-                                <h6><MdOutlineFiberNew className='faIcons'/>New Released</h6>
-                                <p id='mppctlLoadTitle'></p>
-                                <div>
-                                    <button id='viewGameDetails'>VIEW GAME</button>
-                                    <button id='addToFavorite'><TbHeart className='faIcons'/></button>
-                                    <button id='addToFavorite'><TbShoppingCartBolt className='faIcons'/></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </>:<>
-                    <div className='mpPageContentTop'>
-                        {scrapedMetacriticData.slice(0, 2).map((details, i) => (
-                        <div className='mppContentTop' key={i}>
-                            <div className='mppctl left'>
-                                <div className='mppctlMetascore'>
-                                    <h4>{details.metascore ? details.metascore : 'tbd'}</h4>
-                                    <p>Metascore</p>
-                                </div>
-                                <>{details.agData1.game_cover !== '' ?
-                                <img src={`https://2wave.io/GameCovers/${details.agData1.game_cover}`} alt="" />
-                                :<img src={details.originalimage.source} alt="" />}</>
-                            </div>
-                            <div className="mppctl right">
-                                <h4>{details.agData1.game_title || details.title}</h4>
-                                <h6>{details.publisher || details.agData1.game_developer}</h6>
-                                <p>
-                                    {details.metadescription ? details.metadescription.slice(0, 300)+ '...' : <>No Metacritic and Wikipedia details yet. <br /><br /><br /><br /><br /></>} <br /><br />
-                                    Released Date: {formatDateToWordedDate(details.agData1.game_released)}
-                                </p>
-                                <div>
-                                    <Link id='viewGameDetails' to={`/Games/${details.agData1.game_canonical}`} key={i}>VIEW GAME</Link>
-                                    <button id='addToFavorite'><TbHeart className='faIcons'/></button>
-                                    <button id='addToFavorite'><TbShoppingCartBolt className='faIcons'/></button>
-                                </div>
-                            </div>
-                        </div>))}
-                    </div>
-                </>} */}
             </section>
             <section className="marketplacePageContainer mid">
                 <h4 id='mppcthTitlesfeatured'><TbDeviceGamepad2 className='faIcons'/> FEATURED GAMES</h4>

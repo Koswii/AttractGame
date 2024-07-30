@@ -1142,14 +1142,14 @@ const Admin = () => {
                                     <h4>$ {viewOverallSales}</h4>
                                     <p>TOTAL SALES</p>
                                     <span>
-                                        <h6><RiArrowUpSFill className='faIcons'/> 100%</h6>
+                                        <h6><RiArrowUpSFill className='faIcons'/> NA</h6>
                                     </span>
                                 </div>
                                 <div>
                                     <h4>$ {viewOverallProfit}</h4>
                                     <p>TOTAL PROFIT</p>
                                     <span>
-                                        <h6><RiArrowUpSFill className='faIcons'/> 100%</h6>
+                                        <h6><RiArrowUpSFill className='faIcons'/> NA</h6>
                                     </span>
                                 </div>
                             </div>

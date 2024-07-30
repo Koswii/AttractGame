@@ -29,6 +29,7 @@ import {
   TbLogout,
   TbGiftCard,
   TbDeviceGamepad2,
+  TbDiamond,
   TbNews,
   TbTimelineEvent     
 } from "react-icons/tb";
@@ -666,11 +667,12 @@ const Nav = () => {
             </Link>
           </div>
           <div className="navContent center">
-            <Link to="/Highlights" onClick={() => handleNavigation('dashboard', '/Highlights')}><h6>HIGHLIGHTS</h6></Link>
+            {/* <Link to="/Highlights" onClick={() => handleNavigation('dashboard', '/Highlights')}><h6>HIGHLIGHTS</h6></Link> */}
             <Link to="/News" onClick={() => handleNavigation('news', '/News')}><h6>NEWS</h6></Link>
             <Link to="/Marketplace" onClick={() => handleNavigation('marketplace', '/Marketplace')}><h6>MARKETPLACE</h6></Link>
             <Link to="/Games" onClick={() => handleNavigation('games', '/Games')}><h6>GAMES</h6></Link>
             <Link to="/Giftcards" onClick={() => handleNavigation('giftcards', '/Giftcards')}><h6>GIFTCARDS</h6></Link>
+            <Link to="/GameCredits" onClick={() => handleNavigation('gamecredits', '/GameCredits')}><h6>GAMECREDITS</h6></Link>
           </div>
           <div className="navContent right">
             {(!userLoggedIn) ? <div className='userPublicBtn'>
@@ -706,11 +708,12 @@ const Nav = () => {
           </div>
         </div>
         <div className="navContainer mobile">
-          <button className={`${activePage === 'dashboard' ? 'active' : ''}`} onClick={() => handleNavigation('dashboard', '/Highlights')}><h5><MdOutlinePostAdd className='faIcons'/></h5></button>
+          {/* <button className={`${activePage === 'dashboard' ? 'active' : ''}`} onClick={() => handleNavigation('dashboard', '/Highlights')}><h5><MdOutlinePostAdd className='faIcons'/></h5></button> */}
           <button className={`${activePage === 'news' ? 'active' : ''}`} onClick={() => handleNavigation('news', '/News')}><h5><MdNewspaper className='faIcons'/></h5></button>
           <button className={`${activePage === 'marketplace' ? 'active' : ''}`} onClick={() => handleNavigation('marketplace', '/Marketplace')}><h5><AiOutlineShop className='faIcons'/></h5></button>
           <button className={`${activePage === 'games' ? 'active' : ''}`} onClick={() => handleNavigation('games', '/Games')}><h5><TbDeviceGamepad2  className='faIcons'/></h5></button>
           <button className={`${activePage === 'giftcards' ? 'active' : ''}`} onClick={() => handleNavigation('giftcards', '/Giftcards')}><h5><TbGiftCard className='faIcons'/></h5></button>
+          <button className={`${activePage === 'gamecredits' ? 'active' : ''}`} onClick={() => handleNavigation('gamecredits', '/GameCredits')}><h5><TbDiamond className='faIcons'/></h5></button>
           {/* <button className={localStorage.getItem('crypto')} onClick={handleClickCrypto}><h5><MdCurrencyBitcoin className='faIcons'/></h5></button> */}
           {(userLoggedIn) && 
             <div className='agProfileBtnMobile' onClick={handleViewProfileBtns}>
