@@ -204,47 +204,47 @@ const Cart = () => {
                           <div className="cartpcm1clDummy"><div className="cartpcm1clppDummy"></div></div>
                       ))}
                   </>:<> */}
-                      {productGameDetails.map((details, i) => (
-                          <div className="cartpcm1clProduct website" key={i}>
-                              <img src={`https://2wave.io/GameCovers/${details.productData.game_cover}`} alt="" />
-                              <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
-                              <div className="cartpcm1clpPlatform">
-                                  <img src="" platform={details.productData.game_platform} alt="" />
-                              </div>
-                              <div className="cartpcm1clpPrice">
-                              <h5>$ {(details.productData.stock === 0 || undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
-                                  <input type="number" min={1} max={details.productData.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, Number(e.target.value))} placeholder='1'/>
-                              </div>
+                  {productGameDetails.map((details, i) => (
+                      <div className="cartpcm1clProduct website" key={i}>
+                          <img src={`https://2wave.io/GameCovers/${details.productData.game_cover}`} alt="" />
+                          <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
+                          <div className="cartpcm1clpPlatform">
+                              <img src="" platform={details.productData.game_platform} alt="" />
                           </div>
-                      ))}
-                      {productGiftcardDetails.map((details, i) => (
-                          <div className="cartpcm1clProduct website" key={i}>
-                              <img src={`https://2wave.io/GiftCardCovers/${details.productData.giftcard_cover}`} alt="" />
-                              <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
-                              <div className="cartpcm1clpPlatform denomination">
-                                  <h3>{details.productData.giftcard_denomination}</h3>
-                                  <p>DOLLARS</p>
-                              </div>
-                              <div className="cartpcm1clpPrice">
-                              <h5>$ {(details.productData.stock === 0 || undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
-                                  <input type="number" min={1} max={details.productData.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, Number(e.target.value))} placeholder='1'/>
-                              </div>
+                          <div className="cartpcm1clpPrice">
+                          <h5>$ {(details.productData.stock === 0 || undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
+                              <input type="number" min={1} max={details.productData.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, Number(e.target.value))} placeholder='1'/>
                           </div>
-                      ))}
-                      {productGamecreditDetails.map((details, i) => (
-                          <div className="cartpcm1clProduct website" key={i}>
-                              <img src={`https://2wave.io/GiftCardCovers/${details.productData.gamecredit_cover}`} alt="" />
-                              <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
-                              <div className="cartpcm1clpPlatform denomination">
-                                  <h3><sup>$</sup>{details.productData.gamecredit_denomination}</h3>
-                                  <p>CREDIT</p>
-                              </div>
-                              <div className="cartpcm1clpPrice">
-                              <h5>$ {(details.productData.stock === 0 || undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
-                                  <input type="number" min={1} max={details.productData.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, Number(e.target.value))} placeholder='1'/>
-                              </div>
+                      </div>
+                  ))}
+                  {productGiftcardDetails.map((details, i) => (
+                      <div className="cartpcm1clProduct website" key={i}>
+                          <img src={`https://2wave.io/GiftCardCovers/${details.productData.giftcard_cover}`} alt="" />
+                          <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
+                          <div className="cartpcm1clpPlatform denomination">
+                              <h3>{details.productData.giftcard_denomination}</h3>
+                              <p>DOLLARS</p>
                           </div>
-                      ))}
+                          <div className="cartpcm1clpPrice">
+                          <h5>$ {(details.productData.stock === 0 || undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
+                              <input type="number" min={1} max={details.productData.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, Number(e.target.value))} placeholder='1'/>
+                          </div>
+                      </div>
+                  ))}
+                  {productGamecreditDetails.map((details, i) => (
+                      <div className="cartpcm1clProduct website" key={i}>
+                          <img src={`https://2wave.io/GiftCardCovers/${details.productData.gamecredit_cover}`} alt="" />
+                          <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
+                          <div className="cartpcm1clpPlatform denomination">
+                              <h3><sup>$</sup>{details.productData.gamecredit_denomination}</h3>
+                              <p>CREDIT</p>
+                          </div>
+                          <div className="cartpcm1clpPrice">
+                          <h5>$ {(details.productData.stock === 0 || undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
+                              <input type="number" min={1} max={details.productData.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, Number(e.target.value))} placeholder='1'/>
+                          </div>
+                      </div>
+                  ))}
                   {/* </>} */}
               </>
           );
@@ -273,36 +273,36 @@ const Cart = () => {
                       ))}
                   </>:
                   <> */}
-                      {productGameDetails.map((details, i) => (
-                          <div className="cartpcm1clProduct mobile" key={i}>
-                              <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
-                              <h5>{details.productData.game_title} - {details.productData.game_platform}</h5>
-                              <div className="cartpcm1clpPrice">
-                                  <input type="number" min={1} max={details.productData.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, e.target.value)} placeholder='1'/>
-                                  <h5>$ {(details.productData.stock === 0 || undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
-                              </div>
+                  {productGameDetails.map((details, i) => (
+                      <div className="cartpcm1clProduct mobile" key={i}>
+                          <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
+                          <h5>{details.productData.game_title} - {details.productData.game_platform}</h5>
+                          <div className="cartpcm1clpPrice">
+                              <input type="number" min={1} max={details.productData.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, e.target.value)} placeholder='1'/>
+                              <h5>$ {(details.productData.stock === 0 || undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
                           </div>
-                      ))}
-                      {productGiftcardDetails.map((details, i) => (
-                          <div className="cartpcm1clProduct mobile" key={i}>
-                              <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
-                              <h5>{details.productData.giftcard_name} - ${details.productData.giftcard_denomination}</h5>
-                              <div className="cartpcm1clpPrice">
-                                  <input type="number" min={1} max={details.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, e.target.value)} placeholder='1'/>
-                                  <h5>$ {(details.productData.stock === 0 || undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
-                              </div>
+                      </div>
+                  ))}
+                  {productGiftcardDetails.map((details, i) => (
+                      <div className="cartpcm1clProduct mobile" key={i}>
+                          <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
+                          <h5>{details.productData.giftcard_name} - ${details.productData.giftcard_denomination}</h5>
+                          <div className="cartpcm1clpPrice">
+                              <input type="number" min={1} max={details.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, e.target.value)} placeholder='1'/>
+                              <h5>$ {(details.productData.stock === 0 || undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
                           </div>
-                      ))}
-                      {productGamecreditDetails.map((details, i) => (
-                          <div className="cartpcm1clProduct mobile" key={i}>
-                              <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
-                              <h5>{details.productData.gamecredit_name} - ${details.productData.gamecredit_denomination}</h5>
-                              <div className="cartpcm1clpPrice">
-                                  <input type="number" min={1} max={details.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, e.target.value)} placeholder='1'/>
-                                  <h5>$ {(details.productData.stock === 0 || undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
-                              </div>
+                      </div>
+                  ))}
+                  {productGamecreditDetails.map((details, i) => (
+                      <div className="cartpcm1clProduct mobile" key={i}>
+                          <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
+                          <h5>{details.productData.gamecredit_name} - ${details.productData.gamecredit_denomination}</h5>
+                          <div className="cartpcm1clpPrice">
+                              <input type="number" min={1} max={details.stockCount} value={orderQuantities[details.ag_product_id] || 1} onChange={(e) => handleQuantityChange(details.ag_product_id, e.target.value)} placeholder='1'/>
+                              <h5>$ {(details.productData.stock === 0 || undefined) ? '--.--': details.effectivePrice.toFixed(2)}</h5>
                           </div>
-                      ))}
+                      </div>
+                  ))}
                   {/* </>} */}
               </>
           );
@@ -336,7 +336,6 @@ const Cart = () => {
         clientSecret,
         appearance,
     };
-    
     const checkOutprod = async () => {
       const body = {
         product: allPrductsDetails,

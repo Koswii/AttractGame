@@ -149,7 +149,7 @@ const Giftcard = () => {
                                                 {productCart.some(cartItem => cartItem.ag_product_id === details.giftcard_id) ?
                                                     <button><TbShoppingCartFilled className='faIcons'/></button>:
                                                     <button onClick={() => handleAddToCart(details)} disabled={(details.stocks === 0) ? true : false}>
-                                                        {(details.stocks === undefined) ? <TbShoppingCartOff className='faIcons'/> : 
+                                                        {(details.stocks === 0 || undefined) ? <TbShoppingCartOff className='faIcons'/> : 
                                                         <>
                                                             {(productCartAdded === details.giftcard_denomination) ? 
                                                                 <TbShoppingCartFilled className='faIcons'/>:

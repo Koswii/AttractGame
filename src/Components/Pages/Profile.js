@@ -482,7 +482,7 @@ const Profile = () => {
     };
 
     const [viewUserHighlight, setViewUserHighlight] = useState(true);
-    const [viewUserProducts, setViewUserProducts] = useState(false);
+    const [viewUserProducts, setViewUserProducts] = useState(true);
 
     const handleViewDefault = () => {
         setViewUserHighlight(true)
@@ -709,12 +709,12 @@ const Profile = () => {
                 </div>
                 <div className="profilePageContent right">
                     <div className="ppcrProfileNavigations">
-                        <button className={viewUserHighlight ? 'active' : ''} onClick={handleViewDefault}><h6>HIGHLIGHTS</h6></button>
+                        {/* <button className={viewUserHighlight ? 'active' : ''} onClick={handleViewDefault}><h6>HIGHLIGHTS</h6></button> */}
                         <button className={viewUserProducts ? 'active' : ''} onClick={handleViewProducts}><h6>MY PRODUCTS</h6></button>
-                        <button><h6>MISSIONS</h6></button>
-                        <button><h6>FEEDBACKS</h6></button>
+                        {/* <button><h6>MISSIONS</h6></button>
+                        <button><h6>FEEDBACKS</h6></button> */}
                     </div>
-                    {viewUserHighlight &&<div className="ppcrProfileContents highlights">
+                    {/* {viewUserHighlight &&<div className="ppcrProfileContents highlights">
                         <div className="ppcrpchPosting">
                             <div className="ppcrpchpWhat">
                                 {userLoggedData.profileimg ? 
@@ -792,7 +792,7 @@ const Profile = () => {
                                 </>}
                             </div>
                         </div>
-                    </div>}
+                    </div>} */}
                     {viewUserProducts &&<div className="ppcrProfileContents myProducts">
                         {isLoading ?<>
                             <div className="ppcrpcmpEmpty">
