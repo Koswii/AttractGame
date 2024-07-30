@@ -47,6 +47,7 @@ import News from './Components/Pages/News';
 import Success from './Components/Pages/success';
 
 import Underdevelop from './Components/Pages/underdevelop';
+import ForgotPass from './Components/Pages/ForgotPass';
 
 
 
@@ -123,6 +124,7 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Home/>}/>
             {/* <Route exact path="/Highlights" element={<Highlights/>}/> */}
+            <Route exact path="/forgot-password/:code" element={<ForgotPass />} />
             <Route exact path="/Marketplace" element={<Marketplace/>}/>
             <Route exact path="/Games" element={<Games/>}/>
             <Route exact path="/News" element={<News/>}/>

@@ -769,7 +769,7 @@ const Admin = () => {
         };
 
         try {
-            const response = await axios.post(AGInsertNewsLinkAPI, newsData);
+            await axios.post(AGInsertNewsLinkAPI, newsData);
             setTimeout(() => {
                 window.location.reload();
             }, 1000);

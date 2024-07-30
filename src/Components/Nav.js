@@ -47,6 +47,7 @@ import { UserProfileData } from './Pages/UserProfileContext';
 import CatCaptcha from './Pages/CatCaptcha';
 
 
+
 const formatDateToWordedDate = (numberedDate) => {
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const date = new Date(numberedDate);
@@ -99,6 +100,8 @@ const Nav = () => {
   const [viewProfileBtn, setViewProfileBtn] = useState(false);
   const [viewUserCredentials, setViewUserCredentials] = useState(false);
   const [viewAdminCredentials, setViewAdminCredentials] = useState(false);
+  const [viewForgotPassword, setViewForgotPassword] = useState(false)
+  const [searchAccinput, setSearchAccInput] = useState('')
 
   const addAGUserAPI = process.env.REACT_APP_AG_USER_REGISTER_API;
   const loginAGUserAPI = process.env.REACT_APP_AG_USER_LOGIN_API;
@@ -124,6 +127,7 @@ const Nav = () => {
 
 
   const handleViewRegistration = () => {
+    setViewForgotPassword(false)
     setViewRegForm(true);
     setViewLoginForm(false);
     setViewRegFormRes(false);
@@ -131,6 +135,7 @@ const Nav = () => {
     setMessageResponse('');
   }
   const handleViewLogin = () => {
+    setViewForgotPassword(false)
     setViewLoginForm(true);
     setViewRegForm(false);
     setViewRegFormRes(false);
@@ -144,10 +149,22 @@ const Nav = () => {
     }, 5000);
   }
   const handleCloseModal = () => {
+    setViewForgotPassword(false)
     setViewProfileBtn(false);
     setViewRegForm(false);
     setViewLoginForm(false);
     setMessageResponse('');
+  }
+  const handleForgotPassword = () => {
+    setViewForgotPassword(true)
+    setViewRegForm(false);
+    setViewLoginForm(false);
+    setViewRegFormRes(false);
+    setUserBlockedStatus(false);
+    setMessageResponse('');
+  }
+  const handleSearchAcc = (event) => {
+    setSearchAccInput(event.target.value)
   }
   
 
@@ -460,6 +477,23 @@ const Nav = () => {
     window.document.body.style.overflow = 'auto';
   }
 
+  const [fpResult,setFPresult] = useState()
+  const handleForgotSearch = async ()  => {
+    try {
+      const emailData = {
+        email: searchAccinput
+      }
+      axios.post("http://localhost:4242/forgot-acc-search", emailData).then((response => {
+        const code = response.data.codePass;
+        setFPresult(response.data.message)
+        localStorage.setItem('recoveryCode', code)
+        localStorage.setItem('changeEpass', searchAccinput)
+      }))
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   return (
     <nav>
@@ -556,9 +590,14 @@ const Nav = () => {
                       <h6>LOGIN</h6>
                     </button>
                   </div>
-                  <div className='errorMessage'>
-                    <p>{messageResponse}</p>
-                  </div><br />
+                  {messageResponse&&(
+                    <div className='errorMessage'>
+                      <p>{messageResponse}</p>
+                    </div>
+                  )}<br />
+                  <div className="forgotPassAcc">
+                    <a onClick={handleForgotPassword}>Forgot Password</a>
+                  </div>
                   <div className='registrationTCPP'>
                     <p>
                       Didn't have an Account? <a onClick={handleViewRegistration}>Register Here</a>
@@ -593,15 +632,39 @@ const Nav = () => {
           </div>
         </div>}
       </>:<></>}
+
+      {!viewUserCredentials ? <>
+      {viewForgotPassword &&(
+        <div className="navContainerModal">
+          <div className="navContentModal">
+          <button id='closeModalContent' onClick={handleCloseModal}><FaTimes className='faIcons'/></button>
+          <div className="navForgotpassword">
+            <h1>Find your account</h1>
+            <p>Enter your Email to search your account</p>
+            <input type="text" value={searchAccinput} onChange={handleSearchAcc} placeholder='Email'/>
+            <div className="searchFrPassAcc">
+              {fpResult&&(<p>{fpResult}</p>)}
+            </div>
+            <button onClick={handleForgotSearch}>Search</button> 
+            <br />
+            <div className="backToLogin">
+              <a onClick={handleViewLogin}>Back to Login</a>
+            </div>
+          </div>
+          </div>
+        </div>
+      )}
+      </>:<></>}
       
 
       <div className="mainNavContainer">
         <div className="navContainer website">
           <div className="navContent left">
-              <Link to='/' onClick={() => handleNavigation('home', '/')}>
-                  <img id='nclLogoWebsite' src={require('./assets/imgs/AGLogoWhite.png')} alt="" />
-                  <img id='nclLogoMobile' src={require('./assets/imgs/AGLogoNameWhite2.png')} alt="" />
-              </Link>
+            <Link to='/' onClick={() => handleNavigation('home', '/')}>
+                <img id='nclLogoWebsite' src={require('./assets/imgs/AGLogoWhite.png')} alt="" />
+                {/* <h5>ATTRACT GAME</h5> */}
+                <img id='nclLogoMobile' src={require('./assets/imgs/AGLogoNameWhite2.png')} alt="" />
+            </Link>
           </div>
           <div className="navContent center">
             {/* <Link to="/Highlights" onClick={() => handleNavigation('dashboard', '/Highlights')}><h6>HIGHLIGHTS</h6></Link> */}
