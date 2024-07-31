@@ -1530,7 +1530,7 @@ const Admin = () => {
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Number of Credits</p></label>
-                                                <input type="number" placeholder='ex. 100' required  value={agSetGameCreditNumber} onChange={(e) => setAGSetGameCreditNumber(e.target.value)}/>
+                                                <input type="number" placeholder='ex. 100'  value={agSetGameCreditNumber} onChange={(e) => setAGSetGameCreditNumber(e.target.value)}/>
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Type of Credit</p></label>
@@ -1538,7 +1538,7 @@ const Admin = () => {
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Supplier</p></label>
-                                                <select name="" id="" value={agSetGameCreditSupplier} onChange={(e) => setAGSetGameCreditSupplier(e.target.value)}>
+                                                <select name="" id="" value={agSetGameCreditSupplier} onChange={(e) => setAGSetGameCreditSupplier(e.target.value)} required>
                                                     <option value="">Select Supplier</option>
                                                     <option value="Roblox Developer">Roblox Developer</option>
                                                     {viewSupplierProfiles.slice(0,8).map((item, i) => (
@@ -1548,7 +1548,7 @@ const Admin = () => {
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Category</p></label>
-                                                <select name="" id="" value={agSetGameCreditCategory} onChange={(e) => setAGSetGameCreditCategory(e.target.value)}>
+                                                <select name="" id="" value={agSetGameCreditCategory} onChange={(e) => setAGSetGameCreditCategory(e.target.value)} required>
                                                     <option value="">Select Category</option>
                                                     <option value="Gaming">Gaming</option>
                                                     <option value="Utilities">Utilities</option>
