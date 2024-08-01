@@ -1469,6 +1469,7 @@ const Admin = () => {
                                                     <option value="Foods and Groceries">Foods and Groceries</option>
                                                     <option value="Online Payment">Online Payment</option>
                                                     <option value="Crypto">Crypto</option>
+                                                    <option value="Special">Special</option>
                                                 </select>
                                             </span>
                                             <span id='admpcm1agcvfDes'>
