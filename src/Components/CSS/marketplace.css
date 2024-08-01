@@ -788,7 +788,9 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     align-items: top;
     margin-top: 2%;
 }
-
+.mpPageContentMid7.mobile{
+    display: none;
+}
 
 
 
@@ -1003,6 +1005,12 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
         margin-bottom: 2%;
         border-radius: 1vw;
         border-radius: 3vw;
+    }
+    .mpPageContentMid7.website{
+        display: none;
+    }
+    .mpPageContentMid7.mobile{
+        display: flex;
     }
 }
 

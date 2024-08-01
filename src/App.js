@@ -34,6 +34,7 @@ import Game from './Components/Pages/Game';
 import Giftcards from './Components/Pages/Giftcards';
 import Giftcard from './Components/Pages/Giftcard';
 import Gamecredits from './Components/Pages/Gamecredits';
+import Gamecredit from './Components/Pages/Gamecredit';
 import Robux from './Components/Pages/Robux';
 
 import AboutUs from './Components/Pages/AboutUs';
@@ -132,6 +133,7 @@ function App() {
             <Route exact path="/Giftcards" element={<Giftcards/>}/>
             <Route exact path="/Giftcards/:giftcardCanonical" element={<Giftcard/>}/>
             <Route exact path="/GameCredits" element={<Gamecredits/>}/>
+            <Route exact path="/GameCredits/:gamecreditCanonical" element={<Gamecredit/>}/>
             <Route exact path="/GameCredits/Robux" element={<Robux/>}/>
             {/* <Route exact path="/Giftcard" element={<Giftcard/>}/> */}
             {(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined) &&
