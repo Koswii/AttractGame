@@ -156,6 +156,13 @@ const Marketplace = () => {
         setProductCarts 
     } = CartsFetchData();
 
+    const [viewRegularGiftcards, setViewRegularGiftcards] = useState([]);
+
+    useEffect(() => {
+        const regularGiftcards = filteredGiftcards.filter(giftcard => giftcard.giftcard_category !== "Special");
+        setViewRegularGiftcards(regularGiftcards);
+    }, [filteredGiftcards]);
+
 
 
     const AGAddToFavorites = process.env.REACT_APP_AG_ADD_USER_FAV_API;
@@ -348,7 +355,7 @@ const Marketplace = () => {
                             <h6>{viewAllGamesNum.length} <TbDeviceGamepad2 className='faIcons'/></h6>
                         </span>
                         <span>
-                            <h6>{filteredGiftcards.length} <TbGiftCard className='faIcons'/></h6>
+                            <h6>{viewRegularGiftcards.length} <TbGiftCard className='faIcons'/></h6>
                         </span>
                         <span>
                             <h6>{filteredGamecredits.length} <TbDiamond className='faIcons'/></h6>
@@ -606,7 +613,7 @@ const Marketplace = () => {
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
-                    </>:<>{filteredGiftcards.slice(0, 10).map((details, i) => (
+                    </>:<>{viewRegularGiftcards.slice(0, 10).map((details, i) => (
                             <Link className="mppContentMid6" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
                                 <ImageComponentGiftcards imageName={details.giftcard_cover} />
                             </Link>
@@ -619,7 +626,7 @@ const Marketplace = () => {
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
-                    </>:<>{filteredGiftcards.slice(0, 4).map((details, i) => (
+                    </>:<>{viewRegularGiftcards.slice(0, 4).map((details, i) => (
                             <Link className="mppContentMid6" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
                                 <ImageComponentGiftcards imageName={details.giftcard_cover} />
                             </Link>
