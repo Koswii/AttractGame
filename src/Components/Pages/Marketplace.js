@@ -41,6 +41,7 @@ import axios from 'axios';
 import { UserProfileData } from './UserProfileContext';
 import { GamesFetchData } from './GamesFetchContext';
 import { GiftcardsFetchData } from './GiftcardsFetchContext';
+import { GamecreditsFetchData } from './GamecreditFetchContext';
 import { FavoritesFetchData } from './FavoritesFetchContext';
 import { CartsFetchData } from './CartsFetchContext';
 
@@ -143,6 +144,7 @@ const Marketplace = () => {
         loadingMarketData2 
     } = GamesFetchData();
     const { filteredGiftcards } = GiftcardsFetchData();
+    const { filteredGamecredits } = GamecreditsFetchData();
     const { 
         fetchFavorites, 
         favorites, 
@@ -153,6 +155,13 @@ const Marketplace = () => {
         productCart, 
         setProductCarts 
     } = CartsFetchData();
+
+    const [viewRegularGiftcards, setViewRegularGiftcards] = useState([]);
+
+    useEffect(() => {
+        const regularGiftcards = filteredGiftcards.filter(giftcard => giftcard.giftcard_category !== "Special");
+        setViewRegularGiftcards(regularGiftcards);
+    }, [filteredGiftcards]);
 
 
 
@@ -235,6 +244,9 @@ const Marketplace = () => {
     }
     const handleClickGiftcards = () => {
         setActivePage('giftcards');
+    }
+    const handleClickGamecredits = () => {
+        setActivePage('gamecredits');
     }
     const handleAddFavorite = (details) => {
         const productFavGameCode = details.game_canonical;
@@ -339,80 +351,17 @@ const Marketplace = () => {
                         <input type="text" placeholder='Search Games / Vouchers / Giftcards / Crypto / Merchandise'/>
                     </div> */}
                     <div className="mppctn right">
-                        {/* <span>
-                            <h6>0 <TbShoppingCartPlus  className='faIcons'/></h6>
-                        </span> */}
                         <span>
                             <h6>{viewAllGamesNum.length} <TbDeviceGamepad2 className='faIcons'/></h6>
                         </span>
                         <span>
-                            <h6>{filteredGiftcards.length} <TbGiftCard className='faIcons'/></h6>
+                            <h6>{viewRegularGiftcards.length} <TbGiftCard className='faIcons'/></h6>
+                        </span>
+                        <span>
+                            <h6>{filteredGamecredits.length} <TbDiamond className='faIcons'/></h6>
                         </span>
                     </div>
                 </div>
-                {/* <h4 id='mppcth4Title'><FaStar className='faIcons'/> FEATURED GAMES</h4>
-                {!loadingMarketData ? <>
-                    <div className='mpPageContentTop'>
-                        <div className='mppContentTop'>
-                            <div className='mppctl left'>
-                                <div className="loader"></div>
-                            </div>
-                            <div className="mppctl right">
-                                <h4 id='mppctlLoadTitle'></h4>
-                                <h6><MdOutlineFiberNew className='faIcons'/>New Released</h6>
-                                <p id='mppctlLoadTitle'></p>
-                                <div>
-                                    <button id='viewGameDetails'>VIEW GAME</button>
-                                    <button id='addToFavorite'><TbHeart className='faIcons'/></button>
-                                    <button id='addToFavorite'><TbShoppingCartBolt className='faIcons'/></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='mppContentTop'>
-                            <div className='mppctl left'>
-                                <div className="loader"></div>
-                            </div>
-                            <div className="mppctl right">
-                                <h4 id='mppctlLoadTitle'></h4>
-                                <h6><MdOutlineFiberNew className='faIcons'/>New Released</h6>
-                                <p id='mppctlLoadTitle'></p>
-                                <div>
-                                    <button id='viewGameDetails'>VIEW GAME</button>
-                                    <button id='addToFavorite'><TbHeart className='faIcons'/></button>
-                                    <button id='addToFavorite'><TbShoppingCartBolt className='faIcons'/></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </>:<>
-                    <div className='mpPageContentTop'>
-                        {scrapedMetacriticData.slice(0, 2).map((details, i) => (
-                        <div className='mppContentTop' key={i}>
-                            <div className='mppctl left'>
-                                <div className='mppctlMetascore'>
-                                    <h4>{details.metascore ? details.metascore : 'tbd'}</h4>
-                                    <p>Metascore</p>
-                                </div>
-                                <>{details.agData1.game_cover !== '' ?
-                                <img src={`https://2wave.io/GameCovers/${details.agData1.game_cover}`} alt="" />
-                                :<img src={details.originalimage.source} alt="" />}</>
-                            </div>
-                            <div className="mppctl right">
-                                <h4>{details.agData1.game_title || details.title}</h4>
-                                <h6>{details.publisher || details.agData1.game_developer}</h6>
-                                <p>
-                                    {details.metadescription ? details.metadescription.slice(0, 300)+ '...' : <>No Metacritic and Wikipedia details yet. <br /><br /><br /><br /><br /></>} <br /><br />
-                                    Released Date: {formatDateToWordedDate(details.agData1.game_released)}
-                                </p>
-                                <div>
-                                    <Link id='viewGameDetails' to={`/Games/${details.agData1.game_canonical}`} key={i}>VIEW GAME</Link>
-                                    <button id='addToFavorite'><TbHeart className='faIcons'/></button>
-                                    <button id='addToFavorite'><TbShoppingCartBolt className='faIcons'/></button>
-                                </div>
-                            </div>
-                        </div>))}
-                    </div>
-                </>} */}
             </section>
             <section className="marketplacePageContainer mid">
                 <h4 id='mppcthTitlesfeatured'><TbDeviceGamepad2 className='faIcons'/> FEATURED GAMES</h4>
@@ -664,7 +613,7 @@ const Marketplace = () => {
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
-                    </>:<>{filteredGiftcards.slice(0, 10).map((details, i) => (
+                    </>:<>{viewRegularGiftcards.slice(0, 10).map((details, i) => (
                             <Link className="mppContentMid6" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
                                 <ImageComponentGiftcards imageName={details.giftcard_cover} />
                             </Link>
@@ -677,7 +626,7 @@ const Marketplace = () => {
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
                         <div className="mppContentMid6Dummy"></div>
-                    </>:<>{filteredGiftcards.slice(0, 4).map((details, i) => (
+                    </>:<>{viewRegularGiftcards.slice(0, 4).map((details, i) => (
                             <Link className="mppContentMid6" key={i} to={`/Giftcards/${details.giftcard_canonical}`} onClick={handleClickGiftcards}>
                                 <ImageComponentGiftcards imageName={details.giftcard_cover} />
                             </Link>
@@ -685,17 +634,51 @@ const Marketplace = () => {
                     </>}
                 </div>
                 <div className="mpPageContentM2ShowMore">
-                    <Link to='/Giftcards' onClick={handleClickGiftcards}><TbSquareRoundedArrowRight className='faIcons'/> View More Giftcards</Link>
+                    <Link to='/Giftcards' onClick={handleClickGiftcards}><TbSquareRoundedArrowRight className='faIcons'/> View All Giftcards</Link>
                 </div>
                 <h4 id='mppcmhTitles'><TbDiamond className='faIcons'/> AVAILABLE GAME CREDITS</h4>
-                <div className="mpPageContentMid7">
-                    <>
-                        {viewAllGameCredits.slice(0, 1).map((details, i) => (
-                            <Link className="mppContentMid6" key={i} to={`/GameCredits/Robux`} onClick={handleClickGiftcards}>
+                <div className="mpPageContentMid7 website">
+                    {loadingMarketData2 ? <>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                    </>:<>
+                        {filteredGamecredits.slice(0, 10).map((details, i) => (
+                            <Link className="mppContentMid6" key={i} to={`/GameCredits/${details.gamecredit_canonical}`} onClick={handleClickGiftcards}>
                                 <img src={`https://2wave.io/GameCreditCovers/${details.gamecredit_cover}`} alt="" />
                             </Link>
                         ))}
-                    </>
+                    </>}
+                </div>
+                <div className="mpPageContentMid7 mobile">
+                    {loadingMarketData2 ? <>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                        <div className="mppContentMid6Dummy"></div>
+                    </>:<>
+                        {filteredGamecredits.slice(0, 4).map((details, i) => (
+                            <Link className="mppContentMid6" key={i} to={`/GameCredits/${details.gamecredit_canonical}`} onClick={handleClickGiftcards}>
+                                <img src={`https://2wave.io/GameCreditCovers/${details.gamecredit_cover}`} alt="" />
+                            </Link>
+                        ))}
+                    </>}
+                </div>
+                <div className="mpPageContentM2ShowMore">
+                    <Link to='/GameCredits' onClick={handleClickGamecredits}><TbSquareRoundedArrowRight className='faIcons'/> View All Game Credits</Link>
                 </div>
             </section>
         </div>

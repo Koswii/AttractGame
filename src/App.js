@@ -27,13 +27,14 @@ import Cart from './Components/Pages/Cart';
 
 import Loader from './Components/Pages/Loader';
 import Home from './Components/Pages/Home'
-import Highlights from './Components/Pages/Highlights';
+// import Highlights from './Components/Pages/Highlights';
 import Marketplace from './Components/Pages/Marketplace';
 import Games from './Components/Pages/Games';
 import Game from './Components/Pages/Game';
 import Giftcards from './Components/Pages/Giftcards';
 import Giftcard from './Components/Pages/Giftcard';
-
+import Gamecredits from './Components/Pages/Gamecredits';
+import Gamecredit from './Components/Pages/Gamecredit';
 import Robux from './Components/Pages/Robux';
 
 import AboutUs from './Components/Pages/AboutUs';
@@ -123,14 +124,16 @@ function App() {
           <CookieBanner />
           <Routes>
             <Route exact path="/" element={<Home/>}/>
+            {/* <Route exact path="/Highlights" element={<Highlights/>}/> */}
             <Route exact path="/forgot-password/:code" element={<ForgotPass />} />
-            <Route exact path="/Highlights" element={<Highlights/>}/>
             <Route exact path="/Marketplace" element={<Marketplace/>}/>
             <Route exact path="/Games" element={<Games/>}/>
             <Route exact path="/News" element={<News/>}/>
             <Route exact path="/Games/:gameCanonical" element={<Game/>}/>
             <Route exact path="/Giftcards" element={<Giftcards/>}/>
             <Route exact path="/Giftcards/:giftcardCanonical" element={<Giftcard/>}/>
+            <Route exact path="/GameCredits" element={<Gamecredits/>}/>
+            <Route exact path="/GameCredits/:gamecreditCanonical" element={<Gamecredit/>}/>
             <Route exact path="/GameCredits/Robux" element={<Robux/>}/>
             {/* <Route exact path="/Giftcard" element={<Giftcard/>}/> */}
             {(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined) &&

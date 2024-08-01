@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import "../CSS/giftcard.css";
+import "../CSS/gamecredit.css";
 import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { useActivePage } from './ActivePageContext';
@@ -20,32 +20,32 @@ import {
     TbSquareRoundedArrowRight,      
 } from "react-icons/tb";
 import { UserProfileData } from './UserProfileContext';
-import { GiftcardsFetchData } from './GiftcardsFetchContext';
+import { GamecreditsFetchData } from './GamecreditFetchContext';
 import { CartsFetchData } from './CartsFetchContext';
 
-const ImageComponentGiftcards = ({ imageName }) => {
-    const { fetchAndCacheImageGiftcards, imageCache } = GiftcardsFetchData();
+const ImageComponentGamecredits = ({ imageName }) => {
+    const { fetchAndCacheImageGamecredits, imageCache } = GamecreditsFetchData();
     const [loading, setLoading] = useState(true);
-    const baseUrl = 'https://2wave.io/GiftCardCovers/';
+    const baseUrl = 'https://2wave.io/GameCreditCovers/';
     const url = `${baseUrl}${imageName}`;
-
+  
     useEffect(() => {
-        fetchAndCacheImageGiftcards(imageName);
+        fetchAndCacheImageGamecredits(imageName);
     }, [imageName]);
-
+  
     useEffect(() => {
         if (imageCache[url]) {
             setLoading(false);
         }
     }, [imageCache, url]);
-
+  
     return (
         <img src={imageCache[url]} alt="Loading..." />
     );
 };
 
-const Giftcard = () => {
-    const { giftcardCanonical } = useParams();
+const Gamecredit = () => {
+    const { gamecreditCanonical } = useParams();
     const { setActivePage } = useActivePage();
     const { 
         userLoggedData,
@@ -58,54 +58,53 @@ const Giftcard = () => {
     } = CartsFetchData();
     const { 
         filterUniqueData,
-        setFilteredGiftcards,
-        viewAllGiftcards,
-        giftcards,
-        filteredGiftcards,
+        setFilteredGamecredits,
+        viewAllGamecredits,
+        gamecredits,
+        filteredGamecredits,
         loading 
-    } = GiftcardsFetchData();
+    } = GamecreditsFetchData();
     const AGAddToCartsAPI = process.env.REACT_APP_AG_ADD_USER_CART_API;
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const LoginUserID = localStorage.getItem('profileUserID');
     const [productCartAdded, setProductCartAdded] = useState('');
-    const [getRandomGiftcards, setGetRandomGiftcards] = useState([]);
+    const [getRandomGamecredits, setGetRandomGamecredits] = useState([]);
 
     const getRandomItems = (array, numItems) => {
         const shuffled = array.sort(() => 0.5 - Math.random());
         return shuffled.slice(0, numItems);
     };
-    const giftcardDetails = filteredGiftcards.filter(giftcard => giftcard.giftcard_canonical === giftcardCanonical);
-    const agGiftcardData = giftcards.filter(giftcard => giftcard.giftcard_canonical === giftcardCanonical);
-    const agGCCoverImg = giftcardDetails.map(giftcard => giftcard.giftcard_cover);
-    const agGCName = giftcardDetails.map(giftcard => giftcard.giftcard_name);
-    const agGCCategory = giftcardDetails.map(giftcard => giftcard.giftcard_category);
-    const agGCDescription = giftcardDetails.map(giftcard => giftcard.giftcard_description);
-    const agGiftcardSort = agGiftcardData.sort((a,b) => (a.giftcard_denomination) - (b.giftcard_denomination));
+    const gamecreditDetails = filteredGamecredits.filter(gamecredit => gamecredit.gamecredit_canonical === gamecreditCanonical);
+    const agGamecreditData = gamecredits.filter(gamecredit => gamecredit.gamecredit_canonical === gamecreditCanonical);
+    const agGCCoverImg = gamecreditDetails.map(gamecredit => gamecredit.gamecredit_cover);
+    const agGCName = gamecreditDetails.map(gamecredit => gamecredit.gamecredit_name);
+    const agGCCategory = gamecreditDetails.map(gamecredit => gamecredit.gamecredit_category);
+    const agGCDescription = gamecreditDetails.map(gamecredit => gamecredit.gamecredit_description);
+    const agGamecreditSort = agGamecreditData.sort((a,b) => (a.gamecredit_denomination) - (b.gamecredit_denomination));
 
     useEffect(() => {
         fetchUserCart();
-        const suggestedGiftcards = filteredGiftcards.filter(giftcard => giftcard.giftcard_category !== "Special");
-        const randomItemsGiftcards = getRandomItems(suggestedGiftcards, 10);
-        setGetRandomGiftcards(randomItemsGiftcards)
-    }, [filteredGiftcards]);
+        const randomItemsGamecredits = getRandomItems(filteredGamecredits, 10);
+        setGetRandomGamecredits(randomItemsGamecredits)
+    }, [filteredGamecredits]);
 
-    const handleClickGiftcard = () => {
-        setActivePage('giftcards');
+    const handleClickGamecredit = () => {
+        setActivePage('gamecredits');
     }
     const handleAddToCart = (details) => {
-        const productCartGiftcardCode = details.giftcard_id;
-        const productCartGiftcardDenomination = details.giftcard_denomination;
-        const productCartGiftcardName = details.giftcard_name;
-        setProductCartAdded(productCartGiftcardDenomination)
+        const productCartGamecreditCode = details.gamecredit_id;
+        const productCartGamecreditDenomination = details.gamecredit_denomination;
+        const productCartGamecreditName = details.gamecredit_name;
+        setProductCartAdded(productCartGamecreditDenomination)
     
         const formAddCart = {
           agCartUsername: userLoggedData.username,
           agCartUserID: userLoggedData.userid,
-          agCartProductCode: productCartGiftcardCode,
-          agCartProductName: productCartGiftcardName,
+          agCartProductCode: productCartGamecreditCode,
+          agCartProductName: productCartGamecreditName,
           agCartProductPrice: '',
           agCartProductDiscount: '',
-          agCartProductType: 'Giftcard',
+          agCartProductType: 'Game Credit',
           agCartProductState: 'Pending',
         }
     
@@ -124,34 +123,35 @@ const Giftcard = () => {
         });
     };
 
-    
-
     return (
-        <div className='mainContainer giftcardProfile'>
-            <section className="giftcardPageContainer top"></section>
-            <section className="giftcardPageContainer mid">
-                {!loading ? <div className="gcardspcmContainer">
-                    <div className="gcardspcmContent left">
-                        <img src={`https://2wave.io/GiftCardCovers/${agGCCoverImg}`} alt="" />
+        <div className='mainContainer gamecreditProfile'>
+            <section className="gamecreditPageContainer top"></section>
+            <section className="gamecreditPageContainer mid">
+                {!loading ? <div className="gcreditspcmContainer">
+                    <div className="gcreditspcmContent left">
+                        <img src={`https://2wave.io/GameCreditCovers/${agGCCoverImg}`} alt="" />
                     </div>
-                    <div className="gcardspcmContent right">
+                    <div className="gcreditspcmContent right">
                         <h3>{agGCName}</h3>
                         <h6>{agGCCategory}</h6>
                         <p id='gcspcmcDef'>{agGCDescription}</p>
-                        <div className="gcardspcmcrItems">
-                            <div className="gcardspcmcr">
-                                {agGiftcardSort.map((details, i) => (
-                                    <div key={i} className={`${(details.stocks === 0) ? 'noStocks' : ''}`}>
-                                        <ImageComponentGiftcards imageName={details.giftcard_cover} />
+                        <div className="gcreditspcmcrItems">
+                            <div className="gcreditspcmcr">
+                                {agGamecreditSort.map((details, i) => (
+                                    <div key={i} className={`${(details.stocks === 0) ? 'gcreditspcmcrContents noStocks' : 'gcreditspcmcrContents'}`}>
+                                        <div className="gcreditspcmcrcNum">
+                                            <p>{details.gamecredit_number} {details.gamecredit_type}</p>
+                                        </div>
+                                        <ImageComponentGamecredits imageName={details.gamecredit_cover} />
                                         <span>
-                                            <h5>$ {details.giftcard_denomination}</h5>
+                                            <h5>$ {details.gamecredit_denomination}</h5>
                                             {userLoggedIn ? <> 
-                                                {productCart.some(cartItem => cartItem.ag_product_id === details.giftcard_id) ?
+                                                {productCart.some(cartItem => cartItem.ag_product_id === details.gamecredit_id) ?
                                                     <button><TbShoppingCartFilled className='faIcons'/></button>:
                                                     <button onClick={() => handleAddToCart(details)} disabled={(details.stocks === 0) ? true : false}>
                                                         {(details.stocks === 0 || undefined) ? <TbShoppingCartOff className='faIcons'/> : 
                                                         <>
-                                                            {(productCartAdded === details.giftcard_denomination) ? 
+                                                            {(productCartAdded === details.gamecredit_denomination) ? 
                                                                 <TbShoppingCartFilled className='faIcons'/>:
                                                                 <TbShoppingCartPlus className='faIcons'/>
                                                             }
@@ -170,7 +170,7 @@ const Giftcard = () => {
                         </div>
                     </div>
                 </div>:
-                <div className="gcardspcmContainerDummy">
+                <div className="gcreditspcmContainerDummy">
                     <div className="gcspcmclDummy left"></div>
                     <div className="gcspcmclDummy right">
                         <h3></h3>
@@ -182,20 +182,20 @@ const Giftcard = () => {
                 </div>
                 }
             </section>
-            <section className="giftcardPageContainer bot">
-                {getRandomGiftcards && <div className="gcardspcbContainer">
-                    <h4>GIFTCARDS YOU MIGHT LIKE</h4>
-                    <div className="gcardspcbContent website">
-                        {getRandomGiftcards.slice(0, 10).map((details, i) => (
-                            <Link className="gcspcbcOtherGiftcard" to={`/Giftcards/${details.giftcard_canonical}`} key={i} onClick={handleClickGiftcard}>
-                                <ImageComponentGiftcards imageName={details.giftcard_cover} />
+            <section className="gamecreditPageContainer bot">
+                {getRandomGamecredits && <div className="gcreditspcbContainer">
+                    <h4>GAME CREDITS YOU MIGHT LIKE</h4>
+                    <div className="gcreditspcbContent website">
+                        {getRandomGamecredits.slice(0, 10).map((details, i) => (
+                            <Link className="gcspcbcOtherGamecredit" to={`/Gamecredits/${details.gamecredit_canonical}`} key={i} onClick={handleClickGamecredit}>
+                                <ImageComponentGamecredits imageName={details.gamecredit_cover} />
                             </Link>
                         ))}
                     </div>
-                    <div className="gcardspcbContent mobile">
-                        {getRandomGiftcards.slice(0, 6).map((details, i) => (
-                            <Link className="gcspcbcOtherGiftcard" to={`/Giftcards/${details.giftcard_canonical}`} key={i} onClick={handleClickGiftcard}>
-                                <ImageComponentGiftcards imageName={details.giftcard_cover} />
+                    <div className="gcreditspcbContent mobile">
+                        {getRandomGamecredits.slice(0, 6).map((details, i) => (
+                            <Link className="gcspcbcOtherGamecredit" to={`/Gamecredits/${details.gamecredit_canonical}`} key={i} onClick={handleClickGamecredit}>
+                                <ImageComponentGamecredits imageName={details.gamecredit_cover} />
                             </Link>
                         ))}
                     </div>
@@ -205,4 +205,4 @@ const Giftcard = () => {
     )
 }
 
-export default Giftcard
+export default Gamecredit

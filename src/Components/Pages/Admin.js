@@ -276,8 +276,8 @@ const Admin = () => {
     const agSetGameCreditCode2 = agSetGameCreditDenomination.replace(/\s/g, '');
     const agSetGameCreditCode3 = agSetGameCreditTitle.replace(/[(){}\-.,]/g, '');
     const agSetGameCreditCode4 = agSetGameCreditCode3.replace(/\s/g, '');
-    const agSetGameCreditCanonical = agSetGameCreditCode3.replace(/ /g, '_');
-    const agFullSetGameCreditCode = `AG_${agSetGameCreditCode4}_${agSetGameCreditCode2}`;
+    const agSetGameCreditCanonical = `${agSetGameCreditCode3.replace(/ /g, '_') + '_Game_Credit'}`;
+    const agFullSetGameCreditCode = `AG_${agSetGameCreditCode4}GameCredit_${agSetGameCreditCode2}`;
 
 
     const [image, setImage] = useState(null);
@@ -1142,14 +1142,14 @@ const Admin = () => {
                                     <h4>$ {viewOverallSales}</h4>
                                     <p>TOTAL SALES</p>
                                     <span>
-                                        <h6><RiArrowUpSFill className='faIcons'/> 100%</h6>
+                                        <h6><RiArrowUpSFill className='faIcons'/> NA</h6>
                                     </span>
                                 </div>
                                 <div>
                                     <h4>$ {viewOverallProfit}</h4>
                                     <p>TOTAL PROFIT</p>
                                     <span>
-                                        <h6><RiArrowUpSFill className='faIcons'/> 100%</h6>
+                                        <h6><RiArrowUpSFill className='faIcons'/> NA</h6>
                                     </span>
                                 </div>
                             </div>
@@ -1469,6 +1469,7 @@ const Admin = () => {
                                                     <option value="Foods and Groceries">Foods and Groceries</option>
                                                     <option value="Online Payment">Online Payment</option>
                                                     <option value="Crypto">Crypto</option>
+                                                    <option value="Special">Special</option>
                                                 </select>
                                             </span>
                                             <span id='admpcm1agcvfDes'>
@@ -1530,7 +1531,7 @@ const Admin = () => {
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Number of Credits</p></label>
-                                                <input type="number" placeholder='ex. 100' required  value={agSetGameCreditNumber} onChange={(e) => setAGSetGameCreditNumber(e.target.value)}/>
+                                                <input type="number" placeholder='ex. 100'  value={agSetGameCreditNumber} onChange={(e) => setAGSetGameCreditNumber(e.target.value)}/>
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Type of Credit</p></label>
@@ -1538,7 +1539,7 @@ const Admin = () => {
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Supplier</p></label>
-                                                <select name="" id="" value={agSetGameCreditSupplier} onChange={(e) => setAGSetGameCreditSupplier(e.target.value)}>
+                                                <select name="" id="" value={agSetGameCreditSupplier} onChange={(e) => setAGSetGameCreditSupplier(e.target.value)} required>
                                                     <option value="">Select Supplier</option>
                                                     <option value="Roblox Developer">Roblox Developer</option>
                                                     {viewSupplierProfiles.slice(0,8).map((item, i) => (
@@ -1548,7 +1549,7 @@ const Admin = () => {
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Category</p></label>
-                                                <select name="" id="" value={agSetGameCreditCategory} onChange={(e) => setAGSetGameCreditCategory(e.target.value)}>
+                                                <select name="" id="" value={agSetGameCreditCategory} onChange={(e) => setAGSetGameCreditCategory(e.target.value)} required>
                                                     <option value="">Select Category</option>
                                                     <option value="Gaming">Gaming</option>
                                                     <option value="Utilities">Utilities</option>

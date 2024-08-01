@@ -24,7 +24,7 @@ h6{
 }
 
 
-.mainContainer.giftcardProfile{
+.mainContainer.gamecreditProfile{
     height: auto;
     width: 100%;
     background: black;
@@ -34,7 +34,7 @@ h6{
 
 
 
-section.giftcardPageContainer.top{
+section.gamecreditPageContainer.top{
     height: auto;
     width: 100%;
     padding: 0 10%;
@@ -44,7 +44,7 @@ section.giftcardPageContainer.top{
     align-items: center;
 }
 
-section.giftcardPageContainer.mid{
+section.gamecreditPageContainer.mid{
     height: auto;
     width: 100%;
     padding: 2vw 10%;
@@ -52,14 +52,14 @@ section.giftcardPageContainer.mid{
     justify-content: center;
     align-items: center;
 }
-.gcardspcmContainer{
+.gcreditspcmContainer{
     height: auto;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: start;
 }
-.gcardspcmContent.left{
+.gcreditspcmContent.left{
     height: auto;
     width: 30%;
     display: flex;
@@ -69,29 +69,25 @@ section.giftcardPageContainer.mid{
     overflow: hidden;
     box-shadow: 0 0 10px gray;
 }
-.gcardspcmContent.left img{
+.gcreditspcmContent.left img{
     height: auto;
     width: 100%;
 }
 
 
-.gcardspcmContent.right{
+.gcreditspcmContent.right{
     height: auto;
     width: 65%;
 }
-.gcardspcmContent.right h3{
-    font-size: 3vw;
-    height: 4vw;
-}
-.gcardspcmContent.right p{
+.gcreditspcmContent.right p{
     margin: 2% 0;
     white-space: pre-line;
 }
-.gcardspcmcrItems{
+.gcreditspcmcrItems{
     height: auto;
     width: 100%;
 }
-.gcardspcmcr{
+.gcreditspcmcr{
     height: auto;
     width: 100%;
     display: flex;
@@ -100,7 +96,7 @@ section.giftcardPageContainer.mid{
     padding: 2% 1%;
     overflow-x: scroll;
 }
-.gcardspcmcr div{
+.gcreditspcmcrContents{
     height: auto;
     margin-right: 2%;
     padding: 1%;
@@ -108,13 +104,14 @@ section.giftcardPageContainer.mid{
     border-radius: 1vw;
     background: url('../assets/imgs/13551.png') no-repeat center;
     background-size: cover;
+    position: relative;
 }
-.gcardspcmcr div img{
+.gcreditspcmcrContents img{
     height: 13.5vw;
     border-radius: 1vw;
     border: solid 1px white;
 }
-.gcardspcmcr div span{
+.gcreditspcmcrContents span{
     height: auto;
     width: 100%;
     display: flex;
@@ -123,7 +120,7 @@ section.giftcardPageContainer.mid{
     padding: 3% 5%;
     border-radius: 1vw;
 }
-.gcardspcmcr div span button{
+.gcreditspcmcrContents span button{
     background: none;
     font-size: 1.5vw;
     border: none;
@@ -134,21 +131,40 @@ section.giftcardPageContainer.mid{
     justify-content: center;
     align-items: center;
 }
-.gcardspcmcr div p{
+.gcreditspcmcrContents p{
     text-align: right;
     color: gray;
     font-size: 0.7vw;
 }
 
-.gcardspcmcr div.noStocks{
+.noStocks{
     opacity: 50%;
 }
-.gcardspcmcr div.noStocks span button{
+.noStocks span button{
     cursor: not-allowed;
+}
+.gcreditspcmcrcNum{
+    padding: 5% 10%;
+    position: absolute;
+    top: 1vw;
+    left: 0;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    text-align: left;
+}
+.gcreditspcmcrcNum p{
+    color: black;
+    font-size: 1vw;
 }
 
 
-.gcardspcmContainerDummy{
+
+
+.gcreditspcmContainerDummy{
     height: 33vw;
     width: 100%;
     display: flex;
@@ -213,7 +229,7 @@ section.giftcardPageContainer.mid{
 
 
 
-section.giftcardPageContainer.bot{
+section.gamecreditPageContainer.bot{
     height: auto;
     width: 100%;
     padding: 5vw 10%;
@@ -221,11 +237,11 @@ section.giftcardPageContainer.bot{
     justify-content: center;
     align-items: center;
 }
-.gcardspcbContainer{
+.gcreditspcbContainer{
     height: 100%;
     width: 100%;
 }
-.gcardspcbContent{
+.gcreditspcbContent{
     height: auto;
     width: 100%;
     display: flex;
@@ -234,10 +250,10 @@ section.giftcardPageContainer.bot{
     align-items: center;
     margin-top: 2%;
 }
-.gcardspcbContent.mobile{
+.gcreditspcbContent.mobile{
     display: none;
 }
-.gcspcbcOtherGiftcard{
+.gcspcbcOtherGamecredit{
     height: auto;
     width: 19%;
     margin-bottom: 1.5%;
@@ -249,7 +265,7 @@ section.giftcardPageContainer.bot{
     position: relative;
     overflow: hidden;
 }
-.gcspcbcOtherGiftcard img{
+.gcspcbcOtherGamecredit img{
     height: auto;
     width: 100%;
 }
@@ -267,28 +283,28 @@ section.giftcardPageContainer.bot{
 
 
 @media screen and (max-width: 500px){
-    section.giftcardPageContainer.top{
+    section.gamecreditPageContainer.top{
         padding: 0 5%;
         padding-top: 15vh;
     }
-    section.giftcardPageContainer.mid{
+    section.gamecreditPageContainer.mid{
         width: 100%;
         padding: 0 5%;
     }
-    .gcardspcmContainer{
+    .gcreditspcmContainer{
         display: block;
     }
-    .gcardspcmContent.left{
+    .gcreditspcmContent.left{
         width: 100%;
         display: flex;
         border-radius: 3vw;
     }
-    .gcardspcmContent.right{
+    .gcreditspcmContent.right{
         height: auto;
         width: 100%;
         padding-top: 5%;
     }
-    .gcardspcmContent.right h3{
+    .gcreditspcmContent.right h3{
         font-size: 7vw;
         height: 15vw;
         line-height: 5vw;
@@ -297,20 +313,20 @@ section.giftcardPageContainer.bot{
         justify-content: center;
         text-align: center;
     }
-    .gcardspcmContent.right h6{
+    .gcreditspcmContent.right h6{
         text-align: center;
         font-size: 4vw;
     }
-    .gcardspcmContent.right p#gcspcmcDef{
+    .gcreditspcmContent.right p#gcspcmcDef{
         font-size: 2.3vw;
         margin-top: 2%;
         margin-bottom: 10%;
     }
-    .gcardspcmcr{
+    .gcreditspcmcr{
         flex-wrap: wrap;
         justify-content: space-between;
     }
-    .gcardspcmcr div{
+    .gcreditspcmcrContents{
         height: auto;
         width: 48%;
         margin: 0;
@@ -318,27 +334,34 @@ section.giftcardPageContainer.bot{
         padding: 2%;
         border-radius: 3vw;
     }
-    .gcardspcmcr div img{
+    .gcreditspcmcrContents img{
         height: auto;
         width: 100%;
         border-radius: 2vw;
     }
-    .gcardspcmcr div span{
+    .gcreditspcmcrContents span{
         padding: 5%;
         border-radius: 2vw;
     }
-    .gcardspcmcr div span h5{
+    .gcreditspcmcrContents span h5{
         font-size: 5vw;
     }
-    .gcardspcmcr div p{
+    .gcreditspcmcrContents p{
         font-size: 3vw;
         padding: 0 5%;
         margin-bottom: 0;
     }
-    .gcardspcmcr div span button{
+    .gcreditspcmcrContents span button{
         font-size: 8vw;
     }
-    .gcardspcmContainerDummy{
+    .gcreditspcmcrcNum{
+        top: 5vw;
+    }
+    .gcreditspcmcrcNum p{
+        padding: 0;
+        margin: 0;
+    }
+    .gcreditspcmContainerDummy{
         height: auto;
         width: 100%;
         display: block;
@@ -372,20 +395,20 @@ section.giftcardPageContainer.bot{
 
 
 
-    section.giftcardPageContainer.bot{
+    section.gamecreditPageContainer.bot{
         padding: 5%;
         padding-bottom: 10vw;
     }
-    .gcardspcbContainer h4{
+    .gcreditspcbContainer h4{
         font-size: 5vw;
     }
-    .gcardspcbContent.website{
+    .gcreditspcbContent.website{
         display: none;
     }
-    .gcardspcbContent.mobile{
+    .gcreditspcbContent.mobile{
         display: flex;
     }
-    .gcspcbcOtherGiftcard{
+    .gcspcbcOtherGamecredit{
         display: flex;
         justify-content: space-between;
         width: 48%;
