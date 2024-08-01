@@ -81,6 +81,7 @@ section.giftcardPageContainer.mid{
 }
 .gcardspcmContent.right p{
     margin: 2% 0;
+    white-space: pre-line;
 }
 .gcardspcmcrItems{
     height: auto;

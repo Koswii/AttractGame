@@ -35,11 +35,10 @@ const Giftcards = () => {
         loading 
     } = GiftcardsFetchData();
     const [searchTerm, setSearchTerm] = useState("");
-
     useEffect(() => {
         const results = giftcards.filter(giftcard =>
             giftcard.giftcard_name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+        ).filter(giftcard => giftcard.giftcard_category !== "Special");
         setFilteredGiftcards(filterUniqueData(results));
     }, [searchTerm, filterUniqueData, giftcards]);
 

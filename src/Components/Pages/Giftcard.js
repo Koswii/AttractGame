@@ -84,11 +84,10 @@ const Giftcard = () => {
 
     useEffect(() => {
         fetchUserCart();
-        const randomItemsGiftcards = getRandomItems(filteredGiftcards, 10);
+        const suggestedGiftcards = filteredGiftcards.filter(giftcard => giftcard.giftcard_category !== "Special");
+        const randomItemsGiftcards = getRandomItems(suggestedGiftcards, 10);
         setGetRandomGiftcards(randomItemsGiftcards)
-    }, []);
-    
-    // console.log(getRandomGiftcards);
+    }, [filteredGiftcards]);
 
     const handleClickGiftcard = () => {
         setActivePage('giftcards');
@@ -183,7 +182,7 @@ const Giftcard = () => {
                 }
             </section>
             <section className="giftcardPageContainer bot">
-                <div className="gcardspcbContainer">
+                {getRandomGiftcards && <div className="gcardspcbContainer">
                     <h4>GIFTCARDS YOU MIGHT LIKE</h4>
                     <div className="gcardspcbContent website">
                         {getRandomGiftcards.slice(0, 10).map((details, i) => (
@@ -199,7 +198,7 @@ const Giftcard = () => {
                             </Link>
                         ))}
                     </div>
-                </div>
+                </div>}
             </section>
         </div>
     )
