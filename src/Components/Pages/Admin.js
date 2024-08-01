@@ -276,8 +276,8 @@ const Admin = () => {
     const agSetGameCreditCode2 = agSetGameCreditDenomination.replace(/\s/g, '');
     const agSetGameCreditCode3 = agSetGameCreditTitle.replace(/[(){}\-.,]/g, '');
     const agSetGameCreditCode4 = agSetGameCreditCode3.replace(/\s/g, '');
-    const agSetGameCreditCanonical = agSetGameCreditCode3.replace(/ /g, '_');
-    const agFullSetGameCreditCode = `AG_${agSetGameCreditCode4}_${agSetGameCreditCode2}`;
+    const agSetGameCreditCanonical = `${agSetGameCreditCode3.replace(/ /g, '_') + '_Game_Credit'}`;
+    const agFullSetGameCreditCode = `AG_${agSetGameCreditCode4}GameCredit_${agSetGameCreditCode2}`;
 
 
     const [image, setImage] = useState(null);

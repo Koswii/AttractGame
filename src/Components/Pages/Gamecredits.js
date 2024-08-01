@@ -83,8 +83,7 @@ const Gamecredits = () => {
                 <div className="gcspContentMid1Dummy"></div>
                 <div className="gcspContentMid1Dummy"></div>
             </>:<>{filteredGamecredits.map((details, i) => (
-                // <Link className="gcspContentMid1" key={i} to={`/GameCredits/${details.gamecredit_canonical}`}>
-                <Link className="gcspContentMid1" key={i}>
+                <Link className="gcspContentMid1" key={i} to={`/GameCredits/${details.gamecredit_canonical}`}>
                   <div className="gcspcmid1 left">
                     <ImageComponentGamecredits imageName={details.gamecredit_cover} />
                   </div>
