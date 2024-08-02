@@ -6,7 +6,9 @@ import {
     FaSortAlphaDown,
     FaSortAlphaUp,
     FaCheck,
-    FaSearch
+    FaSearch,
+    FaFilter,
+    FaExternalLinkAlt  
 } from 'react-icons/fa';
 import { FiEdit } from "react-icons/fi";
 import { 
@@ -20,6 +22,9 @@ import { IoMdAddCircle, IoMdCheckmarkCircle } from "react-icons/io";
 import axios from 'axios';
 import {getGameReviews} from 'unofficial-metacritic';
 import { Link } from 'react-router-dom';
+import { GamesFetchData } from './GamesFetchContext';
+import { GiftcardsFetchData } from './GiftcardsFetchContext';
+import { GamecreditsFetchData } from './GamecreditFetchContext';
 
 
 const formatDateToWordedDate = (numberedDate) => {
@@ -34,6 +39,11 @@ const formatDateToWordedDate = (numberedDate) => {
 
 
 const Admin = () => {
+    const { 
+        viewAGData1
+    } = GamesFetchData();
+    const { giftcards } = GiftcardsFetchData();
+    const { gamecredits } = GamecreditsFetchData();
     const AGUserProfileListAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const AGAddSupplieAPI = process.env.REACT_APP_AG_ADD_SUPPLIER_API;
     const AGSupplierListAPI = process.env.REACT_APP_AG_SUPPLIER_LIST_API;
@@ -52,6 +62,32 @@ const Admin = () => {
     const AGRetriveNewsAPI = process.env.REACT_APP_AG_FETCH_NEWS_API;
     const AGDeleteNewsAPI = process.env.REACT_APP_AG_DELETE_NEWS_API;
     const AGUsersTransactions = process.env.REACT_APP_AG_USERS_TRANSACTIONS_API;
+
+    const [viewGameTotalStocks, setViewGameTotalStocks] = useState(0);
+    const [viewGiftcardTotalStocks, setViewGiftcardTotalStocks] = useState(0);
+    const [viewGamecreditTotalStocks, setViewGamecreditTotalStocks] = useState(0);
+    const [viewOverAllStocks, setViewOverAllStocks] = useState(0)
+
+    const sumArray = (arr) => {
+        return arr.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    };
+
+
+    const viewGameNumStocks = viewAGData1.map(stocks => stocks.stockCount);
+    const viewGiftcardNumStocks = giftcards.map(stocks => stocks.stocks);
+    const viewGamecreditNumStocks = gamecredits.map(stocks => stocks.stocks);
+
+    useEffect(() => {
+        setViewGameTotalStocks(sumArray(viewGameNumStocks));
+        setViewGiftcardTotalStocks(sumArray(viewGiftcardNumStocks));
+        setViewGamecreditTotalStocks(sumArray(viewGamecreditNumStocks));
+
+        const viewTotal = [ viewGameTotalStocks, viewGiftcardTotalStocks, viewGamecreditTotalStocks ]
+        setViewOverAllStocks(sumArray(viewTotal));
+
+
+    }, [ viewGameNumStocks, viewGameTotalStocks, viewGiftcardTotalStocks, viewGamecreditTotalStocks ]);
+
 
 
 
@@ -490,10 +526,11 @@ const Admin = () => {
     const [clickCount,setClickcount] = useState(0)
 
     
-    const [sortName, setsortName] = useState('all products');
+    const [sortName, setsortName] = useState('All Products');
     const [filterName,setFiltername] = useState('')
     const [order, setOrder] = useState(false);
     const [orderSelect,setOrderselect] = useState(false)
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
 
     const handleChangePrice = (event) => {
@@ -525,11 +562,16 @@ const Admin = () => {
     const handleInputChange = (id, field, value) => {
         setInputs(inputs.map(input => input.id === id ? { ...input, [field]: value } : input));
     };
+    useEffect(() => {
+        // Check if any input is empty
+        const allInputsFilled = inputs.every(input => input.value.trim() !== '');
+        setIsButtonDisabled(!allInputsFilled);
+    }, [inputs]);
     const toggleOrder = () => {
         setOrder(prev => !prev)
     }
     const toggleFilternewest = () => {
-        setsortName('date')
+        setsortName('Date')
         if (dataListed === 'Games') {
             const sortnewest = viewGameTotal.sort((a,b) => {
                 if (order === false) {
@@ -552,7 +594,7 @@ const Admin = () => {
         setOrderselect(false)
     }
     const toggleFiltername = () => {
-        setsortName('name')
+        setsortName('Name')
         if (dataListed === 'Games') {
             const sortnewest = viewGameTotal.sort((a,b) => {
                 if (order === false) {
@@ -666,23 +708,23 @@ const Admin = () => {
     }
     const selectGames = () => {
         localStorage.setItem('dataListed', 'Games')
-        localStorage.setItem('filterName','Game Listed')
+        localStorage.setItem('filterName','All Games')
         setDatalisted('Games')
-        setFiltername('Game Listed')
+        setFiltername('All Games')
         setFilter(false)
     }
     const selectGCards = () => {
         localStorage.setItem('dataListed', 'GCards')
-        localStorage.setItem('filterName', 'Gift Cards Listed')
+        localStorage.setItem('filterName', 'All Gift Cards')
         setDatalisted('GCards')
-        setFiltername('Gift Cards Listed')
+        setFiltername('All Gift Cards')
         setFilter(false)
     }
     const selectGCredits = () => {
         localStorage.setItem('dataListed', 'GCredits')
-        localStorage.setItem('filterName', 'Game Credits Listed')
+        localStorage.setItem('filterName', 'All Gift Cards')
         setDatalisted('GCredits')
-        setFiltername('Game Credits Listed')
+        setFiltername('All Game Credits')
         setFilter(false)
     }
     const [searchInput, setSearchinput] = useState()
@@ -851,28 +893,28 @@ const Admin = () => {
                                         <hr/>
                                         <div className="editableGamedata-info">
                                             <span>
-                                                <h1>developer</h1>
+                                                <h1>Developer</h1>
                                                 <p>{editableData.game_developer}</p>
                                             </span>
                                             <hr />
                                             <span>
-                                                <h1>platform</h1>
+                                                <h1>Platform</h1>
                                                 <p>{editableData.game_platform}</p>
                                             </span>
                                             <hr />
                                             <span>
-                                                <h1>category</h1>
+                                                <h1>Category</h1>
                                                 <p>{editableData.game_category}</p>
                                             </span>
                                             <hr />
                                             <span>
-                                                <h1>inserted date</h1>
-                                                <p>{editableData.date}</p>
+                                                <h1>Date Listed</h1>
+                                                <p>{formatDateToWordedDate(editableData.date)}</p>
                                             </span>
                                             <hr />
                                             <span>
-                                                <h1>released date</h1>
-                                                <p>{editableData.game_released}</p>
+                                                <h1>Game Release</h1>
+                                                <p>{formatDateToWordedDate(editableData.game_released)}</p>
                                             </span>
                                         </div>
                                         <ul>
@@ -884,7 +926,7 @@ const Admin = () => {
                                                 </span>
                                             </li>
                                             <li>
-                                                <h1>discount</h1>
+                                                <h1>discount ( % )</h1>
                                                 <span>
                                                     <input type="text" placeholder='input discount' value={discount} onChange={handleChangeDiscount} disabled={editInfoDiscount}/>
                                                     {editInfoDiscount ? <FiEdit id='editItemIcon' onClick={toggleDisableDiscount}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisableDiscount}/>}
@@ -898,22 +940,22 @@ const Admin = () => {
                             <section>
                                 <div className="addgameCodeinfo">
                                     <span>
-                                        <h1>Game Codes</h1>
+                                        <h6>ADD PRODUCT CODE</h6>
                                         {inputs.map(input => (
-                                            <>
                                             <div key={input.id}>
                                                 <input
                                                     type="text"
                                                     value={input.value}
                                                     onChange={(e) => handleInputChange(input.id, 'value', e.target.value)}
+                                                    placeholder='Insert here...'
                                                 />
                                             </div>
-                                            </>
                                         ))}
-                                        <button onClick={addNewInput}>Add Code</button>
+                                        <button onClick={addNewInput} disabled={isButtonDisabled}>Add more Codes</button>
                                     </span>
                                     <div className="submitEditabledata">
-                                        <button onClick={insertGameData}>save</button>
+                                        <p>Avoid unnecessary blank inputs.</p>
+                                        <button onClick={insertGameData}>Publish Codes</button>
                                     </div>
                                 </div>
                             </section>
@@ -942,18 +984,18 @@ const Admin = () => {
                                         <hr/>
                                         <div className="editableGamedata-info">
                                             <span>
-                                                <h1>supplier</h1>
+                                                <h1>Supplier</h1>
                                                 <p>{editableData.giftcard_supplier}</p>
                                             </span>
                                             <hr />
                                             <span>
-                                                <h1>category</h1>
+                                                <h1>Category</h1>
                                                 <p>{editableData.giftcard_category}</p>
                                             </span>
                                             <hr />
                                             <span>
-                                                <h1>inserted date</h1>
-                                                <p>{editableData.date}</p>
+                                                <h1>Date Listed</h1>
+                                                <p>{formatDateToWordedDate(editableData.date)}</p>
                                             </span>
                                         </div>
                                         <ul>
@@ -965,7 +1007,7 @@ const Admin = () => {
                                                 </span>
                                             </li>
                                             <li>
-                                                <h1>discount</h1>
+                                                <h1>discount ( % )</h1>
                                                 <span>
                                                     <input type="text" placeholder='input discount' value={discount} onChange={handleChangeDiscount} disabled={editInfoDiscount}/>
                                                     {editInfoDiscount ? <FiEdit id='editItemIcon' onClick={toggleDisableDiscount}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisableDiscount}/>}
@@ -979,22 +1021,22 @@ const Admin = () => {
                             <section>
                                 <div className="addgameCodeinfo">
                                     <span>
-                                        <h1>Game Codes</h1>
+                                        <h6>ADD PRODUCT CODE</h6>
                                         {inputs.map(input => (
-                                            <>
                                             <div key={input.id}>
                                                 <input
                                                     type="text"
                                                     value={input.value}
                                                     onChange={(e) => handleInputChange(input.id, 'value', e.target.value)}
+                                                    placeholder='Insert here...'
                                                 />
                                             </div>
-                                            </>
                                         ))}
-                                        <button onClick={addNewInput}>add code</button>
+                                        <button onClick={addNewInput} disabled={isButtonDisabled}>Add more Codes</button>
                                     </span>
                                     <div className="submitEditabledata">
-                                        <button onClick={insertGameData}>save</button>
+                                        <p>Avoid unnecessary blank inputs.</p>
+                                        <button onClick={insertGameData}>Publish Codes</button>
                                     </div>
                                 </div>
                             </section>
@@ -1023,18 +1065,18 @@ const Admin = () => {
                                         <hr/>
                                         <div className="editableGamedata-info">
                                             <span>
-                                                <h1>supplier</h1>
+                                                <h1>Supplier</h1>
                                                 <p>{editableData.gamecredit_supplier}</p>
                                             </span>
                                             <hr />
                                             <span>
-                                                <h1>category</h1>
+                                                <h1>Category</h1>
                                                 <p>{editableData.gamecredit_category}</p>
                                             </span>
                                             <hr />
                                             <span>
-                                                <h1>inserted date</h1>
-                                                <p>{editableData.date}</p>
+                                                <h1>Date Listed</h1>
+                                                <p>{formatDateToWordedDate(editableData.date)}</p>
                                             </span>
                                         </div>
                                         <ul>
@@ -1046,7 +1088,7 @@ const Admin = () => {
                                                 </span>
                                             </li>
                                             <li>
-                                                <h1>discount</h1>
+                                                <h1>discount ( % )</h1>
                                                 <span>
                                                     <input type="text" placeholder='input discount' value={discount} onChange={handleChangeDiscount} disabled={editInfoDiscount}/>
                                                     {editInfoDiscount ? <FiEdit id='editItemIcon' onClick={toggleDisableDiscount}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisableDiscount}/>}
@@ -1060,22 +1102,22 @@ const Admin = () => {
                             <section>
                                 <div className="addgameCodeinfo">
                                     <span>
-                                        <h1>Game Codes</h1>
+                                        <h6>ADD PRODUCT CODE</h6>
                                         {inputs.map(input => (
-                                            <>
                                             <div key={input.id}>
                                                 <input
                                                     type="text"
                                                     value={input.value}
                                                     onChange={(e) => handleInputChange(input.id, 'value', e.target.value)}
+                                                    placeholder='Insert here...'
                                                 />
                                             </div>
-                                            </>
                                         ))}
-                                        <button onClick={addNewInput}>add code</button>
+                                        <button onClick={addNewInput} disabled={isButtonDisabled}>Add more Codes</button>
                                     </span>
                                     <div className="submitEditabledata">
-                                        <button onClick={insertGameData}>save</button>
+                                        <p>Avoid unnecessary blank inputs.</p>
+                                        <button onClick={insertGameData}>Publish Codes</button>
                                     </div>
                                 </div>
                             </section>
@@ -1092,14 +1134,14 @@ const Admin = () => {
                     <div className="admpc top">
                         <div className='admpcViewNav'>
                             <button className={activeView === 'default' ? 'activeNav': ''} onClick={handleViewNavigations}><h6>DASHBOARD</h6></button>
+                            <button className={activeView === 'news' ? 'activeNav': ''} onClick={handleViewAddNews}><h6>ADD NEWS</h6></button>
                             <button className={activeView === 'supplier' ? 'activeNav': ''} onClick={handleViewAddSupplier}><h6>ADD SUPPLIER</h6></button>
                             <button className={activeView === 'games' ? 'activeNav': ''} onClick={handleViewAddGames}><h6>ADD GAMES</h6></button>
                             <button className={activeView === 'giftCards' ? 'activeNav': ''} onClick={handleViewAddGiftCards}><h6>ADD GIFTCARDS</h6></button>
                             <button className={activeView === 'gameCredit' ? 'activeNav': ''} onClick={handleViewAddGameCredit}><h6>ADD GAME CREDIT</h6></button>
-                            <button className={activeView === 'seller' ? 'activeNav': ''} onClick={handleViewAddSeller}><h6>ADD SELLER</h6></button>
                             <button className={activeView === 'productList' ? 'activeNav': ''} onClick={handleViewProducts}><h6>PRODUCTS</h6></button>
-                            <button className={activeView === 'news' ? 'activeNav': ''} onClick={handleViewAddNews}><h6>ADD NEWS</h6></button>
                             <button className={activeView === 'userList' ? 'activeNav': ''} onClick={handleViewUsers}><h6>USERS LIST</h6></button>
+                            <button className={activeView === 'seller' ? 'activeNav': ''} onClick={handleViewAddSeller}><h6>ADD SELLER</h6></button>
                             <button className={activeView === 'popupAds' ? 'activeNav': ''} onClick={handleViewAddPopup}><h6>OTHERS</h6></button>
                             <button className={activeView === 'transactions' ? 'activeNav': ''} onClick={handleViewTransactions}><h6>TRANSACTION HISTORY</h6></button>
                         </div>
@@ -1277,7 +1319,7 @@ const Admin = () => {
                                         <p>Total Listed Games</p>
                                     </div>
                                     <div>
-                                        <h4>0 Stocks</h4>
+                                        <h4>{viewGameTotalStocks} Stocks</h4>
                                         <p>Total Game Stocks</p>
                                     </div>
                                 </div>
@@ -1421,7 +1463,7 @@ const Admin = () => {
                                         <p>Total Listed Giftcards</p>
                                     </div>
                                     <div>
-                                        <h4>0 Stocks</h4>
+                                        <h4>{viewGiftcardTotalStocks} Stocks</h4>
                                         <p>Total Giftcards Stocks</p>
                                     </div>
                                 </div>
@@ -1503,7 +1545,7 @@ const Admin = () => {
                                         <p>Total Listed Game Credits</p>
                                     </div>
                                     <div>
-                                        <h4>0 Stocks</h4>
+                                        <h4>{viewGamecreditTotalStocks} Stocks</h4>
                                         <p>Total Game Credits Stocks</p>
                                     </div>
                                 </div>
@@ -1588,60 +1630,47 @@ const Admin = () => {
                                 <div className="totalGameProducts">
                                     <ul>
                                         <li>
-                                            <h1>{viewGameTotal.length} Games</h1>
+                                            <h1>{viewAGData1.length} Games</h1>
                                             <p>Total Listed Games</p>
                                         </li>
                                         <li>
-                                            <h1>{viewGiftcardTotal.length} Giftcards</h1>
+                                            <h1>{giftcards.length} Giftcards</h1>
                                             <p>Total Listed Giftcards</p>
                                         </li>
                                         <li>
-                                            <h1>{viewGamecreditTotal.length} GCredits</h1>
+                                            <h1>{gamecredits.length} GCredits</h1>
                                             <p>Total Listed Game Credits</p>
-                                        </li><br /><br />
-                                        <li>
-                                            <h1>0 Stocks</h1>
-                                            <p>Total Overall Stocks</p>
-                                        </li>
-                                        <li>
-                                            <h1>0 Sold</h1>
-                                            <p>Total Sold Stocks</p>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <div className="admpcm1ProductlistContent right">
                                 <div className="admpcm1ProductRight-header">
-                                    <div className="admpcmSearch">
-                                        <div className="admproductSearch">
-                                            <form onSubmit={searchItem}>
-                                                <input type="text" placeholder='Search Anything Here' value={searchInput} onChange={handleSearch}/>
-                                                <button type='submit'><FaSearch /></button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <span>
-                                        <p>sort by:</p>
-                                        <button onClick={showOrdering}>{sortName}</button>
-                                        <ul className={`sortingSelection ${orderSelect}`}>
-                                            <li onClick={toggleFilternewest}>date</li>
-                                            <li onClick={toggleFiltername}>name</li>
-                                            <li>most ordered</li>
-                                        </ul>
-                                        <h1 onClick={toggleOrder}>{order ? <FaSortAlphaDown id='orderIcon'/> : <FaSortAlphaUp id='orderIcon'/>}</h1>
-                                    </span>
-                                </div>
-                                <hr />
-                                <div className="admpcm1ProductRight-productList">
                                     <div className="admpcm1Filter">
-                                        <h1>{filterName} <TiArrowSortedDown id='changeFilter' onClick={openFilterchange}/></h1>
+                                        <h6 onClick={openFilterchange}>{filterName} <TiArrowSortedDown className='faIcons'/></h6>
                                         <section className={`admpcmviewFilterby ${filter}`}>
                                             <p onClick={selectGames}>Games</p>
                                             <p onClick={selectGCards}>Gift Cards</p>
                                             <p onClick={selectGCredits}>Game Credits</p>
                                         </section>
                                     </div>
-                                    <hr />
+                                    <div className="admpcm1Sort">
+                                        <h6 onClick={toggleOrder}>{order ? <FaSortAlphaDown className='faIcons'/> : <FaSortAlphaUp className='faIcons'/>}</h6>
+                                        <h6 onClick={showOrdering}>{sortName} <TiArrowSortedDown className='faIcons'/></h6>
+                                        <section className={`sortingSelection ${orderSelect}`}>
+                                            <p onClick={toggleFiltername}>Name</p>
+                                            <p onClick={toggleFilternewest}>Date</p>
+                                            {/* <p>Most Ordered</p> */}
+                                        </section>
+                                    </div>
+                                    <div className="admpcmSearch">
+                                        <form onSubmit={searchItem} className="admproductSearch">
+                                            <input type="text" placeholder='Search Anything by Category' value={searchInput} onChange={handleSearch}/>
+                                            <button type='submit'><FaSearch /></button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div className="admpcm1ProductRight-productList">
                                     {dataListed === '' &&(
                                     <div className="admpcm1ProductRight-loader">
                                         <span class="admpcm1ProductRightloader"></span>
@@ -1654,8 +1683,8 @@ const Admin = () => {
                                             <li key={game.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${game.game_cover}')no-repeat center`, backgroundSize: 'cover'}} onClick={() => openEditquick(game)}>
                                                 <div className="prdGameinfo-edit">
                                                     <section>
-                                                        <Link to={`/Games/${game.game_canonical}`} target='_blank'><button>view game</button></Link>
                                                         <button onClick={() => handleEditProd(game)}>Add Codes</button>
+                                                        <Link to={`/Games/${game.game_canonical}`} target='_blank'><FaExternalLinkAlt className='faIcons'/></Link>
                                                     </section>
                                                 </div>
                                                 <div className="prdGameinfo">
@@ -1677,8 +1706,8 @@ const Admin = () => {
                                                 </div>
                                                 <div className="prdGameinfo-edit">
                                                     <section>
-                                                        <Link to={`/Giftcards/${cards.giftcard_canonical}`} target='_blank'><button>view card</button></Link>
                                                         <button onClick={() => handleEditProd(cards)}>Add Codes</button>
+                                                        <Link to={`/Giftcards/${cards.giftcard_canonical}`} target='_blank'><FaExternalLinkAlt className='faIcons'/></Link>
                                                     </section>
                                                 </div>
                                                 <div className="prdGameinfo">
@@ -1700,8 +1729,8 @@ const Admin = () => {
                                                 </div>
                                                 <div className="prdGameinfo-edit">
                                                     <section>
-                                                        <Link to={`/GameCredits/${credits.gamecredit_id}`} target='_blank'><button>view card</button></Link>
                                                         <button onClick={() => handleEditProd(credits)}>Add Codes</button>
+                                                        <Link to={`/GameCredits/${credits.gamecredit_id}`} target='_blank'><FaExternalLinkAlt className='faIcons'/></Link>
                                                     </section>
                                                 </div>
                                                 <div className="prdGameinfo">
