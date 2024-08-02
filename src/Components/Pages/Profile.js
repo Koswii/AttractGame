@@ -136,6 +136,7 @@ const Profile = () => {
     const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
     const AGProductIDCodeAPI = process.env.REACT_APP_AG_USER_PRODUCTS_ID_API;
     const AGUserProductsCodeAPI = process.env.REACT_APP_AG_USER_PRODUCTS_CODE_API;
+    const AGUsersTransactions = process.env.REACT_APP_AG_USERS_TRANSACTIONS_API;
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const LoginUserID = localStorage.getItem('profileUserID');
     const userLoggedIn = localStorage.getItem('isLoggedIn')
@@ -146,6 +147,7 @@ const Profile = () => {
     const [randomPostID, setRandomPostID] = useState('');
     const [viewFetchPost, setViewFetchPost] = useState([]);
     const [viewFetchStory, setViewFetchStory] = useState([]);
+    const [viewTransactionList, setViewTransactionList] = useState([]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -236,12 +238,23 @@ const Profile = () => {
                 setIsLoading(false);
             }
         };
-        
+        const fetchUserTransactionHistory = async () => {
+            try {
+                const response = await axios.get(AGUsersTransactions);
+                const TransactionHistoryData = response.data.filter(user => user.ag_user_id === LoginUserID);
+                setViewTransactionList(TransactionHistoryData);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchUserTransactionHistory();
         fetchUserDataPost();
         fetchUserDataStory(setViewFetchStory);
         fetchUserProductIds();
-        
     }, [LoginUserID]);
+
+    
 
     const [pickProfileImg00, setPickProfileImg00] = useState(null);
     const [editSocialsModal, setEditSocialsModal] = useState(false);
@@ -483,16 +496,22 @@ const Profile = () => {
 
     const [viewUserHighlight, setViewUserHighlight] = useState(true);
     const [viewUserProducts, setViewUserProducts] = useState(true);
+    const [viewUserTransactions, setViewUserTransactions] = useState(false);
 
-    const handleViewDefault = () => {
-        setViewUserHighlight(true)
-        setViewUserProducts(false)
-    }
+    // const handleViewDefault = () => {
+    //     setViewUserHighlight(true)
+    //     setViewUserProducts(false)
+    // }
     const handleViewProducts = () => {
         setViewUserProducts(true)
         setViewUserHighlight(false)
+        setViewUserTransactions(false)
     }
-
+    const handleViewTransactions = () => {
+        setViewUserTransactions(true)
+        setViewUserProducts(false)
+        setViewUserHighlight(false)
+    }
 
 
     return (
@@ -711,6 +730,7 @@ const Profile = () => {
                     <div className="ppcrProfileNavigations">
                         {/* <button className={viewUserHighlight ? 'active' : ''} onClick={handleViewDefault}><h6>HIGHLIGHTS</h6></button> */}
                         <button className={viewUserProducts ? 'active' : ''} onClick={handleViewProducts}><h6>MY PRODUCTS</h6></button>
+                        <button className={viewUserTransactions ? 'active' : ''} onClick={handleViewTransactions}><h6>TRANSACTION HISTORY</h6></button>
                         {/* <button><h6>MISSIONS</h6></button>
                         <button><h6>FEEDBACKS</h6></button> */}
                     </div>
@@ -835,6 +855,44 @@ const Profile = () => {
                                 </div>
                             </>:<><div className="ppcrpcmpEmpty">
                                     <h6>You don't have any Products yet.</h6>
+                                </div>
+                            </>}
+                        </>}
+                    </div>}
+                    {viewUserTransactions &&<div className="ppcrProfileContents myTransactions">
+                        {isLoading ?<>
+                            <div className="ppcrpcmpEmpty">
+                                <div className="loader"></div>
+                            </div>
+                        </>:<>{(viewTransactionList.length != 0) ?<>
+                                <p>{userLoggedData.username}, here's your recent purchased products and Transaction History.</p>
+                                <div className="ppcrpcmpTransactions">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th width='30%' id='ppcrpcmptName'><p>Product Name</p></th>
+                                                <th width='20%' id='ppcrpcmptPrice'><p>Amount</p></th>
+                                                <th width='25%' id='ppcrpcmptDate'><p>Date Purchased</p></th>
+                                                <th width='25%' id='ppcrpcmptHash'><p>Transaction Hash</p></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                    <div>
+                                        <table id='ppcrpcmptContents'>
+                                            <tbody>
+                                                {viewTransactionList.map((data, i) => (
+                                                <tr key={i}>
+                                                    <td width='30%' id='ppcrpcmptName'><p>{data.ag_product_name}</p></td>
+                                                    <td width='20%' id='ppcrpcmptPrice'><p>{data.ag_product_price}</p></td>
+                                                    <td width='25%' id='ppcrpcmptDate'><p>{formatDateToWordedDate(data.ag_product_purchased_date)}</p></td>
+                                                    <td width='25%' id='ppcrpcmptHash'><p>{data.ag_transaction_hash}</p></td>
+                                                </tr>))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </>:<><div className="ppcrpcmpEmpty">
+                                    <h6>You don't have any transaction made.</h6>
                                 </div>
                             </>}
                         </>}
