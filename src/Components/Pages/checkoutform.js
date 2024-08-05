@@ -65,7 +65,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
       console.log(paymentIntent);
       switch (paymentIntent.status) {
         case "succeeded":
-          setMessage("Payment succeeded! Buy again?");
+          setMessage("Payment succeed! Buy again?");
           break;
         case "processing":
           setMessage("Your payment is processing.");

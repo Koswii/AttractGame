@@ -42,32 +42,34 @@ const PrivacyAndPolicies = () => {
                 <h5>3. How We Use Your Information</h5>
                 <p>
                     We use the collected information for the following purposes:
-                    <li>
-                        Providing Services:
-                        <ul>
-                            <li>Processing orders and payments</li>
-                            <li>Delivering purchased products</li>
-                            <li>Sending order confirmations and updates</li>
-                            <li>Managing your account</li>
-                            <li>Responding to customer inquiries and support requests</li>
-                        </ul>
-                    </li>
-                    <li>
-                        Personalization and Marketing:
-                        <ul>
-                            <li>Customizing your user experience</li>
-                            <li>Sending promotional emails and newsletters (you can opt-out at any time)</li>
-                            <li>Analyzing user behavior to improve our products and services</li>
-                        </ul>
-                    </li>
-                    <li>
-                        Legal and Security:
-                        <ul>
-                            <li>Complying with legal obligations</li>
-                            <li>Protecting against fraud, abuse, and security threats</li>
-                            <li>Enforcing our terms of service</li>
-                        </ul>
-                    </li>
+                    <ul>
+                        <li>
+                            Providing Services:
+                            <ul>
+                                <li>Processing orders and payments</li>
+                                <li>Delivering purchased products</li>
+                                <li>Sending order confirmations and updates</li>
+                                <li>Managing your account</li>
+                                <li>Responding to customer inquiries and support requests</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Personalization and Marketing:
+                            <ul>
+                                <li>Customizing your user experience</li>
+                                <li>Sending promotional emails and newsletters (you can opt-out at any time)</li>
+                                <li>Analyzing user behavior to improve our products and services</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Legal and Security:
+                            <ul>
+                                <li>Complying with legal obligations</li>
+                                <li>Protecting against fraud, abuse, and security threats</li>
+                                <li>Enforcing our terms of service</li>
+                            </ul>
+                        </li>
+                    </ul>
                 </p>
                 <h5>4. Information Sharing</h5>
                 <p>

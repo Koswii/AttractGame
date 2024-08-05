@@ -344,27 +344,24 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     content: url('../assets/imgs/GamePlatforms/PS5.png');
 }
 .mppcm2GameCategory{
+    width: 7vw;
     height: auto;
     position: absolute;
     top: 1vw;
     right: 1vw;
 }
+.mppcm2GameCategory h4{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    font-size: 1.2vw;
+    font-weight: 400;
+}
 .mppcm2GameCategory h4 .faIcons{
-    display: none;
-    color: gold;
+    margin-left: 7%;
+    font-size: 2vw;
+    color: red;
     text-shadow: 0 0 20px black;
-}
-.mppcm2GameCategory h4 .faIcons.Trending{
-    display: block;
-}
-.mppcm2GameCategory h4 .faIcons.Hot{
-    display: block;
-}
-.mppcm2GameCategory h4 .faIcons.Classic{
-    display: block;
-}
-.mppcm2GameCategory h4 .faIcons.Preorder{
-    display: block;
 }
 .mppcm2GameDiscount{
     height: auto;
@@ -869,13 +866,21 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
         border-radius: 2vw;
     }
     .mppcm2GamePlatform{
-        top: 1vw;
-        left: 1vw;
+        top: 2vw;
+        left: 2vw;
         border-radius: 2vw;
     }
     .mppcm2GamePlatform img{
         height: 10vw;
         width: 10vw;
+    }
+    .mppcm2GameCategory{
+        width: 20vw;
+        top: 2vw;
+        right: 2vw;
+    }
+    .mppcm2GameCategory h4{
+        font-size: 4vw;
     }
     .mppcm2GameCategory h4 .faIcons{
         font-size: 5vw;

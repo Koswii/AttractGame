@@ -188,7 +188,7 @@ const Cart = () => {
             fetchUserCart(setProductCarts);
             navigate('/MyCart');
           } else {
-              console.log(`Error: ${response.data.message}`);
+            console.log(`Error: ${response.data.message}`);
           }
       })
       .catch(error => {

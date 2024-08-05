@@ -148,7 +148,8 @@ const Marketplace = () => {
     const { 
         fetchFavorites, 
         favorites, 
-        setFavorites 
+        setFavorites,
+        numberOfLikes 
     } = FavoritesFetchData();
     const { 
         fetchUserCart, 
@@ -341,6 +342,17 @@ const Marketplace = () => {
     };
 
 
+    const gameLikes = viewAllListedGames.map(games => {
+        const prodLikes = numberOfLikes.filter(stock => stock.ag_product_id === games.game_canonical).length;
+        return {
+            ...games, prodLikes,
+        };
+    });
+
+    console.log(gameLikes);
+
+
+
     
     return (
         <div className='mainContainer marketplace'>
@@ -422,18 +434,21 @@ const Marketplace = () => {
                         <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
                         <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
                         <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
-                    </>:<>{viewAllListedGames.slice(0, 10).map((details, i) => (
+                    </>:<>{gameLikes.slice(0, 10).map((details, i) => (
                     <div className="mppContentMid2" key={i}>
                         <div className="mppcm2GamePlatform" to={`/Games/${details.game_canonical}`}>
                             <img platform={details.game_platform} src="" alt="" />
                         </div>
-                        <div className="mppcm2GameCategory">
+                        {/* <div className="mppcm2GameCategory">
                             <h4>
                                 <TbTrendingUp className={`faIcons ${(details.game_category === 'Trending') ? 'Trending' : ''}`}/>
                                 <TbCampfireFilled className={`faIcons ${(details.game_category === 'Hot') ? 'Hot' : ''}`}/>
                                 <TbAwardFilled className={`faIcons ${(details.game_category === 'Classic') ? 'Classic' : ''}`}/>
                                 <TbCalendarStar className={`faIcons ${(details.game_category === 'Preorder') ? 'Preorder' : ''}`}/>
                             </h4>
+                        </div> */}
+                        <div className="mppcm2GameCategory">
+                            {(details.prodLikes >= 3) && <h4>{details.prodLikes} <TbHeartFilled className='faIcons'/></h4>}
                         </div>
                         <Link to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>{details.game_cover !== '' ?
                         <ImageComponentGames imageName={details.game_cover} />
@@ -487,25 +502,28 @@ const Marketplace = () => {
                         <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
                         <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
                         <div className="mppContentMid2Dummy"><div className="mppcm2gpDummy"></div></div>
-                    </>:<>{viewAllListedGames.slice(0, 4).map((details, i) => (
+                    </>:<>{gameLikes.slice(0, 4).map((details, i) => (
                     <Link className="mppContentMid2" key={i} to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>
                         <div className="mppcm2GamePlatform">
                             <img platform={details.game_platform} src="" alt="" />
                         </div>
-                        <div className="mppcm2GameCategory">
+                        {/* <div className="mppcm2GameCategory">
                             <h4>
                                 <TbTrendingUp className={`faIcons ${(details.game_category === 'Trending') ? 'Trending' : ''}`}/>
                                 <TbCampfireFilled className={`faIcons ${(details.game_category === 'Hot') ? 'Hot' : ''}`}/>
                                 <TbAwardFilled className={`faIcons ${(details.game_category === 'Classic') ? 'Classic' : ''}`}/>
                                 <TbCalendarStar className={`faIcons ${(details.game_category === 'Preorder') ? 'Preorder' : ''}`}/>
                             </h4>
+                        </div> */}
+                        <div className="mppcm2GameCategory">
+                            {(details.prodLikes >= 3) && <h4>{details.prodLikes} <TbHeartFilled className='faIcons'/></h4>}
                         </div>
                         <>{details.game_cover !== '' ?
                         <ImageComponentGames imageName={details.game_cover} />
                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</>
-                        <div className="mppcm2GameDiscount">
+                        {/* <div className="mppcm2GameDiscount">
                             <h4><MdDiscount className='faIcons'/></h4>
-                        </div>
+                        </div> */}
                         <div className="mppcm2GameDetails">
                             <h5>{details.game_title}</h5>
                             <p>{details.game_edition}</p>

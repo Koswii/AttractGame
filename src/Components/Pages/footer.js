@@ -23,7 +23,9 @@ const Footer = () => {
   const handleClickGiftcards = () => {
     setActivePage('giftcards');
   }
-
+  const handleClickGamecredits = () => {
+    setActivePage('gamecredits');
+  }
 
   const handleClickUnderdevelopment = () => {
     setActivePage('');
@@ -62,6 +64,7 @@ const Footer = () => {
               <ul>
                 <li><Link to="/Games" onClick={handleClickGames}>Games</Link></li>
                 <li><Link to="/Giftcards" onClick={handleClickGiftcards}>Giftcards</Link></li>
+                <li><Link to="/GameCredits" onClick={handleClickGamecredits}>Game Credits</Link></li>
                 <li><Link to="/GameCredits/Robux">Roblox: Robux</Link></li>
                 {/* <li><Link to="/AGCrypto">AG Crypto</Link></li> */}
               </ul>
