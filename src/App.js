@@ -51,6 +51,9 @@ import Underdevelop from './Components/Pages/underdevelop';
 import ForgotPass from './Components/Pages/ForgotPass';
 
 
+import ApplyAsSeller from './Components/Pages/ApplyAsSeller';
+import SellerTermsAndConditions from './Components/Pages/SellerTermsAndConditions';
+import SellerPrivacyPolicies from './Components/Pages/SellerPrivacyPolicies';
 
 
 function App() {
@@ -150,10 +153,12 @@ function App() {
             <Route exact path="/FAQs" element={<FAQs/>}/>
             <Route exact path="/TermsAndConditions" element={<TermsAndCondition/>}/>
             <Route exact path="/PrivacyAndPolicies" element={<PrivacyAndPolicies/>}/>
+            <Route exact path="/SellerTermsAndConditions" element={<SellerTermsAndConditions/>}/>
+            <Route exact path="/SellerPrivacyPolicies" element={<SellerPrivacyPolicies/>}/>
 
 
             <Route exact path="/AGElite" element={<Underdevelop/>}/>
-            <Route exact path="/ApplyAsSeller" element={<Underdevelop/>}/>
+            <Route exact path="/ApplyAsSeller" element={<ApplyAsSeller/>}/>
             <Route exact path="/ContentCreation" element={<Underdevelop/>}/>
             {/* <Route exact path="/AGCrypto" element={<Underdevelop/>}/> */}
             <Route path="*" element={<Home/>}/>

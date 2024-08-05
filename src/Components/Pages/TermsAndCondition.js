@@ -107,6 +107,15 @@ const TermsAndCondition = () => {
                     </ul>
                 </p>
                 <p>Thank you for choosing ATTRACT GAME. We are dedicated to providing you with the best gaming experience possible.</p>
+                
+            
+            
+            
+            
+            
+            
+            
+            
             </div>
         </section>
     </div>

@@ -2157,19 +2157,19 @@ section.profilePageContainer.mid{
         width: 33%;
     }
     .ppcrpcmpTransactions table tr th#ppcrpcmptDate{
-        width: 33%;
+        width: 30%;
     }
     .ppcrpcmpTransactions table tr th#ppcrpcmptHash{
-        width: 34%;
+        width: 37%;
     }
     .ppcrpcmpTransactions table tr td#ppcrpcmptName{
         width: 33%;
     }
     .ppcrpcmpTransactions table tr td#ppcrpcmptDate{
-        width: 33%;
+        width: 30%;
     }
     .ppcrpcmpTransactions table tr td#ppcrpcmptHash{
-        width: 34%;
+        width: 37%;
     }
 
 
