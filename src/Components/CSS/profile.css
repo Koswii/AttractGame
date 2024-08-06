@@ -1469,6 +1469,79 @@ section.profilePageContainer.mid{
     color: gray;
 }
 
+.ppcrProfileContents.myTransactions p{
+    font-size: 0.7vw;
+}
+.ppcrpcmpTransactions{
+    height: auto;
+    width: 100%;
+    margin-top: 2%;
+}
+.ppcrpcmpTransactions table{
+    height: auto;
+    width: 100%;
+}
+.ppcrpcmpTransactions table{
+    height: auto;
+    width: 100%;
+    margin-top: 1%;
+    border-collapse: collapse;
+}
+.ppcrpcmpTransactions table tr th{
+    border: solid 1px gray;
+    padding: 0.5% 0.2%;
+}
+.ppcrpcmpTransactions table tr th p{
+    font-size: 0.7vw;
+    font-weight: 400;
+}
+.ppcrpcmpTransactions table tr td{
+    text-align: center;
+    padding: 0 0.5%;
+    height: 2.3vw;
+}
+.ppcrpcmpTransactions table tr td p{
+    font-size: 0.7vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ppcrpcmpTransactions div{
+    height: 16vw;
+    width: 100%;
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.ppcrpcmpTransactions table#ppcrpcmptContents{
+    height: auto;
+    width: 100%;
+    margin-top: 0.5%;
+    border-collapse: separate;
+    position: relative;
+}
+.ppcrpcmpTransactions table tbody tr:nth-child(odd){
+    background: rgba(80, 80, 80, 0.5);
+}
+.ppcrpcmpTransactions table tbody tr:nth-child(even){
+    background: rgba(80, 80, 80, 0.3);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1889,9 +1962,9 @@ section.profilePageContainer.mid{
         width: 100%;
         margin-top: 10%;
     }
-    .ppcrProfileNavigations{
+    /* .ppcrProfileNavigations{
         justify-content: space-between;
-    }
+    } */
     .ppcrProfileNavigations button h6{
         font-size: 2.5vw;
     }
@@ -2053,10 +2126,51 @@ section.profilePageContainer.mid{
 
 
 
-
-
-
-
+    .ppcrProfileContents.myTransactions p{
+        font-size: 2.3vw;
+        margin: 5% 0;
+        text-align: center;
+    }
+    .ppcrpcmpTransactions{
+        height: auto;
+        width: 100%;
+        margin-top: 2%;
+    }
+    .ppcrpcmpTransactions table{
+        height: auto;
+        width: 100%;
+    }
+    .ppcrpcmpTransactions table tr th#ppcrpcmptPrice{
+        display: none;
+    }
+    .ppcrpcmpTransactions table tr td#ppcrpcmptPrice{
+        display: none;
+    }
+    .ppcrpcmpTransactions div{
+        height: 70vw;
+        width: 100%;
+        position: relative;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    .ppcrpcmpTransactions table tr th#ppcrpcmptName{
+        width: 33%;
+    }
+    .ppcrpcmpTransactions table tr th#ppcrpcmptDate{
+        width: 30%;
+    }
+    .ppcrpcmpTransactions table tr th#ppcrpcmptHash{
+        width: 37%;
+    }
+    .ppcrpcmpTransactions table tr td#ppcrpcmptName{
+        width: 33%;
+    }
+    .ppcrpcmpTransactions table tr td#ppcrpcmptDate{
+        width: 30%;
+    }
+    .ppcrpcmpTransactions table tr td#ppcrpcmptHash{
+        width: 37%;
+    }
 
 
 

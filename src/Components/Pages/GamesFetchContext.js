@@ -75,7 +75,7 @@ export const GamesFetchDataProvider = ({ children }) => {
             const stockListResponse = await axios.get(AGStocksListAPI);
             const stockListData = stockListResponse.data;
     
-            const stockInfo = sortedCurrentYearGames.map(games => {
+            const stockInfo = agAllGames.map(games => {
                 const stock = stockListData.find(stock => stock.ag_product_id === games.game_canonical);
                 const stockCount = stockListData.filter(stock => stock.ag_product_id === games.game_canonical).length;
                 return {
@@ -83,14 +83,16 @@ export const GamesFetchDataProvider = ({ children }) => {
                 };
             });
     
+            
             setViewAllGamesNum(agAllGames);
             setViewAGData2(sortedCurrentYearGames);
             // setViewAllListedGames(sortedCurrentYearGames);
             setViewMetacriticData(gameCSFeatMetacritic);
             setViewWikiData(gameCSFeatWikipedia)
     
-            if (stockInfo.length > 0) {
-                const randomItems = getRandomItems(stockInfo, 15);
+            if (stockInfo.length) {
+                const getInstockGames = stockInfo.filter(instock => instock.stockCount > 0)
+                const randomItems = getRandomItems(getInstockGames, 15);
                 setViewAllListedGames(randomItems);
             }
     

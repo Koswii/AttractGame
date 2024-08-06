@@ -8,6 +8,7 @@ export const FavoritesFetchDataProvider = ({ children }) => {
     const AGUserFavoritesAPI = process.env.REACT_APP_AG_FETCH_USER_FAV_API;
     const [favorites, setFavorites] = useState([]);
     const [favoritesData, setFavoritesData] = useState([]);
+    const [numberOfLikes, setNUmberOfLikes] = useState([]);
 
 
     // Fetch data once when component mounts
@@ -16,6 +17,7 @@ export const FavoritesFetchDataProvider = ({ children }) => {
             const response = await axios.get(AGUserFavoritesAPI);
             const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
             const favoriteGameCodes = filteredData.map(fav => fav.ag_product_id);
+            setNUmberOfLikes(response.data);
             setFavorites(favoriteGameCodes);
             setFavoritesData(filteredData);
         } catch (error) {
@@ -30,7 +32,7 @@ export const FavoritesFetchDataProvider = ({ children }) => {
     }, []);
 
     return (
-        <FavoritesFetchContext.Provider value={{ fetchFavorites, favorites, setFavorites, favoritesData }}>
+        <FavoritesFetchContext.Provider value={{ fetchFavorites, favorites, setFavorites, favoritesData, numberOfLikes }}>
             {children}
         </FavoritesFetchContext.Provider>
     );
