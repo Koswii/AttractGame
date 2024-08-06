@@ -54,7 +54,7 @@ const ApplyAsSeller = () => {
                             </p>
                         </div>
                         <div className="afSubmitButton">
-                            <button>Submit Contact</button>
+                            <button type='button'>Submit Contact</button>
                         </div>
                     </form>
                 </div>
