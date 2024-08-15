@@ -20,6 +20,7 @@ import {
   MdOutlinePayment 
 } from "react-icons/md";
 import PayPalButton from "./PayPalButton";
+import { parse } from "qs";
 
 const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction,paymentIntentId,setClientSecret,totalprice,transactionData}) => {
   const navigate = useNavigate();
@@ -119,6 +120,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
 
 
   };
+
   const cancelPayment = async (e) => {
     e.preventDefault()
     try {
@@ -139,8 +141,71 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
   }, 2000);
 
   
+  
+  const orderIDGenerator = (length) => {
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    let result = "";
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      result += charset.charAt(randomIndex);
+    }
+    return result;
+  };
+
+
+  const [openPayment, setOpenPayment] = useState(false)
+  const [orderLink, setOrderLink] = useState('')
+
+  const payUsingUSDT = async () => {
+    const apiKey = '3BRQ3X2-5JTMK5A-NEHK3Z0-X807SBM'; // Replace with your actual API key
+    const url = 'https://api.nowpayments.io/v1/invoice';
+    const orderID = orderIDGenerator(20)
+    
+    
+    const data = {
+        price_amount: totalprice,
+        price_currency: 'usd',
+        pay_currency: 'btc',
+        ipn_callback_url: 'https://nowpayments.io',
+        order_id: orderID,
+        order_description: "Order History on Attractgame.com",
+        ipn_callback_url: "https://nowpayments.io",
+        success_url: "https://nowpayments.io",
+        cancel_url: "https://nowpayments.io"
+    };
+
+    try {
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'x-api-key': apiKey,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        setOpenPayment(true)
+        setOrderLink(result.invoice_url)
+        
+    } catch (error) {
+        console.error('Error creating payment:', error);
+    }
+  };
+
+  
+  
   return (
     <div className="formpayment">
+      {openPayment&&(
+        <div className="payment-crypto">
+          <iframe src={`${orderLink}`} frameborder="0"></iframe>
+        </div>
+      )}
       <div className="formdataContainer">
         <div className="formdataContents">
           {loader ? <>
@@ -273,6 +338,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                 <p>Pay using:</p>
                 <PayPalButton totalprice={totalprice} transactionData={transactionData} setClientSecret={setClientSecret} setSuccesstransaction={setSuccesstransaction}/>
               </form>
+              <button id="payCrypto" onClick={payUsingUSDT}>Pay Using USDT</button>
             </div>
           </>}
         </div>

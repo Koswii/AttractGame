@@ -310,6 +310,7 @@ app.post('/verify-email', async (req, res) => {
 });
 
 
+
 // Increase timeout settings
 const server = app.listen(4242, () => console.log("Node server listening on port 4242!"));
 server.setTimeout(10 * 60 * 1000); // 10 minutes
