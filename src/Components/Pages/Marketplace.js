@@ -349,7 +349,6 @@ const Marketplace = () => {
         };
     });
 
-    console.log(gameLikes);
 
 
 
@@ -439,17 +438,6 @@ const Marketplace = () => {
                         <div className="mppcm2GamePlatform" to={`/Games/${details.game_canonical}`}>
                             <img platform={details.game_platform} src="" alt="" />
                         </div>
-                        {/* <div className="mppcm2GameCategory">
-                            <h4>
-                                <TbTrendingUp className={`faIcons ${(details.game_category === 'Trending') ? 'Trending' : ''}`}/>
-                                <TbCampfireFilled className={`faIcons ${(details.game_category === 'Hot') ? 'Hot' : ''}`}/>
-                                <TbAwardFilled className={`faIcons ${(details.game_category === 'Classic') ? 'Classic' : ''}`}/>
-                                <TbCalendarStar className={`faIcons ${(details.game_category === 'Preorder') ? 'Preorder' : ''}`}/>
-                            </h4>
-                        </div> */}
-                        <div className="mppcm2GameCategory">
-                            {(details.prodLikes >= 3) && <h4>{details.prodLikes} <TbHeartFilled className='faIcons'/></h4>}
-                        </div>
                         <Link to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>{details.game_cover !== '' ?
                         <ImageComponentGames imageName={details.game_cover} />
                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
@@ -492,6 +480,12 @@ const Marketplace = () => {
                                     <button id='mppcm2GDCart' onClick={handleLoginForm}><TbShoppingCartPlus className='faIcons'/></button>
                                 </>}
                             </div>
+                            <div className="mppcm2GameCategory">
+                                <span>
+                                    <img src={require('../assets/imgs/AGLogoWhite.png')} alt="" />
+                                </span>
+                                {(details.prodLikes >= 1) && <h4><TbHeartFilled className='faIcons'/> {details.prodLikes} Liked This</h4>}
+                            </div>
                         </div>
                     </div>
                     ))}</>}
@@ -506,17 +500,6 @@ const Marketplace = () => {
                     <Link className="mppContentMid2" key={i} to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>
                         <div className="mppcm2GamePlatform">
                             <img platform={details.game_platform} src="" alt="" />
-                        </div>
-                        {/* <div className="mppcm2GameCategory">
-                            <h4>
-                                <TbTrendingUp className={`faIcons ${(details.game_category === 'Trending') ? 'Trending' : ''}`}/>
-                                <TbCampfireFilled className={`faIcons ${(details.game_category === 'Hot') ? 'Hot' : ''}`}/>
-                                <TbAwardFilled className={`faIcons ${(details.game_category === 'Classic') ? 'Classic' : ''}`}/>
-                                <TbCalendarStar className={`faIcons ${(details.game_category === 'Preorder') ? 'Preorder' : ''}`}/>
-                            </h4>
-                        </div> */}
-                        <div className="mppcm2GameCategory">
-                            {(details.prodLikes >= 3) && <h4>{details.prodLikes} <TbHeartFilled className='faIcons'/></h4>}
                         </div>
                         <>{details.game_cover !== '' ?
                         <ImageComponentGames imageName={details.game_cover} />
@@ -549,23 +532,23 @@ const Marketplace = () => {
                                     <button id='mppcm2GDCart'><TbShoppingCartPlus className='faIcons'/></button>
                                 </>}
                             </div>
+                            <div className="mppcm2GameCategory">
+                                <span>
+                                    <img src={require('../assets/imgs/AGLogoWhite.png')} alt="" />
+                                </span>
+                                {(details.prodLikes >= 3) && <h4><TbHeartFilled className='faIcons'/> {details.prodLikes} Liked This</h4>}
+                            </div>
                         </div>
                     </Link>
                     ))}</>}
                 </div>
-                {/* <div className="mpPageContentMid3">
-                    <Link className="mppcm3TrendingGames">
-                        <h5><TbTrendingUp className='faIcons'/>TRENDING GAMES</h5>
-                    </Link>
-                    <Link className="mppcm3HotGames">
-                        <h5><TbCampfireFilled className='faIcons'/>HOT GAMES</h5>
-                    </Link>
-                    <Link className="mppcm3ClassicGames">
-                        <h5><TbAwardFilled className='faIcons'/>CLASSIC GAMES</h5>
-                    </Link>
-                </div> */}
                 <div className="mpPageContentM2ShowMore">
                     <Link to='/Games' onClick={handleClickGames}><TbSquareRoundedArrowRight className='faIcons'/> View More Games</Link>
+                </div>
+                <div className="mpPageContentMid3">
+                    <div className="mppcm3Content">
+                        
+                    </div>
                 </div>
                 <div className="mpPageContentMid4">
                     <div className="mppcm4GiftCard">

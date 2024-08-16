@@ -199,8 +199,14 @@ section.asellerPageContainer.mid{
     .applicationForm span label p{
         font-size: 2.5vw;
     }
+    .applicationForm span input{
+        font-size: 3vw;
+        padding: 2% 4%;
+    }
     .applicationForm span textarea{
-        height: 20vw;
+        height: 30vw;
+        font-size: 3vw;
+        padding: 2% 4%;
     }
     .afAgree p{
         font-size: 2.5vw;
@@ -208,6 +214,9 @@ section.asellerPageContainer.mid{
     .afContact p{
         font-size: 2.5vw;
         padding: 0 10%;
+    }
+    .afContact p br{
+        display: none;
     }
     .afSubmitButton button{
         padding: 3% 5%;

@@ -63,6 +63,7 @@ function App() {
   const userLoggedInState = localStorage.getItem('isLoggedIn');
   const userLoggedInDetails = localStorage.getItem('profileDataJSON');
   const getAdminCredentials = localStorage.getItem('agAdminLoggedIn');
+  const getSellerCredentials = localStorage.getItem('agSellerLoggedIn');
 
   useEffect(() => {
     // Display loader when the page is being reloaded

@@ -37,7 +37,8 @@ import {
 import { 
     RiVerifiedBadgeFill,
     RiSparklingFill,
-    RiImageEditLine    
+    RiImageEditLine,
+    RiUserSettingsLine    
 } from "react-icons/ri";
 import { 
     IoLogoYoutube,
@@ -140,6 +141,7 @@ const Profile = () => {
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const LoginUserID = localStorage.getItem('profileUserID');
     const userLoggedIn = localStorage.getItem('isLoggedIn')
+    const storedSellerState = localStorage.getItem('agSellerLoggedIn');
     const [userProductIDData, setUserProductIDData] = useState([]);
     const [userProductCodeIDData, setUserProductCodeIDData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -497,6 +499,9 @@ const Profile = () => {
     const [viewUserHighlight, setViewUserHighlight] = useState(true);
     const [viewUserProducts, setViewUserProducts] = useState(true);
     const [viewUserTransactions, setViewUserTransactions] = useState(false);
+    const [viewUserAddProducts, setViewUserAddProducts] = useState(false);
+    const [viewUserStore, setViewUserStore] = useState(false);
+    const [viewUserTickets, setViewUserTickets] = useState(false)
 
     // const handleViewDefault = () => {
     //     setViewUserHighlight(true)
@@ -505,14 +510,45 @@ const Profile = () => {
     const handleViewProducts = () => {
         setViewUserProducts(true)
         setViewUserHighlight(false)
+        setViewUserStore(false)
+        setViewUserAddProducts(false)
+        setViewUserTickets(false)
         setViewUserTransactions(false)
+    }
+    const handleViewStore = () => {
+        setViewUserTransactions(false)
+        setViewUserProducts(false)
+        setViewUserStore(true)
+        setViewUserAddProducts(false)
+        setViewUserTickets(false)
+        setViewUserHighlight(false)
+    }
+    const handleViewAddProduct = () => {
+        setViewUserTransactions(false)
+        setViewUserProducts(false)
+        setViewUserStore(false)
+        setViewUserAddProducts(true)
+        setViewUserTickets(false)
+        setViewUserHighlight(false)
+    }
+    const handleViewTickets = () => {
+        setViewUserTransactions(false)
+        setViewUserProducts(false)
+        setViewUserStore(false)
+        setViewUserAddProducts(false)
+        setViewUserTickets(true)
+        setViewUserHighlight(false)
     }
     const handleViewTransactions = () => {
         setViewUserTransactions(true)
         setViewUserProducts(false)
+        setViewUserStore(false)
+        setViewUserAddProducts(false)
+        setViewUserTickets(false)
         setViewUserHighlight(false)
     }
 
+    console.log(userProductCodeIDData);
 
     return (
         <div className='mainContainer profile'>
@@ -630,7 +666,7 @@ const Profile = () => {
                             <input type="file" onChange={handleUploadUserCoverPhoto}/>
                             {(imageCoverPhoto) ? <> 
                             {!isEditSubmitting ?
-                            <button type='submit'><FaRegImages className='faIcons'/> UPDATE COVER</button> 
+                            <button type='submit'>UPDATE COVER</button> 
                             :<button type='button'>UPLOADING...</button>}</>:<>
                             <button id='emptyCover' type='button'>INSERT COVER</button> 
                             </>}
@@ -652,7 +688,7 @@ const Profile = () => {
                     <div className="ppctecimg">
                         <button id='ppctecimgBtnWeb' onClick={handleAddCoverImg}>Change Cover Photo</button>
                         <button id='ppctecimgBtnMob' onClick={handleAddCoverImg}><RiImageEditLine className='faIcons' /></button>
-                        <button id='ppcteprofileBtn' onClick={handleOpenSocialSettings}><TbSettingsBolt className='faIcons'/></button>
+                        <button id='ppcteprofileBtn' onClick={handleOpenSocialSettings}><RiUserSettingsLine className='faIcons'/></button>
                     </div>
                 </div>}
             </section>
@@ -730,6 +766,10 @@ const Profile = () => {
                     <div className="ppcrProfileNavigations">
                         {/* <button className={viewUserHighlight ? 'active' : ''} onClick={handleViewDefault}><h6>HIGHLIGHTS</h6></button> */}
                         <button className={viewUserProducts ? 'active' : ''} onClick={handleViewProducts}><h6>MY PRODUCTS</h6></button>
+                        {storedSellerState && <>
+                            <button className={viewUserStore ? 'active' : ''} onClick={handleViewStore}><h6>MY STORE</h6></button>
+                            <button className={viewUserTickets ? 'active' : ''} onClick={handleViewTickets}><h6>TICKETS</h6></button>
+                        </>}
                         <button className={viewUserTransactions ? 'active' : ''} onClick={handleViewTransactions}><h6>TRANSACTION HISTORY</h6></button>
                         {/* <button><h6>MISSIONS</h6></button>
                         <button><h6>FEEDBACKS</h6></button> */}
@@ -827,9 +867,9 @@ const Profile = () => {
                                                 {details.productData.game_cover && <img src={`https://2wave.io/GameCovers/${details.productData.game_cover}`} alt="" />}
                                                 {details.productData.giftcard_cover && <img src={`https://2wave.io/GiftCardCovers/${details.productData.giftcard_cover}`} alt="" />}
                                                 {details.productData.gamecredit_cover && <img src={`https://2wave.io/GiftCardCovers/${details.productData.gamecredit_cover}`} alt="" />}
-                                                <div>
+                                                {/* <div>
                                                     <h6>{details.productCode.ag_product_name}</h6>
-                                                </div>
+                                                </div> */}
                                             </div>
                                             <div className="ppcrpcmppcPlatform">
                                                 {details.productData.game_platform && 
@@ -846,10 +886,17 @@ const Profile = () => {
                                                 </div>}
                                             </div>
                                             <button onClick={() => toggleVisibility(i)}>{isVisible[i] ? <FaRegEyeSlash className='faIcons'/> : <FaRegEye className='faIcons'/>}</button>
-                                            <span>
-                                                <input type={!isVisible[i] ? "password" : "text"} placeholder={!isVisible[i] ? '***** ***** *****' : `${details.productCode.ag_product_code}`} readOnly disabled/>
-                                            </span>
-                                            <p>PRODUCT CODE</p>
+                                            <div className="ppcrpcmppcCode">
+                                                <div>
+                                                    <h6>
+                                                        {details.productCode.ag_product_name} <br /> 
+                                                        <span>{details.productData.game_edition ? details.productData.game_edition : ''}</span>
+                                                    </h6>
+                                                </div>
+                                                <span>
+                                                    <a href="">{!isVisible[i] ? '***** ***** *****' : `${details.productCode.ag_product_code}`}</a>
+                                                </span>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
@@ -858,6 +905,24 @@ const Profile = () => {
                                 </div>
                             </>}
                         </>}
+                    </div>}
+                    {viewUserStore && <div className="ppcrProfileContents myStore">
+                        <div className="ppcrpcmpMyProducts">
+                            {/* <h3>MY LISTED PRODUCTS</h3> */}
+                            <><div className="ppcrpcmpEmpty">
+                                    <h6>You don't have any Products yet.</h6>
+                                </div>
+                            </>
+                        </div>
+                    </div>}
+                    {viewUserTickets && <div className="ppcrProfileContents myTickets">
+                        <div className="ppcrpcmpMyTickets">
+                            {/* <h3>MY LISTED PRODUCTS</h3> */}
+                            <><div className="ppcrpcmpEmpty">
+                                    <h6>You don't have any Tickets yet.</h6>
+                                </div>
+                            </>
+                        </div>
                     </div>}
                     {viewUserTransactions &&<div className="ppcrProfileContents myTransactions">
                         {isLoading ?<>
