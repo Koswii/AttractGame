@@ -13,6 +13,7 @@ import {
   MdOutlineSpaceDashboard,
   MdOutlineShoppingBag,
   MdNewspaper,
+  MdOutlineStorefront,
   MdOutlineVideogameAsset,
   MdOutlineGamepad,
   MdOutlineCardGiftcard,
@@ -100,6 +101,7 @@ const Nav = () => {
   const [viewProfileBtn, setViewProfileBtn] = useState(false);
   const [viewUserCredentials, setViewUserCredentials] = useState(false);
   const [viewAdminCredentials, setViewAdminCredentials] = useState(false);
+  const [viewSellerCredentials, setViewSellerCredentials] = useState(false);
   const [viewForgotPassword, setViewForgotPassword] = useState(false)
   const [searchAccinput, setSearchAccInput] = useState('')
 
@@ -227,14 +229,22 @@ const Nav = () => {
         if (userDataStatus?.account === 'Admin') {
           localStorage.setItem('agAdminLoggedIn', true);
         }
+        if (userDataStatus?.account === 'Seller') {
+          localStorage.setItem('agSellerLoggedIn', true);
+        }
 
         const storedProfileData = localStorage.getItem('profileDataJSON');
         const storedUserState = localStorage.getItem('agAdminLoggedIn');
+        const storedSellerState = localStorage.getItem('agSellerLoggedIn');
+
         if(storedProfileData) {
           setDataUser(JSON.parse(storedProfileData))
         }
         if(storedUserState) {
           setViewAdminCredentials(JSON.parse(storedUserState))
+        }
+        if(storedSellerState) {
+          setViewSellerCredentials(JSON.parse(storedSellerState))
         }
         
       }
@@ -419,6 +429,7 @@ const Nav = () => {
     .then(data => {
       if (data.success) {
         localStorage.removeItem('agAdminLoggedIn');
+        localStorage.removeItem('agSellerLoggedIn');
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('attractGameUsername');
         localStorage.removeItem('profileUserID');
@@ -680,6 +691,7 @@ const Nav = () => {
               <a id='agRegisterBtn' onClick={handleViewRegistration}><h6>REGISTER</h6></a>
             </div>:
             <div className='userProfileBtn'>
+              {viewSellerCredentials &&<Link id='agAdminBtn' to=''><MdOutlineStorefront  className='faIcons'/></Link>}
               {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
               <Link id='agAddToCartBtn' to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}>
                 {!agUserProductCart ? '' : <p><sup>{agUserProductCart}</sup></p>}
