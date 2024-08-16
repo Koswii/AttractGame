@@ -153,7 +153,6 @@ const Cart = () => {
         });
       });
       setCartTotalPayment(allPrductsDetails);
-      console.log(allPrductsDetails);
     };
 
 

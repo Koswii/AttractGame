@@ -483,7 +483,7 @@ const Nav = () => {
       const emailData = {
         email: searchAccinput
       }
-      axios.post("http://localhost:4242/forgot-acc-search", emailData).then((response => {
+      axios.post("/forgot-acc-search", emailData).then((response => {
         const code = response.data.codePass;
         setFPresult(response.data.message)
         localStorage.setItem('recoveryCode', code)

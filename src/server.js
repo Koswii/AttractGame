@@ -222,7 +222,7 @@ app.post("/forgot-acc-search", async (req, res) => {
       const user = data.filter(user => user.email === email)
 
       const codePass = forgotPassCode(10)
-      const recoveryLink = "http://localhost:3000/forgot-password/recovery-code=" + codePass
+      const recoveryLink = "https://attractgame.com/forgot-password/recovery-code=" + codePass
       const subject = "Forgot Password";
       const text = "Your Recovery Link here: " + recoveryLink;
 
@@ -308,6 +308,7 @@ app.post('/verify-email', async (req, res) => {
     res.status(500).send('Error sending email');
   }
 });
+
 
 
 // Increase timeout settings
