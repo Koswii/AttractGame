@@ -54,6 +54,7 @@ import ForgotPass from './Components/Pages/ForgotPass';
 import ApplyAsSeller from './Components/Pages/ApplyAsSeller';
 import SellerTermsAndConditions from './Components/Pages/SellerTermsAndConditions';
 import SellerPrivacyPolicies from './Components/Pages/SellerPrivacyPolicies';
+import TawkToChat from './Components/Pages/tawkto';
 
 
 function App() {
@@ -64,6 +65,8 @@ function App() {
   const userLoggedInDetails = localStorage.getItem('profileDataJSON');
   const getAdminCredentials = localStorage.getItem('agAdminLoggedIn');
   const getSellerCredentials = localStorage.getItem('agSellerLoggedIn');
+
+  
 
   useEffect(() => {
     // Display loader when the page is being reloaded
@@ -125,6 +128,9 @@ function App() {
         <div>
           <ScrollToTop />
           <Nav />
+          {LoginUsername != null &&(
+            <TawkToChat/>
+          )}
           <CookieBanner />
           <Routes>
             <Route exact path="/" element={<Home/>}/>

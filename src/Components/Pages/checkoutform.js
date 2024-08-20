@@ -157,7 +157,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
   const [orderLink, setOrderLink] = useState('')
 
   const payUsingUSDT = async () => {
-    const apiKey = '3BRQ3X2-5JTMK5A-NEHK3Z0-X807SBM'; // Replace with your actual API key
+    const apiKey = 'ZC6GE5W-HBWMFWP-JADFWDE-XEEXAE8'; // Replace with your actual API key
     const url = 'https://api.nowpayments.io/v1/invoice';
     const orderID = orderIDGenerator(20)
     
