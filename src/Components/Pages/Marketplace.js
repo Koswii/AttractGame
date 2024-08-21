@@ -350,7 +350,7 @@ const Marketplace = () => {
     });
 
 
-
+    // console.log(gameLikes);
 
     
     return (
@@ -482,9 +482,9 @@ const Marketplace = () => {
                             </div>
                             <div className="mppcm2GameCategory">
                                 <span>
-                                    <img src={require('../assets/imgs/AGLogoWhite.png')} alt="" />
+                                    {(details.game_seller === 'Attract Game') && <img src={require('../assets/imgs/AGLogoWhite01.png')} alt="" />}
                                 </span>
-                                {(details.prodLikes >= 1) && <h4><TbHeartFilled className='faIcons'/> {details.prodLikes} Liked This</h4>}
+                                {(details.prodLikes >= 1) && <h4><TbHeartFilled className='faIcons'/> {details.prodLikes}</h4>}
                             </div>
                         </div>
                     </div>

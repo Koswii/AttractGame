@@ -50,7 +50,7 @@ import Success from './Components/Pages/success';
 import Underdevelop from './Components/Pages/underdevelop';
 import ForgotPass from './Components/Pages/ForgotPass';
 
-
+import SellerPanel from './Components/Pages/SellerPanel';
 import ApplyAsSeller from './Components/Pages/ApplyAsSeller';
 import SellerTermsAndConditions from './Components/Pages/SellerTermsAndConditions';
 import SellerPrivacyPolicies from './Components/Pages/SellerPrivacyPolicies';
@@ -154,6 +154,7 @@ function App() {
               <Route exact path="/success" element={<Success/>}/>
             </>}
             {(getAdminCredentials && userLoggedInState) && <Route path="/Admin" element={<Admin/>}/>}
+            {(getSellerCredentials && userLoggedInState) && <Route path="/SellerPanel" element={<SellerPanel/>}/>}
 
             <Route exact path="/AboutUs" element={<AboutUs/>}/>
             <Route exact path="/ContactUS" element={<ContactUs/>}/>

@@ -354,6 +354,11 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     height: 1vw;
     width: 1vw;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    overflow: hidden;
 }
 .mppcm2GameCategory h4{
     width: 100%;
