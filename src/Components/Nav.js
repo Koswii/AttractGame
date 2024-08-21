@@ -691,7 +691,7 @@ const Nav = () => {
               <a id='agRegisterBtn' onClick={handleViewRegistration}><h6>REGISTER</h6></a>
             </div>:
             <div className='userProfileBtn'>
-              {viewSellerCredentials &&<Link id='agAdminBtn' to=''><MdOutlineStorefront  className='faIcons'/></Link>}
+              {viewSellerCredentials &&<Link id='agAdminBtn' to='/SellerPanel'><MdOutlineStorefront  className='faIcons'/></Link>}
               {viewAdminCredentials &&<Link id='agAdminBtn' to='/Admin'><MdAdminPanelSettings className='faIcons'/></Link>}
               <Link id='agAddToCartBtn' to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}>
                 {!agUserProductCart ? '' : <p><sup>{agUserProductCart}</sup></p>}

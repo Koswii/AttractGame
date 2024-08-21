@@ -1,0 +1,488 @@
+h1, h2, h3, h4, h5, h6, p{
+    color: white;
+}
+p{
+    font-size: 0.9vw;
+}
+h1{
+    font-size: 10vw;
+}
+h2{
+    font-size: 5vw;
+}
+h3{
+    font-size: 4vw;
+}
+h4{
+    font-size: 2vw;
+}
+h5{
+    font-size: 1.5vw;
+}
+h6{
+    font-size: 1vw;
+}
+
+
+.mainContainer.sellerPanel{
+    height: 100vh;
+    width: 100%;
+    background: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    padding-bottom: 10vw;
+}
+
+
+
+
+section.spPageContainer.top{
+    height: auto;
+    width: 20%;
+    padding: 11vh 3%;
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    position: relative;
+    overflow: hidden;
+}
+.spPageContent.top{
+    height: auto;
+    width: 100%;
+}
+.sppc.top{
+    height: auto;
+    width: 100%;
+}
+.sppctViewNav{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: top;
+}
+.sppctViewNav button{
+    background: none;
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 5% 10%;
+    border-radius: 0.5vw;
+    margin-bottom: 5%;
+    opacity: 50%;
+    cursor: pointer;
+    text-align: left;
+}
+.sppctViewNav button:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+}
+.sppctViewNav button h6{
+    font-size: 0.7vw;
+    font-weight: 600;
+}
+.sppctViewNav button.activeNav{
+    background: gold;
+    box-shadow: 0 0 10px white;
+    opacity: 100%;
+}
+.sppctViewNav button.activeNav h6{
+    color: black;
+}
+
+
+
+
+
+
+
+
+section.spPageContainer.mid{
+    height: auto;
+    width: 80%;
+}
+.spPageContent.mid1{
+    height: auto;
+    width: 100%;
+    width: 100%;
+    padding: 11vh 3%;
+    padding-bottom: 0;
+    padding-right: 10%;
+}
+
+
+.sppcm1Dashboard{
+    height: auto;
+    width: 100%;
+    animation: fade-in-left 1s ease;
+}
+.sppcm1dContainer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    margin: 1% 0;
+}
+.sppcm1dContent.left{
+    height: auto;
+    width: 65%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1% 0;
+}
+.sppcm1dContent.right{
+    height: auto;
+    width: 35%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1% 0;
+    padding: 0.2% 0;
+}
+.sppcm1dContent.left div{
+    height: auto;
+    width: 32%;
+    padding: 2%;
+    border-radius: 1vw;
+    border: solid 2px white;
+    text-align: right;
+    margin: 0.5%;
+}
+.sppcm1dContent.left div h6{
+    margin-top: 5%;
+}
+.sppcm1dContent.right div{
+    height: 100%;
+    width: 48.5%;
+    padding: 4% 3%;
+    border-radius: 1vw;
+    border: solid 2px white;
+    text-align: right;
+    position: relative;
+    margin-left: 1%;
+}
+.sppcm1dContent.right div h4{
+    font-size: 1.7vw;
+    line-height: 2vw;
+}
+.admpcm1dContent.right div p{
+    font-size: 0.7vw;
+}
+.sppcm1dContent.right div span{
+    position: absolute;
+    width: 85%;
+    bottom: 15%;
+    left: 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.sppcm1dContent.right div span h6{
+    font-size: 0.7vw;
+    display: flex;
+    align-items: center;
+}
+.sppcm1dContent.right div span h6 .faIcons{
+    font-size: 1vw;
+    margin-right: 5%;
+}
+.sppcm1dContent.right div p{
+    font-size: 0.7vw;
+}
+.sppcm1dContent div h6{
+    font-size: 0.7vw;
+    font-weight: 400;
+}
+
+
+
+.sppcm1AddGames{
+    height: auto;
+    width: 100%;
+    animation: fade-in-left 1s ease;
+}
+.sppcm1AddGameContainer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    margin: 1% 0;
+}
+.sppcm1AGameContent.left{
+    height: auto;
+    width: 30%;
+}
+.sppcm1AGameContent.left p {
+    font-size: 0.7vw;
+}
+.sppcm1AGamesCAll{
+    height: auto;
+    width: 100%;
+    margin-top: 6%;
+}
+.sppcm1AGamesCAll div{
+    width: 100%;
+    padding: 4% 6%;
+    margin-bottom: 3%;
+    text-align: right;
+    border-radius: 1vw;
+    border: solid 2px white;
+}
+.sppcm1AGamesCAll div p{
+    font-size: 0.7vw;
+    margin-top: 1%;
+    opacity: 50%;
+}
+
+.sppcm1AGameContent.right{
+    height: auto;
+    width: 65%;
+    /* background: rgba(30, 30, 30, 0.8);
+    box-shadow: 0 0 10px black;
+    border-radius: 1vw;
+    padding: 2% 0; */
+}
+.sppcm1AGameContent.right form{
+    height: auto;
+    width: 100%;
+}
+.sppcm1AGameContent.right form h5{
+    text-align: center;
+    margin-bottom: 2%;
+}
+.sppcm1agcForm{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    padding-left: 5%;
+}
+.sppcm1agcf.left{
+    height: auto;
+    width: 30%;
+}
+.sppc1agcfImage{
+    height: 20vw;
+    width: 100%;
+    border-radius: 1vw;
+    border: dashed 2px white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 3%;
+}
+.sppc1agcfImage input{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: none;
+    cursor: pointer;
+    opacity: 0;
+}
+.sppc1agcfImage input#imageCoverHiddenText{
+    display: none;
+    opacity: none;
+}
+.sppc1agcfImage img{
+    height: 100%;
+    width: 100%;
+    color: white;
+    border-radius: 1vw;
+}
+.sppcm1agcf.right{
+    height: auto;
+    width: 65%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.sppcm1agcf.right span{
+    margin-bottom: 3%;
+    width: 48%;
+    position: relative;
+}
+.sppcm1agcf.right span button{
+    position: absolute;
+    top: 0;
+    right: 2%;
+    font-size: 0.9vw;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+}
+.sppcm1agcf.right span p,
+.sppcm1agcf.left span p{
+    font-size: 0.6vw;
+    color: gray;
+    font-style: italic;
+    line-height: 0.7vw;
+}
+.sppcm1agcf.right span input,
+.sppcm1agcf.left span input{
+    width: 100%;
+    margin-top: 3%;
+    padding: 8px 10px;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.sppcm1agcf.right span select{
+    width: 100%;
+    margin-top: 2%;
+    padding: 3% 5%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.sppcm1agcf.right span textarea{
+    width: 100%;
+    margin-top: 2%;
+    padding: 8px 10px;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.sppcm1agcf.right span select option{
+    background: black;
+    border: solid 1px white;
+    font-weight: 400;
+}
+.sppcm1agcf.right span.gameDescription{
+    height: auto;
+    width: 100%;
+}
+.sppcm1agcf.right span.gameDescription textarea{
+    height: 5vw;
+    width: 100%;
+    margin-top: 2%;
+    padding: 2% 3%;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.sppc1agcfOthers{
+    height: auto;
+    width: 100%;
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    padding-left: 5%;
+}
+.sppc1agcfo.right{
+    height: auto;
+    width: 100%;
+}
+.sppc1agcfo.right span p,
+.sppc1agcfo.left span p{
+    font-size: 0.6vw;
+    color: gray;
+    font-style: italic;
+    line-height: 0.7vw;
+}
+.sppc1agcfo.right span input{
+    width: 100%;
+    margin-top: 1%;
+    margin-bottom: 2%;
+    padding: 7px 10px;
+    background: none;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: white;
+    outline: none;
+}
+.sppc1agcfo.right span textarea{
+    height: 3.8vw;
+}
+.gameSubmitStatus{
+    height: auto;
+    width: 100%;
+    text-align: center;
+}
+.gameSubmitStatus p{
+    height: 1vw;
+    text-align: center;
+    margin: 1%;
+    font-style: italic;
+}
+.sppc1agcfSubmit{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 2% 0;
+}
+.sppc1agcfSubmit button{
+    padding: 1% 3%;
+    background: none;
+    border: solid 2px white;
+    outline: none;
+    border-radius: 50px;
+    opacity: 50%;
+    cursor: pointer;
+    font-size: 0.7vw;
+    color: white;
+}
+.sppc1agcfSubmit button:hover{
+    opacity: 100%;
+    transition: 400ms ease;
+    box-shadow: 0 0 5px white;
+    background: white;
+    color: black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

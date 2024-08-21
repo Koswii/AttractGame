@@ -15,6 +15,7 @@ export const GamesFetchDataProvider = ({ children }) => {
     const [loadingMarketData2, setLoadingMarketData2] = useState(true);
     const [imageCache, setImageCache] = useState({});
     const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
+    const AGGamesStatusAPI1 = process.env.REACT_APP_AG_GAMES_STATUS_API;
     const AGStocksListAPI = process.env.REACT_APP_AG_STOCKS_LIST_API;
     const getRandomItems = (array, numItems) => {
         const shuffled = array.sort(() => 0.5 - Math.random());

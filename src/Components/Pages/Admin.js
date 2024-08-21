@@ -427,6 +427,7 @@ const Admin = () => {
             agGiftcardCanonical : agSetGiftCardCanonical,
             agGiftcardDenomination: agSetGiftCardDenomination,
             agGiftcardSupplier: agSetGiftCardSupplier,
+            agGiftcardSeller: "Attract Game",
             agGiftcardCategory: agSetGiftCardCategory,
             agGiftcardDescription: agSetGiftCardDescription,
         };
@@ -475,6 +476,7 @@ const Admin = () => {
             agGamecreditCanonical : agSetGameCreditCanonical,
             agGamecreditDenomination: agSetGameCreditDenomination,
             agGamecreditSupplier: agSetGameCreditSupplier,
+            agGamecreditSeller: "Attract Game",
             agGamecreditCategory: agSetGameCreditCategory,
             agGamecreditDescription: agSetGameCreditDescription,
         };
@@ -1330,8 +1332,10 @@ const Admin = () => {
                                     <div className='admpcm1agcForm'>
                                         <div className="admpcm1agcf left">
                                             <div className='admpc1agcfImage'>
-                                                {image && (
-                                                    <img src={URL.createObjectURL(image)} alt="No image Selected" />
+                                                {image ? (
+                                                    <img src={URL.createObjectURL(image)} alt="Selected Image" />
+                                                ) : (
+                                                    <img src={require('../assets/imgs/GameBanners/AddProductImageBanner.png')} alt="Default Image" />
                                                 )}
                                                 <input type="file" accept="image/*" onChange={handleFileInputChange}/>
                                             </div>
@@ -1474,8 +1478,10 @@ const Admin = () => {
                                     <div className="admpcm1agcvForm">
                                         <div className="admpcm1agcvf left">
                                             <div className="admpc1agcvfImage">
-                                                {imageGCV && (
+                                                {imageGCV ? (
                                                     <img src={URL.createObjectURL(imageGCV)} alt="No image Selected" />
+                                                ) : (
+                                                    <img src={require('../assets/imgs/GameBanners/AddProductImageBanner.png')} alt="Default Image" />
                                                 )}
                                                 <input type="file" accept="image/*" onChange={handleFileInputGCVChange}/>
                                             </div>
@@ -1502,7 +1508,7 @@ const Admin = () => {
                                             <span>
                                                 <label htmlFor=""><p>Category</p></label>
                                                 <select name="" id="" value={agSetGiftCardCategory} onChange={(e) => setAGSetGiftCardCategory(e.target.value)}>
-                                                    <option value="">Select Supplier</option>
+                                                    <option value="">Select Category</option>
                                                     <option value="Gaming">Gaming</option>
                                                     <option value="Utilities">Utilities</option>
                                                     <option value="Shopping">Shopping</option>
@@ -1556,8 +1562,10 @@ const Admin = () => {
                                     <div className="admpcm1agcrForm">
                                         <div className="admpcm1agcrf left">
                                             <div className="admpc1agcrfImage">
-                                                {imageGCR && (
+                                                {imageGCR ? (
                                                     <img src={URL.createObjectURL(imageGCR)} alt="No image Selected" />
+                                                ) : (
+                                                    <img src={require('../assets/imgs/GameBanners/AddProductImageBanner.png')} alt="Default Image" />
                                                 )}
                                                 <input type="file" accept="image/*" onChange={handleFileInputGCRChange}/>
                                             </div>

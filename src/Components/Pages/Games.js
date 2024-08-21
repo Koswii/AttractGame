@@ -338,6 +338,11 @@ const Games = () => {
                                             <li>
                                                 <input
                                                     type="checkbox"
+                                                />New
+                                            </li>
+                                            <li>
+                                                <input
+                                                    type="checkbox"
                                                 />Preorder
                                             </li>
                                             <li>
