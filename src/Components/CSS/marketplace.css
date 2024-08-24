@@ -343,6 +343,20 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
 .mppcm2GamePlatform img[platform='PlayStation5']{
     content: url('../assets/imgs/GamePlatforms/PS5.png');
 }
+.mppcm2GameSeller{
+    height: 2vw;
+    width: 2vw;
+    position: absolute;
+    top: 0.5vw;
+    right: 0.5vw;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 0 10px black;
+    background: black;
+}
 .mppcm2GameCategory{
     width: 100%;
     height: 1.2vw;
@@ -400,27 +414,32 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     opacity: 1;
     transition: 400ms ease;
 } */
-.mppcm2GameDetails h5{
-    height: 2vw;
-    font-size: 1vw;
-    line-height: 1vw;
+.mppcm2gdTitle{
+    height: 4vw;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
 }
-.mppcm2GameDetails p{
+.mppcm2gdTitle h5{
+    width: 100%;
+    font-size: 1vw;
+    line-height: 1.1vw;
+    text-align: center;
+}
+.mppcm2gdTitle h5 span{
     text-align: center;
     font-weight: 400;
     font-size: 0.7vw;
+    color: lightgray;
 }
-.mppcm2GameDetails div{
+.mppcm2gdPricing{
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 4%;
 }
-.mppcm2GameDetails div #mppcm2GDView{
+.mppcm2gdPricing #mppcm2GDView{
     width: 65%;
     margin: 0;
     border-radius: 50px;
@@ -430,18 +449,19 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     cursor: pointer;
     text-align: center;
     justify-content: center;
+    padding: 4% 0;
 }
-.mppcm2GameDetails div #mppcm2GDView h5{
+.mppcm2gdPricing #mppcm2GDView h5{
     line-height: 1vw;
     font-size: 1vw;
 }
-.mppcm2GameDetails div #mppcm2GDView h5#gameNoStocks{
+.mppcm2gdPricing #mppcm2GDView h5#gameNoStocks{
     color: gray;
 }
-.mppcm2GameDetails div button#mppcm2GDHRemove,
-.mppcm2GameDetails div button#mppcm2GDAdd,
-.mppcm2GameDetails div button#mppcm2GDCart,
-.mppcm2GameDetails div button#mppcm2GDAddedCart{
+.mppcm2gdPricing button#mppcm2GDHRemove,
+.mppcm2gdPricing button#mppcm2GDAdd,
+.mppcm2gdPricing button#mppcm2GDCart,
+.mppcm2gdPricing button#mppcm2GDAddedCart{
     font-size: 1.8vw;
     line-height: 1vw;
     background: none;
@@ -450,12 +470,12 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     color: white;
     cursor: pointer;
 }
-.mppcm2GameDetails div button#mppcm2GDHRemove,
-.mppcm2GameDetails div button .faIcons.red{
+.mppcm2gdPricing button#mppcm2GDHRemove,
+.mppcm2gdPricing button .faIcons.red{
     color: red;
 }
-.mppcm2GameDetails div button#mppcm2GDAddedCart,
-.mppcm2GameDetails div button .faIcons.gold{
+.mppcm2gdPricing button#mppcm2GDAddedCart,
+.mppcm2gdPricing button .faIcons.gold{
     color: gold;
 }
 
@@ -908,21 +928,29 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     .mppcm2GameDiscount h4{
         font-size: 5vw;
     }
-    .mppcm2GameDetails h5{
-        height: 8vw;
+    .mppcm2gdTitle{
+        height: 15vw;
+        width: 100%;
+        margin: 3% 0;
+    }
+    .mppcm2gdTitle h5{
         font-size: 3.5vw;
-        line-height: 4.5vw;
+        line-height: 4vw;
     }
-    .mppcm2GameDetails p{
-        font-size: 2.3vw;
+    .mppcm2gdTitle h5 span{
+        font-size: 2.5vw;
+        line-height: 1.5vw;
     }
-    .mppcm2GameDetails div #mppcm2GDView h5{
+    .mppcm2gdPricing #mppcm2GDView{
+        padding: 6% 0;
+    }
+    .mppcm2gdPricing #mppcm2GDView h5{
         font-size: 3.5vw;
     }
-    .mppcm2GameDetails div button#mppcm2GDHRemove,
-    .mppcm2GameDetails div button#mppcm2GDAdd,
-    .mppcm2GameDetails div button#mppcm2GDCart,
-    .mppcm2GameDetails div button#mppcm2GDAddedCart{
+    .mppcm2gdPricing button#mppcm2GDHRemove,
+    .mppcm2gdPricing button#mppcm2GDAdd,
+    .mppcm2gdPricing button#mppcm2GDCart,
+    .mppcm2gdPricing button#mppcm2GDAddedCart{
         font-size: 6vw;
     }
     .mpPageContentM2ShowMore{

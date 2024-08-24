@@ -129,132 +129,56 @@ const defaultImages = [
 ];
 
 const Profile = () => {
-    const { userLoggedData } = UserProfileData();
+    const { userLoggedData, userProductCodeIDData, viewTransactionList } = UserProfileData();
     // User Profile Fetching
     const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
-    const AGGamesListAPI = process.env.REACT_APP_AG_GAMES_LIST_API;
-    const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
-    const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
-    const AGProductIDCodeAPI = process.env.REACT_APP_AG_USER_PRODUCTS_ID_API;
-    const AGUserProductsCodeAPI = process.env.REACT_APP_AG_USER_PRODUCTS_CODE_API;
     const AGUsersTransactions = process.env.REACT_APP_AG_USERS_TRANSACTIONS_API;
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const LoginUserID = localStorage.getItem('profileUserID');
     const userLoggedIn = localStorage.getItem('isLoggedIn')
     const storedSellerState = localStorage.getItem('agSellerLoggedIn');
     const [userProductIDData, setUserProductIDData] = useState([]);
-    const [userProductCodeIDData, setUserProductCodeIDData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [randomNumber, setRandomNumber] = useState('');
     const [randomPostID, setRandomPostID] = useState('');
     const [viewFetchPost, setViewFetchPost] = useState([]);
     const [viewFetchStory, setViewFetchStory] = useState([]);
-    const [viewTransactionList, setViewTransactionList] = useState([]);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-        const number = Math.floor(Math.random() * 900000) + 100000; // Generates a 6-digit number
-        setRandomNumber(number);
-        }, 1000); // Change interval as needed (in milliseconds)
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //     const number = Math.floor(Math.random() * 900000) + 100000; // Generates a 6-digit number
+    //     setRandomNumber(number);
+    //     }, 1000); // Change interval as needed (in milliseconds)
 
-        return () => clearInterval(interval);
-    }, []);
-    useEffect(() => {
-        const interval = setInterval(() => {
-        const number = Math.floor(Math.random() * 90000000) + 10000000; // Generates a 8-digit number
-        setRandomPostID(number);
-        }, 1000); // Change interval as needed (in milliseconds)
+    //     return () => clearInterval(interval);
+    // }, []);
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //     const number = Math.floor(Math.random() * 90000000) + 10000000; // Generates a 8-digit number
+    //     setRandomPostID(number);
+    //     }, 1000); // Change interval as needed (in milliseconds)
 
-        return () => clearInterval(interval);
-    }, []);
-    useEffect(() => {
-        
-        const fetchUserDataPost = () => {
-            setIsLoading(true);
-            axios.get(AGUserPostAPI)
-            .then((response) => {
-                const postSortData = response.data.sort((a, b) => b.id - a.id);
-                const postData = postSortData.filter(post => post.user_id == LoginUserID);
-                setViewFetchPost(postData);
-            })
-            .catch(error => {
-                console.log(error)
-            })
-            .finally(() => {
-                setIsLoading(false); // Set loading to false after the fetch is complete
-            });
-        }
-        const fetchUserProductIds = async () => {
-            setIsLoading(true);
-            const userRequestCode = {
-                ag_product_owner: LoginUserID,
-            };
-        
-            try {
-                const userRequestCodeJSON = JSON.stringify(userRequestCode);
-                const response = await axios.post(AGProductIDCodeAPI, userRequestCodeJSON);
-        
-                const reqData = response.data;
-                if (reqData.success === true) {
-                    const productIDs = reqData.data;
-                    const gameProducts = productIDs.filter(product => product.ag_product_type === 'Games');
-                    const giftcardProducts = productIDs.filter(product => product.ag_product_type === 'Giftcards');
-                    const gamecreditProducts = productIDs.filter(product => product.ag_product_type === 'Game Credits');
-                    const productCodeIDs = productIDs.map(productID => productID.ag_product_id_code);
-                    const requestProductCode = {
-                        userProductCode: productCodeIDs,
-                    };
-                    const requestProductCodeJSON = JSON.stringify(requestProductCode);
-                    const responseCode = await axios.post(AGUserProductsCodeAPI, requestProductCodeJSON);
-                    const userActualCodeData = responseCode.data.data;
-                    const [userGameDataResponse, userGiftcardDataResponse, userGamecreditDataResponse] = await Promise.all([
-                        axios.get(AGGamesListAPI),
-                        axios.get(AGGiftcardsListAPI),
-                        axios.get(AGGameCreditsListAPI)
-                    ]);
-                    const cartGameWithData = gameProducts.map(product => {
-                        const productData = userGameDataResponse.data.find(game => game.game_canonical === product.ag_product_id);
-                        return { ...product, productData};
-                    });
-                    const cartGiftcardWithData = giftcardProducts.map(product => {
-                        const productData = userGiftcardDataResponse.data.find(giftcard => giftcard.giftcard_id === product.ag_product_id);
-                        return { ...product, productData};
-                    });
-                    const cartGamecreditWithData = gamecreditProducts.map(product => {
-                        const productData = userGamecreditDataResponse.data.find(gamecredit => gamecredit.gamecredit_id === product.ag_product_id);
-                        return { ...product, productData};
-                    });
-                    const combinedAllData = [...cartGameWithData, ...cartGiftcardWithData, ...cartGamecreditWithData];
-                    const userProductCodeData = combinedAllData.map(product => {
-                        const productCode = userActualCodeData.find(productCode => productCode.ag_product_id_code === product.ag_product_id_code);
-                        return {...product, productCode};
-                    });
-                    setUserProductCodeIDData(userProductCodeData);
-        
-                } else {
-                    setUserProductCodeIDData([]);
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        const fetchUserTransactionHistory = async () => {
-            try {
-                const response = await axios.get(AGUsersTransactions);
-                const TransactionHistoryData = response.data.filter(user => user.ag_user_id === LoginUserID);
-                setViewTransactionList(TransactionHistoryData);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchUserTransactionHistory();
-        fetchUserDataPost();
-        fetchUserDataStory(setViewFetchStory);
-        fetchUserProductIds();
-    }, [LoginUserID]);
+    //     return () => clearInterval(interval);
+    // }, []);
+    // useEffect(() => {
+    //     const fetchUserDataPost = () => {
+    //         setIsLoading(true);
+    //         axios.get(AGUserPostAPI)
+    //         .then((response) => {
+    //             const postSortData = response.data.sort((a, b) => b.id - a.id);
+    //             const postData = postSortData.filter(post => post.user_id == LoginUserID);
+    //             setViewFetchPost(postData);
+    //         })
+    //         .catch(error => {
+    //             console.log(error)
+    //         })
+    //         .finally(() => {
+    //             setIsLoading(false); // Set loading to false after the fetch is complete
+    //         });
+    //     }
+    //     fetchUserDataPost();
+    //     fetchUserDataStory(setViewFetchStory);
+    // }, [LoginUserID]);
 
     
 
@@ -500,6 +424,7 @@ const Profile = () => {
     const [viewUserProducts, setViewUserProducts] = useState(true);
     const [viewUserTransactions, setViewUserTransactions] = useState(false);
     const [viewUserAddProducts, setViewUserAddProducts] = useState(false);
+    const [viewUserRedeem, setViewUserRedeem] = useState(false);
     const [viewUserStore, setViewUserStore] = useState(false);
     const [viewUserTickets, setViewUserTickets] = useState(false)
 
@@ -512,6 +437,7 @@ const Profile = () => {
         setViewUserHighlight(false)
         setViewUserStore(false)
         setViewUserAddProducts(false)
+        setViewUserRedeem(false)
         setViewUserTickets(false)
         setViewUserTransactions(false)
     }
@@ -520,6 +446,7 @@ const Profile = () => {
         setViewUserProducts(false)
         setViewUserStore(true)
         setViewUserAddProducts(false)
+        setViewUserRedeem(false)
         setViewUserTickets(false)
         setViewUserHighlight(false)
     }
@@ -528,6 +455,16 @@ const Profile = () => {
         setViewUserProducts(false)
         setViewUserStore(false)
         setViewUserAddProducts(true)
+        setViewUserRedeem(false)
+        setViewUserTickets(false)
+        setViewUserHighlight(false)
+    }
+    const handleViewRedeem = () => {
+        setViewUserTransactions(false)
+        setViewUserProducts(false)
+        setViewUserStore(false)
+        setViewUserAddProducts(false)
+        setViewUserRedeem(true)
         setViewUserTickets(false)
         setViewUserHighlight(false)
     }
@@ -536,6 +473,7 @@ const Profile = () => {
         setViewUserProducts(false)
         setViewUserStore(false)
         setViewUserAddProducts(false)
+        setViewUserRedeem(false)
         setViewUserTickets(true)
         setViewUserHighlight(false)
     }
@@ -544,11 +482,11 @@ const Profile = () => {
         setViewUserProducts(false)
         setViewUserStore(false)
         setViewUserAddProducts(false)
+        setViewUserRedeem(false)
         setViewUserTickets(false)
         setViewUserHighlight(false)
     }
 
-    console.log(userProductCodeIDData);
 
     return (
         <div className='mainContainer profile'>
@@ -766,10 +704,8 @@ const Profile = () => {
                     <div className="ppcrProfileNavigations">
                         {/* <button className={viewUserHighlight ? 'active' : ''} onClick={handleViewDefault}><h6>HIGHLIGHTS</h6></button> */}
                         <button className={viewUserProducts ? 'active' : ''} onClick={handleViewProducts}><h6>MY PRODUCTS</h6></button>
-                        {storedSellerState && <>
-                            <button className={viewUserStore ? 'active' : ''} onClick={handleViewStore}><h6>MY STORE</h6></button>
-                            <button className={viewUserTickets ? 'active' : ''} onClick={handleViewTickets}><h6>TICKETS</h6></button>
-                        </>}
+                        {/* <button className={viewUserRedeem ? 'active' : ''} onClick={handleViewRedeem}><h6>REDEEM</h6></button>
+                        <button className={viewUserTickets ? 'active' : ''} onClick={handleViewTickets}><h6>TICKETS</h6></button> */}
                         <button className={viewUserTransactions ? 'active' : ''} onClick={handleViewTransactions}><h6>TRANSACTION HISTORY</h6></button>
                         {/* <button><h6>MISSIONS</h6></button>
                         <button><h6>FEEDBACKS</h6></button> */}
@@ -885,7 +821,7 @@ const Profile = () => {
                                                     <p>DOLLARS</p>
                                                 </div>}
                                             </div>
-                                            <button onClick={() => toggleVisibility(i)}>{isVisible[i] ? <FaRegEyeSlash className='faIcons'/> : <FaRegEye className='faIcons'/>}</button>
+                                            {/* <button onClick={() => toggleVisibility(i)}>{isVisible[i] ? <FaRegEyeSlash className='faIcons'/> : <FaRegEye className='faIcons'/>}</button> */}
                                             <div className="ppcrpcmppcCode">
                                                 <div>
                                                     <h6>
@@ -893,9 +829,9 @@ const Profile = () => {
                                                         <span>{details.productData.game_edition ? details.productData.game_edition : ''}</span>
                                                     </h6>
                                                 </div>
-                                                <span>
+                                                {/* <span>
                                                     <a href="">{!isVisible[i] ? '***** ***** *****' : `${details.productCode.ag_product_code}`}</a>
-                                                </span>
+                                                </span> */}
                                             </div>
                                         </div>
                                     ))}
@@ -906,11 +842,11 @@ const Profile = () => {
                             </>}
                         </>}
                     </div>}
-                    {viewUserStore && <div className="ppcrProfileContents myStore">
+                    {viewUserRedeem && <div className="ppcrProfileContents myStore">
                         <div className="ppcrpcmpMyProducts">
-                            {/* <h3>MY LISTED PRODUCTS</h3> */}
-                            <><div className="ppcrpcmpEmpty">
-                                    <h6>You don't have any Products yet.</h6>
+                            <>
+                                <div className="ppcrpcmpEmpty">
+
                                 </div>
                             </>
                         </div>
@@ -918,7 +854,8 @@ const Profile = () => {
                     {viewUserTickets && <div className="ppcrProfileContents myTickets">
                         <div className="ppcrpcmpMyTickets">
                             {/* <h3>MY LISTED PRODUCTS</h3> */}
-                            <><div className="ppcrpcmpEmpty">
+                            <>
+                                <div className="ppcrpcmpEmpty">
                                     <h6>You don't have any Tickets yet.</h6>
                                 </div>
                             </>
