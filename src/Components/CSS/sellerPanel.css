@@ -180,7 +180,7 @@ section.spPageContainer.mid{
 .sppcm1dContent.right div span{
     position: absolute;
     width: 85%;
-    bottom: 15%;
+    bottom: 7%;
     left: 7%;
     display: flex;
     justify-content: space-between;
@@ -838,7 +838,7 @@ section.spPageContainer.mid{
 .sppcm1agcrf.right span textarea{
     height: 5vw;
     width: 100%;
-    margin-top: 2%;
+    margin-top: 1.5%;
     padding: 7px 10px;
     background: none;
     border: solid 1px white;
@@ -869,6 +869,17 @@ section.spPageContainer.mid{
     font-weight: 400;
     color: white;
     outline: none;
+}.sppcm1agcrf.right span#sppcm1agcrfDisclaimer{
+    width: 100%;
+    padding: 0 3%;
+}
+.sppcm1agcrf.right span#sppcm1agcrfDisclaimer h6{
+    margin-bottom: 2%;
+}
+.sppcm1agcrf.right span#sppcm1agcrfDisclaimer p{
+    color: white;
+    font-size: 0.7vw;
+    line-height: 0.8vw;
 }
 .gamecreditSubmitStatus{
     height: auto;

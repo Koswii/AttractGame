@@ -61,6 +61,9 @@ const SellerPanel = () => {
     const handleViewTickets = () => {
         setActiveView('tickets');
     };
+    const handleViewSell = () => {
+        setActiveView('sell');
+    };
     const handleViewFaqs = () => {
         setActiveView('faqs');
     };
@@ -329,6 +332,7 @@ const SellerPanel = () => {
                             <button className={activeView === 'codes' ? 'activeNav': ''} onClick={handleViewAddCodes}><h6>ADD PRODUCT CODES</h6></button>
                             <button className={activeView === 'inventory' ? 'activeNav': ''} onClick={handleViewInventory}><h6>INVENTORY</h6></button>
                             <button className={activeView === 'tickets' ? 'activeNav': ''} onClick={handleViewTickets}><h6>TICKETS</h6></button>
+                            <button className={activeView === 'sell' ? 'activeNav': ''} onClick={handleViewSell}><h6>SELL TO AG</h6></button>
                             <button className={activeView === 'faqs' ? 'activeNav': ''} onClick={handleViewFaqs}><h6>SELLER FAQs</h6></button>
                         </div>
                     </div>
@@ -351,6 +355,18 @@ const SellerPanel = () => {
                                 <div>
                                     <h4>0</h4>
                                     <h6>LISTED GAME CREDITS</h6>
+                                </div>
+                                <div>
+                                    <h4>0</h4>
+                                    <h6>GAME STOCKS</h6>
+                                </div>
+                                <div>
+                                    <h4>0</h4>
+                                    <h6>GIFTCARD STOCKS</h6>
+                                </div>
+                                <div>
+                                    <h4>0</h4>
+                                    <h6>GAMECREDIT STOCKS</h6>
                                 </div>
                             </div>
                             <div className="sppcm1dContent right">
@@ -633,7 +649,8 @@ const SellerPanel = () => {
                                                 <textarea name="" id="" placeholder='Add Game Credit Description here' value={agSetGameCreditDescription} onChange={(e) => setAGSetGameCreditDescription(e.target.value)}></textarea>
                                             </span>
                                             <span id="sppcm1agcrfDisclaimer">
-
+                                                <h6>Disclaimer:</h6>
+                                                <p>Please be informed that the valuation/denomination is different from the number of game credits. The valuation/denomination refers to the price of the game credits, while the number of game credits indicates the amount of in-game currency customer will receive. For further questions, please contact our Customer Support Agent.</p>
                                             </span>
                                         </div>
                                     </div>

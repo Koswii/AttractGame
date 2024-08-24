@@ -815,7 +815,11 @@ section.profilePageContainer.top img{
 .ppctecimg button#ppctecimgBtnMob{
     display: none;
 }
-
+.ppctecimg button#ppctecimgBtnWeb:hover{
+    background: white;
+    transition: 400ms ease;
+    color: black;
+}
 
 
 
@@ -1343,12 +1347,18 @@ section.profilePageContainer.mid{
     height: 16vw;
     width: 24%;
     margin-right: 1%;
-    border: solid 2px black;
     border-radius: 1vw;
     margin-bottom: 1%;
     overflow: hidden;
     position: relative;
     background: black;
+    cursor: pointer;
+    transition: 400ms ease;
+    overflow: hidden;
+}
+.ppcrpcmppContents:hover{
+    box-shadow: 0 0 5px white;
+    transition: 400ms ease;
 }
 .ppcrpcmppcPlatform{
     height: 4vw;
@@ -1433,9 +1443,12 @@ section.profilePageContainer.mid{
     right: 0.5vw;
 }
 .ppcrpcmppcCode{
-    height: 10vw;
+    height: 7vw;
     width: 100%;
     position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     bottom: 0;
     left: 0;
     background: linear-gradient(transparent, black 30%);
@@ -1443,7 +1456,7 @@ section.profilePageContainer.mid{
     padding-top: 15%;
 }
 .ppcrpcmppcCode div{
-    height: 5vw;
+    height: 4vw;
     width: 100%;
     display: flex;
     justify-content: center;

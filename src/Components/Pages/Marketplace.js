@@ -375,7 +375,7 @@ const Marketplace = () => {
                 </div>
             </section>
             <section className="marketplacePageContainer mid">
-                <h4 id='mppcthTitlesfeatured'><TbDeviceGamepad2 className='faIcons'/> FEATURED GAMES</h4>
+                {/* <h4 id='mppcthTitlesfeatured'><TbDeviceGamepad2 className='faIcons'/> FEATURED GAMES</h4>
                 <div className="mpPageContentMid1">
                     {!loadingMarketData ? <>
                         <div className="mppContentMid1">
@@ -419,7 +419,7 @@ const Marketplace = () => {
                         </div>
                         ))}
                     </>}
-                </div>
+                </div> */}
                 <h4 id='mppcmhTitles'><TbDeviceGamepad2 className='faIcons'/> LISTED GAMES</h4>
                 <div className="mpPageContentMid2 website">
                     {loadingMarketData2 ? <>
@@ -438,16 +438,19 @@ const Marketplace = () => {
                         <div className="mppcm2GamePlatform" to={`/Games/${details.game_canonical}`}>
                             <img platform={details.game_platform} src="" alt="" />
                         </div>
+                        {(details.game_seller === 'Attract Game') && 
+                        <div className="mppcm2GameSeller">
+                            <img src={require('../assets/imgs/AGLogoWhite01.png')} alt="" />
+                        </div>}
                         <Link to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>{details.game_cover !== '' ?
                         <ImageComponentGames imageName={details.game_cover} />
                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
-                        {/* <div className="mppcm2GameDiscount">
-                            <h4><MdDiscount className='faIcons'/></h4>
-                        </div> */}
                         <div className="mppcm2GameDetails">
-                            <h5>{details.game_title}</h5>
-                            <p>{details.game_edition}</p>
-                            <div>
+                            <div className="mppcm2gdTitle">
+                                <h5>{details.game_title}<br /><span>{details.game_edition}</span></h5>
+                            </div>
+                            {/* <p>{details.game_edition}</p> */}
+                            <div className="mppcm2gdPricing">
                                 <div id="mppcm2GDView">
                                     {(details.stock === undefined) ?
                                     <h5 id='gameNoStocks'>No Stocks</h5>:
@@ -480,12 +483,12 @@ const Marketplace = () => {
                                     <button id='mppcm2GDCart' onClick={handleLoginForm}><TbShoppingCartPlus className='faIcons'/></button>
                                 </>}
                             </div>
-                            <div className="mppcm2GameCategory">
+                            {/* <div className="mppcm2GameCategory">
                                 <span>
                                     {(details.game_seller === 'Attract Game') && <img src={require('../assets/imgs/AGLogoWhite01.png')} alt="" />}
                                 </span>
                                 {(details.prodLikes >= 1) && <h4><TbHeartFilled className='faIcons'/> {details.prodLikes}</h4>}
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     ))}</>}
@@ -504,13 +507,12 @@ const Marketplace = () => {
                         <>{details.game_cover !== '' ?
                         <ImageComponentGames imageName={details.game_cover} />
                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</>
-                        {/* <div className="mppcm2GameDiscount">
-                            <h4><MdDiscount className='faIcons'/></h4>
-                        </div> */}
                         <div className="mppcm2GameDetails">
-                            <h5>{details.game_title}</h5>
-                            <p>{details.game_edition}</p>
-                            <div>
+                            <div className="mppcm2gdTitle">
+                                <h5>{details.game_title}<br /><span>{details.game_edition}</span></h5>
+                            </div>
+                            {/* <p>{details.game_edition}</p> */}
+                            <div className="mppcm2gdPricing">
                                 <div id="mppcm2GDView">
                                     {(details.stock === undefined) ?
                                     <h5 id='gameNoStocks'>No Stocks</h5>:
@@ -532,12 +534,12 @@ const Marketplace = () => {
                                     <button id='mppcm2GDCart'><TbShoppingCartPlus className='faIcons'/></button>
                                 </>}
                             </div>
-                            <div className="mppcm2GameCategory">
+                            {/* <div className="mppcm2GameCategory">
                                 <span>
                                     <img src={require('../assets/imgs/AGLogoWhite.png')} alt="" />
                                 </span>
                                 {(details.prodLikes >= 3) && <h4><TbHeartFilled className='faIcons'/> {details.prodLikes} Liked This</h4>}
-                            </div>
+                            </div> */}
                         </div>
                     </Link>
                     ))}</>}
