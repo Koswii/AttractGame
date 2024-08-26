@@ -348,11 +348,11 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                 {message && <div id="payment-message"><p>{message}</p></div>}
                 <p>Pay using:</p>
                 <PayPalButton totalprice={totalprice} transactionData={transactionData} setClientSecret={setClientSecret} setSuccesstransaction={setSuccesstransaction}/>
-                <div className="agBtns">
-                  <button>AG Voucher</button>
-                  <button>AG Points</button>
-                </div>
               </form>
+              <div className="agBtns">
+                <button>AG Voucher</button>
+                <button>AG Points</button>
+              </div>
               {/* <button id="payCrypto" onClick={payUsingUSDT}>Pay Using USDT</button> */}
             </div>
           </>}
