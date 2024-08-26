@@ -751,7 +751,37 @@ nav{
     align-items: center;
 }
 
-
+.mppctFeaturedGameSlider{
+    margin: 1vw 0;
+}
+.mppctFeaturedGameSlider section{
+    height: 30vw;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 1vw;
+    position: relative;
+    box-shadow: 0 0 .5vw rgba(255, 255, 255, 0.473);
+}
+.sliderImgs{
+    display: flex;
+    height: auto;
+    width: 100%;
+    position: absolute;
+    transition: .3s ease;
+}
+.sliderImgs.first{
+    right: 0;
+}
+.sliderImgs.second{
+    right: 100%;
+}
+.sliderImgs.third{
+    right: 200%;
+}
+.sliderImgs img{
+    height: auto;
+    width: 100%;
+}
 
 
 
@@ -978,11 +1008,34 @@ nav{
 
 
 
+    .forgotPassAcc a{
+        font-size: 3vw;
+    }
 
 
-
-
-
+    .navForgotpassword{
+        margin: 4vw 0 0 0;
+    }
+    .navForgotpassword h1{
+        font-size: 4vw;
+    }
+    .navForgotpassword p{
+        font-size: 3vw;
+    }
+    .navForgotpassword input{
+        border-radius: 2vw;
+        margin: 2vw 0;
+    }
+    .navForgotpassword button{
+        padding: 1vw 3vw;
+        border-radius: 2vw;
+    }
+    .backToLogin{
+        margin: 4vw 0 0 0;
+    }
+    .backToLogin a{
+        font-size: 3vw;
+    }
 
 
 }
