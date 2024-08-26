@@ -61,6 +61,12 @@ const SellerPanel = () => {
     const handleViewTickets = () => {
         setActiveView('tickets');
     };
+    const handleViewSell = () => {
+        setActiveView('sell');
+    };
+    const handleViewFaqs = () => {
+        setActiveView('faqs');
+    };
 
     const [formResponse, setFormResponse] = useState('');
 
@@ -242,7 +248,6 @@ const SellerPanel = () => {
     const [agSetGameCreditDenomination, setAGSetGameCreditDenomination] = useState('');
     const [agSetGameCreditNumber, setAGSetGameCreditNumber] = useState('');
     const [agSetGameCreditType, setAGSetGameCreditType] = useState('');
-    const [agSetGameCreditCategory, setAGSetGameCreditCategory] = useState('');
     const [agSetGameCreditDescription, setAGSetGameCreditDescription] = useState('');
     const agSetGameCreditCode1 = agSetGameCreditTitle.replace(/\s/g, '');
     const agSetGameCreditCode2 = agSetGameCreditDenomination.replace(/\s/g, '');
@@ -272,7 +277,7 @@ const SellerPanel = () => {
             agGamecreditDenomination: agSetGameCreditDenomination,
             agGamecreditSupplier: '',
             agGamecreditSeller: userLoggedData.userid,
-            agGamecreditCategory: agSetGameCreditCategory,
+            agGamecreditCategory: 'Gaming',
             agGamecreditDescription: agSetGameCreditDescription,
         };
 
@@ -297,7 +302,6 @@ const SellerPanel = () => {
                 setAGSetGameCreditDenomination('');
                 setAGSetGameCreditNumber('');
                 setAGSetGameCreditType('');
-                setAGSetGameCreditCategory('');
                 setAGSetGameCreditDescription('');
             }
     
@@ -328,6 +332,8 @@ const SellerPanel = () => {
                             <button className={activeView === 'codes' ? 'activeNav': ''} onClick={handleViewAddCodes}><h6>ADD PRODUCT CODES</h6></button>
                             <button className={activeView === 'inventory' ? 'activeNav': ''} onClick={handleViewInventory}><h6>INVENTORY</h6></button>
                             <button className={activeView === 'tickets' ? 'activeNav': ''} onClick={handleViewTickets}><h6>TICKETS</h6></button>
+                            <button className={activeView === 'sell' ? 'activeNav': ''} onClick={handleViewSell}><h6>SELL TO AG</h6></button>
+                            <button className={activeView === 'faqs' ? 'activeNav': ''} onClick={handleViewFaqs}><h6>SELLER FAQs</h6></button>
                         </div>
                     </div>
                 </div>
@@ -349,6 +355,18 @@ const SellerPanel = () => {
                                 <div>
                                     <h4>0</h4>
                                     <h6>LISTED GAME CREDITS</h6>
+                                </div>
+                                <div>
+                                    <h4>0</h4>
+                                    <h6>GAME STOCKS</h6>
+                                </div>
+                                <div>
+                                    <h4>0</h4>
+                                    <h6>GIFTCARD STOCKS</h6>
+                                </div>
+                                <div>
+                                    <h4>0</h4>
+                                    <h6>GAMECREDIT STOCKS</h6>
                                 </div>
                             </div>
                             <div className="sppcm1dContent right">
@@ -439,11 +457,16 @@ const SellerPanel = () => {
                                                 <input type="date" value={agSetGameRelease} onChange={(e) => setAGSetGameRelease(e.target.value)} required/>
                                             </span>
                                             <span>
-                                                <label htmlFor=""><p>Highlight (Optional)</p></label>
-                                                <select name="" id="" value={agSetGameHighlight1} onChange={(e) => setAGSetGameHighlight1(e.target.value)}>
-                                                    <option value="">Select Highlight</option>
-                                                    <option value="Featured">Featured Games</option>
-                                                    <option value="Sale">On Sale Games</option>
+                                                <label htmlFor=""><p>Gaming Platform</p></label>
+                                                <select name="" id="" value={agSetGamePlatform} onChange={(e) => setAGSetGamePlatform(e.target.value)} required>
+                                                    <option value="">Select Platform</option>
+                                                    <option value="MobileApp">Mobile Games</option>
+                                                    <option value="PC">PC Games</option>
+                                                    <option value="NintendoSwitch">Nintendo Switch Games</option>
+                                                    <option value="XboxXS">Xbox X/S Games</option>
+                                                    <option value="XboxOne">Xbox One Games</option>
+                                                    <option value="PlayStation4">PS4 Games</option>
+                                                    <option value="PlayStation5">PS5 Games</option>
                                                 </select>
                                             </span>
                                             <span>
@@ -458,16 +481,11 @@ const SellerPanel = () => {
                                                 </select>
                                             </span>
                                             <span>
-                                                <label htmlFor=""><p>Platform</p></label>
-                                                <select name="" id="" value={agSetGamePlatform} onChange={(e) => setAGSetGamePlatform(e.target.value)} required>
-                                                    <option value="">Select Platform</option>
-                                                    <option value="MobileApp">Mobile Games</option>
-                                                    <option value="PC">PC Games</option>
-                                                    <option value="NintendoSwitch">Nintendo Switch Games</option>
-                                                    <option value="XboxXS">Xbox X/S Games</option>
-                                                    <option value="XboxOne">Xbox One Games</option>
-                                                    <option value="PlayStation4">PS4 Games</option>
-                                                    <option value="PlayStation5">PS5 Games</option>
+                                                <label htmlFor=""><p>Highlight (Optional)</p></label>
+                                                <select name="" id="" value={agSetGameHighlight1} onChange={(e) => setAGSetGameHighlight1(e.target.value)}>
+                                                    <option value="">Select Highlight</option>
+                                                    <option value="Featured">Featured Games</option>
+                                                    <option value="Sale">On Sale Games</option>
                                                 </select>
                                             </span>
                                             <span>
@@ -498,16 +516,16 @@ const SellerPanel = () => {
                             </div>
                         </div>
                     </div>}
-                    {activeView === 'giftcards' && <div className="admpcm1GiftCards">
-                        <div className="admpcm1AddGiftCardContainer">
-                            <div className="admpcm1AGiftCardContent left">
+                    {activeView === 'giftcards' && <div className="sppcm1GiftCards">
+                        <div className="sppcm1AddGiftCardContainer">
+                            <div className="sppcm1AGiftCardContent left">
                                 <h4>WELCOME SELLER!</h4><br />
                                 <p>
                                     Within this interface, you possess the capability to seamlessly add new giftcards and vouchers, 
                                     each detail meticulously recorded and securely stored within our database, ensuring 
                                     comprehensive management and accessibility.
                                 </p>
-                                <div className="admpcm1AGiftcardsCAll">
+                                <div className="sppcm1AGiftcardsCAll">
                                     <div>
                                         <h4>0 Giftcards</h4>
                                         <p>Total Listed Giftcards</p>
@@ -518,12 +536,12 @@ const SellerPanel = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="admpcm1AGiftCardContent right">
+                            <div className="sppcm1AGiftCardContent right">
                                 <form id='addGiftCardFormContainer' onSubmit={handleAddGiftcard}>
                                     <h5>ADD GIFTCARDS/VOUCHER FORM</h5>
-                                    <div className="admpcm1agcvForm">
-                                        <div className="admpcm1agcvf left">
-                                            <div className="admpc1agcvfImage">
+                                    <div className="sppcm1agcvForm">
+                                        <div className="sppcm1agcvf left">
+                                            <div className="sppc1agcvfImage">
                                                 {imageGCV ? (
                                                     <img src={URL.createObjectURL(imageGCV)} alt="No image Selected" />
                                                 ) : (
@@ -532,7 +550,7 @@ const SellerPanel = () => {
                                                 <input type="file" accept="image/*" onChange={handleFileInputGCVChange}/>
                                             </div>
                                         </div>
-                                        <div className="admpcm1agcvf right">
+                                        <div className="sppcm1agcvf right">
                                             <span>
                                                 <label htmlFor=""><p>GiftCard/Voucher Name</p></label>
                                                 <input type="text" placeholder='ex. AG Giftcard' required  value={agSetGiftCardTitle} onChange={(e) => setAGSetGiftCardTitle(e.target.value)}/>
@@ -555,32 +573,36 @@ const SellerPanel = () => {
                                                     <option value="Crypto">Crypto</option>
                                                 </select>
                                             </span>
-                                            <span id='admpcm1agcvfDes'>
+                                            <span id='sppcm1agcvfDes'>
                                                 <label htmlFor=""><p>Giftcard/Voucher Description</p></label>
                                                 <textarea name="" id="" placeholder='Add Giftcard/Voucher Description here' value={agSetGiftCardDescription} onChange={(e) => setAGSetGiftCardDescription(e.target.value)}></textarea>
+                                            </span>
+                                            <span id='sppcm1agcvfDisclaimer'>
+                                                <h6>Disclaimer:</h6>
+                                                <p>Please be informed that the valuation/denomination listed reflects the exact value of the giftcard itself. For example, a $20 Giftcard will be sold for $20. For more questions, contact our Customer Support Agent.</p>
                                             </span>
                                         </div>
                                     </div>
                                     <span className='giftcardSubmitStatus'>
                                         <p>{formResponse}</p>
                                     </span>
-                                    <div className="admpc1agcvfSubmit">
+                                    <div className="sppc1agcvfSubmit">
                                         <button type='submit' name='addGames'>Add Giftcards/Voucher</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>}
-                    {activeView === 'gamecredits' && <div className="admpcm1GameCredits">
-                        <div className="admpcm1AddGameCreditsContainer">
-                            <div className="admpcm1AGameCreditsContent left">
+                    {activeView === 'gamecredits' && <div className="sppcm1GameCredits">
+                        <div className="sppcm1AddGameCreditsContainer">
+                            <div className="sppcm1AGameCreditsContent left">
                                 <h4>WELCOME SELLER!</h4><br />
                                 <p>
                                     Within this interface, you possess the capability to seamlessly add new game credits, 
                                     each detail meticulously recorded and securely stored within our database, ensuring 
                                     comprehensive management and accessibility.
                                 </p>
-                                <div className="admpcm1AGameCreditsCAll">
+                                <div className="sppcm1AGameCreditsCAll">
                                     <div>
                                         <h4>0 GCredits</h4>
                                         <p>Total Listed Game Credits</p>
@@ -591,12 +613,12 @@ const SellerPanel = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="admpcm1AGameCreditsContent right">
+                            <div className="sppcm1AGameCreditsContent right">
                                 <form id='addGiftCardFormContainer' onSubmit={handleAddGamecredit}>
                                     <h5>ADD GAME CREDITS FORM</h5>
-                                    <div className="admpcm1agcrForm">
-                                        <div className="admpcm1agcrf left">
-                                            <div className="admpc1agcrfImage">
+                                    <div className="sppcm1agcrForm">
+                                        <div className="sppcm1agcrf left">
+                                            <div className="sppc1agcrfImage">
                                                 {imageGCR ? (
                                                     <img src={URL.createObjectURL(imageGCR)} alt="No image Selected" />
                                                 ) : (
@@ -605,7 +627,7 @@ const SellerPanel = () => {
                                                 <input type="file" accept="image/*" onChange={handleFileInputGCRChange}/>
                                             </div>
                                         </div>
-                                        <div className="admpcm1agcrf right">
+                                        <div className="sppcm1agcrf right">
                                             <span>
                                                 <label htmlFor=""><p>Game Name</p></label>
                                                 <input type="text" placeholder='ex. Roblox' required  value={agSetGameCreditTitle} onChange={(e) => setAGSetGameCreditTitle(e.target.value)}/>
@@ -615,33 +637,27 @@ const SellerPanel = () => {
                                                 <input type="number" placeholder='ex. 100' required value={agSetGameCreditDenomination} onChange={(e) => setAGSetGameCreditDenomination(e.target.value)}/>
                                             </span>
                                             <span>
-                                                <label htmlFor=""><p>Number of Credits</p></label>
+                                                <label htmlFor=""><p>Number of Credits (Optional)</p></label>
                                                 <input type="number" placeholder='ex. 100'  value={agSetGameCreditNumber} onChange={(e) => setAGSetGameCreditNumber(e.target.value)}/>
                                             </span>
                                             <span>
                                                 <label htmlFor=""><p>Type of Credit</p></label>
                                                 <input type="text" placeholder='ex. Robux' required value={agSetGameCreditType} onChange={(e) => setAGSetGameCreditType(e.target.value)}/>
                                             </span>
-                                            <span>
-                                                <label htmlFor=""><p>Category</p></label>
-                                                <select name="" id="" value={agSetGameCreditCategory} onChange={(e) => setAGSetGameCreditCategory(e.target.value)} required>
-                                                    <option value="">Select Category</option>
-                                                    <option value="Gaming">Gaming</option>
-                                                    <option value="Utilities">Utilities</option>
-                                                    <option value="Shopping">Shopping</option>
-                                                    <option value="Crypto">Crypto</option>
-                                                </select>
-                                            </span>
-                                            <span id='admpcm1agcrfDes'>
+                                            <span id='sppcm1agcrfDes'>
                                                 <label htmlFor=""><p>Game Credit Description</p></label>
                                                 <textarea name="" id="" placeholder='Add Game Credit Description here' value={agSetGameCreditDescription} onChange={(e) => setAGSetGameCreditDescription(e.target.value)}></textarea>
+                                            </span>
+                                            <span id="sppcm1agcrfDisclaimer">
+                                                <h6>Disclaimer:</h6>
+                                                <p>Please be informed that the valuation/denomination is different from the number of game credits. The valuation/denomination refers to the price of the game credits, while the number of game credits indicates the amount of in-game currency customer will receive. For further questions, please contact our Customer Support Agent.</p>
                                             </span>
                                         </div>
                                     </div>
                                     <span className='gamecreditSubmitStatus'>
                                         <p>{formResponse}</p>
                                     </span>
-                                    <div className="admpc1agcrfSubmit">
+                                    <div className="sppc1agcrfSubmit">
                                         <button type='submit' name='addGames'>Add Game Credit</button>
                                     </div>
                                 </form>

@@ -51,7 +51,13 @@ const Home = () => {
     viewMetacriticData,
     loadingMarketData2 
   } = GamesFetchData();
-  const { filteredGiftcards } = GiftcardsFetchData();
+  const {  
+    filterUniqueData,
+    setFilteredGiftcards,
+    giftcards,
+    filteredGiftcards,
+    loading 
+  } = GiftcardsFetchData();
   const marqueeRef = useRef(null);
   const [hasScrolled, setHasScrolled] = useState(false);
 
@@ -188,19 +194,10 @@ const Home = () => {
       setSearchgame(searchGames)
     }
   }
-  const filterUniqueData = (giftcards) => {
-    const uniqueRecords = [];
-    const recordMap = {};
-
-    giftcards.forEach(record => {
-        if (!recordMap[record.giftcard_name]) {
-            recordMap[record.giftcard_name] = true;
-            uniqueRecords.push(record);
-        }
-    });
-
-    return uniqueRecords;
-  };
+  useEffect(() => {
+    const results = giftcards.filter(giftcard => giftcard.giftcard_category !== "Special");
+    setFilteredGiftcards(filterUniqueData(results));
+  }, [filterUniqueData, giftcards]);
 
   const filtertoTrending = () => {
     if (searching === false) {
@@ -236,6 +233,9 @@ const Home = () => {
       setViewfiltergame()
     }
   }
+
+
+
 
   return (
     <div className='mainContainer home'>
