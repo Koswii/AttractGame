@@ -45,6 +45,10 @@ import { GamecreditsFetchData } from './GamecreditFetchContext';
 import { FavoritesFetchData } from './FavoritesFetchContext';
 import { CartsFetchData } from './CartsFetchContext';
 
+// slider
+import finalFantasy from '../assets/imgs/marketSlider/finalFantasy7.png'
+import likeAdragon from '../assets/imgs/marketSlider/likeAdragon.png'
+import tekken8 from '../assets/imgs/marketSlider/tekken8.png'
  
 
 const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
@@ -185,61 +189,61 @@ const Marketplace = () => {
         fetchDataGameCredits(setLoadingMarketData1, setViewAllGameCredits);
         fetchRobloxPartners(setViewRobloxPartners);
     }, [LoginUserID]);
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const storedGameData = localStorage.getItem('featuredGameData');
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const storedGameData = localStorage.getItem('featuredGameData');
 
-                if (storedGameData) {
-                    // If data is already stored in localStorage, use it directly
-                    const parsedData = JSON.parse(storedGameData);
-                    setScrapedMetacriticData(parsedData);
-                    setLoadingMarketData(true);
+    //             if (storedGameData) {
+    //                 // If data is already stored in localStorage, use it directly
+    //                 const parsedData = JSON.parse(storedGameData);
+    //                 setScrapedMetacriticData(parsedData);
+    //                 setLoadingMarketData(true);
 
-                }else {
-                    const metacriticUrls = viewMetacriticData.map(game => `https://engeenx.com/proxyMetacritic.php?game=${game}/`);
-                    const metacriticResponses = await Promise.all(metacriticUrls.map(url => axios.get(url)));
+    //             }else {
+    //                 const metacriticUrls = viewMetacriticData.map(game => `https://engeenx.com/proxyMetacritic.php?game=${game}/`);
+    //                 const metacriticResponses = await Promise.all(metacriticUrls.map(url => axios.get(url)));
         
-                    // Combine all Wikipedia URLs into one request
-                    const wikipediaUrls = viewWikiData.map(game => `https://engeenx.com/proxyWikipedia.php?game=${game}`);
-                    const wikipediaResponses = await Promise.all(wikipediaUrls.map(url => axios.get(url)));
+    //                 // Combine all Wikipedia URLs into one request
+    //                 const wikipediaUrls = viewWikiData.map(game => `https://engeenx.com/proxyWikipedia.php?game=${game}`);
+    //                 const wikipediaResponses = await Promise.all(wikipediaUrls.map(url => axios.get(url)));
         
-                    // Combine Metacritic and Wikipedia data
-                    const combinedData = metacriticResponses.map((metacriticResponse, index) => {
-                        const html = metacriticResponse.data;
-                        const parser = new DOMParser();
-                        const doc = parser.parseFromString(html, 'text/html');
-                        const targetElementMetaScore = doc.querySelector('.c-siteReviewScore');
-                        const targetElementDescription = doc.querySelector('.c-productionDetailsGame_description');
-                        const targetElementReleaseDate = doc.querySelector('.c-gameDetails_ReleaseDate .g-outer-spacing-left-medium-fluid');
-                        const targetElementPublisher = doc.querySelector('.c-gameDetails_Distributor .g-outer-spacing-left-medium-fluid');
-                        const targetElementGenre = doc.querySelector('.c-genreList .c-genreList_item .c-globalButton .c-globalButton_container .c-globalButton_label');
+    //                 // Combine Metacritic and Wikipedia data
+    //                 const combinedData = metacriticResponses.map((metacriticResponse, index) => {
+    //                     const html = metacriticResponse.data;
+    //                     const parser = new DOMParser();
+    //                     const doc = parser.parseFromString(html, 'text/html');
+    //                     const targetElementMetaScore = doc.querySelector('.c-siteReviewScore');
+    //                     const targetElementDescription = doc.querySelector('.c-productionDetailsGame_description');
+    //                     const targetElementReleaseDate = doc.querySelector('.c-gameDetails_ReleaseDate .g-outer-spacing-left-medium-fluid');
+    //                     const targetElementPublisher = doc.querySelector('.c-gameDetails_Distributor .g-outer-spacing-left-medium-fluid');
+    //                     const targetElementGenre = doc.querySelector('.c-genreList .c-genreList_item .c-globalButton .c-globalButton_container .c-globalButton_label');
         
-                        const metascore = targetElementMetaScore ? targetElementMetaScore.textContent.trim() : '';
-                        const metadescription = targetElementDescription ? targetElementDescription.textContent.trim() : '';
-                        const release = targetElementReleaseDate ? targetElementReleaseDate.textContent.trim() : 'To Be Announced';
-                        const publisher = targetElementPublisher ? targetElementPublisher.textContent.trim() : '';
-                        const genre = targetElementGenre ? targetElementGenre.textContent.trim() : '';
+    //                     const metascore = targetElementMetaScore ? targetElementMetaScore.textContent.trim() : '';
+    //                     const metadescription = targetElementDescription ? targetElementDescription.textContent.trim() : '';
+    //                     const release = targetElementReleaseDate ? targetElementReleaseDate.textContent.trim() : 'To Be Announced';
+    //                     const publisher = targetElementPublisher ? targetElementPublisher.textContent.trim() : '';
+    //                     const genre = targetElementGenre ? targetElementGenre.textContent.trim() : '';
         
-                        const wikiDetailsData = wikipediaResponses[index] ? wikipediaResponses[index].data : {};
-                        return { metascore, metadescription, release, publisher, genre, ...wikiDetailsData, agData1: viewAGData2[index] };
-                    });
+    //                     const wikiDetailsData = wikipediaResponses[index] ? wikipediaResponses[index].data : {};
+    //                     return { metascore, metadescription, release, publisher, genre, ...wikiDetailsData, agData1: viewAGData2[index] };
+    //                 });
         
-                    if(combinedData.length == 0){
-                        setLoadingMarketData(false);
-                    }else{
-                        setLoadingMarketData(true);
-                        setScrapedMetacriticData(combinedData.slice(0, 7));
-                        const combineDataJSON = JSON.stringify(combinedData.slice(0, 7));
-                        localStorage.setItem('featuredGameData', combineDataJSON);
-                    }
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchData()
-    }, [viewMetacriticData, viewWikiData]);
+    //                 if(combinedData.length == 0){
+    //                     setLoadingMarketData(false);
+    //                 }else{
+    //                     setLoadingMarketData(true);
+    //                     setScrapedMetacriticData(combinedData.slice(0, 7));
+    //                     const combineDataJSON = JSON.stringify(combinedData.slice(0, 7));
+    //                     localStorage.setItem('featuredGameData', combineDataJSON);
+    //                 }
+    //             }
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error);
+    //         }
+    //     };
+    //     fetchData()
+    // }, [viewMetacriticData, viewWikiData]);
     const handleClickGames = () => {
         setActivePage('games');
     }
@@ -350,7 +354,24 @@ const Marketplace = () => {
     });
 
 
-    // console.log(gameLikes);
+    const [sliderFeat,setSliderFeat] = useState('first')
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setSliderFeat(prevFeat => {
+                if (prevFeat === 'first') {
+                    return 'second';
+                } else if (prevFeat === 'second') {
+                    return 'third';
+                } else {
+                    return 'first';
+                }
+            });
+        }, 3000);
+
+        // Clear interval on component unmount to avoid memory leaks
+        return () => clearInterval(interval);
+    }, []);
 
     
     return (
@@ -375,8 +396,19 @@ const Marketplace = () => {
                 </div>
             </section>
             <section className="marketplacePageContainer mid">
-                {/* <h4 id='mppcthTitlesfeatured'><TbDeviceGamepad2 className='faIcons'/> FEATURED GAMES</h4>
-                <div className="mpPageContentMid1">
+                <h4 id='mppcthTitlesfeatured'><TbDeviceGamepad2 className='faIcons'/> FEATURED GAMES</h4>
+                <div className="mppctFeaturedGame">
+                    <div className="mppctFeaturedGameSlider">
+                        <section>
+                            <div className={`sliderImgs ${sliderFeat}`}>
+                                <img src={finalFantasy} alt=""/>
+                                <img src={tekken8} alt="" />
+                                <img src={likeAdragon} alt="" />
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                {/* <div className="mpPageContentMid1">
                     {!loadingMarketData ? <>
                         <div className="mppContentMid1">
                             <div className="loader"></div>

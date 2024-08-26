@@ -174,28 +174,38 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
         cancel_url: "https://nowpayments.io"
     };
 
+    
     try {
-        const response = await fetch(url, {
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
-            'x-api-key': apiKey,
-            'Content-Type': 'application/json'
+          'x-api-key': apiKey,
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data)
-        });
+        body: JSON.stringify(data),
+      });
 
-        if (!response.ok) {
+      if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+      }
 
-        const result = await response.json();
-        setOpenPayment(true)
-        setOrderLink(result.invoice_url)
-        
+      const result = await response.json();
+      if (result && result.invoice_url) {
+        setOpenPayment(true);
+        const invoiceUrl = result.invoice_url;
+        const updatedUrl = invoiceUrl.startsWith('http://')
+          ? invoiceUrl.replace('http://', 'https://')
+          : invoiceUrl;
+        setOrderLink(updatedUrl);
+      }
     } catch (error) {
-        console.error('Error creating payment:', error);
+      console.error('Error creating payment:', error);
     }
   };
+
+  const closeNopay = () => {
+    setOpenPayment(false)
+  }
 
   
   
@@ -204,6 +214,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
       {openPayment&&(
         <div className="payment-crypto">
           <iframe src={`${orderLink}`} frameborder="0"></iframe>
+          <button onClick={closeNopay}>x</button>
         </div>
       )}
       <div className="formdataContainer">
@@ -338,7 +349,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                 <p>Pay using:</p>
                 <PayPalButton totalprice={totalprice} transactionData={transactionData} setClientSecret={setClientSecret} setSuccesstransaction={setSuccesstransaction}/>
               </form>
-              <button id="payCrypto" onClick={payUsingUSDT}>Pay Using USDT</button>
+              {/* <button id="payCrypto" onClick={payUsingUSDT}>Pay Using USDT</button> */}
             </div>
           </>}
         </div>

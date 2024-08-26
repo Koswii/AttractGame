@@ -656,7 +656,7 @@ const Nav = () => {
             <div className="searchFrPassAcc">
               {fpResult&&(<p>{fpResult}</p>)}
             </div>
-            <button onClick={handleForgotSearch}>Search</button> 
+            <button onClick={handleForgotSearch}>Recover</button> 
             <br />
             <div className="backToLogin">
               <a onClick={handleViewLogin}>Back to Login</a>
