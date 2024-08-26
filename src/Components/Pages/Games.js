@@ -97,7 +97,7 @@ const Games = () => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-    // console.log(filteredData);
+    // console.log(currentItems);
 
     // Logic for displaying page numbers
     const pageNumbers = [];
@@ -423,12 +423,17 @@ const Games = () => {
                                         <div className="gmspct2gPlatform">
                                             <img src='' platform={details.game_platform} alt="" />
                                         </div>
+                                        {(details.game_seller === "Attract Game") &&
+                                        <div className="gmspct2gpSeller">
+                                            <img src={require('../assets/imgs/AGLogoWhite01.png')} alt="" />
+                                        </div>}
                                         <Link to={`/Games/${details.game_canonical}`}>{details.game_cover !== '' ?
                                         <ImageComponentGames imageName={details.game_cover} />
                                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
                                         <div className="gmspct2gDetails">
-                                            <h5>{details.game_title}</h5>
-                                            <p>{details.game_edition}</p>
+                                            <div className="gmspct2gdTitle">
+                                                <h5>{details.game_title}<br /><span>{details.game_edition}</span></h5>
+                                            </div>
                                             <div>
                                                 {(details.stock === undefined) ?
                                                 <h6 id='gameNoStocks'>No Stocks</h6>:
@@ -505,8 +510,9 @@ const Games = () => {
                                         <ImageComponentGames imageName={details.game_cover} />
                                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
                                         <div className="gmspct2gDetails">
-                                            <h5>{details.game_title}</h5>
-                                            <p>{details.game_edition}</p>
+                                            <div className="gmspct2gdTitle">
+                                                <h5>{details.game_title}<br /><span>{details.game_edition}</span></h5>
+                                            </div>
                                             <div>
                                                 {(details.stock === undefined) ?
                                                 <h6 id='gameNoStocks'>No Stocks</h6>:

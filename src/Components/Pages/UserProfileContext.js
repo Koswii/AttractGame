@@ -7,11 +7,20 @@ export const UserProfileDataProvider = ({ children }) => {
     const [userLoggedData, setUserLoggedData] = useState([]);
     const [userEmail, setUserEmaiil] = useState([]);
     const [viewLoginForm, setViewLoginForm] = useState(false);
+    const [userProductCodeIDData, setUserProductCodeIDData] = useState([]);
+    const [viewTransactionList, setViewTransactionList] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const LoginUserID = localStorage.getItem('profileUserID');
     const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
     const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const AGUserEmailsAPI = process.env.REACT_APP_AG_USER_EMAIL_API;
+    const AGProductIDCodeAPI = process.env.REACT_APP_AG_USER_PRODUCTS_ID_API;
+    const AGUserProductsCodeAPI = process.env.REACT_APP_AG_USER_PRODUCTS_CODE_API;
+    const AGGamesListAPI = process.env.REACT_APP_AG_GAMES_LIST_API;
+    const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
+    const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
+    const AGUsersTransactions = process.env.REACT_APP_AG_USERS_TRANSACTIONS_API;
 
 
     const fetchUsersEmails = async () => {
@@ -21,7 +30,65 @@ export const UserProfileDataProvider = ({ children }) => {
         } catch (error) {
           console.error(error);
         }
-      };
+    };
+
+    const fetchUserProductIds = async () => {
+        setIsLoading(true);
+        const userRequestCode = {
+            ag_product_owner: LoginUserID,
+        };
+    
+        try {
+            const userRequestCodeJSON = JSON.stringify(userRequestCode);
+            const response = await axios.post(AGProductIDCodeAPI, userRequestCodeJSON);
+    
+            const reqData = response.data;
+            if (reqData.success === true) {
+                const productIDs = reqData.data;
+                const gameProducts = productIDs.filter(product => product.ag_product_type === 'Games');
+                const giftcardProducts = productIDs.filter(product => product.ag_product_type === 'Giftcards');
+                const gamecreditProducts = productIDs.filter(product => product.ag_product_type === 'Game Credits');
+                const productCodeIDs = productIDs.map(productID => productID.ag_product_id_code);
+                const requestProductCode = {
+                    userProductCode: productCodeIDs,
+                };
+                const requestProductCodeJSON = JSON.stringify(requestProductCode);
+                const responseCode = await axios.post(AGUserProductsCodeAPI, requestProductCodeJSON);
+                const userActualCodeData = responseCode.data.data;
+                const [userGameDataResponse, userGiftcardDataResponse, userGamecreditDataResponse] = await Promise.all([
+                    axios.get(AGGamesListAPI),
+                    axios.get(AGGiftcardsListAPI),
+                    axios.get(AGGameCreditsListAPI)
+                ]);
+                const cartGameWithData = gameProducts.map(product => {
+                    const productData = userGameDataResponse.data.find(game => game.game_canonical === product.ag_product_id);
+                    return { ...product, productData};
+                });
+                const cartGiftcardWithData = giftcardProducts.map(product => {
+                    const productData = userGiftcardDataResponse.data.find(giftcard => giftcard.giftcard_id === product.ag_product_id);
+                    return { ...product, productData};
+                });
+                const cartGamecreditWithData = gamecreditProducts.map(product => {
+                    const productData = userGamecreditDataResponse.data.find(gamecredit => gamecredit.gamecredit_id === product.ag_product_id);
+                    return { ...product, productData};
+                });
+                const combinedAllData = [...cartGameWithData, ...cartGiftcardWithData, ...cartGamecreditWithData];
+                const userProductCodeData = combinedAllData.map(product => {
+                    const productCode = userActualCodeData.find(productCode => productCode.ag_product_id_code === product.ag_product_id_code);
+                    return {...product, productCode};
+                });
+                setUserProductCodeIDData(userProductCodeData);
+    
+            } else {
+                setUserProductCodeIDData([]);
+            }
+
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     // Fetch data once when component mounts
     useEffect(() => {
@@ -41,8 +108,21 @@ export const UserProfileDataProvider = ({ children }) => {
                 console.error(error);
             }
         }
+
+        const fetchUserTransactionHistory = async () => {
+            try {
+                const response = await axios.get(AGUsersTransactions);
+                const TransactionHistoryData = response.data.filter(user => user.ag_user_id === LoginUserID);
+                setViewTransactionList(TransactionHistoryData);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchUserTransactionHistory();
         fetchUserProfile();
         fetchUsersEmails();
+        fetchUserProductIds();
     }, []);
 
     const handleLoginForm = () => {
@@ -50,7 +130,20 @@ export const UserProfileDataProvider = ({ children }) => {
     }
 
     return (
-        <UserProfileContext.Provider value={{ userLoggedData, userEmail, fetchUsersEmails, viewLoginForm, setViewLoginForm, handleLoginForm }}>
+        <UserProfileContext.Provider value={{ 
+            userLoggedData, 
+            userEmail, 
+            fetchUsersEmails, 
+            viewLoginForm, 
+            setViewLoginForm, 
+            handleLoginForm,
+            userProductCodeIDData, 
+            setUserProductCodeIDData,
+            isLoading, 
+            setIsLoading,
+            fetchUserProductIds,
+            viewTransactionList
+            }}>
             {children}
         </UserProfileContext.Provider>
     );

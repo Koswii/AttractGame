@@ -120,7 +120,7 @@ function App() {
         <GiftcardsFetchDataProvider>
         <GamecreditsFetchDataProvider>
         <NewsFetchDataProvider>
-        <HighlightsFetchDataProvider>
+        {/* <HighlightsFetchDataProvider> */}
         
         <FavoritesFetchDataProvider>
         <CartsFetchDataProvider>
@@ -178,7 +178,7 @@ function App() {
         </CartsFetchDataProvider>
         </FavoritesFetchDataProvider>
 
-        </HighlightsFetchDataProvider>
+        {/* </HighlightsFetchDataProvider> */}
         </NewsFetchDataProvider>
         </GamecreditsFetchDataProvider>
         </GiftcardsFetchDataProvider>

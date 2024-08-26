@@ -288,7 +288,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                       const productData = product.productData;
                       const productDataEntries = Object.entries(productData);
                       return (
-                      <li style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GiftCardCovers/${productDataEntries[5][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
+                      <li style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GameCreditCovers/${productDataEntries[5][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
                         <div className="copDenomination">
                           <span>
                             <h5><sup>$</sup>{productDataEntries[8][1]}</h5>

@@ -37,7 +37,10 @@ h6{
     align-items: top;
     padding-bottom: 10vw;
 }
-
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
 
 section.adminPageContainer.top{
     height: auto;
