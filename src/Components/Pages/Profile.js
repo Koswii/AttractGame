@@ -823,11 +823,16 @@ const Profile = () => {
                                             </div>
                                             {/* <button onClick={() => toggleVisibility(i)}>{isVisible[i] ? <FaRegEyeSlash className='faIcons'/> : <FaRegEye className='faIcons'/>}</button> */}
                                             <div className="ppcrpcmppcCode">
-                                                <div>
+                                                <div className='ppcrpcmppccName'>
                                                     <h6>
                                                         {details.productCode.ag_product_name} <br /> 
                                                         <span>{details.productData.game_edition ? details.productData.game_edition : ''}</span>
                                                     </h6>
+                                                </div>
+                                                <div className="ppcrpcmppccBtns">
+                                                    <button>Redeem</button>
+                                                    <button>Send</button>
+                                                    <button>Flip</button>
                                                 </div>
                                                 {/* <span>
                                                     <a href="">{!isVisible[i] ? '***** ***** *****' : `${details.productCode.ag_product_code}`}</a>

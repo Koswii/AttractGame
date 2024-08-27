@@ -349,6 +349,12 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                 <p>Pay using:</p>
                 <PayPalButton totalprice={totalprice} transactionData={transactionData} setClientSecret={setClientSecret} setSuccesstransaction={setSuccesstransaction}/>
               </form>
+              <button className='PayUsingAG' disabled>
+                <img src={require('../assets/imgs/PayAGGiftcard.png')} alt="" />
+              </button>
+              <button className='PayUsingAG' disabled>
+                <img src={require('../assets/imgs/PayAGPoints.png')} alt="" />
+              </button>
               {/* <button id="payCrypto" onClick={payUsingUSDT}>Pay Using USDT</button> */}
             </div>
           </>}

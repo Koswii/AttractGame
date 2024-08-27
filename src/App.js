@@ -116,14 +116,13 @@ function App() {
   return (
     <ActivePageProvider>
       <UserProfileDataProvider>
+        <CartsFetchDataProvider>
+        <FavoritesFetchDataProvider>
         <GamesFetchDataProvider>
         <GiftcardsFetchDataProvider>
         <GamecreditsFetchDataProvider>
         <NewsFetchDataProvider>
         {/* <HighlightsFetchDataProvider> */}
-        
-        <FavoritesFetchDataProvider>
-        <CartsFetchDataProvider>
         <Router>
         <div>
           <ScrollToTop />
@@ -175,14 +174,14 @@ function App() {
           <Footer />
         </div>
         </Router>
-        </CartsFetchDataProvider>
-        </FavoritesFetchDataProvider>
 
         {/* </HighlightsFetchDataProvider> */}
         </NewsFetchDataProvider>
         </GamecreditsFetchDataProvider>
         </GiftcardsFetchDataProvider>
         </GamesFetchDataProvider>
+        </FavoritesFetchDataProvider>
+        </CartsFetchDataProvider>
       </UserProfileDataProvider>
     </ActivePageProvider>
   );

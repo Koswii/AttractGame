@@ -49,6 +49,7 @@ import { CartsFetchData } from './CartsFetchContext';
 import finalFantasy from '../assets/imgs/marketSlider/finalFantasy7.png'
 import likeAdragon from '../assets/imgs/marketSlider/likeAdragon.png'
 import tekken8 from '../assets/imgs/marketSlider/tekken8.png'
+import roblox from '../assets/imgs/LandingImg/RobloxCoverImg00.png'
  
 
 const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
@@ -363,11 +364,13 @@ const Marketplace = () => {
                     return 'second';
                 } else if (prevFeat === 'second') {
                     return 'third';
+                } else if (prevFeat === 'third') {
+                    return 'fourth';
                 } else {
                     return 'first';
                 }
             });
-        }, 3000);
+        }, 5000);
 
         // Clear interval on component unmount to avoid memory leaks
         return () => clearInterval(interval);
@@ -378,10 +381,11 @@ const Marketplace = () => {
         <div className='mainContainer marketplace'>
             <section className="marketplacePageContainer top">
                 <div className="mpPageContentTopNav">
-                    {/* <div className='mppctn left'>
-                        <h6><FaSearch className='faIcons'/></h6>
-                        <input type="text" placeholder='Search Games / Vouchers / Giftcards / Crypto / Merchandise'/>
-                    </div> */}
+                    <div className='mppctn left'>
+                        <h5>FEATURED GAMES</h5>
+                        {/* <h6><FaSearch className='faIcons'/></h6>
+                        <input type="text" placeholder='Search Games / Vouchers / Giftcards / Crypto / Merchandise'/> */}
+                    </div>
                     <div className="mppctn right">
                         <span>
                             <h6>{viewAllGamesNum.length} <TbDeviceGamepad2 className='faIcons'/></h6>
@@ -396,7 +400,7 @@ const Marketplace = () => {
                 </div>
             </section>
             <section className="marketplacePageContainer mid">
-                <h4 id='mppcthTitlesfeatured'><TbDeviceGamepad2 className='faIcons'/> FEATURED GAMES</h4>
+                {/* <h4 id='mppcthTitlesfeatured'><TbDeviceGamepad2 className='faIcons'/> FEATURED GAMES</h4> */}
                 <div className="mppctFeaturedGame">
                     <div className="mppctFeaturedGameSlider">
                         <section>
@@ -404,54 +408,11 @@ const Marketplace = () => {
                                 <img src={finalFantasy} alt=""/>
                                 <img src={tekken8} alt="" />
                                 <img src={likeAdragon} alt="" />
+                                <img src={roblox} alt="" />
                             </div>
                         </section>
                     </div>
                 </div>
-                {/* <div className="mpPageContentMid1">
-                    {!loadingMarketData ? <>
-                        <div className="mppContentMid1">
-                            <div className="loader"></div>
-                        </div>
-                        <div className="mppContentMid1">
-                            <div className="loader"></div>
-                        </div>
-                        <div className="mppContentMid1">
-                            <div className="loader"></div>
-                        </div>
-                        <div className="mppContentMid1">
-                            <div className="loader"></div>
-                        </div>
-                        <div className="mppContentMid1">
-                            <div className="loader"></div>
-                        </div>
-                    </>:<>
-                        {scrapedMetacriticData.slice(2, 7).map((details, i) => (
-                        <div className="mppContentMid1" key={i}>
-                            <div className="mppcmMetascore">
-                                <h4>{details.metascore}</h4>
-                                <p>Metascore</p>
-                            </div>
-                            <div className="mppcmNewGames">
-                                <h4><MdOutlineFiberNew className='faIcons'/></h4>
-                            </div>
-                            <>{details.agData1.game_cover !== '' ?
-                            <img src={`https://2wave.io/GameCovers/${details.agData1.game_cover}`} alt="" />
-                            :<img src={details.originalimage.source} alt="" />}</>
-                            <div className="mppcmGameDetails">
-                                <h6>{details.agData1.game_title}</h6>
-                                <p>
-                                    {details.agData1.game_edition} <br /><br />
-                                    {details.metadescription.slice(0, 100)+ '...'}
-                                </p>
-                                <div>
-                                    <Link to={`/Games/${details.agData1.game_canonical}`} onClick={handleClickGames}>View Game</Link>
-                                </div>
-                            </div>
-                        </div>
-                        ))}
-                    </>}
-                </div> */}
                 <h4 id='mppcmhTitles'><TbDeviceGamepad2 className='faIcons'/> LISTED GAMES</h4>
                 <div className="mpPageContentMid2 website">
                     {loadingMarketData2 ? <>
