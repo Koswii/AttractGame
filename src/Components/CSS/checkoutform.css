@@ -10,8 +10,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 10%;
-    padding-bottom: 5%;
+    padding: 5% 10%;
+    padding-top: 7vw;
     background: black;
 }
 .formdataContents{
@@ -267,6 +267,30 @@
     font-size: .8vw;
     margin: 5% 0;
 }
+.transactionPaymentInfo button.PayUsingAG{
+    width: 100%;
+    height: 3vw;
+    padding: 0.5vw 1vw;
+    background: url('../assets/imgs/LoginBackground.jpg') no-repeat center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    overflow: hidden;
+    cursor: not-allowed;
+    border: solid 1px white;
+    outline: none;
+    margin-bottom: 2%;
+    opacity: 50%;
+}
+.transactionPaymentInfo button.PayUsingAG img{
+    height: 2.5vw;
+}
+
+
+
+
 
 
 #payCrypto{
@@ -351,7 +375,8 @@
 
 @media screen and (max-width: 500px){
     .formdataContainer{
-        padding: 5%;
+        padding: 10vw 5%;
+        padding-top: 15vh;
     }
     .formdataContents{
         display: block;
@@ -393,7 +418,12 @@
     #payment-message p{
         font-size: 3vw;
     }
-
+    .transactionPaymentInfo button.PayUsingAG{
+        height: 10vw;
+    }
+    .transactionPaymentInfo button.PayUsingAG img{
+        height: 10vw;
+    }
 
 
 

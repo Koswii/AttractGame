@@ -74,8 +74,8 @@ section.cartPageContainer.top{
 section.cartPageContainer.mid{
     height: auto;
     width: 100%;
-    padding: 0 10%;
-    padding-bottom: 5%;
+    padding: 5% 10%;
+    padding-top: 7vw;
 }
 .cartpcMid1Container{
     height: auto;
@@ -454,8 +454,8 @@ section.cartPageContainer.mid{
     section.cartPageContainer.mid{
         height: auto;
         width: 100%;
-        padding: 0 5%;
-        padding-bottom: 10vw;
+        padding: 10vw 5%;
+        padding-top: 15vh;
     }
     .cartpcMid1Container{
         height: auto;

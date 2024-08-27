@@ -14,6 +14,15 @@ const decodeHtml = (html) => {
   txt.innerHTML = html;
   return txt.value;
 };
+const TextSlicer = ({ text = '', maxLength }) => {
+  const truncatedText = text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+
+  return (
+    <>{truncatedText}</>
+  );
+};
+
+
 
 const News = () => {
   const { newsList } = NewsFetchData();
@@ -103,7 +112,7 @@ const News = () => {
                                 <Link to={link.link} target="_blank">
                                   <img src={link.data.image} alt="" />
                                 </Link>
-                                <p>{decodeHtml(link.data.title)}</p>
+                                <p><TextSlicer text={`${decodeHtml(link.data.title)}`} maxLength={76} /></p>
                               </li>
                             ))}
                           </ul>
@@ -113,7 +122,7 @@ const News = () => {
                                 <Link to={link.link} target="_blank">
                                   <img src={link.data.image} alt="" />
                                 </Link>
-                                <p>{decodeHtml(link.data.title)}</p>
+                                <p><TextSlicer text={`${decodeHtml(link.data.title)}`} maxLength={45} /></p>
                               </li>
                             ))}
                           </ul>

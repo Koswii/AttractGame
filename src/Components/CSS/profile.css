@@ -1357,7 +1357,8 @@ section.profilePageContainer.mid{
     overflow: hidden;
 }
 .ppcrpcmppContents:hover{
-    box-shadow: 0 0 5px white;
+    transform: translateY(-8px);
+    box-shadow: 0 0 10px gray;
     transition: 400ms ease;
 }
 .ppcrpcmppcPlatform{
@@ -1422,7 +1423,7 @@ section.profilePageContainer.mid{
     background: linear-gradient(transparent, black 50%);
 }
 
-.ppcrpcmppContents button{
+/* .ppcrpcmppContents button{
     position: absolute;
     width: 15%;
     font-size: 1vw;
@@ -1441,24 +1442,21 @@ section.profilePageContainer.mid{
     align-items: center;
     top: 0.5vw;
     right: 0.5vw;
-}
+} */
 .ppcrpcmppcCode{
     height: 7vw;
     width: 100%;
     position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     bottom: 0;
     left: 0;
     background: linear-gradient(transparent, black 30%);
     padding: 5%;
-    padding-top: 15%;
 }
-.ppcrpcmppcCode div{
+.ppcrpcmppccName{
     height: 4vw;
     width: 100%;
     display: flex;
+    margin: 0 auto;
     justify-content: center;
     align-items: center;
 }
@@ -1488,9 +1486,31 @@ section.profilePageContainer.mid{
     border: none;
     outline: none;
 }
-
-
-
+.ppcrpcmppccBtns{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.ppcrpcmppccBtns button{
+    padding: 3% 5%;
+    font-size: 0.7vw;
+    border-radius: 10px;
+    border: solid 0.15vw white;
+    outline: none;
+    cursor: pointer;
+    color: white;
+    opacity: 50%;
+    background: none;
+    transition: 400ms ease;
+}
+.ppcrpcmppccBtns button:hover{
+    opacity: 100%;
+    background: white;
+    color: black;
+    transition: 400ms ease;
+}
 .ppcrProfileContents.myStore h3{
     width: 100%;
     font-size: 1vw;
@@ -2108,14 +2128,14 @@ section.profilePageContainer.mid{
         padding: 0;
     }
     .ppcrpcmppContents{
-        height: auto;
+        height: 60vw;
         width: 49%;
         margin-right: 0;
         border-radius: 3vw;
         margin-bottom: 2%;
     }
     .ppcrpcmppcImage{
-        height: 50vw;
+        height: 60vw;
         width: 100%;
     }
     .ppcrpcmppcPlatform{
@@ -2140,13 +2160,9 @@ section.profilePageContainer.mid{
         font-size: 3vw;
         padding-bottom: 2%;
     }
-    .ppcrpcmppContents button{
-        width: 23%;
-        font-size: 5vw;
-        padding: 5% 3%;
-        border-radius: 2vw;
-        top: 1.5vw;
-        right: 1.5vw;
+    .ppcrpcmppcImage img{
+        height: auto;
+        width: 100%;
     }
     .ppcrpcmppContents span input{
         padding: 5% 0;
@@ -2155,9 +2171,23 @@ section.profilePageContainer.mid{
     .ppcrpcmppContents p{
         display: none;
     }
-
-
-
+    .ppcrpcmppcCode{
+        height: 27vw;
+    }
+    .ppcrpcmppccName{
+        height: 15vw;
+    }
+    .ppcrpcmppcCode h6{
+        font-size: 3.5vw;
+    }
+    .ppcrpcmppcCode h6 span{
+        font-size: 2.5vw;
+    }
+    .ppcrpcmppccBtns button{
+        padding: 3% 6%;
+        font-size: 2.5vw;
+        border: solid 2px white;
+    }
 
 
 

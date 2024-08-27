@@ -75,26 +75,28 @@ section.landingPageContainer.top video{
 .lndpcTop.right p{
     margin: 3% 0;
 }
-.lndpcTop.right span{
+.lndpcTop.right div{
     height: auto;
     width: 100%;
     display: flex;
     justify-content: right;
 }
-.lndpcTop.right span a{
+.lndpcTop.right div a{
     color: white;
     text-decoration: none;
     text-align: center;
-    padding: 1% 5%;
+    padding: 10px 30px;
     border-radius: 50px;
     border: solid 2px white;
-    font-size: 0.9vw;
+    font-size: 0.7vw;
     opacity: 50%;
 }
-.lndpcTop.right span a:hover{
+.lndpcTop.right div a:hover{
     opacity: 100%;
     transition: 400ms ease;
     box-shadow: 0 0 10px white;
+    color: black;
+    background: white;
 }
 
 
@@ -381,16 +383,18 @@ section.landingPageContainer.mid{
 .lndpcfgWeb.right a{
     color: white;
     text-decoration: none;
-    padding: 1% 5%;
+    padding: 10px 30px;
     border-radius: 50px;
     border: solid 2px white;
-    font-size: 0.9vw;
+    font-size: 0.7vw;
     opacity: 50%;
 }
 .lndpcfgWeb.right a:hover{
     opacity: 100%;
     transition: 400ms ease;
     box-shadow: 0 0 10px white;
+    color: black;
+    background: white;
 }
 
 
@@ -433,16 +437,18 @@ section.landingPageContainer.mid{
     margin-right: 3%;
     color: white;
     text-decoration: none;
-    padding: 1% 5%;
+    padding: 10px 30px;
     border-radius: 50px;
     border: solid 2px white;
-    font-size: 0.9vw;
+    font-size: 0.7vw;
     opacity: 50%;
 }
-.lndpcm4lBtns a:hover{
+.lndpcm4lBtns a:hover{ 
     opacity: 100%;
     transition: 400ms ease;
     box-shadow: 0 0 10px white;
+    color: black;
+    background: white;
 }
 .lndpcm4Content.right{
     height: auto;
@@ -935,7 +941,7 @@ section.landingPageContainer.mid{
     .lndpcTop.right p{
         font-size: 2.3vw;
     }
-    .lndpcTop.right span a{
+    .lndpcTop.right div a{
         width: 50%;
         padding: 1% 10%;
         font-size: 3vw;

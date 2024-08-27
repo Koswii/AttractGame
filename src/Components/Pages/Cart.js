@@ -489,7 +489,7 @@ const Cart = () => {
             </div>
           </div>
         )}
-        <section className="cartPageContainer top">
+        {/* <section className="cartPageContainer top">
               <div className="cartpcTopProfile">
                 <div className="cartpctProfile left">
                   {userLoggedData.profileimg ? (
@@ -509,7 +509,7 @@ const Cart = () => {
                   <p>Products you added to Cart</p>
                 </div>
               </div>
-        </section>
+        </section> */}
         {clientSecret ? 
           <>
             <Elements options={options} stripe={stripePromise}>

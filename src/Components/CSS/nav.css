@@ -751,38 +751,6 @@ nav{
     align-items: center;
 }
 
-.mppctFeaturedGameSlider{
-    margin: 1vw 0;
-}
-.mppctFeaturedGameSlider section{
-    height: 30vw;
-    width: 100%;
-    overflow: hidden;
-    border-radius: 1vw;
-    position: relative;
-    box-shadow: 0 0 .5vw rgba(255, 255, 255, 0.473);
-}
-.sliderImgs{
-    display: flex;
-    height: auto;
-    width: 100%;
-    position: absolute;
-    transition: .3s ease;
-}
-.sliderImgs.first{
-    right: 0;
-}
-.sliderImgs.second{
-    right: 100%;
-}
-.sliderImgs.third{
-    right: 200%;
-}
-.sliderImgs img{
-    height: auto;
-    width: 100%;
-}
-
 
 
 

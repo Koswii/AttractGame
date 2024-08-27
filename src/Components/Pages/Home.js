@@ -251,9 +251,9 @@ const Home = () => {
               worldwide! Dive into a world where gaming meets affordability, offering you access to the 
               latest and most trending titles at unbeatable prices.
             </p>
-            <span>
+            <div>
               <Link to='/AboutUs'>READ MORE</Link>
-            </span>
+            </div>
           </div>
         </div>
       </section>
