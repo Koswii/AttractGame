@@ -516,6 +516,18 @@ const Admin = () => {
     };
 
 
+
+    // code id generator
+    const postIDGenerator = (length) => {
+        const charset =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIKLMNOPQRSTUVWXYZ0123456789";
+        let result = "";
+        for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+        result += charset.charAt(randomIndex);
+        }
+        return result;
+    };
     // Product List Data
     const [editableData, setEditableData] = useState({});
     const [openEditModal, setEditModal] = useState(false);
@@ -524,7 +536,7 @@ const Admin = () => {
     const [price, setPrice] = useState('');
     const [discount, setDiscount] = useState('');
     const [gameID, setGameID] = useState('');
-    const [inputs, setInputs] = useState([{ id: 'agProd_code' + Date.now(), value: '' }]);
+    const [inputs, setInputs] = useState([{ id: 'AG' + postIDGenerator(10), value: ''}]);
     const [clickCount,setClickcount] = useState(0)
 
     
@@ -549,7 +561,7 @@ const Admin = () => {
     };
     const handleCloseEditModal = () => {
         setEditModal(false);
-        setInputs([{ id: 'agProd_code' + Date.now(), value: '' }]);
+        setInputs([{ id: 'AG' + postIDGenerator(10), value: '' }]);
         setClickcount(0)
     };
     const toggleDisablePrice = () => {
@@ -559,7 +571,10 @@ const Admin = () => {
         setEditInfoDiscount((prevState) => !prevState);
     };
     const addNewInput = () => {
-        setInputs([...inputs, { id: 'agProd_code' + Date.now(), value: '' }]);
+        setInputs([...inputs, { id: 'AG' + postIDGenerator(10), value: ''}]);
+    };
+    const resetInputs = () => {
+        setInputs([...inputs, { id: 'AG' + postIDGenerator(10), value: '' }]);
     };
     const handleInputChange = (id, field, value) => {
         setInputs(inputs.map(input => input.id === id ? { ...input, [field]: value } : input));
@@ -669,7 +684,8 @@ const Admin = () => {
             
             setPrice('');
             setDiscount('');
-            setInputs([{ id: 'agProd_code' + Date.now(), value: '' }]);
+            resetInputs(); 
+            setInputs([{ id: 'AG' + postIDGenerator(10), value: '' }]);
             setEditModal(false);
 
             setEditInfoDiscount(true);
