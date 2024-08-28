@@ -382,7 +382,7 @@ const Marketplace = () => {
             <section className="marketplacePageContainer top">
                 <div className="mpPageContentTopNav">
                     <div className='mppctn left'>
-                        <h5>FEATURED GAMES</h5>
+                        {/* <h5>FEATURED GAMES</h5> */}
                         {/* <h6><FaSearch className='faIcons'/></h6>
                         <input type="text" placeholder='Search Games / Vouchers / Giftcards / Crypto / Merchandise'/> */}
                     </div>
