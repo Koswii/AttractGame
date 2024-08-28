@@ -39,9 +39,7 @@ const formatDateToWordedDate = (numberedDate) => {
 
 
 const Admin = () => {
-    const { 
-        viewAGData1
-    } = GamesFetchData();
+    const { viewAGData1 } = GamesFetchData();
     const { giftcards } = GiftcardsFetchData();
     const { gamecredits } = GamecreditsFetchData();
     const AGUserProfileListAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
@@ -200,7 +198,8 @@ const Admin = () => {
             axios.get(AGGamesListAPI)
             .then((response) => {
                 const gameData = response.data;
-                setViewGameTotal(gameData);
+                const gameAG = gameData.filter(seller => seller.game_seller == "Attract Game")
+                setViewGameTotal(gameAG);
             })
             .catch(error => {
                 console.log(error)
@@ -212,7 +211,8 @@ const Admin = () => {
             axios.get(AGGiftcardsListAPI)
             .then((response) => {
                 const giftcardData = response.data;
-                setViewGiftcardTotal(giftcardData);
+                const giftAG = giftcardData.filter(seller => seller.giftcard_seller == "Attract Game")
+                setViewGiftcardTotal(giftAG);
             })
             .catch(error => {
                 console.log(error)
@@ -224,7 +224,8 @@ const Admin = () => {
             axios.get(AGGameCreditsListAPI)
             .then((response) => {
                 const gamecreditData = response.data;
-                setViewGamecreditTotal(gamecreditData);
+                const gameCred = gamecreditData.filter(seller => seller.gamecredit_seller == "Attract Game")
+                setViewGamecreditTotal(gameCred);
             })
             .catch(error => {
                 console.log(error)
@@ -528,6 +529,7 @@ const Admin = () => {
         }
         return result;
     };
+    
     // Product List Data
     const [editableData, setEditableData] = useState({});
     const [openEditModal, setEditModal] = useState(false);
@@ -755,7 +757,8 @@ const Admin = () => {
             axios.get(AGGamesListAPI)
             .then((response) => {
                 const gameData = response.data;
-                const search = gameData.filter(item => {
+                const gameAG = gameData.filter(seller => seller.game_seller == "Attract Game")
+                const search = gameAG.filter(item => {
                     return Object.values(item).some(value => 
                         typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
                     );
@@ -769,7 +772,8 @@ const Admin = () => {
             axios.get(AGGiftcardsListAPI)
             .then((response) => {
                 const giftcardData = response.data;
-                const search = giftcardData.filter(item => {
+                const giftData = giftcardData.filter(seller => seller.giftcard_seller == "Attract Game")
+                const search = giftData.filter(item => {
                     return Object.values(item).some(value => 
                         typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
                     );
@@ -783,7 +787,8 @@ const Admin = () => {
             axios.get(AGGameCreditsListAPI)
             .then((response) => {
                 const gamecreditData = response.data;
-                const search = gamecreditData.filter(item => {
+                const gameCred = gamecreditData.filter(seller => seller.gamecredit_seller == "Attract Game")
+                const search = gameCred.filter(item => {
                     return Object.values(item).some(value => 
                         typeof value === 'string' && value.toLowerCase().includes(searchInput.toLowerCase())
                     );
