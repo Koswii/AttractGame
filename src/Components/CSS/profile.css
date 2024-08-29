@@ -36,7 +36,6 @@ h6{
 .modalContainerProfile{
     height: 100vh;
     width: 100%;
-    padding-top: 4vw;
     position: fixed;
     background: rgba(0, 0, 0, 0.36);
     box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
@@ -753,6 +752,10 @@ h6{
 }
 
 
+
+.modalContainerProfile.viewProduct{
+    padding-top: 4vw;
+}
 .modalContentProduct{
     position: relative;
     height: auto;
@@ -1910,7 +1913,6 @@ section.profilePageContainer.mid{
     .mdcpccrSubmit button#mdcpccrsVerified{
         width: 100%;
     }
-
     .modalContentCover{
         width: 90%;
         border-radius: 5vw;
@@ -1935,8 +1937,6 @@ section.profilePageContainer.mid{
         bottom: 2vw;
         right: 2vw;
     }
-
-
     .modalContentSuccess{
         width: 90%;
         border-radius: 2vw;
@@ -1949,8 +1949,6 @@ section.profilePageContainer.mid{
         font-size: 3vw;
         padding: 1% 10%;
     }
-
-
     .modalContentPosting{
         width: 90%;
         border-radius: 5vw;
@@ -2020,7 +2018,6 @@ section.profilePageContainer.mid{
         padding: 2% 10%;
         font-size: 3vw;
     }
-
     .modalContentStory{
         width: 90%;
         border-radius: 5vw;
@@ -2043,8 +2040,9 @@ section.profilePageContainer.mid{
         width: 40%;
         font-size: 3vw;
     }
-
-
+    .modalContainerProfile.viewProduct{
+        padding-top: 12vh;
+    }
     .modalContentProduct{
         width: 80%;
         border-radius: 5vw;
@@ -2093,10 +2091,6 @@ section.profilePageContainer.mid{
     .mdcpccNoResale p{
         font-size: 2vw;
     }
-
-
-
-
     .mdcsscDP{
         top: 2vw;
         left: 2vw;
@@ -2112,6 +2106,24 @@ section.profilePageContainer.mid{
     .mdcsscDP h6 span{
         font-size: 3vw;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

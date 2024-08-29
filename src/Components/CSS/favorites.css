@@ -41,9 +41,8 @@ h6{
 section.favPageContainer.top{
     height: auto;
     width: 100%;
-    padding: 4vw 10%;
-    padding-top: 7vw;
-    padding-bottom: 2vw;
+    padding: 1vw 10%;
+    padding-top: 5.5vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -284,7 +283,7 @@ section.favPageContainer.mid{
 @media screen and (max-width: 500px){
     section.favPageContainer.top{
         padding: 5vw 5%;
-        padding-top: 15vh;
+        padding-top: 14vh;
     }
     .favpctProfile.left{
         height: 10vw;

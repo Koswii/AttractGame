@@ -669,7 +669,7 @@ const Profile = () => {
                                 <p>{viewProductDetails.productCode.ag_product_code}</p>
                             </div>
                             <div className="mdcpccNoResale">
-                                <p>Disclaimer: This Digital Code cannot be Resale</p>
+                                <p>Disclaimer: This Digital Code cannot be Resell</p>
                             </div>
                         </div>
                     </div>

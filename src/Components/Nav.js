@@ -716,7 +716,7 @@ const Nav = () => {
                 </Link>
                 <Link id='agHeartBtn' to='/MyFavorites' onClick={() => handleNavigation('favorites', '/MyFavorites')}><TbHeartFilled className='faIcons'/> My Favorites</Link>
                 <Link id='agCartBtn' to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}><TbShoppingCartFilled className='faIcons'/> My Cart</Link>
-                <Link id='agRedeemBtn' to='/RedeemACode' onClick={() => handleNavigation('redeem', '/RedeemACode')}><TbTicket className='faIcons'/> Redeem</Link>
+                <Link id='agRedeemBtn' to='/RedeemACode' onClick={() => handleNavigation('redeem', '/RedeemACode')}><TbTicket className='faIcons'/> Redeem a Code</Link>
                 <Link id='agCartBtn'><TbCalendarEvent className='faIcons'/> Events</Link>
                 <a id='agLogoutBtn' onClick={handleUserLogout}><TbLogout className='faIcons'/> Logout</a>
               </div>}
