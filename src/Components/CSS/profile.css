@@ -753,6 +753,154 @@ h6{
 }
 
 
+.modalContentProduct{
+    position: relative;
+    height: auto;
+    width: 20%;
+    border-radius: 1vw;
+    background-size: cover;
+    box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
+    padding: 0.5%;
+    padding-bottom: 1%;
+    animation: fade-in-down 800ms ease;
+}
+.mdcProductContainer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+.mdcpcContent{
+    width: 100%;
+    position: relative;
+}
+.mdcpccImg{
+    height: auto;
+    width: 100%;
+    border-radius: 1vw;
+    margin: 0 auto;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mdcpccImg img{
+    width: 100%;
+}
+.mdcpccStatus{
+    position: absolute;
+    top: 3%;
+    right: 5%;
+}
+.mdcpccStatus p{
+    font-size: 0.6vw;
+    font-weight: 600;
+    padding: 0.5vw 1vw;
+    border-radius: 50px;
+    color: black;
+    border: none;
+    box-shadow: 0 0 5px gray;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.mdcpccPlatform{
+    position: absolute;
+    top: 3%;
+    left: 5%;
+    height: 5vw;
+    width: 5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 5px gray;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 3%;
+    overflow: hidden;
+    border-radius: 10px;
+}
+.mdcpccPlatform img{
+    height: 100%;
+}
+.mdcpccPlatform img[platform='PC']{
+    content: url('../assets/imgs/GamePlatforms/PCGames.png');
+}
+.mdcpccPlatform img[platform='NintendoSwitch']{
+    content: url('../assets/imgs/GamePlatforms/NintendoSwitch.png');
+}
+.mdcpccPlatform img[platform='XboxXS']{
+    content: url('../assets/imgs/GamePlatforms/XboxXS.png');
+}
+.mdcpccPlatform img[platform='XboxOne']{
+    content: url('../assets/imgs/GamePlatforms/XboxOne.png');
+}
+.mdcpccPlatform img[platform='PlayStation4']{
+    content: url('../assets/imgs/GamePlatforms/PS4.png');
+}
+.mdcpccPlatform img[platform='PlayStation5']{
+    content: url('../assets/imgs/GamePlatforms/PS5.png');
+}
+.mdcpccPlatform div{
+    text-align: center;
+}
+.mdcpccPlatform div h4{
+    font-size: 1.7vw;
+    color: black;
+}
+.mdcpccPlatform div p{
+    color: black;
+    font-size: 0.7vw;
+}
+.mdcpccTitle{
+    height: 4vw;
+    width: 100%;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+.mdcpccTitle h6{
+    text-align: center;
+    font-size: 1vw;
+}
+.mdcpccTitle h6 span{
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: gray;
+}
+.mdcpccCodes{
+    height: auto;
+    width: 100%;
+    text-align: center;
+    height: 2.5vw;
+    padding: 0 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5%;
+}
+.mdcpccCodes p{
+    font-size: 0.8vw;
+}
+.mdcpccNoResale{
+    text-align: center;
+}
+.mdcpccNoResale p{
+    font-size: 0.6vw;
+    opacity: 50%;
+}
+
+
+
+
+
+
+
 section.profilePageContainer.top{
     height: 25vw;
     width: 100%;
@@ -1511,6 +1659,32 @@ section.profilePageContainer.mid{
     color: black;
     transition: 400ms ease;
 }
+.ppcrpcmppccRedeemed{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ppcrpcmppccRedeemed button{
+    width: 100%;
+    padding: 3% 5%;
+    font-size: 0.7vw;
+    border-radius: 10px;
+    border: solid 0.15vw white;
+    outline: none;
+    cursor: pointer;
+    color: white;
+    opacity: 50%;
+    background: none;
+    transition: 400ms ease;
+}
+.ppcrpcmppccRedeemed button:hover{
+    opacity: 100%;
+    background: white;
+    color: black;
+    transition: 400ms ease;
+}
 .ppcrProfileContents.myStore h3{
     width: 100%;
     font-size: 1vw;
@@ -1869,6 +2043,60 @@ section.profilePageContainer.mid{
         width: 40%;
         font-size: 3vw;
     }
+
+
+    .modalContentProduct{
+        width: 80%;
+        border-radius: 5vw;
+        padding: 2%;
+    }
+    .mdcpccImg{
+        border-radius: 3vw;
+    }
+    .mdcpccImg img{
+        width: 100%;
+    }
+    .mdcpccStatus p{
+        font-size: 2.5vw;
+        font-weight: 600;
+        padding: 1.5vw 2vw;
+        border-radius: 50px;
+    }
+    .mdcpccPlatform{
+        position: absolute;
+        top: 3%;
+        left: 5%;
+        height: 20vw;
+        width: 20vw;
+    }
+    .mdcpccPlatform div h4{
+        font-size: 8vw;
+    }
+    .mdcpccPlatform div p{
+        font-size: 2.5vw;
+    }
+    .mdcpccTitle{
+        height: 15vw;
+    }
+    .mdcpccTitle h6{
+        font-size: 3.5vw;
+    }
+    .mdcpccTitle h6 span{
+        font-size: 2.5vw;
+    }
+    .mdcpccCodes{
+        height: 10vw;
+    }
+    .mdcpccCodes p{
+        font-size: 3vw;
+    }
+    .mdcpccNoResale p{
+        font-size: 2vw;
+    }
+
+
+
+
     .mdcsscDP{
         top: 2vw;
         left: 2vw;
@@ -2145,9 +2373,11 @@ section.profilePageContainer.mid{
         top: 1.5vw;
         left: 1.5vw;
         padding: 3%;
+        overflow: visible;
     }
     .ppcrpcmppcPlatform div h4{
-        font-size: 6vw;
+        font-size: 5.5vw;
+        line-height: 7vw;
     }
     .ppcrpcmppcPlatform div p{
         font-size: 2vw;
@@ -2168,9 +2398,6 @@ section.profilePageContainer.mid{
         padding: 5% 0;
         font-size: 3vw;
     }
-    .ppcrpcmppContents p{
-        display: none;
-    }
     .ppcrpcmppcCode{
         height: 27vw;
     }
@@ -2188,7 +2415,11 @@ section.profilePageContainer.mid{
         font-size: 2.5vw;
         border: solid 2px white;
     }
-
+    .ppcrpcmppccRedeemed button{
+        padding: 3% 6%;
+        font-size: 2.5vw;
+        border: solid 2px white;
+    }
 
 
 
