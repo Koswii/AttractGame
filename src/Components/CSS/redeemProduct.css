@@ -38,9 +38,8 @@ h6{
 section.redeemPageContainer.top{
     height: 100vh;
     width: 100%;
-    padding: 4vw 10%;
-    padding-top: 7vw;
-    padding-bottom: 2vw;
+    padding: 2vw 10%;
+    padding-top: 6vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,6 +61,7 @@ section.redeemPageContainer.top{
     text-align: center;
 }
 .redeemPageContent.top1 p{
+    font-size: 0.7vw;
     text-align: center;
     color: gray;
 }
@@ -76,12 +76,45 @@ section.redeemPageContainer.top{
     border-radius: 5px;
     text-align: center;
 }
-.redeemPageContent.top1 img{
+.rpct1Img{
     height: 27vw;
     display: flex;
-    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 2%;
     border-radius: 1vw;
+    overflow: hidden;
+    position: relative;
+}
+.rpct1ImgShadow{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(transparent, black 90%);
+}
+.rpct1Img img{
+    height: 100%;
+}
+.rpct1Img button{
+    position: absolute;
+    bottom: 5%;
+    padding: 2% 15%;
+    background: none;
+    border: solid 2px white;
+    color: white;
+    border-radius: 50px;
+    opacity: 50%;
+    transition: 400ms ease;
+    font-size: 0.7vw;
+    cursor: pointer;
+}
+.rpct1Img button:hover{
+    opacity: 100%;
+    background: white;
+    color: black;
+    transition: 400ms ease;
 }
 .redeemPageContent.top1 p#rpcr1Disclaimer{
     font-size: 0.6vw;
@@ -100,7 +133,39 @@ section.redeemPageContainer.top{
 
 
 
-
+@media screen and (max-width: 500px){
+    section.redeemPageContainer.top{
+        padding: 4vw 10%;
+        padding-top: 12vh;
+    }
+    .redeemPageContent.top1{
+        height: auto;
+        width: 100%;
+        border-radius: 2vw;
+        padding: 5.5%;
+    }
+    .redeemPageContent.top1 h5{
+        font-size: 5vw;
+    }
+    .redeemPageContent.top1 p{
+        font-size: 3vw;
+    }
+    .redeemPageContent.top1 input{
+        width: 100%;
+        font-size: 3vw;
+        padding: 1% 2%;
+    }
+    .rpct1Img{
+        height: 100vw;
+        border-radius: 3vw;
+    }
+    .rpct1Img button{
+        font-size: 2.5vw;
+    }
+    .redeemPageContent.top1 p#rpcr1Disclaimer{
+        font-size: 2.3vw;
+    }
+}
 
 
 
