@@ -540,6 +540,7 @@ nav{
     overflow: hidden;
 }
 .profileModalContainer a#agHeartBtn,
+.profileModalContainer a#agRedeemBtn,
 .profileModalContainer a#agCartBtn,
 .profileModalContainer a#agLogoutBtn{
     width: 100%;
