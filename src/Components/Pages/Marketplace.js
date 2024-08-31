@@ -382,7 +382,7 @@ const Marketplace = () => {
             <section className="marketplacePageContainer top">
                 <div className="mpPageContentTopNav">
                     <div className='mppctn left'>
-                        {/* <h5>FEATURED GAMES</h5> */}
+                        <h5>FEATURED GAMES</h5>
                         {/* <h6><FaSearch className='faIcons'/></h6>
                         <input type="text" placeholder='Search Games / Vouchers / Giftcards / Crypto / Merchandise'/> */}
                     </div>
@@ -400,7 +400,6 @@ const Marketplace = () => {
                 </div>
             </section>
             <section className="marketplacePageContainer mid">
-                {/* <h4 id='mppcthTitlesfeatured'><TbDeviceGamepad2 className='faIcons'/> FEATURED GAMES</h4> */}
                 <div className="mppctFeaturedGame">
                     <div className="mppctFeaturedGameSlider">
                         <section>
