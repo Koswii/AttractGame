@@ -90,6 +90,8 @@ const parseDateString = (dateString) => {
 
 const Nav = () => {
   const { 
+    viewProfileBtn, 
+    setViewProfileBtn,
     userEmail, 
     fetchUsersEmails,
     viewLoginForm, 
@@ -99,7 +101,6 @@ const Nav = () => {
   const [viewRegForm, setViewRegForm] = useState(false);
   const [viewRegFormRes, setViewRegFormRes] = useState(false);
   // const [viewLoginForm, setViewLoginForm] = useState(false);
-  const [viewProfileBtn, setViewProfileBtn] = useState(false);
   const [viewUserCredentials, setViewUserCredentials] = useState(false);
   const [viewAdminCredentials, setViewAdminCredentials] = useState(false);
   const [viewSellerCredentials, setViewSellerCredentials] = useState(false);
@@ -290,9 +291,9 @@ const Nav = () => {
   useEffect(() => {
     const fetchUserCart = async () => {
       try {
-          const response = await axios.get(AGUserCartAPI);
-          const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
-          setUserProductCart(filteredData.length);
+        const response = await axios.get(AGUserCartAPI);
+        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
+        setUserProductCart(filteredData.length);
       } catch (error) {
           console.error(error);
       }

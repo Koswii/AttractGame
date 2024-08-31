@@ -5,6 +5,7 @@ const UserProfileContext = createContext();
 
 export const UserProfileDataProvider = ({ children }) => {
     const [userLoggedData, setUserLoggedData] = useState([]);
+    const [viewProfileBtn, setViewProfileBtn] = useState(false);
     const [userEmail, setUserEmaiil] = useState([]);
     const [viewLoginForm, setViewLoginForm] = useState(false);
     const [userProductCodeIDData, setUserProductCodeIDData] = useState([]);
@@ -131,6 +132,8 @@ export const UserProfileDataProvider = ({ children }) => {
 
     return (
         <UserProfileContext.Provider value={{ 
+            viewProfileBtn, 
+            setViewProfileBtn,
             userLoggedData, 
             userEmail, 
             fetchUsersEmails, 

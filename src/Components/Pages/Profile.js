@@ -189,6 +189,8 @@ const Profile = () => {
     const [addCoverImg, setAddCoverImg] = useState(false);
     const [addPostStory, setAddPostStory] = useState(false);
     const [viewProductCode, setViewProductCode] = useState(false);
+    const [viewSendProducts, setViewSendProducts] = useState(null);
+    const [viewFlipProducts, setViewFlipProducts] = useState(null);
     const [viewProductDetails, setViewProductDetails] = useState(null);
 
     const handleImageSelect = (image) => {
@@ -215,11 +217,19 @@ const Profile = () => {
         const pCode = userProductCodeIDData.find(pCodeID => pCodeID.ag_product_id_code === productCode)
         setViewProductDetails(pCode)
     }
+    const handleViewSendProducts = (productCode) => {
+        setViewSendProducts(productCode);
+    }
+    const handleViewFlipProducts = (productCode) => {
+        setViewFlipProducts(productCode);
+    }
     const handleCloseAnyModals = (e) => {
         e.preventDefault();
         setEditSocialsModal(false)
         setAddCoverImg(false)
         setViewProductCode(false)
+        setViewSendProducts(null)
+        setViewFlipProducts(null)
     }
     
     const [image, setImage] = useState(null);
@@ -434,7 +444,7 @@ const Profile = () => {
     const [viewUserAddProducts, setViewUserAddProducts] = useState(false);
     const [viewUserRedeem, setViewUserRedeem] = useState(false);
     const [viewUserStore, setViewUserStore] = useState(false);
-    const [viewUserTickets, setViewUserTickets] = useState(false)
+    const [viewUserTickets, setViewUserTickets] = useState(false);
 
     // const handleViewDefault = () => {
     //     setViewUserHighlight(true)
@@ -500,6 +510,7 @@ const Profile = () => {
     } else{
         window.document.body.style.overflow = 'auto';
     }
+
     
 
     return (
@@ -658,10 +669,9 @@ const Profile = () => {
                                 <h6>
                                     {viewProductDetails.productCode.ag_product_name}<br />
                                     <span>
-                                        {viewProductDetails.productData.game_edition ? viewProductDetails.productData.game_edition : ''}
-                                        {viewProductDetails.productData.giftcard_category ? viewProductDetails.productData.giftcard_category : ''}
-                                        {viewProductDetails.productData.gamecredit_number ? viewProductDetails.productData.gamecredit_number : ''}
-                                        {viewProductDetails.productData.gamecredit_type ? viewProductDetails.productData.gamecredit_type : ''}
+                                        {viewProductDetails.productData.game_edition}
+                                        {viewProductDetails.productData.giftcard_category}
+                                        {viewProductDetails.productData.gamecredit_number} {viewProductDetails.productData.gamecredit_type}
                                     </span>
                                 </h6>
                             </div>
@@ -734,8 +744,8 @@ const Profile = () => {
                     </div>
                     <div className="ppclProfileDetails">
                         <span>
-                            <p>My Referral Code</p>
-                            <p>{userLoggedData.refcode}</p>
+                            <p>My User ID</p>
+                            <p>{userLoggedData.userid}</p>
                         </span>
                         <span>
                             <p>AG Points</p>
@@ -767,8 +777,8 @@ const Profile = () => {
                     <div className="ppcrProfileNavigations">
                         {/* <button className={viewUserHighlight ? 'active' : ''} onClick={handleViewDefault}><h6>HIGHLIGHTS</h6></button> */}
                         <button className={viewUserProducts ? 'active' : ''} onClick={handleViewProducts}><h6>MY PRODUCTS</h6></button>
-                        {/* <button className={viewUserRedeem ? 'active' : ''} onClick={handleViewRedeem}><h6>REDEEM</h6></button>
-                        <button className={viewUserTickets ? 'active' : ''} onClick={handleViewTickets}><h6>TICKETS</h6></button> */}
+                        {/* <button className={viewUserRedeem ? 'active' : ''} onClick={handleViewRedeem}><h6>REDEEM</h6></button> */}
+                        <button className={viewUserTickets ? 'active' : ''} onClick={handleViewTickets}><h6>TICKETS</h6></button>
                         <button className={viewUserTransactions ? 'active' : ''} onClick={handleViewTransactions}><h6>TRANSACTION HISTORY</h6></button>
                         {/* <button><h6>MISSIONS</h6></button>
                         <button><h6>FEEDBACKS</h6></button> */}
@@ -886,9 +896,9 @@ const Profile = () => {
                                                     <h6>
                                                         {details.productCode.ag_product_name} <br /> 
                                                         <span>
-                                                            {details.productData.game_edition ? details.productData.game_edition : ''}
-                                                            {details.productData.giftcard_category ? details.productData.giftcard_category : ''}
-                                                            {details.productData.gamecredit_type ? details.productData.gamecredit_type : ''}
+                                                            {details.productData.game_edition}
+                                                            {details.productData.giftcard_category}
+                                                            {details.productData.gamecredit_number} {details.productData.gamecredit_type}
                                                         </span>
                                                     </h6>
                                                 </div>
@@ -898,11 +908,71 @@ const Profile = () => {
                                                     </div>:
                                                     <div className="ppcrpcmppccBtns">
                                                         <button>Redeem</button>
-                                                        <button>Send</button>
-                                                        <button>Flip</button>
+                                                        <button onClick={() => handleViewSendProducts(details.ag_product_id_code)}>Send</button>
+                                                        <button onClick={() => handleViewFlipProducts(details.ag_product_id_code)}>Flip</button>
                                                     </div>
                                                 }
                                             </div>
+                                            {(viewSendProducts === details.ag_product_id_code) && <>
+                                                {(details.ag_product_status === "Unredeemed") && <div className="ppcrpcmppcSend">
+                                                    <button id='ppcrpcmppcsClose' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
+                                                    <div className="ppcrpcmppcsContent">
+                                                        <p>
+                                                            {details.productCode.ag_product_name}<br />
+                                                            <span>
+                                                                {details.productData.game_edition ? details.productData.game_edition : ''}
+                                                                {details.productData.giftcard_category ? details.productData.giftcard_category : ''}
+                                                                {details.productData.gamecredit_type ? details.productData.gamecredit_type : ''}
+                                                            </span>
+                                                        </p>
+                                                        <input type="text" placeholder='Receiver User ID Here' required/>
+                                                        <button>Send Now</button>
+                                                    </div>
+                                                </div>}
+                                            </>}
+                                            {(viewFlipProducts === details.ag_product_id_code) && <>
+                                                {(details.ag_product_status === "Unredeemed") && <div className="ppcrpcmppcFlip">
+                                                    <button id='ppcrpcmppcfClose' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
+                                                    <div className="ppcrpcmppcfContent">
+                                                        <p>
+                                                            {details.productCode.ag_product_name}<br />
+                                                            <span>
+                                                                {details.productData.game_edition}
+                                                                {details.productData.giftcard_category}
+                                                                {details.productData.gamecredit_number} {details.productData.gamecredit_type}
+                                                            </span>
+                                                        </p>
+                                                        <div className="ppcrpcmppcfPrice">
+                                                            {(details.ag_product_type === 'Games') && 
+                                                                <div className='ppcrpcmppcfpContent'>
+                                                                    <span>
+                                                                        <label htmlFor=""><p>Current Price</p></label>
+                                                                        <input id='ppcrpcmppcfpcGames' placeholder={`$ ${details.ag_product_price}`} readOnly/>
+                                                                    </span>
+                                                                    <span>
+                                                                        <label htmlFor=""><p>Resell Price</p></label>
+                                                                        <input id='ppcrpcmppcfpcGames' type='number' min={1} placeholder='$ 00.00'/>
+                                                                    </span>
+                                                                </div>
+                                                            }
+                                                            {(details.ag_product_type === 'Game Credits') && 
+                                                                <div className='ppcrpcmppcfpContent'>
+                                                                    <span>
+                                                                        <label htmlFor=""><p>Current Price</p></label>
+                                                                        <input id='ppcrpcmppcfpcGames' placeholder={`$ ${details.ag_product_price}`} readOnly/>
+                                                                    </span>
+                                                                    <span>
+                                                                        <label htmlFor=""><p>Resell Price</p></label>
+                                                                        <input id='ppcrpcmppcfpcGames' type='number' min={1} placeholder='$ 00.00'/>
+                                                                    </span>
+                                                                </div>
+                                                            }
+                                                            {(details.ag_product_type === 'Giftcards') && <input id='ppcrpcmppcfpGiftcards' type="text" placeholder={`$ ${details.ag_product_price}`} readOnly/>}
+                                                        </div>
+                                                        <button>Resell Product</button>
+                                                    </div>
+                                                </div> } 
+                                            </>}
                                         </div>
                                     ))}
                                 </div>
