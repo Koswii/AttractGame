@@ -24,6 +24,13 @@ h6{
 }
 
 
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
 .mainContainer.profile{
     height: auto;
     width: 100%;
@@ -36,7 +43,6 @@ h6{
 .modalContainerProfile{
     height: 100vh;
     width: 100%;
-    padding-top: 4vw;
     position: fixed;
     background: rgba(0, 0, 0, 0.36);
     box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
@@ -751,6 +757,158 @@ h6{
 .storySubmit button .faIcons{
     margin-right: 5%;
 }
+
+
+
+.modalContainerProfile.viewProduct{
+    padding-top: 4vw;
+}
+.modalContentProduct{
+    position: relative;
+    height: auto;
+    width: 20%;
+    border-radius: 1vw;
+    background-size: cover;
+    box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
+    padding: 0.5%;
+    padding-bottom: 1%;
+    animation: fade-in-down 800ms ease;
+}
+.mdcProductContainer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+.mdcpcContent{
+    width: 100%;
+    position: relative;
+}
+.mdcpccImg{
+    height: auto;
+    width: 100%;
+    border-radius: 1vw;
+    margin: 0 auto;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mdcpccImg img{
+    width: 100%;
+}
+.mdcpccStatus{
+    position: absolute;
+    top: 3%;
+    right: 5%;
+}
+.mdcpccStatus p{
+    font-size: 0.6vw;
+    font-weight: 600;
+    padding: 0.5vw 1vw;
+    border-radius: 50px;
+    color: black;
+    border: none;
+    box-shadow: 0 0 5px gray;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.mdcpccPlatform{
+    position: absolute;
+    top: 3%;
+    left: 5%;
+    height: 5vw;
+    width: 5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 5px gray;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px black;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 3%;
+    overflow: hidden;
+    border-radius: 10px;
+}
+.mdcpccPlatform img{
+    height: 100%;
+}
+.mdcpccPlatform img[platform='PC']{
+    content: url('../assets/imgs/GamePlatforms/PCGames.png');
+}
+.mdcpccPlatform img[platform='NintendoSwitch']{
+    content: url('../assets/imgs/GamePlatforms/NintendoSwitch.png');
+}
+.mdcpccPlatform img[platform='XboxXS']{
+    content: url('../assets/imgs/GamePlatforms/XboxXS.png');
+}
+.mdcpccPlatform img[platform='XboxOne']{
+    content: url('../assets/imgs/GamePlatforms/XboxOne.png');
+}
+.mdcpccPlatform img[platform='PlayStation4']{
+    content: url('../assets/imgs/GamePlatforms/PS4.png');
+}
+.mdcpccPlatform img[platform='PlayStation5']{
+    content: url('../assets/imgs/GamePlatforms/PS5.png');
+}
+.mdcpccPlatform div{
+    text-align: center;
+}
+.mdcpccPlatform div h4{
+    font-size: 1.7vw;
+    color: black;
+}
+.mdcpccPlatform div p{
+    color: black;
+    font-size: 0.7vw;
+}
+.mdcpccTitle{
+    height: 4vw;
+    width: 100%;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+.mdcpccTitle h6{
+    text-align: center;
+    font-size: 1vw;
+}
+.mdcpccTitle h6 span{
+    font-size: 0.7vw;
+    font-weight: 400;
+    color: gray;
+}
+.mdcpccCodes{
+    height: auto;
+    width: 100%;
+    text-align: center;
+    height: 2.5vw;
+    padding: 0 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5%;
+}
+.mdcpccCodes p{
+    font-size: 0.8vw;
+}
+.mdcpccNoResale{
+    text-align: center;
+}
+.mdcpccNoResale p{
+    font-size: 0.6vw;
+    opacity: 50%;
+}
+
+
+
+
+
 
 
 section.profilePageContainer.top{
@@ -1511,13 +1669,210 @@ section.profilePageContainer.mid{
     color: black;
     transition: 400ms ease;
 }
+.ppcrpcmppccRedeemed{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ppcrpcmppccRedeemed button{
+    width: 100%;
+    padding: 3% 5%;
+    font-size: 0.7vw;
+    border-radius: 10px;
+    border: solid 0.15vw white;
+    outline: none;
+    cursor: pointer;
+    color: white;
+    opacity: 50%;
+    background: none;
+    transition: 400ms ease;
+}
+.ppcrpcmppccRedeemed button:hover{
+    opacity: 100%;
+    background: white;
+    color: black;
+    transition: 400ms ease;
+}
 .ppcrProfileContents.myStore h3{
     width: 100%;
     font-size: 1vw;
     font-weight: 400;
 }
+.ppcrpcmppcSend{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 15% 7%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ppcrpcmppcSend button#ppcrpcmppcsClose{
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    text-shadow: 0 0 10px black;
+    cursor: pointer;
+    font-size: 1vw;
+}
+.ppcrpcmppcsContent h6{
+    text-align: center;
+}
+.ppcrpcmppcsContent p{
+    text-align: center;
+}
+.ppcrpcmppcsContent p span{
+    font-size: 0.7vw;
+    opacity: 50%;
+}
+.ppcrpcmppcsContent input{
+    width: 100%;
+    font-size: 0.7vw;
+    padding: 3% 5%;
+    margin: 5% 0;
+    text-align: center;
+    border: solid 2px white;
+    border-radius: 10px;
+    outline: none;
+}
+.ppcrpcmppcsContent button{
+    width: 100%;
+    border-radius: 10px;
+    border: solid 2px white;
+    background: none;
+    outline: none;
+    color: white;
+    padding: 3% 5%;
+    font-size: 0.7vw;
+    transition: 400ms ease;
+    cursor: pointer;
+}
+.ppcrpcmppcsContent button:hover{
+    background: white;
+    color: black;
+    transition: 400ms ease;
+}
 
 
+
+
+.ppcrpcmppcFlip{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 15% 7%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ppcrpcmppcFlip button#ppcrpcmppcfClose{
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    text-shadow: 0 0 10px black;
+    cursor: pointer;
+    font-size: 1vw;
+}
+.ppcrpcmppcfContent{
+    width: 100%;
+}
+.ppcrpcmppcfContent p{
+    text-align: center;
+}
+.ppcrpcmppcfContent p span{
+    font-size: 0.7vw;
+    opacity: 50%;
+}
+.ppcrpcmppcfPrice{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ppcrpcmppcfPrice input#ppcrpcmppcfpGiftcards{
+    width: 100%;
+    font-size: 0.7vw;
+    padding: 3% 5%;
+    margin: 5% 0;
+    text-align: center;
+    border: solid 2px white;
+    color: white;
+    border-radius: 10px;
+    outline: none;
+}
+.ppcrpcmppcfpContent{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5% 0;
+}
+.ppcrpcmppcfpContent span{
+    height: auto;
+    width: 49%;
+}
+.ppcrpcmppcfpContent span p{
+    font-size: 0.5vw;
+}
+.ppcrpcmppcfpContent span input{
+    width: 100%;
+    font-size: 0.7vw;
+    padding: 5%;
+    margin: 5% 0;
+    text-align: center;
+    border: solid 2px white;
+    border-radius: 10px;
+    outline: none;
+}
+
+
+
+
+
+
+
+
+
+
+.ppcrpcmppcfContent button{
+    width: 100%;
+    border-radius: 10px;
+    border: solid 2px white;
+    background: none;
+    outline: none;
+    color: white;
+    padding: 3% 5%;
+    font-size: 0.7vw;
+    transition: 400ms ease;
+    cursor: pointer;
+}
+.ppcrpcmppcfContent button:hover{
+    background: white;
+    color: black;
+    transition: 400ms ease;
+}
 
 
 
@@ -1736,7 +2091,6 @@ section.profilePageContainer.mid{
     .mdcpccrSubmit button#mdcpccrsVerified{
         width: 100%;
     }
-
     .modalContentCover{
         width: 90%;
         border-radius: 5vw;
@@ -1761,8 +2115,6 @@ section.profilePageContainer.mid{
         bottom: 2vw;
         right: 2vw;
     }
-
-
     .modalContentSuccess{
         width: 90%;
         border-radius: 2vw;
@@ -1775,8 +2127,6 @@ section.profilePageContainer.mid{
         font-size: 3vw;
         padding: 1% 10%;
     }
-
-
     .modalContentPosting{
         width: 90%;
         border-radius: 5vw;
@@ -1846,7 +2196,6 @@ section.profilePageContainer.mid{
         padding: 2% 10%;
         font-size: 3vw;
     }
-
     .modalContentStory{
         width: 90%;
         border-radius: 5vw;
@@ -1869,6 +2218,57 @@ section.profilePageContainer.mid{
         width: 40%;
         font-size: 3vw;
     }
+    .modalContainerProfile.viewProduct{
+        padding-top: 12vh;
+    }
+    .modalContentProduct{
+        width: 80%;
+        border-radius: 5vw;
+        padding: 2%;
+    }
+    .mdcpccImg{
+        border-radius: 3vw;
+    }
+    .mdcpccImg img{
+        width: 100%;
+    }
+    .mdcpccStatus p{
+        font-size: 2.5vw;
+        font-weight: 600;
+        padding: 1.5vw 2vw;
+        border-radius: 50px;
+    }
+    .mdcpccPlatform{
+        position: absolute;
+        top: 3%;
+        left: 5%;
+        height: 20vw;
+        width: 20vw;
+    }
+    .mdcpccPlatform div h4{
+        font-size: 8vw;
+    }
+    .mdcpccPlatform div p{
+        font-size: 2.5vw;
+    }
+    .mdcpccTitle{
+        height: 15vw;
+    }
+    .mdcpccTitle h6{
+        font-size: 3.5vw;
+    }
+    .mdcpccTitle h6 span{
+        font-size: 2.5vw;
+    }
+    .mdcpccCodes{
+        height: 10vw;
+    }
+    .mdcpccCodes p{
+        font-size: 3vw;
+    }
+    .mdcpccNoResale p{
+        font-size: 2vw;
+    }
     .mdcsscDP{
         top: 2vw;
         left: 2vw;
@@ -1884,6 +2284,24 @@ section.profilePageContainer.mid{
     .mdcsscDP h6 span{
         font-size: 3vw;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2016,7 +2434,7 @@ section.profilePageContainer.mid{
     .profilePageContent.right{
         height: auto;
         width: 100%;
-        margin-top: 10%;
+        margin-top: 7%;
     }
     /* .ppcrProfileNavigations{
         justify-content: space-between;
@@ -2028,6 +2446,7 @@ section.profilePageContainer.mid{
         border-radius: 2vw;
         background: none;
         padding: 0;
+        margin: 0;
     }
     .ppcrpchpWhat{
         margin: 5% 0;
@@ -2109,7 +2528,8 @@ section.profilePageContainer.mid{
     .ppcrProfileContents.myProducts h3{
         text-align: center;
         font-size: 3vw;
-        margin: 5% 0;
+        margin-top: 7%;
+        margin-bottom: 5%;
     }
     .ppcrpcmpEmpty{
         height: 25vh;
@@ -2145,9 +2565,11 @@ section.profilePageContainer.mid{
         top: 1.5vw;
         left: 1.5vw;
         padding: 3%;
+        overflow: visible;
     }
     .ppcrpcmppcPlatform div h4{
-        font-size: 6vw;
+        font-size: 5.5vw;
+        line-height: 7vw;
     }
     .ppcrpcmppcPlatform div p{
         font-size: 2vw;
@@ -2168,9 +2590,6 @@ section.profilePageContainer.mid{
         padding: 5% 0;
         font-size: 3vw;
     }
-    .ppcrpcmppContents p{
-        display: none;
-    }
     .ppcrpcmppcCode{
         height: 27vw;
     }
@@ -2188,6 +2607,63 @@ section.profilePageContainer.mid{
         font-size: 2.5vw;
         border: solid 2px white;
     }
+    .ppcrpcmppccRedeemed button{
+        padding: 3% 6%;
+        font-size: 2.5vw;
+        border: solid 2px white;
+    }
+
+
+    .ppcrpcmppcSend button#ppcrpcmppcsClose{
+        font-size: 5vw;
+    }
+    .ppcrpcmppcsContent p{
+        font-size: 3vw;
+    }
+    .ppcrpcmppcsContent p span{
+        font-size: 2.5vw;
+    }
+    .ppcrpcmppcsContent input{
+        width: 100%;
+        font-size: 2.5vw;
+    }
+    .ppcrpcmppcsContent button{
+        font-size: 2.5vw;
+    }
+    
+    .ppcrpcmppcFlip button#ppcrpcmppcfClose{
+        font-size: 5vw;
+    }
+    .ppcrpcmppcfContent p{
+        font-size: 3vw;
+    }
+    .ppcrpcmppcfContent p span{
+        font-size: 2.5vw;
+    }
+    .ppcrpcmppcfPrice{
+        height: auto;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .ppcrpcmppcfPrice input#ppcrpcmppcfpGiftcards{
+        font-size: 2.5vw;
+    }
+    .ppcrpcmppcfpContent span{
+        height: auto;
+        width: 49%;
+    }
+    .ppcrpcmppcfpContent span p{
+        font-size: 2vw;
+    }
+    .ppcrpcmppcfpContent span input{
+        font-size: 2.5vw;
+    }
+    .ppcrpcmppcfContent button{
+        font-size: 2.5vw;
+    }
+
 
 
 

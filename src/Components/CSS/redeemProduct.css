@@ -1,0 +1,171 @@
+h1, h2, h3, h4, h5, h6, p{
+    color: white;
+}
+p{
+    font-size: 0.9vw;
+}
+h1{
+    font-size: 10vw;
+}
+h2{
+    font-size: 5vw;
+}
+h3{
+    font-size: 4vw;
+}
+h4{
+    font-size: 2vw;
+}
+h5{
+    font-size: 1.5vw;
+}
+h6{
+    font-size: 1vw;
+}
+
+
+.mainContainer.redeemProduct{
+    height: auto;
+    width: 100%;
+    background: black;
+    position: relative;
+    padding-bottom: 10vw;
+}
+
+
+
+
+section.redeemPageContainer.top{
+    height: 100vh;
+    width: 100%;
+    padding: 2vw 10%;
+    padding-top: 6vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.redeemPageContent.top1{
+    height: auto;
+    width: 28%;
+    padding: 2%;
+    box-shadow: 0 0 10px gray;
+    border-radius: 1vw;
+    background: 
+        linear-gradient(transparent, black 90%),
+        url('../assets/imgs/LoginBackground.jpg') no-repeat center;
+    background-size: cover;
+}
+.redeemPageContent.top1 h5{
+    text-align: center;
+}
+.redeemPageContent.top1 p{
+    font-size: 0.7vw;
+    text-align: center;
+    color: gray;
+}
+.redeemPageContent.top1 input{
+    display: flex;
+    margin: 3% auto;
+    width: 19vw;
+    font-size: 1vw;
+    padding: 1% 2%;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    text-align: center;
+}
+.rpct1Img{
+    height: 27vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2%;
+    border-radius: 1vw;
+    overflow: hidden;
+    position: relative;
+}
+.rpct1ImgShadow{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(transparent, black 90%);
+}
+.rpct1Img img{
+    height: 100%;
+}
+.rpct1Img button{
+    position: absolute;
+    bottom: 5%;
+    padding: 2% 15%;
+    background: none;
+    border: solid 2px white;
+    color: white;
+    border-radius: 50px;
+    opacity: 50%;
+    transition: 400ms ease;
+    font-size: 0.7vw;
+    cursor: pointer;
+}
+.rpct1Img button:hover{
+    opacity: 100%;
+    background: white;
+    color: black;
+    transition: 400ms ease;
+}
+.redeemPageContent.top1 p#rpcr1Disclaimer{
+    font-size: 0.6vw;
+    text-align: center;
+    color: gray;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 500px){
+    section.redeemPageContainer.top{
+        padding: 4vw 10%;
+        padding-top: 12vh;
+    }
+    .redeemPageContent.top1{
+        height: auto;
+        width: 100%;
+        border-radius: 2vw;
+        padding: 5.5%;
+    }
+    .redeemPageContent.top1 h5{
+        font-size: 5vw;
+    }
+    .redeemPageContent.top1 p{
+        font-size: 3vw;
+    }
+    .redeemPageContent.top1 input{
+        width: 100%;
+        font-size: 3vw;
+        padding: 1% 2%;
+    }
+    .rpct1Img{
+        height: 100vw;
+        border-radius: 3vw;
+    }
+    .rpct1Img button{
+        font-size: 2.5vw;
+    }
+    .redeemPageContent.top1 p#rpcr1Disclaimer{
+        font-size: 2.3vw;
+    }
+}
+
+
+

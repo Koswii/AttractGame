@@ -874,6 +874,9 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     .mppctn.left h6{
         font-size: 3vw;
     }
+    .mppctn.left h5{
+        display: none;
+    }
     .mppctn.left input{
         font-size: 3vw;
         padding: 1% 0;

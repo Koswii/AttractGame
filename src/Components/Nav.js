@@ -31,6 +31,7 @@ import {
   TbGiftCard,
   TbDeviceGamepad2,
   TbDiamond,
+  TbTicket,
   TbNews,
   TbTimelineEvent     
 } from "react-icons/tb";
@@ -89,6 +90,8 @@ const parseDateString = (dateString) => {
 
 const Nav = () => {
   const { 
+    viewProfileBtn, 
+    setViewProfileBtn,
     userEmail, 
     fetchUsersEmails,
     viewLoginForm, 
@@ -98,7 +101,6 @@ const Nav = () => {
   const [viewRegForm, setViewRegForm] = useState(false);
   const [viewRegFormRes, setViewRegFormRes] = useState(false);
   // const [viewLoginForm, setViewLoginForm] = useState(false);
-  const [viewProfileBtn, setViewProfileBtn] = useState(false);
   const [viewUserCredentials, setViewUserCredentials] = useState(false);
   const [viewAdminCredentials, setViewAdminCredentials] = useState(false);
   const [viewSellerCredentials, setViewSellerCredentials] = useState(false);
@@ -146,9 +148,9 @@ const Nav = () => {
   }
   const handleViewProfileBtns = () => {
     setViewProfileBtn(true)
-    const timer = setTimeout(() => {
-      setViewProfileBtn(false);
-    }, 5000);
+    // const timer = setTimeout(() => {
+    //   setViewProfileBtn(false);
+    // }, 5000);
   }
   const handleCloseModal = () => {
     setViewForgotPassword(false)
@@ -289,9 +291,9 @@ const Nav = () => {
   useEffect(() => {
     const fetchUserCart = async () => {
       try {
-          const response = await axios.get(AGUserCartAPI);
-          const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
-          setUserProductCart(filteredData.length);
+        const response = await axios.get(AGUserCartAPI);
+        const filteredData = response.data.filter(product => product.ag_user_id	=== LoginUserID);
+        setUserProductCart(filteredData.length);
       } catch (error) {
           console.error(error);
       }
@@ -482,6 +484,8 @@ const Nav = () => {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, [handleUserLogout, setViewUserCredentials])
+
+
   if(viewRegForm == true || viewLoginForm == true){
     window.document.body.style.overflow = 'hidden';
   } else{
@@ -713,6 +717,7 @@ const Nav = () => {
                 </Link>
                 <Link id='agHeartBtn' to='/MyFavorites' onClick={() => handleNavigation('favorites', '/MyFavorites')}><TbHeartFilled className='faIcons'/> My Favorites</Link>
                 <Link id='agCartBtn' to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}><TbShoppingCartFilled className='faIcons'/> My Cart</Link>
+                <Link id='agRedeemBtn' to='/RedeemACode' onClick={() => handleNavigation('redeem', '/RedeemACode')}><TbTicket className='faIcons'/> Redeem a Code</Link>
                 <Link id='agCartBtn'><TbCalendarEvent className='faIcons'/> Events</Link>
                 <a id='agLogoutBtn' onClick={handleUserLogout}><TbLogout className='faIcons'/> Logout</a>
               </div>}
@@ -763,14 +768,18 @@ const Nav = () => {
                 <h4><TbShoppingCartFilled className='faIcons'/></h4>
                 <h6>My Cart</h6>
               </Link>
+              <Link to='/RedeemACode' onClick={() => handleNavigation('redeem', '/RedeemACode')}>
+                <h4><TbTicket className='faIcons'/></h4>
+                <h6>Redeem a Code</h6>
+              </Link>
               <Link>
                 <h4><TbCalendarEvent className='faIcons'/></h4>
                 <h6>Events</h6>
               </Link>
-              <Link>
-                {/* <h4><TbHeartFilled className='faIcons'/></h4>
-                <h6>My Favorites</h6> */}
-              </Link>
+              {/* <Link>
+                <h4><TbHeartFilled className='faIcons'/></h4>
+                <h6>My Favorites</h6>
+              </Link> */}
             </div>
             <div className="navContentpsMyLogout">
               <button onClick={handleUserLogout}><TbLogout className='faIcons'/> Logout</button>

@@ -64,58 +64,10 @@ const Cart = () => {
     const calculateEffectivePrice = (price, discount) => {
       return price - (price * (discount / 100));
     };
-
-    // console.log(gameProducts);
-
-    // const fetchCartProducts = () => {
-    //   setLoadingProducts(false);
-
-    //   try {
-    //     setLoadingProducts(false);
-
-    //     const cartGameWithData = gameProducts.map(product => {
-    //       const productData = viewAGData1.find(game => game.game_canonical === product.ag_product_id);
-    //       const effectivePrice = calculateEffectivePrice(productData.stock.ag_product_price, productData.stock.ag_product_discount);
-    //       const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
-    //       const totalPrice  = effectivePrice*numberOfOrder
-    //       return { ...product, productData, effectivePrice, totalPrice, numberOfOrder};
-    //     });
-
-    //     const cartGiftcardWithData = giftcardProducts.map(product => {
-    //       const productData = giftcards.find(giftcard => giftcard.giftcard_id === product.ag_product_id);
-    //       const effectivePrice = calculateEffectivePrice(productData.giftcard_denomination, 0);
-    //       const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
-    //       const totalPrice  = effectivePrice*numberOfOrder
-    //       return { ...product, productData, effectivePrice, totalPrice, numberOfOrder};
-    //     });
-
-    //     const cartGamecreditWithData = gamecreditProducts.map(product => {
-    //       const productData = gamecredits.find(gamecredit => gamecredit.gamecredit_id === product.ag_product_id);
-    //       const effectivePrice = calculateEffectivePrice(productData.gamecredit_denomination, 0);
-    //       const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
-    //       const totalPrice  = effectivePrice*numberOfOrder
-    //       return { ...product, productData, effectivePrice, totalPrice, numberOfOrder};
-    //     });
-
-
-    //     const combinedDataGame = [...cartGameWithData];
-    //     const combinedDataGiftcard = [...cartGiftcardWithData];
-    //     const combinedDataGamecredit = [...cartGamecreditWithData];
-    //     const combinedAllData = [...cartGameWithData, ...cartGiftcardWithData, ...cartGamecreditWithData];
-    //     setAllProductDetails(combinedAllData);
-    //     setGiftcardProductDetails(combinedDataGiftcard);
-    //     setGamecreditProductDetails(combinedDataGamecredit);
-    //     setGameProductDetails(combinedDataGame);
-    //     setCartTotalPayment(combinedAllData);
-    //   }catch (error){
-    //     // console.log('Error fetching cart products:', error);
-    //   }finally{
-    //     setLoadingProducts(true);
-    //   }
-    // };
     
     const fetchCartProducts = () => {
       try {
+
         const cartGameWithData = gameProducts.map(product => {
           const productData = viewAGData1.find(game => game.game_canonical === product.ag_product_id);
           const effectivePrice = calculateEffectivePrice(productData.stock.ag_product_price, productData.stock.ag_product_discount);
@@ -150,6 +102,7 @@ const Cart = () => {
         setGamecreditProductDetails(combinedDataGamecredit);
         setGameProductDetails(combinedDataGame);
         setCartTotalPayment(combinedAllData);
+        
 
         const timeout = setTimeout(() => {
           setLoadingProducts(false);
@@ -161,14 +114,14 @@ const Cart = () => {
         
       } catch (error) {
         // console.log('Error fetching cart products:', error);
-      }
+      } 
     };
-
-
+    
 
     useEffect(() => {
-      fetchCartProducts();
-    }, []);
+      fetchCartProducts(carts);
+      fetchUserCart(productCart);
+    }, [ carts, productCart ]);
 
     useEffect(() => {
       const interval = setInterval(() => {
@@ -210,9 +163,6 @@ const Cart = () => {
     };
 
 
-    // console.log(fetchCartProducts());
-
-
     const productSubtotalSum = cartTotalPayment.map(subTotal => subTotal.totalPrice).reduce((acc, cur) => acc + cur, 0);
     const agTaxFee = (3/100);
     const agProductCharge = (4.5/100);
@@ -222,8 +172,8 @@ const Cart = () => {
 
     const handleRemoveFromCart = (details) => {
       const removeDetails = {
-          user: userLoggedData.userid,
-          cart: details.ag_product_id
+        user: userLoggedData.userid,
+        cart: details.ag_product_id
       }
       const removeToCartJSON = JSON.stringify(removeDetails);
       axios({
@@ -236,10 +186,9 @@ const Cart = () => {
       })
       .then(response => {
           if (response.data.success) {
-              // console.log('Product removed from the Cart Successfully');
-            // navigate('/MyCart');
-            fetchCartProducts();
-            fetchUserCart(setProductCarts);
+            fetchCartProducts(carts);
+            fetchUserCart(productCart);
+            navigate('/MyCart');
           } else {
             console.log(`Error: ${response.data.message}`);
           }
@@ -248,6 +197,9 @@ const Cart = () => {
           console.log(`Error: ${error.message}`);
       });
     };
+
+
+
     const renderCartProducts = () => {
       return (
         <>
@@ -489,27 +441,6 @@ const Cart = () => {
             </div>
           </div>
         )}
-        {/* <section className="cartPageContainer top">
-              <div className="cartpcTopProfile">
-                <div className="cartpctProfile left">
-                  {userLoggedData.profileimg ? (
-                    <img
-                      src={`https://2wave.io/ProfilePics/${userLoggedData.profileimg}`}
-                      alt=""
-                    />
-                  ) : (
-                    <img
-                      src={require("../assets/imgs/ProfilePics/DefaultSilhouette.png")}
-                      alt=""
-                    />
-                  )}
-                </div>
-                <div className="cartpctProfile right">
-                  <h5>{userLoggedData.username}'s Cart</h5>
-                  <p>Products you added to Cart</p>
-                </div>
-              </div>
-        </section> */}
         {clientSecret ? 
           <>
             <Elements options={options} stripe={stripePromise}>

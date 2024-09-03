@@ -188,6 +188,10 @@ const Profile = () => {
     const [addUserPost2, setAddUserPost2] = useState(false);
     const [addCoverImg, setAddCoverImg] = useState(false);
     const [addPostStory, setAddPostStory] = useState(false);
+    const [viewProductCode, setViewProductCode] = useState(false);
+    const [viewSendProducts, setViewSendProducts] = useState(null);
+    const [viewFlipProducts, setViewFlipProducts] = useState(null);
+    const [viewProductDetails, setViewProductDetails] = useState(null);
 
     const handleImageSelect = (image) => {
         setPickProfileImg00(image);
@@ -208,10 +212,24 @@ const Profile = () => {
     const handleAddUserStory = () => {
         setAddPostStory(true)
     }
+    const handleViewProductCode = (productCode) => {
+        setViewProductCode(true)
+        const pCode = userProductCodeIDData.find(pCodeID => pCodeID.ag_product_id_code === productCode)
+        setViewProductDetails(pCode)
+    }
+    const handleViewSendProducts = (productCode) => {
+        setViewSendProducts(productCode);
+    }
+    const handleViewFlipProducts = (productCode) => {
+        setViewFlipProducts(productCode);
+    }
     const handleCloseAnyModals = (e) => {
         e.preventDefault();
         setEditSocialsModal(false)
         setAddCoverImg(false)
+        setViewProductCode(false)
+        setViewSendProducts(null)
+        setViewFlipProducts(null)
     }
     
     const [image, setImage] = useState(null);
@@ -426,7 +444,7 @@ const Profile = () => {
     const [viewUserAddProducts, setViewUserAddProducts] = useState(false);
     const [viewUserRedeem, setViewUserRedeem] = useState(false);
     const [viewUserStore, setViewUserStore] = useState(false);
-    const [viewUserTickets, setViewUserTickets] = useState(false)
+    const [viewUserTickets, setViewUserTickets] = useState(false);
 
     // const handleViewDefault = () => {
     //     setViewUserHighlight(true)
@@ -487,6 +505,13 @@ const Profile = () => {
         setViewUserHighlight(false)
     }
 
+    if(viewProductCode == true){
+        window.document.body.style.overflow = 'hidden';
+    } else{
+        window.document.body.style.overflow = 'auto';
+    }
+
+    
 
     return (
         <div className='mainContainer profile'>
@@ -612,6 +637,54 @@ const Profile = () => {
                     </form>
                 </div>
             </div>}
+            {viewProductCode && <div className="modalContainerProfile viewProduct" onClick={handleCloseAnyModals}>
+                <div className="modalContentProduct" style={userLoggedData.coverimg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${userLoggedData.coverimg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+                    :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
+                    <div className="mdcProductContainer">
+                        <div className="mdcpcContent">
+                            <div className="mdcpccImg">
+                                {(viewProductDetails.ag_product_type === 'Games') && <img src={`https://2wave.io/GameCovers/${viewProductDetails.productData.game_cover}`} alt="" />}
+                                {(viewProductDetails.ag_product_type === 'Giftcards') && <img src={`https://2wave.io/GiftCardCovers/${viewProductDetails.productData.giftcard_cover}`} alt="" />}
+                                {(viewProductDetails.ag_product_type === 'Game Credits') && <img src={`https://2wave.io/GameCreditCovers/${viewProductDetails.productData.gamecredit_cover}`} alt="" />}
+                            </div>
+                            <div className="mdcpccStatus">
+                                <p>REDEEMED</p>
+                            </div>
+                            <div className="mdcpccPlatform">
+                                {(viewProductDetails.ag_product_type === 'Games') && <img src="" platform={viewProductDetails.productData.game_platform} alt="" />}
+                                {(viewProductDetails.ag_product_type === 'Giftcards') &&
+                                    <div>
+                                        <h4>{viewProductDetails.productData.giftcard_denomination}</h4>
+                                        <p>DOLLARS</p>
+                                    </div>
+                                }
+                                {(viewProductDetails.ag_product_type === 'Game Credits') &&
+                                    <div>
+                                        <h4>{viewProductDetails.productData.gamecredit_denomination}</h4>
+                                        <p>DOLLARS</p>
+                                    </div>
+                                }
+                            </div>
+                            <div className="mdcpccTitle">
+                                <h6>
+                                    {viewProductDetails.productCode.ag_product_name}<br />
+                                    <span>
+                                        {viewProductDetails.productData.game_edition}
+                                        {viewProductDetails.productData.giftcard_category}
+                                        {viewProductDetails.productData.gamecredit_number} {viewProductDetails.productData.gamecredit_type}
+                                    </span>
+                                </h6>
+                            </div>
+                            <div className="mdcpccCodes">
+                                <p>{viewProductDetails.productCode.ag_product_code}</p>
+                            </div>
+                            <div className="mdcpccNoResale">
+                                <p>Disclaimer: This Digital Code cannot be Resell</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>}
             
             {addPostStory && <UserStoryModal setAddPostStory={setAddPostStory}/>}
             {addUserPost && <UserPostModal setAddUserPost={setAddUserPost}/>}
@@ -671,8 +744,8 @@ const Profile = () => {
                     </div>
                     <div className="ppclProfileDetails">
                         <span>
-                            <p>My Referral Code</p>
-                            <p>{userLoggedData.refcode}</p>
+                            <p>My User ID</p>
+                            <p>{userLoggedData.userid}</p>
                         </span>
                         <span>
                             <p>AG Points</p>
@@ -704,8 +777,8 @@ const Profile = () => {
                     <div className="ppcrProfileNavigations">
                         {/* <button className={viewUserHighlight ? 'active' : ''} onClick={handleViewDefault}><h6>HIGHLIGHTS</h6></button> */}
                         <button className={viewUserProducts ? 'active' : ''} onClick={handleViewProducts}><h6>MY PRODUCTS</h6></button>
-                        {/* <button className={viewUserRedeem ? 'active' : ''} onClick={handleViewRedeem}><h6>REDEEM</h6></button>
-                        <button className={viewUserTickets ? 'active' : ''} onClick={handleViewTickets}><h6>TICKETS</h6></button> */}
+                        {/* <button className={viewUserRedeem ? 'active' : ''} onClick={handleViewRedeem}><h6>REDEEM</h6></button> */}
+                        <button className={viewUserTickets ? 'active' : ''} onClick={handleViewTickets}><h6>TICKETS</h6></button>
                         <button className={viewUserTransactions ? 'active' : ''} onClick={handleViewTransactions}><h6>TRANSACTION HISTORY</h6></button>
                         {/* <button><h6>MISSIONS</h6></button>
                         <button><h6>FEEDBACKS</h6></button> */}
@@ -802,10 +875,7 @@ const Profile = () => {
                                             <div className="ppcrpcmppcImage">
                                                 {details.productData.game_cover && <img src={`https://2wave.io/GameCovers/${details.productData.game_cover}`} alt="" />}
                                                 {details.productData.giftcard_cover && <img src={`https://2wave.io/GiftCardCovers/${details.productData.giftcard_cover}`} alt="" />}
-                                                {details.productData.gamecredit_cover && <img src={`https://2wave.io/GiftCardCovers/${details.productData.gamecredit_cover}`} alt="" />}
-                                                {/* <div>
-                                                    <h6>{details.productCode.ag_product_name}</h6>
-                                                </div> */}
+                                                {details.productData.gamecredit_cover && <img src={`https://2wave.io/GameCreditCovers/${details.productData.gamecredit_cover}`} alt="" />}
                                             </div>
                                             <div className="ppcrpcmppcPlatform">
                                                 {details.productData.game_platform && 
@@ -821,23 +891,88 @@ const Profile = () => {
                                                     <p>DOLLARS</p>
                                                 </div>}
                                             </div>
-                                            {/* <button onClick={() => toggleVisibility(i)}>{isVisible[i] ? <FaRegEyeSlash className='faIcons'/> : <FaRegEye className='faIcons'/>}</button> */}
                                             <div className="ppcrpcmppcCode">
                                                 <div className='ppcrpcmppccName'>
                                                     <h6>
                                                         {details.productCode.ag_product_name} <br /> 
-                                                        <span>{details.productData.game_edition ? details.productData.game_edition : ''}</span>
+                                                        <span>
+                                                            {details.productData.game_edition}
+                                                            {details.productData.giftcard_category}
+                                                            {details.productData.gamecredit_number} {details.productData.gamecredit_type}
+                                                        </span>
                                                     </h6>
                                                 </div>
-                                                <div className="ppcrpcmppccBtns">
-                                                    <button>Redeem</button>
-                                                    <button>Send</button>
-                                                    <button>Flip</button>
-                                                </div>
-                                                {/* <span>
-                                                    <a href="">{!isVisible[i] ? '***** ***** *****' : `${details.productCode.ag_product_code}`}</a>
-                                                </span> */}
+                                                {(details.ag_product_status === "Redeemed") ? 
+                                                    <div className="ppcrpcmppccRedeemed">
+                                                        <button onClick={() => handleViewProductCode(details.ag_product_id_code)}>View Product</button>
+                                                    </div>:
+                                                    <div className="ppcrpcmppccBtns">
+                                                        <button>Redeem</button>
+                                                        <button onClick={() => handleViewSendProducts(details.ag_product_id_code)}>Send</button>
+                                                        <button onClick={() => handleViewFlipProducts(details.ag_product_id_code)}>Flip</button>
+                                                    </div>
+                                                }
                                             </div>
+                                            {(viewSendProducts === details.ag_product_id_code) && <>
+                                                {(details.ag_product_status === "Unredeemed") && <div className="ppcrpcmppcSend">
+                                                    <button id='ppcrpcmppcsClose' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
+                                                    <div className="ppcrpcmppcsContent">
+                                                        <p>
+                                                            {details.productCode.ag_product_name}<br />
+                                                            <span>
+                                                                {details.productData.game_edition ? details.productData.game_edition : ''}
+                                                                {details.productData.giftcard_category ? details.productData.giftcard_category : ''}
+                                                                {details.productData.gamecredit_type ? details.productData.gamecredit_type : ''}
+                                                            </span>
+                                                        </p>
+                                                        <input type="text" placeholder='Receiver User ID Here' required/>
+                                                        <button>Send Now</button>
+                                                    </div>
+                                                </div>}
+                                            </>}
+                                            {(viewFlipProducts === details.ag_product_id_code) && <>
+                                                {(details.ag_product_status === "Unredeemed") && <div className="ppcrpcmppcFlip">
+                                                    <button id='ppcrpcmppcfClose' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
+                                                    <div className="ppcrpcmppcfContent">
+                                                        <p>
+                                                            {details.productCode.ag_product_name}<br />
+                                                            <span>
+                                                                {details.productData.game_edition}
+                                                                {details.productData.giftcard_category}
+                                                                {details.productData.gamecredit_number} {details.productData.gamecredit_type}
+                                                            </span>
+                                                        </p>
+                                                        <div className="ppcrpcmppcfPrice">
+                                                            {(details.ag_product_type === 'Games') && 
+                                                                <div className='ppcrpcmppcfpContent'>
+                                                                    <span>
+                                                                        <label htmlFor=""><p>Current Price</p></label>
+                                                                        <input id='ppcrpcmppcfpcGames' placeholder={`$ ${details.ag_product_price}`} readOnly/>
+                                                                    </span>
+                                                                    <span>
+                                                                        <label htmlFor=""><p>Resell Price</p></label>
+                                                                        <input id='ppcrpcmppcfpcGames' type='number' min={1} placeholder='$ 00.00'/>
+                                                                    </span>
+                                                                </div>
+                                                            }
+                                                            {(details.ag_product_type === 'Game Credits') && 
+                                                                <div className='ppcrpcmppcfpContent'>
+                                                                    <span>
+                                                                        <label htmlFor=""><p>Current Price</p></label>
+                                                                        <input id='ppcrpcmppcfpcGames' placeholder={`$ ${details.ag_product_price}`} readOnly/>
+                                                                    </span>
+                                                                    <span>
+                                                                        <label htmlFor=""><p>Resell Price</p></label>
+                                                                        <input id='ppcrpcmppcfpcGames' type='number' min={1} placeholder='$ 00.00'/>
+                                                                    </span>
+                                                                </div>
+                                                            }
+                                                            {(details.ag_product_type === 'Giftcards') && <input id='ppcrpcmppcfpGiftcards' type="text" placeholder={`$ ${details.ag_product_price}`} readOnly/>}
+                                                        </div>
+                                                        <button>Resell Product</button>
+                                                    </div>
+                                                </div> } 
+                                            </>}
                                         </div>
                                     ))}
                                 </div>
