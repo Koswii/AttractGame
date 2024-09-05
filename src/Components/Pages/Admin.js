@@ -650,6 +650,7 @@ const Admin = () => {
                     productCodes: productCodesString,
                     productType: 'Games',
                     productState: 'Available',
+                    productSeller: 'Attract Game',
                     productOwner: 'None',
                 };
                 const response = await axios.post(AGInsertProductCodeAPI, dataInput);
@@ -664,6 +665,7 @@ const Admin = () => {
                     productCodes: productCodesString,
                     productType: 'Giftcards',
                     productState: 'Available',
+                    productSeller: 'Attract Game',
                     productOwner: 'None',
                 };
                 const response = await axios.post(AGInsertProductCodeAPI, dataInput);
@@ -678,6 +680,7 @@ const Admin = () => {
                     productCodes: productCodesString,
                     productType: 'Game Credits',
                     productState: 'Available',
+                    productSeller: 'Attract Game',
                     productOwner: 'None',
                 };
                 const response = await axios.post(AGInsertProductCodeAPI, dataInput);

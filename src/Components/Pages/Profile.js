@@ -25,7 +25,8 @@ import {
     FaTiktok,
     FaYoutube,
     FaTwitch,
-    FaCircleCheck  
+    FaCircleCheck,  
+    FaTicket
 } from "react-icons/fa6";
 import { 
     TbUserSquareRounded,
@@ -129,7 +130,12 @@ const defaultImages = [
 ];
 
 const Profile = () => {
-    const { userLoggedData, userProductCodeIDData, viewTransactionList } = UserProfileData();
+    const { 
+        userLoggedData, 
+        userProductCodeIDData, 
+        viewTransactionList,
+        fetchUserProductIds, 
+    } = UserProfileData();
     // User Profile Fetching
     const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
     const AGUsersTransactions = process.env.REACT_APP_AG_USERS_TRANSACTIONS_API;
@@ -143,6 +149,19 @@ const Profile = () => {
     const [randomPostID, setRandomPostID] = useState('');
     const [viewFetchPost, setViewFetchPost] = useState([]);
     const [viewFetchStory, setViewFetchStory] = useState([]);
+
+
+    const [gamePrice, setGamePrice] = useState('');
+    const [giftcardPrice, setGiftcardPrice] = useState('');
+    const [gamecreditPrice, setGamecreditPrice] = useState('');
+    const [receiverUserID, setReceiverUserID] = useState('');
+    const AGFlipProductsAPI = process.env.REACT_APP_AG_USER_FLIP_CODE_API;
+    const AGSendProductsAPI = process.env.REACT_APP_AG_USER_SEND_CODE_API;
+    const AGSendingTrasactionsAPI = process.env.REACT_APP_AG_USER_SEND_TRANSACTION_API;
+    const AGRedeemProductsAPI = process.env.REACT_APP_AG_USER_REDEEM_CODE_API;
+    const AGAddGamesAPI = process.env.REACT_APP_AG_ADD_GAMES_API;
+    const AGAddGiftcardsAPI = process.env.REACT_APP_AG_ADD_GIFTCARD_API;
+    const AGAddGameCreditsAPI = process.env.REACT_APP_AG_ADD_GAMECREDIT_API;
 
     // useEffect(() => {
     //     const interval = setInterval(() => {
@@ -219,9 +238,11 @@ const Profile = () => {
     }
     const handleViewSendProducts = (productCode) => {
         setViewSendProducts(productCode);
+        setViewFlipProducts(false)
     }
     const handleViewFlipProducts = (productCode) => {
         setViewFlipProducts(productCode);
+        setViewSendProducts(false)
     }
     const handleCloseAnyModals = (e) => {
         e.preventDefault();
@@ -230,6 +251,7 @@ const Profile = () => {
         setViewProductCode(false)
         setViewSendProducts(null)
         setViewFlipProducts(null)
+        setReceiverUserID('')
     }
     
     const [image, setImage] = useState(null);
@@ -511,6 +533,228 @@ const Profile = () => {
         window.document.body.style.overflow = 'auto';
     }
 
+
+    const handleFlipProduct = async (productCode) => {
+        const pCode = userProductCodeIDData.find(pCodeID => pCodeID.ag_product_id_code === productCode)
+
+        if (pCode.ag_product_type === 'Games'){
+            const agSetGameTitle = pCode.productData.game_title;
+            const agSetGameEdition = pCode.productData.game_edition;
+            const agSetGamePlatform = pCode.productData.game_platform;
+            const agSetGameCode1 = agSetGameTitle.replace(/\s/g, '');
+            const agSetGameCode2 = agSetGamePlatform.replace(/\s/g, '');
+            const agSetGameCode3 = agSetGameEdition.replace(/\s/g, '');
+            
+            const formFlipGameDetails = {
+                agGameCode: `${pCode.ag_product_owner}_${agSetGameCode1}_${agSetGameCode2}`,
+                agGameCover: pCode.productData.game_cover,
+                agGameTitle: pCode.productData.game_title,
+                agGameCanonical: `${agSetGameCode1}${agSetGameCode2}_${agSetGameCode3}_${pCode.ag_product_owner}`,
+                agGameEdition: pCode.productData.game_edition,
+                agGameCountry: pCode.productData.game_country,
+                agGameDeveloper: pCode.productData.game_developer,
+                agGameRelease: pCode.productData.game_released,
+                agGameCategory: pCode.productData.game_category,
+                agGamePlatform: pCode.productData.game_platform,
+                agGameTrailer: pCode.productData.game_trailer,
+                agGameSeller: userLoggedData.userid,
+                agGameHighlight1: '',
+                agGameSupplier: '',
+                agGameAvailable: '',
+                agGameRestricted: '',
+            };
+            const formFlipGameCodeDetails = {
+                agProductID: `${agSetGameCode1}${agSetGameCode2}_${agSetGameCode3}_${pCode.ag_product_owner}`,
+                agProductName: pCode.productCode.ag_product_name,
+                agProductPrice: gamePrice,
+                agProductDiscount: '',
+                agProductType: pCode.ag_product_type,
+                agProductIDCode: pCode.ag_product_id_code,
+                agProductState: 'Available',
+                agProductStatus: 'Unredeemed',
+                agProductSeller: userLoggedData.userid,
+                agProductOwner: 'None',
+                agProductCode: pCode.productCode.ag_product_code,
+            }
+            try {
+                const addGameResponse = await axios.post(AGAddGamesAPI, formFlipGameDetails);
+                const responseMessage = addGameResponse.data;
+
+                const flipProductResponse = await axios.post(AGFlipProductsAPI, formFlipGameCodeDetails);
+                const flipResponseMessage = flipProductResponse.data;
+        
+                if (responseMessage.success) {
+                    console.log(responseMessage.message);
+                }
+                if (flipResponseMessage.success) {
+                    console.log(flipResponseMessage.message);
+                    fetchUserProductIds();
+                }
+        
+            } catch (error) {
+                console.error(error);
+            }
+            
+        }
+
+        if (pCode.ag_product_type === 'Giftcards'){
+            const agSetGiftCardTitle = pCode.productData.giftcard_name;
+            const agSetGiftCardCode1 = agSetGiftCardTitle.replace(/\s/g, '');
+
+            const formFlipGiftcardDetails = {
+                agGiftcardCode: `${userLoggedData.userid}_${agSetGiftCardCode1}_${pCode.productData.giftcard_denomination}`,
+                agGiftcardCover: pCode.productData.giftcard_cover,
+                agGiftcardTitle: pCode.productData.giftcard_name,
+                agGiftcardCanonical : pCode.productData.giftcard_canonical,
+                agGiftcardDenomination: pCode.productData.giftcard_denomination,
+                agGiftcardSupplier: pCode.productData.giftcard_seller,
+                agGiftcardSeller: userLoggedData.userid,
+                agGiftcardCategory: pCode.productData.giftcard_category,
+                agGiftcardDescription: pCode.productData.giftcard_description,
+            };
+            const formFlipGiftcardCodeDetails = {
+                agProductID: `${userLoggedData.userid}_${agSetGiftCardCode1}_${pCode.productData.giftcard_denomination}`,
+                agProductName: pCode.productCode.ag_product_name,
+                agProductPrice: pCode.ag_product_price,
+                agProductDiscount: '',
+                agProductType: pCode.ag_product_type,
+                agProductIDCode: pCode.ag_product_id_code,
+                agProductState: 'Available',
+                agProductStatus: 'Unredeemed',
+                agProductSeller: userLoggedData.userid,
+                agProductOwner: 'None',
+                agProductCode: pCode.productCode.ag_product_code,
+            }
+            try {
+                const addGiftcardResponse = await axios.post(AGAddGiftcardsAPI, formFlipGiftcardDetails);
+                const responseMessage = addGiftcardResponse.data;
+
+                const flipProductResponse = await axios.post(AGFlipProductsAPI, formFlipGiftcardCodeDetails);
+                const flipResponseMessage = flipProductResponse.data;
+        
+                if (responseMessage.success) {
+                    console.log(responseMessage.message);
+                }
+                if (flipResponseMessage.success) {
+                    console.log(flipResponseMessage.message);
+                    fetchUserProductIds();
+                }
+        
+            } catch (error) {
+                console.error(error);
+            }
+
+
+        }
+
+        if (pCode.ag_product_type === 'Game Credits'){
+            const agSetGameCreditTitle = pCode.productData.gamecredit_name;
+            const agSetGameCreditCode1 = agSetGameCreditTitle.replace(/\s/g, '');
+
+            const formAddGamecreditsDetails = {
+                agGamecreditCode: `${userLoggedData.userid}_${agSetGameCreditCode1}GameCredit_${pCode.productData.gamecredit_denomination}`,
+                agGamecreditCover: pCode.productData.gamecredit_cover,
+                agGamecreditTitle: pCode.productData.gamecredit_name,
+                agGamecreditNumber : pCode.productData.gamecredit_number,
+                agGamecreditType: pCode.productData.gamecredit_type,
+                agGamecreditCanonical : pCode.productData.gamecredit_canonical,
+                agGamecreditDenomination: gamecreditPrice,
+                agGamecreditSupplier: pCode.productData.gamecredit_seller,
+                agGamecreditSeller: userLoggedData.userid,
+                agGamecreditCategory: pCode.productData.gamecredit_category,
+                agGamecreditDescription: pCode.productData.gamecredit_category,
+            };
+            const formFlipGamecreditCodeDetails = {
+                agProductID: `${userLoggedData.userid}_${agSetGameCreditCode1}GameCredit_${pCode.productData.gamecredit_denomination}`,
+                agProductName: pCode.productCode.ag_product_name,
+                agProductPrice: pCode.ag_product_price,
+                agProductDiscount: '',
+                agProductType: pCode.ag_product_type,
+                agProductIDCode: pCode.ag_product_id_code,
+                agProductState: 'Available',
+                agProductStatus: 'Unredeemed',
+                agProductSeller: userLoggedData.userid,
+                agProductOwner: 'None',
+                agProductCode: pCode.productCode.ag_product_code,
+            }
+            try {
+                const addGamecreditResponse = await axios.post(AGAddGameCreditsAPI, formAddGamecreditsDetails);
+                const responseMessage = addGamecreditResponse.data;
+
+                const flipProductResponse = await axios.post(AGFlipProductsAPI, formFlipGamecreditCodeDetails);
+                const flipResponseMessage = flipProductResponse.data;
+        
+                if (responseMessage.success) {
+                    console.log(responseMessage.message);
+                }
+                if (flipResponseMessage.success) {
+                    console.log(flipResponseMessage.message);
+                    fetchUserProductIds();
+                }
+        
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    
+    };
+
+
+    const handleSendProduct = async (productCode) => {
+        const pCode = userProductCodeIDData.find(pCodeID => pCodeID.ag_product_id_code === productCode)
+        
+        const formSendProductDetails = {
+            agProductID: pCode.ag_product_id,
+            agProductRececiver: receiverUserID,
+            agProductCode: pCode.ag_product_id_code,
+        }
+        const formSendProductTransaction = {
+            agProductID: pCode.ag_product_id,
+            agProductReceiver: receiverUserID,
+            agProductSender: userLoggedData.userid,
+            agProductCode: pCode.ag_product_id_code,
+        }
+        try {
+            const sendProductResponse = await axios.post(AGSendProductsAPI, formSendProductDetails);
+            const responseMessage = sendProductResponse.data;
+
+            const sendTransactionResponse = await axios.post(AGSendingTrasactionsAPI, formSendProductTransaction);
+            const trasactionResponseMessage = sendTransactionResponse.data;
+    
+            if (responseMessage.success && trasactionResponseMessage.success) {
+                console.log(responseMessage.message);
+                fetchUserProductIds();
+            }
+    
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleRedeemProduct = async (productCode) => {
+        const pCode = userProductCodeIDData.find(pCodeID => pCodeID.ag_product_id_code === productCode)
+
+        const formRedeemProductDetails = {
+            agProductCode: pCode.ag_product_id_code,
+            agProductState: 'Sold',
+            agProductStatus: 'Redeemed',
+            agProductOwner: userLoggedData.userid,
+        }
+        try {
+            const redeemProductResponse = await axios.post(AGRedeemProductsAPI, formRedeemProductDetails);
+            const responseMessage = redeemProductResponse.data;
+    
+            if (responseMessage.success) {
+                console.log(responseMessage.message);
+                fetchUserProductIds();
+            }
+    
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    
+    // console.log(userProductCodeIDData);
     
 
     return (
@@ -638,14 +882,15 @@ const Profile = () => {
                 </div>
             </div>}
             {viewProductCode && <div className="modalContainerProfile viewProduct" onClick={handleCloseAnyModals}>
-                <div className="modalContentProduct" style={userLoggedData.coverimg ? {background: `linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/${userLoggedData.coverimg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
-                    :{background: 'linear-gradient(transparent, black 80%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
+                <div className="modalContentProduct" style={userLoggedData.coverimg ? {background: `linear-gradient(transparent, black 75%), url(https://2wave.io/CoverPics/${userLoggedData.coverimg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+                    :{background: 'linear-gradient(transparent, black 75%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
                     <div className="mdcProductContainer">
                         <div className="mdcpcContent">
                             <div className="mdcpccImg">
                                 {(viewProductDetails.ag_product_type === 'Games') && <img src={`https://2wave.io/GameCovers/${viewProductDetails.productData.game_cover}`} alt="" />}
                                 {(viewProductDetails.ag_product_type === 'Giftcards') && <img src={`https://2wave.io/GiftCardCovers/${viewProductDetails.productData.giftcard_cover}`} alt="" />}
                                 {(viewProductDetails.ag_product_type === 'Game Credits') && <img src={`https://2wave.io/GameCreditCovers/${viewProductDetails.productData.gamecredit_cover}`} alt="" />}
+                                <button><FaTicket /></button>
                             </div>
                             <div className="mdcpccStatus">
                                 <p>REDEEMED</p>
@@ -906,11 +1151,19 @@ const Profile = () => {
                                                     <div className="ppcrpcmppccRedeemed">
                                                         <button onClick={() => handleViewProductCode(details.ag_product_id_code)}>View Product</button>
                                                     </div>:
-                                                    <div className="ppcrpcmppccBtns">
-                                                        <button>Redeem</button>
-                                                        <button onClick={() => handleViewSendProducts(details.ag_product_id_code)}>Send</button>
-                                                        <button onClick={() => handleViewFlipProducts(details.ag_product_id_code)}>Flip</button>
-                                                    </div>
+                                                    <>
+                                                    {storedSellerState ? 
+                                                        <div className="ppcrpcmppccBtns hybrid">
+                                                            <button onClick={() => handleRedeemProduct(details.ag_product_id_code)}>Redeem</button>
+                                                            <button onClick={() => handleViewSendProducts(details.ag_product_id_code)}>Send</button>
+                                                            <button onClick={() => handleViewFlipProducts(details.ag_product_id_code)}>Flip</button>
+                                                        </div>:
+                                                        <div className="ppcrpcmppccBtns customer">
+                                                            <button onClick={() => handleRedeemProduct(details.ag_product_id_code)}>Redeem</button>
+                                                            <button onClick={() => handleViewSendProducts(details.ag_product_id_code)}>Send</button>
+                                                        </div>
+                                                    }
+                                                    </>
                                                 }
                                             </div>
                                             {(viewSendProducts === details.ag_product_id_code) && <>
@@ -925,8 +1178,14 @@ const Profile = () => {
                                                                 {details.productData.gamecredit_type ? details.productData.gamecredit_type : ''}
                                                             </span>
                                                         </p>
-                                                        <input type="text" placeholder='Receiver User ID Here' required/>
-                                                        <button>Send Now</button>
+                                                        <input type="text" placeholder='Receiver User ID Here' onChange={(e) => setReceiverUserID(e.target.value)} required/>
+                                                        <button className={receiverUserID ? 'active' : ''} onClick={() => handleSendProduct(details.ag_product_id_code)} disabled={!receiverUserID}>Send Now</button>
+                                                        <span>
+                                                            <p>Once sent, it cannot be Retrieved.</p>
+                                                        </span>
+                                                    </div>
+                                                    <div className="productSendATicket">
+                                                        <button><FaTicket/></button>
                                                     </div>
                                                 </div>}
                                             </>}
@@ -947,11 +1206,11 @@ const Profile = () => {
                                                                 <div className='ppcrpcmppcfpContent'>
                                                                     <span>
                                                                         <label htmlFor=""><p>Current Price</p></label>
-                                                                        <input id='ppcrpcmppcfpcGames' placeholder={`$ ${details.ag_product_price}`} readOnly/>
+                                                                        <input id='ppcrpcmppcfpcGames' placeholder={`$ ${details.ag_product_price}`} readOnly disabled/>
                                                                     </span>
                                                                     <span>
                                                                         <label htmlFor=""><p>Resell Price</p></label>
-                                                                        <input id='ppcrpcmppcfpcGames' type='number' min={1} placeholder='$ 00.00'/>
+                                                                        <input id='ppcrpcmppcfpcGames' type='number' min={1} placeholder='$ 00.00' onChange={(e) => setGamePrice(e.target.value)}/>
                                                                     </span>
                                                                 </div>
                                                             }
@@ -963,13 +1222,28 @@ const Profile = () => {
                                                                     </span>
                                                                     <span>
                                                                         <label htmlFor=""><p>Resell Price</p></label>
-                                                                        <input id='ppcrpcmppcfpcGames' type='number' min={1} placeholder='$ 00.00'/>
+                                                                        <input id='ppcrpcmppcfpcGames' type='number' min={1} placeholder='$ 00.00' onChange={(e) => setGamecreditPrice(e.target.value)}/>
                                                                     </span>
                                                                 </div>
                                                             }
-                                                            {(details.ag_product_type === 'Giftcards') && <input id='ppcrpcmppcfpGiftcards' type="text" placeholder={`$ ${details.ag_product_price}`} readOnly/>}
+                                                            {(details.ag_product_type === 'Giftcards') && 
+                                                                <div className='ppcrpcmppcfpContent'>
+                                                                    <span id='ppcrpcmppcfpGiftcards'>
+                                                                        <label htmlFor=""><p>Fixed Pricing</p></label>
+                                                                        <input id='ppcrpcmppcfpGiftcards' type="text" placeholder={`$ ${details.ag_product_price}`} value={details.ag_product_price} readOnly/>
+                                                                    </span>
+                                                                </div>
+                                                            }
                                                         </div>
-                                                        <button>Resell Product</button>
+                                                        <button onClick={() => handleFlipProduct(details.ag_product_id_code)}>
+                                                            Resell Product
+                                                        </button>
+                                                        <div className="ppcrpcmppcfpcDisclaimer">
+                                                            <p>Once Flipped to the Market, it can't be undone.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="productSendATicket">
+                                                        <button><FaTicket/></button>
                                                     </div>
                                                 </div> } 
                                             </>}
