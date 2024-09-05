@@ -786,7 +786,7 @@ input[type='number']::-webkit-inner-spin-button {
     position: relative;
 }
 .mdcpccImg{
-    height: auto;
+    height: 20vw;
     width: 100%;
     border-radius: 1vw;
     margin: 0 auto;
@@ -794,9 +794,30 @@ input[type='number']::-webkit-inner-spin-button {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 .mdcpccImg img{
     width: 100%;
+}
+.mdcpccImg button{
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 2vw;
+    line-height: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 400ms ease;
+    cursor: pointer;
+}
+.mdcpccImg button:hover{
+    color: red;
+    transition: 400ms ease;
 }
 .mdcpccStatus{
     position: absolute;
@@ -1663,6 +1684,9 @@ section.profilePageContainer.mid{
     background: none;
     transition: 400ms ease;
 }
+.ppcrpcmppccBtns.customer button{
+    width: 49%;
+}
 .ppcrpcmppccBtns button:hover{
     opacity: 100%;
     background: white;
@@ -1753,18 +1777,50 @@ section.profilePageContainer.mid{
     background: none;
     outline: none;
     color: white;
-    padding: 3% 5%;
+    padding: 5px 5%;
     font-size: 0.7vw;
     transition: 400ms ease;
+    opacity: 50%;
+    cursor: not-allowed;
+}
+.ppcrpcmppcsContent button.active{
+    opacity: 100%;
     cursor: pointer;
 }
-.ppcrpcmppcsContent button:hover{
+.ppcrpcmppcsContent button.active:hover{
     background: white;
     color: black;
     transition: 400ms ease;
+    opacity: 100%;
 }
-
-
+.ppcrpcmppcsContent span p{
+    font-size: 0.6vw;
+    line-height: 0.7vw;
+    color: gray;
+    margin-top: 10%;
+}
+.productSendATicket{
+    position: absolute;
+    bottom: 5%;
+    right: 8%;
+}
+.productSendATicket button{
+    color: white;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 1.3vw;
+    line-height: 0.9vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 400ms ease;
+}
+.productSendATicket button:hover{
+    color: red;
+    transition: 400ms ease;
+}
 
 
 .ppcrpcmppcFlip{
@@ -1810,17 +1866,6 @@ section.profilePageContainer.mid{
     justify-content: center;
     align-items: center;
 }
-.ppcrpcmppcfPrice input#ppcrpcmppcfpGiftcards{
-    width: 100%;
-    font-size: 0.7vw;
-    padding: 3% 5%;
-    margin: 5% 0;
-    text-align: center;
-    border: solid 2px white;
-    color: white;
-    border-radius: 10px;
-    outline: none;
-}
 .ppcrpcmppcfpContent{
     height: auto;
     width: 100%;
@@ -1828,6 +1873,10 @@ section.profilePageContainer.mid{
     justify-content: space-between;
     align-items: center;
     margin: 5% 0;
+}
+.ppcrpcmppcfpContent span#ppcrpcmppcfpGiftcards{
+    height: auto;
+    width: 100%;
 }
 .ppcrpcmppcfpContent span{
     height: auto;
@@ -1839,22 +1888,13 @@ section.profilePageContainer.mid{
 .ppcrpcmppcfpContent span input{
     width: 100%;
     font-size: 0.7vw;
-    padding: 5%;
-    margin: 5% 0;
+    padding: 5px 5%;
+    margin: 5px 0;
     text-align: center;
     border: solid 2px white;
     border-radius: 10px;
     outline: none;
 }
-
-
-
-
-
-
-
-
-
 
 .ppcrpcmppcfContent button{
     width: 100%;
@@ -1873,7 +1913,11 @@ section.profilePageContainer.mid{
     color: black;
     transition: 400ms ease;
 }
-
+.ppcrpcmppcfpcDisclaimer p{
+    font-size: 0.6vw;
+    color: gray;
+    margin-top: 10%;
+}
 
 
 
@@ -2227,10 +2271,14 @@ section.profilePageContainer.mid{
         padding: 2%;
     }
     .mdcpccImg{
+        height: auto;
         border-radius: 3vw;
     }
     .mdcpccImg img{
         width: 100%;
+    }
+    .mdcpccImg button{
+        font-size: 7vw;
     }
     .mdcpccStatus p{
         font-size: 2.5vw;
@@ -2603,12 +2651,12 @@ section.profilePageContainer.mid{
         font-size: 2.5vw;
     }
     .ppcrpcmppccBtns button{
-        padding: 3% 6%;
+        padding: 5px 6%;
         font-size: 2.5vw;
         border: solid 2px white;
     }
     .ppcrpcmppccRedeemed button{
-        padding: 3% 6%;
+        padding: 5px 6%;
         font-size: 2.5vw;
         border: solid 2px white;
     }
@@ -2630,6 +2678,19 @@ section.profilePageContainer.mid{
     .ppcrpcmppcsContent button{
         font-size: 2.5vw;
     }
+    .ppcrpcmppcsContent span p{
+        margin-top: 10%;
+        font-size: 2.5vw;
+        line-height: 3vw;
+    }
+    .productSendATicket button{
+        font-size: 5vw;
+        line-height: 5vw;
+    }
+
+
+
+
     
     .ppcrpcmppcFlip button#ppcrpcmppcfClose{
         font-size: 5vw;
@@ -2663,7 +2724,9 @@ section.profilePageContainer.mid{
     .ppcrpcmppcfContent button{
         font-size: 2.5vw;
     }
-
+    .ppcrpcmppcfpcDisclaimer p{
+        font-size: 2.5vw;
+    }
 
 
 

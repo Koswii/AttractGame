@@ -265,7 +265,7 @@ const SellerPanel = () => {
     const agSetGiftCardCode1 = agSetGiftCardTitle.replace(/\s/g, '');
     const agSetGiftCardCode2 = agSetGiftCardDenomination.replace(/\s/g, '');
     const agSetGiftCardCode3 = agSetGiftCardTitle.replace(/ /g, '_');
-    const agSetGiftCardCanonical = `${agSetGiftCardCode3}_${userLoggedData.userid}`;
+    const agSetGiftCardCanonical = `${agSetGiftCardCode3}`;
     const agFullSetGiftCardCode = `${userLoggedData.userid}_${agSetGiftCardCode1}_${agSetGiftCardCode2}`;
     const [imageGCV, setImageGCV] = useState(null);
     const handleFileInputGCVChange = (event) => {
