@@ -1793,11 +1793,22 @@ section.profilePageContainer.mid{
     transition: 400ms ease;
     opacity: 100%;
 }
+.ppcrpcmppcsContent h6{
+    height: 5vw;
+    font-size: 3vw;
+    line-height: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .ppcrpcmppcsContent span p{
     font-size: 0.6vw;
     line-height: 0.7vw;
     color: gray;
     margin-top: 10%;
+}
+.ppcrpcmppcsContent span p#sendingErrorMsg{
+    color: rgb(255, 70, 70);
 }
 .productSendATicket{
     position: absolute;
@@ -2677,6 +2688,11 @@ section.profilePageContainer.mid{
     }
     .ppcrpcmppcsContent button{
         font-size: 2.5vw;
+    }
+    .ppcrpcmppcsContent h6{
+        height: 18vw;
+        font-size: 15vw;
+        line-height: 7vw;
     }
     .ppcrpcmppcsContent span p{
         margin-top: 10%;
