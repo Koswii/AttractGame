@@ -33,7 +33,8 @@ import {
     TbGiftCardFilled,
     TbSettings2,
     TbSettingsBolt,
-    TbUpload,   
+    TbUpload,
+    TbCubeSend,   
 } from "react-icons/tb";
 import { 
     RiVerifiedBadgeFill,
@@ -239,10 +240,14 @@ const Profile = () => {
     const handleViewSendProducts = (productCode) => {
         setViewSendProducts(productCode);
         setViewFlipProducts(false)
+        setReceiverUserID('')
+        setViewSendResponse('')
     }
     const handleViewFlipProducts = (productCode) => {
         setViewFlipProducts(productCode);
         setViewSendProducts(false)
+        setReceiverUserID('')
+        setViewSendResponse('')
     }
     const handleCloseAnyModals = (e) => {
         e.preventDefault();
@@ -252,6 +257,7 @@ const Profile = () => {
         setViewSendProducts(null)
         setViewFlipProducts(null)
         setReceiverUserID('')
+        setViewSendResponse('')
     }
     
     const [image, setImage] = useState(null);
@@ -699,9 +705,11 @@ const Profile = () => {
     
     };
 
-
+    const [viewSendResponse, setViewSendResponse] = useState('');
+    const [sendingLoader, setSendingLoader] = useState(false);
     const handleSendProduct = async (productCode) => {
         const pCode = userProductCodeIDData.find(pCodeID => pCodeID.ag_product_id_code === productCode)
+        setSendingLoader(true)
         
         const formSendProductDetails = {
             agProductID: pCode.ag_product_id,
@@ -722,8 +730,11 @@ const Profile = () => {
             const trasactionResponseMessage = sendTransactionResponse.data;
     
             if (responseMessage.success && trasactionResponseMessage.success) {
-                console.log(responseMessage.message);
                 fetchUserProductIds();
+            } else {
+                setReceiverUserID('')
+                setSendingLoader(false)
+                setViewSendResponse(responseMessage.message)
             }
     
         } catch (error) {
@@ -1178,10 +1189,19 @@ const Profile = () => {
                                                                 {details.productData.gamecredit_type ? details.productData.gamecredit_type : ''}
                                                             </span>
                                                         </p>
-                                                        <input type="text" placeholder='Receiver User ID Here' onChange={(e) => setReceiverUserID(e.target.value)} required/>
-                                                        <button className={receiverUserID ? 'active' : ''} onClick={() => handleSendProduct(details.ag_product_id_code)} disabled={!receiverUserID}>Send Now</button>
+                                                        {!sendingLoader ? <>
+                                                            <input type="text" placeholder='Receiver User ID Here' onChange={(e) => setReceiverUserID(e.target.value)} required/>
+                                                            <button className={receiverUserID ? 'active' : ''} onClick={() => handleSendProduct(details.ag_product_id_code)} disabled={!receiverUserID}>Send Now</button>
+                                                        </>:<>
+                                                            <h6>
+                                                                <TbCubeSend className='faIcons'/>
+                                                            </h6>
+                                                        </>}
                                                         <span>
-                                                            <p>Once sent, it cannot be Retrieved.</p>
+                                                            {viewSendResponse ? 
+                                                                <p id='sendingErrorMsg'>{viewSendResponse}</p>:
+                                                                <p>Once sent, it cannot be Retrieved.</p>
+                                                            }
                                                         </span>
                                                     </div>
                                                     <div className="productSendATicket">
