@@ -41,6 +41,7 @@ input[type='number']::-webkit-inner-spin-button {
 
 
 .modalContainerProfile{
+    padding-top: 4vw;
     height: 100vh;
     width: 100%;
     position: fixed;
@@ -759,10 +760,6 @@ input[type='number']::-webkit-inner-spin-button {
 }
 
 
-
-.modalContainerProfile.viewProduct{
-    padding-top: 4vw;
-}
 .modalContentProduct{
     position: relative;
     height: auto;
@@ -2017,6 +2014,11 @@ section.profilePageContainer.mid{
 @media screen and (max-width: 500px){
     .modalContainerProfile.settings{
         z-index: 999;
+        padding-top: 0;
+    }
+    
+    .modalContainerProfile{
+        padding-top: 12vh;
     }
     .modalContentProfile{
         width: 90%;
@@ -2272,9 +2274,6 @@ section.profilePageContainer.mid{
     .storySubmit button{
         width: 40%;
         font-size: 3vw;
-    }
-    .modalContainerProfile.viewProduct{
-        padding-top: 12vh;
     }
     .modalContentProduct{
         width: 80%;
