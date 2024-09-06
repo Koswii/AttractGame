@@ -1,0 +1,48 @@
+.concernTicket{
+    border-radius: 1vw;
+    padding: 2vw;
+    background: black;
+    box-shadow: 0 0 1vw white;
+}
+.clsctkt{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+#clsBtntckt{
+    font-size: 2vw;
+    color: white;
+    transition: .3s ease;
+    cursor: pointer;
+}
+#clsBtntckt:hover{
+    color: red;
+}
+.cntckt-container hr{
+    margin: 1vw 0;
+}
+
+.cntckt-header h1{
+    font-size: 1.5vw;
+}
+
+.cntckt-content{
+    width: 40vw;
+    margin: 1vw 0;
+}
+.cntckt-content p{
+    font-size: 1vw;
+}
+.cntcktmrkUs-resolve{
+    display: flex;
+    justify-content: right;
+}
+.cntcktmrkUs-resolve button{
+    padding: .2vw 1vw;
+    border-radius: 1vw;
+    font-size: .8vw;
+    outline: 0;
+    border: none;
+    cursor: pointer;
+}

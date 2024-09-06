@@ -2026,10 +2026,36 @@ section.adminPageContainer.mid{
     justify-content: center;
     align-items: center;
 }
+.admpcm1atContents table tr td button{
+    font-size: 0.7vw;
+    padding: .2vw 2vw;
+    outline: .1vw solid white;
+    border: none;
+    background: none;
+    color: white;
+    cursor: pointer;
+    font-weight: 400;
+}
+.admpcm1atContents table tr td button:hover{
+    outline: 0;
+    background: white;
+    color: black;
+}
 
 
 
-
+.userConcernTicket{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(11.4px);
+    -webkit-backdrop-filter: blur(11.4px);
+}
 
 
 

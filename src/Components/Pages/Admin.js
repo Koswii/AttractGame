@@ -25,6 +25,7 @@ import { Link } from 'react-router-dom';
 import { GamesFetchData } from './GamesFetchContext';
 import { GiftcardsFetchData } from './GiftcardsFetchContext';
 import { GamecreditsFetchData } from './GamecreditFetchContext';
+import ConcernTicket from './concernTicket';
 
 
 const formatDateToWordedDate = (numberedDate) => {
@@ -144,6 +145,9 @@ const Admin = () => {
     };
     const handleViewTransactions = () => {
         setActiveView('transactions');
+    };
+    const handleViewTickets = () => {
+        setActiveView('tickets');
     };
 
     
@@ -891,9 +895,32 @@ const Admin = () => {
         };
 
         fetchUserTransactionHistory();
+        fetchTicketConcern();
     }, []);
 
 
+    const [ticketData,setTicketData] = useState()
+
+    const ticketFetchAPI = process.env.REACT_APP_AG_USERS_FETCH_TICKET_API
+
+    const fetchTicketConcern = async () => {
+        try {
+            axios.get(ticketFetchAPI).then((response)=>{
+                setTicketData(response.data)
+            })
+        } catch (error) {
+            
+        }
+    }
+
+
+    const [ concernTicket,setConcernTicket ] = useState(false)
+    const [ currentTicket, setCurrentTicket ] = useState()
+
+    const openConcernTicket = (data) => {
+        setConcernTicket(true)
+        setCurrentTicket(data)
+    }
 
     return (
         <div className='mainContainer admin'>
@@ -1151,6 +1178,12 @@ const Admin = () => {
             </>
             )}
 
+            {concernTicket &&(
+                <div className="userConcernTicket">
+                    <ConcernTicket setConcernTicket={setConcernTicket} currentTicket={currentTicket} fetchTicketConcern={fetchTicketConcern}/>
+                </div>
+            )}
+
 
             <section className="adminPageContainer top">
                 <div className="admPageContent top">
@@ -1167,6 +1200,7 @@ const Admin = () => {
                             <button className={activeView === 'seller' ? 'activeNav': ''} onClick={handleViewAddSeller}><h6>ADD SELLER</h6></button>
                             <button className={activeView === 'popupAds' ? 'activeNav': ''} onClick={handleViewAddPopup}><h6>OTHERS</h6></button>
                             <button className={activeView === 'transactions' ? 'activeNav': ''} onClick={handleViewTransactions}><h6>TRANSACTION HISTORY</h6></button>
+                            <button className={activeView === 'tickets' ? 'activeNav': ''} onClick={handleViewTickets}><h6>TICKETS</h6></button>
                         </div>
                     </div>
                 </div>
@@ -1890,6 +1924,39 @@ const Admin = () => {
                                             <td width='15%'><p>$ {data.ag_product_price}</p></td>
                                             <td width='15%'><p>{formatDateToWordedDate(data.ag_product_purchased_date)}</p></td>
                                             <td width='20%'><p>{data.ag_transaction_hash}</p></td>
+                                        </tr>))}
+                                    </tbody>)}
+                                </table>
+                            </div>
+                        </div>
+                    </div>}
+                    {activeView === 'tickets' && <div className="admpcm1TransactionHistory">
+                        <div className="admpcm1AllTransactionContainer">
+                            <div className="admpcm1atcTop">
+                                <h5>USERS CONCERN TICKET</h5>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th width='25%'><p>Date</p></th>
+                                        <th width='25%'><p>Product Name</p></th>
+                                        <th width='25%'><p>User ID</p></th>
+                                        <th width='12.5%'><p>Status</p></th>
+                                        <th width='12.5%'><p>View Concern</p></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <div className='admpcm1atContents'>
+                                <table id='admpcm1atcs'>
+                                    {ticketData&&(
+                                    <tbody>
+                                        {ticketData.map((data, i) => (
+                                        <tr key={i}>
+                                            <td width='25%'><p>{data.date}</p></td>
+                                            <td width='25%'><p>{data.product_name}</p></td>
+                                            <td width='25%'><p>{data.user_id}</p></td>
+                                            <td width='12.5%'><p>{data.status}</p></td>
+                                            <td width='12.5%'><button onClick={() => openConcernTicket(data)}>View</button></td>
                                         </tr>))}
                                     </tbody>)}
                                 </table>
