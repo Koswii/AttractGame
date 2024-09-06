@@ -107,6 +107,7 @@ const Nav = () => {
   const [viewForgotPassword, setViewForgotPassword] = useState(false)
   const [searchAccinput, setSearchAccInput] = useState('')
 
+
   const addAGUserAPI = process.env.REACT_APP_AG_USER_REGISTER_API;
   const loginAGUserAPI = process.env.REACT_APP_AG_USER_LOGIN_API;
   const logoutAGUserAPI = process.env.REACT_APP_AG_USER_LOGOUT_API;
@@ -194,7 +195,7 @@ const Nav = () => {
   const [viewTextPassword, setViewTextPassword] = useState(false);
   const [postTimeRemaining, setPostTimeRemaining] = useState('');
   const [agUserProductCart, setUserProductCart] = useState('');
-
+  
   const registeredEmail = userEmail.find(email => email.email === agUserEmail);
 
   const fetchUserData = async () => {

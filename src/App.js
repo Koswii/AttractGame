@@ -66,7 +66,6 @@ function App() {
   const userLoggedInDetails = localStorage.getItem('profileDataJSON');
   const getAdminCredentials = localStorage.getItem('agAdminLoggedIn');
   const getSellerCredentials = localStorage.getItem('agSellerLoggedIn');
-
   
 
   useEffect(() => {

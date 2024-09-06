@@ -42,6 +42,7 @@ import {
 } from "react-icons/md";
 import axios from 'axios';
 import YouTubeEmbed from './YouTubeEmbed';
+import TicketForm from './ticketForm';
 
 const formatDateToWordedDate = (numberedDate) => {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -294,13 +295,22 @@ const Game = () => {
     };
 
 
+    const [openTicketForm,setOpenTicketForm] = useState(false)
 
 
 
+    const openticket = () => {
+        setOpenTicketForm(true)
+    }
 
 
     return (
         <div className='mainContainer gameProfile'>
+            {openTicketForm&&(
+                <div className="tcktsndContainer">
+                    <TicketForm ticketform={setOpenTicketForm} agGameDataName={agGameDataName} gameCanonical={gameCanonical}/>
+                </div>
+            )}
             <section className="gamePageContainer top">
                 {!loadingMarketData ? 
                 <div className="gpPageContentTop">
@@ -339,6 +349,10 @@ const Game = () => {
                     </div>
                     <div className="gppctGameDetails right">
                         <h3>{agGameDataName}</h3>
+                        <div className="gppctgdrSendTicket">
+                            <FaTicketAlt id='ticketIcon' onClick={openticket}/>
+                            <span className='txtHovertcket'>Send a Ticket</span>
+                        </div>
                         <div className='gppctgdrDetails'>
                             {agGameDataEdition ? <h6>{agGameDataEdition}</h6> : <></>}
                             {agGameDataPlatform ? <h6>{agGameDataPlatform ? agGameDataPlatform + ' Game' : ''}</h6> : <></>}
