@@ -805,7 +805,6 @@ const SellerPanel = () => {
                                         {/* <button onClick={addNewInput} disabled={isButtonDisabled}>Add more Codes</button> */}
                                     </span>
                                     <div className="submitEditabledata">
-                                        <p>Avoid unnecessary blank inputs.</p>
                                         <button onClick={insertGameData}>Publish Codes</button>
                                     </div>
                                 </div>
@@ -886,7 +885,6 @@ const SellerPanel = () => {
                                         {/* <button onClick={addNewInput} disabled={isButtonDisabled}>Add more Codes</button> */}
                                     </span>
                                     <div className="submitEditabledata">
-                                        <p>Avoid unnecessary blank inputs.</p>
                                         <button onClick={insertGameData}>Publish Codes</button>
                                     </div>
                                 </div>
@@ -967,7 +965,6 @@ const SellerPanel = () => {
                                         {/* <button onClick={addNewInput} disabled={isButtonDisabled}>Add more Codes</button> */}
                                     </span>
                                     <div className="submitEditabledata">
-                                        <p>Avoid unnecessary blank inputs.</p>
                                         <button onClick={insertGameData}>Publish Codes</button>
                                     </div>
                                 </div>

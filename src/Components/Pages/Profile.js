@@ -589,10 +589,7 @@ const Profile = () => {
                 const flipProductResponse = await axios.post(AGFlipProductsAPI, formFlipGameCodeDetails);
                 const flipResponseMessage = flipProductResponse.data;
         
-                if (responseMessage.success) {
-                    console.log(responseMessage.message);
-                }
-                if (flipResponseMessage.success) {
+                if (responseMessage.success && flipResponseMessage.success) {
                     console.log(flipResponseMessage.message);
                     fetchUserProductIds();
                 }
@@ -638,10 +635,7 @@ const Profile = () => {
                 const flipProductResponse = await axios.post(AGFlipProductsAPI, formFlipGiftcardCodeDetails);
                 const flipResponseMessage = flipProductResponse.data;
         
-                if (responseMessage.success) {
-                    console.log(responseMessage.message);
-                }
-                if (flipResponseMessage.success) {
+                if (responseMessage.success && flipResponseMessage.success) {
                     console.log(flipResponseMessage.message);
                     fetchUserProductIds();
                 }
@@ -690,10 +684,7 @@ const Profile = () => {
                 const flipProductResponse = await axios.post(AGFlipProductsAPI, formFlipGamecreditCodeDetails);
                 const flipResponseMessage = flipProductResponse.data;
         
-                if (responseMessage.success) {
-                    console.log(responseMessage.message);
-                }
-                if (flipResponseMessage.success) {
+                if (responseMessage.success && flipResponseMessage.success) {
                     console.log(flipResponseMessage.message);
                     fetchUserProductIds();
                 }
