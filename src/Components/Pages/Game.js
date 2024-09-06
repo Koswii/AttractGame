@@ -151,7 +151,7 @@ const Game = () => {
     const agGameOnCart = agGameDataCanonical.filter(game => carts.includes(game));
     const agGameOnFavorites = agGameDataCanonical.filter(game => favorites.includes(game));
 
-
+    
 
     useEffect(() => {
         if(`${agGameOnCart}` === `${agGameDataCanonical}`){
@@ -306,9 +306,16 @@ const Game = () => {
 
     return (
         <div className='mainContainer gameProfile'>
-            {openTicketForm&&(
+            {openTicketForm && (
                 <div className="tcktsndContainer">
-                    <TicketForm ticketform={setOpenTicketForm} agGameDataName={agGameDataName} gameCanonical={gameCanonical}/>
+                    <TicketForm 
+                        ticketform={setOpenTicketForm} 
+                        agGameDataCover={agGameDataCover} 
+                        agGameDataName={`${agGameDataName}`} 
+                        agGameDataEdition={agGameDataEdition} 
+                        agProductType = {'Games'}
+                        gameCanonical={gameCanonical}
+                    />
                 </div>
             )}
             <section className="gamePageContainer top">

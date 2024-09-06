@@ -276,6 +276,7 @@ section.gamePageContainer.top{
 }
 .gppctgdrSendTicket{
     font-size: 2.5vw;
+    line-height: 2vw;
     color: white;
     position: absolute;
     display: flex;
@@ -288,23 +289,25 @@ section.gamePageContainer.top{
     cursor: pointer;
 }
 .txtHovertcket{
-    font-size: .7vw;
+    font-size: 0.7vw;
     position: absolute;
     width: 7vw;
     display: flex;
     align-items: center;
     justify-content: center;
-    top: 3vw;
+    top: 0;
+    right: 3vw;
     background: rgb(78, 78, 78);
-    padding: .5vw;
+    padding: 2px 3px;
     border-radius: 2vw;
     visibility: hidden;
     opacity: 0;
-    transition: .3s ease;
+    transition: 400ms ease;
     transition-delay: 1s;
 }
 #ticketIcon:hover ~ .txtHovertcket{
     opacity: 1;
+    transition: 400ms ease;
     visibility: visible;
 }
 .gppctGameDetails.right h5{
@@ -747,6 +750,12 @@ section.gamePageContainer.bot{
         width: 20vw;
         padding: 2% 4%;
         margin: 2%;
+    }
+    .gppctgdrSendTicket{
+        font-size: 5vw;
+    }
+    .txtHovertcket{
+        display: none;
     }
     .gppctGameDetails.right h5{
         font-size: 3vw;

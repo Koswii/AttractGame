@@ -1,103 +1,192 @@
 .TicketForm{
-    height: auto;
+    height: 100vh;
     width: 100%;
-    padding: 10vw 20vw;
-    box-sizing: border-box;
-}
-.ticketMain{
-    background: black;
-    box-shadow: 0 0 1vw white;
-    border-radius: 1vw;
-    padding: 2vw;
-    border: .1vw solid white;
-}
-
-.ticktContainer{
-    position: relative;
-}
-#closeticketForm{
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 1.5vw;
-    color: white;
-    cursor: pointer;
-    transition: .3s ease;
-}
-#closeticketForm:hover{
-    color: red;
-}
-.ticktContainer hr{
-    margin: 1vw 0;
-    outline: 0;
-    border: none;
-    height: .1vw;
-    background: white;
-    border-radius: 1vw;
-}
-.ticktHeader{
-    text-align: center;
-}
-.ticktHeader h1{
-    font-size: 2vw;
-}
-
-
-.ticktContent{
-    display: grid;
-    grid-template-columns: 50% 50%;
-}
-.ticktContent ul{
-    list-style: none;
-    padding: 0 2vw;
-}
-.ticktContent ul li p{
-    font-size: 1vw;
-    margin: 1vw 0 0 0;
-}
-.ticktContent ul li input{
-    width: 100%;
-    margin: .5vw 0 0 0;
-    border-radius: 1vw;
-    border: .1vw solid white;
-    outline: 0;
-    background: none;
-    padding: .5vw 1vw;
-    color: white;
-}
-
-.tcketConcern{
-    margin: 1vw 0 0 0;
-}
-.tcketConcern p{
-    font-size: 1vw;
-}
-.tcketConcern textarea{
-    width: 100%;
-    height: 10vw;
-    padding: .5vw;
-    border-radius: .5vw;
-    background: none;
-    color: white;
-    margin: .5vw 0 0 0;
-    border: .1vw solid white;
-}
-
-.tcktSendbtn{
+    position: fixed;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 10;
     display: flex;
     justify-content: center;
-    margin: .5vw 0 0 0;
+    align-items: center;
+    padding-top: 4vw;
 }
-.tcktSendbtn button{
-    padding: .5vw 2vw;
+.ticketMain{
+    position: relative;
+    height: auto;
+    width: 50%;
+    border-radius: 1vw;
+    background-size: cover;
+    box-shadow: 0 0 20px rgb(255, 255, 255, 0.5);
+    padding: 2%;
+    animation: fade-in-down 800ms ease;
+}
+.ticketMain button#closeModalTicket{
+    position: absolute;
+    right: 1vw;
+    top: 1vw;
+    background: none;
     border: none;
-    outline: 0;
-    font-size: .8vw;
-    border-radius: 2vw;
-    font-weight: 600;
+    outline: none;
+    color: white;
+    font-size: 1.5vw;
     cursor: pointer;
-    transition: .3s ease;
+    z-index: 2;
+    text-shadow: 0 0 10px black;
 }
-.tcktSendbtn button:hover{
-    box-shadow: 0 0 1vw white;
+.ticketContainer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+.ticketContent.left{
+    height: 26vw;
+    width: 40%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 0.8vw;
+}
+.ticketContent.left img{
+    height: 100%;
+}
+
+
+.ticketContent.right{
+    width: 55%;
+    text-align: center;
+    /* background: rgba(0, 0, 0, 0.36);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); */
+    border-radius: 0.8vw;
+    padding: 4%;
+}
+.ticketContent.right h5{
+    font-size: 1vw;
+    text-shadow:  0 0 20px black;
+}
+.tcRightDetails{
+    height: auto;
+    width: 100%;
+    margin: 5% 0;
+}
+.tcRightDetails h4{
+    height: 4vw;
+    font-size: 1.7vw;
+    line-height: 2vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tcConcern{
+    height: auto;
+    width: 100%;
+}
+
+.tcConcern textarea{
+    width: 100%;
+    height: 11vw;
+    padding: 0.7vw;
+    font-size: 0.7vw;
+    border-radius: 1vw;
+    background: rgba(0, 0, 0, 0.36);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    color: white;
+    outline: none;
+    border: 2px solid white;
+    margin: 2% 0;
+}
+
+.tcSendConcern{
+    display: flex;
+    justify-content: center;
+}
+.tcSendConcern button{
+    background: none;
+    border: solid 2px white;
+    outline: none;
+    color: white;
+    padding: 5px 10%;
+    border-radius: 50px;
+    opacity: 50%;
+    transition: 400ms ease;
+    cursor: not-allowed;
+    font-size: 0.7vw;
+}
+.tcSendConcern button.active{
+    opacity: 100%;
+    cursor: pointer;
+}
+.tcSendConcern button.active:hover{
+    background: white;
+    transition: 400ms ease;
+    color: black;
+    box-shadow: 0 0 10px white;
+}
+
+
+
+
+
+@media screen and (max-width: 500px){
+    .TicketForm{
+        padding-top: 12vh;
+    }
+    .ticketMain{
+        width: 80%;
+        border-radius: 5vw;
+        padding: 5% 0%;
+    }
+    .ticketMain button#closeModalTicket{
+        right: 4vw;
+        top: 4vw;
+        font-size: 5vw;
+    }
+    .ticketContainer{
+        display: block;
+    }
+    .ticketContent.left{
+        display: none;
+    }
+    .ticketContent.right{
+        width: 100%;
+        text-align: center;
+        border-radius: 0.8vw;
+        padding: 4% 5%;
+    }
+    .ticketContent.right h5{
+        font-size: 3vw;
+    }
+    .tcRightDetails h4{
+        height: 8.5vw;
+        font-size: 4vw;
+        line-height: 8vw;
+    }
+    .tcRightDetails p{
+        font-size: 2.5vw;
+    }
+    .tcConcern textarea{
+        height: 40vw;
+        font-size: 2.5vw;
+        border-radius: 2vw;
+        padding: 2vw;
+    }
+    .tcSendConcern button{
+        font-size: 3vw;
+        margin-left: 2%;
+        padding: 1% 5%;
+    }
+
+
+
+
+
+
+
 }

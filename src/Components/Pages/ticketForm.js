@@ -4,8 +4,29 @@ import '../CSS/ticketForm.css'
 // icons
 import { IoClose } from "react-icons/io5";
 import axios from 'axios';
+import { UserProfileData } from './UserProfileContext';
+import { 
+    FaSearch,
+    FaBolt,
+    FaTicketAlt,
+    FaGem,
+    FaCoins,
+    FaFire,
+    FaStar,     
+    FaFacebookSquare,
+    FaBitcoin, 
+    FaTimes,
+    FaRegImages,
+    FaEdit,  
+    FaPlus,
+    FaRegEye,
+    FaRegEyeSlash, 
+} from 'react-icons/fa';
 
-const TicketForm = ({ticketform, agGameDataName, gameCanonical}) => {
+const TicketForm = ({ticketform, agGameDataName, agGameDataCover, agGameCreditNumber, agGameDataEdition, agProductType, gameCanonical}) => {
+    const { 
+        userLoggedData
+    } = UserProfileData();
     const [ticketID, setTicketID] = useState()
     const [concern, setConcern] = useState('')
 
@@ -23,40 +44,36 @@ const TicketForm = ({ticketform, agGameDataName, gameCanonical}) => {
         return result;
     };
     
-    
-    const userLoggedInDetails = localStorage.getItem('profileDataJSON');
 
     const handleConcernChange = (event) => {
         setConcern(event.target.value)
     }
 
     useEffect(() => {
-        const ticketid = 'AG_ticket_' + ticketIDGenerator(10)
+        const ticketid = 'TICKET-ID-AG' + ticketIDGenerator(5)
         setTicketID(ticketid)
     }, [])
     
     const ticketApi = process.env.REACT_APP_AG_USERS_TICKET_API
     const sendTicket = async (e) => {
         e.preventDefault()
-        const user = JSON.parse(userLoggedInDetails)
-        const userID = user.userid
-        console.log(userID);
 
         if (concern != '') {
             const ticketData = {
                 ticket_id : ticketID,
                 date : formattedDate,
                 product_id : gameCanonical,
-                product_name : agGameDataName[0],
-                user_id : userID,
+                product_name : agGameDataName,
+                user_id : userLoggedData.userid,
                 concern : concern
             }
             console.log(ticketData);
             const ticketDatajson = JSON.stringify(ticketData)
             try {
-                axios.post( ticketApi, ticketDatajson ).then((response)=>{
+                axios.post( ticketApi, ticketDatajson )
+                .then((response)=>{
                     const data = response
-                    console.log(data);
+                    // console.log(data);
                     ticketform(false)
                     setConcern('')
                 })
@@ -64,7 +81,7 @@ const TicketForm = ({ticketform, agGameDataName, gameCanonical}) => {
                 console.log(error);
             }
         } else {
-            alert('input the concern');
+            alert('In put your concern');
         }
         
     }
@@ -78,41 +95,27 @@ const TicketForm = ({ticketform, agGameDataName, gameCanonical}) => {
 
   return (
     <div className="TicketForm">
-        <div className="ticketMain">
-            <div className="ticktContainer">
-                <IoClose id='closeticketForm' onClick={closeTicketform}/>
-                <div className="ticktHeader">
-                    <h1>Send a Ticket</h1>
+        <div className="ticketMain" style={userLoggedData.coverimg ? {background: `linear-gradient(transparent, black 75%), url(https://2wave.io/CoverPics/${userLoggedData.coverimg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
+            :{background: 'linear-gradient(transparent, black 75%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
+            <button id='closeModalTicket' onClick={closeTicketform} type='button'><FaTimes className='faIcons'/></button>
+            <div className="ticketContainer">
+                <div className="ticketContent left">
+                    {(agProductType === "Games") && <img src={`https://2wave.io/GameCovers/${agGameDataCover}`} alt="" />}
+                    {(agProductType === "Giftcards") && <img src={`https://2wave.io/GiftCardCovers/${agGameDataCover}`} alt="" />}
+                    {(agProductType === "Game Credits") && <img src={`https://2wave.io/GameCreditCovers/${agGameDataCover}`} alt="" />}
                 </div>
-                <hr />
-                <div className="ticktContent">
-                    <ul>
-                        <li>
-                            <p>Product Name</p>
-                            <input type="text" value={agGameDataName} disabled/>
-                        </li>
-                        <li>
-                            <p>Product ID</p>
-                            <input type="text" value={gameCanonical} disabled/>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <p>Date</p>
-                            <input type="text" value={formattedDate} disabled/>
-                        </li>
-                        <li>
-                            <p>Ticket ID</p>
-                            <input type="text" value={ticketID} disabled/>
-                        </li>
-                    </ul>
-                </div>
-                <div className="tcketConcern">
-                    <p>Concern</p>
-                    <textarea value={concern} onChange={handleConcernChange} required></textarea>
-                </div>
-                <div className="tcktSendbtn">
-                    <button onClick={sendTicket}>Send Ticket</button>
+                <div className="ticketContent right">
+                    <h5>SEND A TICKET REPORT</h5>
+                    <div className="tcRightDetails">
+                        <h4>{agGameDataName}</h4>
+                        <p>{agGameCreditNumber} {agGameDataEdition}</p>
+                    </div>
+                    <div className="tcConcern">
+                        <textarea value={concern} onChange={handleConcernChange} placeholder='Type your concern/report here...' required></textarea>
+                    </div>
+                    <div className="tcSendConcern">
+                        <button className={concern ? 'active' : ''} onClick={sendTicket} disabled={!concern}>Send Ticket</button>
+                    </div>
                 </div>
             </div>
         </div>

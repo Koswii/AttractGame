@@ -53,6 +53,7 @@ import YouTubeEmbed from './YouTubeEmbed';
 import UserPostModal from './UserPostModal';
 import UserPostModal2 from './UserPostModal2';
 import UserStoryModal from './UserStoryModal';
+import TicketForm from './ticketForm';
 
 
 
@@ -212,6 +213,8 @@ const Profile = () => {
     const [viewSendProducts, setViewSendProducts] = useState(null);
     const [viewFlipProducts, setViewFlipProducts] = useState(null);
     const [viewProductDetails, setViewProductDetails] = useState(null);
+    const [viewProductTicket, setViewProductTicket] = useState(false);
+
 
     const handleImageSelect = (image) => {
         setPickProfileImg00(image);
@@ -248,6 +251,12 @@ const Profile = () => {
         setViewSendProducts(false)
         setReceiverUserID('')
         setViewSendResponse('')
+    }
+    const handleViewTicketProduct = (productCode) => {
+        setViewProductTicket(true)
+        setViewProductCode(false)
+        const pCode = userProductCodeIDData.find(pCodeID => pCodeID.ag_product_id_code === productCode)
+        setViewProductDetails(pCode)
     }
     const handleCloseAnyModals = (e) => {
         e.preventDefault();
@@ -533,7 +542,7 @@ const Profile = () => {
         setViewUserHighlight(false)
     }
 
-    if(viewProductCode == true){
+    if(viewProductCode == true || viewProductTicket == true){
         window.document.body.style.overflow = 'hidden';
     } else{
         window.document.body.style.overflow = 'auto';
@@ -756,7 +765,7 @@ const Profile = () => {
         }
     }
     
-    // console.log(userProductCodeIDData);
+    // console.log(viewProductDetails);
     
 
     return (
@@ -892,7 +901,7 @@ const Profile = () => {
                                 {(viewProductDetails.ag_product_type === 'Games') && <img src={`https://2wave.io/GameCovers/${viewProductDetails.productData.game_cover}`} alt="" />}
                                 {(viewProductDetails.ag_product_type === 'Giftcards') && <img src={`https://2wave.io/GiftCardCovers/${viewProductDetails.productData.giftcard_cover}`} alt="" />}
                                 {(viewProductDetails.ag_product_type === 'Game Credits') && <img src={`https://2wave.io/GameCreditCovers/${viewProductDetails.productData.gamecredit_cover}`} alt="" />}
-                                <button><FaTicket /></button>
+                                <button onClick={() => handleViewTicketProduct(viewProductDetails.ag_product_id_code)}><FaTicket /></button>
                             </div>
                             <div className="mdcpccStatus">
                                 <p>REDEEMED</p>
@@ -931,6 +940,17 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
+            </div>}
+            {viewProductTicket && <div className="tcktsndContainer">
+                <TicketForm 
+                    ticketform = {setViewProductTicket} 
+                    agGameDataCover = { viewProductDetails.productData.game_cover || viewProductDetails.productData.giftcard_cover || viewProductDetails.productData.gamecredit_cover} 
+                    agGameDataName = { viewProductDetails.productCode.ag_product_name } 
+                    agGameDataEdition = { viewProductDetails.productData.game_edition || viewProductDetails.productData.giftcard_category || viewProductDetails.productData.gamecredit_type} 
+                    agGameCreditNumber = { viewProductDetails.productData.gamecredit_number }
+                    agProductType = { viewProductDetails.ag_product_type }
+                    gameCanonical = { viewProductDetails.productCode.ag_product_id }
+                />
             </div>}
             
             {addPostStory && <UserStoryModal setAddPostStory={setAddPostStory}/>}
@@ -1196,7 +1216,7 @@ const Profile = () => {
                                                         </span>
                                                     </div>
                                                     <div className="productSendATicket">
-                                                        <button><FaTicket/></button>
+                                                        <button onClick={() => handleViewTicketProduct(details.ag_product_id_code)}><FaTicket/></button>
                                                     </div>
                                                 </div>}
                                             </>}
@@ -1254,7 +1274,7 @@ const Profile = () => {
                                                         </div>
                                                     </div>
                                                     <div className="productSendATicket">
-                                                        <button><FaTicket/></button>
+                                                        <button onClick={() => handleViewTicketProduct(details.ag_product_id_code)}><FaTicket/></button>
                                                     </div>
                                                 </div> } 
                                             </>}
