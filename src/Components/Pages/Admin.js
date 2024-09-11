@@ -927,96 +927,96 @@ const Admin = () => {
 
     return (
         <div className='mainContainer admin'>
-            {dataListed === 'Games' &&(
+            {dataListed === 'Games' && (
                 <>
-                {openEditModal&&(
-                <div className="admineditGamedata">
-                    <div className="admineditData-container">
-                        <div className="closeEditModal">
-                            <FaTimes id='closeEditbtn' onClick={handleCloseEditModal}/>
-                        </div>
-                        <div className="admineditData-contents">
-                            <section id='gameEditdetails'  style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${editableData.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                                <div className="editableGamedata">
-                                    <div className="editableGamedata-header">
-                                        <h1>{editableData.game_title}</h1>
-                                        <p>{editableData.game_edition}</p>
-                                    </div>
-                                    <div className="editableGamedata-contents">
-                                        <hr/>
-                                        <div className="editableGamedata-info">
-                                            <span>
-                                                <h1>Developer</h1>
-                                                <p>{editableData.game_developer}</p>
-                                            </span>
-                                            <hr />
-                                            <span>
-                                                <h1>Platform</h1>
-                                                <p>{editableData.game_platform}</p>
-                                            </span>
-                                            <hr />
-                                            <span>
-                                                <h1>Category</h1>
-                                                <p>{editableData.game_category}</p>
-                                            </span>
-                                            <hr />
-                                            <span>
-                                                <h1>Date Listed</h1>
-                                                <p>{formatDateToWordedDate(editableData.date)}</p>
-                                            </span>
-                                            <hr />
-                                            <span>
-                                                <h1>Game Release</h1>
-                                                <p>{formatDateToWordedDate(editableData.game_released)}</p>
-                                            </span>
-                                        </div>
-                                        <ul>
-                                            <li>
-                                                <h1>price</h1>
-                                                <span>
-                                                    <input type="text" placeholder='input price' value={price} onChange={handleChangePrice} disabled={editInfoPrice}/>
-                                                    {editInfoPrice ? <FiEdit id='editItemIcon' onClick={toggleDisablePrice}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisablePrice}/>}
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <h1>discount ( % )</h1>
-                                                <span>
-                                                    <input type="text" placeholder='input discount' value={discount} onChange={handleChangeDiscount} disabled={editInfoDiscount}/>
-                                                    {editInfoDiscount ? <FiEdit id='editItemIcon' onClick={toggleDisableDiscount}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisableDiscount}/>}
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </div>
+                    {openEditModal&&(
+                        <div className="admineditGamedata">
+                            <div className="admineditData-container">
+                                <div className="closeEditModal">
+                                    <FaTimes id='closeEditbtn' onClick={handleCloseEditModal}/>
                                 </div>
-                            </section>
-                            <hr className='hrSpace'/>
-                            <section>
-                                <div className="addgameCodeinfo">
-                                    <span>
-                                        <h6>ADD PRODUCT CODE</h6>
-                                        {inputs.map(input => (
-                                            <div key={input.id}>
-                                                <input
-                                                    type="text"
-                                                    value={input.value}
-                                                    onChange={(e) => handleInputChange(input.id, 'value', e.target.value)}
-                                                    placeholder='Insert here...'
-                                                />
+                                <div className="admineditData-contents">
+                                    <section id='gameEditdetails'  style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${editableData.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
+                                        <div className="editableGamedata">
+                                            <div className="editableGamedata-header">
+                                                <h1>{editableData.game_title}</h1>
+                                                <p>{editableData.game_edition}</p>
                                             </div>
-                                        ))}
-                                        <button onClick={addNewInput} disabled={isButtonDisabled}>Add more Codes</button>
-                                    </span>
-                                    <div className="submitEditabledata">
-                                        <p>Avoid unnecessary blank inputs.</p>
-                                        <button onClick={insertGameData}>Publish Codes</button>
-                                    </div>
+                                            <div className="editableGamedata-contents">
+                                                <hr/>
+                                                <div className="editableGamedata-info">
+                                                    <span>
+                                                        <h1>Developer</h1>
+                                                        <p>{editableData.game_developer}</p>
+                                                    </span>
+                                                    <hr />
+                                                    <span>
+                                                        <h1>Platform</h1>
+                                                        <p>{editableData.game_platform}</p>
+                                                    </span>
+                                                    <hr />
+                                                    <span>
+                                                        <h1>Category</h1>
+                                                        <p>{editableData.game_category}</p>
+                                                    </span>
+                                                    <hr />
+                                                    <span>
+                                                        <h1>Date Listed</h1>
+                                                        <p>{formatDateToWordedDate(editableData.date)}</p>
+                                                    </span>
+                                                    <hr />
+                                                    <span>
+                                                        <h1>Game Release</h1>
+                                                        <p>{formatDateToWordedDate(editableData.game_released)}</p>
+                                                    </span>
+                                                </div>
+                                                <ul>
+                                                    <li>
+                                                        <h1>price</h1>
+                                                        <span>
+                                                            <input type="text" placeholder='input price' value={price} onChange={handleChangePrice} disabled={editInfoPrice}/>
+                                                            {editInfoPrice ? <FiEdit id='editItemIcon' onClick={toggleDisablePrice}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisablePrice}/>}
+                                                        </span>
+                                                    </li>
+                                                    <li>
+                                                        <h1>discount ( % )</h1>
+                                                        <span>
+                                                            <input type="text" placeholder='input discount' value={discount} onChange={handleChangeDiscount} disabled={editInfoDiscount}/>
+                                                            {editInfoDiscount ? <FiEdit id='editItemIcon' onClick={toggleDisableDiscount}/> : <VscSaveAs id='editItemIcon' onClick={toggleDisableDiscount}/>}
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <hr className='hrSpace'/>
+                                    <section>
+                                        <div className="addgameCodeinfo">
+                                            <span>
+                                                <h6>ADD PRODUCT CODE</h6>
+                                                {inputs.map(input => (
+                                                    <div key={input.id}>
+                                                        <input
+                                                            type="text"
+                                                            value={input.value}
+                                                            onChange={(e) => handleInputChange(input.id, 'value', e.target.value)}
+                                                            placeholder='Insert here...'
+                                                        />
+                                                    </div>
+                                                ))}
+                                                <button onClick={addNewInput} disabled={isButtonDisabled}>Add more Codes</button>
+                                            </span>
+                                            <div className="submitEditabledata">
+                                                <p>Avoid unnecessary blank inputs.</p>
+                                                <button onClick={insertGameData}>Publish Codes</button>
+                                            </div>
+                                        </div>
+                                    </section>
                                 </div>
-                            </section>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            )}
-            </>
+                    )}
+                </>
             )}
             {dataListed === 'GCards' &&(
             <>

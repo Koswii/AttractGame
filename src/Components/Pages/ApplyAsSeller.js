@@ -80,16 +80,16 @@ const ApplyAsSeller = () => {
                                     <input type="text" placeholder='Ex. John Doe' name='sellerFullname' onChange={(e) => setApplicantFullname(e.target.value)} />
                                 </span>
                                 <span>
-                                    <label htmlFor=""><p>Business Name</p></label>
+                                    <label htmlFor=""><p>Store Name</p></label>
                                     <input type="text" placeholder='Ex. JDoe Gamestop' name='sellerBusiness' onChange={(e) => setApplicantBusiness(e.target.value)} />
                                 </span>
                                 <span>
-                                    <label htmlFor=""><p>Business Email</p></label>
+                                    <label htmlFor=""><p>Contact Email</p></label>
                                     <input type="email" placeholder='ex. jdoegamestop@email.com' name='sellerEmail' onChange={(e) => setApplicantEmail(e.target.value)} />
                                 </span>
                                 <span>
-                                    <label htmlFor=""><p>Business Address</p></label>
-                                    <textarea id="" placeholder='...' name='sellerAddress' onChange={(e) => setApplicantAddress(e.target.value)} ></textarea>
+                                    <label htmlFor=""><p>Business Short Description</p></label>
+                                    <textarea id="" placeholder='Type description here...' name='sellerAddress' onChange={(e) => setApplicantAddress(e.target.value)} ></textarea>
                                 </span>
                             </div>
                             <div className="afAgree">
@@ -108,7 +108,8 @@ const ApplyAsSeller = () => {
                             </div>
                             <div className="afContact">
                                 <p>
-                                    Once submitted, join our <a href="https://discord.com/invite/3Rc2QF3Zqz" target='blank'>DISCORD SERVER HERE</a> for more fast replies.
+                                    Note: <br />
+                                    You can submit business reseller ticket on our <a href="https://discord.com/invite/3Rc2QF3Zqz" target='blank'>DISCORD SERVER</a> for fast replies.
                                      <br /> Please expect an email 2-3 days after Initial Application.
                                 </p>
                             </div>

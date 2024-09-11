@@ -49,7 +49,7 @@ import { CartsFetchData } from './CartsFetchContext';
 import finalFantasy from '../assets/imgs/marketSlider/finalFantasy7.png'
 import likeAdragon from '../assets/imgs/marketSlider/likeAdragon.png'
 import tekken8 from '../assets/imgs/marketSlider/tekken8.png'
-import roblox from '../assets/imgs/LandingImg/RobloxCoverImg00.png'
+import wukong from '../assets/imgs/marketSlider/blackmythwukong.png'
  
 
 const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
@@ -131,13 +131,21 @@ const ImageComponentGiftcards = ({ imageName }) => {
         <img src={loading ? placeholderImage : imageCache[url]} alt="Loading..." />
     );
 };
+const UsernameSlicer = ({ text = '', maxLength }) => {
+    const truncatedText = text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+  
+    return (
+      <>{truncatedText}</>
+    );
+};
 
 const Marketplace = () => {
     const { setActivePage } = useActivePage();
     const navigate = useNavigate ();
     const { 
         userLoggedData,
-        handleLoginForm  
+        handleLoginForm,
+        viewStoreList  
     } = UserProfileData();
     const { 
         viewAllGames,
@@ -148,8 +156,14 @@ const Marketplace = () => {
         viewMetacriticData,
         loadingMarketData2 
     } = GamesFetchData();
-    const { filteredGiftcards } = GiftcardsFetchData();
-    const { filteredGamecredits } = GamecreditsFetchData();
+    const { 
+        viewAllGiftcards,
+        filteredGiftcards 
+    } = GiftcardsFetchData();
+    const { 
+        viewAllGamecredits,
+        filteredGamecredits
+    } = GamecreditsFetchData();
     const { 
         fetchFavorites, 
         favorites, 
@@ -354,6 +368,16 @@ const Marketplace = () => {
         };
     });
 
+    const storeTotalDetails = viewStoreList.map(seller => {
+        const gameTotal = viewAllGames.filter(stores => stores.game_seller === seller.store).length;
+        const giftcardTotal = viewAllGiftcards.filter(stores => stores.giftcard_seller === seller.store).length;
+        const gamecreditTotal = viewAllGamecredits.filter(stores => stores.gamecredit_seller === seller.store).length;
+        return {
+            ...seller, gameTotal, giftcardTotal, gamecreditTotal
+        }
+    });
+    
+
 
     const [sliderFeat,setSliderFeat] = useState('first')
 
@@ -380,11 +404,11 @@ const Marketplace = () => {
     return (
         <div className='mainContainer marketplace'>
             <section className="marketplacePageContainer top">
-                <div className="mpPageContentTopNav">
+                {/* <div className="mpPageContentTopNav">
                     <div className='mppctn left'>
                         <h5>FEATURED GAMES</h5>
-                        {/* <h6><FaSearch className='faIcons'/></h6>
-                        <input type="text" placeholder='Search Games / Vouchers / Giftcards / Crypto / Merchandise'/> */}
+                        <h6><FaSearch className='faIcons'/></h6>
+                        <input type="text" placeholder='Search Games / Vouchers / Giftcards / Crypto / Merchandise'/>
                     </div>
                     <div className="mppctn right">
                         <span>
@@ -397,17 +421,17 @@ const Marketplace = () => {
                             <h6>{filteredGamecredits.length} <TbDiamond className='faIcons'/></h6>
                         </span>
                     </div>
-                </div>
+                </div> */}
             </section>
             <section className="marketplacePageContainer mid">
                 <div className="mppctFeaturedGame">
                     <div className="mppctFeaturedGameSlider">
                         <section>
                             <div className={`sliderImgs ${sliderFeat}`}>
+                                <img src={wukong} alt="" />
                                 <img src={finalFantasy} alt=""/>
                                 <img src={tekken8} alt="" />
                                 <img src={likeAdragon} alt="" />
-                                <img src={roblox} alt="" />
                             </div>
                         </section>
                     </div>
@@ -430,10 +454,14 @@ const Marketplace = () => {
                         <div className="mppcm2GamePlatform" to={`/Games/${details.game_canonical}`}>
                             <img platform={details.game_platform} src="" alt="" />
                         </div>
-                        {(details.game_seller === 'Attract Game') && 
-                        <div className="mppcm2GameSeller">
-                            <img src={require('../assets/imgs/AGLogoWhite01.png')} alt="" />
-                        </div>}
+                        {(details.game_seller === 'Attract Game') ? 
+                            <div className="mppcm2GameSeller">
+                                <img src={require('../assets/imgs/AGLogoWhite01.png')} alt="" />
+                            </div>:
+                            <div className="mppcm2GameSeller">
+                                <img src={`https://2wave.io/StoreLogo/${details.game_seller}.png`} alt="" />
+                            </div>
+                        }
                         <Link to={`/Games/${details.game_canonical}`} onClick={handleClickGames}>{details.game_cover !== '' ?
                         <ImageComponentGames imageName={details.game_cover} />
                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
@@ -496,6 +524,14 @@ const Marketplace = () => {
                         <div className="mppcm2GamePlatform">
                             <img platform={details.game_platform} src="" alt="" />
                         </div>
+                        {(details.game_seller === 'Attract Game') ? 
+                            <div className="mppcm2GameSeller">
+                                <img src={require('../assets/imgs/AGLogoWhite01.png')} alt="" />
+                            </div>:
+                            <div className="mppcm2GameSeller">
+                                <img src={`https://2wave.io/StoreLogo/${details.game_seller}.png`} alt="" />
+                            </div>
+                        }
                         <>{details.game_cover !== '' ?
                         <ImageComponentGames imageName={details.game_cover} />
                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</>
@@ -540,9 +576,45 @@ const Marketplace = () => {
                     <Link to='/Games' onClick={handleClickGames}><TbSquareRoundedArrowRight className='faIcons'/> View More Games</Link>
                 </div>
                 <div className="mpPageContentMid3">
-                    <div className="mppcm3Content">
-                        
+                    <h5>PARTNER STORES</h5>
+                    <p>Discover other stores that might have what you looking for.</p>
+                    <div className="mppcm3Content website">
+                        {storeTotalDetails.slice(0, 8).map((details, i) => (
+                            <Link>
+                                <div className='mppcm3cImg'>
+                                    <img src={`https://2wave.io/StoreLogo/${details.store}.png`} alt="" />
+                                </div>
+                                <div className="mppcm3cDetails">
+                                    <h6>{details.store}</h6>
+                                    <span>
+                                        <p>{details.gameTotal} <TbDeviceGamepad2 className='faIcons'/></p>
+                                        <p>{details.giftcardTotal} <TbGiftCard className='faIcons'/></p>
+                                        <p>{details.gamecreditTotal} <TbDiamond className='faIcons'/></p>
+                                    </span>
+                                </div>
+                            </Link>
+                        ))}
                     </div>
+                    <div className="mppcm3Content mobile">
+                        {storeTotalDetails.slice(0, 4).map((details, i) => (
+                            <Link>
+                                <div className='mppcm3cImg'>
+                                    <img src={`https://2wave.io/StoreLogo/${details.store}.png`} alt="" />
+                                </div>
+                                <div className="mppcm3cDetails">
+                                    <h6><UsernameSlicer text={`${details.store}`} maxLength={8} /></h6>
+                                    <span>
+                                        <p>{details.gameTotal} <TbDeviceGamepad2 className='faIcons'/></p>
+                                        <p>{details.giftcardTotal} <TbGiftCard className='faIcons'/></p>
+                                        <p>{details.gamecreditTotal} <TbDiamond className='faIcons'/></p>
+                                    </span>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+                <div className="mpPageContentM2ShowMore">
+                    {(storeTotalDetails.length > 8) && <Link><TbSquareRoundedArrowRight className='faIcons'/> View More Stores</Link>}
                 </div>
                 <div className="mpPageContentMid4">
                     <div className="mppcm4GiftCard">

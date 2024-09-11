@@ -27,44 +27,44 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
         return uniqueRecords;
     }, []);
 
+    const fetchGiftcards = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(AGGiftcardsListAPI);
+            const gcAll = response.data;
+            const unique = filterUniqueData(response.data);
+            unique.sort((a, b) => {
+                if (a.giftcard_name < b.giftcard_name) return -1;
+                if (a.giftcard_name > b.giftcard_name) return 1;
+                return 0;
+            });
+            response.data.sort((a, b) => {
+                if (a.giftcard_name < b.giftcard_name) return -1;
+                if (a.giftcard_name > b.giftcard_name) return 1;
+                return 0;
+            });
+
+            const stockListResponse = await axios.get(AGStocksListAPI);
+            const stockListData = stockListResponse.data;
+            const stockInfo = gcAll.map(giftcard => {
+                const stockCount = stockListData.filter(stock => stock.ag_product_id === giftcard.giftcard_id).length;
+                return {
+                    ...giftcard, stocks: stockCount
+                };
+            });
+
+            setViewAllGiftcards(gcAll);
+            setGiftcards(stockInfo);
+            setFilteredGiftcards(unique);
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchGiftcards = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get(AGGiftcardsListAPI);
-                const gcAll = response.data;
-                const unique = filterUniqueData(response.data);
-                unique.sort((a, b) => {
-                    if (a.giftcard_name < b.giftcard_name) return -1;
-                    if (a.giftcard_name > b.giftcard_name) return 1;
-                    return 0;
-                });
-                response.data.sort((a, b) => {
-                    if (a.giftcard_name < b.giftcard_name) return -1;
-                    if (a.giftcard_name > b.giftcard_name) return 1;
-                    return 0;
-                });
-
-                const stockListResponse = await axios.get(AGStocksListAPI);
-                const stockListData = stockListResponse.data;
-                const stockInfo = gcAll.map(giftcard => {
-                    const stockCount = stockListData.filter(stock => stock.ag_product_id === giftcard.giftcard_id).length;
-                    return {
-                        ...giftcard, stocks: stockCount
-                    };
-                });
-
-                setViewAllGiftcards(gcAll);
-                setGiftcards(stockInfo);
-                setFilteredGiftcards(unique);
-
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-    
         fetchGiftcards();
     }, []);
 
@@ -93,7 +93,8 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
             filteredGiftcards, 
             loading,
             fetchAndCacheImageGiftcards,
-            imageCache 
+            imageCache,
+            fetchGiftcards 
         }}>
             {children}
         </GiftcardsFetchContext.Provider>

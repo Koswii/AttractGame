@@ -10,6 +10,9 @@ export const UserProfileDataProvider = ({ children }) => {
     const [viewLoginForm, setViewLoginForm] = useState(false);
     const [userProductCodeIDData, setUserProductCodeIDData] = useState([]);
     const [viewTransactionList, setViewTransactionList] = useState([]);
+    const [viewSellerStock, setViewSellerStock] = useState([]);
+    const [viewStockNumber, setViewStockNumber] = useState([]);
+    const [viewStoreList, setViewStoreList] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const LoginUserID = localStorage.getItem('profileUserID');
@@ -22,6 +25,8 @@ export const UserProfileDataProvider = ({ children }) => {
     const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
     const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
     const AGUsersTransactions = process.env.REACT_APP_AG_USERS_TRANSACTIONS_API;
+    const AGSellerStockList = process.env.REACT_APP_AG_USER_SELLER_STOCKS_API;
+    const AGUserStoreList = process.env.REACT_APP_AG_USERS_STORE_LIST_API;
 
 
     const fetchUsersEmails = async () => {
@@ -32,7 +37,16 @@ export const UserProfileDataProvider = ({ children }) => {
           console.error(error);
         }
     };
-
+    const fetchUserStores = async () => {
+        try {
+          const response = await axios.get(AGUserStoreList);
+          const storeList = response.data.filter(store => store.store != '')
+          setViewStoreList(storeList);
+          
+        } catch (error) {
+          console.error(error);
+        }
+    };
     const fetchUserProductIds = async () => {
         setIsLoading(true);
         const userRequestCode = {
@@ -90,6 +104,21 @@ export const UserProfileDataProvider = ({ children }) => {
             setIsLoading(false);
         }
     };
+    const fetchUserTransactionHistory = async () => {
+        try {
+            const response = await axios.get(AGUsersTransactions);
+            const TransactionHistoryData = response.data.filter(user => user.ag_user_id === LoginUserID);
+            const TransactionHistorySort = TransactionHistoryData.sort((a, b) => {
+                const dateA = new Date(a.ag_transaction_date);
+                const dateB = new Date(b.ag_transaction_date);
+          
+                return dateB - dateA;
+            });
+            setViewTransactionList(TransactionHistorySort);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     // Fetch data once when component mounts
     useEffect(() => {
@@ -109,21 +138,29 @@ export const UserProfileDataProvider = ({ children }) => {
                 console.error(error);
             }
         }
-
-        const fetchUserTransactionHistory = async () => {
+        const fetchSellerStockList = async () => {
             try {
-                const response = await axios.get(AGUsersTransactions);
-                const TransactionHistoryData = response.data.filter(user => user.ag_user_id === LoginUserID);
-                setViewTransactionList(TransactionHistoryData);
+                const response = await axios.get(AGSellerStockList);
+                const stockSeller = response.data.filter(user => user.ag_product_seller === LoginUserID);
+                const availableStocks = stockSeller.filter(stocks => stocks.ag_product_state === 'Sold')
+                setViewSellerStock(stockSeller);
+                setViewStockNumber(availableStocks.length);
+                
+                
             } catch (error) {
                 console.error(error);
             }
         };
 
-        fetchUserTransactionHistory();
-        fetchUserProfile();
+        
+
+
         fetchUsersEmails();
+        fetchUserStores();
         fetchUserProductIds();
+        fetchUserProfile();
+        fetchUserTransactionHistory();
+        fetchSellerStockList();
     }, []);
 
     const handleLoginForm = () => {
@@ -145,7 +182,11 @@ export const UserProfileDataProvider = ({ children }) => {
             isLoading, 
             setIsLoading,
             fetchUserProductIds,
-            viewTransactionList
+            fetchUserTransactionHistory,
+            viewTransactionList,
+            viewSellerStock,
+            viewStockNumber,
+            viewStoreList
             }}>
             {children}
         </UserProfileContext.Provider>

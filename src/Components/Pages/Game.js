@@ -74,7 +74,13 @@ const ImageComponentGames = ({ imageName }) => {
         <img src={imageCache[url]} alt="Loading..." />
     );
 };
-
+const UsernameSlicer = ({ text = '', maxLength }) => {
+    const truncatedText = text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+  
+    return (
+      <>{truncatedText}</>
+    );
+};
 
 
 
@@ -355,7 +361,7 @@ const Game = () => {
                         :<img src={scrapedMetacriticData.originalimage.source} alt="" />}</>
                     </div>
                     <div className="gppctGameDetails right">
-                        <h3>{agGameDataName}</h3>
+                        <h3><UsernameSlicer text={`${agGameDataName}`} maxLength={35} /></h3>
                         <div className="gppctgdrSendTicket">
                             <FaTicketAlt id='ticketIcon' onClick={openticket}/>
                             <span className='txtHovertcket'>Send a Ticket</span>
@@ -423,7 +429,7 @@ const Game = () => {
                             </>}
                             <div>
                                 <h6>{(agGameStockCount === 0 ? 'Out of Stock':'Game On-Stock')}</h6>
-                                <p>{agGameStockCount} Stocks</p>
+                                <p>{agGameStockCount} Stock/s</p>
                             </div>
                         </div>
                     </div>

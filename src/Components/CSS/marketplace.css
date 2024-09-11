@@ -104,7 +104,7 @@ section.marketplacePageContainer.top{
 section.marketplacePageContainer.mid{
     height: auto;
     width: 100%;
-    padding: 1vw 10%;
+    padding: 2vw 10%;
 }
 section.marketplacePageContainer.mid h4#mppcthTitlesfeatured{
     display: flex;
@@ -550,62 +550,13 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
 
 
 
-
-
-
-
-
-
-
-
-/* .mpPageContentMid3{
-    height: auto;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2%;
-}
-.mpPageContentMid3 a{
-    height: auto;
-    width: 32%;
-    padding: 2% 3%;
-    border-radius: 1vw;
-    box-shadow: 0 0 10px gray;
-    text-decoration: none;
-    text-align: right;
-}
-.mpPageContentMid3 a:hover{
-    box-shadow: 0 0 20px white;
-    transition: 400ms ease;
-}
-.mpPageContentMid3 a.mppcm3TrendingGames{
-    background: url('../assets/imgs/LandingImg/lndImg01.png') no-repeat left;
-    background-size: cover;
-}
-.mpPageContentMid3 a.mppcm3HotGames{
-    background: url('../assets/imgs/LandingImg/lndImg02.png') no-repeat left;
-    background-size: cover;
-}
-.mpPageContentMid3 a.mppcm3ClassicGames{
-    background: url('../assets/imgs/LandingImg/lndImg03.png') no-repeat left;
-    background-size: cover;
-}
-.mpPageContentMid3 a h5{
-    display: flex;
-    justify-content: right;
-    align-items: center;
-}
-.mpPageContentMid3 a h5 .faIcons{
-    margin-right: 3%;
-} */
 .mpPageContentM2ShowMore{
     height: auto;
     width: 100%;
     display: flex;
     justify-content: right;
     align-items: center;
-    margin-bottom: 10%;
+    margin-bottom: 7%;
 }
 .mpPageContentM2ShowMore a{
     width: 20%;
@@ -625,6 +576,90 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     opacity: 100%;
     transition: 400ms ease;
 }
+
+
+
+.mpPageContentMid3{
+    height: auto;
+    width: 100%;
+}
+.mppcm3Content{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: center;
+    margin-top: 2%;
+}
+.mppcm3Content.mobile{
+    display: none;
+}
+.mppcm3Content a{
+    height: auto;
+    width: 24%;
+    text-decoration: none;
+    margin: 0.5%;
+    padding: 1%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 1vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mppcm3cImg{
+    height: 3vw;
+    width: 3vw;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 5px white;
+}
+.mppcm3cImg img{
+    height: 100%;
+}
+.mppcm3cDetails{
+    height: auto;
+    width: 75%;
+}
+.mppcm3cDetails span{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mppcm3cDetails span p{
+    width: 33%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.mppcm3cDetails span p .faIcons{
+    margin-left: 10%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .mpPageContentMid4{
     height: 32vw;
     width: 100%;
@@ -863,7 +898,7 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
         height: auto;
         width: 100%;
         padding: 0 5%;
-        padding-top: 13vh;
+        padding-top: 12vh;
         background: none;
     }
     .mppctn.left{
@@ -888,7 +923,7 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
 
     .mppctFeaturedGameSlider{
         margin-top: 0;
-        margin-bottom: 10%;
+        margin-bottom: 7%;
     }
     section.marketplacePageContainer.mid h4#mppcthTitlesfeatured{
         display: none;
@@ -902,8 +937,7 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     }
 
     section.marketplacePageContainer.mid{
-        padding: 0 5%;
-        padding-bottom: 10vw;
+        padding: 3vh 5%;
     }
     .mpPageContentMid1{
         display: none;
@@ -946,6 +980,12 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     .mppcm2GamePlatform img{
         height: 10vw;
         width: 10vw;
+    }
+    .mppcm2GameSeller{
+        height: 7vw;
+        width: 7vw;
+        top: 2vw;
+        right: 2vw;
     }
     .mppcm2GameCategory{
         width: 100%;
@@ -1008,6 +1048,45 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
         font-size: 3vw;
     }
 
+    .mpPageContentMid3 h5{
+        font-size: 5vw;
+        text-align: center;
+    }
+    .mpPageContentMid3 p{
+        font-size: 2.3vw;
+        text-align: center;
+    }
+    .mppcm3Content{
+        justify-content: space-between;
+    }
+    .mppcm3Content.website{
+        display: none;
+    }
+    .mppcm3Content.mobile{
+        display: flex;
+    }
+    .mppcm3Content a{
+        width: 48%;
+        padding: 2%;
+        border-radius: 2vw;
+    }
+    .mppcm3cImg{
+        height: 10vw;
+        width: 10vw;
+    }
+    .mppcm3cImg img{
+        height: 100%;
+    }
+    .mppcm3cDetails{
+        height: auto;
+        width: 65%;
+    }
+    .mppcm3cDetails h6{
+        font-size: 4vw;
+    }
+    .mppcm3cDetails span p{
+        font-size: 2.5vw;
+    }
 
     .mpPageContentMid4{
         height: auto;
