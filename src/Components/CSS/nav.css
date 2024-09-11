@@ -567,8 +567,12 @@ nav{
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     display: none;
-    justify-content: right;
+    justify-content: space-between;
     align-items: start;
+}
+.navContentprofileDum{
+    height: 100%;
+    width: 20%;
 }
 .navContentprofileSel{
     position: relative;

@@ -266,8 +266,8 @@ section.gamesPageContainer.top{
     content: url('../assets/imgs/GamePlatforms/PS5.png');
 }
 .gmspct2gpSeller{
-    height: 1.5vw;
-    width: 1.5vw;
+    height: 2vw;
+    width: 2vw;
     position: absolute;
     top: 0.5vw;
     right: 0.5vw;
@@ -450,8 +450,8 @@ section.gamesPageContainer.top{
         width: 10vw;
     }
     .gmspct2gpSeller{
-        height: 5vw;
-        width: 5vw;
+        height: 7vw;
+        width: 7vw;
         top: 1.5vw;
         right: 1.5vw;
     }

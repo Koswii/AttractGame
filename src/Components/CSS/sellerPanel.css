@@ -25,7 +25,7 @@ h6{
 
 
 .mainContainer.sellerPanel{
-    height: 100vh;
+    height: auto;
     width: 100%;
     background: black;
     display: flex;
@@ -40,10 +40,247 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
 
+
+
+
+.mcsAddCodeContainer{
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mcsacCodeContent{
+    height: auto;
+    width: 20%;
+    position: relative;
+    box-shadow: 0 0 15px gray;
+    overflow: hidden;
+    border-radius: 1vw;
+    animation: fade-in-down 800ms ease;
+}
+.mcsacCodeContent button#closeAddCode{
+    position: absolute;
+    right: 1vw;
+    top: 1vw;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1.5vw;
+    cursor: pointer;
+    text-shadow: 0 0 10px black;
+    z-index: 5;
+}
+.mcsacccDetails{
+    height: 30vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mcsacccDetails img#mcsacccDetailsImg{
+    height: 100%;
+}
+.mcsacccdShadow{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: 
+    linear-gradient(black -50%, transparent),
+    linear-gradient(transparent, black 70%);
+}
+.mcsacccdTitle{
+    position: absolute;
+    top: 1vw;
+    left: 0;
+    height: auto;
+    width: 100%;
+    padding: 0 1vw;
+    padding-right: 3vw;
+}
+.mcsacccdt{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    overflow: hidden;
+}
+.mcsacccdtPlatform{
+    height: 4vw;
+    width: 4vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: solid 2px white;
+    padding: 2%;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-right: 3%;
+}
+.mcsacccdtPlatform h5{
+    font-size: 1.5vw;
+    text-align: center;
+}
+.mcsacccdtPlatform img{
+    height: 100%;
+    filter: invert(1);
+}
+.mcsacccdtPlatform img[platform='PC']{
+    content: url('../assets/imgs/GamePlatforms/PCGames.png');
+}
+.mcsacccdtPlatform img[platform='NintendoSwitch']{
+    content: url('../assets/imgs/GamePlatforms/NintendoSwitch.png');
+}
+.mcsacccdtPlatform img[platform='XboxXS']{
+    content: url('../assets/imgs/GamePlatforms/XboxXS.png');
+}
+.mcsacccdtPlatform img[platform='XboxOne']{
+    content: url('../assets/imgs/GamePlatforms/XboxOne.png');
+}
+.mcsacccdtPlatform img[platform='PlayStation4']{
+    content: url('../assets/imgs/GamePlatforms/PS4.png');
+}
+.mcsacccdtPlatform img[platform='PlayStation5']{
+    content: url('../assets/imgs/GamePlatforms/PS5.png');
+}
+.mcsacccdtName{
+    height: auto;
+    width: 70%;
+}
+.mcsacccdtName h4{
+    font-size: 1.1vw;
+    line-height: 1.1vw;
+    text-shadow: 0 0 10px black;
+}
+.mcsacccdtName p{
+    font-size: 0.6vw;
+    margin-top: 1%;
+    text-shadow: 0 0 10px black;
+}
+.mcsacccdInfos{
+    height: auto;
+    width: 100%;
+    position: absolute;
+    bottom: 1vw;
+    left: 0;
+    padding: 0 1vw;
+}
+.mcsacccdiPrice{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mcsacccdip{
+    height: auto;
+    width: 48%;
+}
+.mcsacccdip h6{
+    font-size: 0.7vw;
+    font-weight: 400;
+    margin-bottom: 2%;
+    margin-left: 5%;
+}
+.mcsacccdip div{
+    height: auto;
+    width: 100%;
+    border: solid 2px white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 5%;
+    border-radius: 10px;
+}
+.mcsacccdip div input{
+    width: 100%;
+    font-size: 0.9vw;
+    text-align: center;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    overflow: hidden;
+}
+.mcsacccdiCode{
+    height: auto;
+    width: 100%;
+    margin: 3% 0;
+}
+.mcsacccdiCode input{
+    width: 100%;
+    font-size: 0.9vw;
+    background: none;
+    border: solid 2px white;
+    outline: none;
+    color: white;
+    overflow: hidden;
+    padding: 8px 5%;
+    border-radius: 10px;
+    text-align: center;
+}
+.mcsacccdiSubmit{
+    height: auto;
+    width: 100%;
+}
+.mcsacccdiSubmit button{
+    width: 100%;
+    font-size: 0.9vw;
+    background: none;
+    border: solid 2px white;
+    outline: none;
+    color: white;
+    overflow: hidden;
+    padding: 3% 5%;
+    border-radius: 10px;
+    text-align: center;
+    opacity: 50%;
+    cursor: not-allowed;
+    transition: 400ms ease;
+}
+.mcsacccdiSubmit button.active{
+    opacity: 100%;
+    transition: 400ms ease;
+    cursor: pointer;
+}
+.mcsacccdiSubmit button.active:hover{
+    background: white;
+    color: black;
+    transition: 400ms ease;
+    box-shadow: 0 0 10px white;
+}
+.mcsacccdInfos p{
+    font-size: 0.6vw;
+    text-align: center;
+    margin-top: 5%;
+}
+
+
+
+
+
+
+
+
+
 section.spPageContainer.top{
     height: auto;
     width: 20%;
-    padding: 11vh 3%;
+    padding: 13vh 3%;
     display: flex;
     justify-content: center;
     align-items: top;
@@ -83,8 +320,17 @@ section.spPageContainer.top{
     transition: 400ms ease;
 }
 .sppctViewNav button h6{
+    width: 100%;
     font-size: 0.7vw;
     font-weight: 600;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.sppctViewNav button h6 .faIcons{
+    font-size: 0.9vw;
+    line-height: 0.7vw;
+    margin-right: 3%;
 }
 .sppctViewNav button.activeNav{
     background: gold;
@@ -110,7 +356,7 @@ section.spPageContainer.mid{
     height: auto;
     width: 100%;
     width: 100%;
-    padding: 11vh 3%;
+    padding: 13vh 3%;
     padding-bottom: 0;
     padding-right: 10%;
 }
@@ -120,6 +366,10 @@ section.spPageContainer.mid{
     height: auto;
     width: 100%;
     animation: fade-in-left 1s ease;
+}
+.sppcm1Dashboard h4{
+    text-transform: uppercase;
+    margin-bottom: 1%;
 }
 .sppcm1dContainer{
     height: auto;
@@ -204,6 +454,35 @@ section.spPageContainer.mid{
 }
 
 
+.sppcm1dOthers{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-top: 2%;
+}
+.sppcm1doContent.left{
+    height: auto;
+    width: 50%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .sppcm1AddGames{
     height: auto;
@@ -214,7 +493,7 @@ section.spPageContainer.mid{
     height: auto;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: top;
     margin: 1% 0;
 }
@@ -246,7 +525,7 @@ section.spPageContainer.mid{
 
 .sppcm1AGameContent.right{
     height: auto;
-    width: 65%;
+    width: 70%;
     /* background: rgba(30, 30, 30, 0.8);
     box-shadow: 0 0 10px black;
     border-radius: 1vw;
@@ -265,15 +544,14 @@ section.spPageContainer.mid{
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: start;
-    padding-left: 5%;
+    align-items: center;
 }
 .sppcm1agcf.left{
     height: auto;
-    width: 30%;
+    width: 35%;
 }
 .sppc1agcfImage{
-    height: 20vw;
+    height: 26vw;
     width: 100%;
     border-radius: 1vw;
     border: dashed 2px white;
@@ -305,7 +583,7 @@ section.spPageContainer.mid{
 }
 .sppcm1agcf.right{
     height: auto;
-    width: 65%;
+    width: 60%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -315,6 +593,16 @@ section.spPageContainer.mid{
     margin-bottom: 3%;
     width: 48%;
     position: relative;
+}
+.sppcm1agcf.right span#sppcm1agcfrTrailer{
+    width: 100%;
+}
+.sppcm1agcf.right span#sppcm1agcfrTrailer input{
+    margin-top: 1%;
+}
+.sppcm1agcf.right span#sppcm1agcfrAvailable,
+.sppcm1agcf.right span#sppcm1agcfrRestricted{
+    margin-bottom: 0;
 }
 .sppcm1agcf.right span button{
     position: absolute;
@@ -362,13 +650,14 @@ section.spPageContainer.mid{
     width: 100%;
     margin-top: 2%;
     padding: 7px 10px;
-    background: none;
+    background: black;
     border: solid 1px white;
     border-radius: 0.5vw;
     font-size: 0.7vw;
     font-weight: 400;
     color: white;
     outline: none;
+    resize: none;
 }
 .sppcm1agcf.right span select option{
     background: black;
@@ -448,6 +737,7 @@ section.spPageContainer.mid{
     padding: 2% 0;
 }
 .sppc1agcfSubmit button{
+    width: 30%;
     padding: 1% 3%;
     background: none;
     border: solid 2px white;
@@ -461,7 +751,7 @@ section.spPageContainer.mid{
 .sppc1agcfSubmit button:hover{
     opacity: 100%;
     transition: 400ms ease;
-    box-shadow: 0 0 5px white;
+    box-shadow: 0 0 10px white;
     background: white;
     color: black;
 }
@@ -480,7 +770,7 @@ section.spPageContainer.mid{
     height: auto;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: top;
     padding: 1% 0;
 }
@@ -511,7 +801,7 @@ section.spPageContainer.mid{
 }
 .sppcm1AGiftCardContent.right{
     height: auto;
-    width: 65%;
+    width: 70%;
 }
 .sppcm1AGiftCardContent.right form{
     height: auto;
@@ -526,15 +816,14 @@ section.spPageContainer.mid{
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: start;
-    padding-left: 5%;
+    align-items: center;
 }
 .sppcm1agcvf.left{
     height: auto;
-    width: 30%;
+    width: 35%;
 }
 .sppc1agcvfImage{
-    height: 20vw;
+    height: 26vw;
     width: 100%;
     border-radius: 1vw;
     border: dashed 2px white;
@@ -562,7 +851,7 @@ section.spPageContainer.mid{
 }
 .sppcm1agcvf.right{
     height: auto;
-    width: 65%;
+    width: 60%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -672,9 +961,9 @@ section.spPageContainer.mid{
     display: flex;
     justify-content: center;
     padding: 2% 0;
-    margin-top: 5%;
 }
 .sppc1agcvfSubmit button{
+    width: 30%;
     padding: 1% 3%;
     background: none;
     border: solid 2px white;
@@ -688,7 +977,7 @@ section.spPageContainer.mid{
 .sppc1agcvfSubmit button:hover{
     opacity: 100%;
     transition: 400ms ease;
-    box-shadow: 0 0 5px white;
+    box-shadow: 0 0 10px white;
     background: white;
     color: black;
 }
@@ -707,7 +996,7 @@ section.spPageContainer.mid{
     height: auto;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: top;
     padding: 1% 0;
 }
@@ -738,7 +1027,7 @@ section.spPageContainer.mid{
 }
 .sppcm1AGameCreditsContent.right{
     height: auto;
-    width: 65%;
+    width: 70%;
 }
 .sppcm1AGameCreditsContent.right form{
     height: auto;
@@ -753,15 +1042,14 @@ section.spPageContainer.mid{
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: start;
-    padding-left: 5%;
+    align-items: center;
 }
 .sppcm1agcrf.left{
     height: auto;
-    width: 30%;
+    width: 35%;
 }
 .sppc1agcrfImage{
-    height: 20vw;
+    height: 26vw;
     width: 100%;
     border-radius: 1vw;
     border: dashed 2px white;
@@ -789,7 +1077,7 @@ section.spPageContainer.mid{
 }
 .sppcm1agcrf.right{
     height: auto;
-    width: 65%;
+    width: 60%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -898,9 +1186,9 @@ section.spPageContainer.mid{
     display: flex;
     justify-content: center;
     padding: 2% 0;
-    margin-top: 5%;
 }
 .sppc1agcrfSubmit button{
+    width: 30%;
     padding: 1% 3%;
     background: none;
     border: solid 2px white;
@@ -914,7 +1202,7 @@ section.spPageContainer.mid{
 .sppc1agcrfSubmit button:hover{
     opacity: 100%;
     transition: 400ms ease;
-    box-shadow: 0 0 5px white;
+    box-shadow: 0 0 10px white;
     background: white;
     color: black;
 }
@@ -962,8 +1250,7 @@ section.spPageContainer.mid{
 
 
 .sppcm1ProductlistContent.right{
-    padding-left: 1%;
-    width: 65%;
+    width: 100%;
 }
 .sppcm1ProductRight-header{
     display: flex;
@@ -1057,81 +1344,9 @@ section.spPageContainer.mid{
     color: white;
     transition: 400ms ease;
 }
-/* .sppcm1ProductRight-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-}
-.sppcm1ProductRight-header h1{
-    font-size: 1vw;
-}
-.sppcm1ProductRight-header span{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 10vw;
-}
-.sppcm1ProductRight-header span p{
-    font-size: .7vw;
-    margin: 0 2%;
-}
-.sppcm1ProductRight-header span h1{
-    font-size: .7vw;
-    cursor: pointer;
-    display: flex;
-    justify-content: right;
-    text-transform: capitalize;
-}
-#orderIcon{
-    font-size: .7vw;
-}
-.sortDatafetch{
-    text-transform: capitalize;
-}
-.sortingSelection.true{
-    opacity: 1;
-    visibility: visible;
-    top: 2vw;
-}
-.sortingSelection{
-    list-style: none;
-    color: white;
-    position: absolute;
-    top: 1vw;
-    right: 0;
-    text-align: center;
-    background: black;
-    border: .1vw solid white;
-    padding: 1vw;
-    border-radius: .5vw;
-    visibility: hidden;
-    opacity: 0;
-    transition: .3s ease;
-    z-index: 3;
-}
-.sppcm1ProductRight-header span button{
-    padding: 0;
-    cursor: pointer;
-    background: none;
-    border: none;
-    outline: 0;
-    color: white;
-    font-weight: 1000;
-    text-transform: capitalize;
-}
-.sppcm1ProductRight-header span ul li{
-    padding: .5vw;
-    cursor: pointer;
-    border-radius: .5vw;
-    text-transform: capitalize;
-}
-.sppcm1ProductRight-header span ul li:hover{
-    outline: .1vw solid white;
-} */
 
 
-/* loader */
+
 .sppcm1ProductRight-loader{
     height: 30vw;
     width: 100%;
@@ -1168,18 +1383,45 @@ section.spPageContainer.mid{
     100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
 }
 
-.sppcm1ProductRight-productList h1{
+.sppcm1ProductRight-productList{
+    height: 35vw;
+    overflow-y: scroll;
+    padding-bottom: 0;
+    position: relative;
+    border-radius: 1vw;
+}
+.sppcm1ProductRight-productList h5{
     font-size: 1.5vw;
+    margin-bottom: 1%;
+    padding-left: 1%;
 }
 .sppcm1ProductRight-productList ul{
     display: flex;
     flex-wrap: wrap;
     list-style: none;
     width: 100%;
-    height: 35vw;
+    height: auto;
     overflow-x: hidden;
     justify-content: space-between;
-    box-sizing: border-box;
+    margin-bottom: 2%;
+}
+.sppcm1ProductRight-productList div#viewSellerProductEmpty{
+    height: 10vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2%;
+}
+.sppcm1ProductRight-productList div#viewSellerProductEmpty h6{
+    text-align: center;
+    font-size: 2vw;
+    line-height: 1vw;
+    opacity: 30%;
+}
+.sppcm1ProductRight-productList div#viewSellerProductEmpty h6 span{
+    font-weight: 400;
+    font-size: 0.7vw;
 }
 .sppcm1ProductRight-productList ul{
     display: flex;
@@ -1187,9 +1429,9 @@ section.spPageContainer.mid{
 }
 .sppcm1ProductRight-productList li{
     border: .1vw solid white;
-    height: 13vw;
-    width: 10vw;
-    margin: 1%;
+    height: 14vw;
+    width: 10.5vw;
+    margin: 0.5%;
     border-radius: 1vw;
     transition: .3s ease;
     cursor: pointer;
@@ -1204,11 +1446,11 @@ section.spPageContainer.mid{
     transform: scale(1.03);
     box-shadow: 0 0 1vw white;
 }
-.sppcm1ProductRight-productList li:hover .prdGameinfo-edit{
+.sppcm1ProductRight-productList li:hover .sppcm1Gameinfo-edit{
     visibility: visible;
     opacity: 1;
 }
-.prdgcDenomination{
+.sppcm1gcDenomination{
     height: 3vw;
     width: 4vw;
     position: absolute;
@@ -1222,10 +1464,14 @@ section.spPageContainer.mid{
     border-radius: 0.5vw;
     box-shadow: 0 0 10px gray;
 }
-.prdgcDenomination h6{
+.sppcm1gcDenomination h6{
     color: black;
 }
-.prdGameinfo{
+.sppcm1gcDenomination h6 sup{
+    font-size: 0.7vw;
+    font-weight: 400;
+}
+.sppcm1Gameinfo{
     width: 100%;
     text-align: center;
     position: absolute;
@@ -1233,24 +1479,21 @@ section.spPageContainer.mid{
     box-sizing: border-box;
     padding: 5% 10%;
 }
-.prdGameinfo h1{
+.sppcm1Gameinfo h1{
     font-size: .7vw;
 }
-.prdGameinfo p{
+.sppcm1Gameinfo p{
     font-size: .5vw;
     text-transform: uppercase;
     margin: 1% 0 0 0;
 }
-
-
-
-.prdGameinfo-edit{
+.sppcm1Gameinfo-edit{
     position: absolute;
     height: auto;
     width: 100%;
     z-index: 2;
     bottom: 0;
-    padding: 10%;
+    padding: 12% 10%;
     background: rgba(255, 255, 255, 0);
     backdrop-filter: blur(8.1px);
     -webkit-backdrop-filter: blur(8.1px);
@@ -1261,14 +1504,14 @@ section.spPageContainer.mid{
     opacity: 0;
     transition: .3s ease;
 }
-.prdGameinfo-edit section{
+.sppcm1Gameinfo-edit section{
     height: auto;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.prdGameinfo-edit section button{
+.sppcm1Gameinfo-edit section button{
     width: 80%;
     padding: 5%;
     border: solid 2px white;
@@ -1280,234 +1523,15 @@ section.spPageContainer.mid{
     transition: 400ms ease;
     font-size: 0.7vw;
 }
-.prdGameinfo-edit section a{
+.sppcm1Gameinfo-edit section a{
     text-decoration: none;
     color: white;
     font-size: 0.9vw;
 }
-.prdGameinfo-edit section button:hover{
+.sppcm1Gameinfo-edit section button:hover{
     background: white;
     color: black;
     transition: 400ms ease;
 }
-
-.spineditGamedata{
-    position: absolute;
-    height: 100vh;
-    width: 100%;
-    background: rgba(255, 255, 255, 0);
-    backdrop-filter: blur(8.1px);
-    -webkit-backdrop-filter: blur(8.1px);
-    z-index: 10;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-
-.spineditData-container{
-    height: 30vw;
-    width: 50vw;
-    border: .1vw solid white;
-    box-shadow: 0 0 1vw white;
-    border-radius: 1vw;
-    background: black;
-    overflow: hidden;
-    position: relative;
-}
-
-
-/* close modal */
-.closeEditModal{
-    position: absolute;
-    z-index: 1;
-    left: 1vw;
-    top: 1vw;
-}
-#closeEditbtn{
-    color: white;
-    font-size: 2vw;
-    cursor: pointer;
-}
-#closeEditbtn:hover{
-    color: red;
-}
-
-
-.spineditData-contents{
-    display: flex;
-}
-.hrSpace{
-    border: .1vw dashed white;
-}
-.spineditData-contents section{
-    height: 30vw;
-    position: relative;
-}
-#gameEditdetails{
-    width: 100%;
-}
-.editableGamedata{
-    width: 100%;
-    text-align: center;
-    position: absolute;
-    bottom: 0;
-}
-.editableGamedata-header h1{
-    font-size: 1.2vw;
-}
-.editableGamedata-header p{
-    font-size: .7vw;
-    opacity: 50%;
-    text-transform: uppercase;
-    width: 100%;
-    padding: 0 1vw;
-    box-sizing: border-box;
-}
-.editableGamedata-contents ul{
-    list-style: none;
-    padding: 1vw;
-    display: flex;
-}
-.editableGamedata-contents ul li{
-    width: 100%;
-    border: .1vw solid white;
-    padding: .5vw;
-    margin: 1%;
-    border-radius: .5vw;
-}
-.editableGamedata-contents ul li h1{
-    font-size: .8vw;
-    text-transform: uppercase;
-}
-.editableGamedata-contents ul li span{
-    outline: .1vw solid white;
-    border-radius: .3vw;
-    display: flex;
-    align-items: center;
-    padding: .5vw;
-    margin: .5vw 0 0 0;
-}
-.editableGamedata-contents ul li span input{
-    font-size: .8vw;
-    width: 100%;
-    background: none;
-    border: none;
-    color: white;
-    outline: 0;
-}
-
-
-
-
-.editableGamedata-contents hr{
-    margin: 1vw 5vw;
-}
-.editableGamedata-info{
-    display: flex;
-    padding: 0 1vw;
-    box-sizing: border-box;
-    justify-content: center;
-}
-.editableGamedata-info hr{
-    margin: 0 .5vw;
-}
-.editableGamedata-info span{
-    margin: 0 .5vw;
-}
-.editableGamedata-info h1{
-    font-size: .6vw;
-    text-transform: capitalize;
-}
-.editableGamedata-info p{
-    font-size: .6vw;
-}
-#editItemIcon{
-    color: white;
-    font-size: .7vw;
-    cursor: pointer;
-}
-
-
-/* add code */
-.addgameCodeinfo{
-    height: 100%;
-    width: 15vw;
-    display: flex;
-    box-sizing: border-box;
-    justify-content: center;
-    padding: 1.5vw 0;
-    position: relative;
-    background: linear-gradient(transparent, black 100%) center center no-repeat, url('https://2wave.io/CoverPics/LoginBackground.jpg');
-    background-size: cover;
-}
-.addgameCodeinfo span{
-    padding: 0 1vw;
-    height: 22vw;
-    overflow-y: scroll;
-    width: 100%;
-}
-.addgameCodeinfo span h6{
-    text-align: center;
-    font-size: 1vw;
-    margin-bottom: 10%;
-}
-.addgameCodeinfo span input{
-    width: 100%;
-    margin: 0 0 .5vw 0;
-    padding: .5vw;
-    border-radius: .5vw;
-    border: none;
-    outline: .1vw solid white;
-    background: white;
-    color: black;
-    font-size: .8vw;
-}
-.addgameCodeinfo span button{
-    width: 100%;
-    padding: .5vw;
-    border-radius: .5vw;
-    cursor: pointer;
-    font-size: .8vw;
-}
-.submitEditabledata{
-    position: absolute;
-    bottom: 2vw;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 1vw;
-}
-.submitEditabledata p{
-    color: gray;
-    font-size: 0.7vw;
-    font-style: italic;
-    text-align: center;
-    margin: 5% 0;
-}
-.submitEditabledata button{
-    width: 100%;
-    font-size: .8vw;
-    padding: .5vw;
-    border-radius: .5vw;
-    outline: .1vw solid white;
-    border: none;
-    background: none;
-    color: white;
-    cursor: pointer;
-    text-transform: capitalize;
-}
-.submitEditabledata button:hover{
-    background: white;
-    color: black;
-    outline: 0;
-}
-
-
-
-
-
-
-
 
 

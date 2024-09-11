@@ -734,16 +734,26 @@ const Nav = () => {
           <button className={`${activePage === 'gamecredits' ? 'active' : ''}`} onClick={() => handleNavigation('gamecredits', '/GameCredits')}><h5><TbDiamond className='faIcons'/></h5></button>
           {/* <button className={localStorage.getItem('crypto')} onClick={handleClickCrypto}><h5><MdCurrencyBitcoin className='faIcons'/></h5></button> */}
           {(userLoggedIn) && 
-            <div className='agProfileBtnMobile' onClick={handleViewProfileBtns}>
-              {dataUser.profileimg ? 
-              <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt=""/>
-              :<img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
-            </div>
+            <>
+              {!viewProfileBtn ?
+                <div className='agProfileBtnMobile' onClick={handleViewProfileBtns}>
+                  {dataUser.profileimg ? 
+                  <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt=""/>
+                  :<img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
+                </div>:
+                <div className='agProfileBtnMobile' onClick={handleCloseModal}>
+                  {dataUser.profileimg ? 
+                  <img src={`https://2wave.io/ProfilePics/${dataUser.profileimg}`} alt=""/>
+                  :<img src={require('./assets/imgs/ProfilePics/DefaultSilhouette.png')} alt=""/>}
+                </div>
+              }
+            </>
           }
         </div>
         <hr />
         {viewProfileBtn && 
         <div className="navContainer profileSelect">
+          <div className="navContentprofileDum" onClick={handleCloseModal}></div>
           <div className="navContentprofileSel">
             <h4>MENU</h4>
             <Link id='agProfileBtn' to='/MyProfile' onClick={() => handleNavigation('profile', '/Profile')}>

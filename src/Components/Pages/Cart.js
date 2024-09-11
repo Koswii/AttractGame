@@ -386,6 +386,7 @@ const Cart = () => {
         productPDate: agProductPurchasedDate,
         productTHash: agProductTransactionHash,
         productAGPoints: agOverallAGPoints,
+        productAGCommand: 'Purchase',
       }
 
       axios.post(AGUserProductTransferAPI, postData)

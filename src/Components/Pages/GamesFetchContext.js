@@ -83,6 +83,8 @@ export const GamesFetchDataProvider = ({ children }) => {
                     ...games, stock, stockCount,
                 };
             });
+
+            
     
             
             setViewAllGamesNum(agAllGames);
@@ -139,7 +141,9 @@ export const GamesFetchDataProvider = ({ children }) => {
             viewMetacriticData, 
             viewWikiData,
             fetchAndCacheImageGames,
-            imageCache
+            imageCache,
+            fetchGames1,
+            fetchGames2
         }}>
             {children}
         </GamesFetchContext.Provider>

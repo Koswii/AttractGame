@@ -34,7 +34,9 @@ import {
     TbSettings2,
     TbSettingsBolt,
     TbUpload,
-    TbCubeSend,   
+    TbCubeSend,
+    TbCubePlus,
+    TbTicket,   
 } from "react-icons/tb";
 import { 
     RiVerifiedBadgeFill,
@@ -58,7 +60,7 @@ import TicketForm from './ticketForm';
 
 
 const formatDateToWordedDate = (numberedDate) => {
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     const date = new Date(numberedDate);
     const month = months[date.getMonth()];
     const day = date.getDate();
@@ -136,7 +138,8 @@ const Profile = () => {
         userLoggedData, 
         userProductCodeIDData, 
         viewTransactionList,
-        fetchUserProductIds, 
+        fetchUserProductIds,
+        fetchUserTransactionHistory, 
     } = UserProfileData();
     // User Profile Fetching
     const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
@@ -482,6 +485,8 @@ const Profile = () => {
     const [viewUserRedeem, setViewUserRedeem] = useState(false);
     const [viewUserStore, setViewUserStore] = useState(false);
     const [viewUserTickets, setViewUserTickets] = useState(false);
+    const [viewTransactionRecord, setViewTransactionRecord] = useState(false);
+    const [viewTransactionDetails, setViewTransactionDetails] = useState([]);
 
     // const handleViewDefault = () => {
     //     setViewUserHighlight(true)
@@ -548,9 +553,22 @@ const Profile = () => {
         window.document.body.style.overflow = 'auto';
     }
 
+    const postIDGenerator = (length) => {
+        const charset =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIKLMNOPQRSTUVWXYZ0123456789";
+        let result = "";
+        for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+        result += charset.charAt(randomIndex);
+        }
+        return result;
+    };
 
+    
+    const [resellLoader, setResellLoader] = useState(false);
     const handleFlipProduct = async (productCode) => {
         const pCode = userProductCodeIDData.find(pCodeID => pCodeID.ag_product_id_code === productCode)
+        setResellLoader(true)
 
         if (pCode.ag_product_type === 'Games'){
             const agSetGameTitle = pCode.productData.game_title;
@@ -561,10 +579,10 @@ const Profile = () => {
             const agSetGameCode3 = agSetGameEdition.replace(/\s/g, '');
             
             const formFlipGameDetails = {
-                agGameCode: `${pCode.ag_product_owner}_${agSetGameCode1}_${agSetGameCode2}`,
+                agGameCode: `${userLoggedData.storesymbol}_${agSetGameCode1}_${agSetGameCode2}`,
                 agGameCover: pCode.productData.game_cover,
                 agGameTitle: pCode.productData.game_title,
-                agGameCanonical: `${agSetGameCode1}${agSetGameCode2}_${agSetGameCode3}_${pCode.ag_product_owner}`,
+                agGameCanonical: `${agSetGameCode1}${agSetGameCode2}_${agSetGameCode3}_${userLoggedData.storesymbol}`,
                 agGameEdition: pCode.productData.game_edition,
                 agGameCountry: pCode.productData.game_country,
                 agGameDeveloper: pCode.productData.game_developer,
@@ -572,14 +590,14 @@ const Profile = () => {
                 agGameCategory: pCode.productData.game_category,
                 agGamePlatform: pCode.productData.game_platform,
                 agGameTrailer: pCode.productData.game_trailer,
-                agGameSeller: userLoggedData.userid,
+                agGameSeller: userLoggedData.store,
                 agGameHighlight1: '',
                 agGameSupplier: '',
                 agGameAvailable: '',
                 agGameRestricted: '',
             };
             const formFlipGameCodeDetails = {
-                agProductID: `${agSetGameCode1}${agSetGameCode2}_${agSetGameCode3}_${pCode.ag_product_owner}`,
+                agProductID: `${agSetGameCode1}${agSetGameCode2}_${agSetGameCode3}_${userLoggedData.storesymbol}`,
                 agProductName: pCode.productCode.ag_product_name,
                 agProductPrice: gamePrice,
                 agProductDiscount: '',
@@ -590,6 +608,10 @@ const Profile = () => {
                 agProductSeller: userLoggedData.userid,
                 agProductOwner: 'None',
                 agProductCode: pCode.productCode.ag_product_code,
+                agProductTHash: `AG_${postIDGenerator(18)}`,
+                agProductTDate: new Date(),
+                agProductQuantity: 1,
+                agProductCommand: 'Resell'
             }
             try {
                 const addGameResponse = await axios.post(AGAddGamesAPI, formFlipGameDetails);
@@ -599,12 +621,15 @@ const Profile = () => {
                 const flipResponseMessage = flipProductResponse.data;
         
                 if (responseMessage.success && flipResponseMessage.success) {
-                    console.log(flipResponseMessage.message);
                     fetchUserProductIds();
+                    fetchUserTransactionHistory();
                 }
         
             } catch (error) {
                 console.error(error);
+            } finally {
+                fetchUserProductIds();
+                fetchUserTransactionHistory();
             }
             
         }
@@ -614,18 +639,18 @@ const Profile = () => {
             const agSetGiftCardCode1 = agSetGiftCardTitle.replace(/\s/g, '');
 
             const formFlipGiftcardDetails = {
-                agGiftcardCode: `${userLoggedData.userid}_${agSetGiftCardCode1}_${pCode.productData.giftcard_denomination}`,
+                agGiftcardCode: `${userLoggedData.storesymbol}_${agSetGiftCardCode1}_${pCode.productData.giftcard_denomination}`,
                 agGiftcardCover: pCode.productData.giftcard_cover,
                 agGiftcardTitle: pCode.productData.giftcard_name,
                 agGiftcardCanonical : pCode.productData.giftcard_canonical,
                 agGiftcardDenomination: pCode.productData.giftcard_denomination,
                 agGiftcardSupplier: pCode.productData.giftcard_seller,
-                agGiftcardSeller: userLoggedData.userid,
+                agGiftcardSeller: userLoggedData.store,
                 agGiftcardCategory: pCode.productData.giftcard_category,
                 agGiftcardDescription: pCode.productData.giftcard_description,
             };
             const formFlipGiftcardCodeDetails = {
-                agProductID: `${userLoggedData.userid}_${agSetGiftCardCode1}_${pCode.productData.giftcard_denomination}`,
+                agProductID: `${userLoggedData.storesymbol}_${agSetGiftCardCode1}_${pCode.productData.giftcard_denomination}`,
                 agProductName: pCode.productCode.ag_product_name,
                 agProductPrice: pCode.ag_product_price,
                 agProductDiscount: '',
@@ -636,6 +661,10 @@ const Profile = () => {
                 agProductSeller: userLoggedData.userid,
                 agProductOwner: 'None',
                 agProductCode: pCode.productCode.ag_product_code,
+                agProductTHash: `AG_${postIDGenerator(18)}`,
+                agProductTDate: new Date(),
+                agProductQuantity: 1,
+                agProductCommand: 'Resell'
             }
             try {
                 const addGiftcardResponse = await axios.post(AGAddGiftcardsAPI, formFlipGiftcardDetails);
@@ -645,12 +674,15 @@ const Profile = () => {
                 const flipResponseMessage = flipProductResponse.data;
         
                 if (responseMessage.success && flipResponseMessage.success) {
-                    console.log(flipResponseMessage.message);
                     fetchUserProductIds();
+                    fetchUserTransactionHistory();
                 }
         
             } catch (error) {
                 console.error(error);
+            } finally {
+                fetchUserProductIds();
+                fetchUserTransactionHistory();
             }
 
 
@@ -661,7 +693,7 @@ const Profile = () => {
             const agSetGameCreditCode1 = agSetGameCreditTitle.replace(/\s/g, '');
 
             const formAddGamecreditsDetails = {
-                agGamecreditCode: `${userLoggedData.userid}_${agSetGameCreditCode1}GameCredit_${pCode.productData.gamecredit_denomination}`,
+                agGamecreditCode: `${userLoggedData.storesymbol}_${agSetGameCreditCode1}GameCredit_${pCode.productData.gamecredit_denomination}`,
                 agGamecreditCover: pCode.productData.gamecredit_cover,
                 agGamecreditTitle: pCode.productData.gamecredit_name,
                 agGamecreditNumber : pCode.productData.gamecredit_number,
@@ -669,12 +701,12 @@ const Profile = () => {
                 agGamecreditCanonical : pCode.productData.gamecredit_canonical,
                 agGamecreditDenomination: gamecreditPrice,
                 agGamecreditSupplier: pCode.productData.gamecredit_seller,
-                agGamecreditSeller: userLoggedData.userid,
+                agGamecreditSeller: userLoggedData.store,
                 agGamecreditCategory: pCode.productData.gamecredit_category,
-                agGamecreditDescription: pCode.productData.gamecredit_category,
+                agGamecreditDescription: pCode.productData.gamecredit_description,
             };
             const formFlipGamecreditCodeDetails = {
-                agProductID: `${userLoggedData.userid}_${agSetGameCreditCode1}GameCredit_${pCode.productData.gamecredit_denomination}`,
+                agProductID: `${userLoggedData.storesymbol}_${agSetGameCreditCode1}GameCredit_${pCode.productData.gamecredit_denomination}`,
                 agProductName: pCode.productCode.ag_product_name,
                 agProductPrice: pCode.ag_product_price,
                 agProductDiscount: '',
@@ -685,6 +717,10 @@ const Profile = () => {
                 agProductSeller: userLoggedData.userid,
                 agProductOwner: 'None',
                 agProductCode: pCode.productCode.ag_product_code,
+                agProductTHash: `AG_${postIDGenerator(18)}`,
+                agProductTDate: new Date(),
+                agProductQuantity: 1,
+                agProductCommand: 'Resell'
             }
             try {
                 const addGamecreditResponse = await axios.post(AGAddGameCreditsAPI, formAddGamecreditsDetails);
@@ -694,12 +730,15 @@ const Profile = () => {
                 const flipResponseMessage = flipProductResponse.data;
         
                 if (responseMessage.success && flipResponseMessage.success) {
-                    console.log(flipResponseMessage.message);
                     fetchUserProductIds();
+                    fetchUserTransactionHistory();
                 }
         
             } catch (error) {
                 console.error(error);
+            } finally {
+                fetchUserProductIds();
+                fetchUserTransactionHistory();
             }
         }
     
@@ -718,10 +757,18 @@ const Profile = () => {
         }
         const formSendProductTransaction = {
             agProductID: pCode.ag_product_id,
+            agProductName: pCode.productData.game_title || pCode.productData.giftcard_name || pCode.productData.gamecredit_name,
             agProductReceiver: receiverUserID,
             agProductSender: userLoggedData.userid,
             agProductCode: pCode.ag_product_id_code,
+            agProductTHash: `AG_${postIDGenerator(18)}`,
+            agProductTDate: new Date(),
+            agProductQuantity: 1,
+            agProductPrice: pCode.ag_product_price,
+            agProductCommand: 'Transfer'
         }
+        
+
         try {
             const sendProductResponse = await axios.post(AGSendProductsAPI, formSendProductDetails);
             const responseMessage = sendProductResponse.data;
@@ -731,6 +778,7 @@ const Profile = () => {
     
             if (responseMessage.success && trasactionResponseMessage.success) {
                 fetchUserProductIds();
+                fetchUserTransactionHistory();
             } else {
                 setReceiverUserID('')
                 setSendingLoader(false)
@@ -739,18 +787,34 @@ const Profile = () => {
     
         } catch (error) {
             console.error(error);
+        } finally {
+            fetchUserProductIds();
+            fetchUserTransactionHistory();
         }
     }
 
     const handleRedeemProduct = async (productCode) => {
         const pCode = userProductCodeIDData.find(pCodeID => pCodeID.ag_product_id_code === productCode)
+        
 
         const formRedeemProductDetails = {
             agProductCode: pCode.ag_product_id_code,
             agProductState: 'Sold',
             agProductStatus: 'Redeemed',
             agProductOwner: userLoggedData.userid,
+            agProductID: pCode.ag_product_id,
+            agProductName: pCode.productData.game_title || pCode.productData.giftcard_name || pCode.productData.gamecredit_name,
+            agProductTHash: `AG_${postIDGenerator(18)}`,
+            agProductTDate: new Date(),
+            agProductQuantity: 1,
+            agProductPrice: pCode.ag_product_price,
+            agProductCommand: 'Redeem'
         }
+
+        const test = JSON.stringify(formRedeemProductDetails)
+        console.log(test);
+        
+
         try {
             const redeemProductResponse = await axios.post(AGRedeemProductsAPI, formRedeemProductDetails);
             const responseMessage = redeemProductResponse.data;
@@ -758,14 +822,27 @@ const Profile = () => {
             if (responseMessage.success) {
                 console.log(responseMessage.message);
                 fetchUserProductIds();
+                fetchUserTransactionHistory();
             }
     
         } catch (error) {
             console.error(error);
+        } finally {
+            fetchUserProductIds();
+            fetchUserTransactionHistory();
         }
     }
     
-    // console.log(viewProductDetails);
+
+    const handleViewTransactionDetails = (hashCode) => {
+        setViewTransactionRecord(true)
+        const transactionDetails = viewTransactionList.find(tHash => tHash.ag_transaction_hash === hashCode)
+        setViewTransactionDetails(transactionDetails)
+    }
+    const handleCloseTransactionDetails = () => {
+        setViewTransactionRecord(false)
+    }
+    // console.log(viewTransactionList);
     
 
     return (
@@ -1028,7 +1105,10 @@ const Profile = () => {
                         </span>
                     </div>
                     <div className="ppclProfileExtra">
-                        <button onClick={handleAddUserStory}><FaPlus className='faIcons'/>Add Story</button>
+                        {(storedSellerState && userLoggedIn) ? 
+                            <Link to='/SellerPanel'><TbCubePlus className='faIcons'/>Add a Product</Link>:
+                            <Link to='/RedeemACode'><TbTicket className='faIcons'/>Redeem Code</Link>
+                        }
                         <span>
                             <p id='agPoints'>0 <FaBolt className='faIcons'/></p>
                         </span>
@@ -1237,7 +1317,7 @@ const Profile = () => {
                                                                 <div className='ppcrpcmppcfpContent'>
                                                                     <span>
                                                                         <label htmlFor=""><p>Current Price</p></label>
-                                                                        <input id='ppcrpcmppcfpcGames' placeholder={`$ ${details.ag_product_price}`} readOnly disabled/>
+                                                                        <input id='ppcrpcmppcfpcGames' placeholder={`$ ${details.ag_product_price}`} readOnly/>
                                                                     </span>
                                                                     <span>
                                                                         <label htmlFor=""><p>Resell Price</p></label>
@@ -1266,9 +1346,10 @@ const Profile = () => {
                                                                 </div>
                                                             }
                                                         </div>
-                                                        <button onClick={() => handleFlipProduct(details.ag_product_id_code)}>
-                                                            Resell Product
-                                                        </button>
+                                                        { !resellLoader ?
+                                                            <button onClick={() => handleFlipProduct(details.ag_product_id_code)}>Resell Product</button>:
+                                                            <button disabled>Posting...</button>
+                                                        }
                                                         <div className="ppcrpcmppcfpcDisclaimer">
                                                             <p>Once Flipped to the Market, it can't be undone.</p>
                                                         </div>
@@ -1312,15 +1393,35 @@ const Profile = () => {
                                 <div className="loader"></div>
                             </div>
                         </>:<>{(viewTransactionList.length != 0) ?<>
-                                <p>{userLoggedData.username}, here's your recent purchased products and Transaction History.</p>
+                                {/* <p>{userLoggedData.username}, here's all of your product transactions and history.</p> */}
+                                {viewTransactionRecord && <div className="ppcrpcmptReceipt">
+                                    <div className="ppcrpcmptrContent">
+                                        <button onClick={handleCloseTransactionDetails}><FaTimes className='faIcons'/></button>
+                                        <h6>{viewTransactionDetails.ag_transaction_command} Receipt</h6>
+                                        <p>TxH: {viewTransactionDetails.ag_transaction_hash}</p>
+                                        <div className="ppcrpcmptrcDetails">
+                                            <span>
+                                                <h6>{viewTransactionDetails.ag_product_name}</h6>
+                                                <p>{viewTransactionDetails.ag_product_id}</p>
+                                            </span>
+                                            <div>
+                                                <p>{viewTransactionDetails.ag_user_id}</p>
+                                                <p>Qnty: {viewTransactionDetails.ag_product_quantity}</p>
+                                                <p>Price: $ {viewTransactionDetails.ag_product_price}</p>
+                                            </div>
+                                        </div>
+                                        <p id='ppcrpcmptrcDate'>{formatDateToWordedDate(viewTransactionDetails.ag_transaction_date)}</p>
+                                    </div>
+                                </div>}
                                 <div className="ppcrpcmpTransactions">
-                                    <table>
+                                    <table id='ppcrpcmptHeader'>
                                         <thead>
                                             <tr>
+                                                <th width='15%' id='ppcrpcmptDate'><p>Transaction Date</p></th>
+                                                <th width='15%' id='ppcrpcmptPrice'><p>Transaction</p></th>
                                                 <th width='30%' id='ppcrpcmptName'><p>Product Name</p></th>
-                                                <th width='20%' id='ppcrpcmptPrice'><p>Amount</p></th>
-                                                <th width='25%' id='ppcrpcmptDate'><p>Date Purchased</p></th>
                                                 <th width='25%' id='ppcrpcmptHash'><p>Transaction Hash</p></th>
+                                                <th width='15%' id='ppcrpcmptView'><p></p></th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -1329,10 +1430,11 @@ const Profile = () => {
                                             <tbody>
                                                 {viewTransactionList.map((data, i) => (
                                                 <tr key={i}>
+                                                    <td width='15%' id='ppcrpcmptDate'><p>{formatDateToWordedDate(data.ag_transaction_date)}</p></td>
+                                                    <td width='15%' id='ppcrpcmptPrice'><p>{data.ag_transaction_command}</p></td>
                                                     <td width='30%' id='ppcrpcmptName'><p>{data.ag_product_name}</p></td>
-                                                    <td width='20%' id='ppcrpcmptPrice'><p>{data.ag_product_price}</p></td>
-                                                    <td width='25%' id='ppcrpcmptDate'><p>{formatDateToWordedDate(data.ag_product_purchased_date)}</p></td>
                                                     <td width='25%' id='ppcrpcmptHash'><p>{data.ag_transaction_hash}</p></td>
+                                                    <td width='15%' id='ppcrpcmptView'><button onClick={() => handleViewTransactionDetails(data.ag_transaction_hash)}>View</button></td>
                                                 </tr>))}
                                             </tbody>
                                         </table>

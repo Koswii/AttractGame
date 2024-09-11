@@ -27,44 +27,45 @@ export const GamecreditsFetchDataProvider = ({ children }) => {
         return uniqueRecords;
     };
 
-    useEffect(() => {
-        const fetchGamecredits = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get(AGGamecreditsListAPI);
-                const gcAll = response.data;
-                const unique = filterUniqueData(response.data);
-                unique.sort((a, b) => {
-                    if (a.gamecredit_name < b.gamecredit_name) return -1;
-                    if (a.gamecredit_name > b.gamecredit_name) return 1;
-                    return 0;
-                });
-                response.data.sort((a, b) => {
-                    if (a.gamecredit_name < b.gamecredit_name) return -1;
-                    if (a.gamecredit_name > b.gamecredit_name) return 1;
-                    return 0;
-                });
-
-                const stockListResponse = await axios.get(AGStocksListAPI);
-                const stockListData = stockListResponse.data;
-                const stockInfo = gcAll.map(gamecredit => {
-                    const stockCount = stockListData.filter(stock => stock.ag_product_id === gamecredit.gamecredit_id).length;
-                    return {
-                        ...gamecredit, stocks: stockCount
-                    };
-                });
-
-                setViewAllGamecredits(gcAll);
-                setGamecredits(stockInfo);
-                setFilteredGamecredits(unique);
-
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        };
     
+    const fetchGamecredits = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(AGGamecreditsListAPI);
+            const gcAll = response.data;
+            const unique = filterUniqueData(response.data);
+            unique.sort((a, b) => {
+                if (a.gamecredit_name < b.gamecredit_name) return -1;
+                if (a.gamecredit_name > b.gamecredit_name) return 1;
+                return 0;
+            });
+            response.data.sort((a, b) => {
+                if (a.gamecredit_name < b.gamecredit_name) return -1;
+                if (a.gamecredit_name > b.gamecredit_name) return 1;
+                return 0;
+            });
+
+            const stockListResponse = await axios.get(AGStocksListAPI);
+            const stockListData = stockListResponse.data;
+            const stockInfo = gcAll.map(gamecredit => {
+                const stockCount = stockListData.filter(stock => stock.ag_product_id === gamecredit.gamecredit_id).length;
+                return {
+                    ...gamecredit, stocks: stockCount
+                };
+            });
+
+            setViewAllGamecredits(gcAll);
+            setGamecredits(stockInfo);
+            setFilteredGamecredits(unique);
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
         fetchGamecredits();
     }, []);
 
@@ -93,7 +94,8 @@ export const GamecreditsFetchDataProvider = ({ children }) => {
             filteredGamecredits, 
             loading,
             fetchAndCacheImageGamecredits,
-            imageCache 
+            imageCache,
+            fetchGamecredits 
         }}>
             {children}
         </GamecreditsFetchContext.Provider>

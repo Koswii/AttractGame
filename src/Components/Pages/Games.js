@@ -40,6 +40,14 @@ const ImageComponentGames = ({ imageName }) => {
     );
 };
 
+const UsernameSlicer = ({ text = '', maxLength }) => {
+    const truncatedText = text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+  
+    return (
+      <>{truncatedText}</>
+    );
+};
+
 
 const Games = () => {
     const { 
@@ -423,16 +431,20 @@ const Games = () => {
                                         <div className="gmspct2gPlatform">
                                             <img src='' platform={details.game_platform} alt="" />
                                         </div>
-                                        {(details.game_seller === "Attract Game") &&
-                                        <div className="gmspct2gpSeller">
-                                            <img src={require('../assets/imgs/AGLogoWhite01.png')} alt="" />
-                                        </div>}
+                                        {(details.game_seller === "Attract Game") ?
+                                            <div className="gmspct2gpSeller">
+                                                <img src={require('../assets/imgs/AGLogoWhite01.png')} alt="" />
+                                            </div>:
+                                            <div className="gmspct2gpSeller">
+                                                <img src={`https://2wave.io/StoreLogo/${details.game_seller}.png`} alt="" />
+                                            </div>
+                                        }
                                         <Link to={`/Games/${details.game_canonical}`}>{details.game_cover !== '' ?
                                         <ImageComponentGames imageName={details.game_cover} />
                                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
                                         <div className="gmspct2gDetails">
                                             <div className="gmspct2gdTitle">
-                                                <h5>{details.game_title}<br /><span>{details.game_edition}</span></h5>
+                                                <h5><UsernameSlicer text={`${details.game_title}`} maxLength={35} /><br /><span>{details.game_edition}</span></h5>
                                             </div>
                                             <div>
                                                 {(details.stock === undefined) ?
@@ -506,12 +518,20 @@ const Games = () => {
                                         <div className="gmspct2gPlatform">
                                             <img src='' platform={details.game_platform} alt="" />
                                         </div>
+                                        {(details.game_seller === "Attract Game") ?
+                                            <div className="gmspct2gpSeller">
+                                                <img src={require('../assets/imgs/AGLogoWhite01.png')} alt="" />
+                                            </div>:
+                                            <div className="gmspct2gpSeller">
+                                                <img src={`https://2wave.io/StoreLogo/${details.game_seller}.png`} alt="" />
+                                            </div>
+                                        }
                                         <Link to={`/Games/${details.game_canonical}`}>{details.game_cover !== '' ?
                                         <ImageComponentGames imageName={details.game_cover} />
                                         :<img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} />}</Link>
                                         <div className="gmspct2gDetails">
                                             <div className="gmspct2gdTitle">
-                                                <h5>{details.game_title}<br /><span>{details.game_edition}</span></h5>
+                                                <h5><UsernameSlicer text={`${details.game_title}`} maxLength={35} /><br /><span>{details.game_edition}</span></h5>
                                             </div>
                                             <div>
                                                 {(details.stock === undefined) ?

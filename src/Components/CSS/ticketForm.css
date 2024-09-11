@@ -90,7 +90,7 @@
 
 .tcConcern textarea{
     width: 100%;
-    height: 11vw;
+    height: 10vw;
     padding: 0.7vw;
     font-size: 0.7vw;
     border-radius: 1vw;
@@ -129,8 +129,17 @@
     color: black;
     box-shadow: 0 0 10px white;
 }
-
-
+.tcConcernSent{
+    height: 14vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.tcConcernSent h2{
+    font-size: 10vw;
+    line-height: 5vw;
+}
 
 
 
@@ -182,7 +191,17 @@
         margin-left: 2%;
         padding: 1% 5%;
     }
-
+    .tcConcernSent{
+        height: auto;
+    }
+    .tcConcernSent h2{
+        font-size: 30vw;
+        line-height: 20vw;
+    }
+    .tcConcernSent p{
+        font-size: 2.5vw;
+        line-height: 4vw;
+    }
 
 
 

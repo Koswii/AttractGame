@@ -15,12 +15,7 @@ import {
     FaStar,     
     FaFacebookSquare,
     FaBitcoin, 
-    FaTimes,
-    FaRegImages,
-    FaEdit,  
-    FaPlus,
-    FaRegEye,
-    FaRegEyeSlash, 
+    FaTimes
 } from 'react-icons/fa';
 
 const TicketForm = ({ticketform, agGameDataName, agGameDataCover, agGameCreditNumber, agGameDataEdition, agProductType, gameCanonical}) => {
@@ -29,6 +24,8 @@ const TicketForm = ({ticketform, agGameDataName, agGameDataCover, agGameCreditNu
     } = UserProfileData();
     const [ticketID, setTicketID] = useState()
     const [concern, setConcern] = useState('')
+    const [ticketLoader, setTicketLoader] = useState(false)
+    const [ticketSuccess, setTicketSuccess] = useState(false)
 
     const dateTicket = new Date();
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -43,20 +40,17 @@ const TicketForm = ({ticketform, agGameDataName, agGameDataCover, agGameCreditNu
         }
         return result;
     };
-    
-
     const handleConcernChange = (event) => {
         setConcern(event.target.value)
     }
-
     useEffect(() => {
-        const ticketid = 'TICKET-ID-AG' + ticketIDGenerator(5)
+        const ticketid = 'TIX - AG' + ticketIDGenerator(5)
         setTicketID(ticketid)
     }, [])
-    
     const ticketApi = process.env.REACT_APP_AG_USERS_TICKET_API
     const sendTicket = async (e) => {
         e.preventDefault()
+        setTicketLoader(true)
 
         if (concern != '') {
             const ticketData = {
@@ -67,14 +61,14 @@ const TicketForm = ({ticketform, agGameDataName, agGameDataCover, agGameCreditNu
                 user_id : userLoggedData.userid,
                 concern : concern
             }
-            console.log(ticketData);
             const ticketDatajson = JSON.stringify(ticketData)
             try {
                 axios.post( ticketApi, ticketDatajson )
                 .then((response)=>{
                     const data = response
                     // console.log(data);
-                    ticketform(false)
+                    setTicketLoader(false)
+                    setTicketSuccess(true)
                     setConcern('')
                 })
             } catch (error) {
@@ -110,12 +104,25 @@ const TicketForm = ({ticketform, agGameDataName, agGameDataCover, agGameCreditNu
                         <h4>{agGameDataName}</h4>
                         <p>{agGameCreditNumber} {agGameDataEdition}</p>
                     </div>
-                    <div className="tcConcern">
-                        <textarea value={concern} onChange={handleConcernChange} placeholder='Type your concern/report here...' required></textarea>
-                    </div>
-                    <div className="tcSendConcern">
-                        <button className={concern ? 'active' : ''} onClick={sendTicket} disabled={!concern}>Send Ticket</button>
-                    </div>
+                    {!ticketSuccess ? <>
+                        <div className="tcConcern">
+                            <textarea value={concern} onChange={handleConcernChange} placeholder='Type your concern/report here...' required></textarea>
+                        </div>
+                        <div className="tcSendConcern">
+                            {!ticketLoader ?
+                                <button className={concern ? 'active' : ''} onClick={sendTicket} disabled={!concern}>Send Ticket</button>:
+                                <button disabled>Sending Ticket</button>
+                            }
+                        </div>
+                    </>:
+                    <>
+                        <div className="tcConcernSent">
+                            <div>
+                                <h2><FaTicketAlt className='faIcons'/></h2>
+                                <p>Ticket Report Sent <br /> ID : {ticketID}</p>
+                            </div>
+                        </div>
+                    </>}
                 </div>
             </div>
         </div>
