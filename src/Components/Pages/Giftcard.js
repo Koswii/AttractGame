@@ -40,7 +40,7 @@ const ImageComponentGiftcards = ({ imageName }) => {
     }, [imageCache, url]);
 
     return (
-        <img src={imageCache[url]} alt="Loading..." />
+        <img id='giftcardCoverImg' src={imageCache[url]} alt="Loading..." />
     );
 };
 
@@ -130,19 +130,25 @@ const Giftcard = () => {
         <div className='mainContainer giftcardProfile'>
             <section className="giftcardPageContainer top"></section>
             <section className="giftcardPageContainer mid">
-                {!loading ? <div className="gcardspcmContainer">
+                {/* {!loading ?  */}
+                <div className="gcardspcmContainer">
                     <div className="gcardspcmContent left">
-                        <img src={`https://2wave.io/GiftCardCovers/${agGCCoverImg}`} alt="" />
+                        <div>
+                            <img src={`https://2wave.io/GiftCardCovers/${agGCCoverImg}`} alt="" />
+                        </div>
+                        <h4>{agGCName}</h4>
+                        <h6>{agGCCategory}</h6><br />
+                        <p id='gcspcmcDef'>{agGCDescription}</p>
                     </div>
                     <div className="gcardspcmContent right">
-                        <h3>{agGCName}</h3>
-                        <h6>{agGCCategory}</h6>
-                        <p id='gcspcmcDef'>{agGCDescription}</p>
                         <div className="gcardspcmcrItems">
                             <div className="gcardspcmcr">
                                 {agGiftcardSort.map((details, i) => (
-                                    <div key={i} className={`${(details.stocks === 0) ? 'noStocks' : ''}`}>
+                                    <div key={i} className={`${(details.stocks === 0) ? 'gcardspcmcrItem noStocks' : 'gcardspcmcrItem'}`}>
                                         <ImageComponentGiftcards imageName={details.giftcard_cover} />
+                                        <div className="gcardspcmcrSeller">
+                                            <img src={`https://2wave.io/StoreLogo/${details.giftcard_seller}.png`} alt="" />
+                                        </div>
                                         <span>
                                             <h5>$ {details.giftcard_denomination}</h5>
                                             {userLoggedIn ? <> 
@@ -169,7 +175,8 @@ const Giftcard = () => {
                             </div>
                         </div>
                     </div>
-                </div>:
+                </div>
+                {/* :
                 <div className="gcardspcmContainerDummy">
                     <div className="gcspcmclDummy left"></div>
                     <div className="gcspcmclDummy right">
@@ -180,7 +187,7 @@ const Giftcard = () => {
                         <div></div>
                     </div>
                 </div>
-                }
+                } */}
             </section>
             <section className="giftcardPageContainer bot">
                 {getRandomGiftcards && <div className="gcardspcbContainer">

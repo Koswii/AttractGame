@@ -52,7 +52,21 @@
     overflow: hidden;
     border-radius: 0.8vw;
 }
-.ticketContent.left img{
+.ticketContent.left img#prdImgCover{
+    height: 100%;
+}
+.ticketclSeller{
+    position: absolute;
+    height: 3vw;
+    width: 3vw;
+    top: 1vw;
+    right: 1vw;
+    border: solid 2px white;
+    box-shadow: 0 0 10px gray;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.ticketclSeller img{
     height: 100%;
 }
 

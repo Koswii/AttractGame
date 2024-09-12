@@ -36,7 +36,7 @@ const ImageComponentGames = ({ imageName }) => {
     }, [imageCache, url]);
 
     return (
-        <img src={loading ? placeholderImage : imageCache[url]} alt="Loading..." />
+        <img src={loading ? placeholderImage : imageCache[url]} />
     );
 };
 

@@ -38,7 +38,7 @@ section.gamecreditPageContainer.top{
     height: auto;
     width: 100%;
     padding: 0 10%;
-    padding-top: 7vw;
+    padding-top: 5vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,26 +62,31 @@ section.gamecreditPageContainer.mid{
 .gcreditspcmContent.left{
     height: auto;
     width: 30%;
+}
+.gcreditspcmContent.left div{
+    height: auto;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 1vw;
     overflow: hidden;
     box-shadow: 0 0 10px gray;
+    margin-bottom: 5%;
 }
 .gcreditspcmContent.left img{
     height: auto;
     width: 100%;
 }
+.gcreditspcmContent.left h6{
+    font-weight: 400;
+    color: gray;
+}
 
 
 .gcreditspcmContent.right{
     height: auto;
-    width: 65%;
-}
-.gcreditspcmContent.right p{
-    margin: 2% 0;
-    white-space: pre-line;
+    width: 67%;
 }
 .gcreditspcmcrItems{
     height: auto;
@@ -91,14 +96,13 @@ section.gamecreditPageContainer.mid{
     height: auto;
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: left;
     align-items: center;
-    padding: 2% 1%;
-    overflow-x: scroll;
 }
 .gcreditspcmcrContents{
     height: auto;
-    margin-right: 2%;
+    margin: 1%;
     padding: 1%;
     box-shadow: 0 0 10px gray;
     border-radius: 1vw;
@@ -106,8 +110,8 @@ section.gamecreditPageContainer.mid{
     background-size: cover;
     position: relative;
 }
-.gcreditspcmcrContents img{
-    height: 13.5vw;
+.gcreditspcmcrContents img#gameCreditCoverImg{
+    height: 15vw;
     border-radius: 1vw;
     border: solid 1px white;
 }
@@ -138,7 +142,7 @@ section.gamecreditPageContainer.mid{
 }
 
 .noStocks{
-    opacity: 50%;
+    opacity: 30%;
 }
 .noStocks span button{
     cursor: not-allowed;
@@ -160,7 +164,23 @@ section.gamecreditPageContainer.mid{
     color: black;
     font-size: 0.7vw;
 }
-
+.gcreditspcmcrSeller{
+    height: 2vw;
+    width: 2vw;
+    position: absolute;
+    top: 1vw;
+    right: 1vw;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: black;
+    box-shadow: 0 0 10px black;
+}
+.gcreditspcmcrSeller img{
+    height: 100%;
+}
 
 
 
@@ -232,7 +252,7 @@ section.gamecreditPageContainer.mid{
 section.gamecreditPageContainer.bot{
     height: auto;
     width: 100%;
-    padding: 5vw 10%;
+    padding: 10vw 10%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -296,31 +316,36 @@ section.gamecreditPageContainer.bot{
     }
     .gcreditspcmContent.left{
         width: 100%;
-        display: flex;
         border-radius: 3vw;
     }
-    .gcreditspcmContent.right{
-        height: auto;
-        width: 100%;
-        padding-top: 5%;
+    .gcreditspcmContent.left div{
+        border-radius: 2vw;
     }
-    .gcreditspcmContent.right h3{
+    .gcreditspcmContent.left h4{
         font-size: 7vw;
         height: 15vw;
-        line-height: 5vw;
+        line-height: 7vw;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
     }
-    .gcreditspcmContent.right h6{
+    .gcreditspcmContent.left h6{
         text-align: center;
         font-size: 4vw;
     }
-    .gcreditspcmContent.right p#gcspcmcDef{
+    .gcreditspcmContent.left br{
+        display: none;
+    }
+    .gcreditspcmContent.left p#gcspcmcDef{
         font-size: 2.3vw;
         margin-top: 2%;
         margin-bottom: 10%;
+    }
+    .gcreditspcmContent.right{
+        height: auto;
+        width: 100%;
+        padding-top: 5%;
     }
     .gcreditspcmcr{
         flex-wrap: wrap;
@@ -334,7 +359,7 @@ section.gamecreditPageContainer.bot{
         padding: 2%;
         border-radius: 3vw;
     }
-    .gcreditspcmcrContents img{
+    .gcreditspcmcrContents img#gameCreditCoverImg{
         height: auto;
         width: 100%;
         border-radius: 2vw;
@@ -355,12 +380,36 @@ section.gamecreditPageContainer.bot{
         font-size: 8vw;
     }
     .gcreditspcmcrcNum{
-        top: 5vw;
+        top: 3.5vw;
     }
     .gcreditspcmcrcNum p{
         padding: 0;
         margin: 0;
+        font-size: 2.3vw;
     }
+    .gcreditspcmcrSeller{
+        height: 7vw;
+        width: 7vw;
+        top: 4vw;
+        right: 4vw;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     .gcreditspcmContainerDummy{
         height: auto;
         width: 100%;

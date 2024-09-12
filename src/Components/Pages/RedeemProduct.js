@@ -12,8 +12,9 @@ const RedeemProduct = () => {
         viewTransactionList,
         fetchUserProductIds, 
     } = UserProfileData();
-    const AGRedeemProductsAPI = process.env.REACT_APP_AG_USER_REDEEM_CODE_API;
+    const AGRedeemProductsAPI = process.env.REACT_APP_AG_USER_REDEEM_EXT_CODE_API;
     const [redeemCode, setRedeemCode] = useState('');
+    const [redeemLoader, setRedeenLoader] = useState(false);
     const [responseMessage, setResponseMessage] = useState('');
 
     const postIDGenerator = (length) => {
@@ -28,6 +29,7 @@ const RedeemProduct = () => {
     };
 
     const handleRedeemProduct = async () => {
+        setRedeenLoader(true)
 
         const formRedeemProductDetails = {
             agProductCode: redeemCode,
@@ -43,12 +45,16 @@ const RedeemProduct = () => {
                 setResponseMessage(responseMessage.message);
                 setResponseMessage('');
                 fetchUserProductIds();
+                setRedeenLoader(false)
             }else{
                 setResponseMessage(responseMessage.message);
+                setRedeenLoader(false)
             }
     
         } catch (error) {
             console.error(error);
+        } finally {
+            setRedeenLoader(false)
         }
     }
 
@@ -66,7 +72,10 @@ const RedeemProduct = () => {
                         <div className="rpct1ImgShadow"></div>
                         <p>{responseMessage}</p>
                         <img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />
-                        <button className={redeemCode ? 'active' : ''} onClick={handleRedeemProduct} disabled={!redeemCode}>REDEEM</button>
+                        {!redeemLoader ? 
+                            <button className={redeemCode ? 'active' : ''} onClick={handleRedeemProduct} disabled={!redeemCode}>Redeem Code</button>:
+                            <button>Verifiying Code...</button>    
+                        }
                     </div>
                     <p id='rpcr1Disclaimer'>Disclaimer:<br /> Once redeemed, Product cannot be sold to AG Marketplace</p>
                 </div>

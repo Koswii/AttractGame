@@ -217,6 +217,7 @@ const Profile = () => {
     const [viewFlipProducts, setViewFlipProducts] = useState(null);
     const [viewProductDetails, setViewProductDetails] = useState(null);
     const [viewProductTicket, setViewProductTicket] = useState(false);
+    const [viewRedeemProduct, setViewRedeemProduct] = useState(false);
 
 
     const handleImageSelect = (image) => {
@@ -243,15 +244,24 @@ const Profile = () => {
         const pCode = userProductCodeIDData.find(pCodeID => pCodeID.ag_product_id_code === productCode)
         setViewProductDetails(pCode)
     }
+    const handleViewRedeemProducts = (productCode) => {
+        setViewRedeemProduct(productCode);
+        setViewSendProducts(false);
+        setViewFlipProducts(false);
+        setReceiverUserID('')
+        setViewSendResponse('')
+    }
     const handleViewSendProducts = (productCode) => {
         setViewSendProducts(productCode);
-        setViewFlipProducts(false)
+        setViewRedeemProduct(false);
+        setViewFlipProducts(false);
         setReceiverUserID('')
         setViewSendResponse('')
     }
     const handleViewFlipProducts = (productCode) => {
         setViewFlipProducts(productCode);
-        setViewSendProducts(false)
+        setViewRedeemProduct(false);
+        setViewSendProducts(false);
         setReceiverUserID('')
         setViewSendResponse('')
     }
@@ -263,13 +273,14 @@ const Profile = () => {
     }
     const handleCloseAnyModals = (e) => {
         e.preventDefault();
-        setEditSocialsModal(false)
-        setAddCoverImg(false)
-        setViewProductCode(false)
-        setViewSendProducts(null)
-        setViewFlipProducts(null)
-        setReceiverUserID('')
-        setViewSendResponse('')
+        setEditSocialsModal(false);
+        setAddCoverImg(false);
+        setViewProductCode(false);
+        setViewRedeemProduct(false);
+        setViewSendProducts(null);
+        setViewFlipProducts(null);
+        setReceiverUserID('');
+        setViewSendResponse('');
     }
     
     const [image, setImage] = useState(null);
@@ -693,7 +704,7 @@ const Profile = () => {
             const agSetGameCreditCode1 = agSetGameCreditTitle.replace(/\s/g, '');
 
             const formAddGamecreditsDetails = {
-                agGamecreditCode: `${userLoggedData.storesymbol}_${agSetGameCreditCode1}GameCredit_${pCode.productData.gamecredit_denomination}`,
+                agGamecreditCode: `${userLoggedData.storesymbol}_${agSetGameCreditCode1}GameCredit_${gamecreditPrice}`,
                 agGamecreditCover: pCode.productData.gamecredit_cover,
                 agGamecreditTitle: pCode.productData.gamecredit_name,
                 agGamecreditNumber : pCode.productData.gamecredit_number,
@@ -706,7 +717,7 @@ const Profile = () => {
                 agGamecreditDescription: pCode.productData.gamecredit_description,
             };
             const formFlipGamecreditCodeDetails = {
-                agProductID: `${userLoggedData.storesymbol}_${agSetGameCreditCode1}GameCredit_${pCode.productData.gamecredit_denomination}`,
+                agProductID: `${userLoggedData.storesymbol}_${agSetGameCreditCode1}GameCredit_${gamecreditPrice}`,
                 agProductName: pCode.productCode.ag_product_name,
                 agProductPrice: pCode.ag_product_price,
                 agProductDiscount: '',
@@ -793,8 +804,11 @@ const Profile = () => {
         }
     }
 
+    
+    const [redeemingLoader, setRedeemingLoader] = useState(false);
     const handleRedeemProduct = async (productCode) => {
         const pCode = userProductCodeIDData.find(pCodeID => pCodeID.ag_product_id_code === productCode)
+        setRedeemingLoader(true);
         
 
         const formRedeemProductDetails = {
@@ -1021,9 +1035,10 @@ const Profile = () => {
             {viewProductTicket && <div className="tcktsndContainer">
                 <TicketForm 
                     ticketform = {setViewProductTicket} 
-                    agGameDataCover = { viewProductDetails.productData.game_cover || viewProductDetails.productData.giftcard_cover || viewProductDetails.productData.gamecredit_cover} 
+                    agGameDataCover = { viewProductDetails.productData.game_cover || viewProductDetails.productData.giftcard_cover || viewProductDetails.productData.gamecredit_cover } 
                     agGameDataName = { viewProductDetails.productCode.ag_product_name } 
-                    agGameDataEdition = { viewProductDetails.productData.game_edition || viewProductDetails.productData.giftcard_category || viewProductDetails.productData.gamecredit_type} 
+                    agGameDataSeller = { viewProductDetails.productData.game_seller || viewProductDetails.productData.giftcard_seller || viewProductDetails.productData.gamecredit_seller }
+                    agGameDataEdition = { viewProductDetails.productData.game_edition || viewProductDetails.productData.giftcard_category || viewProductDetails.productData.gamecredit_type } 
                     agGameCreditNumber = { viewProductDetails.productData.gamecredit_number }
                     agProductType = { viewProductDetails.ag_product_type }
                     gameCanonical = { viewProductDetails.productCode.ag_product_id }
@@ -1256,18 +1271,39 @@ const Profile = () => {
                                                     <>
                                                     {storedSellerState ? 
                                                         <div className="ppcrpcmppccBtns hybrid">
-                                                            <button onClick={() => handleRedeemProduct(details.ag_product_id_code)}>Redeem</button>
+                                                            <button onClick={() => handleViewRedeemProducts(details.ag_product_id_code)}>Redeem</button>
                                                             <button onClick={() => handleViewSendProducts(details.ag_product_id_code)}>Send</button>
                                                             <button onClick={() => handleViewFlipProducts(details.ag_product_id_code)}>Flip</button>
                                                         </div>:
                                                         <div className="ppcrpcmppccBtns customer">
-                                                            <button onClick={() => handleRedeemProduct(details.ag_product_id_code)}>Redeem</button>
+                                                            <button onClick={() => handleViewRedeemProducts(details.ag_product_id_code)}>Redeem</button>
                                                             <button onClick={() => handleViewSendProducts(details.ag_product_id_code)}>Send</button>
                                                         </div>
                                                     }
                                                     </>
                                                 }
                                             </div>
+                                            {(viewRedeemProduct === details.ag_product_id_code) && <>
+                                                {(details.ag_product_status === "Unredeemed") && <div className="ppcrpcmppcRedeem">
+                                                    <button id='ppcrpcmppcrClose' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
+                                                    <div className="ppcrpcmppcrContent">
+                                                        <p>
+                                                            <span>Redeem</span><br />
+                                                            {details.productCode.ag_product_name} ?
+                                                        </p>
+                                                        { !redeemingLoader ?
+                                                            <button onClick={() => handleRedeemProduct(details.ag_product_id_code)}>Redeem Code</button>:
+                                                            <button>Redeeming...</button>
+                                                        }
+                                                        <span>
+                                                            <p>Once redeemed, Product cannot be sold to AG Marketplace.</p>
+                                                        </span>
+                                                    </div>
+                                                    <div className="productSendATicket">
+                                                        <button onClick={() => handleViewTicketProduct(details.ag_product_id_code)}><FaTicket/></button>
+                                                    </div>
+                                                </div>}
+                                            </>}
                                             {(viewSendProducts === details.ag_product_id_code) && <>
                                                 {(details.ag_product_status === "Unredeemed") && <div className="ppcrpcmppcSend">
                                                     <button id='ppcrpcmppcsClose' onClick={handleCloseAnyModals}><FaTimes className='faIcons'/></button>
