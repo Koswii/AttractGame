@@ -190,6 +190,20 @@ section.gamePageContainer.top{
     background-size:300% 100%;
     animation: l1 1s infinite linear;
 }
+.gppctgdSeller{
+    height: 4vw;
+    width: 4vw;
+    position: absolute;
+    box-shadow: 0 0 10px gray;
+    border: solid 2px white;
+    right: 1vw;
+    top: 1vw;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.gppctgdSeller img{
+    height: 100%;
+}
 .gppctgdCategory{
     height: auto;
     width: 50%;
@@ -715,6 +729,12 @@ section.gamePageContainer.bot{
     }
     .gppctgdMetacritic p{
         font-size: 3vw;
+    }
+    .gppctgdSeller{
+        height: 10vw;
+        width: 10vw;
+        right: 2vw;
+        top: 2vw;
     }
     .gppctgdCategory{
         top: 2vw;

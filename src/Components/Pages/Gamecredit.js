@@ -40,7 +40,7 @@ const ImageComponentGamecredits = ({ imageName }) => {
     }, [imageCache, url]);
   
     return (
-        <img src={imageCache[url]} alt="Loading..." />
+        <img id='gameCreditCoverImg' src={imageCache[url]} alt="Loading..." />
     );
 };
 
@@ -127,14 +127,17 @@ const Gamecredit = () => {
         <div className='mainContainer gamecreditProfile'>
             <section className="gamecreditPageContainer top"></section>
             <section className="gamecreditPageContainer mid">
-                {!loading ? <div className="gcreditspcmContainer">
+                {/* {!loading ?  */}
+                <div className="gcreditspcmContainer">
                     <div className="gcreditspcmContent left">
-                        <img src={`https://2wave.io/GameCreditCovers/${agGCCoverImg}`} alt="" />
+                        <div>
+                            <img src={`https://2wave.io/GameCreditCovers/${agGCCoverImg}`} alt="" />
+                        </div>
+                        <h4>{agGCName}</h4>
+                        <h6>{agGCCategory}</h6><br />
+                        <p id='gcspcmcDef'>{agGCDescription}</p>
                     </div>
                     <div className="gcreditspcmContent right">
-                        <h3>{agGCName}</h3>
-                        <h6>{agGCCategory}</h6>
-                        <p id='gcspcmcDef'>{agGCDescription}</p>
                         <div className="gcreditspcmcrItems">
                             <div className="gcreditspcmcr">
                                 {agGamecreditSort.map((details, i) => (
@@ -143,6 +146,9 @@ const Gamecredit = () => {
                                             <p>{details.gamecredit_number} {details.gamecredit_type}</p>
                                         </div>
                                         <ImageComponentGamecredits imageName={details.gamecredit_cover} />
+                                        <div className="gcreditspcmcrSeller">
+                                            <img src={`https://2wave.io/StoreLogo/${details.gamecredit_seller}.png`} alt="" />
+                                        </div>
                                         <span>
                                             <h5>$ {details.gamecredit_denomination}</h5>
                                             {userLoggedIn ? <> 
@@ -169,7 +175,8 @@ const Gamecredit = () => {
                             </div>
                         </div>
                     </div>
-                </div>:
+                </div>
+                {/* :
                 <div className="gcreditspcmContainerDummy">
                     <div className="gcspcmclDummy left"></div>
                     <div className="gcspcmclDummy right">
@@ -180,7 +187,7 @@ const Gamecredit = () => {
                         <div></div>
                     </div>
                 </div>
-                }
+                } */}
             </section>
             <section className="gamecreditPageContainer bot">
                 {getRandomGamecredits && <div className="gcreditspcbContainer">

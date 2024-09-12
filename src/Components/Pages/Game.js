@@ -140,6 +140,7 @@ const Game = () => {
     const gameCSFeatWikipedia = gameTitleExt1 || gameTitleForWikipedia;
 
     const agGameDataCanonical = agGameData.map(game => game.game_canonical);
+    const agGameDataSeller = agGameData.map(game => game.game_seller);
     const agGameDataName = agGameData.map(game => game.game_title);
     const agGameDataCover = agGameData.map(game => game.game_cover);
     const agGameDataCategory = agGameData.map(game => game.game_category);
@@ -318,6 +319,7 @@ const Game = () => {
                         ticketform={setOpenTicketForm} 
                         agGameDataCover={agGameDataCover} 
                         agGameDataName={`${agGameDataName}`} 
+                        agGameDataSeller={`${agGameDataSeller}`} 
                         agGameDataEdition={agGameDataEdition} 
                         agProductType = {'Games'}
                         gameCanonical={gameCanonical}
@@ -348,6 +350,9 @@ const Game = () => {
                         </div>:
                         <div className="gppctgdMetacriticDummy"></div>
                         }
+                        <div className="gppctgdSeller">
+                            <img src={`https://2wave.io/StoreLogo/${agGameDataSeller}.png`} alt="" />
+                        </div>
                         <div className="gppctgdCategory">
                             <h5>
                                 {(agGameDataCategory === 'Trending') && <><TbTrendingUp className={`faIcons ${(agGameDataCategory === 'Trending') ? 'Trending' : ''}`}/> TRENDING</>}

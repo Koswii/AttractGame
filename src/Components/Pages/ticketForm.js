@@ -18,7 +18,7 @@ import {
     FaTimes
 } from 'react-icons/fa';
 
-const TicketForm = ({ticketform, agGameDataName, agGameDataCover, agGameCreditNumber, agGameDataEdition, agProductType, gameCanonical}) => {
+const TicketForm = ({ticketform, agGameDataName, agGameDataSeller, agGameDataCover, agGameCreditNumber, agGameDataEdition, agProductType, gameCanonical}) => {
     const { 
         userLoggedData
     } = UserProfileData();
@@ -58,6 +58,7 @@ const TicketForm = ({ticketform, agGameDataName, agGameDataCover, agGameCreditNu
                 date : formattedDate,
                 product_id : gameCanonical,
                 product_name : agGameDataName,
+                product_seller : agGameDataSeller,
                 user_id : userLoggedData.userid,
                 concern : concern
             }
@@ -94,9 +95,12 @@ const TicketForm = ({ticketform, agGameDataName, agGameDataCover, agGameCreditNu
             <button id='closeModalTicket' onClick={closeTicketform} type='button'><FaTimes className='faIcons'/></button>
             <div className="ticketContainer">
                 <div className="ticketContent left">
-                    {(agProductType === "Games") && <img src={`https://2wave.io/GameCovers/${agGameDataCover}`} alt="" />}
-                    {(agProductType === "Giftcards") && <img src={`https://2wave.io/GiftCardCovers/${agGameDataCover}`} alt="" />}
-                    {(agProductType === "Game Credits") && <img src={`https://2wave.io/GameCreditCovers/${agGameDataCover}`} alt="" />}
+                    <div className="ticketclSeller">
+                        <img src={`https://2wave.io/StoreLogo/${agGameDataSeller}.png`} alt="" />
+                    </div>
+                    {(agProductType === "Games") && <img id='prdImgCover' src={`https://2wave.io/GameCovers/${agGameDataCover}`} alt="" />}
+                    {(agProductType === "Giftcards") && <img id='prdImgCover' src={`https://2wave.io/GiftCardCovers/${agGameDataCover}`} alt="" />}
+                    {(agProductType === "Game Credits") && <img id='prdImgCover' src={`https://2wave.io/GameCreditCovers/${agGameDataCover}`} alt="" />}
                 </div>
                 <div className="ticketContent right">
                     <h5>SEND A TICKET REPORT</h5>

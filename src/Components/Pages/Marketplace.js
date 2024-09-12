@@ -503,12 +503,6 @@ const Marketplace = () => {
                                     <button id='mppcm2GDCart' onClick={handleLoginForm}><TbShoppingCartPlus className='faIcons'/></button>
                                 </>}
                             </div>
-                            {/* <div className="mppcm2GameCategory">
-                                <span>
-                                    {(details.game_seller === 'Attract Game') && <img src={require('../assets/imgs/AGLogoWhite01.png')} alt="" />}
-                                </span>
-                                {(details.prodLikes >= 1) && <h4><TbHeartFilled className='faIcons'/> {details.prodLikes}</h4>}
-                            </div> */}
                         </div>
                     </div>
                     ))}</>}
