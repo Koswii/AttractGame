@@ -132,14 +132,23 @@ const defaultImages = [
     'FemaleDP01.png',
     'FemaleDP02.png'
 ];
+const UsernameSlicer = ({ text = '', maxLength }) => {
+    const truncatedText = text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+  
+    return (
+      <>{truncatedText}</>
+    );
+};
 
 const Profile = () => {
     const { 
         userLoggedData, 
         userProductCodeIDData, 
         viewTransactionList,
+        viewTicketReport,
         fetchUserProductIds,
         fetchUserTransactionHistory, 
+        fetchUserTicketReport,
     } = UserProfileData();
     // User Profile Fetching
     const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
@@ -491,13 +500,15 @@ const Profile = () => {
 
     const [viewUserHighlight, setViewUserHighlight] = useState(true);
     const [viewUserProducts, setViewUserProducts] = useState(true);
+    const [viewUserTickets, setViewUserTickets] = useState(false);
     const [viewUserTransactions, setViewUserTransactions] = useState(false);
     const [viewUserAddProducts, setViewUserAddProducts] = useState(false);
     const [viewUserRedeem, setViewUserRedeem] = useState(false);
     const [viewUserStore, setViewUserStore] = useState(false);
-    const [viewUserTickets, setViewUserTickets] = useState(false);
     const [viewTransactionRecord, setViewTransactionRecord] = useState(false);
     const [viewTransactionDetails, setViewTransactionDetails] = useState([]);
+    const [viewTicketReportRecord, setViewTicketReportRecord] = useState(false);
+    const [viewTicketReportDetails, setViewTicketReportDetails] = useState([]);
 
     // const handleViewDefault = () => {
     //     setViewUserHighlight(true)
@@ -825,8 +836,8 @@ const Profile = () => {
             agProductCommand: 'Redeem'
         }
 
-        const test = JSON.stringify(formRedeemProductDetails)
-        console.log(test);
+        // const test = JSON.stringify(formRedeemProductDetails)
+        // console.log(test);
         
 
         try {
@@ -853,10 +864,19 @@ const Profile = () => {
         const transactionDetails = viewTransactionList.find(tHash => tHash.ag_transaction_hash === hashCode)
         setViewTransactionDetails(transactionDetails)
     }
+    const handleViewTicketDetails = (hashCode) => {
+        setViewTicketReportRecord(true)
+        const transactionDetails = viewTicketReport.find(tHash => tHash.ticket_id === hashCode)
+        setViewTicketReportDetails(transactionDetails)
+        console.log(transactionDetails);
+        
+    }
+
+
     const handleCloseTransactionDetails = () => {
         setViewTransactionRecord(false)
+        setViewTicketReportRecord(false)
     }
-    // console.log(viewTransactionList);
     
 
     return (
@@ -1122,7 +1142,7 @@ const Profile = () => {
                     <div className="ppclProfileExtra">
                         {(storedSellerState && userLoggedIn) ? 
                             <Link to='/SellerPanel'><TbCubePlus className='faIcons'/>Add a Product</Link>:
-                            <Link to='/RedeemACode'><TbTicket className='faIcons'/>Redeem Code</Link>
+                            <Link to='/ClaimACode'><TbTicket className='faIcons'/>Claim a Code</Link>
                         }
                         <span>
                             <p id='agPoints'>0 <FaBolt className='faIcons'/></p>
@@ -1414,14 +1434,49 @@ const Profile = () => {
                         </div>
                     </div>}
                     {viewUserTickets && <div className="ppcrProfileContents myTickets">
-                        <div className="ppcrpcmpMyTickets">
-                            {/* <h3>MY LISTED PRODUCTS</h3> */}
-                            <>
-                                <div className="ppcrpcmpEmpty">
-                                    <h6>You don't have any Tickets yet.</h6>
+                        {isLoading ?<>
+                            <div className="ppcrpcmpEmpty">
+                                <div className="loader"></div>
+                            </div>
+                        </>:<>{(viewTicketReport.length != 0) ?<>
+                                {viewTicketReportRecord && <div className="ppcrpcmptReceipt">
+                                    <div className="ppcrpcmptckrDetails">
+                                        <button onClick={handleCloseTransactionDetails}><FaTimes className='faIcons'/></button>
+                                        <h6>Ticket Report Details</h6>
+                                        <p id='ppcrpcmptckrcHash'>Ticket: {viewTicketReportDetails.ticket_id}</p>
+                                        <div className="ppcrpcmptckrdInfo">
+                                            <p>
+                                                <UsernameSlicer text={`${viewTicketReportDetails.product_name}`} maxLength={35} />
+                                            </p>
+                                            <p>
+                                                <span><UsernameSlicer text={`${viewTicketReportDetails.product_seller}`} maxLength={30} /> Store</span>
+                                            </p>
+                                            <textarea name="" id="" readOnly>{viewTicketReportDetails.concern}</textarea>
+                                            <p>
+                                                <span>Status: {(viewTicketReportDetails.status === 'unresolved') ? 'Pending' : ''}</span>
+                                            </p>
+                                            {(viewTicketReportDetails.regards != '') && <textarea name="" id="" readOnly>{viewTicketReportDetails.regards}</textarea>}
+                                        </div>
+                                        <p id='ppcrpcmptckrcDate'>{formatDateToWordedDate(viewTicketReportDetails.date)}</p>
+                                    </div>
+                                </div>}
+                                <div className="ppcrpcmpTicket website">
+                                    <div>
+                                        {viewTicketReport.map((data, i) => (
+                                        <ul key={i}>
+                                            <li id='ppcrpcmptckcDate'>{formatDateToWordedDate(data.date)}</li>
+                                            <li id='ppcrpcmptckcId'>{data.ticket_id}</li>
+                                            <li id='ppcrpcmptckcName'><UsernameSlicer text={`${data.product_name}`} maxLength={35} /></li>
+                                            <li id='ppcrpcmptckcStatus'>{(data.status === 'unresolved') ? 'Pending' : 'Done'}</li>
+                                            <li id='ppcrpcmptckcView'><button onClick={() => handleViewTicketDetails(data.ticket_id)}>Details</button></li>
+                                        </ul>))}
+                                    </div>
                                 </div>
-                            </>
-                        </div>
+                            </>:<><div className="ppcrpcmpEmpty">
+                                    <h6>You don't have any Tickets.</h6>
+                                </div>
+                            </>}
+                        </>}
                     </div>}
                     {viewUserTransactions &&<div className="ppcrProfileContents myTransactions">
                         {isLoading ?<>
@@ -1434,22 +1489,31 @@ const Profile = () => {
                                     <div className="ppcrpcmptrContent">
                                         <button onClick={handleCloseTransactionDetails}><FaTimes className='faIcons'/></button>
                                         <h6>{viewTransactionDetails.ag_transaction_command} Receipt</h6>
-                                        <p>TxH: {viewTransactionDetails.ag_transaction_hash}</p>
+                                        <p id='ppcrpcmptrcHash'>TxH: {viewTransactionDetails.ag_transaction_hash}</p>
                                         <div className="ppcrpcmptrcDetails">
-                                            <span>
+                                            <div className='ppcrpcmptrcdTitle'>
                                                 <h6>{viewTransactionDetails.ag_product_name}</h6>
                                                 <p>{viewTransactionDetails.ag_product_id}</p>
-                                            </span>
-                                            <div>
-                                                <p>{viewTransactionDetails.ag_user_id}</p>
-                                                <p>Qnty: {viewTransactionDetails.ag_product_quantity}</p>
-                                                <p>Price: $ {viewTransactionDetails.ag_product_price}</p>
+                                            </div>
+                                            <div className='ppcrpcmptrcdInfo current'>
+                                                <p>
+                                                    <span>Txn By:</span><br />
+                                                    {viewTransactionDetails.ag_user_id}
+                                                </p>
+                                                <p>
+                                                    <span>Qnty:</span><br />
+                                                    {viewTransactionDetails.ag_product_quantity}
+                                                </p>
+                                                <p>
+                                                    <span>Prd Price:</span><br />
+                                                    $ {viewTransactionDetails.ag_product_price}
+                                                </p>
                                             </div>
                                         </div>
                                         <p id='ppcrpcmptrcDate'>{formatDateToWordedDate(viewTransactionDetails.ag_transaction_date)}</p>
                                     </div>
                                 </div>}
-                                <div className="ppcrpcmpTransactions">
+                                <div className="ppcrpcmpTransactions website">
                                     <table id='ppcrpcmptHeader'>
                                         <thead>
                                             <tr>
@@ -1468,9 +1532,32 @@ const Profile = () => {
                                                 <tr key={i}>
                                                     <td width='15%' id='ppcrpcmptDate'><p>{formatDateToWordedDate(data.ag_transaction_date)}</p></td>
                                                     <td width='15%' id='ppcrpcmptPrice'><p>{data.ag_transaction_command}</p></td>
-                                                    <td width='30%' id='ppcrpcmptName'><p>{data.ag_product_name}</p></td>
+                                                    <td width='30%' id='ppcrpcmptName'><p><UsernameSlicer text={`${data.ag_product_name}`} maxLength={30} /></p></td>
                                                     <td width='25%' id='ppcrpcmptHash'><p>{data.ag_transaction_hash}</p></td>
-                                                    <td width='15%' id='ppcrpcmptView'><button onClick={() => handleViewTransactionDetails(data.ag_transaction_hash)}>View</button></td>
+                                                    <td width='15%' id='ppcrpcmptView'><button onClick={() => handleViewTransactionDetails(data.ag_transaction_hash)}>Info</button></td>
+                                                </tr>))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div className="ppcrpcmpTransactions mobile">
+                                    <table id='ppcrpcmptHeader'>
+                                        <thead>
+                                            <tr>
+                                                <th width='15%' id='ppcrpcmptCommand'><p>Transaction</p></th>
+                                                <th width='30%' id='ppcrpcmptName'><p>Product Name</p></th>
+                                                <th width='15%' id='ppcrpcmptView'><p></p></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                    <div>
+                                        <table id='ppcrpcmptContents'>
+                                            <tbody>
+                                                {viewTransactionList.map((data, i) => (
+                                                <tr key={i}>
+                                                    <td width='15%' id='ppcrpcmptCommand'><p>{data.ag_transaction_command}</p></td>
+                                                    <td width='30%' id='ppcrpcmptName'><p>{data.ag_product_name}</p></td>
+                                                    <td width='15%' id='ppcrpcmptView'><button onClick={() => handleViewTransactionDetails(data.ag_transaction_hash)}>Info</button></td>
                                                 </tr>))}
                                             </tbody>
                                         </table>

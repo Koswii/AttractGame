@@ -13,6 +13,7 @@ export const UserProfileDataProvider = ({ children }) => {
     const [viewSellerStock, setViewSellerStock] = useState([]);
     const [viewStockNumber, setViewStockNumber] = useState([]);
     const [viewStoreList, setViewStoreList] = useState([]);
+    const [viewTicketReport, setViewTicketReport] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const LoginUserID = localStorage.getItem('profileUserID');
@@ -25,6 +26,7 @@ export const UserProfileDataProvider = ({ children }) => {
     const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
     const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
     const AGUsersTransactions = process.env.REACT_APP_AG_USERS_TRANSACTIONS_API;
+    const AGUsersTicketReport = process.env.REACT_APP_AG_USERS_FETCH_TICKET_API;
     const AGSellerStockList = process.env.REACT_APP_AG_USER_SELLER_STOCKS_API;
     const AGUserStoreList = process.env.REACT_APP_AG_USERS_STORE_LIST_API;
 
@@ -45,6 +47,36 @@ export const UserProfileDataProvider = ({ children }) => {
           
         } catch (error) {
           console.error(error);
+        }
+    };
+    const fetchUserTransactionHistory = async () => {
+        try {
+            const response = await axios.get(AGUsersTransactions);
+            const TransactionHistoryData = response.data.filter(user => user.ag_user_id === LoginUserID);
+            const TransactionHistorySort = TransactionHistoryData.sort((a, b) => {
+                const dateA = new Date(a.ag_transaction_date);
+                const dateB = new Date(b.ag_transaction_date);
+          
+                return dateB - dateA;
+            });
+            setViewTransactionList(TransactionHistorySort);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const fetchUserTicketReport = async () => {
+        try {
+            const response = await axios.get(AGUsersTicketReport);
+            const TicketReportData = response.data.filter(user => user.user_id === LoginUserID);
+            const TicketReportSort = TicketReportData.sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+          
+                return dateB - dateA;
+            });
+            setViewTicketReport(TicketReportSort);
+        } catch (error) {
+            console.error(error);
         }
     };
     const fetchUserProductIds = async () => {
@@ -92,7 +124,26 @@ export const UserProfileDataProvider = ({ children }) => {
                     const productCode = userActualCodeData.find(productCode => productCode.ag_product_id_code === product.ag_product_id_code);
                     return {...product, productCode};
                 });
-                setUserProductCodeIDData(userProductCodeData);
+
+
+                const sortUserProductItems = userProductCodeData.sort((a, b) => {
+                    const dateA = a.productCode.ag_redeem_date ? new Date(a.productCode.ag_redeem_date) : null;
+                    const dateB = b.productCode.ag_redeem_date ? new Date(b.productCode.ag_redeem_date) : null;
+                  
+                    // If dateA is empty and dateB is not, dateA should come first
+                    if (!dateA && dateB) return -1;
+                    
+                    // If dateB is empty and dateA is not, dateB should come first
+                    if (!dateB && dateA) return 1;
+                    
+                    // If both dates are empty, keep them in their current order
+                    if (!dateA && !dateB) return 0;
+                    
+                    // Otherwise, compare the dates normally
+                    return dateB - dateA;
+                });
+                
+                setUserProductCodeIDData(sortUserProductItems);
     
             } else {
                 setUserProductCodeIDData([]);
@@ -102,21 +153,6 @@ export const UserProfileDataProvider = ({ children }) => {
             console.error('Error fetching user data:', error);
         } finally {
             setIsLoading(false);
-        }
-    };
-    const fetchUserTransactionHistory = async () => {
-        try {
-            const response = await axios.get(AGUsersTransactions);
-            const TransactionHistoryData = response.data.filter(user => user.ag_user_id === LoginUserID);
-            const TransactionHistorySort = TransactionHistoryData.sort((a, b) => {
-                const dateA = new Date(a.ag_transaction_date);
-                const dateB = new Date(b.ag_transaction_date);
-          
-                return dateB - dateA;
-            });
-            setViewTransactionList(TransactionHistorySort);
-        } catch (error) {
-            console.error(error);
         }
     };
 
@@ -156,10 +192,11 @@ export const UserProfileDataProvider = ({ children }) => {
 
 
         fetchUsersEmails();
+        fetchUserTransactionHistory();
+        fetchUserTicketReport();
         fetchUserStores();
         fetchUserProductIds();
         fetchUserProfile();
-        fetchUserTransactionHistory();
         fetchSellerStockList();
     }, []);
 
@@ -183,7 +220,9 @@ export const UserProfileDataProvider = ({ children }) => {
             setIsLoading,
             fetchUserProductIds,
             fetchUserTransactionHistory,
+            fetchUserTicketReport,
             viewTransactionList,
+            viewTicketReport,
             viewSellerStock,
             viewStockNumber,
             viewStoreList

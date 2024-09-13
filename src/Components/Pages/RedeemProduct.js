@@ -34,7 +34,6 @@ const RedeemProduct = () => {
         const formRedeemProductDetails = {
             agProductCode: redeemCode,
             agProductState: 'Sold',
-            agProductStatus: 'Redeemed',
             agProductOwner: userLoggedData.userid,
         }
         try {
@@ -43,7 +42,6 @@ const RedeemProduct = () => {
     
             if (responseMessage.success) {
                 setResponseMessage(responseMessage.message);
-                setResponseMessage('');
                 fetchUserProductIds();
                 setRedeenLoader(false)
             }else{
@@ -65,7 +63,7 @@ const RedeemProduct = () => {
             <section className="redeemPageContainer top">
                 <div className="redeemPageContent top1" style={userLoggedData.coverimg ? {background: `linear-gradient(transparent, black 75%), url(https://2wave.io/CoverPics/${userLoggedData.coverimg})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}
                     :{background: 'linear-gradient(transparent, black 75%), url(https://2wave.io/CoverPics/LoginBackground.jpg)', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
-                    <h5>REDEEEM A CODE</h5>
+                    <h5>CLAIM A PRODUCT</h5>
                     <p>Insert product code here.</p>
                     <input type="text" placeholder='*************' onChange={(e) => setRedeemCode(e.target.value)} required/>
                     <div className='rpct1Img'>
@@ -73,11 +71,11 @@ const RedeemProduct = () => {
                         <p>{responseMessage}</p>
                         <img src={require('../assets/imgs/GameBanners/DefaultNoBanner.png')} alt="" />
                         {!redeemLoader ? 
-                            <button className={redeemCode ? 'active' : ''} onClick={handleRedeemProduct} disabled={!redeemCode}>Redeem Code</button>:
+                            <button className={redeemCode ? 'active' : ''} onClick={handleRedeemProduct} disabled={!redeemCode}>Claim Code</button>:
                             <button>Verifiying Code...</button>    
                         }
                     </div>
-                    <p id='rpcr1Disclaimer'>Disclaimer:<br /> Once redeemed, Product cannot be sold to AG Marketplace</p>
+                    <p id='rpcr1Disclaimer'>Disclaimer:<br /> Once claimed, Product cannot be sold to AG Marketplace</p>
                 </div>
             </section>
         </div>

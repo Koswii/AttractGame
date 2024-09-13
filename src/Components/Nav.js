@@ -718,7 +718,7 @@ const Nav = () => {
                 </Link>
                 <Link id='agHeartBtn' to='/MyFavorites' onClick={() => handleNavigation('favorites', '/MyFavorites')}><TbHeartFilled className='faIcons'/> My Favorites</Link>
                 <Link id='agCartBtn' to='/MyCart' onClick={() => handleNavigation('cart', '/MyCart')}><TbShoppingCartFilled className='faIcons'/> My Cart</Link>
-                <Link id='agRedeemBtn' to='/RedeemACode' onClick={() => handleNavigation('redeem', '/RedeemACode')}><TbTicket className='faIcons'/> Redeem a Code</Link>
+                <Link id='agRedeemBtn' to='/ClaimACode' onClick={() => handleNavigation('redeem', '/ClaimACode')}><TbTicket className='faIcons'/> Claim a Code</Link>
                 <Link id='agCartBtn'><TbCalendarEvent className='faIcons'/> Events</Link>
                 <a id='agLogoutBtn' onClick={handleUserLogout}><TbLogout className='faIcons'/> Logout</a>
               </div>}
@@ -779,9 +779,9 @@ const Nav = () => {
                 <h4><TbShoppingCartFilled className='faIcons'/></h4>
                 <h6>My Cart</h6>
               </Link>
-              <Link to='/RedeemACode' onClick={() => handleNavigation('redeem', '/RedeemACode')}>
+              <Link to='/ClaimACode' onClick={() => handleNavigation('redeem', '/ClaimACode')}>
                 <h4><TbTicket className='faIcons'/></h4>
-                <h6>Redeem a Code</h6>
+                <h6>Claim a Code</h6>
               </Link>
               <Link>
                 <h4><TbCalendarEvent className='faIcons'/></h4>
