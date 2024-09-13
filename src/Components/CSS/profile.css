@@ -3070,6 +3070,102 @@ section.profilePageContainer.mid{
 
 
 
+
+
+    .ppcrProfileContents.myTickets{
+        margin-top: 5%;
+    }
+    .ppcrpcmpTicket{
+        height: auto;
+        width: 100%;
+    }
+    .ppcrpcmpTicket div{
+        height: 109vw;
+        width: 100%;
+        position: relative;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    .ppcrpcmpTicket div ul li{
+        font-size: 2.3vw;
+        height: 8vw;
+        padding: 2% 3%;
+    }
+    .ppcrpcmpTicket div ul li#ppcrpcmptckcDate{
+        width: 25%;
+    }
+    .ppcrpcmpTicket div ul li#ppcrpcmptckcId{
+        width: 45%;
+    }
+    .ppcrpcmpTicket div ul li#ppcrpcmptckcName{
+        display: none;
+    }
+    .ppcrpcmpTicket div ul li#ppcrpcmptckcStatus{
+        display: none;
+    }
+    .ppcrpcmpTicket div ul li#ppcrpcmptckcView{
+        width: 30%;
+        padding: 0.5%;
+    }
+    .ppcrpcmpTicket button{
+        font-size: 2.3vw;
+    }
+    .ppcrpcmptckrDetails{
+        height: auto;
+        width: 85%;
+        padding: 5vw 3vw;
+        border-radius: 2vw;
+    }
+    .ppcrpcmptckrDetails button{
+        font-size: 5vw;
+        top: 3vw;
+        right: 3vw;
+    }
+    .ppcrpcmptckrDetails h6{
+        font-size: 3vw;
+        text-align: center;
+    }
+    .ppcrpcmptckrDetails p#ppcrpcmptckrcHash{
+        font-size: 2.3vw;
+        margin: 2% 0;
+        text-align: center;
+    }
+    .ppcrpcmptckrdInfo{
+        height: auto;
+        width: 100%;
+        padding: 5% 3%;
+        margin: 5% 0;
+        border-radius: 1.5vw;
+    }
+    .ppcrpcmptckrdInfo p{
+        font-size: 2.5vw;
+        text-align: center;
+    }
+    .ppcrpcmptckrdInfo p span{
+        font-size: 2.3vw;
+        color: gray;
+        text-align: left;
+    }
+    .ppcrpcmptckrdInfo textarea{
+        height: 20vw;
+        width: 100%;
+        border-radius: 1vw;
+        font-size: 2.3vw;
+    }
+    .ppcrpcmptckrDetails p#ppcrpcmptckrcDate{
+        font-size: 2.3vw;
+    }
+
+
+
+
+
+
+
+
+    .ppcrProfileContents.myTransactions{
+        margin-top: 5%;
+    }
     .ppcrProfileContents.myTransactions p{
         font-size: 2.3vw;
         margin: 5% 0;
@@ -3078,7 +3174,6 @@ section.profilePageContainer.mid{
     .ppcrpcmpTransactions{
         height: auto;
         width: 100%;
-        margin-top: 2%;
     }
     .ppcrpcmpTransactions table{
         height: auto;
@@ -3091,7 +3186,7 @@ section.profilePageContainer.mid{
         display: none;
     }
     .ppcrpcmpTransactions div{
-        height: 70vw;
+        height: 100vw;
         width: 100%;
         position: relative;
         overflow-y: scroll;
@@ -3120,7 +3215,6 @@ section.profilePageContainer.mid{
     }
     .ppcrpcmpTransactions.mobile{
         display: block;
-        margin-top: 5%;
     }
     .ppcrpcmpTransactions button{
         height: 100%;
