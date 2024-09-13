@@ -290,6 +290,8 @@ const Profile = () => {
         setViewFlipProducts(null);
         setReceiverUserID('');
         setViewSendResponse('');
+        setViewTransactionRecord(false)
+        setViewTicketReportRecord(false)
     }
     
     const [image, setImage] = useState(null);
@@ -558,6 +560,8 @@ const Profile = () => {
         setViewUserRedeem(false)
         setViewUserTickets(true)
         setViewUserHighlight(false)
+        setViewTransactionRecord(false)
+        setViewTicketReportRecord(false)
     }
     const handleViewTransactions = () => {
         setViewUserTransactions(true)
@@ -567,6 +571,8 @@ const Profile = () => {
         setViewUserRedeem(false)
         setViewUserTickets(false)
         setViewUserHighlight(false)
+        setViewTransactionRecord(false)
+        setViewTicketReportRecord(false)
     }
 
     if(viewProductCode == true || viewProductTicket == true){
@@ -1424,7 +1430,7 @@ const Profile = () => {
                             </>}
                         </>}
                     </div>}
-                    {viewUserRedeem && <div className="ppcrProfileContents myStore">
+                    {/* {viewUserRedeem && <div className="ppcrProfileContents myStore">
                         <div className="ppcrpcmpMyProducts">
                             <>
                                 <div className="ppcrpcmpEmpty">
@@ -1432,7 +1438,7 @@ const Profile = () => {
                                 </div>
                             </>
                         </div>
-                    </div>}
+                    </div>} */}
                     {viewUserTickets && <div className="ppcrProfileContents myTickets">
                         {isLoading ?<>
                             <div className="ppcrpcmpEmpty">
