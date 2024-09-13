@@ -5,6 +5,7 @@ const GamesFetchContext = createContext();
 
 export const GamesFetchDataProvider = ({ children }) => {
     const [viewAllGames, setViewAllGames] = useState([]);
+    const [viewAllGames2, setViewAllGames2] = useState([]);
     const [viewAllGamesNum, setViewAllGamesNum] = useState([]);
     const [viewAllListedGames, setViewAllListedGames] = useState([]);
     const [viewAGData1, setViewAGData1] = useState([]);
@@ -92,6 +93,7 @@ export const GamesFetchDataProvider = ({ children }) => {
             // setViewAllListedGames(sortedCurrentYearGames);
             setViewMetacriticData(gameCSFeatMetacritic);
             setViewWikiData(gameCSFeatWikipedia)
+            setViewAllGames2(stockInfo)
     
             if (stockInfo.length) {
                 const getInstockGames = stockInfo.filter(instock => instock.stockCount > 0)
@@ -131,6 +133,7 @@ export const GamesFetchDataProvider = ({ children }) => {
     return (
         <GamesFetchContext.Provider value={{ 
             viewAllGames, 
+            viewAllGames2,
             viewAllGamesNum, 
             viewAllListedGames, 
             viewAGData1, 
