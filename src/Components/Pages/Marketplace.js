@@ -54,19 +54,6 @@ import wukong from '../assets/imgs/marketSlider/blackmythwukong.png'
 
 const AGGameCreditsListAPI = process.env.REACT_APP_AG_GAMECREDIT_LIST_API;
 const AGGamesRobloxPartners = process.env.REACT_APP_AG_GAMES_ROBLOX_API;
-const formatDateToWordedDate = (numberedDate) => {
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    const date = new Date(numberedDate);
-    const month = months[date.getMonth()];
-    const day = date.getDate();
-    const year = date.getFullYear();
-    
-    return `${month} ${day}, ${year}`;
-}
-const getRandomItems = (array, numItems) => {
-    const shuffled = array.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, numItems);
-};
 const fetchDataGameCredits = async (setLoadingMarketData1, setViewAllGameCredits) => {
     setLoadingMarketData1(true);
     try {
@@ -574,7 +561,7 @@ const Marketplace = () => {
                     <p>Discover other stores that might have what you looking for.</p>
                     <div className="mppcm3Content website">
                         {storeTotalDetails.slice(0, 8).map((details, i) => (
-                            <Link>
+                            <Link to={`/Stores/${details.store}`}>
                                 <div className='mppcm3cImg'>
                                     <img src={`https://2wave.io/StoreLogo/${details.store}.png`} alt="" />
                                 </div>

@@ -25,9 +25,103 @@ h6{
 
 
 .mainContainer.sellerStore{
-    height: 100vh;
+    height: auto;
     width: 100%;
     background: black;
     position: relative;
     padding-bottom: 10vw;
+}
+section.storePageContainer.top{
+    height: auto;
+    width: 100%;
+    padding: 7vw 10%;
+    padding-bottom: 0;
+}
+.storePageContentTop{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.strpContenTop.left{
+    height: 13vw;
+    width: 13vw;
+    background: black;
+    border-radius: 50%;
+    box-shadow: 0 0 10px gray;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.strpContenTop.left img{
+    height: 100%;
+}
+.strpContenTop.right{
+    height: auto;
+    width: 80%;
+}
+.strpContenTop.right h4{
+    font-size: 4vw;
+}
+.strpContenTop.right p span{
+    font-size: 0.6vw;
+    color: gray;
+}
+.strpctrStocks{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-top: 1%;
+}
+.strpctrStocks h6{
+    font-size: 1.5vw;
+    width: 15%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.strpctrStocks h6 .faIcons{
+    margin-left: 5%;
+}
+
+
+
+
+
+
+section.storePageContainer.mid{
+    height: auto;
+    width: 100%;
+    padding: 5vw 10%;
+    padding-bottom: 0;
+}
+.storePageContentMid1{
+    height: auto;
+    width: 100%;
+}
+.storePageContentMid1 h4{
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.storePageContentMid1 h4 .faIcons{
+    margin-right: 1%;
+}
+
+.mpPageContentMid2.website.store{
+    justify-content: left;
+    margin-bottom: 5%;
+}
+.mpPageContentMid2.website.store .mppContentMid2{
+    margin: 0 0.5%;
+    margin-bottom: 1%;
+}
+.mpPageContentMid2.website.store .mppContentMid2Dummy.store{
+    margin: 0 0.5%;
+    margin-bottom: 1%;
 }
