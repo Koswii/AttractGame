@@ -155,7 +155,7 @@ function App() {
               <Route exact path="/MyProfile" element={<Profile/>}/>
               <Route exact path="/MyFavorites" element={<Favorites/>}/>
               <Route exact path="/MyCart" element={<Cart/>}/>
-              <Route exact path="/RedeemACode" element={<RedeemProduct/>}/>
+              <Route exact path="/ClaimACode" element={<RedeemProduct/>}/>
               <Route exact path="/success" element={<Success/>}/>
             </>}
             {(getAdminCredentials && userLoggedInState) && <Route path="/Admin" element={<Admin/>}/>}

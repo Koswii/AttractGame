@@ -367,10 +367,12 @@ const Game = () => {
                     </div>
                     <div className="gppctGameDetails right">
                         <h3><UsernameSlicer text={`${agGameDataName}`} maxLength={35} /></h3>
-                        <div className="gppctgdrSendTicket">
-                            <FaTicketAlt id='ticketIcon' onClick={openticket}/>
-                            <span className='txtHovertcket'>Send a Ticket</span>
-                        </div>
+                        {userLoggedIn &&
+                            <div className="gppctgdrSendTicket">
+                                <FaTicketAlt id='ticketIcon' onClick={openticket}/>
+                                <span className='txtHovertcket'>Send a Ticket</span>
+                            </div>
+                        }
                         <div className='gppctgdrDetails'>
                             {agGameDataEdition ? <h6>{agGameDataEdition}</h6> : <></>}
                             {agGameDataPlatform ? <h6>{agGameDataPlatform ? agGameDataPlatform + ' Game' : ''}</h6> : <></>}

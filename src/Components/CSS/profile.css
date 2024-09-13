@@ -2021,6 +2021,140 @@ section.profilePageContainer.mid{
 
 
 
+.ppcrProfileContents.myTickets{
+    position: relative;
+    overflow: hidden;
+}
+.ppcrpcmpTicket{
+    height: auto;
+    width: 100%;
+}
+.ppcrpcmpTicket div{
+    height: 19.5vw;
+    width: 100%;
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.ppcrpcmpTicket div ul{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 0.5%;
+    border-radius: 0.5vw;
+    list-style: none;
+}
+.ppcrpcmpTicket div ul:nth-child(odd){
+    background: rgba(80, 80, 80, 0.5);
+}
+.ppcrpcmpTicket div ul:nth-child(even){
+    background: rgba(80, 80, 80, 0.3);
+}
+.ppcrpcmpTicket div ul li{
+    height: 2vw;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    color: white;
+    font-size: 0.6vw;
+    padding: 0.5% 2%;
+    text-align: left;
+}
+.ppcrpcmpTicket div ul li#ppcrpcmptckcDate{
+    width: 15%;
+}
+.ppcrpcmpTicket div ul li#ppcrpcmptckcId{
+    width: 20%;
+}
+.ppcrpcmpTicket div ul li#ppcrpcmptckcName{
+    width: 35%;
+}
+.ppcrpcmpTicket div ul li#ppcrpcmptckcStatus{
+    width: 15%;
+    justify-content: center;
+    text-align: center;
+    text-transform: capitalize;
+}
+.ppcrpcmpTicket div ul li#ppcrpcmptckcView{
+    width: 15%;
+    padding: 0.5%;
+}
+.ppcrpcmpTicket button{
+    height: 100%;
+    width: 100%;
+    font-size: 0.7vw;
+    border-radius: 5px;
+    border: solid 1px white;
+    cursor: pointer;
+}
+.ppcrpcmptckrDetails{
+    height: auto;
+    width: 50%;
+    padding: 1vw;
+    background: black;
+    border-radius: 1vw;
+    position: relative;
+    box-shadow: 0 0 10px gray;
+    animation: fade-in-down 800ms ease;
+}
+.ppcrpcmptckrDetails button{
+    position: absolute;
+    top: 1vw;
+    right: 1vw;
+    color: white;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+.ppcrpcmptckrDetails p#ppcrpcmptckrcHash{
+    font-size: 0.7vw;
+}
+.ppcrpcmptckrdInfo{
+    height: auto;
+    width: 100%;
+    padding: 3% 5%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    margin: 3% 0;
+    border-radius: 0.8vw;
+    position: relative;
+}
+.ppcrpcmptckrdInfo p span{
+    font-size: 0.7vw;
+    color: gray;
+}
+.ppcrpcmptckrdInfo textarea{
+    height: 4vw;
+    width: 100%;
+    border: solid 2px gray;
+    margin-top: 2%;
+    border-radius: 0.5vw;
+    background: none;
+    outline: none;
+    color: white;
+    font-size: 0.7vw;
+    padding: 2%;
+    resize: none;
+}
+.ppcrpcmptckrDetails p#ppcrpcmptckrcDate{
+    font-size: 0.7vw;
+    text-align: right;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 .ppcrProfileContents.myTransactions{
     position: relative;
@@ -2084,7 +2218,9 @@ section.profilePageContainer.mid{
     border: solid 1px white;
     cursor: pointer;
 }
-
+.ppcrpcmpTransactions.mobile{
+    display: none;
+}
 .ppcrpcmptReceipt{
     height: 100%;
     width: 100%;
@@ -2106,6 +2242,7 @@ section.profilePageContainer.mid{
     background: black;
     border-radius: 1vw;
     position: relative;
+    box-shadow: 0 0 10px gray;
     animation: fade-in-down 800ms ease;
 }
 .ppcrpcmptrContent button{
@@ -2118,7 +2255,7 @@ section.profilePageContainer.mid{
     outline: none;
     cursor: pointer;
 }
-.ppcrpcmptrContent p{
+.ppcrpcmptrContent p#ppcrpcmptrcHash{
     font-size: 0.7vw;
 }
 .ppcrpcmptrcDetails{
@@ -2128,28 +2265,38 @@ section.profilePageContainer.mid{
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    margin: 2% 0;
+    margin: 3% 0;
     border-radius: 0.8vw;
+    position: relative;
 }
-.ppcrpcmptrcDetails span{
+.ppcrpcmptrcdTitle{
     height: auto;
     width: 100%;
     text-align: center;
 }
-.ppcrpcmptrcDetails div{
+.ppcrpcmptrcdInfo.current{
     height: auto;
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
+    margin-top: 5%;
 }
-.ppcrpcmptrcDetails div p{
+.ppcrpcmptrcdInfo.current p{
     width: 32%;
     padding: 3%;
     border-radius: 10px;
     text-align: center;
-    margin-top: 5%;
     border: solid 2px white;
+    margin: 0.5%;
+    margin-bottom: 1%;
+    line-height: 1vw;
+}
+.ppcrpcmptrcdInfo.current p span{
+    font-size: 0.6vw;
+    color: gray;
+    text-align: left;
 }
 .ppcrpcmptrContent p#ppcrpcmptrcDate{
     text-align: right;
@@ -2968,8 +3115,67 @@ section.profilePageContainer.mid{
     .ppcrpcmpTransactions table tr td#ppcrpcmptHash{
         width: 37%;
     }
+    .ppcrpcmpTransactions.website{
+        display: none;
+    }
+    .ppcrpcmpTransactions.mobile{
+        display: block;
+        margin-top: 5%;
+    }
+    .ppcrpcmpTransactions button{
+        height: 100%;
+        width: 100%;
+        font-size: 2.3vw;
+        border-radius: 5px;
+    }
 
 
-
+    .ppcrpcmptrContent{
+        height: auto;
+        width: 85%;
+        padding: 5vw 3vw;
+        border-radius: 2vw;
+    }
+    .ppcrpcmptrContent button{
+        font-size: 5vw;
+        top: 3vw;
+        right: 3vw;
+    }
+    .ppcrpcmptrContent h6{
+        font-size: 3vw;
+        text-align: center;
+    }
+    .ppcrpcmptrContent p#ppcrpcmptrcHash{
+        font-size: 2.3vw;
+        margin: 2% 0;
+    }
+    .ppcrpcmptrcDetails{
+        height: auto;
+        width: 100%;
+        padding: 5% 3%;
+        margin: 5% 0;
+        border-radius: 1.5vw;
+    }
+    .ppcrpcmptrcdInfo.current{
+        height: auto;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: start;
+        margin-top: 5%;
+    }
+    .ppcrpcmptrcdInfo.current p{
+        line-height: 4vw;
+    }
+    .ppcrpcmptrcdInfo.current p span{
+        font-size: 2.3vw;
+        color: gray;
+        text-align: left;
+    }
+    .ppcrpcmptrContent p#ppcrpcmptrcDate{
+        text-align: right;
+        margin-bottom: 0;
+    }
 
 }

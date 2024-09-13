@@ -20,7 +20,8 @@ import {
 
 const TicketForm = ({ticketform, agGameDataName, agGameDataSeller, agGameDataCover, agGameCreditNumber, agGameDataEdition, agProductType, gameCanonical}) => {
     const { 
-        userLoggedData
+        userLoggedData,
+        fetchUserTicketReport
     } = UserProfileData();
     const [ticketID, setTicketID] = useState()
     const [concern, setConcern] = useState('')
@@ -68,6 +69,7 @@ const TicketForm = ({ticketform, agGameDataName, agGameDataSeller, agGameDataCov
                 .then((response)=>{
                     const data = response
                     // console.log(data);
+                    fetchUserTicketReport()
                     setTicketLoader(false)
                     setTicketSuccess(true)
                     setConcern('')
