@@ -1,0 +1,190 @@
+h1, h2, h3, h4, h5, h6, p{
+    color: white;
+}
+p{
+    font-size: 0.9vw;
+}
+h1{
+    font-size: 10vw;
+}
+h2{
+    font-size: 5vw;
+}
+h3{
+    font-size: 4vw;
+}
+h4{
+    font-size: 2vw;
+}
+h5{
+    font-size: 1.5vw;
+}
+h6{
+    font-size: 1vw;
+}
+
+
+.mainContainer.allStores{
+    height: auto;
+    width: 100%;
+    background: black;
+    position: relative;
+    padding-bottom: 10vw;
+}
+section.allStorePageContainer.top{
+    height: auto;
+    width: 100%;
+    padding: 7vw 10%;
+    padding-bottom: 0;
+}
+.storesPageContentTop{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+section.allStorePageContainer.mid{
+    height: auto;
+    width: 100%;
+    padding: 2vw 10%;
+}
+.storesPageContentMid{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: center;
+}
+.storeDetailsContent{
+    height: auto;
+    width: 19%;
+    margin: 0.5%;
+    border-radius: 1vw;
+    padding: 1%;
+    background: rgb(25, 25, 25);
+    text-decoration: none;
+}
+.storCoverImg{
+    height: auto;
+    width: 100%;
+    border-radius: 0.8vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3%;
+}
+.storCoverImg img{
+    width: 100%;
+}
+.storeDetailsContent h5{
+    height: 3.5vw;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: end;
+}
+.storeDetailsContent h6{
+    font-size: 0.9vw;
+    font-weight: 400;
+    color: gray;
+}
+.storeDetailsContent h6 span{
+    font-size: 0.7vw;
+}
+.strdcItems{
+    height: auto;
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3%;
+    margin-bottom: 5%;
+}
+.strdcItems p{
+    height: auto;
+    width: 30%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.strdcItems p .faIcons{
+    margin-left: 15%;
+}
+.strdcStocks{
+    height: auto;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+
+
+@media screen and (max-width: 500px){
+    .mainContainer.allStores{
+        padding-bottom: 50vh;
+    }
+    section.allStorePageContainer.top{
+        padding: 5vw 5%;
+        padding-top: 15vh;
+    }
+    .storesPageContentTop{
+        justify-content: center;
+    }
+    .storesPageContentTop h3{
+        font-size: 5vw;
+    }
+
+
+    section.allStorePageContainer.mid{
+        padding: 0 5%;
+    }
+    .storesPageContentMid{
+        justify-content: space-between;
+    }
+    .storeDetailsContent{
+        width: 48%;
+        margin: 1%;
+        border-radius: 2vw;
+        padding: 2.5%;
+    }
+    .storCoverImg{
+        border-radius: 1.5vw;
+    }
+    .storeDetailsContent h5{
+        height: 7vw;
+        font-size: 3.5vw;
+    }
+    .storeDetailsContent h6{
+        font-size: 2.5vw;
+    }
+    .storeDetailsContent h6 span{
+        font-size: 2.3vw;
+    }
+    .strdcItems{
+        width: 100%;
+        margin-top: 5%;
+        margin-bottom: 10%;
+    }
+    .strdcItems p{
+        font-size: 2.3vw;
+    }
+    .strdcStocks p{
+        font-size: 2.3vw;
+    }
+
+
+
+
+
+
+
+
+
+
+
+}
