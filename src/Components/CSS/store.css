@@ -125,3 +125,70 @@ section.storePageContainer.mid{
     margin: 0 0.5%;
     margin-bottom: 1%;
 }
+
+
+
+
+
+
+@media screen and (max-width: 500px){
+    section.storePageContainer.top{
+        padding: 5vw 5%;
+        padding-top: 15vh;
+    }
+    .strpContenTop.left{
+        height: 26vw;
+        width: 26vw;
+    }
+    .strpContenTop.right{
+        width: 67%;
+    }
+    .strpContenTop.right h4{
+        font-size: 5vw;
+    }
+    .strpContenTop.right p{
+        font-size: 2.5vw;
+    }
+    .strpContenTop.right p span{
+        font-size: 2.3vw;
+    }
+    .strpContenTop.right br{
+        display: none;
+    }
+    .strpContenTop.right h6{
+        font-size: 2.5vw;
+        margin: 2% 0;
+    }
+    .strpctrStocks h6{
+        font-size: 2.5vw;
+        width: 25%;
+    }
+
+
+
+    section.storePageContainer.mid{
+        padding: 5vw 5%;
+        padding-bottom: 0;
+    }
+    .storePageContentMid1 h4{
+        font-size: 4vw;
+    }
+    .mpPageContentMid2.mobile.store{
+        margin-top: 5%;
+        margin-bottom: 15%;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

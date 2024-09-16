@@ -362,6 +362,18 @@ section.spPageContainer.mid{
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 .sppcm1Dashboard{
     height: auto;
     width: 100%;
@@ -493,7 +505,7 @@ section.spPageContainer.mid{
     height: auto;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: top;
     margin: 1% 0;
 }
@@ -501,31 +513,60 @@ section.spPageContainer.mid{
     height: auto;
     width: 30%;
 }
-.sppcm1AGameContent.left p {
-    font-size: 0.7vw;
+.sppcm1AGameContent.left p#sppcm1agclInfo{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    margin: 5px 0;
+    color: gray;
 }
-.sppcm1AGamesCAll{
+.sppcm1AGameContent.left p#sppcm1agclInfo .faIcons{
+    margin-right: 1%;
+}
+.sppcm1agclContainer{
     height: auto;
     width: 100%;
-    margin-top: 6%;
 }
-.sppcm1AGamesCAll div{
+.sppcm1agclContainer span{
+    height: auto;
     width: 100%;
-    padding: 4% 6%;
-    margin-bottom: 3%;
-    text-align: right;
-    border-radius: 1vw;
-    border: solid 2px white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid 1px white;
+    border-radius: 0.5vw;
+    overflow: hidden;
 }
-.sppcm1AGamesCAll div p{
+
+.sppcm1agclContainer span input{
+    width: 100%;
+    border: none;
+    padding: 8px 10px;
+    background: none;
     font-size: 0.7vw;
-    margin-top: 1%;
-    opacity: 50%;
+    font-weight: 400;
+    color: white;
+    outline: none;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .sppcm1AGameContent.right{
     height: auto;
-    width: 70%;
+    width: 60%;
     /* background: rgba(30, 30, 30, 0.8);
     box-shadow: 0 0 10px black;
     border-radius: 1vw;
@@ -535,20 +576,27 @@ section.spPageContainer.mid{
     height: auto;
     width: 100%;
 }
-.sppcm1AGameContent.right form h5{
-    text-align: center;
-    margin-bottom: 3%;
+.sppcm1AGameContent.right p#agfcInfo{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    margin: 5px 0;
+    color: gray;
+}
+.sppcm1AGameContent.right p#agfcInfo .faIcons{
+    margin-right: 1%;
 }
 .sppcm1agcForm{
     height: auto;
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
 }
 .sppcm1agcf.left{
     height: auto;
-    width: 35%;
+    width: 40%;
 }
 .sppc1agcfImage{
     height: 26vw;
@@ -583,7 +631,7 @@ section.spPageContainer.mid{
 }
 .sppcm1agcf.right{
     height: auto;
-    width: 60%;
+    width: 55%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -761,6 +809,11 @@ section.spPageContainer.mid{
 
 
 
+
+
+
+
+
 .sppcm1GiftCards{
     height: auto;
     width: 100%;
@@ -770,7 +823,7 @@ section.spPageContainer.mid{
     height: auto;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: top;
     padding: 1% 0;
 }
@@ -778,8 +831,16 @@ section.spPageContainer.mid{
     height: auto;
     width: 30%;
 }
-.sppcm1AGiftCardContent.left p {
-    font-size: 0.7vw;
+.sppcm1AGiftCardContent.left p#sppcm1agclInfo{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    margin: 5px 0;
+    color: gray;
+}
+.sppcm1AGiftCardContent.left p#sppcm1agclInfo .faIcons{
+    margin-right: 1%;
 }
 .sppcm1AGiftcardsCAll{
     height: auto;
@@ -801,26 +862,33 @@ section.spPageContainer.mid{
 }
 .sppcm1AGiftCardContent.right{
     height: auto;
-    width: 70%;
+    width: 60%;
 }
 .sppcm1AGiftCardContent.right form{
     height: auto;
     width: 100%;
 }
-.sppcm1AGiftCardContent.right form h5{
-    text-align: center;
-    margin-bottom: 3%;
+.sppcm1AGiftCardContent.right p#agfcInfo{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    margin: 5px 0;
+    color: gray;
+}
+.sppcm1AGiftCardContent.right p#agfcInfo .faIcons{
+    margin-right: 1%;
 }
 .sppcm1agcvForm{
     height: auto;
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
 }
 .sppcm1agcvf.left{
     height: auto;
-    width: 35%;
+    width: 40%;
 }
 .sppc1agcvfImage{
     height: 26vw;
@@ -851,7 +919,7 @@ section.spPageContainer.mid{
 }
 .sppcm1agcvf.right{
     height: auto;
-    width: 60%;
+    width: 55%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -987,6 +1055,22 @@ section.spPageContainer.mid{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .sppcm1GameCredits{
     height: auto;
     width: 100%;
@@ -996,7 +1080,7 @@ section.spPageContainer.mid{
     height: auto;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: top;
     padding: 1% 0;
 }
@@ -1004,8 +1088,17 @@ section.spPageContainer.mid{
     height: auto;
     width: 30%;
 }
-.sppcm1AGameCreditsContent.left p {
-    font-size: 0.7vw;
+
+.sppcm1AGameCreditsContent.left p#sppcm1agclInfo{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    margin: 5px 0;
+    color: gray;
+}
+.sppcm1AGameCreditsContent.left p#sppcm1agclInfo .faIcons{
+    margin-right: 1%;
 }
 .sppcm1AGameCreditsCAll{
     height: auto;
@@ -1027,26 +1120,34 @@ section.spPageContainer.mid{
 }
 .sppcm1AGameCreditsContent.right{
     height: auto;
-    width: 70%;
+    width: 60%;
+}
+
+.sppcm1AGameCreditsContent.right p#agfcInfo{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    margin: 5px 0;
+    color: gray;
+}
+.sppcm1AGameCreditsContent.right p#agfcInfo .faIcons{
+    margin-right: 1%;
 }
 .sppcm1AGameCreditsContent.right form{
     height: auto;
     width: 100%;
-}
-.sppcm1AGameCreditsContent.right form h5{
-    text-align: center;
-    margin-bottom: 3%;
 }
 .sppcm1agcrForm{
     height: auto;
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
 }
 .sppcm1agcrf.left{
     height: auto;
-    width: 35%;
+    width: 40%;
 }
 .sppc1agcrfImage{
     height: 26vw;
@@ -1077,7 +1178,7 @@ section.spPageContainer.mid{
 }
 .sppcm1agcrf.right{
     height: auto;
-    width: 60%;
+    width: 55%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -1208,6 +1309,22 @@ section.spPageContainer.mid{
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .sppcm1Product{
     height: auto;
     width: 100%;
@@ -1251,6 +1368,17 @@ section.spPageContainer.mid{
 
 .sppcm1ProductlistContent.right{
     width: 100%;
+}
+.sppcm1ProductlistContent.right p#sppcm1pcrInfo{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    margin: 5px 0;
+    color: gray;
+}
+.sppcm1ProductlistContent.right p#sppcm1pcrInfo .faIcons{
+    margin-right: 1%;
 }
 .sppcm1ProductRight-header{
     display: flex;
@@ -1384,11 +1512,11 @@ section.spPageContainer.mid{
 }
 
 .sppcm1ProductRight-productList{
-    height: 35vw;
+    height: 30vw;
     overflow-y: scroll;
-    padding-bottom: 0;
     position: relative;
     border-radius: 1vw;
+    margin-top: 3%;
 }
 .sppcm1ProductRight-productList h5{
     font-size: 1.5vw;
@@ -1533,5 +1661,119 @@ section.spPageContainer.mid{
     color: black;
     transition: 400ms ease;
 }
+
+
+
+
+
+
+
+.sppcm1Inventory{
+    height: auto;
+    width: 100%;
+    animation: fade-in-left 1s ease;
+}
+.sppcm1InventoryContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+
+
+
+
+
+
+
+.sppcm1Tickets{
+    height: auto;
+    width: 100%;
+    animation: fade-in-left 1s ease;
+}
+.sppcm1TicketsContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+
+
+
+
+
+
+
+
+
+
+
+.sppcm1Sold{
+    height: auto;
+    width: 100%;
+    animation: fade-in-left 1s ease;
+}
+.sppcm1SoldContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+.sppcm1TicketsContent{
+    height: auto;
+    width: 100%;
+}
+.sppcm1TicketsContent p#sppcm1pcrInfo {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    margin: 5px 0;
+    color: gray;
+}
+.sppcm1TicketsContent p#sppcm1pcrInfo .faIcons {
+    margin-right: 1%;
+}
+.sppcm1tcEmpty{
+    height: 30vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.sppcm1tcEmpty h5{
+    font-size: 5vw;
+    opacity: 30%;
+}
+.sppcm1tcEmpty h6 {
+    opacity: 30%;
+    font-weight: 400;
+}
+.sppcm1tcReports{
+    height: 30vw;
+    overflow-y: scroll;
+    position: relative;
+    border-radius: 1vw;
+    margin-top: 3%;
+}
+
+
+
+
+
+
+
+.sppcm1FAQS{
+    height: auto;
+    width: 100%;
+    animation: fade-in-left 1s ease;
+}
+.sppcm1FAQSContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+
+
+
+
 
 

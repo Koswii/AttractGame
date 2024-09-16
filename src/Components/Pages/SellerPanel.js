@@ -24,6 +24,7 @@ import {
     TbDeviceGamepad2,
     TbDiamond,
     TbBuildingStore,
+    TbInfoCircle,
     TbTicket,
     TbPackages,
     TbDatabaseDollar,
@@ -37,6 +38,7 @@ import { UserProfileData } from './UserProfileContext';
 import { GamesFetchData } from './GamesFetchContext';
 import { GiftcardsFetchData } from './GiftcardsFetchContext';
 import { GamecreditsFetchData } from './GamecreditFetchContext';
+import { FaTicket } from 'react-icons/fa6';
 
 
 const UsernameSlicer = ({ text = '', maxLength }) => {
@@ -51,7 +53,8 @@ const SellerPanel = () => {
     const { 
         userLoggedData, 
         viewSellerStock,
-        viewStockNumber
+        viewStockNumber,
+        viewTicketReport,
     } = UserProfileData();
     const { 
         viewAGData1,
@@ -398,17 +401,19 @@ const SellerPanel = () => {
         setViewGiftcardDetails(viewGiftcardProduct);
         setViewGamecrditsDetails(viewGamecreditProduct);
     }
-    
     const handleCloseModals = () => {
         setViewAddCodeModal(false)
     }
-    
-
     if(viewAddCodeModal == true){
         window.document.body.style.overflow = 'hidden';
     } else{
         window.document.body.style.overflow = 'auto';
     }
+
+    const viewStoreTicket = viewTicketReport.filter(store => store.product_seller === userLoggedData.store)
+    console.log(viewStoreTicket);
+    
+    
     
     
     return (
@@ -635,27 +640,19 @@ const SellerPanel = () => {
                     </div>}
                     {activeView === 'games' && <div className="sppcm1AddGames">
                         <div className="sppcm1AddGameContainer">
-                            {/* <div className="sppcm1AGameContent left">
-                                <h4>WELCOME SELLER!</h4><br />
-                                <p>
-                                    Within this interface, you possess the capability to seamlessly add new games, 
-                                    each detail meticulously recorded and securely stored within our database, ensuring 
-                                    comprehensive management and accessibility.
-                                </p>
-                                <div className="sppcm1AGamesCAll">
-                                    <div>
-                                        <h4>0 Games</h4>
-                                        <p>Total Listed Games</p>
-                                    </div>
-                                    <div>
-                                        <h4>0 Stocks</h4>
-                                        <p>Total Game Stocks</p>
-                                    </div>
+                            <div className="sppcm1AGameContent left">
+                                <h5>ADD GAME TO LIST</h5>
+                                <p id='sppcm1agclInfo'><TbInfoCircle className='faIcons'/> Add existing games to your game list.</p><br />
+                                <div className='sppcm1agclContainer'>
+                                    <span>
+                                        <input type="text" placeholder='Search Games here...'/>
+                                    </span>
                                 </div>
-                            </div> */}
+                            </div>
                             <div className="sppcm1AGameContent right">
                                 <form id='addGamesFormContainer' onSubmit={handleAddGame}>
-                                    <h5>ADD GAMES FORM</h5>
+                                    <h5>ADD NEW GAME</h5>
+                                    <p id='agfcInfo'><TbInfoCircle className='faIcons'/> Add new games that are not existing on the market</p><br />
                                     <div className='sppcm1agcForm'>
                                         <div className="sppcm1agcf left">
                                             <div className='sppc1agcfImage'>
@@ -760,27 +757,23 @@ const SellerPanel = () => {
                     </div>}
                     {activeView === 'giftcards' && <div className="sppcm1GiftCards">
                         <div className="sppcm1AddGiftCardContainer">
-                            {/* <div className="sppcm1AGiftCardContent left">
-                                <h4>WELCOME SELLER!</h4><br />
-                                <p>
-                                    Within this interface, you possess the capability to seamlessly add new giftcards and vouchers, 
-                                    each detail meticulously recorded and securely stored within our database, ensuring 
-                                    comprehensive management and accessibility.
-                                </p>
-                                <div className="sppcm1AGiftcardsCAll">
-                                    <div>
-                                        <h4>0 Giftcards</h4>
-                                        <p>Total Listed Giftcards</p>
-                                    </div>
-                                    <div>
-                                        <h4>0 Stocks</h4>
-                                        <p>Total Giftcards Stocks</p>
-                                    </div>
+                            <div className="sppcm1AGiftCardContent left">
+                                <h5>ADD GIFTCARD TO LIST</h5>
+                                <p id='sppcm1agclInfo'><TbInfoCircle className='faIcons'/> Add existing giftcard to your giftcard list.</p><br />
+                                <div className='sppcm1agclContainer'>
+                                    <span>
+                                        <input type="text" placeholder='Search Games here...'/>
+                                    </span>
                                 </div>
-                            </div> */}
+
+
+
+
+                            </div>
                             <div className="sppcm1AGiftCardContent right">
                                 <form id='addGiftCardFormContainer' onSubmit={handleAddGiftcard}>
-                                    <h5>ADD GIFTCARDS/VOUCHER FORM</h5>
+                                    <h5>ADD NEW GIFTCARDS/VOUCHER</h5>
+                                    <p id='agfcInfo'><TbInfoCircle className='faIcons'/> Add new giftcards that are not existing on the market</p><br />
                                     <div className="sppcm1agcvForm">
                                         <div className="sppcm1agcvf left">
                                             <div className="sppc1agcvfImage">
@@ -837,27 +830,22 @@ const SellerPanel = () => {
                     </div>}
                     {activeView === 'gamecredits' && <div className="sppcm1GameCredits">
                         <div className="sppcm1AddGameCreditsContainer">
-                            {/* <div className="sppcm1AGameCreditsContent left">
-                                <h4>WELCOME SELLER!</h4><br />
-                                <p>
-                                    Within this interface, you possess the capability to seamlessly add new game credits, 
-                                    each detail meticulously recorded and securely stored within our database, ensuring 
-                                    comprehensive management and accessibility.
-                                </p>
-                                <div className="sppcm1AGameCreditsCAll">
-                                    <div>
-                                        <h4>0 GCredits</h4>
-                                        <p>Total Listed Game Credits</p>
-                                    </div>
-                                    <div>
-                                        <h4>0 Stocks</h4>
-                                        <p>Total Game Credits Stocks</p>
-                                    </div>
+                            <div className="sppcm1AGameCreditsContent left">
+                                <h5>ADD GCREDITS TO LIST</h5>
+                                <p id='sppcm1agclInfo'><TbInfoCircle className='faIcons'/> Add existing gcredit to your gamecredit list.</p><br />
+                                <div className='sppcm1agclContainer'>
+                                    <span>
+                                        <input type="text" placeholder='Search Games here...'/>
+                                    </span>
                                 </div>
-                            </div> */}
+
+
+
+                            </div>
                             <div className="sppcm1AGameCreditsContent right">
                                 <form id='addGiftCardFormContainer' onSubmit={handleAddGamecredit}>
-                                    <h5>ADD GAME CREDITS FORM</h5>
+                                    <h5>ADD NEW GAMECREDITS</h5>
+                                    <p id='agfcInfo'><TbInfoCircle className='faIcons'/> Add new gamecredits that are not existing on the market</p><br />
                                     <div className="sppcm1agcrForm">
                                         <div className="sppcm1agcrf left">
                                             <div className="sppc1agcrfImage">
@@ -936,6 +924,8 @@ const SellerPanel = () => {
                                 </div>
                             </div> */}
                             <div className="sppcm1ProductlistContent right">
+                                <h4>ALL LISTED PRODUCTS</h4>
+                                <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Add your digital codes here for all your listed products.</p>
                                 <div className="sppcm1ProductRight-productList">
                                     <>
                                         <h5>GAMES LISTED</h5>
@@ -1024,6 +1014,40 @@ const SellerPanel = () => {
                                     </>
                                 </div>
                             </div>
+                        </div>
+                    </div>}
+                    {activeView === 'inventory' && <div className="sppcm1Inventory">
+                        <div className="sppcm1InventoryContainer">
+                            <h3>Test</h3>
+                        </div>
+                    </div>}
+                    {activeView === 'tickets' && <div className="sppcm1Tickets">
+                        <div className="sppcm1TicketsContainer">
+                            <div className="sppcm1TicketsContent">
+                                <h4>PRODUCT TICKET REPORTS</h4>
+                                <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Here, you can easily check and add notes regarding the reported products in your store.</p>
+                                {(viewStoreTicket.length > 0) ? 
+                                    <div className="sppcm1tcReports">
+                                        
+                                    </div>:
+                                    <div className="sppcm1tcEmpty">
+                                        <div>
+                                            <h5><FaTicket className='faIcons'/></h5>
+                                            <h6>You don't have any Tickets.</h6>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>}
+                    {activeView === 'sell' && <div className="sppcm1Sold">
+                        <div className="sppcm1SoldContainer">
+                            <h3>Test</h3>
+                        </div>
+                    </div>}
+                    {activeView === 'faqs' && <div className="sppcm1FAQS">
+                        <div className="sppcm1FAQSContainer">
+                            <h3>Test</h3>
                         </div>
                     </div>}
                 </div>

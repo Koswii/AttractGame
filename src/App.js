@@ -38,6 +38,7 @@ import Gamecredits from './Components/Pages/Gamecredits';
 import Gamecredit from './Components/Pages/Gamecredit';
 import Robux from './Components/Pages/Robux';
 
+import Stores from './Components/Pages/Stores';
 import Store from './Components/Pages/Store';
 
 import AboutUs from './Components/Pages/AboutUs';
@@ -138,8 +139,9 @@ function App() {
             {/* <Route exact path="/Highlights" element={<Highlights/>}/> */}
             <Route exact path="/forgot-password/:code" element={<ForgotPass />} />
             <Route exact path="/Marketplace" element={<Marketplace/>}/>
-            <Route exact path="/Stores/:userStore" element={<Store/>}/>
 
+            <Route exact path="/Stores" element={<Stores/>}/>
+            <Route exact path="/Stores/:userStore" element={<Store/>}/>
 
             <Route exact path="/Games" element={<Games/>}/>
             <Route exact path="/News" element={<News/>}/>
