@@ -14,6 +14,7 @@ export const UserProfileDataProvider = ({ children }) => {
     const [viewStockNumber, setViewStockNumber] = useState([]);
     const [viewStoreList, setViewStoreList] = useState([]);
     const [viewTicketReport, setViewTicketReport] = useState([]);
+    const [viewAllUserList, setViewAllUserList] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const LoginUserID = localStorage.getItem('profileUserID');
@@ -67,7 +68,7 @@ export const UserProfileDataProvider = ({ children }) => {
     const fetchUserTicketReport = async () => {
         try {
             const response = await axios.get(AGUsersTicketReport);
-            const TicketReportData = response.data.filter(user => user.user_id === LoginUserID);
+            const TicketReportData = response.data;
             const TicketReportSort = TicketReportData.sort((a, b) => {
                 const dateA = new Date(a.date);
                 const dateB = new Date(b.date);
@@ -164,6 +165,7 @@ export const UserProfileDataProvider = ({ children }) => {
                   axios.get(AGUserListAPI),
                   axios.get(AGUserDataAPI)
                 ]);
+                setViewAllUserList(userListResponse.data);
                 const userDataStatus = userListResponse.data.find(item => item.userid === LoginUserID);
                 
                 const storedProfileData = localStorage.getItem('profileDataJSON')
@@ -206,6 +208,7 @@ export const UserProfileDataProvider = ({ children }) => {
 
     return (
         <UserProfileContext.Provider value={{ 
+            viewAllUserList,
             viewProfileBtn, 
             setViewProfileBtn,
             userLoggedData, 

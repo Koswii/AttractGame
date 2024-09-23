@@ -24,6 +24,7 @@ import {
     TbDeviceGamepad2,
     TbDiamond,
     TbBuildingStore,
+    TbCircleCheck,
     TbInfoCircle,
     TbTicket,
     TbPackages,
@@ -41,6 +42,15 @@ import { GamecreditsFetchData } from './GamecreditFetchContext';
 import { FaTicket } from 'react-icons/fa6';
 
 
+const formatDateToWordedDate = (numberedDate) => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+    const date = new Date(numberedDate);
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    
+    return `${month} ${day}, ${year}`;
+}
 const UsernameSlicer = ({ text = '', maxLength }) => {
     const truncatedText = text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
   
@@ -48,13 +58,17 @@ const UsernameSlicer = ({ text = '', maxLength }) => {
       <>{truncatedText}</>
     );
 };
+
+
 const SellerPanel = () => {
     const [activeView, setActiveView] = useState('default');
     const { 
+        viewAllUserList,
         userLoggedData, 
         viewSellerStock,
         viewStockNumber,
         viewTicketReport,
+        fetchUserTicketReport,
     } = UserProfileData();
     const { 
         viewAGData1,
@@ -78,21 +92,13 @@ const SellerPanel = () => {
     const AGAddGameCreditCoverAPI = process.env.REACT_APP_AG_ADD_GAMECREDIT_COVER_API;
     const AGInsertProductCodeAPI = process.env.REACT_APP_AG_INSERT_PRODUCT_CODES_API;
     const AGProductStateAPI = process.env.REACT_APP_AG_PRODUCT_STATE_CREDENTIALS_API;
+    const AGSellerTixReponseAPI = process.env.REACT_APP_AG_USERS_TICKET_RESPONSE_API;
 
     const gameStocksNum = viewSellerStock.filter(stock => stock.ag_product_type === "Games")
     const giftcardsStocksNum = viewSellerStock.filter(stock => stock.ag_product_type === "Giftcards")
     const gamecreditsStocksNum = viewSellerStock.filter(stock => stock.ag_product_type === "Game Credits")
 
     
-    const formatDateToWordedDate = (numberedDate) => {
-        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        const date = new Date(numberedDate);
-        const month = months[date.getMonth()];
-        const day = date.getDate();
-        const year = date.getFullYear();
-        
-        return `${month} ${day}, ${year}`;
-    }
     useEffect(() => {
         const savedView = localStorage.getItem('activeView');
         if (savedView) {
@@ -122,6 +128,7 @@ const SellerPanel = () => {
     };
     const handleViewTickets = () => {
         setActiveView('tickets');
+        fetchUserTicketReport();
     };
     const handleViewSell = () => {
         setActiveView('sell');
@@ -403,6 +410,8 @@ const SellerPanel = () => {
     }
     const handleCloseModals = () => {
         setViewAddCodeModal(false)
+        setViewTicketModal(false)
+        setAddTicketResponse(false)
     }
     if(viewAddCodeModal == true){
         window.document.body.style.overflow = 'hidden';
@@ -411,152 +420,72 @@ const SellerPanel = () => {
     }
 
     const viewStoreTicket = viewTicketReport.filter(store => store.product_seller === userLoggedData.store)
-    console.log(viewStoreTicket);
+    const lastestTicketSort = viewStoreTicket.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+  
+        return dateA - dateB - dateA;
+    });
+    const sellerTickerReports = lastestTicketSort.map(users => {
+        const userinfo = viewAllUserList.filter(ticket => ticket.userid === users.user_id);
+        return {
+            ...users, userinfo,
+        };
+    });
+
+    const [viewTicketModal, setViewTicketModal] = useState(false);
+    const [viewTicketDetails, setViewTicketDetails] = useState([]);
+    const [addTicketResponse, setAddTicketResponse] = useState(false);
+    const [tixResLoader, setTixResLoader] = useState(false)
+    const [sellerResponse, setSellerResponse] = useState('');
+    const handleViewTicketProduct = (ticketCode) => {
+        setViewTicketModal(true)
+        const pCode = sellerTickerReports.find(pCodeID => pCodeID.ticket_id === ticketCode)
+        setViewTicketDetails(pCode)
+        console.log(pCode);
+    }
+    const handleAddTixResponse = () => {
+        setAddTicketResponse(true)
+    }
+    const handleSubmitSellerResponse = async (e) => {
+        e.preventDefault();
+        setTixResLoader(true);
     
+        const formSubmitSellerRes = {
+            userTixID: viewTicketDetails.ticket_id,
+            userTixStatus: 'Completed',
+            userTixResponse: sellerResponse,
+            userTixDateCompleted: new Date(),
+        };
+
+        const test = JSON.stringify(formSubmitSellerRes)
+        console.log(test);
+        
+        
+        try {
+            const sellerTixResponse = await axios.post(AGSellerTixReponseAPI, formSubmitSellerRes);
+            const responseMessage = sellerTixResponse.data;
+    
+            if (responseMessage.success) {
+                setSellerResponse(false);
+                setViewTicketModal(false);
+                setTixResLoader(false);
+                fetchUserTicketReport();
+            } else {
+                sellerTixResponse(responseMessage.message);
+                setSellerResponse(false);
+                setTixResLoader(false);
+            }
+    
+        } catch (error) {
+            console.error(error);
+        }
+    };
     
     
     
     return (
         <div className='mainContainer sellerPanel'>
-            {viewAddCodeModal && (
-                <div className="mcsAddCodeContainer">
-                    {viewGameDetails && 
-                        <>
-                            <div className="mcsacCodeContent">
-                                <button id='closeAddCode' onClick={handleCloseModals}><FaTimes/></button>
-                                <div className="mcsacccDetails">
-                                    <img id='mcsacccDetailsImg' src={`https://2wave.io/GameCovers/${viewGameDetails.game_cover}`} alt="" />
-                                    <div className="mcsacccdShadow"></div>
-                                    <div className="mcsacccdTitle">
-                                        <div className="mcsacccdt">
-                                            <div className='mcsacccdtPlatform'>
-                                                <img src="" platform={viewGameDetails.game_platform} alt="" />
-                                            </div>
-                                            <div className='mcsacccdtName'>
-                                                <h4><UsernameSlicer text={`${viewGameDetails.game_title}`} maxLength={35} /></h4>
-                                                <p>{viewGameDetails.game_edition}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="mcsacccdInfos">
-                                        <div className="mcsacccdiPrice">
-                                            <div className='mcsacccdip'>
-                                                <h6>Add Price ($)</h6>
-                                                <div>
-                                                    <input type="number" placeholder='00.00'/>
-                                                </div>
-                                            </div>
-                                            <div className='mcsacccdip'>
-                                                <h6>Add Discount (%)</h6>
-                                                <div>
-                                                    <input type="number" placeholder='0'/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="mcsacccdiCode">
-                                            <input type="text" placeholder='Insert Product Code'/>
-                                        </div>
-                                        <div className="mcsacccdiSubmit">
-                                            <button>Sell Product Code</button>
-                                        </div>
-                                        <p>Note: You can sell multiple codes with the same product.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </>
-                    }
-                    {viewGiftcardDetails && 
-                        <>
-                            <div className="mcsacCodeContent">
-                                <button id='closeAddCode' onClick={handleCloseModals}><FaTimes/></button>
-                                <div className="mcsacccDetails">
-                                    <img id='mcsacccDetailsImg' src={`https://2wave.io/GiftCardCovers/${viewGiftcardDetails.giftcard_cover}`} alt="" />
-                                    <div className="mcsacccdShadow"></div>
-                                    <div className="mcsacccdTitle">
-                                        <div className="mcsacccdt">
-                                            <div className='mcsacccdtPlatform'>
-                                                <h5>{viewGiftcardDetails.giftcard_denomination}</h5>
-                                            </div>
-                                            <div className='mcsacccdtName'>
-                                                <h4>{viewGiftcardDetails.giftcard_name}</h4>
-                                                <p>{viewGiftcardDetails.giftcard_category}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="mcsacccdInfos">
-                                        <div className="mcsacccdiPrice">
-                                            <div className='mcsacccdip'>
-                                                <h6>Fixed Price ($)</h6>
-                                                <div>
-                                                    <input type="number" placeholder={`$ ${viewGiftcardDetails.giftcard_denomination}`} value={viewGiftcardDetails.giftcard_denomination} disabled/>
-                                                </div>
-                                            </div>
-                                            <div className='mcsacccdip'>
-                                                <h6>Add Discount (%)</h6>
-                                                <div>
-                                                    <input type="number" placeholder='0'/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="mcsacccdiCode">
-                                            <input type="text" placeholder='Insert Product Code'/>
-                                        </div>
-                                        <div className="mcsacccdiSubmit">
-                                            <button>Sell Product Code</button>
-                                        </div>
-                                        <p>Note: You can sell multiple codes with the same product.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </>
-                    }
-                    {viewGamecreditDetails && 
-                        <>
-                            <div className="mcsacCodeContent">
-                                <button id='closeAddCode' onClick={handleCloseModals}><FaTimes/></button>
-                                <div className="mcsacccDetails">
-                                    <img id='mcsacccDetailsImg' src={`https://2wave.io/GameCreditCovers/${viewGamecreditDetails.gamecredit_cover}`} alt="" />
-                                    <div className="mcsacccdShadow"></div>
-                                    <div className="mcsacccdTitle">
-                                        <div className="mcsacccdt">
-                                            <div className='mcsacccdtPlatform'>
-                                                <h5>{viewGamecreditDetails.gamecredit_denomination}</h5>
-                                            </div>
-                                            <div className='mcsacccdtName'>
-                                                <h4>{viewGamecreditDetails.gamecredit_name}</h4>
-                                                <p>{viewGamecreditDetails.gamecredit_number} {viewGamecreditDetails.gamecredit_type}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="mcsacccdInfos">
-                                        <div className="mcsacccdiPrice">
-                                            <div className='mcsacccdip'>
-                                                <h6>Fixed Price ($)</h6>
-                                                <div>
-                                                    <input type="number" placeholder={`$ ${viewGamecreditDetails.gamecredit_denomination}`} value={viewGamecreditDetails.gamecredit_denomination} disabled/>
-                                                </div>
-                                            </div>
-                                            <div className='mcsacccdip'>
-                                                <h6>Add Discount (%)</h6>
-                                                <div>
-                                                    <input type="number" placeholder='0'/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="mcsacccdiCode">
-                                            <input type="text" placeholder='Insert Product Code'/>
-                                        </div>
-                                        <div className="mcsacccdiSubmit">
-                                            <button>Sell Product Code</button>
-                                        </div>
-                                        <p>Note: You can sell multiple codes with the same product.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </>
-                    }
-                </div>
-            )}
 
             <section className="spPageContainer top">
                 <div className="spPageContent top">
@@ -579,7 +508,7 @@ const SellerPanel = () => {
                 <div className="spPageContent mid1">
                     {activeView === 'default' && <div className="sppcm1Dashboard">
                         <h4>Welcome {userLoggedData.username},</h4>
-                        <p>
+                        <p id='sppcm1dInfo'>
                             Within this administrative panel, you have the ability to effortlessly 
                             integrate new games, gift cards, vouchers and its codes to be sold. 
                             Every detail is meticulously logged and securely stored in our database, 
@@ -832,7 +761,7 @@ const SellerPanel = () => {
                         <div className="sppcm1AddGameCreditsContainer">
                             <div className="sppcm1AGameCreditsContent left">
                                 <h5>ADD GCREDITS TO LIST</h5>
-                                <p id='sppcm1agclInfo'><TbInfoCircle className='faIcons'/> Add existing gcredit to your gamecredit list.</p><br />
+                                <p id='sppcm1agclInfo'><TbInfoCircle className='faIcons'/> Add existing gcredit to your gcredit list.</p><br />
                                 <div className='sppcm1agclContainer'>
                                     <span>
                                         <input type="text" placeholder='Search Games here...'/>
@@ -895,6 +824,145 @@ const SellerPanel = () => {
                         </div>
                     </div>}
                     {activeView === 'productList' && <div className="sppcm1Product">
+                        {viewAddCodeModal && (
+                            <div className="mcsAddCodeContainer">
+                                {viewGameDetails && 
+                                    <>
+                                        <div className="mcsacCodeContent">
+                                            <button id='closeAddCode' onClick={handleCloseModals}><FaTimes/></button>
+                                            <div className="mcsacccDetails">
+                                                <img id='mcsacccDetailsImg' src={`https://2wave.io/GameCovers/${viewGameDetails.game_cover}`} alt="" />
+                                                <div className="mcsacccdShadow"></div>
+                                                <div className="mcsacccdTitle">
+                                                    <div className="mcsacccdt">
+                                                        <div className='mcsacccdtPlatform'>
+                                                            <img src="" platform={viewGameDetails.game_platform} alt="" />
+                                                        </div>
+                                                        <div className='mcsacccdtName'>
+                                                            <h4><UsernameSlicer text={`${viewGameDetails.game_title}`} maxLength={35} /></h4>
+                                                            <p>{viewGameDetails.game_edition}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="mcsacccdInfos">
+                                                    <div className="mcsacccdiPrice">
+                                                        <div className='mcsacccdip'>
+                                                            <h6>Add Price ($)</h6>
+                                                            <div>
+                                                                <input type="number" placeholder='00.00'/>
+                                                            </div>
+                                                        </div>
+                                                        <div className='mcsacccdip'>
+                                                            <h6>Add Discount (%)</h6>
+                                                            <div>
+                                                                <input type="number" placeholder='0'/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="mcsacccdiCode">
+                                                        <input type="text" placeholder='Insert Product Code'/>
+                                                    </div>
+                                                    <div className="mcsacccdiSubmit">
+                                                        <button>Sell Product Code</button>
+                                                    </div>
+                                                    <p>Note: You can sell multiple codes with the same product.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                }
+                                {viewGiftcardDetails && 
+                                    <>
+                                        <div className="mcsacCodeContent">
+                                            <button id='closeAddCode' onClick={handleCloseModals}><FaTimes/></button>
+                                            <div className="mcsacccDetails">
+                                                <img id='mcsacccDetailsImg' src={`https://2wave.io/GiftCardCovers/${viewGiftcardDetails.giftcard_cover}`} alt="" />
+                                                <div className="mcsacccdShadow"></div>
+                                                <div className="mcsacccdTitle">
+                                                    <div className="mcsacccdt">
+                                                        <div className='mcsacccdtPlatform'>
+                                                            <h5>{viewGiftcardDetails.giftcard_denomination}</h5>
+                                                        </div>
+                                                        <div className='mcsacccdtName'>
+                                                            <h4>{viewGiftcardDetails.giftcard_name}</h4>
+                                                            <p>{viewGiftcardDetails.giftcard_category}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="mcsacccdInfos">
+                                                    <div className="mcsacccdiPrice">
+                                                        <div className='mcsacccdip'>
+                                                            <h6>Fixed Price ($)</h6>
+                                                            <div>
+                                                                <input type="number" placeholder={`$ ${viewGiftcardDetails.giftcard_denomination}`} value={viewGiftcardDetails.giftcard_denomination} disabled/>
+                                                            </div>
+                                                        </div>
+                                                        <div className='mcsacccdip'>
+                                                            <h6>Add Discount (%)</h6>
+                                                            <div>
+                                                                <input type="number" placeholder='0'/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="mcsacccdiCode">
+                                                        <input type="text" placeholder='Insert Product Code'/>
+                                                    </div>
+                                                    <div className="mcsacccdiSubmit">
+                                                        <button>Sell Product Code</button>
+                                                    </div>
+                                                    <p>Note: You can sell multiple codes with the same product.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                }
+                                {viewGamecreditDetails && 
+                                    <>
+                                        <div className="mcsacCodeContent">
+                                            <button id='closeAddCode' onClick={handleCloseModals}><FaTimes/></button>
+                                            <div className="mcsacccDetails">
+                                                <img id='mcsacccDetailsImg' src={`https://2wave.io/GameCreditCovers/${viewGamecreditDetails.gamecredit_cover}`} alt="" />
+                                                <div className="mcsacccdShadow"></div>
+                                                <div className="mcsacccdTitle">
+                                                    <div className="mcsacccdt">
+                                                        <div className='mcsacccdtPlatform'>
+                                                            <h5>{viewGamecreditDetails.gamecredit_denomination}</h5>
+                                                        </div>
+                                                        <div className='mcsacccdtName'>
+                                                            <h4>{viewGamecreditDetails.gamecredit_name}</h4>
+                                                            <p>{viewGamecreditDetails.gamecredit_number} {viewGamecreditDetails.gamecredit_type}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="mcsacccdInfos">
+                                                    <div className="mcsacccdiPrice">
+                                                        <div className='mcsacccdip'>
+                                                            <h6>Fixed Price ($)</h6>
+                                                            <div>
+                                                                <input type="number" placeholder={`$ ${viewGamecreditDetails.gamecredit_denomination}`} value={viewGamecreditDetails.gamecredit_denomination} disabled/>
+                                                            </div>
+                                                        </div>
+                                                        <div className='mcsacccdip'>
+                                                            <h6>Add Discount (%)</h6>
+                                                            <div>
+                                                                <input type="number" placeholder='0'/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="mcsacccdiCode">
+                                                        <input type="text" placeholder='Insert Product Code'/>
+                                                    </div>
+                                                    <div className="mcsacccdiSubmit">
+                                                        <button>Sell Product Code</button>
+                                                    </div>
+                                                    <p>Note: You can sell multiple codes with the same product.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                }
+                            </div>
+                        )}
                         <div className="sppcm1ProductlistContainer">
                             {/* <div className="sppcm1ProductlistContent left">
                                 <div className="sppcm1ProductLeft-header">
@@ -1018,17 +1086,102 @@ const SellerPanel = () => {
                     </div>}
                     {activeView === 'inventory' && <div className="sppcm1Inventory">
                         <div className="sppcm1InventoryContainer">
-                            <h3>Test</h3>
+                            <div className="sppcm1InventoryContent">
+                                <h4>CODE INVENTORY</h4>
+                                <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Here, you can easily check and monitor your code stocks listed on the market.</p>
+                            </div>
                         </div>
                     </div>}
                     {activeView === 'tickets' && <div className="sppcm1Tickets">
+                        {viewTicketModal && (<div className="mcsTicketReportContainer">
+                            <>
+                                <div className="mcsatckrContent">
+                                    <button id='closeAddCode' onClick={handleCloseModals}><FaTimes/></button>
+                                    <div className="mcsatckrcDetails">
+                                        <h5><FaTicket className='faIcons'/> {viewTicketDetails.ticket_id}</h5>
+                                        <h6>{viewTicketDetails.product_name}</h6>
+                                        <p>
+                                            {viewTicketDetails.product_id}<br />
+                                            <span>{viewTicketDetails.date}</span>
+                                        </p>
+                                    </div>
+                                    <div className="mcsatckrcConcern">
+                                        <div>
+                                            <p><UsernameSlicer text={`${viewTicketDetails.userinfo[0].username}`} maxLength={10} /> ({viewTicketDetails.userinfo[0].userid})</p>
+                                            <textarea name="" id="" disabled readOnly>{viewTicketDetails.concern}</textarea>
+                                            {!addTicketResponse && <>
+                                                {!viewTicketDetails.regards && 
+                                                <span>
+                                                    <button onClick={handleAddTixResponse}>Add Response</button>
+                                                </span>}
+                                            </>}
+                                        </div>
+                                        {!viewTicketDetails.regards ? <>
+                                            {addTicketResponse && <div>
+                                                <p>Your Response</p>
+                                                <textarea name="" id="" 
+                                                    placeholder={(viewTicketDetails.regards === '') && 'Type ticket response here...'} 
+                                                    onChange={(e) => setSellerResponse(e.target.value)} 
+                                                    disabled={viewTicketDetails.regards}
+                                                >    
+                                                    {viewTicketDetails.regards && viewTicketDetails.regards}
+                                                </textarea>
+                                                {!viewTicketDetails.regards && 
+                                                <span>
+                                                    { !tixResLoader ?
+                                                        <button onClick={handleSubmitSellerResponse} disabled={!sellerResponse}>Submit Response</button>:
+                                                        <button disabled>Sending Response...</button>
+                                                    }
+                                                </span>}
+                                            </div>}
+                                        </>:<>
+                                            <div>
+                                                <p>Your Response</p>
+                                                <textarea name="" id="" 
+                                                    placeholder={(viewTicketDetails.regards === '') && 'Type ticket response here...'} disabled={viewTicketDetails.regards}>    
+                                                    {viewTicketDetails.regards && viewTicketDetails.regards}
+                                                </textarea>
+                                                <p id='tixSellerResDate'><TbCircleCheck className='faIcons'/> Sent {formatDateToWordedDate(viewTicketDetails.date_completed)}</p>
+                                            </div>
+                                        </>}
+                                    </div>
+                                </div>
+                            </>
+                        </div>)}
                         <div className="sppcm1TicketsContainer">
                             <div className="sppcm1TicketsContent">
                                 <h4>PRODUCT TICKET REPORTS</h4>
                                 <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Here, you can easily check and add notes regarding the reported products in your store.</p>
-                                {(viewStoreTicket.length > 0) ? 
+                                {(sellerTickerReports.length > 0) ? 
                                     <div className="sppcm1tcReports">
-                                        
+                                        <>
+                                            {sellerTickerReports.map((data, i) => (
+                                                <div className="sppcm1tcrpInfo" key={i}>
+                                                    <div className='sppcm1tcrpiDate'>
+                                                        <p>{formatDateToWordedDate(data.date)}</p>
+                                                    </div>
+                                                    <div className='sppcm1tcrpiTicket'>
+                                                        <p>{data.ticket_id}</p>
+                                                    </div>
+                                                    <div className='sppcm1tcrpiUserID'>
+                                                        <p><UsernameSlicer text={`${data.userinfo[0].username}`} maxLength={10} /> <span>({data.user_id})</span></p>
+                                                    </div>
+                                                    <div className='sppcm1tcrpiProduct'>
+                                                        <p><UsernameSlicer text={`${data.product_name}`} maxLength={35} /></p>
+                                                    </div>
+                                                    <div className='sppcm1tcrpiStatus'>
+                                                        <p>
+                                                            {(data.status === 'unresolved') && 'On Queue'}
+                                                            {(data.status === 'Processing') && 'Processing'}
+                                                            {(data.status === 'Completed') && 'Completed'}
+                                                        </p>
+                                                    </div>
+                                                    <div className='sppcm1tcrpiDetails'>
+                                                        <button onClick={() => handleViewTicketProduct(data.ticket_id)}>Details</button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </>
                                     </div>:
                                     <div className="sppcm1tcEmpty">
                                         <div>
@@ -1042,7 +1195,10 @@ const SellerPanel = () => {
                     </div>}
                     {activeView === 'sell' && <div className="sppcm1Sold">
                         <div className="sppcm1SoldContainer">
-                            <h3>Test</h3>
+                            <div className="sppcm1TransactionContent">
+                                <h4>PRODUCT TRANSACTIONS</h4>
+                                <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Here, you can easily check and monitor your code stocks listed on the market.</p>
+                            </div>
                         </div>
                     </div>}
                     {activeView === 'faqs' && <div className="sppcm1FAQS">
