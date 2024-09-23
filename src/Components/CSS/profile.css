@@ -2091,15 +2091,16 @@ section.profilePageContainer.mid{
 }
 .ppcrpcmptckrDetails{
     height: auto;
-    width: 50%;
-    padding: 1vw;
+    width: 40%;
+    padding: 2vw 1vw;
+    padding-bottom: 1vw;
     background: black;
     border-radius: 1vw;
     position: relative;
     box-shadow: 0 0 10px gray;
     animation: fade-in-down 800ms ease;
 }
-.ppcrpcmptckrDetails button{
+.ppcrpcmptckrDetails button#closeTicketModal{
     position: absolute;
     top: 1vw;
     right: 1vw;
@@ -2109,8 +2110,12 @@ section.profilePageContainer.mid{
     outline: none;
     cursor: pointer;
 }
+.ppcrpcmptckrDetails h6{
+    text-align: center;
+}
 .ppcrpcmptckrDetails p#ppcrpcmptckrcHash{
     font-size: 0.7vw;
+    text-align: center;
 }
 .ppcrpcmptckrdInfo{
     height: auto;
@@ -2119,7 +2124,8 @@ section.profilePageContainer.mid{
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    margin: 3% 0;
+    margin-top: 6%;
+    margin-bottom: 4%;
     border-radius: 0.8vw;
     position: relative;
 }
@@ -2127,22 +2133,69 @@ section.profilePageContainer.mid{
     font-size: 0.7vw;
     color: gray;
 }
-.ppcrpcmptckrdInfo textarea{
-    height: 4vw;
+.ppcrpcmptckrdiReport{
+    height: auto;
+    width: 100%;
+}
+.ppcrpcmptckrdiReport div{
+    height: 8vw;
     width: 100%;
     border: solid 2px gray;
-    margin-top: 2%;
+    margin: 2.50% 0;
     border-radius: 0.5vw;
+    overflow: hidden;
+}
+.ppcrpcmptckrdiReport div p{
+    padding: 2% 4%;
+    font-size: 0.7vw;
+    color: gray;
+}
+.ppcrpcmptckrdiReport div textarea#ppcrpcmptckrdirReport{
+    height: 100%;
+    width: 100%;
     background: none;
     outline: none;
+    border: none;
     color: white;
     font-size: 0.7vw;
-    padding: 2%;
+    padding: 2% 4%;
     resize: none;
 }
-.ppcrpcmptckrDetails p#ppcrpcmptckrcDate{
+.ppcrpcmptckrdiReport div textarea#ppcrpcmptckrdirSeller{
+    height: 6vw;
+    width: 100%;
+    background: none;
+    outline: none;
+    border: none;
+    color: white;
     font-size: 0.7vw;
+    padding: 0 4%;
+    resize: none;
+}
+.ppcrpcmptckrdiUser{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.ppcrpcmptckrdiUser button{
+    background: none;
+    color: white;
+    font-size: 0.7vw;
+    line-height: 0.7vw;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+.ppcrpcmptckrdiUser p{
+    font-size: 0.7vw;
+    color: gray;
+}
+.ppcrpcmptckrDetails p#ppcrpcmptckrcDate{
+    font-size: 0.5vw;
     text-align: right;
+    padding-right: 2%;
 }
 
 
@@ -2906,6 +2959,7 @@ section.profilePageContainer.mid{
         align-items: start;
         margin-top: 3%;
         padding: 0;
+        padding-bottom: 20vh;
     }
     .ppcrpcmppContents{
         height: 60vw;
@@ -3073,7 +3127,8 @@ section.profilePageContainer.mid{
 
 
     .ppcrProfileContents.myTickets{
-        margin-top: 5%;
+        margin-top: 7%;
+        border-radius: 0;
     }
     .ppcrpcmpTicket{
         height: auto;
@@ -3146,11 +3201,27 @@ section.profilePageContainer.mid{
         color: gray;
         text-align: left;
     }
-    .ppcrpcmptckrdInfo textarea{
-        height: 20vw;
-        width: 100%;
-        border-radius: 1vw;
-        font-size: 2.3vw;
+    .ppcrpcmptckrdiReport div{
+        height: 50vw;
+        border-radius: 1.5vw;
+    }
+    .ppcrpcmptckrdiReport div p{
+        font-size: 2.5vw;
+        text-align: left;
+    }
+    .ppcrpcmptckrdiReport div textarea#ppcrpcmptckrdirReport{
+        font-size: 2.5vw;
+    }
+    .ppcrpcmptckrdiReport div textarea#ppcrpcmptckrdirSeller{
+        height: 42vw;
+        font-size: 2.5vw;
+    }
+    .ppcrpcmptckrdiUser button{
+        font-size: 3vw;
+        line-height: 3vw;
+    }
+    .ppcrpcmptckrdiUser p{
+        font-size: 3vw;
     }
     .ppcrpcmptckrDetails p#ppcrpcmptckrcDate{
         font-size: 2.3vw;

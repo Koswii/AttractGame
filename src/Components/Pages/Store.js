@@ -350,9 +350,6 @@ const Store = () => {
   const storeListedGiftcards = giftcards.filter(giftcards => giftcards.giftcard_seller === userStore);
   const storeListedGamecredits = gamecredits.filter(giftcards => giftcards.gamecredit_seller === userStore);
 
-  console.log(storeListedGamecredits);
-  
-
 
   return (
     <div className='mainContainer sellerStore'>

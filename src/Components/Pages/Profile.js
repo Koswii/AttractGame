@@ -36,7 +36,9 @@ import {
     TbUpload,
     TbCubeSend,
     TbCubePlus,
-    TbTicket,   
+    TbTicket,
+    TbMessage,
+    TbMessage2,   
 } from "react-icons/tb";
 import { 
     RiVerifiedBadgeFill,
@@ -562,6 +564,7 @@ const Profile = () => {
         setViewUserHighlight(false)
         setViewTransactionRecord(false)
         setViewTicketReportRecord(false)
+        fetchUserTicketReport();
     }
     const handleViewTransactions = () => {
         setViewUserTransactions(true)
@@ -864,6 +867,20 @@ const Profile = () => {
         }
     }
     
+    const [tixSellerResponse, setTixSellerResponse] = useState(false);
+    const userTicketFilter = viewTicketReport.filter(user => user.user_id === userLoggedData.userid)
+    const TicketReportSort = userTicketFilter.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+  
+        return dateA - dateB - dateA;
+    });
+    const handleTixSellerResponse = () => {
+        setTixSellerResponse(true)
+    }
+
+
+
 
     const handleViewTransactionDetails = (hashCode) => {
         setViewTransactionRecord(true)
@@ -874,15 +891,18 @@ const Profile = () => {
         setViewTicketReportRecord(true)
         const transactionDetails = viewTicketReport.find(tHash => tHash.ticket_id === hashCode)
         setViewTicketReportDetails(transactionDetails)
-        console.log(transactionDetails);
-        
     }
-
-
     const handleCloseTransactionDetails = () => {
         setViewTransactionRecord(false)
         setViewTicketReportRecord(false)
+        setTixSellerResponse(false)
     }
+    
+
+
+
+
+
     
 
     return (
@@ -1447,7 +1467,7 @@ const Profile = () => {
                         </>:<>{(viewTicketReport.length != 0) ?<>
                                 {viewTicketReportRecord && <div className="ppcrpcmptReceipt">
                                     <div className="ppcrpcmptckrDetails">
-                                        <button onClick={handleCloseTransactionDetails}><FaTimes className='faIcons'/></button>
+                                        <button id='closeTicketModal' onClick={handleCloseTransactionDetails}><FaTimes className='faIcons'/></button>
                                         <h6>Ticket Report Details</h6>
                                         <p id='ppcrpcmptckrcHash'>Ticket: {viewTicketReportDetails.ticket_id}</p>
                                         <div className="ppcrpcmptckrdInfo">
@@ -1457,23 +1477,44 @@ const Profile = () => {
                                             <p>
                                                 <span><UsernameSlicer text={`${viewTicketReportDetails.product_seller}`} maxLength={30} /> Store</span>
                                             </p>
-                                            <textarea name="" id="" readOnly>{viewTicketReportDetails.concern}</textarea>
-                                            <p>
-                                                <span>Status: {(viewTicketReportDetails.status === 'unresolved') ? 'Pending' : ''}</span>
-                                            </p>
-                                            {(viewTicketReportDetails.regards != '') && <textarea name="" id="" readOnly>{viewTicketReportDetails.regards}</textarea>}
+                                            <div className="ppcrpcmptckrdiReport">
+                                                {!tixSellerResponse ? 
+                                                <div>
+                                                    <textarea name="" id="ppcrpcmptckrdirReport" readOnly disabled>{viewTicketReportDetails.concern}</textarea>
+                                                </div>
+                                                :<div>
+                                                    <p>Seller Response:</p>
+                                                    <textarea name="" id="ppcrpcmptckrdirSeller" readOnly disabled>{viewTicketReportDetails.regards}</textarea>
+                                                </div>}
+                                            </div>
+                                            <div className='ppcrpcmptckrdiUser'>
+                                                <p>
+                                                    <span>
+                                                        {(viewTicketReportDetails.status === 'unresolved') && 'Status: On Queue'}
+                                                        {(viewTicketReportDetails.status === 'Status: Processing') && 'Processing'}
+                                                        {(viewTicketReportDetails.status === 'Completed') && 'Completed'}
+                                                    </span>
+                                                </p>
+                                                {viewTicketReportDetails.regards &&
+                                                    <button onClick={handleTixSellerResponse}><TbMessage2 classNamefaIcons/></button>
+                                                }
+                                            </div>
                                         </div>
-                                        <p id='ppcrpcmptckrcDate'>{formatDateToWordedDate(viewTicketReportDetails.date)}</p>
+                                        <p id='ppcrpcmptckrcDate'>{formatDateToWordedDate(viewTicketReportDetails.date)}{viewTicketReportDetails.date_completed && ` - ${formatDateToWordedDate(viewTicketReportDetails.date_completed)}`}</p>
                                     </div>
                                 </div>}
                                 <div className="ppcrpcmpTicket website">
                                     <div>
-                                        {viewTicketReport.map((data, i) => (
+                                        {TicketReportSort.map((data, i) => (
                                         <ul key={i}>
                                             <li id='ppcrpcmptckcDate'>{formatDateToWordedDate(data.date)}</li>
                                             <li id='ppcrpcmptckcId'>{data.ticket_id}</li>
                                             <li id='ppcrpcmptckcName'><UsernameSlicer text={`${data.product_name}`} maxLength={35} /></li>
-                                            <li id='ppcrpcmptckcStatus'>{(data.status === 'unresolved') ? 'Pending' : 'Done'}</li>
+                                            <li id='ppcrpcmptckcStatus'>
+                                                {(data.status === 'unresolved') && 'On Queue'}
+                                                {(data.status === 'Processing') && 'Processing'}
+                                                {(data.status === 'Completed') && 'Completed'}
+                                            </li>
                                             <li id='ppcrpcmptckcView'><button onClick={() => handleViewTicketDetails(data.ticket_id)}>Details</button></li>
                                         </ul>))}
                                     </div>

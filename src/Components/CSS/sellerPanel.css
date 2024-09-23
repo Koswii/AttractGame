@@ -44,21 +44,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
 .mcsAddCodeContainer{
-    height: 100vh;
+    height: 100%;
     width: 100%;
-    position: fixed;
+    position: absolute;
+    top: 0;
+    left: 0;
     background: rgba(0, 0, 0, 0.36);
     box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(15px);
+    border: solid 2px black;
     -webkit-backdrop-filter: blur(15px);
-    z-index: 10;
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .mcsacCodeContent{
     height: auto;
-    width: 20%;
+    width: 30%;
     position: relative;
     box-shadow: 0 0 15px gray;
     overflow: hidden;
@@ -277,6 +280,143 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
 
+
+.mcsTicketReportContainer{
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    border: solid 2px black;
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mcsatckrContent{
+    height: auto;
+    width: 30%;
+    position: relative;
+    box-shadow: 0 0 15px gray;
+    overflow: hidden;
+    border-radius: 1vw;
+    background: black;
+    animation: fade-in-down 800ms ease;
+    padding: 3% 2%;
+}
+.mcsatckrContent button#closeAddCode{
+    position: absolute;
+    right: 1vw;
+    top: 1vw;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1.5vw;
+    cursor: pointer;
+    text-shadow: 0 0 10px black;
+    z-index: 5;
+}
+.mcsatckrcDetails{
+    height: auto;
+    width: 100%;
+}
+.mcsatckrcDetails h5{
+    width: 100%;
+    font-size: 1.2vw;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.mcsatckrcDetails h5 .faIcons{
+    margin-right: 5%;
+}
+.mcsatckrcDetails h6{
+    margin-top: 5%;
+    margin-bottom: 3%;
+    font-size: 1vw;
+    font-weight: 400;
+}
+.mcsatckrcDetails p{
+    font-size: 0.7vw;
+    color: gray;
+    overflow: hidden;
+}
+.mcsatckrcConcern{
+    height: auto;
+    width: 100%;
+    margin-top: 5%;
+}
+.mcsatckrcConcern div{
+    height: auto;
+    width: 100%;
+    margin-bottom: 2%;
+}
+.mcsatckrcConcern p{
+    font-size: 0.7vw;
+    color: gray;
+}
+.mcsatckrcConcern div textarea{
+    height: 7vw;
+    width: 100%;
+    background: none;
+    outline: none;
+    border: solid 2px gray;
+    border-radius: 0.5vw;
+    padding: 2% 3%;
+    margin-top: 2%;
+    color: white;
+    resize: none;
+    font-size: 0.7vw;
+    overflow-y: scroll;
+}
+.mcsatckrcConcern div span{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-top: 2%;
+}
+.mcsatckrcConcern div button{
+    padding: 1.5% 5%;
+    border: solid 1px white;
+    outline: none;
+    background: none;
+    font-size: 0.7vw;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 400ms ease;
+}
+.mcsatckrcConcern div button:hover{
+    background: white;
+    color: black;
+    transition: 400ms ease;
+}
+.mcsatckrcConcern div p#tixSellerResDate{
+    text-align: right;
+    color: white;
+    font-size: 0.6vw;
+    padding-right: 3%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.mcsatckrcConcern div p#tixSellerResDate .faIcons{
+    margin-right: 1.5%;
+}
+
+
+
+
+
+
+
+
+
 section.spPageContainer.top{
     height: auto;
     width: 20%;
@@ -377,11 +517,15 @@ section.spPageContainer.mid{
 .sppcm1Dashboard{
     height: auto;
     width: 100%;
+    padding: 1%;
     animation: fade-in-left 1s ease;
 }
 .sppcm1Dashboard h4{
     text-transform: uppercase;
     margin-bottom: 1%;
+}
+.sppcm1Dashboard p#sppcm1dInfo{
+    color: gray;
 }
 .sppcm1dContainer{
     height: auto;
@@ -389,7 +533,7 @@ section.spPageContainer.mid{
     display: flex;
     justify-content: space-between;
     align-items: top;
-    margin: 1% 0;
+    margin: 2% 0;
 }
 .sppcm1dContent.left{
     height: auto;
@@ -499,6 +643,7 @@ section.spPageContainer.mid{
 .sppcm1AddGames{
     height: auto;
     width: 100%;
+    padding: 1%;
     animation: fade-in-left 1s ease;
 }
 .sppcm1AddGameContainer{
@@ -507,7 +652,6 @@ section.spPageContainer.mid{
     display: flex;
     justify-content: space-between;
     align-items: top;
-    margin: 1% 0;
 }
 .sppcm1AGameContent.left{
     height: auto;
@@ -522,7 +666,7 @@ section.spPageContainer.mid{
     color: gray;
 }
 .sppcm1AGameContent.left p#sppcm1agclInfo .faIcons{
-    margin-right: 1%;
+    margin-right: 5px;
 }
 .sppcm1agclContainer{
     height: auto;
@@ -585,7 +729,7 @@ section.spPageContainer.mid{
     color: gray;
 }
 .sppcm1AGameContent.right p#agfcInfo .faIcons{
-    margin-right: 1%;
+    margin-right: 5px;
 }
 .sppcm1agcForm{
     height: auto;
@@ -817,6 +961,7 @@ section.spPageContainer.mid{
 .sppcm1GiftCards{
     height: auto;
     width: 100%;
+    padding: 1%;
     animation: fade-in-left 1s ease;
 }
 .sppcm1AddGiftCardContainer{
@@ -825,7 +970,6 @@ section.spPageContainer.mid{
     display: flex;
     justify-content: space-between;
     align-items: top;
-    padding: 1% 0;
 }
 .sppcm1AGiftCardContent.left{
     height: auto;
@@ -840,7 +984,7 @@ section.spPageContainer.mid{
     color: gray;
 }
 .sppcm1AGiftCardContent.left p#sppcm1agclInfo .faIcons{
-    margin-right: 1%;
+    margin-right: 5px;
 }
 .sppcm1AGiftcardsCAll{
     height: auto;
@@ -877,7 +1021,7 @@ section.spPageContainer.mid{
     color: gray;
 }
 .sppcm1AGiftCardContent.right p#agfcInfo .faIcons{
-    margin-right: 1%;
+    margin-right: 5px;
 }
 .sppcm1agcvForm{
     height: auto;
@@ -1074,6 +1218,7 @@ section.spPageContainer.mid{
 .sppcm1GameCredits{
     height: auto;
     width: 100%;
+    padding: 1%;
     animation: fade-in-left 1s ease;
 }
 .sppcm1AddGameCreditsContainer{
@@ -1082,7 +1227,6 @@ section.spPageContainer.mid{
     display: flex;
     justify-content: space-between;
     align-items: top;
-    padding: 1% 0;
 }
 .sppcm1AGameCreditsContent.left{
     height: auto;
@@ -1098,7 +1242,7 @@ section.spPageContainer.mid{
     color: gray;
 }
 .sppcm1AGameCreditsContent.left p#sppcm1agclInfo .faIcons{
-    margin-right: 1%;
+    margin-right: 5px;
 }
 .sppcm1AGameCreditsCAll{
     height: auto;
@@ -1132,7 +1276,7 @@ section.spPageContainer.mid{
     color: gray;
 }
 .sppcm1AGameCreditsContent.right p#agfcInfo .faIcons{
-    margin-right: 1%;
+    margin-right: 5px;
 }
 .sppcm1AGameCreditsContent.right form{
     height: auto;
@@ -1329,6 +1473,10 @@ section.spPageContainer.mid{
     height: auto;
     width: 100%;
     animation: fade-in-left 1s ease;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1vw;
+    padding: 1%;
 }
 .sppcm1ProductlistContainer{
     display: flex;
@@ -1378,7 +1526,7 @@ section.spPageContainer.mid{
     color: gray;
 }
 .sppcm1ProductlistContent.right p#sppcm1pcrInfo .faIcons{
-    margin-right: 1%;
+    margin-right: 5px;
 }
 .sppcm1ProductRight-header{
     display: flex;
@@ -1672,13 +1820,31 @@ section.spPageContainer.mid{
     height: auto;
     width: 100%;
     animation: fade-in-left 1s ease;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1vw;
+    padding: 1%;
 }
 .sppcm1InventoryContainer{
     display: flex;
     justify-content: space-between;
     align-items: top;
 }
-
+.sppcm1InventoryContent{
+    height: auto;
+    width: 100%;
+}
+.sppcm1InventoryContent p#sppcm1pcrInfo {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    margin: 5px 0;
+    color: gray;
+}
+.sppcm1InventoryContent p#sppcm1pcrInfo .faIcons {
+    margin-right: 5px;
+}
 
 
 
@@ -1689,29 +1855,12 @@ section.spPageContainer.mid{
     height: auto;
     width: 100%;
     animation: fade-in-left 1s ease;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1vw;
+    padding: 1%;
 }
 .sppcm1TicketsContainer{
-    display: flex;
-    justify-content: space-between;
-    align-items: top;
-}
-
-
-
-
-
-
-
-
-
-
-
-.sppcm1Sold{
-    height: auto;
-    width: 100%;
-    animation: fade-in-left 1s ease;
-}
-.sppcm1SoldContainer{
     display: flex;
     justify-content: space-between;
     align-items: top;
@@ -1729,7 +1878,7 @@ section.spPageContainer.mid{
     color: gray;
 }
 .sppcm1TicketsContent p#sppcm1pcrInfo .faIcons {
-    margin-right: 1%;
+    margin-right: 5px;
 }
 .sppcm1tcEmpty{
     height: 30vw;
@@ -1751,10 +1900,103 @@ section.spPageContainer.mid{
     height: 30vw;
     overflow-y: scroll;
     position: relative;
-    border-radius: 1vw;
     margin-top: 3%;
 }
+.sppcm1tcrpInfo{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    padding-left: 1%;
+}
+.sppcm1tcrpInfo:nth-child(odd) {
+    background: rgba(80, 80, 80, 0.5);
+}
+.sppcm1tcrpInfo:nth-child(even) {
+    background: rgba(80, 80, 80, 0.3);
+}
+.sppcm1tcrpInfo div{
+    padding: 3px;
+}
+.sppcm1tcrpInfo div p{
+    font-size: 0.7vw;
+}
+.sppcm1tcrpInfo div p span{
+    color: gray;
+}
+.sppcm1tcrpi{
+    border-radius: 10px;
+}
+.sppcm1tcrpiDate{
+    width: 10%;
+}
+.sppcm1tcrpiTicket{
+    width: 10%;
+}
+.sppcm1tcrpiProduct{
+    width: 25%;
+}
+.sppcm1tcrpiUserID{
+    width: 20%;
+}
+.sppcm1tcrpiStatus{
+    width: 10%;
+}
+.sppcm1tcrpiDetails{
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sppcm1tcrpiDetails button{
+    height: 100%;
+    width: 100%;
+    font-size: 0.7vw;
+    padding: 5% 10%;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
 
+
+
+
+
+
+
+.sppcm1Sold{
+    height: auto;
+    width: 100%;
+    animation: fade-in-left 1s ease;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1vw;
+    padding: 1%;
+}
+.sppcm1SoldContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+.sppcm1TransactionContent{
+    height: auto;
+    width: 100%;
+}
+.sppcm1TransactionContent p#sppcm1pcrInfo {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    margin: 5px 0;
+    color: gray;
+}
+.sppcm1TransactionContent p#sppcm1pcrInfo .faIcons {
+    margin-right: 5px;
+}
 
 
 

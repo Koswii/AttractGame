@@ -80,10 +80,7 @@ const Stores = () => {
             ...seller, gameTotal, giftcardTotal, gamecreditTotal
         }
     });
-
-    console.log(storeTotalDetails);
     
-
 
     return (
         <div className='mainContainer allStores'>
