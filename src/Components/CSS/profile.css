@@ -2222,6 +2222,16 @@ section.profilePageContainer.mid{
     animation: fade-in-down 800ms ease;
     margin-left: 2%;
 }
+.ppcrpcmptckrChat button#closeTicketModal{
+    position: absolute;
+    top: 1vw;
+    right: 1vw;
+    color: white;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
 .ppcrpcmptckrcSeller{
     height: auto;
     width: 100%;
@@ -2283,6 +2293,9 @@ section.profilePageContainer.mid{
 }
 .ppcrpcmptckrcc p{
     font-size: 0.7vw;
+}
+.ppcrpcmptckrcc p#ppcrpcmptckrccStart{
+    color: gray;
 }
 .ppcrpcmptckrcc.hidden{
     background: transparent;
@@ -3289,17 +3302,20 @@ section.profilePageContainer.mid{
         display: none;
     }
     .ppcrpcmpTicket div ul li#ppcrpcmptckcView{
-        width: 30%;
+        width: 8%;
         padding: 0.5%;
     }
     .ppcrpcmpTicket button{
-        font-size: 2.3vw;
+        font-size: 5vw;
     }
     .ppcrpcmptckrDetails{
         height: auto;
         width: 85%;
         padding: 5vw 3vw;
         border-radius: 2vw;
+    }
+    .ppcrpcmptckrDetails.chat{
+        display: none;
     }
     .ppcrpcmptckrDetails button{
         font-size: 5vw;
@@ -3360,6 +3376,59 @@ section.profilePageContainer.mid{
 
 
 
+    .ppcrpcmptckrChat{
+        height: auto;
+        width: 85%;
+        padding: 5vw 3vw;
+        border-radius: 2vw;
+    }
+    .ppcrpcmptckrChat button#closeTicketModal{
+        font-size: 5vw;
+        top: 3vw;
+        right: 3vw;
+    }
+    .ppcrpcmptckrcSeller div{
+        height: 10vw;
+        width: 10vw;
+    }
+    .ppcrpcmptckrcSeller span h6{
+        font-size: 5vw;
+    }
+    .ppcrpcmptckrcSeller span p{
+        font-size: 2.3vw;
+    }
+    .ppcrpcmptckrcConversations{
+        height: 63vw;
+    }
+    .ppcrpcmptckrcc{
+        padding: 3%;
+    }
+    .ppcrpcmptckrcc p{
+        font-size: 2.3vw;
+    }
+    .ppcrpcmptckrcc.seller{
+        border-radius: 1.5vw;
+        border-bottom-left-radius: 0;
+    }
+    .ppcrpcmptckrcc.user{
+        border-radius: 1.5vw;
+        border-bottom-right-radius: 0;
+    }
+    .ppcrpcmptckrcSend textarea{
+        height: 8vw;
+        font-size: 2.5vw;
+        width: 85%;
+        padding: 0 3%;
+        padding-top: 2.5%;
+        border-radius: 10px;
+    }
+    .ppcrpcmptckrcSend button{
+        font-size: 7vw;
+        line-height: 8vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
 
 

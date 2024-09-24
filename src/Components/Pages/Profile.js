@@ -1594,6 +1594,7 @@ const Profile = () => {
                                         <p id='ppcrpcmptckrcDate'>{formatDateToWordedDate(viewTicketReportDetails.date)}{viewTicketReportDetails.date_completed && ` - ${formatDateToWordedDate(viewTicketReportDetails.date_completed)}`}</p>
                                     </div>
                                     <div className="ppcrpcmptckrChat">
+                                        <button id='closeTicketModal' onClick={handleCloseTransactionDetails}><FaTimes className='faIcons'/></button>
                                         <div className="ppcrpcmptckrcSeller">
                                             <div>
                                                 <img src={`https://2wave.io/StoreLogo/${viewTicketReportDetails.product_seller}.png`} alt="" />
@@ -1607,7 +1608,7 @@ const Profile = () => {
                                             <div className="ppcrpcmptckrcConvos">
                                                 <div className="ppcrpcmptckrcConvo">
                                                     <div className="ppcrpcmptckrcc seller">
-                                                        <p>Hello, Let's start our conversation here. Let me know what's your concern?</p>
+                                                        <p id='ppcrpcmptckrccStart'>Hello, Let's start our conversation here. Let me know what's your concern?</p>
                                                     </div>
                                                     <div className="ppcrpcmptckrcc hidden">
                                                     </div>
