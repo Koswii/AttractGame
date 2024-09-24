@@ -14,7 +14,9 @@ export const UserProfileDataProvider = ({ children }) => {
     const [viewStockNumber, setViewStockNumber] = useState([]);
     const [viewStoreList, setViewStoreList] = useState([]);
     const [viewTicketReport, setViewTicketReport] = useState([]);
+    const [viewTicketMessages, setViewTicketMessages] = useState([]);
     const [viewAllUserList, setViewAllUserList] = useState([]);
+    const [viewAllUserProfile, setViewAllUserProfile] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const LoginUserID = localStorage.getItem('profileUserID');
@@ -28,6 +30,7 @@ export const UserProfileDataProvider = ({ children }) => {
     const AGGiftcardsListAPI = process.env.REACT_APP_AG_GIFTCARDS_LIST_API;
     const AGUsersTransactions = process.env.REACT_APP_AG_USERS_TRANSACTIONS_API;
     const AGUsersTicketReport = process.env.REACT_APP_AG_USERS_FETCH_TICKET_API;
+    const AGTixMessageAPI = process.env.REACT_APP_AG_USERS_TICKET_MESSAGES_API;
     const AGSellerStockList = process.env.REACT_APP_AG_USER_SELLER_STOCKS_API;
     const AGUserStoreList = process.env.REACT_APP_AG_USERS_STORE_LIST_API;
 
@@ -76,6 +79,18 @@ export const UserProfileDataProvider = ({ children }) => {
                 return dateB - dateA;
             });
             setViewTicketReport(TicketReportSort);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const fetchUserTicketMessages = async () => {
+        try {
+            const intervalId = setInterval(async () => {
+                const response = await axios.get(AGTixMessageAPI);
+                const TicketMsgData = response.data;
+                setViewTicketMessages(TicketMsgData);
+            }, 1000);
+            return () => clearInterval(intervalId);
         } catch (error) {
             console.error(error);
         }
@@ -166,6 +181,7 @@ export const UserProfileDataProvider = ({ children }) => {
                   axios.get(AGUserDataAPI)
                 ]);
                 setViewAllUserList(userListResponse.data);
+                setViewAllUserProfile(userDataResponse.data)
                 const userDataStatus = userListResponse.data.find(item => item.userid === LoginUserID);
                 
                 const storedProfileData = localStorage.getItem('profileDataJSON')
@@ -192,10 +208,10 @@ export const UserProfileDataProvider = ({ children }) => {
 
         
 
-
         fetchUsersEmails();
         fetchUserTransactionHistory();
         fetchUserTicketReport();
+        fetchUserTicketMessages();
         fetchUserStores();
         fetchUserProductIds();
         fetchUserProfile();
@@ -209,6 +225,7 @@ export const UserProfileDataProvider = ({ children }) => {
     return (
         <UserProfileContext.Provider value={{ 
             viewAllUserList,
+            viewAllUserProfile,
             viewProfileBtn, 
             setViewProfileBtn,
             userLoggedData, 
@@ -224,8 +241,10 @@ export const UserProfileDataProvider = ({ children }) => {
             fetchUserProductIds,
             fetchUserTransactionHistory,
             fetchUserTicketReport,
+            fetchUserTicketMessages,
             viewTransactionList,
             viewTicketReport,
+            viewTicketMessages,
             viewSellerStock,
             viewStockNumber,
             viewStoreList

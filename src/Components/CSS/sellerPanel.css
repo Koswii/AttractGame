@@ -76,7 +76,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border: none;
     outline: none;
     color: white;
-    font-size: 1.5vw;
+    font-size: 1vw;
     cursor: pointer;
     text-shadow: 0 0 10px black;
     z-index: 5;
@@ -316,7 +316,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border: none;
     outline: none;
     color: white;
-    font-size: 1.5vw;
+    font-size: 1vw;
     cursor: pointer;
     text-shadow: 0 0 10px black;
     z-index: 5;
@@ -376,7 +376,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .mcsatckrcConcern div span{
     display: flex;
-    justify-content: right;
+    justify-content: center;
     align-items: center;
     margin-top: 2%;
 }
@@ -390,6 +390,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-radius: 50px;
     cursor: pointer;
     transition: 400ms ease;
+    margin: 0 1.5%;
 }
 .mcsatckrcConcern div button:hover{
     background: white;
@@ -408,6 +409,165 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .mcsatckrcConcern div p#tixSellerResDate .faIcons{
     margin-right: 1.5%;
 }
+
+
+
+
+.mcsTicketMessageContainer{
+    height: 85%;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.36);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 2;
+    display: flex;
+    justify-content: right;
+    align-items: end;
+    padding: 1%;
+}
+.mcsatckmContent{
+    height: 25vw;
+    width: 30%;
+    position: relative;
+    box-shadow: 0 0 15px gray;
+    overflow: hidden;
+    border-radius: 1vw;
+    background: black;
+    padding: 3% 2%;
+}
+.mcsatckmContent button#closeAddCode{
+    position: absolute;
+    right: 1vw;
+    top: 1vw;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1vw;
+    cursor: pointer;
+    text-shadow: 0 0 10px black;
+    z-index: 5;
+}
+.mcsatckmcHeader{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.mcsatckmcHeader div{
+    height: 3vw;
+    width: 3vw;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 2px white;
+    margin-right: 5%;
+}
+.mcsatckmcHeader div img{
+    height: 100%;
+}
+.mcsatckmcHeader span p{
+    font-size: 0.7vw;
+    color: gray;
+}
+.mcsatckmcContent{
+    height: 14vw;
+    width: 100%;
+    margin: 5% 0;
+    padding: 0 2%;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
+}
+.mcsatckmccConvos{ 
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;  /* Normal column layout for internal content */
+}
+.mcsatckmccConvo{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.mcsatckmccc{
+    height: auto;
+    width: 65%;
+    padding: 4%;
+    margin: 1% 0;
+}
+.mcsatckmccc p{
+    font-size: 0.7vw;
+}
+.mcsatckmccc p#mcsatckmcccStart{
+    color: gray;
+}
+.mcsatckmccc.hidden{
+    background: transparent;
+    width: 30%;
+}
+.mcsatckmccc.seller{
+    background: rgba(80, 80, 80, 0.5);
+    border-radius: 0.5vw;
+    border-bottom-right-radius: 0;
+}
+.mcsatckmccc.user{
+    background: rgba(80, 80, 80, 0.3);
+    border-radius: 0.5vw;
+    border-bottom-left-radius: 0;
+}
+.mcsatckmcMessage{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+.mcsatckmcMessage textarea{
+    height: 2vw;
+    font-size: 0.7vw;
+    width: 87%;
+    resize: none;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 0 5%;
+    padding-top: 1.5%;
+    border-radius: 50px;
+    border: solid 2px gray;
+}
+.mcsatckmcMessage button{
+    height: auto;
+    width: 10%;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1.2vw;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1779,6 +1939,8 @@ section.spPageContainer.mid{
     visibility: hidden;
     opacity: 0;
     transition: .3s ease;
+    border-bottom-left-radius: 1vw;
+    border-bottom-right-radius: 1vw;
 }
 .sppcm1Gameinfo-edit section{
     height: auto;
@@ -1910,7 +2072,7 @@ section.spPageContainer.mid{
     align-items: center;
     border-radius: 5px;
     margin-bottom: 3px;
-    padding-left: 1%;
+    padding: 0 1%;
 }
 .sppcm1tcrpInfo:nth-child(odd) {
     background: rgba(80, 80, 80, 0.5);
@@ -1954,12 +2116,16 @@ section.spPageContainer.mid{
 .sppcm1tcrpiDetails button{
     height: 100%;
     width: 100%;
-    font-size: 0.7vw;
-    padding: 5% 10%;
-    border-radius: 5px;
+    font-size: 1.2vw;
+    color: white;
+    background: none;
     border: none;
     outline: none;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5% 0;
 }
 
 
