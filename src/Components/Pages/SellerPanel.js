@@ -16,7 +16,6 @@ import {
     FaFilter,
     FaExternalLinkAlt  
 } from 'react-icons/fa';
-
 import { 
     TbLayoutDashboard,
     TbCubePlus ,
@@ -29,8 +28,11 @@ import {
     TbTicket,
     TbPackages,
     TbDatabaseDollar,
-    TbUserQuestion      
-  } from "react-icons/tb";
+    TbUserQuestion,
+    TbMessages,
+    TbMessage2,
+    TbSend,         
+} from "react-icons/tb";
 import { VscSaveAs } from "react-icons/vsc";
 import { FiEdit } from "react-icons/fi";
 import { Link } from 'react-router-dom';
@@ -64,11 +66,14 @@ const SellerPanel = () => {
     const [activeView, setActiveView] = useState('default');
     const { 
         viewAllUserList,
+        viewAllUserProfile,
         userLoggedData, 
         viewSellerStock,
         viewStockNumber,
         viewTicketReport,
+        viewTicketMessages, 
         fetchUserTicketReport,
+        fetchUserTicketMessages
     } = UserProfileData();
     const { 
         viewAGData1,
@@ -93,6 +98,7 @@ const SellerPanel = () => {
     const AGInsertProductCodeAPI = process.env.REACT_APP_AG_INSERT_PRODUCT_CODES_API;
     const AGProductStateAPI = process.env.REACT_APP_AG_PRODUCT_STATE_CREDENTIALS_API;
     const AGSellerTixReponseAPI = process.env.REACT_APP_AG_USERS_TICKET_RESPONSE_API;
+    const AGSendTixMessageAPI = process.env.REACT_APP_AG_USERS_TICKET_SEND_MESSAGE_API;
 
     const gameStocksNum = viewSellerStock.filter(stock => stock.ag_product_type === "Games")
     const giftcardsStocksNum = viewSellerStock.filter(stock => stock.ag_product_type === "Giftcards")
@@ -412,6 +418,9 @@ const SellerPanel = () => {
         setViewAddCodeModal(false)
         setViewTicketModal(false)
         setAddTicketResponse(false)
+        setViewTicketMsgModal(false)
+        setUserTixSentMsg('')
+        fetchUserTicketMessages()
     }
     if(viewAddCodeModal == true){
         window.document.body.style.overflow = 'hidden';
@@ -434,16 +443,50 @@ const SellerPanel = () => {
     });
 
     const [viewTicketModal, setViewTicketModal] = useState(false);
+    const [viewTicketMsgModal, setViewTicketMsgModal] = useState(false);
     const [viewTicketDetails, setViewTicketDetails] = useState([]);
+    const [viewTicketUserMessages, setViewTicketUserMessages] = useState([]);
     const [addTicketResponse, setAddTicketResponse] = useState(false);
     const [tixResLoader, setTixResLoader] = useState(false)
     const [sellerResponse, setSellerResponse] = useState('');
+    const [userTixMessage, setUserTixMessage] = useState('');
+    const [userTixSentMsg, setUserTixSentMsg] = useState('');
+
     const handleViewTicketProduct = (ticketCode) => {
         setViewTicketModal(true)
         const pCode = sellerTickerReports.find(pCodeID => pCodeID.ticket_id === ticketCode)
         setViewTicketDetails(pCode)
         console.log(pCode);
     }
+    const handleViewTicketMessages = (ticketCode) => {
+        setViewTicketMsgModal(true);
+        const pCode = sellerTickerReports.find(pCodeID => pCodeID.ticket_id === ticketCode);
+        
+        if (pCode) {
+            // Get user ticket details based on ticketCode
+            const userTicketDetails = [pCode].map(users => {
+                const userinfo = viewAllUserProfile.filter(ticket => ticket.userid === users.user_id);
+                return {
+                    ...users,
+                    userinfo,
+                };
+            });
+            const ticketMessages = viewTicketMessages.filter(tHash => tHash.ticket_id === ticketCode);
+            setViewTicketDetails(userTicketDetails[0]);
+            setViewTicketUserMessages(ticketMessages);
+            
+        } else {
+            console.error(`Ticket with code ${ticketCode} not found`);
+        }
+    };
+    useEffect(() => {
+        if (viewTicketMsgModal && viewTicketDetails) {
+            // Update ticket messages whenever viewTicketMessages updates
+            const updatedMessages = viewTicketMessages.filter(tHash => tHash.ticket_id === viewTicketDetails.ticket_id);
+            setViewTicketUserMessages(updatedMessages);
+        }
+    }, [viewTicketMessages, viewTicketMsgModal, viewTicketDetails]);
+
     const handleAddTixResponse = () => {
         setAddTicketResponse(true)
     }
@@ -481,7 +524,37 @@ const SellerPanel = () => {
             console.error(error);
         }
     };
+    const handleSendSellerMessage = async (e) => {
+        e.preventDefault();
     
+        const formSendUserMessage = {
+            userTixID: viewTicketDetails.ticket_id,
+            userTixUserid: userLoggedData.userid,
+            userTixUserMgs: '',
+            userTixUserDate: '',
+            userTixSellerid: viewTicketDetails.product_seller,
+            userTixSellerMgs: userTixMessage,
+            userTixSellerDate: new Date(),
+        };
+        
+        try {
+            const sellerTixResponse = await axios.post(AGSendTixMessageAPI, formSendUserMessage);
+            const responseMessage = sellerTixResponse.data;
+    
+            if (responseMessage.success) {
+                setUserTixMessage('');
+                fetchUserTicketMessages();
+            } else {
+                setUserTixMessage('');
+            }
+    
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    
+
+
     
     
     return (
@@ -1094,94 +1167,140 @@ const SellerPanel = () => {
                     </div>}
                     {activeView === 'tickets' && <div className="sppcm1Tickets">
                         {viewTicketModal && (<div className="mcsTicketReportContainer">
-                            <>
-                                <div className="mcsatckrContent">
-                                    <button id='closeAddCode' onClick={handleCloseModals}><FaTimes/></button>
-                                    <div className="mcsatckrcDetails">
-                                        <h5><FaTicket className='faIcons'/> {viewTicketDetails.ticket_id}</h5>
-                                        <h6>{viewTicketDetails.product_name}</h6>
-                                        <p>
-                                            {viewTicketDetails.product_id}<br />
-                                            <span>{viewTicketDetails.date}</span>
-                                        </p>
-                                    </div>
-                                    <div className="mcsatckrcConcern">
-                                        <div>
-                                            <p><UsernameSlicer text={`${viewTicketDetails.userinfo[0].username}`} maxLength={10} /> ({viewTicketDetails.userinfo[0].userid})</p>
-                                            <textarea name="" id="" disabled readOnly>{viewTicketDetails.concern}</textarea>
-                                            {!addTicketResponse && <>
-                                                {!viewTicketDetails.regards && 
-                                                <span>
-                                                    <button onClick={handleAddTixResponse}>Add Response</button>
-                                                </span>}
-                                            </>}
-                                        </div>
-                                        {!viewTicketDetails.regards ? <>
-                                            {addTicketResponse && <div>
-                                                <p>Your Response</p>
-                                                <textarea name="" id="" 
-                                                    placeholder={(viewTicketDetails.regards === '') && 'Type ticket response here...'} 
-                                                    onChange={(e) => setSellerResponse(e.target.value)} 
-                                                    disabled={viewTicketDetails.regards}
-                                                >    
-                                                    {viewTicketDetails.regards && viewTicketDetails.regards}
-                                                </textarea>
-                                                {!viewTicketDetails.regards && 
-                                                <span>
-                                                    { !tixResLoader ?
-                                                        <button onClick={handleSubmitSellerResponse} disabled={!sellerResponse}>Submit Response</button>:
-                                                        <button disabled>Sending Response...</button>
-                                                    }
-                                                </span>}
-                                            </div>}
-                                        </>:<>
-                                            <div>
-                                                <p>Your Response</p>
-                                                <textarea name="" id="" 
-                                                    placeholder={(viewTicketDetails.regards === '') && 'Type ticket response here...'} disabled={viewTicketDetails.regards}>    
-                                                    {viewTicketDetails.regards && viewTicketDetails.regards}
-                                                </textarea>
-                                                <p id='tixSellerResDate'><TbCircleCheck className='faIcons'/> Sent {formatDateToWordedDate(viewTicketDetails.date_completed)}</p>
-                                            </div>
+                            <div className="mcsatckrContent">
+                                <button id='closeAddCode' onClick={handleCloseModals}><FaTimes/></button>
+                                <div className="mcsatckrcDetails">
+                                    <h5><FaTicket className='faIcons'/> {viewTicketDetails.ticket_id}</h5>
+                                    <h6>{viewTicketDetails.product_name}</h6>
+                                    <p>
+                                        {viewTicketDetails.product_id}<br />
+                                        <span>{viewTicketDetails.date}</span>
+                                    </p>
+                                </div>
+                                <div className="mcsatckrcConcern">
+                                    <div>
+                                        <p><UsernameSlicer text={`${viewTicketDetails.userinfo[0].username}`} maxLength={10} /> ({viewTicketDetails.userinfo[0].userid})</p>
+                                        <textarea name="" id="" disabled readOnly>{viewTicketDetails.concern}</textarea>
+                                        {!addTicketResponse && <>
+                                            {(viewTicketDetails.status != 'Completed') && 
+                                            <span>
+                                                <button onClick={handleSubmitSellerResponse}>Marked Complete</button>
+                                                <button onClick={handleAddTixResponse}>Add Statement</button>
+                                            </span>}
                                         </>}
                                     </div>
+                                    {!viewTicketDetails.regards ? <>
+                                        {addTicketResponse && <div>
+                                            <p>Your Statement</p>
+                                            <textarea name="" id="" 
+                                                placeholder={(viewTicketDetails.regards === '') && 'Type ticket response here...'} 
+                                                onChange={(e) => setSellerResponse(e.target.value)} 
+                                                disabled={viewTicketDetails.regards}
+                                            >    
+                                                {viewTicketDetails.regards && viewTicketDetails.regards}
+                                            </textarea>
+                                            {!viewTicketDetails.regards && 
+                                            <span>
+                                                { !tixResLoader ?
+                                                    <button onClick={handleSubmitSellerResponse} disabled={!sellerResponse}>Submit Statement</button>:
+                                                    <button disabled>Sending Statement...</button>
+                                                }
+                                            </span>}
+                                        </div>}
+                                    </>:<>
+                                        <div>
+                                            <p>Your Statement</p>
+                                            <textarea name="" id="" 
+                                                placeholder={(viewTicketDetails.regards === '') && 'Type ticket statement here...'} disabled={viewTicketDetails.regards}>    
+                                                {viewTicketDetails.regards && viewTicketDetails.regards}
+                                            </textarea>
+                                            <p id='tixSellerResDate'><TbCircleCheck className='faIcons'/> Sent {formatDateToWordedDate(viewTicketDetails.date_completed)}</p>
+                                        </div>
+                                    </>}
                                 </div>
-                            </>
+                            </div>
                         </div>)}
+                        {viewTicketMsgModal && <div className="mcsTicketMessageContainer">
+                            <div className="mcsatckmContent">
+                                <button id='closeAddCode' onClick={handleCloseModals}><FaTimes/></button>
+                                <div className="mcsatckmcHeader">
+                                    <div>
+                                        <img src={`https://2wave.io/ProfilePics/${viewTicketDetails.userinfo[0].profileimg}`} alt="" />
+                                    </div>
+                                    <span>
+                                        <h6><UsernameSlicer text={`${viewTicketDetails.userinfo[0].username}`} maxLength={10} /></h6>
+                                        <p>{viewTicketDetails.ticket_id}</p>
+                                    </span>
+                                </div>
+                                <div className="mcsatckmcContent">
+                                    <div className="mcsatckmccConvos">
+                                        <div className="mcsatckmccConvo">
+                                            <div className="mcsatckmccc hidden">
+                                            </div>
+                                            <div className="mcsatckmccc seller">
+                                                <p id='mcsatckmcccStart'>Start your conversation with {viewTicketDetails.userinfo[0].username} here.</p>
+                                            </div>
+                                        </div>
+                                        {viewTicketUserMessages.map((details, i) => (
+                                            <div className="mcsatckmccConvo">
+                                                <div className={details.user_chat ? "mcsatckmccc user" : "mcsatckmccc hidden"}>
+                                                    <p>{details.user_chat}</p>
+                                                </div>
+                                                <div className={details.seller_chat ? "mcsatckmccc seller" : "mcsatckmccc hidden"}>
+                                                    <p>{details.seller_chat}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                        {userTixSentMsg && 
+                                            <div className="mcsatckmccConvo">
+                                                <div className="mcsatckmccc hidden">
+                                                </div>
+                                                <div className="mcsatckmccc seller">
+                                                    <p>{userTixSentMsg}</p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                <div className="mcsatckmcMessage">
+                                    <textarea name="" id="" placeholder='Type here...' value={userTixMessage} onChange={(e) => setUserTixMessage(e.target.value)}></textarea>
+                                    <button onClick={handleSendSellerMessage} disabled={!userTixMessage}><TbSend className='faIcons'/></button>
+                                </div>
+                            </div>
+                        </div>}
                         <div className="sppcm1TicketsContainer">
                             <div className="sppcm1TicketsContent">
                                 <h4>PRODUCT TICKET REPORTS</h4>
                                 <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Here, you can easily check and add notes regarding the reported products in your store.</p>
                                 {(sellerTickerReports.length > 0) ? 
                                     <div className="sppcm1tcReports">
-                                        <>
-                                            {sellerTickerReports.map((data, i) => (
-                                                <div className="sppcm1tcrpInfo" key={i}>
-                                                    <div className='sppcm1tcrpiDate'>
-                                                        <p>{formatDateToWordedDate(data.date)}</p>
-                                                    </div>
-                                                    <div className='sppcm1tcrpiTicket'>
-                                                        <p>{data.ticket_id}</p>
-                                                    </div>
-                                                    <div className='sppcm1tcrpiUserID'>
-                                                        <p><UsernameSlicer text={`${data.userinfo[0].username}`} maxLength={10} /> <span>({data.user_id})</span></p>
-                                                    </div>
-                                                    <div className='sppcm1tcrpiProduct'>
-                                                        <p><UsernameSlicer text={`${data.product_name}`} maxLength={35} /></p>
-                                                    </div>
-                                                    <div className='sppcm1tcrpiStatus'>
-                                                        <p>
-                                                            {(data.status === 'unresolved') && 'On Queue'}
-                                                            {(data.status === 'Processing') && 'Processing'}
-                                                            {(data.status === 'Completed') && 'Completed'}
-                                                        </p>
-                                                    </div>
-                                                    <div className='sppcm1tcrpiDetails'>
-                                                        <button onClick={() => handleViewTicketProduct(data.ticket_id)}>Details</button>
-                                                    </div>
+                                        {sellerTickerReports.map((data, i) => (
+                                            <div className="sppcm1tcrpInfo" key={i}>
+                                                <div className='sppcm1tcrpiDate'>
+                                                    <p>{formatDateToWordedDate(data.date)}</p>
                                                 </div>
-                                            ))}
-                                        </>
+                                                <div className='sppcm1tcrpiTicket'>
+                                                    <p>{data.ticket_id}</p>
+                                                </div>
+                                                <div className='sppcm1tcrpiUserID'>
+                                                    <p><UsernameSlicer text={`${data.userinfo[0].username}`} maxLength={10} /> <span>({data.user_id})</span></p>
+                                                </div>
+                                                <div className='sppcm1tcrpiProduct'>
+                                                    <p><UsernameSlicer text={`${data.product_name}`} maxLength={35} /></p>
+                                                </div>
+                                                <div className='sppcm1tcrpiStatus'>
+                                                    <p>
+                                                        {(data.status === 'On Queue') && 'On Queue'}
+                                                        {(data.status === 'Processing') && 'Processing'}
+                                                        {(data.status === 'Completed') && 'Completed'}
+                                                    </p>
+                                                </div>
+                                                <div className='sppcm1tcrpiDetails'>
+                                                    <button onClick={() => handleViewTicketProduct(data.ticket_id)}><TbTicket className='faIcons'/></button>
+                                                    <button onClick={() => handleViewTicketMessages(data.ticket_id)}><TbMessages className='faIcons'/></button>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>:
                                     <div className="sppcm1tcEmpty">
                                         <div>

@@ -37,8 +37,9 @@ import {
     TbCubeSend,
     TbCubePlus,
     TbTicket,
-    TbMessage,
-    TbMessage2,   
+    TbMessages,
+    TbMessage2,
+    TbSend,   
 } from "react-icons/tb";
 import { 
     RiVerifiedBadgeFill,
@@ -148,9 +149,11 @@ const Profile = () => {
         userProductCodeIDData, 
         viewTransactionList,
         viewTicketReport,
+        viewTicketMessages,
         fetchUserProductIds,
         fetchUserTransactionHistory, 
         fetchUserTicketReport,
+        fetchUserTicketMessages,
     } = UserProfileData();
     // User Profile Fetching
     const AGUserPostAPI = process.env.REACT_APP_AG_FETCH_POST_API;
@@ -512,7 +515,13 @@ const Profile = () => {
     const [viewTransactionRecord, setViewTransactionRecord] = useState(false);
     const [viewTransactionDetails, setViewTransactionDetails] = useState([]);
     const [viewTicketReportRecord, setViewTicketReportRecord] = useState(false);
+    const [viewTicketMessageRecord, setViewTicketMessageRecord] = useState(false);
     const [viewTicketReportDetails, setViewTicketReportDetails] = useState([]);
+    const [viewTicketMessagesDetails, setViewTicketMessagesDetails] = useState([]);
+    const AGSendTixMessageAPI = process.env.REACT_APP_AG_USERS_TICKET_SEND_MESSAGE_API;
+
+
+
 
     // const handleViewDefault = () => {
     //     setViewUserHighlight(true)
@@ -564,7 +573,9 @@ const Profile = () => {
         setViewUserHighlight(false)
         setViewTransactionRecord(false)
         setViewTicketReportRecord(false)
+        setViewTicketMessageRecord(false)
         fetchUserTicketReport();
+        fetchUserTicketMessages();
     }
     const handleViewTransactions = () => {
         setViewUserTransactions(true)
@@ -576,6 +587,7 @@ const Profile = () => {
         setViewUserHighlight(false)
         setViewTransactionRecord(false)
         setViewTicketReportRecord(false)
+        setViewTicketMessageRecord(false)
     }
 
     if(viewProductCode == true || viewProductTicket == true){
@@ -868,6 +880,10 @@ const Profile = () => {
     }
     
     const [tixSellerResponse, setTixSellerResponse] = useState(false);
+    const [userTixMessage, setUserTixMessage] = useState('');
+    const [userTixSentMsg, setUserTixSentMsg] = useState('');
+
+
     const userTicketFilter = viewTicketReport.filter(user => user.user_id === userLoggedData.userid)
     const TicketReportSort = userTicketFilter.sort((a, b) => {
         const dateA = new Date(a.date);
@@ -878,24 +894,65 @@ const Profile = () => {
     const handleTixSellerResponse = () => {
         setTixSellerResponse(true)
     }
-
-
-
-
-    const handleViewTransactionDetails = (hashCode) => {
-        setViewTransactionRecord(true)
-        const transactionDetails = viewTransactionList.find(tHash => tHash.ag_transaction_hash === hashCode)
-        setViewTransactionDetails(transactionDetails)
-    }
     const handleViewTicketDetails = (hashCode) => {
         setViewTicketReportRecord(true)
         const transactionDetails = viewTicketReport.find(tHash => tHash.ticket_id === hashCode)
         setViewTicketReportDetails(transactionDetails)
     }
+    const handleViewTicketMessage = (hashCode) => {
+        setViewTicketMessageRecord(true)
+        const transactionDetails = viewTicketReport.find(tHash => tHash.ticket_id === hashCode)
+        const ticketMessages = viewTicketMessages.filter(tHash => tHash.ticket_id === hashCode)
+        
+        setViewTicketReportDetails(transactionDetails)
+        setViewTicketMessagesDetails(ticketMessages)
+    }
+    useEffect(() => {
+        if (viewTicketMessageRecord && viewTicketReportDetails) {
+            // Update ticket messages whenever viewTicketMessages updates
+            const updatedMessages = viewTicketMessages.filter(tHash => tHash.ticket_id === viewTicketReportDetails.ticket_id);
+            setViewTicketMessagesDetails(updatedMessages);
+        }
+    }, [viewTicketMessages, viewTicketMessageRecord, viewTicketReportDetails]);
+    const handleSendSellerMessage = async (e) => {
+        e.preventDefault();
+    
+        const formSendSellerMessage = {
+            userTixID: viewTicketReportDetails.ticket_id,
+            userTixUserid: userLoggedData.userid,
+            userTixUserMgs: userTixMessage,
+            userTixUserDate: new Date(),
+            userTixSellerid: '',
+            userTixSellerMgs: '',
+            userTixSellerDate: '',
+        };
+        
+        try {
+            const sellerTixResponse = await axios.post(AGSendTixMessageAPI, formSendSellerMessage);
+            const responseMessage = sellerTixResponse.data;
+    
+            if (responseMessage.success) {
+                setUserTixMessage('');
+                fetchUserTicketMessages();
+            } else {
+                setUserTixMessage('');
+            }
+    
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const handleViewTransactionDetails = (hashCode) => {
+        setViewTransactionRecord(true);
+        const transactionDetails = viewTransactionList.find(tHash => tHash.ag_transaction_hash === hashCode);
+        setViewTransactionDetails(transactionDetails);
+    }
     const handleCloseTransactionDetails = () => {
-        setViewTransactionRecord(false)
-        setViewTicketReportRecord(false)
-        setTixSellerResponse(false)
+        setViewTransactionRecord(false);
+        setViewTicketReportRecord(false);
+        setViewTicketMessageRecord(false);
+        setTixSellerResponse(false);
+        setUserTixSentMsg('');
     }
     
 
@@ -1483,15 +1540,49 @@ const Profile = () => {
                                                     <textarea name="" id="ppcrpcmptckrdirReport" readOnly disabled>{viewTicketReportDetails.concern}</textarea>
                                                 </div>
                                                 :<div>
-                                                    <p>Seller Response:</p>
+                                                    <p>Seller Statement:</p>
                                                     <textarea name="" id="ppcrpcmptckrdirSeller" readOnly disabled>{viewTicketReportDetails.regards}</textarea>
                                                 </div>}
                                             </div>
                                             <div className='ppcrpcmptckrdiUser'>
                                                 <p>
                                                     <span>
-                                                        {(viewTicketReportDetails.status === 'unresolved') && 'Status: On Queue'}
-                                                        {(viewTicketReportDetails.status === 'Status: Processing') && 'Processing'}
+                                                        {(viewTicketReportDetails.status === 'On Queue') && 'Status: On Queue'}
+                                                        {(viewTicketReportDetails.status === 'Processing') && 'Status: Processing'}
+                                                        {(viewTicketReportDetails.status === 'Completed') && 'Completed'}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p id='ppcrpcmptckrcDate'>{formatDateToWordedDate(viewTicketReportDetails.date)}{viewTicketReportDetails.date_completed && ` - ${formatDateToWordedDate(viewTicketReportDetails.date_completed)}`}</p>
+                                    </div>
+                                </div>}
+                                {viewTicketMessageRecord && <div className="ppcrpcmptReceipt">
+                                    <div className="ppcrpcmptckrDetails chat">
+                                        <h6>Ticket Report Details</h6>
+                                        <p id='ppcrpcmptckrcHash'>Ticket: {viewTicketReportDetails.ticket_id}</p>
+                                        <div className="ppcrpcmptckrdInfo">
+                                            <p>
+                                                <UsernameSlicer text={`${viewTicketReportDetails.product_name}`} maxLength={35} />
+                                            </p>
+                                            <p>
+                                                <span><UsernameSlicer text={`${viewTicketReportDetails.product_seller}`} maxLength={30} /> Store</span>
+                                            </p>
+                                            <div className="ppcrpcmptckrdiReport">
+                                                {!tixSellerResponse ? 
+                                                <div>
+                                                    <textarea name="" id="ppcrpcmptckrdirReport" readOnly disabled>{viewTicketReportDetails.concern}</textarea>
+                                                </div>
+                                                :<div>
+                                                    <p>Seller Statement:</p>
+                                                    <textarea name="" id="ppcrpcmptckrdirSeller" readOnly disabled>{viewTicketReportDetails.regards}</textarea>
+                                                </div>}
+                                            </div>
+                                            <div className='ppcrpcmptckrdiUser'>
+                                                <p>
+                                                    <span>
+                                                        {(viewTicketReportDetails.status === 'On Queue') && 'Status: On Queue'}
+                                                        {(viewTicketReportDetails.status === 'Processing') && 'Status: Processing'}
                                                         {(viewTicketReportDetails.status === 'Completed') && 'Completed'}
                                                     </span>
                                                 </p>
@@ -1502,6 +1593,51 @@ const Profile = () => {
                                         </div>
                                         <p id='ppcrpcmptckrcDate'>{formatDateToWordedDate(viewTicketReportDetails.date)}{viewTicketReportDetails.date_completed && ` - ${formatDateToWordedDate(viewTicketReportDetails.date_completed)}`}</p>
                                     </div>
+                                    <div className="ppcrpcmptckrChat">
+                                        <div className="ppcrpcmptckrcSeller">
+                                            <div>
+                                                <img src={`https://2wave.io/StoreLogo/${viewTicketReportDetails.product_seller}.png`} alt="" />
+                                            </div>
+                                            <span>
+                                                <h6><UsernameSlicer text={`${viewTicketReportDetails.product_seller}`} maxLength={15} /></h6>
+                                                <p>{viewTicketReportDetails.ticket_id}</p>
+                                            </span>
+                                        </div>
+                                        <div className="ppcrpcmptckrcConversations">
+                                            <div className="ppcrpcmptckrcConvos">
+                                                <div className="ppcrpcmptckrcConvo">
+                                                    <div className="ppcrpcmptckrcc seller">
+                                                        <p>Hello, Let's start our conversation here. Let me know what's your concern?</p>
+                                                    </div>
+                                                    <div className="ppcrpcmptckrcc hidden">
+                                                    </div>
+                                                </div>
+                                                {viewTicketMessagesDetails.map((details, i) => (
+                                                    <div className="ppcrpcmptckrcConvo" key={i}>
+                                                        <div className={details.seller_chat ? "ppcrpcmptckrcc seller" : "ppcrpcmptckrcc hidden"}>
+                                                            <p>{details.seller_chat}</p>
+                                                        </div>
+                                                        <div className={details.user_chat ? "ppcrpcmptckrcc user" : "ppcrpcmptckrcc hidden"}>
+                                                            <p>{details.user_chat}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                                {userTixSentMsg && 
+                                                    <div className="ppcrpcmptckrcConvo">
+                                                        <div className="ppcrpcmptckrcc hidden">
+                                                        </div>
+                                                        <div className="ppcrpcmptckrcc user">
+                                                            <p>{userTixSentMsg}</p>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div className="ppcrpcmptckrcSend">
+                                            <textarea name="" id="" placeholder='Type here...' value={userTixMessage} onChange={(e) => setUserTixMessage(e.target.value)}></textarea>
+                                            <button onClick={handleSendSellerMessage} disabled={!userTixMessage}><TbSend className='faIcons'/></button>
+                                        </div>
+                                    </div>
                                 </div>}
                                 <div className="ppcrpcmpTicket website">
                                     <div>
@@ -1511,11 +1647,12 @@ const Profile = () => {
                                             <li id='ppcrpcmptckcId'>{data.ticket_id}</li>
                                             <li id='ppcrpcmptckcName'><UsernameSlicer text={`${data.product_name}`} maxLength={35} /></li>
                                             <li id='ppcrpcmptckcStatus'>
-                                                {(data.status === 'unresolved') && 'On Queue'}
+                                                {(data.status === 'On Queue') && 'On Queue'}
                                                 {(data.status === 'Processing') && 'Processing'}
                                                 {(data.status === 'Completed') && 'Completed'}
                                             </li>
-                                            <li id='ppcrpcmptckcView'><button onClick={() => handleViewTicketDetails(data.ticket_id)}>Details</button></li>
+                                            <li id='ppcrpcmptckcView'><button onClick={() => handleViewTicketDetails(data.ticket_id)}><TbTicket className='faIcons'/></button></li>
+                                            <li id='ppcrpcmptckcView'><button onClick={() => handleViewTicketMessage(data.ticket_id)}><TbMessages className='faIcons'/></button></li>
                                         </ul>))}
                                     </div>
                                 </div>
