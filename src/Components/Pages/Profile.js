@@ -39,7 +39,8 @@ import {
     TbTicket,
     TbMessages,
     TbMessage2,
-    TbSend,   
+    TbSend, 
+    TbReceipt,  
 } from "react-icons/tb";
 import { 
     RiVerifiedBadgeFill,
@@ -906,6 +907,7 @@ const Profile = () => {
         
         setViewTicketReportDetails(transactionDetails)
         setViewTicketMessagesDetails(ticketMessages)
+        fetchUserTicketReport();
     }
     useEffect(() => {
         if (viewTicketMessageRecord && viewTicketReportDetails) {
@@ -925,6 +927,7 @@ const Profile = () => {
             userTixSellerid: '',
             userTixSellerMgs: '',
             userTixSellerDate: '',
+            userTixStatus: viewTicketReportDetails.status,
         };
         
         try {
@@ -933,6 +936,7 @@ const Profile = () => {
     
             if (responseMessage.success) {
                 setUserTixMessage('');
+                fetchUserTicketReport();
                 fetchUserTicketMessages();
             } else {
                 setUserTixMessage('');
@@ -1608,7 +1612,7 @@ const Profile = () => {
                                             <div className="ppcrpcmptckrcConvos">
                                                 <div className="ppcrpcmptckrcConvo">
                                                     <div className="ppcrpcmptckrcc seller">
-                                                        <p id='ppcrpcmptckrccStart'>Hello, Let's start our conversation here. Let me know what's your concern?</p>
+                                                        <p id='ppcrpcmptckrccStart'>Hello {userLoggedData.username},<br /> Start your conversation with {viewTicketReportDetails.product_seller} store here.</p>
                                                     </div>
                                                     <div className="ppcrpcmptckrcc hidden">
                                                     </div>
@@ -1719,7 +1723,7 @@ const Profile = () => {
                                                     <td width='15%' id='ppcrpcmptPrice'><p>{data.ag_transaction_command}</p></td>
                                                     <td width='30%' id='ppcrpcmptName'><p><UsernameSlicer text={`${data.ag_product_name}`} maxLength={30} /></p></td>
                                                     <td width='25%' id='ppcrpcmptHash'><p>{data.ag_transaction_hash}</p></td>
-                                                    <td width='15%' id='ppcrpcmptView'><button onClick={() => handleViewTransactionDetails(data.ag_transaction_hash)}>Info</button></td>
+                                                    <td width='15%' id='ppcrpcmptView'><button onClick={() => handleViewTransactionDetails(data.ag_transaction_hash)}><TbReceipt className='faIcons'/></button></td>
                                                 </tr>))}
                                             </tbody>
                                         </table>
@@ -1742,7 +1746,7 @@ const Profile = () => {
                                                 <tr key={i}>
                                                     <td width='15%' id='ppcrpcmptCommand'><p>{data.ag_transaction_command}</p></td>
                                                     <td width='30%' id='ppcrpcmptName'><p>{data.ag_product_name}</p></td>
-                                                    <td width='15%' id='ppcrpcmptView'><button onClick={() => handleViewTransactionDetails(data.ag_transaction_hash)}>Info</button></td>
+                                                    <td width='15%' id='ppcrpcmptView'><button onClick={() => handleViewTransactionDetails(data.ag_transaction_hash)}><TbReceipt className='faIcons'/></button></td>
                                                 </tr>))}
                                             </tbody>
                                         </table>

@@ -2397,7 +2397,7 @@ section.profilePageContainer.mid{
     height: auto;
     width: 100%;
     margin-top: 1.5%;
-    border-collapse: separate;
+    /* border-collapse: separate; */
     position: relative;
 }
 .ppcrpcmpTransactions table tbody tr:nth-child(odd){
@@ -2409,10 +2409,16 @@ section.profilePageContainer.mid{
 .ppcrpcmpTransactions button{
     height: 100%;
     width: 100%;
-    font-size: 0.7vw;
+    font-size: 1.2vw;
     border-radius: 5px;
-    border: solid 1px white;
+    border: none;
     cursor: pointer;
+    background: none;
+    outline: none;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .ppcrpcmpTransactions.mobile{
     display: none;
@@ -3293,10 +3299,10 @@ section.profilePageContainer.mid{
         width: 25%;
     }
     .ppcrpcmpTicket div ul li#ppcrpcmptckcId{
-        width: 45%;
+        display: none;
     }
     .ppcrpcmpTicket div ul li#ppcrpcmptckcName{
-        display: none;
+        width: 45%;
     }
     .ppcrpcmpTicket div ul li#ppcrpcmptckcStatus{
         display: none;
@@ -3489,7 +3495,7 @@ section.profilePageContainer.mid{
     .ppcrpcmpTransactions button{
         height: 100%;
         width: 100%;
-        font-size: 2.3vw;
+        font-size: 5vw;
         border-radius: 5px;
     }
 
