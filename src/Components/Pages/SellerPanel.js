@@ -31,7 +31,8 @@ import {
     TbUserQuestion,
     TbMessages,
     TbMessage2,
-    TbSend,         
+    TbSend,
+    TbReceipt,         
 } from "react-icons/tb";
 import { VscSaveAs } from "react-icons/vsc";
 import { FiEdit } from "react-icons/fi";
@@ -433,7 +434,7 @@ const SellerPanel = () => {
         const dateA = new Date(a.date);
         const dateB = new Date(b.date);
   
-        return dateA - dateB - dateA;
+        return dateB - dateA;
     });
     const sellerTickerReports = lastestTicketSort.map(users => {
         const userinfo = viewAllUserList.filter(ticket => ticket.userid === users.user_id);
@@ -486,7 +487,6 @@ const SellerPanel = () => {
             setViewTicketUserMessages(updatedMessages);
         }
     }, [viewTicketMessages, viewTicketMsgModal, viewTicketDetails]);
-
     const handleAddTixResponse = () => {
         setAddTicketResponse(true)
     }
@@ -535,6 +535,7 @@ const SellerPanel = () => {
             userTixSellerid: viewTicketDetails.product_seller,
             userTixSellerMgs: userTixMessage,
             userTixSellerDate: new Date(),
+            userTixStatus: 'Processing',
         };
         
         try {
@@ -543,6 +544,7 @@ const SellerPanel = () => {
     
             if (responseMessage.success) {
                 setUserTixMessage('');
+                fetchUserTicketReport();
                 fetchUserTicketMessages();
             } else {
                 setUserTixMessage('');
