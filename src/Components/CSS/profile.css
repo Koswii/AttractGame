@@ -3319,9 +3319,14 @@ section.profilePageContainer.mid{
         width: 85%;
         padding: 5vw 3vw;
         border-radius: 2vw;
+        animation: none;
     }
     .ppcrpcmptckrDetails.chat{
         display: none;
+    }
+    .ppcrpcmptckrChat{
+        animation: none;
+        margin-left: 0;
     }
     .ppcrpcmptckrDetails button{
         font-size: 5vw;
@@ -3505,6 +3510,7 @@ section.profilePageContainer.mid{
         width: 85%;
         padding: 5vw 3vw;
         border-radius: 2vw;
+        animation: none;
     }
     .ppcrpcmptrContent button{
         font-size: 5vw;
