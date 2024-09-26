@@ -32,7 +32,8 @@ import {
     TbMessages,
     TbMessage2,
     TbSend,
-    TbReceipt,         
+    TbReceipt, 
+    TbCash,        
 } from "react-icons/tb";
 import { VscSaveAs } from "react-icons/vsc";
 import { FiEdit } from "react-icons/fi";
@@ -96,7 +97,7 @@ const SellerPanel = () => {
     const AGAddGiftcardCoverAPI = process.env.REACT_APP_AG_ADD_GIFTCARD_COVER_API;
     const AGAddGameCreditsAPI = process.env.REACT_APP_AG_ADD_GAMECREDIT_API;
     const AGAddGameCreditCoverAPI = process.env.REACT_APP_AG_ADD_GAMECREDIT_COVER_API;
-    const AGInsertProductCodeAPI = process.env.REACT_APP_AG_INSERT_PRODUCT_CODES_API;
+    const AGInsertProductCodeAPI = process.env.REACT_APP_AG_USER_SELLER_ADD_STOCKS_API;
     const AGProductStateAPI = process.env.REACT_APP_AG_PRODUCT_STATE_CREDENTIALS_API;
     const AGSellerTixReponseAPI = process.env.REACT_APP_AG_USERS_TICKET_RESPONSE_API;
     const AGSendTixMessageAPI = process.env.REACT_APP_AG_USERS_TICKET_SEND_MESSAGE_API;
@@ -429,6 +430,130 @@ const SellerPanel = () => {
         window.document.body.style.overflow = 'auto';
     }
 
+    
+    const [productSellerPrice, setProductSellerPrice] = useState('')
+    const [productSellerDiscount, setProductSellerDiscount] = useState('')
+    const [productSellerCode, setProductSellerCode] = useState('');
+    const handleAddProductCodeGames = async (e) => {
+        e.preventDefault();
+    
+        const formAddProductCodeGames = {
+            agProductName: viewGameDetails.game_title,
+            agProductID: viewGameDetails.game_canonical,
+            agProductPrice: productSellerPrice,
+            agProductDiscount: productSellerDiscount,
+            agProductType: 'Games',
+            agProductCodeID: `AG${postIDGenerator(10)}`,
+            agProductCode: productSellerCode,
+            agProductState: 'Available',
+            agProductStatus: 'Unredeemed',
+            agProductSeller: viewGameDetails.game_seller,
+            agProductOwner: 'None',
+        };
+        // const test = JSON.stringify(formAddProductCodeGames)
+        // console.log(test);
+        try {
+            const submitCodeResponse = await axios.post(AGInsertProductCodeAPI, formAddProductCodeGames);
+            const responseMessage = submitCodeResponse.data;
+    
+            if (responseMessage.success) {
+                setProductSellerPrice('');
+                setProductSellerDiscount('');
+                setProductSellerCode('');
+                fetchGames1();
+                fetchGames2();
+                fetchGiftcards();
+                fetchGamecredits();
+            } else {
+                console.log(responseMessage.message);
+            }
+    
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const handleAddProductCodeGiftcards = async (e) => {
+        e.preventDefault();
+    
+        const formAddProductCodeGiftcards = {
+            agProductName: viewGiftcardDetails.giftcard_name,
+            agProductID: viewGiftcardDetails.giftcard_id,
+            agProductPrice: viewGiftcardDetails.giftcard_denomination,
+            agProductDiscount: productSellerDiscount,
+            agProductType: 'Giftcards',
+            agProductCodeID: `AG${postIDGenerator(10)}`,
+            agProductCode: productSellerCode,
+            agProductState: 'Available',
+            agProductStatus: 'Unredeemed',
+            agProductSeller: viewGiftcardDetails.giftcard_seller,
+            agProductOwner: 'None',
+        };
+        // const test = JSON.stringify(formAddProductCodeGiftcards)
+        // console.log(test);
+        try {
+            const submitCodeResponse = await axios.post(AGInsertProductCodeAPI, formAddProductCodeGiftcards);
+            const responseMessage = submitCodeResponse.data;
+    
+            if (responseMessage.success) {
+                setProductSellerPrice('');
+                setProductSellerDiscount('');
+                setProductSellerCode('');
+                fetchGames1();
+                fetchGames2();
+                fetchGiftcards();
+                fetchGamecredits();
+            } else {
+                console.log(responseMessage.message);
+            }
+    
+        } catch (error) {
+            console.error(error);
+        }
+
+    };
+    const handleAddProductCodeGamecredits = async (e) => {
+        e.preventDefault();
+    
+        const formAddProductCodeGamecredits = {
+            agProductName: viewGamecreditDetails.gamecredit_name,
+            agProductID: viewGamecreditDetails.gamecredit_id,
+            agProductPrice: viewGamecreditDetails.gamecredit_denomination,
+            agProductDiscount: productSellerDiscount,
+            agProductType: 'Game Credits',
+            agProductCodeID: `AG${postIDGenerator(10)}`,
+            agProductCode: productSellerCode,
+            agProductState: 'Available',
+            agProductStatus: 'Unredeemed',
+            agProductSeller: viewGamecreditDetails.gamecredit_seller,
+            agProductOwner: 'None',
+        };
+        const test = JSON.stringify(formAddProductCodeGamecredits)
+        console.log(test);
+        try {
+            const submitCodeResponse = await axios.post(AGInsertProductCodeAPI, formAddProductCodeGamecredits);
+            const responseMessage = submitCodeResponse.data;
+    
+            if (responseMessage.success) {
+                setProductSellerPrice('');
+                setProductSellerDiscount('');
+                setProductSellerCode('');
+                fetchGames1();
+                fetchGames2();
+                fetchGiftcards();
+                fetchGamecredits();
+            } else {
+                console.log(responseMessage.message);
+            }
+    
+        } catch (error) {
+            console.error(error);
+        }
+
+    };
+
+
+
+
     const viewStoreTicket = viewTicketReport.filter(store => store.product_seller === userLoggedData.store)
     const lastestTicketSort = viewStoreTicket.sort((a, b) => {
         const dateA = new Date(a.date);
@@ -501,8 +626,8 @@ const SellerPanel = () => {
             userTixDateCompleted: new Date(),
         };
 
-        const test = JSON.stringify(formSubmitSellerRes)
-        console.log(test);
+        // const test = JSON.stringify(formSubmitSellerRes)
+        // console.log(test);
         
         
         try {
@@ -635,10 +760,46 @@ const SellerPanel = () => {
                         </div>
                         <div className="sppcm1dOthers">
                             <div className="sppcm1doContent left">
-                                <h5>RECENTLY ADDED PRODUCTS</h5>
+                                <h5>RECENT TICKET REPORTS</h5>
+                                <div className="sppcm1doclTickets">
+                                    {sellerTickerReports.length ? 
+                                        <>
+                                        {sellerTickerReports.map((data, i) => (
+                                            <div className="sppcm1doclTicket" key={i}>
+                                                <span><p>{formatDateToWordedDate(data.date)}</p></span>
+                                                <span><p>{data.ticket_id}</p></span>
+                                                <span><p><UsernameSlicer text={`${data.userinfo[0].username}`} maxLength={10} /></p></span>
+                                            </div>
+                                        ))}</>:<div className="sppcm1docltEmpty">
+                                            <span>
+                                                <h5><TbTicket className='faIcons'/></h5>
+                                                <p>No Tickets yet</p>
+                                            </span>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div className="sppcm1doContent center">
+                                <h5>RECENT TRANSACTIONS</h5>
+                                <div className="sppcm1doclTransactions">
+                                    <div className="sppcm1docltEmpty">
+                                        <span>
+                                            <h5><TbReceipt className='faIcons'/></h5>
+                                            <p>No Transactions yet</p>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                             <div className="sppcm1doContent right">
-
+                                <h5>WITHDRAWABLES</h5>
+                                <div className="sppcm1doclWithdrawables">
+                                    <div className="sppcm1docltEmpty">
+                                        <span>
+                                            <h5><TbCash className='faIcons'/></h5>
+                                            <p>No Withdrawables yet</p>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>}
@@ -924,21 +1085,21 @@ const SellerPanel = () => {
                                                         <div className='mcsacccdip'>
                                                             <h6>Add Price ($)</h6>
                                                             <div>
-                                                                <input type="number" placeholder='00.00'/>
+                                                                <input type="number" placeholder='00.00' onChange={(e) => setProductSellerPrice(e.target.value)}/>
                                                             </div>
                                                         </div>
                                                         <div className='mcsacccdip'>
                                                             <h6>Add Discount (%)</h6>
                                                             <div>
-                                                                <input type="number" placeholder='0'/>
+                                                                <input type="number" placeholder='0' onChange={(e) => setProductSellerDiscount(e.target.value)}/>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div className="mcsacccdiCode">
-                                                        <input type="text" placeholder='Insert Product Code'/>
+                                                        <input type="text" placeholder='Insert Product Code' onChange={(e) => setProductSellerCode(e.target.value)}/>
                                                     </div>
                                                     <div className="mcsacccdiSubmit">
-                                                        <button>Sell Product Code</button>
+                                                        <button className={(productSellerPrice && productSellerCode) ? 'active' : ''} onClick={handleAddProductCodeGames} disabled={!productSellerPrice && !productSellerCode}>Sell Product Code</button>
                                                     </div>
                                                     <p>Note: You can sell multiple codes with the same product.</p>
                                                 </div>
@@ -975,15 +1136,15 @@ const SellerPanel = () => {
                                                         <div className='mcsacccdip'>
                                                             <h6>Add Discount (%)</h6>
                                                             <div>
-                                                                <input type="number" placeholder='0'/>
+                                                                <input type="number" placeholder='0' onChange={(e) => setProductSellerDiscount(e.target.value)}/>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div className="mcsacccdiCode">
-                                                        <input type="text" placeholder='Insert Product Code'/>
+                                                        <input type="text" placeholder='Insert Product Code' onChange={(e) => setProductSellerCode(e.target.value)}/>
                                                     </div>
                                                     <div className="mcsacccdiSubmit">
-                                                        <button>Sell Product Code</button>
+                                                        <button className={(productSellerCode) ? 'active' : ''} onClick={handleAddProductCodeGiftcards} disabled={!productSellerCode}>Sell Product Code</button>
                                                     </div>
                                                     <p>Note: You can sell multiple codes with the same product.</p>
                                                 </div>
@@ -1020,15 +1181,15 @@ const SellerPanel = () => {
                                                         <div className='mcsacccdip'>
                                                             <h6>Add Discount (%)</h6>
                                                             <div>
-                                                                <input type="number" placeholder='0'/>
+                                                                <input type="number" placeholder='0' onChange={(e) => setProductSellerDiscount(e.target.value)}/>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div className="mcsacccdiCode">
-                                                        <input type="text" placeholder='Insert Product Code'/>
+                                                        <input type="text" placeholder='Insert Product Code' onChange={(e) => setProductSellerCode(e.target.value)}/>
                                                     </div>
                                                     <div className="mcsacccdiSubmit">
-                                                        <button>Sell Product Code</button>
+                                                        <button className={(productSellerCode) ? 'active' : ''} onClick={handleAddProductCodeGamecredits} disabled={!productSellerCode}>Sell Product Code</button>
                                                     </div>
                                                     <p>Note: You can sell multiple codes with the same product.</p>
                                                 </div>
