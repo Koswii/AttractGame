@@ -290,50 +290,78 @@ const Cart = () => {
       );
     };
 
-    const clientId = '9d305159-660f-48e0-8139-cd3a22ae71da'; // Your OAuth2 client ID
-    const redirectUri = 'https://attractgame-beta-website.vercel.app/MyCart'; // The redirect URI
-    const navigateCart = useNavigate(); // useNavigate replaces useHistory
-
-    // Function to redirect to OAuth2 authorization URL
-    const redirectToOAuth = () => {
-      const authUrl = `https://uatstage00-api.rapidcents.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code`;
-
-      // Redirect the user to OAuth authorization page
+    const clientId = '9d305159-660f-48e0-8139-cd3a22ae71da';
+    const clientSecret = '3462a4b195b41565d6d1c3d98845fdd65d6b569c8bf8ac9bc4de79c1a11ffb12';
+    const redirectUri = 'https://attractgame-beta-website.vercel.app/MyCart';
+    const authorizationEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/authorize';
+    const tokenEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/token';
+  
+    const [accessToken, setAccessToken] = useState(null);
+    const [refreshToken, setRefreshToken] = useState(null);
+  
+    // Step 1: Redirect to authorization URL
+    const handleLogin = () => {
+      const authUrl = `${authorizationEndpoint}?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}&response_type=code`;
       window.location.href = authUrl;
     };
-
-    // Function to handle the OAuth callback and exchange the code for tokens
-    const handleOAuthCallback = async (code) => {
-      try {
-          // Send the authorization code to your backend for token exchange
-          const response = await axios.post(AGRapidCentSecretAPI, {
-            code: code
-          });
-
-          console.log(response);
-          
-
-          // Handle the token response (e.g., store tokens in local storage)
-          localStorage.setItem('access_token', response.data.access_token);
-          localStorage.setItem('refresh_token', response.data.refresh_token);
-
-          // Redirect to a protected resource or home page
-          navigateCart("/MyCart"); // Use navigate instead of history.push
-      } catch (error) {
-          console.error('Error exchanging token:', error);
-      }
-    };
-
-    // UseEffect to check if the page has an authorization code (callback phase)
+  
+    // Step 2: Handle the redirect and exchange the authorization code for tokens
     useEffect(() => {
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get('code');
-
-      if (code) {
-          // If code exists in the URL, handle the OAuth callback
-          handleOAuthCallback(code);
+      const urlParams = new URLSearchParams(window.location.search);
+      const authorizationCode = urlParams.get('code');
+  
+      if (authorizationCode) {
+        // Exchange authorization code for access and refresh tokens
+        const fetchTokens = async () => {
+          try {
+            const response = await axios.post(tokenEndpoint, {
+              grant_type: 'authorization_code',
+              client_id: clientId,
+              client_secret: clientSecret,
+              redirect_uri: redirectUri,
+              code: authorizationCode,
+            });
+  
+            const { access_token, refresh_token } = response.data;
+            setAccessToken(access_token);
+            setRefreshToken(refresh_token);
+            console.log('Access Token:', access_token);
+            console.log('Refresh Token:', refresh_token);
+  
+            // Clear the URL search parameters
+            window.history.replaceState({}, document.title, window.location.pathname);
+          } catch (error) {
+            console.error('Error exchanging authorization code for tokens', error);
+          }
+        };
+  
+        fetchTokens();
       }
     }, []);
+  
+    // Step 3: Refresh access token if it expires
+    const refreshAccessToken = async () => {
+      if (!refreshToken) return;
+  
+      try {
+        const response = await axios.post(tokenEndpoint, {
+          grant_type: 'refresh_token',
+          client_id: clientId,
+          client_secret: clientSecret,
+          refresh_token: refreshToken,
+        });
+  
+        const { access_token, refresh_token } = response.data;
+        setAccessToken(access_token);
+        setRefreshToken(refresh_token);
+        console.log('New Access Token:', access_token);
+        console.log('New Refresh Token:', refresh_token);
+      } catch (error) {
+        console.error('Error refreshing access token', error);
+      }
+    };
 
 
     // const [clientSecret, setClientSecret] = useState();
@@ -602,7 +630,7 @@ const Cart = () => {
                         <p>PAYABLE</p>
                         <h6>$ {checkoutOverallTotal.toFixed(2)}</h6>
                       </span>
-                      <button onClick={redirectToOAuth} className={(cartTotalPayment.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(cartTotalPayment.length === 0) ? true : false}>
+                      <button onClick={handleLogin} className={(cartTotalPayment.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(cartTotalPayment.length === 0) ? true : false}>
                         {(cartTotalPayment.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
                       </button>
                     </div>
