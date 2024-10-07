@@ -50,7 +50,6 @@ const Cart = () => {
     const AGUserRemoveToCartAPI = process.env.REACT_APP_AG_REMOVE_USER_CART_API;
     const AGUserProductTransferAPI = process.env.REACT_APP_AG_TRANSFER_PRODUCTS_API;
     const AGUserTransactionHistoryAPI = process.env.REACT_APP_AG_TRANSACTION_HISTORY_API;
-    const AGRapidCentSecretAPI = process.env.REACT_APP_AG_RAPIDCENT_SECRET;
 
     const [productGameDetails, setGameProductDetails] = useState([]);
     const [productGiftcardDetails, setGiftcardProductDetails] = useState([]);
@@ -290,8 +289,12 @@ const Cart = () => {
       );
     };
 
-    const clientId = '9d305159-660f-48e0-8139-cd3a22ae71da';
-    const clientSecret = '3462a4b195b41565d6d1c3d98845fdd65d6b569c8bf8ac9bc4de79c1a11ffb12';
+    
+    const AGRapidCentClientID = process.env.REACT_APP_RAPIDCENT_CLIENT_ID;
+    const AGRapidCentClientSecret = process.env.REACT_APP_RAPIDCENT_CLIENT_SECRET;
+
+    const clientId = AGRapidCentClientID;
+    const clientSecret = AGRapidCentClientSecret;
     const redirectUri = 'https://attractgame-beta-website.vercel.app/MyCart';
     const authorizationEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/authorize';
     const tokenEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/token';
