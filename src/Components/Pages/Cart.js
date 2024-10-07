@@ -306,7 +306,7 @@ const Cart = () => {
     const handleOAuthCallback = async (code) => {
       try {
           // Send the authorization code to your backend for token exchange
-          const response = await axios.post(AGRapidCentSecretAPI, {
+          const response = await axios.post('https://uatstage00-api.rapidcents.com/api/oauth/tokenretAPI', {
               code: code
           });
 
