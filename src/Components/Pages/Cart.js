@@ -292,6 +292,7 @@ const Cart = () => {
     
     const AGRapidCentClientID = process.env.REACT_APP_RAPIDCENT_CLIENT_ID;
     const AGRapidCentClientSecret = process.env.REACT_APP_RAPIDCENT_CLIENT_SECRET;
+    const AGRapidCentTokenExchange = process.env.REACT_APP_AG_RAPIDCENT_TOKEN;
 
     const clientId = AGRapidCentClientID;
     const clientSecret = AGRapidCentClientSecret;
@@ -320,7 +321,7 @@ const Cart = () => {
           // Exchange authorization code for access and refresh tokens
           const fetchTokens = async () => {
             try {
-              const response = await axios.post(tokenEndpoint, {
+              const response = await axios.post(AGRapidCentTokenExchange, {
                 grant_type: 'authorization_code',
                 client_id: clientId,
                 client_secret: clientSecret,
@@ -359,7 +360,7 @@ const Cart = () => {
       if (!refreshToken) return;
   
       try {
-        const response = await axios.post(tokenEndpoint, {
+        const response = await axios.post(AGRapidCentTokenExchange, {
           grant_type: 'refresh_token',
           client_id: clientId,
           client_secret: clientSecret,
