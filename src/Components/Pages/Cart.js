@@ -308,47 +308,51 @@ const Cart = () => {
         redirectUri
       )}&response_type=code`;
       window.location.href = authUrl;
-
-      
-      const urlParams = new URLSearchParams(window.location.search);
-      const authorizationCode = urlParams.get('code');
-      console.log(authorizationCode);
-      
     };
   
     // Step 2: Handle the redirect and exchange the authorization code for tokens
     useEffect(() => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const authorizationCode = urlParams.get('code');
-  
-      if (authorizationCode) {
-        // Exchange authorization code for access and refresh tokens
-        const fetchTokens = async () => {
-          try {
-            const response = await axios.post(tokenEndpoint, {
-              grant_type: 'authorization_code',
-              client_id: clientId,
-              client_secret: clientSecret,
-              redirect_uri: redirectUri,
-              code: authorizationCode,
-            });
-  
-            const { access_token, refresh_token } = response.data;
-            setAccessToken(access_token);
-            setRefreshToken(refresh_token);
-            console.log('Access Token:', access_token);
-            console.log('Refresh Token:', refresh_token);
-  
-            // Clear the URL search parameters
-            window.history.replaceState({}, document.title, window.location.pathname);
-          } catch (error) {
-            console.error('Error exchanging authorization code for tokens', error);
-          }
-        };
-  
-        fetchTokens();
-      }
-    }, []);
+      const fetchAuthorizationCode = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const authorizationCode = urlParams.get('code');
+
+        if (authorizationCode) {
+          // Exchange authorization code for access and refresh tokens
+          const fetchTokens = async () => {
+            try {
+              const response = await axios.post(tokenEndpoint, {
+                grant_type: 'authorization_code',
+                client_id: clientId,
+                client_secret: clientSecret,
+                redirect_uri: redirectUri,
+                code: authorizationCode,
+              });
+
+              const { access_token, refresh_token } = response.data;
+              setAccessToken(access_token);
+              setRefreshToken(refresh_token);
+              console.log('Access Token:', access_token);
+              console.log('Refresh Token:', refresh_token);
+
+              // Clear the URL search parameters
+              window.history.replaceState({}, document.title, window.location.pathname);
+            } catch (error) {
+              console.error('Error exchanging authorization code for tokens', error);
+            }
+          };
+
+          fetchTokens();
+        }
+      };
+
+      // Check periodically if the code is present in the URL
+      const intervalId = setInterval(() => {
+        fetchAuthorizationCode();
+      }, 1000); // Poll every 1 second
+
+      // Clear interval once code is fetched or on component unmount
+      return () => clearInterval(intervalId);
+    }, []); // The effect runs once on mount
   
     // Step 3: Refresh access token if it expires
     const refreshAccessToken = async () => {
