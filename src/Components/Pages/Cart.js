@@ -329,6 +329,8 @@ const Cart = () => {
                 code: authorizationCode,
               });
 
+              console.log(response.data);
+              
               const { access_token, refresh_token } = response.data;
               setAccessToken(access_token);
               setRefreshToken(refresh_token);
