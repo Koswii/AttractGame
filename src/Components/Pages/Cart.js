@@ -50,6 +50,7 @@ const Cart = () => {
     const AGUserRemoveToCartAPI = process.env.REACT_APP_AG_REMOVE_USER_CART_API;
     const AGUserProductTransferAPI = process.env.REACT_APP_AG_TRANSFER_PRODUCTS_API;
     const AGUserTransactionHistoryAPI = process.env.REACT_APP_AG_TRANSACTION_HISTORY_API;
+    const AGRapidCentSecretAPI = process.env.REACT_APP_AG_RAPIDCENT_SECRET;
 
     const [productGameDetails, setGameProductDetails] = useState([]);
     const [productGiftcardDetails, setGiftcardProductDetails] = useState([]);
@@ -64,7 +65,6 @@ const Cart = () => {
     const calculateEffectivePrice = (price, discount) => {
       return price - (price * (discount / 100));
     };
-    
     const fetchCartProducts = () => {
       try {
 
@@ -116,13 +116,10 @@ const Cart = () => {
         // console.log('Error fetching cart products:', error);
       } 
     };
-    
-
     useEffect(() => {
       fetchCartProducts(carts);
       fetchUserCart(productCart);
     }, [ carts, productCart ]);
-
     useEffect(() => {
       const interval = setInterval(() => {
         if (allPrductsDetails) {
@@ -140,7 +137,6 @@ const Cart = () => {
   
       return () => clearInterval(interval);
     }, [allPrductsDetails]);
-
     const handleQuantityChange = (productId, value) => {
       setOrderQuantities(prevQuantities => ({
           ...prevQuantities,
@@ -161,15 +157,12 @@ const Cart = () => {
       });
       setCartTotalPayment(allPrductsDetails);
     };
-
-
     const productSubtotalSum = cartTotalPayment.map(subTotal => subTotal.totalPrice).reduce((acc, cur) => acc + cur, 0);
     const agTaxFee = (3/100);
     const agProductCharge = (4.5/100);
     const checkoutOverallTotal = productSubtotalSum + (agProductCharge*productSubtotalSum) + (agTaxFee*productSubtotalSum);
     const agProductPointsSum = cartTotalPayment.map(subTotal => subTotal.totalPrice).reduce((acc, cur) => acc + cur, 0);
     const checkoutOverallAGPoints = agProductPointsSum/10;
-
     const handleRemoveFromCart = (details) => {
       const removeDetails = {
         user: userLoggedData.userid,
@@ -197,9 +190,6 @@ const Cart = () => {
           console.log(`Error: ${error.message}`);
       });
     };
-
-
-
     const renderCartProducts = () => {
       return (
         <>
@@ -300,44 +290,89 @@ const Cart = () => {
       );
     };
 
-    const [clientSecret, setClientSecret] = useState();
-    const [paymentIntentid, setPaymentIntentID] = useState();
-    const [successtransaction,setSuccesstransaction] = useState(false)
+    const clientId = '9d305159-660f-48e0-8139-cd3a22ae71da'; // Your OAuth2 client ID
+    const redirectUri = 'https://attractgame-beta-website.vercel.app/MyCart'; // The redirect URI
+    const navigateCart = useNavigate(); // useNavigate replaces useHistory
 
-    const appearance = {
-      theme: "night",
-      labels: "floating",
+    // Function to redirect to OAuth2 authorization URL
+    const redirectToOAuth = () => {
+      const authUrl = `https://uatstage00-api.rapidcents.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code`;
+
+      // Redirect the user to OAuth authorization page
+      window.location.href = authUrl;
     };
-    const options = {
-        clientSecret,
-        appearance,
-    };
-    const checkOutprod = async () => {
-      const body = {
-        product: allPrductsDetails,
-      };
-      const bodyString = JSON.stringify(body)
-      const headers = { "Content-type": "application/json" };
-    
+
+    // Function to handle the OAuth callback and exchange the code for tokens
+    const handleOAuthCallback = async (code) => {
       try {
-        const response = await fetch(
-          "https://attractgame.com/create-check-out-session",
-          // "http://localhost:4242/create-check-out-session",
-          {
-            method: "POST",
-            headers: headers,
-            body: bodyString,
-          }
-        );
-    
-        const session = await response.json();
-        setClientSecret(session.clientSecret);
-        setPaymentIntentID(session.paymentIntentID)
+          // Send the authorization code to your backend for token exchange
+          const response = await axios.post(AGRapidCentSecretAPI, {
+              code: code
+          });
+
+          // Handle the token response (e.g., store tokens in local storage)
+          localStorage.setItem('access_token', response.data.access_token);
+          localStorage.setItem('refresh_token', response.data.refresh_token);
+
+          // Redirect to a protected resource or home page
+          navigateCart("/MyCart"); // Use navigate instead of history.push
       } catch (error) {
-        console.log(error);
+          console.error('Error exchanging token:', error);
       }
-    }
+    };
+
+    // UseEffect to check if the page has an authorization code (callback phase)
+    useEffect(() => {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+
+      if (code) {
+          // If code exists in the URL, handle the OAuth callback
+          handleOAuthCallback(code);
+      }
+    }, []);
+
+
+    // const [clientSecret, setClientSecret] = useState();
+    // const [paymentIntentid, setPaymentIntentID] = useState();
+    // const [successtransaction,setSuccesstransaction] = useState(false)
+
+    // const appearance = {
+    //   theme: "night",
+    //   labels: "floating",
+    // };
+    // const options = {
+    //     clientSecret,
+    //     appearance,
+    // };
+    // const checkOutprod = async () => {
+    //   const body = {
+    //     product: allPrductsDetails,
+    //   };
+    //   const bodyString = JSON.stringify(body)
+    //   const headers = { "Content-type": "application/json" };
     
+    //   try {
+    //     const response = await fetch(
+    //       "https://attractgame.com/create-check-out-session",
+    //       // "http://localhost:4242/create-check-out-session",
+    //       {
+    //         method: "POST",
+    //         headers: headers,
+    //         body: bodyString,
+    //       }
+    //     );
+    
+    //     const session = await response.json();
+    //     setClientSecret(session.clientSecret);
+    //     setPaymentIntentID(session.paymentIntentID)
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
+
+
+
     
     const handleSubmitTransaction = async () => {
       if (!userLoggedData.userid) {
@@ -422,16 +457,16 @@ const Cart = () => {
 
 
 
-    if(successtransaction){
-      window.document.body.style.overflow = 'hidden';
-    } else{
-      window.document.body.style.overflow = 'auto';
-    }
+    // if(successtransaction){
+    //   window.document.body.style.overflow = 'hidden';
+    // } else{
+    //   window.document.body.style.overflow = 'auto';
+    // }
 
     return (
       // <></>
       <div className="mainContainer cart">
-        {successtransaction && (
+        {/* {successtransaction && (
           <div className="successTransaction">
             <div className="successTransactionContainer">
               <span><FaClipboardCheck /></span>
@@ -441,13 +476,14 @@ const Cart = () => {
               </section>
             </div>
           </div>
-        )}
-        {clientSecret ? 
+        )} */}
+        {/* {clientSecret ? 
           <>
             <Elements options={options} stripe={stripePromise}>
               <CheckoutForm checkOutprod={checkOutprod} setSuccesstransaction={setSuccesstransaction} cartTotalPayment={cartTotalPayment} allPrductsDetails={allPrductsDetails} paymentIntentId={paymentIntentid} setClientSecret={setClientSecret} totalprice={checkoutOverallTotal} transactionData={handleSubmitTransaction}/>
             </Elements>
-          </>:<>
+          </>:
+          <> */}
             <section className="cartPageContainer mid">
               <div className="cartpcMid1Container">
                 <div className="cartpcm1Content left">
@@ -563,7 +599,7 @@ const Cart = () => {
                         <p>PAYABLE</p>
                         <h6>$ {checkoutOverallTotal.toFixed(2)}</h6>
                       </span>
-                      <button onClick={checkOutprod} className={(cartTotalPayment.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(cartTotalPayment.length === 0) ? true : false}>
+                      <button onClick={redirectToOAuth} className={(cartTotalPayment.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(cartTotalPayment.length === 0) ? true : false}>
                         {(cartTotalPayment.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
                       </button>
                     </div>
@@ -571,8 +607,8 @@ const Cart = () => {
                 </div>
               </div>
             </section>
-          </> 
-        }
+          {/* </> 
+        } */}
       </div>
     );
 }
