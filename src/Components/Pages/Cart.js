@@ -296,7 +296,7 @@ const Cart = () => {
 
     const clientId = AGRapidCentClientID;
     const clientSecret = AGRapidCentClientSecret;
-    const redirectUri = 'https://attractgame-beta-website.vercel.app/MyCart';
+    const redirectUri = 'https://attractgame.com/MyCart';
     const authorizationEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/authorize';
     const tokenEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/token';
   
