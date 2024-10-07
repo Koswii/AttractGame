@@ -308,6 +308,12 @@ const Cart = () => {
         redirectUri
       )}&response_type=code`;
       window.location.href = authUrl;
+
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const authorizationCode = urlParams.get('code');
+      console.log(authorizationCode);
+      
     };
   
     // Step 2: Handle the redirect and exchange the authorization code for tokens
