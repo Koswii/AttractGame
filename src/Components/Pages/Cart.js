@@ -636,6 +636,7 @@ const Cart = () => {
                       <button onClick={handleLogin} className={(cartTotalPayment.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(cartTotalPayment.length === 0) ? true : false}>
                         {(cartTotalPayment.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
                       </button>
+                      <button onClick={refreshAccessToken}>refresh</button>
                     </div>
                   </div>
                 </div>
