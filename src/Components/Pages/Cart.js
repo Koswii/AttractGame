@@ -290,13 +290,14 @@ const Cart = () => {
     };
 
     
+    const AGRapidCentAuthCode = process.env.REACT_APP_RAPIDCENT_AUTH_CODE;
     const AGRapidCentClientID = process.env.REACT_APP_RAPIDCENT_CLIENT_ID;
     const AGRapidCentClientSecret = process.env.REACT_APP_RAPIDCENT_CLIENT_SECRET;
     const AGRapidCentTokenExchange = process.env.REACT_APP_AG_RAPIDCENT_TOKEN;
 
     const clientId = AGRapidCentClientID;
     const clientSecret = AGRapidCentClientSecret;
-    const redirectUri = 'https://attractgame.com/MyCart';
+    const redirectUri = 'https://attractgame-beta-website.vercel.app/MyCart';
     const authorizationEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/authorize';
     const tokenEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/token';
   
@@ -314,8 +315,9 @@ const Cart = () => {
     // Step 2: Handle the redirect and exchange the authorization code for tokens
     useEffect(() => {
       const fetchAuthorizationCode = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const authorizationCode = urlParams.get('code');
+        // const urlParams = new URLSearchParams(window.location.search);
+        // const authorizationCode = urlParams.get('code');
+        const authorizationCode = AGRapidCentAuthCode;
 
         if (authorizationCode) {
           // Exchange authorization code for access and refresh tokens
@@ -348,13 +350,7 @@ const Cart = () => {
         }
       };
 
-      // Check periodically if the code is present in the URL
-      const intervalId = setInterval(() => {
-        fetchAuthorizationCode();
-      }, 1000); // Poll every 1 second
-
-      // Clear interval once code is fetched or on component unmount
-      return () => clearInterval(intervalId);
+      fetchAuthorizationCode();
     }, []); // The effect runs once on mount
   
     // Step 3: Refresh access token if it expires
@@ -646,10 +642,11 @@ const Cart = () => {
                         <p>PAYABLE</p>
                         <h6>$ {checkoutOverallTotal.toFixed(2)}</h6>
                       </span>
-                      <button onClick={handleLogin} className={(cartTotalPayment.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(cartTotalPayment.length === 0) ? true : false}>
+                      <button className={(cartTotalPayment.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(cartTotalPayment.length === 0) ? true : false}>
                         {(cartTotalPayment.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
                       </button>
-                      <button onClick={refreshAccessToken}>refresh</button>
+                      <button className='devButton' onClick={handleLogin}>Generate Auth</button>
+                      <button className='devButton' onClick={refreshAccessToken}>Refresh Token</button>
                     </div>
                   </div>
                 </div>

@@ -373,6 +373,9 @@ section.cartPageContainer.mid{
 .cartpcm1crCheckout button.hasProducts{
     color: black;
 }
+.cartpcm1crCheckout button.devButton{
+    color: black;
+}
 .cartpcm1crCheckout button.noProducts{
     cursor: not-allowed;
     opacity: 50%;
