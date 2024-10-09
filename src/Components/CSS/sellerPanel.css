@@ -2071,6 +2071,33 @@ section.spPageContainer.mid{
 .sppcm1InventoryContent p#sppcm1pcrInfo .faIcons {
     margin-right: 5px;
 }
+.sppcm1icSellerCodes{
+    border-radius: 1vw;
+    height: 30vw;
+    margin-top: 3%;
+    overflow-y: scroll;
+    position: relative;
+}
+.sppcm1icscEmpty{
+    height: 100%;
+    width: 100%;
+    background: rgba(125, 125, 125, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 50%;
+    text-align: center;
+}
+.sppcm1icscEmpty h5{
+    font-size: 3vw;
+    line-height: 2vw;
+    margin-bottom: 5%;
+}
+
+
+
+
+
 
 
 
@@ -2107,20 +2134,19 @@ section.spPageContainer.mid{
     margin-right: 5px;
 }
 .sppcm1tcEmpty{
-    height: 30vw;
+    height: 100%;
     width: 100%;
+    background: rgba(125, 125, 125, 0.3);
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 50%;
     text-align: center;
 }
 .sppcm1tcEmpty h5{
-    font-size: 5vw;
-    opacity: 30%;
-}
-.sppcm1tcEmpty h6 {
-    opacity: 30%;
-    font-weight: 400;
+    font-size: 3vw;
+    line-height: 2vw;
+    margin-bottom: 5%;
 }
 .sppcm1tcReports{
     height: 30vw;
@@ -2227,7 +2253,28 @@ section.spPageContainer.mid{
 .sppcm1TransactionContent p#sppcm1pcrInfo .faIcons {
     margin-right: 5px;
 }
-
+.sppcm1Transactions{
+    border-radius: 1vw;
+    height: 32vw;
+    margin-top: 3%;
+    overflow-y: scroll;
+    position: relative;
+}
+.sppcm1tEmpty{
+    height: 100%;
+    width: 100%;
+    background: rgba(125, 125, 125, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 50%;
+    text-align: center;
+}
+.sppcm1tEmpty h5{
+    font-size: 3vw;
+    line-height: 2vw;
+    margin-bottom: 5%;
+}
 
 
 

@@ -1325,6 +1325,14 @@ const SellerPanel = () => {
                             <div className="sppcm1InventoryContent">
                                 <h4>CODE INVENTORY</h4>
                                 <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Here, you can easily check and monitor your code stocks listed on the market.</p>
+                                <div className="sppcm1icSellerCodes">
+                                    <div className="sppcm1icscEmpty">
+                                        <span>
+                                            <h5><TbPackages className='faIcons'/></h5>
+                                            <p>No Codes added yet</p>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>}
@@ -1468,7 +1476,7 @@ const SellerPanel = () => {
                                     <div className="sppcm1tcEmpty">
                                         <div>
                                             <h5><FaTicket className='faIcons'/></h5>
-                                            <h6>You don't have any Tickets.</h6>
+                                            <p>You don't have any Tickets.</p>
                                         </div>
                                     </div>
                                 }
@@ -1480,6 +1488,14 @@ const SellerPanel = () => {
                             <div className="sppcm1TransactionContent">
                                 <h4>PRODUCT TRANSACTIONS</h4>
                                 <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Here, you can easily check and monitor your code stocks listed on the market.</p>
+                                <div className="sppcm1Transactions">
+                                    <div className="sppcm1tEmpty">
+                                        <span>
+                                            <h5><TbDatabaseDollar className='faIcons'/></h5>
+                                            <p>No transactions yet</p>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>}
