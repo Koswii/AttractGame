@@ -917,12 +917,49 @@ section.spPageContainer.mid{
     color: white;
     outline: none;
 }
-
-
-
-
-
-
+.sppcm1agclContents{
+    height: 28vw;
+    width: 100%;
+    margin-top: 5%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.sppcm1agclcProducts{
+    height: auto;
+    width: 100%;
+    padding: 3% 5%;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 2%;
+}
+.sppcm1agclcProducts:nth-child(odd) {
+    background: rgba(80, 80, 80, 0.5);
+}
+.sppcm1agclcProducts:nth-child(even) {
+    background: rgba(80, 80, 80, 0.3);
+}
+.sppcm1agclcProducts button{
+    position: absolute;
+    top: 7%;
+    right: 3%;
+    font-size: 1vw;
+    font-weight: 600;
+    background: none;
+    outline: none;
+    border: none;
+    color: white;
+}
+.sppcm1agclcProducts div{
+    height: auto;
+    width: 95%;
+}
+.sppcm1agclcProducts h6{
+    font-size: 0.9vw;
+}
+.sppcm1agclcProducts p{
+    font-size: 0.7vw;
+}
 
 
 
@@ -1941,6 +1978,8 @@ section.spPageContainer.mid{
     justify-content: center;
     justify-content: center;
     overflow: hidden;
+    background: url('../assets/imgs/GameBanners/DefaultNoBanner.png') no-repeat center;
+    background-size: cover;
 }
 .sppcm1ProductRight-productList li:hover{
     transform: scale(1.03);

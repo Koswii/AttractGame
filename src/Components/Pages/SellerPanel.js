@@ -552,6 +552,10 @@ const SellerPanel = () => {
     };
 
 
+    console.log(giftcards);
+    
+    
+
 
 
     const viewStoreTicket = viewTicketReport.filter(store => store.product_seller === userLoggedData.store)
@@ -812,6 +816,17 @@ const SellerPanel = () => {
                                     <span>
                                         <input type="text" placeholder='Search Games here...'/>
                                     </span>
+                                    <div className="sppcm1agclContents">
+                                        {viewAGData1.map((game, i) => (
+                                            <div className="sppcm1agclcProducts" key={i}>
+                                                <button>+</button>
+                                                <div>
+                                                    <h6>{game.game_title}</h6>
+                                                    <p>{game.game_edition} - {game.game_platform}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                             <div className="sppcm1AGameContent right">
@@ -929,11 +944,18 @@ const SellerPanel = () => {
                                     <span>
                                         <input type="text" placeholder='Search Games here...'/>
                                     </span>
+                                    <div className="sppcm1agclContents">
+                                        {giftcards.map((giftcard, i) => (
+                                            <div className="sppcm1agclcProducts" key={i}>
+                                                <button>+</button>
+                                                <div>
+                                                    <h6>{giftcard.giftcard_name}</h6>
+                                                    <p>{giftcard.giftcard_category} Giftcard - ${giftcard.giftcard_denomination}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-
-
-
-
                             </div>
                             <div className="sppcm1AGiftCardContent right">
                                 <form id='addGiftCardFormContainer' onSubmit={handleAddGiftcard}>
@@ -1002,6 +1024,17 @@ const SellerPanel = () => {
                                     <span>
                                         <input type="text" placeholder='Search Games here...'/>
                                     </span>
+                                    <div className="sppcm1agclContents">
+                                        {gamecredits.map((gamecredit, i) => (
+                                            <div className="sppcm1agclcProducts" key={i}>
+                                                <button>+</button>
+                                                <div>
+                                                    <h6>{gamecredit.gamecredit_name}</h6>
+                                                    <p>{gamecredit.gamecredit_category} Giftcard - ${gamecredit.gamecredit_denomination}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
 
 
