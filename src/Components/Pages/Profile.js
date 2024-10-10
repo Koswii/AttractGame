@@ -961,7 +961,8 @@ const Profile = () => {
     
 
 
-
+    console.log(userProductCodeIDData);
+    
 
 
     
