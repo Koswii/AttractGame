@@ -218,6 +218,8 @@ section.gamesPageContainer.top{
     box-shadow: 0 0 10px gray;
     border-radius: 1vw;
     transition: 400ms ease;
+    background: url('../assets/imgs/GameBanners/DefaultNoBanner.png') no-repeat center;
+    background-size: cover;
 }
 .gmspct2Game:hover{
     box-shadow: 0 0 15px white;

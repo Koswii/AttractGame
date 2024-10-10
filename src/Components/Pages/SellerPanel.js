@@ -552,6 +552,10 @@ const SellerPanel = () => {
     };
 
 
+    console.log(giftcards);
+    
+    
+
 
 
     const viewStoreTicket = viewTicketReport.filter(store => store.product_seller === userLoggedData.store)
@@ -812,6 +816,17 @@ const SellerPanel = () => {
                                     <span>
                                         <input type="text" placeholder='Search Games here...'/>
                                     </span>
+                                    <div className="sppcm1agclContents">
+                                        {viewAGData1.map((game, i) => (
+                                            <div className="sppcm1agclcProducts" key={i}>
+                                                <button>+</button>
+                                                <div>
+                                                    <h6>{game.game_title}</h6>
+                                                    <p>{game.game_edition} - {game.game_platform}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                             <div className="sppcm1AGameContent right">
@@ -929,11 +944,18 @@ const SellerPanel = () => {
                                     <span>
                                         <input type="text" placeholder='Search Games here...'/>
                                     </span>
+                                    <div className="sppcm1agclContents">
+                                        {giftcards.map((giftcard, i) => (
+                                            <div className="sppcm1agclcProducts" key={i}>
+                                                <button>+</button>
+                                                <div>
+                                                    <h6>{giftcard.giftcard_name}</h6>
+                                                    <p>{giftcard.giftcard_category} Giftcard - ${giftcard.giftcard_denomination}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-
-
-
-
                             </div>
                             <div className="sppcm1AGiftCardContent right">
                                 <form id='addGiftCardFormContainer' onSubmit={handleAddGiftcard}>
@@ -1002,6 +1024,17 @@ const SellerPanel = () => {
                                     <span>
                                         <input type="text" placeholder='Search Games here...'/>
                                     </span>
+                                    <div className="sppcm1agclContents">
+                                        {gamecredits.map((gamecredit, i) => (
+                                            <div className="sppcm1agclcProducts" key={i}>
+                                                <button>+</button>
+                                                <div>
+                                                    <h6>{gamecredit.gamecredit_name}</h6>
+                                                    <p>{gamecredit.gamecredit_category} Giftcard - ${gamecredit.gamecredit_denomination}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
 
 
@@ -1325,6 +1358,14 @@ const SellerPanel = () => {
                             <div className="sppcm1InventoryContent">
                                 <h4>CODE INVENTORY</h4>
                                 <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Here, you can easily check and monitor your code stocks listed on the market.</p>
+                                <div className="sppcm1icSellerCodes">
+                                    <div className="sppcm1icscEmpty">
+                                        <span>
+                                            <h5><TbPackages className='faIcons'/></h5>
+                                            <p>No Codes added yet</p>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>}
@@ -1468,7 +1509,7 @@ const SellerPanel = () => {
                                     <div className="sppcm1tcEmpty">
                                         <div>
                                             <h5><FaTicket className='faIcons'/></h5>
-                                            <h6>You don't have any Tickets.</h6>
+                                            <p>You don't have any Tickets.</p>
                                         </div>
                                     </div>
                                 }
@@ -1480,6 +1521,14 @@ const SellerPanel = () => {
                             <div className="sppcm1TransactionContent">
                                 <h4>PRODUCT TRANSACTIONS</h4>
                                 <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Here, you can easily check and monitor your code stocks listed on the market.</p>
+                                <div className="sppcm1Transactions">
+                                    <div className="sppcm1tEmpty">
+                                        <span>
+                                            <h5><TbDatabaseDollar className='faIcons'/></h5>
+                                            <p>No transactions yet</p>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>}
