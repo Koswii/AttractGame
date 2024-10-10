@@ -959,12 +959,6 @@ const Profile = () => {
         setUserTixSentMsg('');
     }
     
-
-
-    console.log(userProductCodeIDData);
-    
-
-
     
 
     return (
