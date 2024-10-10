@@ -552,7 +552,7 @@ const SellerPanel = () => {
     };
 
 
-    console.log(giftcards);
+    // console.log(giftcards);
     
     
 
