@@ -323,22 +323,29 @@ const Cart = () => {
           // Exchange authorization code for access and refresh tokens
           const fetchTokens = async () => {
             try {
-              const response = await axios.post(AGRapidCentTokenExchange, {
-                grant_type: 'authorization_code',
-                client_id: clientId,
-                client_secret: clientSecret,
-                redirect_uri: redirectUri,
-                code: authorizationCode,
-              });
+              // Prepare the credentials to be sent to the PHP backend
+              const body = new URLSearchParams();
+              body.append('grant_type', 'authorization_code');
+              body.append('client_id', clientId);
+              body.append('client_secret', clientSecret);
+              body.append('redirect_uri', redirectUri);
+              body.append('code', authorizationCode);
 
+              // Send the request to your PHP backend
+              const response = await axios.post(AGRapidCentTokenExchange, body, {
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                },
+              });
+          
               console.log(response.data);
-              
+          
               const { access_token, refresh_token } = response.data;
               setAccessToken(access_token);
               setRefreshToken(refresh_token);
               console.log('Access Token:', access_token);
               console.log('Refresh Token:', refresh_token);
-
+          
               // Clear the URL search parameters
               window.history.replaceState({}, document.title, window.location.pathname);
             } catch (error) {
