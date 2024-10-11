@@ -290,7 +290,6 @@ const Cart = () => {
     };
 
     
-    const AGRapidCentAuthCode = process.env.REACT_APP_RAPIDCENT_AUTH_CODE;
     const AGRapidCentClientID = process.env.REACT_APP_RAPIDCENT_CLIENT_ID;
     const AGRapidCentClientSecret = process.env.REACT_APP_RAPIDCENT_CLIENT_SECRET;
     const AGRapidCentTokenExchange = process.env.REACT_APP_AG_RAPIDCENT_TOKEN;
@@ -299,6 +298,7 @@ const Cart = () => {
     const clientSecret = AGRapidCentClientSecret;
     const redirectUri = 'https://attractgame-beta-website.vercel.app/MyCart';
     const authorizationEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/authorize';
+    const AGRapidCentTokenRefresh = process.env.REACT_APP_AG_RAPIDCENT_TOKEN_REFRESH;
     const tokenEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/token';
   
     const [accessToken, setAccessToken] = useState(null);
@@ -315,9 +315,8 @@ const Cart = () => {
     // Step 2: Handle the redirect and exchange the authorization code for tokens
     useEffect(() => {
       const fetchAuthorizationCode = () => {
-        // const urlParams = new URLSearchParams(window.location.search);
-        // const authorizationCode = urlParams.get('code');
-        const authorizationCode = AGRapidCentAuthCode;
+        const urlParams = new URLSearchParams(window.location.search);
+        const authorizationCode = urlParams.get('code');
 
         if (authorizationCode) {
           // Exchange authorization code for access and refresh tokens
@@ -332,7 +331,7 @@ const Cart = () => {
               body.append('code', authorizationCode);
 
               // Send the request to your PHP backend
-              const response = await axios.post(AGRapidCentTokenExchange, body, {
+              const response = await axios.post(tokenEndpoint, body, {
                 headers: {
                   'Content-Type': 'application/x-www-form-urlencoded',
                 },
@@ -340,7 +339,8 @@ const Cart = () => {
           
               console.log(response.data);
           
-              const { access_token, refresh_token } = response.data;
+              const access_token = response.data.data.access_token;
+              const refresh_token = response.data.data.refresh_token;
               setAccessToken(access_token);
               setRefreshToken(refresh_token);
               console.log('Access Token:', access_token);
@@ -360,26 +360,55 @@ const Cart = () => {
       fetchAuthorizationCode();
     }, []); // The effect runs once on mount
   
+
+
     // Step 3: Refresh access token if it expires
     const refreshAccessToken = async () => {
-      if (!refreshToken) return;
+      // if (!refreshToken) {
+      //   console.error('Refresh token is not available');
+      //   return;
+      // }
+      
   
-      try {
-        const response = await axios.post(AGRapidCentTokenExchange, {
-          grant_type: 'refresh_token',
-          client_id: clientId,
-          client_secret: clientSecret,
-          refresh_token: refreshToken,
-        });
+      // const authorizationCode = AGRapidCentAuthCode;
+      
+      // try {
+      //   // Prepare the credentials to be sent as URL-encoded
+      //   const bodyRefresh = new URLSearchParams();
+      //   bodyRefresh.append('grant_type', 'refresh_token');
+      //   bodyRefresh.append('client_id', clientId);
+      //   bodyRefresh.append('client_secret', clientSecret);
+      //   bodyRefresh.append('code', authorizationCode);
+      //   bodyRefresh.append('refresh_token', refreshToken);
   
-        const { access_token, refresh_token } = response.data;
-        setAccessToken(access_token);
-        setRefreshToken(refresh_token);
-        console.log('New Access Token:', access_token);
-        console.log('New Refresh Token:', refresh_token);
-      } catch (error) {
-        console.error('Error refreshing access token', error);
-      }
+      //   // Send the request to your PHP backend
+      //   const response = await axios.post(AGRapidCentTokenRefresh, bodyRefresh, {
+      //     headers: {
+      //       'Content-Type': 'application/x-www-form-urlencoded',
+      //     },
+      //   });
+
+      //   console.log(response.data);
+        
+  
+      //   // Check if the response contains the access token and refresh token
+      //   if (response.data) {
+      //     const newAccessToken = response.data.data.access_token;
+      //     const newRefreshToken = response.data.data.refresh_token;
+  
+      //     setAccessToken(newAccessToken);
+      //     setRefreshToken(newRefreshToken);
+      //     console.log('New Access Token:', newAccessToken);
+      //     console.log('New Refresh Token:', newRefreshToken);
+
+      //     // Clear the URL params if needed
+      //     window.history.replaceState({}, document.title, window.location.pathname);
+      //   } else {
+      //     throw new Error('Invalid response data');
+      //   }
+      // } catch (error) {
+      //   console.error('Error refreshing access token:', error);
+      // }
     };
 
 
