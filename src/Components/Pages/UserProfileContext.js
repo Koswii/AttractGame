@@ -6,6 +6,7 @@ const UserProfileContext = createContext();
 export const UserProfileDataProvider = ({ children }) => {
     const [userLoggedData, setUserLoggedData] = useState([]);
     const [viewProfileBtn, setViewProfileBtn] = useState(false);
+    const [rapidcentAuthCode, setRapidcentAuthCode] = useState([]);
     const [userEmail, setUserEmaiil] = useState([]);
     const [viewLoginForm, setViewLoginForm] = useState(false);
     const [userProductCodeIDData, setUserProductCodeIDData] = useState([]);
@@ -20,6 +21,7 @@ export const UserProfileDataProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const LoginUserID = localStorage.getItem('profileUserID');
+    const RapidcentAuthCodeFetchAPI = process.env.REACT_APP_RAPIDCENT_FETCH_AUTH_CODE;
     const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
     const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const AGUserEmailsAPI = process.env.REACT_APP_AG_USER_EMAIL_API;
@@ -208,15 +210,17 @@ export const UserProfileDataProvider = ({ children }) => {
 
         const fetchRCAuthCode = async () => {
             try {
-                const response = await axios.get(AGUsersTicketReport);
+                const response = await axios.get(RapidcentAuthCodeFetchAPI);
                 const AuthCodesData = response.data;
-                const RecentAuthCode = AuthCodesData.sort((a, b) => {
+                const sortedAuthCodes  = AuthCodesData.sort((a, b) => {
                     const dateA = new Date(a.date);
                     const dateB = new Date(b.date);
               
                     return dateB - dateA;
                 });
-                console.log(RecentAuthCode.LIMIT1(1));
+                // Get the first (most recent) item
+                const RecentAuthCode = sortedAuthCodes[0];
+                setRapidcentAuthCode(RecentAuthCode);
                 
             } catch (error) {
                 console.error(error);
@@ -241,6 +245,7 @@ export const UserProfileDataProvider = ({ children }) => {
 
     return (
         <UserProfileContext.Provider value={{ 
+            rapidcentAuthCode,
             viewAllUserList,
             viewAllUserProfile,
             viewProfileBtn, 

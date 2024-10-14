@@ -33,7 +33,10 @@ const stripePromise = loadStripe(
 
 
 const Cart = () => {
-    const { userLoggedData } = UserProfileData();
+    const { 
+      userLoggedData,
+      rapidcentAuthCode 
+    } = UserProfileData();
     const { 
       fetchUserCart, 
       carts, 
@@ -345,7 +348,7 @@ const Cart = () => {
         }
         
 
-        if (authorizationCode) {
+        if (rapidcentAuthCode) {
           // Exchange authorization code for access and refresh tokens
           const fetchTokens = async () => {
             try {
@@ -355,7 +358,7 @@ const Cart = () => {
               body.append('client_id', clientId);
               body.append('client_secret', clientSecret);
               body.append('redirect_uri', redirectUri);
-              body.append('code', authorizationCode);
+              body.append('code', rapidcentAuthCode.rapidcent_code);
 
               // Send the request to your PHP backend
               const response = await axios.post(tokenEndpoint, body, {
@@ -370,8 +373,8 @@ const Cart = () => {
               const refresh_token = response.data.refresh_token;
               setAccessToken(access_token);
               setRefreshToken(refresh_token);
-              console.log('Access Token:', access_token);
-              console.log('Refresh Token:', refresh_token);
+              // console.log('Access Token:', access_token);
+              // console.log('Refresh Token:', refresh_token);
           
               // Clear the URL search parameters
               window.history.replaceState({}, document.title, window.location.pathname);
