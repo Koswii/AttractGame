@@ -302,7 +302,6 @@ const Cart = () => {
     const clientSecret = AGRapidCentClientSecret;
     const redirectUri = 'https://attractgame-beta-website.vercel.app/MyCart';
     const authorizationEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/authorize';
-    const AGRapidcentSaveAuthCode = process.env.REACT_APP_RAPIDCENT_INSERT_AUTH_CODE;
     const tokenEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/token';
   
     const [accessToken, setAccessToken] = useState(null);
@@ -321,32 +320,6 @@ const Cart = () => {
       const fetchAuthorizationCode = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const authorizationCode = urlParams.get('code');
-
-        // if(authorizationCode){
-        //   const fetchSendProduct = async () => {
-        //     const formRecordAuthCode = {
-        //       newAuthorizationCode: authorizationCode,
-        //     }
-            
-        //     try {
-        //       const sendProductResponse = await axios.post(AGRapidcentSaveAuthCode, formRecordAuthCode);
-        //       const responseMessage = sendProductResponse.data;
-      
-        //       if (responseMessage.success) {
-        //         console.log(responseMessage.message);
-                
-        //       } else {
-        //         console.log(responseMessage.message);
-        //       }
-        
-        //     }catch (error) {
-        //       console.error(error);
-        //     }
-        //   }
-
-        //   fetchSendProduct();
-        // }
-        
 
         if (authorizationCode) {
           // Exchange authorization code for access and refresh tokens
@@ -384,50 +357,49 @@ const Cart = () => {
           };
 
           fetchTokens();
+
+          // Step 3: Refresh access token if it expires
+          const intervalId = setInterval(async () => {
+            try {
+              // Prepare the credentials to be sent as URL-encoded
+              const bodyRefresh = new URLSearchParams();
+              bodyRefresh.append('grant_type', 'refresh_token');
+              bodyRefresh.append('client_id', clientId);
+              bodyRefresh.append('client_secret', clientSecret);
+              bodyRefresh.append('code', authorizationCode);
+              bodyRefresh.append('refresh_token', refreshToken);
+        
+              // Send the request to your PHP backend
+              const response = await axios.post(tokenEndpoint, bodyRefresh, {
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                },
+              });
+        
+              // Check if the response contains the access token and refresh token
+              if (response.data) {
+                const newAccessToken = response.data.data.access_token;
+                const newRefreshToken = response.data.data.refresh_token;
+        
+                setAccessToken(newAccessToken);
+                setRefreshToken(newRefreshToken);
+
+                // Clear the URL params if needed
+                window.history.replaceState({}, document.title, window.location.pathname);
+              } else {
+                throw new Error('Invalid response data');
+              }
+            } catch (error) {
+              console.error('Error refreshing access token:', error);
+            }
+
+          }, 50000);
+          return () => clearInterval(intervalId);
         }
       };
       fetchAuthorizationCode();
 
-      
-      // Step 3: Refresh access token if it expires
-      const intervalId = setInterval(async () => {
-        try {
-          // Prepare the credentials to be sent as URL-encoded
-          const bodyRefresh = new URLSearchParams();
-          bodyRefresh.append('grant_type', 'refresh_token');
-          bodyRefresh.append('client_id', clientId);
-          bodyRefresh.append('client_secret', clientSecret);
-          bodyRefresh.append('code', authorizationCode);
-          bodyRefresh.append('refresh_token', refreshToken);
     
-          // Send the request to your PHP backend
-          const response = await axios.post(tokenEndpoint, bodyRefresh, {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-          });
-    
-          // Check if the response contains the access token and refresh token
-          if (response.data) {
-            const newAccessToken = response.data.data.access_token;
-            const newRefreshToken = response.data.data.refresh_token;
-    
-            setAccessToken(newAccessToken);
-            setRefreshToken(newRefreshToken);
-            // console.log('New Access Token:', newAccessToken);
-            // console.log('New Refresh Token:', newRefreshToken);
-
-            // Clear the URL params if needed
-            window.history.replaceState({}, document.title, window.location.pathname);
-          } else {
-            throw new Error('Invalid response data');
-          }
-        } catch (error) {
-          console.error('Error refreshing access token:', error);
-        }
-
-      }, 50000);
-      return () => clearInterval(intervalId);
     }, []); // The effect runs once on mount
   
 
