@@ -310,13 +310,6 @@ const Cart = () => {
         redirectUri
       )}&response_type=code`;
       window.location.href = authUrl;
-
-      
-      const urlParams = new URLSearchParams(window.location.search);
-      const authorizationCode = urlParams.get('code');
-
-      console.log(authorizationCode);
-      
     };
   
     // Step 2: Handle the redirect and exchange the authorization code for tokens
@@ -324,6 +317,9 @@ const Cart = () => {
       const fetchAuthorizationCode = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const authorizationCode = urlParams.get('code');
+
+        console.log(authorizationCode);
+        
 
         if (authorizationCode) {
           // Exchange authorization code for access and refresh tokens
@@ -363,60 +359,53 @@ const Cart = () => {
           fetchTokens();
         }
       };
-
       fetchAuthorizationCode();
+
+      
+      // Step 3: Refresh access token if it expires
+      const intervalId = setInterval(async () => {
+        // try {
+        //   // Prepare the credentials to be sent as URL-encoded
+        //   const bodyRefresh = new URLSearchParams();
+        //   bodyRefresh.append('grant_type', 'refresh_token');
+        //   bodyRefresh.append('client_id', clientId);
+        //   bodyRefresh.append('client_secret', clientSecret);
+        //   bodyRefresh.append('code', authorizationCode);
+        //   bodyRefresh.append('refresh_token', refreshToken);
+    
+        //   // Send the request to your PHP backend
+        //   const response = await axios.post(AGRapidCentTokenRefresh, bodyRefresh, {
+        //     headers: {
+        //       'Content-Type': 'application/x-www-form-urlencoded',
+        //     },
+        //   });
+
+        //   console.log(response.data);
+          
+    
+        //   // Check if the response contains the access token and refresh token
+        //   if (response.data) {
+        //     const newAccessToken = response.data.data.access_token;
+        //     const newRefreshToken = response.data.data.refresh_token;
+    
+        //     setAccessToken(newAccessToken);
+        //     setRefreshToken(newRefreshToken);
+        //     console.log('New Access Token:', newAccessToken);
+        //     console.log('New Refresh Token:', newRefreshToken);
+
+        //     // Clear the URL params if needed
+        //     window.history.replaceState({}, document.title, window.location.pathname);
+        //   } else {
+        //     throw new Error('Invalid response data');
+        //   }
+        // } catch (error) {
+        //   console.error('Error refreshing access token:', error);
+        // }
+
+      }, 50000);
+      return () => clearInterval(intervalId);
     }, []); // The effect runs once on mount
   
-
-
-    // Step 3: Refresh access token if it expires
-    const refreshAccessToken = async () => {
-      // if (!refreshToken) {
-      //   console.error('Refresh token is not available');
-      //   return;
-      // }
-      
-  
-      // const authorizationCode = AGRapidCentAuthCode;
-      
-      // try {
-      //   // Prepare the credentials to be sent as URL-encoded
-      //   const bodyRefresh = new URLSearchParams();
-      //   bodyRefresh.append('grant_type', 'refresh_token');
-      //   bodyRefresh.append('client_id', clientId);
-      //   bodyRefresh.append('client_secret', clientSecret);
-      //   bodyRefresh.append('code', authorizationCode);
-      //   bodyRefresh.append('refresh_token', refreshToken);
-  
-      //   // Send the request to your PHP backend
-      //   const response = await axios.post(AGRapidCentTokenRefresh, bodyRefresh, {
-      //     headers: {
-      //       'Content-Type': 'application/x-www-form-urlencoded',
-      //     },
-      //   });
-
-      //   console.log(response.data);
-        
-  
-      //   // Check if the response contains the access token and refresh token
-      //   if (response.data) {
-      //     const newAccessToken = response.data.data.access_token;
-      //     const newRefreshToken = response.data.data.refresh_token;
-  
-      //     setAccessToken(newAccessToken);
-      //     setRefreshToken(newRefreshToken);
-      //     console.log('New Access Token:', newAccessToken);
-      //     console.log('New Refresh Token:', newRefreshToken);
-
-      //     // Clear the URL params if needed
-      //     window.history.replaceState({}, document.title, window.location.pathname);
-      //   } else {
-      //     throw new Error('Invalid response data');
-      //   }
-      // } catch (error) {
-      //   console.error('Error refreshing access token:', error);
-      // }
-    };
 
 
     // const [clientSecret, setClientSecret] = useState();
@@ -689,7 +678,6 @@ const Cart = () => {
                         {(cartTotalPayment.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
                       </button>
                       <button className='devButton' onClick={handleLogin}>Generate Auth</button>
-                      <button className='devButton' onClick={refreshAccessToken}>Refresh Token</button>
                     </div>
                   </div>
                 </div>
