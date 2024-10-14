@@ -310,6 +310,13 @@ const Cart = () => {
         redirectUri
       )}&response_type=code`;
       window.location.href = authUrl;
+
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const authorizationCode = urlParams.get('code');
+
+      console.log(authorizationCode);
+      
     };
   
     // Step 2: Handle the redirect and exchange the authorization code for tokens
@@ -339,8 +346,8 @@ const Cart = () => {
           
               console.log(response.data);
           
-              const access_token = response.data.data.access_token;
-              const refresh_token = response.data.data.refresh_token;
+              const access_token = response.data.access_token;
+              const refresh_token = response.data.refresh_token;
               setAccessToken(access_token);
               setRefreshToken(refresh_token);
               console.log('Access Token:', access_token);
