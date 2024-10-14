@@ -322,33 +322,33 @@ const Cart = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const authorizationCode = urlParams.get('code');
 
-        if(authorizationCode){
-          const fetchSendProduct = async () => {
-            const formRecordAuthCode = {
-              newAuthorizationCode: authorizationCode,
-            }
+        // if(authorizationCode){
+        //   const fetchSendProduct = async () => {
+        //     const formRecordAuthCode = {
+        //       newAuthorizationCode: authorizationCode,
+        //     }
             
-            try {
-              const sendProductResponse = await axios.post(AGRapidcentSaveAuthCode, formRecordAuthCode);
-              const responseMessage = sendProductResponse.data;
+        //     try {
+        //       const sendProductResponse = await axios.post(AGRapidcentSaveAuthCode, formRecordAuthCode);
+        //       const responseMessage = sendProductResponse.data;
       
-              if (responseMessage.success) {
-                console.log(responseMessage.message);
+        //       if (responseMessage.success) {
+        //         console.log(responseMessage.message);
                 
-              } else {
-                console.log(responseMessage.message);
-              }
+        //       } else {
+        //         console.log(responseMessage.message);
+        //       }
         
-            }catch (error) {
-              console.error(error);
-            }
-          }
+        //     }catch (error) {
+        //       console.error(error);
+        //     }
+        //   }
 
-          fetchSendProduct();
-        }
+        //   fetchSendProduct();
+        // }
         
 
-        if (rapidcentAuthCode) {
+        if (authorizationCode) {
           // Exchange authorization code for access and refresh tokens
           const fetchTokens = async () => {
             try {
@@ -358,7 +358,7 @@ const Cart = () => {
               body.append('client_id', clientId);
               body.append('client_secret', clientSecret);
               body.append('redirect_uri', redirectUri);
-              body.append('code', rapidcentAuthCode.rapidcent_code);
+              body.append('code', authorizationCode);
 
               // Send the request to your PHP backend
               const response = await axios.post(tokenEndpoint, body, {
@@ -391,43 +391,40 @@ const Cart = () => {
       
       // Step 3: Refresh access token if it expires
       const intervalId = setInterval(async () => {
-        // try {
-        //   // Prepare the credentials to be sent as URL-encoded
-        //   const bodyRefresh = new URLSearchParams();
-        //   bodyRefresh.append('grant_type', 'refresh_token');
-        //   bodyRefresh.append('client_id', clientId);
-        //   bodyRefresh.append('client_secret', clientSecret);
-        //   bodyRefresh.append('code', authorizationCode);
-        //   bodyRefresh.append('refresh_token', refreshToken);
+        try {
+          // Prepare the credentials to be sent as URL-encoded
+          const bodyRefresh = new URLSearchParams();
+          bodyRefresh.append('grant_type', 'refresh_token');
+          bodyRefresh.append('client_id', clientId);
+          bodyRefresh.append('client_secret', clientSecret);
+          bodyRefresh.append('code', authorizationCode);
+          bodyRefresh.append('refresh_token', refreshToken);
     
-        //   // Send the request to your PHP backend
-        //   const response = await axios.post(AGRapidCentTokenRefresh, bodyRefresh, {
-        //     headers: {
-        //       'Content-Type': 'application/x-www-form-urlencoded',
-        //     },
-        //   });
+          // Send the request to your PHP backend
+          const response = await axios.post(tokenEndpoint, bodyRefresh, {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          });
+    
+          // Check if the response contains the access token and refresh token
+          if (response.data) {
+            const newAccessToken = response.data.data.access_token;
+            const newRefreshToken = response.data.data.refresh_token;
+    
+            setAccessToken(newAccessToken);
+            setRefreshToken(newRefreshToken);
+            // console.log('New Access Token:', newAccessToken);
+            // console.log('New Refresh Token:', newRefreshToken);
 
-        //   console.log(response.data);
-          
-    
-        //   // Check if the response contains the access token and refresh token
-        //   if (response.data) {
-        //     const newAccessToken = response.data.data.access_token;
-        //     const newRefreshToken = response.data.data.refresh_token;
-    
-        //     setAccessToken(newAccessToken);
-        //     setRefreshToken(newRefreshToken);
-        //     console.log('New Access Token:', newAccessToken);
-        //     console.log('New Refresh Token:', newRefreshToken);
-
-        //     // Clear the URL params if needed
-        //     window.history.replaceState({}, document.title, window.location.pathname);
-        //   } else {
-        //     throw new Error('Invalid response data');
-        //   }
-        // } catch (error) {
-        //   console.error('Error refreshing access token:', error);
-        // }
+            // Clear the URL params if needed
+            window.history.replaceState({}, document.title, window.location.pathname);
+          } else {
+            throw new Error('Invalid response data');
+          }
+        } catch (error) {
+          console.error('Error refreshing access token:', error);
+        }
 
       }, 50000);
       return () => clearInterval(intervalId);
