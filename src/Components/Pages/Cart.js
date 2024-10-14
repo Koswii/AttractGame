@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import "../CSS/cart.css";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import CryptoJS from 'crypto-js';
 import { 
   FaBars, 
@@ -444,6 +445,166 @@ const Cart = () => {
 
 
 
+
+
+    const [ddd, setDdd] = useState({});
+    const [sessionID, setSessionID] = useState(null);
+  
+    // Step 1: INIT - Add an event listener for 3D Secure responses
+    useEffect(() => {
+      const messageHandler = (event) => {
+        console.log('Received Event:', event);
+        const { src, param } = event.data;
+  
+        if (param?.threeDSServerTransID) {
+          ddd.threeDSServerTransID = param.threeDSServerTransID;
+          setDdd((prev) => ({ ...prev, threeDSServerTransID: param.threeDSServerTransID }));
+        }
+  
+        if (src === 'method_notify') {
+          authenticateUser(); // Proceed to Step 3 (Authentication)
+        } else if (src === 'challenge_notify') {
+          handleChallengeResponse(param);
+        }
+      };
+  
+      window.addEventListener('message', messageHandler);
+      return () => window.removeEventListener('message', messageHandler);
+    }, []);
+  
+    // Step 1: Send INIT API request
+    const initialize3DSecure = async (cardData, customerEmail, paymentLinkID) => {
+      try {
+        const response = await axios.post('{rapidcents_uri}/ddd/init', {
+          cardData,
+          customerEmail,
+          paymentLinkID,
+        });
+        const data = response.data;
+  
+        if (data.status === 'DDD_INVOKE') {
+          invoke3DSecure(data); // Proceed to Step 2
+        } else if (data.status === 'DDD_FRICTIONLESS') {
+          authenticateUser(); // Skip to Step 3
+        } else {
+          Swal.fire('Error', '3D Secure not supported.', 'error');
+        }
+  
+        setSessionID(data.sessionID);
+      } catch (error) {
+        console.error('Init error:', error);
+      }
+    };
+  
+    // Step 2: Invoke 3D-Secure Server
+    const invoke3DSecure = (data) => {
+      const iframe = document.createElement('iframe');
+      iframe.id = 'myIframe';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+  
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      const form = iframeDoc.createElement('form');
+      form.method = 'POST';
+      form.action = data.threeDSMethodURL;
+  
+      const input = iframeDoc.createElement('input');
+      input.type = 'hidden';
+      input.name = 'threeDSMethodData';
+      input.value = data.threeDSMethodData;
+  
+      form.appendChild(input);
+      iframeDoc.body.appendChild(form);
+      form.submit();
+    };
+  
+    // Step 3: Authenticate the User
+    const authenticateUser = async () => {
+      try {
+        const response = await axios.post('{rapidcents_url}/api/ddd/authenticate', {
+          threeDSServerTransID: ddd.threeDSServerTransID,
+          cardData: {}, // Provide card data here
+          amount: 100, // Example amount in dollars
+          sessionID,
+        });
+  
+        const { status, creq, acsURL } = response.data;
+  
+        if (status === 'C') {
+          initiateChallenge(creq, acsURL); // Proceed to Step 4
+        } else if (['Y', 'A'].includes(status)) {
+          initiateTransaction(); // Proceed to Step 5
+        } else {
+          Swal.fire('Error', 'Transaction declined.', 'error');
+        }
+      } catch (error) {
+        console.error('Authentication error:', error);
+      }
+    };
+  
+    // Step 4: Initiate Challenge if needed
+    const initiateChallenge = (creq, acsURL) => {
+      const backdrop = document.createElement('div');
+      backdrop.id = 'backdrop';
+      backdrop.className = 'tw-absolute tw-inset-0 tw-bg-black tw-bg-opacity-75 tw-backdrop-blur';
+      document.body.appendChild(backdrop);
+  
+      const iframe = document.createElement('iframe');
+      iframe.id = 'challengeIframe';
+      iframe.className = 'tw-absolute tw-z-10 tw-w-[60vw] tw-h-[60vh] tw-top-[50%] tw-left-[50%] tw--translate-x-1/2 tw--translate-y-1/2 tw-rounded-lg';
+      document.body.appendChild(iframe);
+  
+      const iframeDoc = iframe.contentWindow.document;
+      const form = iframeDoc.createElement('form');
+      form.method = 'POST';
+      form.action = acsURL;
+  
+      const input = iframeDoc.createElement('input');
+      input.type = 'hidden';
+      input.name = 'creq';
+      input.value = creq;
+  
+      form.appendChild(input);
+      iframeDoc.body.appendChild(form);
+      form.submit();
+    };
+  
+    // Handle challenge response
+    const handleChallengeResponse = (param) => {
+      if (param.transStatus === 'Y') {
+        setDdd((prev) => ({
+          ...prev,
+          authenticationValue: param.authenticationValue,
+          transStatus: 'Y',
+          version: param.messageVersion,
+        }));
+        initiateTransaction();
+      } else if (param.challengeCancel === '01') {
+        window.location.reload();
+      } else {
+        disablePaymentLink();
+      }
+      cleanUpChallengeUI();
+    };
+  
+    // Step 5: Proceed with the transaction
+    const initiateTransaction = () => {
+      console.log('Transaction initiated with:', ddd);
+      // Proceed with your transaction logic
+    };
+  
+    // Clean up challenge UI
+    const cleanUpChallengeUI = () => {
+      document.getElementById('backdrop')?.remove();
+      document.getElementById('challengeIframe')?.remove();
+    };
+  
+    // Disable the payment link in case of failure
+    const disablePaymentLink = () => {
+      Swal.fire('Error', 'Challenge failed. Payment link disabled.', 'error');
+    };
+
+
     
     const handleSubmitTransaction = async () => {
       if (!userLoggedData.userid) {
@@ -675,6 +836,9 @@ const Cart = () => {
                       </button>
                       {cartAdminState && <button className='devButton' onClick={handleLogin}>Generate Auth</button>}
                       <button className='devButton' onClick={handleLogin}>Generate Auth</button>
+                      <button onClick={() => initialize3DSecure({}, 'sample@mail.com', null)}>
+                        Start 3D Secure Payment
+                      </button>
                     </div>
                   </div>
                 </div>
