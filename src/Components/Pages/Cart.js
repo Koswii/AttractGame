@@ -46,6 +46,7 @@ const Cart = () => {
     const { viewAGData1 } = GamesFetchData();
     const { giftcards } = GiftcardsFetchData();
     const { gamecredits } = GamecreditsFetchData();
+    const cartAdminState = localStorage.getItem('agAdminLoggedIn');
     const navigate = useNavigate();
     const AGUserRemoveToCartAPI = process.env.REACT_APP_AG_REMOVE_USER_CART_API;
     const AGUserProductTransferAPI = process.env.REACT_APP_AG_TRANSFER_PRODUCTS_API;
@@ -298,7 +299,7 @@ const Cart = () => {
     const clientSecret = AGRapidCentClientSecret;
     const redirectUri = 'https://attractgame-beta-website.vercel.app/MyCart';
     const authorizationEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/authorize';
-    const AGRapidCentTokenRefresh = process.env.REACT_APP_AG_RAPIDCENT_TOKEN_REFRESH;
+    const AGRapidcentSaveAuthCode = process.env.REACT_APP_RAPIDCENT_INSERT_AUTH_CODE;
     const tokenEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/token';
   
     const [accessToken, setAccessToken] = useState(null);
@@ -318,7 +319,30 @@ const Cart = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const authorizationCode = urlParams.get('code');
 
-        console.log(authorizationCode);
+        if(authorizationCode){
+          const fetchSendProduct = async () => {
+            const formRecordAuthCode = {
+              newAuthorizationCode: authorizationCode,
+            }
+            
+            try {
+              const sendProductResponse = await axios.post(AGRapidcentSaveAuthCode, formRecordAuthCode);
+              const responseMessage = sendProductResponse.data;
+      
+              if (responseMessage.success) {
+                console.log(responseMessage.message);
+                
+              } else {
+                console.log(responseMessage.message);
+              }
+        
+            }catch (error) {
+              console.error(error);
+            }
+          }
+
+          fetchSendProduct();
+        }
         
 
         if (authorizationCode) {
@@ -677,6 +701,7 @@ const Cart = () => {
                       <button className={(cartTotalPayment.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(cartTotalPayment.length === 0) ? true : false}>
                         {(cartTotalPayment.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
                       </button>
+                      {cartAdminState && <button className='devButton' onClick={handleLogin}>Generate Auth</button>}
                       <button className='devButton' onClick={handleLogin}>Generate Auth</button>
                     </div>
                   </div>
