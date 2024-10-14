@@ -206,6 +206,22 @@ export const UserProfileDataProvider = ({ children }) => {
             }
         };
 
+        const fetchRCAuthCode = async () => {
+            try {
+                const response = await axios.get(AGUsersTicketReport);
+                const AuthCodesData = response.data;
+                const RecentAuthCode = AuthCodesData.sort((a, b) => {
+                    const dateA = new Date(a.date);
+                    const dateB = new Date(b.date);
+              
+                    return dateB - dateA;
+                });
+                console.log(RecentAuthCode.LIMIT1(1));
+                
+            } catch (error) {
+                console.error(error);
+            }
+        };
         
 
         fetchUsersEmails();
@@ -216,6 +232,7 @@ export const UserProfileDataProvider = ({ children }) => {
         fetchUserProductIds();
         fetchUserProfile();
         fetchSellerStockList();
+        fetchRCAuthCode();
     }, []);
 
     const handleLoginForm = () => {
