@@ -367,7 +367,7 @@ const Cart = () => {
               bodyRefresh.append('client_id', clientId);
               bodyRefresh.append('client_secret', clientSecret);
               bodyRefresh.append('code', '');
-              bodyRefresh.append('refresh_token', '');
+              bodyRefresh.append('refresh_token', refreshToken);
         
               // Send the request to your PHP backend
               const response = await axios.post(tokenEndpoint, bodyRefresh, {
@@ -393,7 +393,7 @@ const Cart = () => {
               console.error('Error refreshing access token:', error);
             }
 
-          }, 50000);
+          }, 3000);
           return () => clearInterval(intervalId);
         }
       };
