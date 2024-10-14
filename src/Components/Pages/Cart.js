@@ -366,8 +366,8 @@ const Cart = () => {
               bodyRefresh.append('grant_type', 'refresh_token');
               bodyRefresh.append('client_id', clientId);
               bodyRefresh.append('client_secret', clientSecret);
-              bodyRefresh.append('code', authorizationCode);
-              bodyRefresh.append('refresh_token', refreshToken);
+              bodyRefresh.append('code', '');
+              bodyRefresh.append('refresh_token', '');
         
               // Send the request to your PHP backend
               const response = await axios.post(tokenEndpoint, bodyRefresh, {
@@ -378,8 +378,8 @@ const Cart = () => {
         
               // Check if the response contains the access token and refresh token
               if (response.data) {
-                const newAccessToken = response.data.data.access_token;
-                const newRefreshToken = response.data.data.refresh_token;
+                const newAccessToken = response.data.access_token;
+                const newRefreshToken = response.data.refresh_token;
         
                 setAccessToken(newAccessToken);
                 setRefreshToken(newRefreshToken);
