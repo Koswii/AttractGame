@@ -437,69 +437,63 @@ const Cart = () => {
                         <TbDeviceGamepad2 className="faIcons" /> GAMES
                       </h6>
                       {productGameDetails.map((details, i) => (
-                        <>
-                          <span key={i}>
-                            <p id="productTitle">
-                              {details.productData.game_title} -{" "}
-                              {details.productData.game_platform}
-                            </p>
-                            <p id="productPrice">
-                              ${" "}
-                              {details.productData.stock === undefined
-                                ? "--.--"
-                                : details.productData.stock === undefined
-                                ? "--.--"
-                                : details.effectivePrice.toFixed(2)}{" "}
-                              x {orderQuantities[details.ag_product_id] || 1}
-                            </p>
-                          </span>
-                        </>
+                        <span key={i}>
+                          <p id="productTitle">
+                            {details.productData.game_title} -{" "}
+                            {details.productData.game_platform}
+                          </p>
+                          <p id="productPrice">
+                            ${" "}
+                            {details.productData.stock === undefined
+                              ? "--.--"
+                              : details.productData.stock === undefined
+                              ? "--.--"
+                              : details.effectivePrice.toFixed(2)}{" "}
+                            x {orderQuantities[details.ag_product_id] || 1}
+                          </p>
+                        </span>
                       ))}
                       <br />
                       <h6>
                         <TbGiftCard className="faIcons" /> GIFTCARDS
                       </h6>
                       {productGiftcardDetails.map((details, i) => (
-                        <>
-                          <span key={i}>
-                            <p id="productTitle">
-                              {details.productData.giftcard_name} - $
-                              {details.productData.giftcard_denomination}
-                            </p>
-                            <p id="productPrice">
-                              ${" "}
-                              {(details.productData.stock === 0 || undefined)
-                                ? "--.--"
-                                : (details.productData.stock === 0 || undefined)
-                                ? "--.--"
-                                : details.effectivePrice.toFixed(2)}{" "}
-                              x {orderQuantities[details.ag_product_id] || 1}
-                            </p>
-                          </span>
-                        </>
+                        <span key={i}>
+                          <p id="productTitle">
+                            {details.productData.giftcard_name} - $
+                            {details.productData.giftcard_denomination}
+                          </p>
+                          <p id="productPrice">
+                            ${" "}
+                            {(details.productData.stock === 0 || undefined)
+                              ? "--.--"
+                              : (details.productData.stock === 0 || undefined)
+                              ? "--.--"
+                              : details.effectivePrice.toFixed(2)}{" "}
+                            x {orderQuantities[details.ag_product_id] || 1}
+                          </p>
+                        </span>
                       ))}
                       <br />
                       <h6>
                         <TbDiamond className="faIcons" /> GAME CREDITS
                       </h6>
                       {productGamecreditDetails.map((details, i) => (
-                        <>
-                          <span key={i}>
-                            <p id="productTitle">
-                              {details.productData.gamecredit_name} - $
-                              {details.productData.gamecredit_denomination}
-                            </p>
-                            <p id="productPrice">
-                              ${" "}
-                              {(details.productData.stock === 0 || undefined)
-                                ? "--.--"
-                                : (details.productData.stock === 0 || undefined)
-                                ? "--.--"
-                                : details.effectivePrice.toFixed(2)}{" "}
-                              x {orderQuantities[details.ag_product_id] || 1}
-                            </p>
-                          </span>
-                        </>
+                        <span key={i}>
+                          <p id="productTitle">
+                            {details.productData.gamecredit_name} - $
+                            {details.productData.gamecredit_denomination}
+                          </p>
+                          <p id="productPrice">
+                            ${" "}
+                            {(details.productData.stock === 0 || undefined)
+                              ? "--.--"
+                              : (details.productData.stock === 0 || undefined)
+                              ? "--.--"
+                              : details.effectivePrice.toFixed(2)}{" "}
+                            x {orderQuantities[details.ag_product_id] || 1}
+                          </p>
+                        </span>
                       ))}
                     </div>
                     <div className="cartpcm1crCheckout">

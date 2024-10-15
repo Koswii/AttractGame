@@ -589,6 +589,7 @@ const SellerPanel = () => {
         console.log(pCode);
     }
     const handleViewTicketMessages = (ticketCode) => {
+        fetchUserTicketMessages();
         setViewTicketMsgModal(true);
         const pCode = sellerTickerReports.find(pCodeID => pCodeID.ticket_id === ticketCode);
         
@@ -1476,43 +1477,46 @@ const SellerPanel = () => {
                             <div className="sppcm1TicketsContent">
                                 <h4>PRODUCT TICKET REPORTS</h4>
                                 <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Here, you can easily check and add notes regarding the reported products in your store.</p>
-                                {(sellerTickerReports.length > 0) ? 
-                                    <div className="sppcm1tcReports">
-                                        {sellerTickerReports.map((data, i) => (
-                                            <div className="sppcm1tcrpInfo" key={i}>
-                                                <div className='sppcm1tcrpiDate'>
-                                                    <p>{formatDateToWordedDate(data.date)}</p>
+                                <div className="sppcm1tcReports">
+                                    {(sellerTickerReports.length > 0) ? 
+                                        <>
+                                            {sellerTickerReports.map((data, i) => (
+                                                <div className="sppcm1tcrpInfo" key={i}>
+                                                    <div className='sppcm1tcrpiDate'>
+                                                        <p>{formatDateToWordedDate(data.date)}</p>
+                                                    </div>
+                                                    <div className='sppcm1tcrpiTicket'>
+                                                        <p>{data.ticket_id}</p>
+                                                    </div>
+                                                    <div className='sppcm1tcrpiUserID'>
+                                                        <p><UsernameSlicer text={`${data.userinfo[0].username}`} maxLength={10} /> <span>({data.user_id})</span></p>
+                                                    </div>
+                                                    <div className='sppcm1tcrpiProduct'>
+                                                        <p><UsernameSlicer text={`${data.product_name}`} maxLength={35} /></p>
+                                                    </div>
+                                                    <div className='sppcm1tcrpiStatus'>
+                                                        <p>
+                                                            {(data.status === 'On Queue') && 'On Queue'}
+                                                            {(data.status === 'Processing') && 'Processing'}
+                                                            {(data.status === 'Completed') && 'Completed'}
+                                                        </p>
+                                                    </div>
+                                                    <div className='sppcm1tcrpiDetails'>
+                                                        <button onClick={() => handleViewTicketProduct(data.ticket_id)}><TbTicket className='faIcons'/></button>
+                                                        <button onClick={() => handleViewTicketMessages(data.ticket_id)}><TbMessages className='faIcons'/></button>
+                                                    </div>
                                                 </div>
-                                                <div className='sppcm1tcrpiTicket'>
-                                                    <p>{data.ticket_id}</p>
-                                                </div>
-                                                <div className='sppcm1tcrpiUserID'>
-                                                    <p><UsernameSlicer text={`${data.userinfo[0].username}`} maxLength={10} /> <span>({data.user_id})</span></p>
-                                                </div>
-                                                <div className='sppcm1tcrpiProduct'>
-                                                    <p><UsernameSlicer text={`${data.product_name}`} maxLength={35} /></p>
-                                                </div>
-                                                <div className='sppcm1tcrpiStatus'>
-                                                    <p>
-                                                        {(data.status === 'On Queue') && 'On Queue'}
-                                                        {(data.status === 'Processing') && 'Processing'}
-                                                        {(data.status === 'Completed') && 'Completed'}
-                                                    </p>
-                                                </div>
-                                                <div className='sppcm1tcrpiDetails'>
-                                                    <button onClick={() => handleViewTicketProduct(data.ticket_id)}><TbTicket className='faIcons'/></button>
-                                                    <button onClick={() => handleViewTicketMessages(data.ticket_id)}><TbMessages className='faIcons'/></button>
+                                            ))}
+                                        </>:<>
+                                            <div className="sppcm1tcEmpty">
+                                                <div>
+                                                    <h5><FaTicket className='faIcons'/></h5>
+                                                    <p>You don't have any Tickets.</p>
                                                 </div>
                                             </div>
-                                        ))}
-                                    </div>:
-                                    <div className="sppcm1tcEmpty">
-                                        <div>
-                                            <h5><FaTicket className='faIcons'/></h5>
-                                            <p>You don't have any Tickets.</p>
-                                        </div>
-                                    </div>
-                                }
+                                        </>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>}
