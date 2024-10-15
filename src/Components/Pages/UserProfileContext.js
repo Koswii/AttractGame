@@ -243,6 +243,12 @@ export const UserProfileDataProvider = ({ children }) => {
         setViewLoginForm(true)
     }
 
+
+
+
+
+    
+
     return (
         <UserProfileContext.Provider value={{ 
             rapidcentAuthCode,
