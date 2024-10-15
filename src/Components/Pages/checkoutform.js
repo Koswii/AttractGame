@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-// stripe
-// import {
-//   PaymentElement,
-//   useStripe,
-//   useElements,
-// } from "@stripe/react-stripe-js";
-// css
 import '../CSS/checkoutform.css'
-// axios
 import axios from "axios";
-// icons
+import Swal from 'sweetalert2';
 import { 
   TbDeviceGamepad2,
   TbGiftCard, 
@@ -19,13 +11,13 @@ import {
 import { 
   MdOutlinePayment 
 } from "react-icons/md";
-import PayPalButton from "./PayPalButton";
-import { parse } from "qs";
+import { UserProfileData } from './UserProfileContext';
 
 const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction,paymentIntentId,setClientSecret,totalprice,transactionData,setFinalcheckout}) => {
   const navigate = useNavigate();
-  // const elements = useElements();
-
+  const { 
+      userLoggedData
+  } = UserProfileData();
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [successTransfer,setSuccessTransfer] = useState(false)
@@ -49,35 +41,6 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
       setGameCreditsdata(filterdataGamecredits)
     }
 
-    // if (!stripe) {
-    //   return;
-    // }
-
-    // const clientSecret = new URLSearchParams(window.location.search).get(
-    //   "payment_intent_client_secret"
-    // );
-
-    // if (!clientSecret) {
-    //   return;
-    // }
-
-    // stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-    //   console.log(paymentIntent);
-    //   switch (paymentIntent.status) {
-    //     case "succeeded":
-    //       setMessage("Payment succeed! Buy again?");
-    //       break;
-    //     case "processing":
-    //       setMessage("Your payment is processing.");
-    //       break;
-    //     case "requires_payment_method":
-    //       setMessage("Your payment was not successful, please try again.");
-    //       break;
-    //     default:
-    //       setMessage("Something went wrong.");
-    //       break;
-    //   }
-    // });
   }, []);
 
   // console.log(cartTotalPayment);
@@ -120,27 +83,10 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
 
   };
 
-  const cancelPayment = async (e) => {
-    // e.preventDefault()
-    // try {
-    //   const cancelPaymentAPI = process.env.REACT_APP_AG_CHECKOUT_CANCEL
-    //   const res = await axios.post(cancelPaymentAPI, { paymentIntentId });
-    //   setClientSecret()
-    // } catch (err) {
-    //   console.log(err);
-    // }
-  }
-  // const paymentElementOptions = {
-  //   layout: "tabs",
-  // };
-
   
   setTimeout(() => {
     setLoader(false)
   }, 2000);
-
-  
-  
   const orderIDGenerator = (length) => {
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     let result = "";
@@ -152,72 +98,241 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
   };
 
 
-  const [openPayment, setOpenPayment] = useState(false)
-  const [orderLink, setOrderLink] = useState('')
-
-  const payUsingUSDT = async () => {
-    const apiKey = 'ZC6GE5W-HBWMFWP-JADFWDE-XEEXAE8'; // Replace with your actual API key
-    const url = 'https://api.nowpayments.io/v1/invoice';
-    const orderID = orderIDGenerator(20)
-    
-    
-    const data = {
-        price_amount: totalprice,
-        price_currency: 'usd',
-        pay_currency: 'btc',
-        ipn_callback_url: 'https://nowpayments.io',
-        order_id: orderID,
-        order_description: "Order History on Attractgame.com",
-        ipn_callback_url: "https://nowpayments.io",
-        success_url: "https://nowpayments.io",
-        cancel_url: "https://nowpayments.io"
-    };
-
-    
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'x-api-key': apiKey,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      if (result && result.invoice_url) {
-        setOpenPayment(true);
-        const invoiceUrl = result.invoice_url;
-        const updatedUrl = invoiceUrl.startsWith('http://')
-          ? invoiceUrl.replace('http://', 'https://')
-          : invoiceUrl;
-        setOrderLink(updatedUrl);
-      }
-    } catch (error) {
-      console.error('Error creating payment:', error);
-    }
-  };
-
-  const closeNopay = () => {
-    setOpenPayment(false)
-  }
-
   const cancelCheckout = () => {
     setFinalcheckout(false)
   }
   
+
+  const [cardData, setCardData] = useState({
+    cardNumber: '',
+    month: '',
+    year: '',
+    nameOnCard: '',
+    cvv: '',
+  });
+  const amount = totalprice.toFixed(2);
+  const customerEmail = userLoggedData.email
+  const [threeDSData, setThreeDSData] = useState({});
+  const [sessionID, setSessionID] = useState('');
+  const [threeDSServerTransID, setThreeDSServerTransID] = useState('');
+
+  // Handler to update cardData state
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setCardData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // Validate the card data (optional)
+  const validateCardData = () => {
+    const { cardNumber, month, year, nameOnCard, cvv } = cardData;
+
+    if (!cardNumber || cardNumber.length !== 16) {
+      alert('Card number must be 16 digits.');
+      return false;
+    }
+    if (!month || month < 1 || month > 12) {
+      alert('Month must be between 1 and 12.');
+      return false;
+    }
+    if (!year || year < 24) {
+      alert('Year must be 24 or later.');
+      return false;
+    }
+    if (!nameOnCard) {
+      alert('Name on card is required.');
+      return false;
+    }
+    if (!cvv || cvv.length !== 3) {
+      alert('CVV must be 3 digits.');
+      return false;
+    }
+
+    return true;
+  };
+
+  // Step 1: Add event listener for 3D secure server response
+  useEffect(() => {
+    const handle3DSServerResponse = (event) => {
+      console.log({ event });
+
+      if (event.data?.param?.threeDSServerTransID) {
+        setThreeDSServerTransID(event.data.param.threeDSServerTransID);
+      }
+
+      if (event.data.src === 'method_notify') {
+        dddAuthenticate(); // Proceed to step 3
+      }
+
+      if (event.data.src === 'challenge_notify') {
+        handleChallengeResponse(event);
+      }
+    };
+
+    window.addEventListener('message', handle3DSServerResponse);
+    return () => window.removeEventListener('message', handle3DSServerResponse);
+  }, []);
+
+  // Step 1: Send request to init API
+  const initialize3DSecure = async () => {
+    try {
+      const response = await axios.post('https://uatstage00-api.rapidcents.com/ddd/init', {
+        cardData,
+        customerEmail,
+        paymentLinkID: null,
+      });
+
+      const data = response.data.data;
+      setSessionID(data.sessionID);
+      setThreeDSData(data);
+
+      if (data.status === 'DDD_FRICTIONLESS') {
+        dddAuthenticate(); // Skip step 2 and proceed to authentication
+      } else if (data.status === 'DDD_INVOKE') {
+        invoke3DSServer(); // Proceed to step 2
+      } else {
+        Swal.fire('3D Secure not supported by this card.');
+      }
+    } catch (error) {
+      console.error('Init API Error:', error);
+    }
+  };
+
+  // Step 2: Invoke 3D-Secure Server
+  const invoke3DSServer = () => {
+    try {
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+      const form = iframeDoc.createElement('form');
+      form.method = 'POST';
+      form.action = threeDSData.threeDSMethodURL;
+
+      const input = iframeDoc.createElement('input');
+      input.type = 'hidden';
+      input.name = 'threeDSMethodData';
+      input.value = threeDSData.threeDSMethodData;
+
+      form.appendChild(input);
+      iframeDoc.body.appendChild(form);
+
+      form.submit();
+    } catch (error) {
+      Swal.fire({
+        text: '3D secure card verification failed. Please try a different card.',
+        icon: 'error',
+        confirmButtonText: 'Ok, got it!',
+      }).then(() => window.location.reload());
+    }
+  };
+
+  // Step 3: Authenticate the transaction
+  const dddAuthenticate = async () => {
+    try {
+      const response = await axios.post('https://uatstage00-api.rapidcents.com/api/ddd/authenticate', {
+        threeDSServerTransID,
+        cardData,
+        amount,
+        sessionID,
+      });
+
+      const data = response.data.data;
+      if (data.status === 'C') {
+        initiateChallenge(data); // Proceed to step 4
+      } else if (['Y', 'A'].includes(data.status)) {
+        initiateTransaction(data); // Proceed to step 5
+      } else {
+        Swal.fire('Authentication failed. Transaction blocked.');
+      }
+    } catch (error) {
+      console.error('Authentication Error:', error);
+    }
+  };
+
+  // Step 4: Handle Challenge
+  const initiateChallenge = (data) => {
+    try {
+      const iframe = document.createElement('iframe');
+      const backdrop = document.createElement('div');
+
+      backdrop.id = 'backdrop';
+      backdrop.className =
+        'tw-absolute tw-inset-0 tw-bg-black tw-bg-opacity-75 tw-backdrop-blur';
+      document.body.appendChild(backdrop);
+
+      iframe.id = 'challengeIframe';
+      iframe.className =
+        'tw-absolute tw-z-10 tw-w-[60vw] tw-h-[60vh] tw-top-[50%] tw-left-[50%] tw--translate-x-1/2 tw--translate-y-1/2 tw-rounded-lg';
+      document.body.appendChild(iframe);
+
+      const iframeDoc = iframe.contentWindow.document;
+      const form = iframeDoc.createElement('form');
+      form.method = 'POST';
+      form.action = data.acsURL;
+
+      const input = iframeDoc.createElement('input');
+      input.type = 'hidden';
+      input.name = 'creq';
+      input.value = data.creq;
+
+      form.appendChild(input);
+      iframeDoc.body.appendChild(form);
+
+      form.submit();
+    } catch (error) {
+      Swal.fire({
+        text: '3D secure card verification failed. Please try a different card.',
+        icon: 'error',
+        confirmButtonText: 'Ok, got it!',
+      });
+      console.error(error);
+    }
+  };
+
+  // Step 5: Proceed with transaction
+  const initiateTransaction = (data) => {
+    console.log('Transaction Successful:', data);
+    // Send the final transaction request to the server with necessary details
+    Swal.fire('Transaction completed successfully!');
+  };
+
+  // Handle Challenge Response
+  const handleChallengeResponse = (event) => {
+    const { param } = event.data;
+    if (param.transStatus === 'Y') {
+      initiateTransaction(param);
+    } else if (param.challengeCancel === '01') {
+      window.location.reload();
+    } else {
+      disablePaymentLink();
+    }
+    document.getElementById('backdrop').remove();
+    document.getElementById('challengeIframe').remove();
+  };
+
+  // Disable payment link (on failure)
+  const disablePaymentLink = () => {
+    Swal.fire('Payment link disabled. Please try again.');
+  };
+
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateCardData()) {
+      console.log('Card Data:', cardData);
+      initialize3DSecure();
+      // Proceed to initialize 3D secure or send data to API
+    }
+  };
+  
   return (
     <div className="formpayment">
-      {openPayment&&(
-        <div className="payment-crypto">
-          <iframe src={`${orderLink}`} frameborder="0"></iframe>
-          <button onClick={closeNopay}>x</button>
-        </div>
-      )}
       <div className="formdataContainer">
         <div className="formdataContents">
           {loader ? <>
@@ -337,27 +452,66 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                   <p>Total Amount</p>
                   <h2>$ {totalprice.toFixed(2)}</h2>
                 </div>
+                <form onSubmit={handleSubmit}>
+                  <div className="checkoutProductCard">
+                    <label><p>Card Number:</p></label>
+                    <input
+                      type="text"
+                      name="cardNumber"
+                      maxLength="16"
+                      value={cardData.cardNumber}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="checkoutProductMonth">
+                    <label><p>Month:</p></label>
+                    <input
+                      type="number"
+                      name="month"
+                      min="1"
+                      max="12"
+                      value={cardData.month}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="checkoutProductYear">
+                    <label><p>Year:</p></label>
+                    <input
+                      type="number"
+                      name="year"
+                      min="24"
+                      value={cardData.year}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="checkoutProductCvv">
+                    <label><p>CVV:</p></label>
+                    <input
+                      type="text"
+                      name="cvv"
+                      maxLength="3"
+                      value={cardData.cvv}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="checkoutProductName">
+                    <label><p>Name on Card:</p></label>
+                    <input
+                      type="text"
+                      name="nameOnCard"
+                      value={cardData.nameOnCard}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <button type="submit">Submit</button>
+                </form>
               </div>
-              {/* <form id="payment-form" onSubmit={handleSubmitform}>
-                <PaymentElement id="payment-element" options={paymentElementOptions} />
-                <div className="paymentSetupBtn">
-                  <button disabled={isLoading || !stripe || !elements} id="submit">
-                    {isLoading ? <div className="loader" id="loader"></div> : <>{message === 'Payment succeeded! Buy again?' ? 'Buy Again' : 'Pay Now'}</>}
-                  </button>
-                  <button disabled={isLoading || !stripe || !elements} onClick={cancelPayment}>Cancel</button>
-                </div>
-                {message && <div id="payment-message"><p>{message}</p></div>}
-                <p>Pay using:</p>
-                <PayPalButton totalprice={totalprice} transactionData={transactionData} setClientSecret={setClientSecret} setSuccesstransaction={setSuccesstransaction}/>
-              </form>
-              <button className='PayUsingAG' disabled>
-                <img src={require('../assets/imgs/PayAGGiftcard.png')} alt="" />
-              </button>
-              <button className='PayUsingAG' disabled>
-                <img src={require('../assets/imgs/PayAGPoints.png')} alt="" />
-              </button> */}
-              {/* <button id="payCrypto" onClick={payUsingUSDT}>Pay Using USDT</button> */}
-                <button id="cancelCheckoutBtn" onClick={cancelCheckout}> Cancel Checkout </button>
+              <button type="button" id="cancelCheckoutBtn" onClick={cancelCheckout}> Cancel Checkout </button>
             </div>
           </>}
         </div>
