@@ -251,32 +251,35 @@ export const UserProfileDataProvider = ({ children }) => {
 
     useEffect(() => {
         const fetchRefreshToken = () => {
+            const currentRefreshToken = rapidcentAcessToken.refresh_token;
+            
             if (rapidcentAcessToken) {
             // Exchange authorization code for access and refresh tokens
-            const fetchTokens = async () => {
-                try {
-                // Prepare the credentials to be sent to the PHP backend
-                const body = new URLSearchParams();
-                body.append('grant_type', 'refresh_token');
-                body.append('client_id', RapidcentClientIDAPI);
-                body.append('client_secret', RapidcentClientSecretAPI);
-                body.append('redirect_uri', RapidcentRedirectURI);
-                body.append('refresh_token', rapidcentAcessToken.refresh_token);
+                const fetchTokens = async () => {
+                    try {
+                    // Prepare the credentials to be sent to the PHP backend
+                    const body = new URLSearchParams();
+                    body.append('grant_type', 'refresh_token');
+                    body.append('client_id', RapidcentClientIDAPI);
+                    body.append('client_secret', RapidcentClientSecretAPI);
+                    body.append('redirect_uri', RapidcentRedirectURI);
+                    body.append('refresh_token', currentRefreshToken);
 
-                // Send the request to your PHP backend
-                const response = await axios.post(RapidcentTokenEndPoint, body, {
-                    headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                });
-            
-                console.log(response.data);
-                } catch (error) {
-                console.error('Error exchanging authorization code for tokens', error);
-                }
-            };
+                    // Send the request to your PHP backend
+                    const response = await axios.post(RapidcentTokenEndPoint, body, {
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            Accept: 'application/json'
+                        },
+                    });
+                
+                    console.log(response.data);
+                    } catch (error) {
+                    console.error(error);
+                    }
+                };
 
-            fetchTokens();
+                fetchTokens();
             }
       };
       fetchRefreshToken();
