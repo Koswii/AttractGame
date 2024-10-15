@@ -308,292 +308,102 @@ const Cart = () => {
     const [accessToken, setAccessToken] = useState(null);
     const [refreshToken, setRefreshToken] = useState(null);
   
-    // Step 1: Redirect to authorization URL
-    const handleLogin = () => {
-      const authUrl = `${authorizationEndpoint}?client_id=${clientId}&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}&response_type=code`;
-      window.location.href = authUrl;
-    };
-  
-    // Step 2: Handle the redirect and exchange the authorization code for tokens
-    useEffect(() => {
-      const fetchAuthorizationCode = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const authorizationCode = urlParams.get('code');
-
-        if (authorizationCode) {
-          // Exchange authorization code for access and refresh tokens
-          const fetchTokens = async () => {
-            try {
-              // Prepare the credentials to be sent to the PHP backend
-              const body = new URLSearchParams();
-              body.append('grant_type', 'authorization_code');
-              body.append('client_id', clientId);
-              body.append('client_secret', clientSecret);
-              body.append('redirect_uri', redirectUri);
-              body.append('code', authorizationCode);
-
-              // Send the request to your PHP backend
-              const response = await axios.post(tokenEndpoint, body, {
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                },
-              });
-          
-              console.log(response.data);
-          
-              const access_token = response.data.access_token;
-              const refresh_token = response.data.refresh_token;
-              setAccessToken(access_token);
-              setRefreshToken(refresh_token);
-              // console.log('Access Token:', access_token);
-              // console.log('Refresh Token:', refresh_token);
-          
-              // Clear the URL search parameters
-              window.history.replaceState({}, document.title, window.location.pathname);
-            } catch (error) {
-              console.error('Error exchanging authorization code for tokens', error);
-            }
-          };
-
-          fetchTokens();
-
-          // Step 3: Refresh access token if it expires
-          const intervalId = setInterval(async () => {
-            try {
-              // Prepare the credentials to be sent as URL-encoded
-              const bodyRefresh = new URLSearchParams();
-              bodyRefresh.append('grant_type', 'refresh_token');
-              bodyRefresh.append('client_id', clientId);
-              bodyRefresh.append('client_secret', clientSecret);
-              bodyRefresh.append('code', '');
-              bodyRefresh.append('refresh_token', refreshToken);
-        
-              // Send the request to your PHP backend
-              const response = await axios.post(tokenEndpoint, bodyRefresh, {
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                },
-              });
-        
-              // Check if the response contains the access token and refresh token
-              if (response.data) {
-                const newAccessToken = response.data.access_token;
-                const newRefreshToken = response.data.refresh_token;
-        
-                setAccessToken(newAccessToken);
-                setRefreshToken(newRefreshToken);
-
-                // Clear the URL params if needed
-                window.history.replaceState({}, document.title, window.location.pathname);
-              } else {
-                throw new Error('Invalid response data');
-              }
-            } catch (error) {
-              console.error('Error refreshing access token:', error);
-            }
-
-          }, 3000);
-          return () => clearInterval(intervalId);
-        }
-      };
-      fetchAuthorizationCode();
-
-    
-    }, []); // The effect runs once on mount
-  
-
-
-    // const [clientSecret, setClientSecret] = useState();
-    // const [paymentIntentid, setPaymentIntentID] = useState();
-    // const [successtransaction,setSuccesstransaction] = useState(false)
-
-    // const appearance = {
-    //   theme: "night",
-    //   labels: "floating",
+    // // Step 1: Redirect to authorization URL
+    // const handleLogin = () => {
+    //   const authUrl = `${authorizationEndpoint}?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+    //     redirectUri
+    //   )}&response_type=code`;
+    //   window.location.href = authUrl;
     // };
-    // const options = {
-    //     clientSecret,
-    //     appearance,
-    // };
-    // const checkOutprod = async () => {
-    //   const body = {
-    //     product: allPrductsDetails,
+  
+    // // Step 2: Handle the redirect and exchange the authorization code for tokens
+    // useEffect(() => {
+    //   const fetchAuthorizationCode = () => {
+    //     const urlParams = new URLSearchParams(window.location.search);
+    //     const authorizationCode = urlParams.get('code');
+
+    //     if (authorizationCode) {
+    //       // Exchange authorization code for access and refresh tokens
+    //       const fetchTokens = async () => {
+    //         try {
+    //           // Prepare the credentials to be sent to the PHP backend
+    //           const body = new URLSearchParams();
+    //           body.append('grant_type', 'authorization_code');
+    //           body.append('client_id', clientId);
+    //           body.append('client_secret', clientSecret);
+    //           body.append('redirect_uri', redirectUri);
+    //           body.append('code', authorizationCode);
+
+    //           // Send the request to your PHP backend
+    //           const response = await axios.post(tokenEndpoint, body, {
+    //             headers: {
+    //               'Content-Type': 'application/x-www-form-urlencoded',
+    //             },
+    //           });
+          
+    //           console.log(response.data);
+          
+    //           const access_token = response.data.access_token;
+    //           const refresh_token = response.data.refresh_token;
+    //           setAccessToken(access_token);
+    //           setRefreshToken(refresh_token);
+    //           // console.log('Access Token:', access_token);
+    //           // console.log('Refresh Token:', refresh_token);
+          
+    //           // Clear the URL search parameters
+    //           window.history.replaceState({}, document.title, window.location.pathname);
+    //         } catch (error) {
+    //           console.error('Error exchanging authorization code for tokens', error);
+    //         }
+    //       };
+
+    //       fetchTokens();
+
+    //       // Step 3: Refresh access token if it expires
+    //       const intervalId = setInterval(async () => {
+    //         try {
+    //           // Prepare the credentials to be sent as URL-encoded
+    //           const bodyRefresh = new URLSearchParams();
+    //           bodyRefresh.append('grant_type', 'refresh_token');
+    //           bodyRefresh.append('client_id', clientId);
+    //           bodyRefresh.append('client_secret', clientSecret);
+    //           bodyRefresh.append('code', '');
+    //           bodyRefresh.append('refresh_token', refreshToken);
+        
+    //           // Send the request to your PHP backend
+    //           const response = await axios.post(tokenEndpoint, bodyRefresh, {
+    //             headers: {
+    //               'Content-Type': 'application/x-www-form-urlencoded',
+    //             },
+    //           });
+        
+    //           // Check if the response contains the access token and refresh token
+    //           if (response.data) {
+    //             const newAccessToken = response.data.access_token;
+    //             const newRefreshToken = response.data.refresh_token;
+        
+    //             setAccessToken(newAccessToken);
+    //             setRefreshToken(newRefreshToken);
+
+    //             // Clear the URL params if needed
+    //             window.history.replaceState({}, document.title, window.location.pathname);
+    //           } else {
+    //             throw new Error('Invalid response data');
+    //           }
+    //         } catch (error) {
+    //           console.error('Error refreshing access token:', error);
+    //         }
+
+    //       }, 3000);
+    //       return () => clearInterval(intervalId);
+    //     }
     //   };
-    //   const bodyString = JSON.stringify(body)
-    //   const headers = { "Content-type": "application/json" };
+    //   fetchAuthorizationCode();
+
     
-    //   try {
-    //     const response = await fetch(
-    //       "https://attractgame.com/create-check-out-session",
-    //       // "http://localhost:4242/create-check-out-session",
-    //       {
-    //         method: "POST",
-    //         headers: headers,
-    //         body: bodyString,
-    //       }
-    //     );
-    
-    //     const session = await response.json();
-    //     setClientSecret(session.clientSecret);
-    //     setPaymentIntentID(session.paymentIntentID)
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
+    // }, []); // The effect runs once on mount
+  
 
-
-
-
-
-    const [cardData] = useState({
-      cardNumber: "4111111111111111",
-      month: 12,
-      year: 24,
-      nameOnCard: "John Doe",
-      cvv: "123"
-    });
-  
-    const [transactionData, setTransactionData] = useState(null);
-  
-    useEffect(() => {
-      window.addEventListener('message', handle3DResponse);
-  
-      return () => {
-        window.removeEventListener('message', handle3DResponse);
-      };
-    }, []);
-  
-    const handle3DResponse = (event) => {
-      console.log({ event });
-  
-      if (event.data.src === 'method_notify') {
-        authenticate3D(); // Proceed to authentication
-      } else if (event.data.src === 'challenge_notify') {
-        const { transStatus, authenticationValue, messageVersion } = event.data.param;
-  
-        if (transStatus === "Y") {
-          setTransactionData({ transStatus, authenticationValue, version: messageVersion });
-          initiateTransaction();
-        } else if (event.data.param.challengeCancel === "01") {
-          window.location.reload();
-        } else {
-          disablePayment();
-        }
-  
-        removeChallengeIframe();
-      }
-    };
-  
-    const init3DSecure = async () => {
-      try {
-        const response = await axios.post('{rapidcents_uri}/ddd/init', {
-          cardData,
-          customerEmail: 'sample@mail.com',
-          paymentLinkID: null
-        });
-  
-        const { threeDSMethodURL, threeDSMethodData, status, threeDSServerTransID, sessionID } = response.data.data;
-  
-        if (status === "DDD_INVOKE") {
-          invoke3DServer(threeDSMethodURL, threeDSMethodData);
-        } else if (status === "DDD_FRICTIONLESS") {
-          authenticate3D(threeDSServerTransID, sessionID);
-        } else {
-          console.log("3D Secure not supported.");
-        }
-      } catch (error) {
-        console.error("Failed to initiate 3D secure:", error);
-      }
-    };
-  
-    const invoke3DServer = (url, data) => {
-      const iframe = document.createElement('iframe');
-      iframe.id = 'myIframe';
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
-  
-      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-  
-      const form = iframeDoc.createElement('form');
-      form.method = 'POST';
-      form.action = url;
-  
-      const input = iframeDoc.createElement('input');
-      input.type = 'hidden';
-      input.name = 'threeDSMethodData';
-      input.value = data;
-  
-      form.appendChild(input);
-      iframeDoc.body.appendChild(form);
-      form.submit();
-    };
-  
-    const authenticate3D = async (threeDSServerTransID, sessionID) => {
-      try {
-        const response = await axios.post('{rapidcents_url}/api/ddd/authenticate', {
-          threeDSServerTransID,
-          cardData,
-          amount: 100.0, // Example amount in dollars
-          sessionID
-        });
-  
-        const { status, creq, acsURL } = response.data.data;
-  
-        if (status === "C") {
-          initiateChallenge(creq, acsURL);
-        } else if (["Y", "A"].includes(status)) {
-          initiateTransaction(); // Proceed to step 5
-        } else {
-          console.log("3D secure server declined the card.");
-        }
-      } catch (error) {
-        console.error("Authentication failed:", error);
-      }
-    };
-  
-    const initiateChallenge = (creq, acsURL) => {
-      const iframe = document.createElement('iframe');
-      iframe.id = 'challengeIframe';
-      iframe.style = 'position: fixed; z-index: 1000; width: 60vw; height: 60vh; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 10px;';
-      document.body.appendChild(iframe);
-  
-      const backdrop = document.createElement('div');
-      backdrop.id = 'backdrop';
-      backdrop.style = 'position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75);';
-      document.body.appendChild(backdrop);
-  
-      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-  
-      const form = iframeDoc.createElement('form');
-      form.method = 'POST';
-      form.action = acsURL;
-  
-      const input = iframeDoc.createElement('input');
-      input.type = 'hidden';
-      input.name = 'creq';
-      input.value = creq;
-  
-      form.appendChild(input);
-      iframeDoc.body.appendChild(form);
-      form.submit();
-    };
-  
-    const initiateTransaction = () => {
-      console.log("Transaction completed successfully with:", transactionData);
-      // Proceed with payment processing
-    };
-  
-    const disablePayment = () => {
-      console.log("Challenge failed or payment was canceled.");
-      // Handle payment cancellation
-    };
-  
-    const removeChallengeIframe = () => {
-      document.getElementById('backdrop')?.remove();
-      document.getElementById('challengeIframe')?.remove();
-    };
   
 
 
@@ -825,11 +635,6 @@ const Cart = () => {
                       </span>
                       <button className={(cartTotalPayment.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(cartTotalPayment.length === 0) ? true : false}>
                         {(cartTotalPayment.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
-                      </button>
-                      {cartAdminState && <button className='devButton' onClick={handleLogin}>Generate Auth</button>}
-                      <button className='devButton' onClick={handleLogin}>Generate Auth</button>
-                      <button onClick={init3DSecure}>
-                        Start 3D Secure Payment
                       </button>
                     </div>
                   </div>
