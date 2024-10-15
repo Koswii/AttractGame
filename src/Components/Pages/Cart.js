@@ -65,6 +65,8 @@ const Cart = () => {
     const [loadingProducts, setLoadingProducts] = useState(true);
     const [orderQuantities, setOrderQuantities] = useState({});
 
+    const [finalCheckout,setFinalcheckout] = useState(false)
+
     const calculateEffectivePrice = (price, discount) => {
       return price - (price * (discount / 100));
     };
@@ -383,6 +385,9 @@ const Cart = () => {
     };
 
 
+    const continueCheckout = () => {
+      setFinalcheckout(true)
+    }
 
     // if(successtransaction){
     //   window.document.body.style.overflow = 'hidden';
@@ -404,9 +409,9 @@ const Cart = () => {
             </div>
           </div>
         )} */}
-        {cartTotalPayment.length !== 0 ? 
+        {finalCheckout ? 
           <>
-            <CheckoutForm cartTotalPayment={cartTotalPayment} allPrductsDetails={allPrductsDetails} totalprice={checkoutOverallTotal} transactionData={handleSubmitTransaction}/>
+            <CheckoutForm setFinalcheckout={setFinalcheckout} cartTotalPayment={cartTotalPayment} allPrductsDetails={allPrductsDetails} totalprice={checkoutOverallTotal} transactionData={handleSubmitTransaction}/>
           </>:
           <>
             <section className="cartPageContainer mid">
@@ -518,7 +523,7 @@ const Cart = () => {
                         <p>PAYABLE</p>
                         <h6>$ {checkoutOverallTotal.toFixed(2)}</h6>
                       </span>
-                      <button className={(cartTotalPayment.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(cartTotalPayment.length === 0) ? true : false}>
+                      <button onClick={continueCheckout} className={(cartTotalPayment.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(cartTotalPayment.length === 0) ? true : false}>
                         {(cartTotalPayment.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
                       </button>
                     </div>

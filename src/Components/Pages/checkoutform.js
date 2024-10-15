@@ -22,7 +22,7 @@ import {
 import PayPalButton from "./PayPalButton";
 import { parse } from "qs";
 
-const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction,paymentIntentId,setClientSecret,totalprice,transactionData}) => {
+const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction,paymentIntentId,setClientSecret,totalprice,transactionData,setFinalcheckout}) => {
   const navigate = useNavigate();
   // const elements = useElements();
 
@@ -206,7 +206,9 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
     setOpenPayment(false)
   }
 
-  
+  const cancelCheckout = () => {
+    setFinalcheckout(false)
+  }
   
   return (
     <div className="formpayment">
@@ -355,6 +357,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                 <img src={require('../assets/imgs/PayAGPoints.png')} alt="" />
               </button> */}
               {/* <button id="payCrypto" onClick={payUsingUSDT}>Pay Using USDT</button> */}
+                <button id="cancelCheckoutBtn" onClick={cancelCheckout}> Cancel Checkout </button>
             </div>
           </>}
         </div>
