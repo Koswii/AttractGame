@@ -36,7 +36,8 @@ const stripePromise = loadStripe(
 const Cart = () => {
     const { 
       userLoggedData,
-      rapidcentAuthCode 
+      rapidcentAcessToken,
+      handleRefreshToken,
     } = UserProfileData();
     const { 
       fetchUserCart, 
@@ -295,119 +296,6 @@ const Cart = () => {
     };
 
     
-    // const AGRapidCentClientID = process.env.REACT_APP_RAPIDCENT_CLIENT_ID;
-    // const AGRapidCentClientSecret = process.env.REACT_APP_RAPIDCENT_CLIENT_SECRET;
-    // const AGRapidCentTokenExchange = process.env.REACT_APP_AG_RAPIDCENT_TOKEN;
-
-    // const clientId = AGRapidCentClientID;
-    // const clientSecret = AGRapidCentClientSecret;
-    // const redirectUri = 'https://attractgame-beta-website.vercel.app/MyCart';
-    // const authorizationEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/authorize';
-    // const tokenEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/token';
-  
-    // const [accessToken, setAccessToken] = useState(null);
-    // const [refreshToken, setRefreshToken] = useState(null);
-  
-    // // Step 1: Redirect to authorization URL
-    // const handleLogin = () => {
-    //   const authUrl = `${authorizationEndpoint}?client_id=${clientId}&redirect_uri=${encodeURIComponent(
-    //     redirectUri
-    //   )}&response_type=code`;
-    //   window.location.href = authUrl;
-    // };
-  
-    // // Step 2: Handle the redirect and exchange the authorization code for tokens
-    // useEffect(() => {
-    //   const fetchAuthorizationCode = () => {
-    //     const urlParams = new URLSearchParams(window.location.search);
-    //     const authorizationCode = urlParams.get('code');
-
-    //     if (authorizationCode) {
-    //       // Exchange authorization code for access and refresh tokens
-    //       const fetchTokens = async () => {
-    //         try {
-    //           // Prepare the credentials to be sent to the PHP backend
-    //           const body = new URLSearchParams();
-    //           body.append('grant_type', 'authorization_code');
-    //           body.append('client_id', clientId);
-    //           body.append('client_secret', clientSecret);
-    //           body.append('redirect_uri', redirectUri);
-    //           body.append('code', authorizationCode);
-
-    //           // Send the request to your PHP backend
-    //           const response = await axios.post(tokenEndpoint, body, {
-    //             headers: {
-    //               'Content-Type': 'application/x-www-form-urlencoded',
-    //             },
-    //           });
-          
-    //           console.log(response.data);
-          
-    //           const access_token = response.data.access_token;
-    //           const refresh_token = response.data.refresh_token;
-    //           setAccessToken(access_token);
-    //           setRefreshToken(refresh_token);
-    //           // console.log('Access Token:', access_token);
-    //           // console.log('Refresh Token:', refresh_token);
-          
-    //           // Clear the URL search parameters
-    //           window.history.replaceState({}, document.title, window.location.pathname);
-    //         } catch (error) {
-    //           console.error('Error exchanging authorization code for tokens', error);
-    //         }
-    //       };
-
-    //       fetchTokens();
-
-    //       // Step 3: Refresh access token if it expires
-    //       const intervalId = setInterval(async () => {
-    //         try {
-    //           // Prepare the credentials to be sent as URL-encoded
-    //           const bodyRefresh = new URLSearchParams();
-    //           bodyRefresh.append('grant_type', 'refresh_token');
-    //           bodyRefresh.append('client_id', clientId);
-    //           bodyRefresh.append('client_secret', clientSecret);
-    //           bodyRefresh.append('code', '');
-    //           bodyRefresh.append('refresh_token', refreshToken);
-        
-    //           // Send the request to your PHP backend
-    //           const response = await axios.post(tokenEndpoint, bodyRefresh, {
-    //             headers: {
-    //               'Content-Type': 'application/x-www-form-urlencoded',
-    //             },
-    //           });
-        
-    //           // Check if the response contains the access token and refresh token
-    //           if (response.data) {
-    //             const newAccessToken = response.data.access_token;
-    //             const newRefreshToken = response.data.refresh_token;
-        
-    //             setAccessToken(newAccessToken);
-    //             setRefreshToken(newRefreshToken);
-
-    //             // Clear the URL params if needed
-    //             window.history.replaceState({}, document.title, window.location.pathname);
-    //           } else {
-    //             throw new Error('Invalid response data');
-    //           }
-    //         } catch (error) {
-    //           console.error('Error refreshing access token:', error);
-    //         }
-
-    //       }, 3000);
-    //       return () => clearInterval(intervalId);
-    //     }
-    //   };
-    //   fetchAuthorizationCode();
-
-    
-    // }, []); // The effect runs once on mount
-  
-
-  
-
-
-    
     const handleSubmitTransaction = async () => {
       if (!userLoggedData.userid) {
         console.log('Owner field is required.');
@@ -489,7 +377,8 @@ const Cart = () => {
       });
     };
 
-
+    // console.log(rapidcentAcessToken.access_token);
+    
 
     // if(successtransaction){
     //   window.document.body.style.overflow = 'hidden';
@@ -636,6 +525,7 @@ const Cart = () => {
                       <button className={(cartTotalPayment.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(cartTotalPayment.length === 0) ? true : false}>
                         {(cartTotalPayment.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
                       </button>
+                      <button onClick={handleRefreshToken}>Refresh Token</button>
                     </div>
                   </div>
                 </div>

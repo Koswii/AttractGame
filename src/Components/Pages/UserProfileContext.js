@@ -6,7 +6,7 @@ const UserProfileContext = createContext();
 export const UserProfileDataProvider = ({ children }) => {
     const [userLoggedData, setUserLoggedData] = useState([]);
     const [viewProfileBtn, setViewProfileBtn] = useState(false);
-    const [rapidcentAuthCode, setRapidcentAuthCode] = useState([]);
+    const [rapidcentAcessToken, setRapidcentAccessToken] = useState([]);
     const [userEmail, setUserEmaiil] = useState([]);
     const [viewLoginForm, setViewLoginForm] = useState(false);
     const [userProductCodeIDData, setUserProductCodeIDData] = useState([]);
@@ -21,7 +21,8 @@ export const UserProfileDataProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const LoginUserID = localStorage.getItem('profileUserID');
-    const RapidcentAuthCodeFetchAPI = process.env.REACT_APP_RAPIDCENT_FETCH_AUTH_CODE;
+    const RapidcentAccessTokenFetchAPI = process.env.REACT_APP_RAPIDCENT_FETCH_ACCESS_TOKEN;
+    const RapidcentRefreshTokenAPI = process.env.REACT_APP_RAPIDCENT_TRIGGER_REFRESH_TOKEN;
     const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
     const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const AGUserEmailsAPI = process.env.REACT_APP_AG_USER_EMAIL_API;
@@ -207,10 +208,9 @@ export const UserProfileDataProvider = ({ children }) => {
                 console.error(error);
             }
         };
-
-        const fetchRCAuthCode = async () => {
+        const fetchRCAccessToken = async () => {
             try {
-                const response = await axios.get(RapidcentAuthCodeFetchAPI);
+                const response = await axios.get(RapidcentAccessTokenFetchAPI);
                 const AuthCodesData = response.data;
                 const sortedAuthCodes  = AuthCodesData.sort((a, b) => {
                     const dateA = new Date(a.date);
@@ -220,7 +220,7 @@ export const UserProfileDataProvider = ({ children }) => {
                 });
                 // Get the first (most recent) item
                 const RecentAuthCode = sortedAuthCodes[0];
-                setRapidcentAuthCode(RecentAuthCode);
+                setRapidcentAccessToken(RecentAuthCode);
                 
             } catch (error) {
                 console.error(error);
@@ -236,22 +236,45 @@ export const UserProfileDataProvider = ({ children }) => {
         fetchUserProductIds();
         fetchUserProfile();
         fetchSellerStockList();
-        fetchRCAuthCode();
+        fetchRCAccessToken();
     }, []);
 
     const handleLoginForm = () => {
         setViewLoginForm(true)
     }
 
+    const handleRefreshToken = async () => {
+        try {
+            const response = await axios.post(RapidcentRefreshTokenAPI);
+            
+            if (response.data.success) {
+                console.log('Tokens refreshed successfully:', response.data);
+            } else {
+                console.log('Error response:', response.data);
+            }
+        } catch (error) {
+            if (error.response) {
+                // The request was made, and the server responded with a status code
+                console.log('Error data:', error.response.data);
+                console.log('Error status:', error.response.status);
+                console.log('Error headers:', error.response.headers);
+                console.log('Request failed with status:', error.response.status);
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.log('Request data:', error.request);
+                console.log('No response received from the server.');
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error message:', error.message);
+            }
+        }
+    };
 
-
-
-
-    
 
     return (
         <UserProfileContext.Provider value={{ 
-            rapidcentAuthCode,
+            rapidcentAcessToken,
+            handleRefreshToken,
             viewAllUserList,
             viewAllUserProfile,
             viewProfileBtn, 
