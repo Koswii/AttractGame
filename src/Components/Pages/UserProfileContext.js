@@ -114,12 +114,9 @@ export const UserProfileDataProvider = ({ children }) => {
     };
     const fetchUserTicketMessages = async () => {
         try {
-            const intervalId = setInterval(async () => {
-                const response = await axios.get(AGTixMessageAPI);
-                const TicketMsgData = response.data;
-                setViewTicketMessages(TicketMsgData);
-            }, 1000);
-            return () => clearInterval(intervalId);
+            const response = await axios.get(AGTixMessageAPI);
+            const TicketMsgData = response.data;
+            setViewTicketMessages(TicketMsgData);
         } catch (error) {
             console.error(error);
         }

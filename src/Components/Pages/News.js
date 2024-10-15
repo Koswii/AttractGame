@@ -82,13 +82,14 @@ const News = () => {
             <>
               {(mainLinkData.length !== 0) && (
                 <>
-                  {mainLinkData.map((linkdata) => (
+                  {mainLinkData.map((linkdata, i) => (
                     <div
                       className="mainHeadline"
                       style={{
                         background: `linear-gradient(transparent, black 85%), url('${linkdata.data.image}') center no-repeat`,
                         backgroundSize: "cover",
                       }}
+                      key={i}
                     >
                       <div className="mainHeadLineContent">
                         <h4>{decodeHtml(linkdata.data.title)}</h4>
@@ -107,8 +108,8 @@ const News = () => {
                             MORE GAME NEWS
                           </h3>
                           <ul className='mgnSubNews website'>
-                            {subLinkData.map((link) => (
-                              <li key={link.data.id}>
+                            {subLinkData.map((link, i) => (
+                              <li key={i}>
                                 <Link to={link.link} target="_blank">
                                   <img src={link.data.image} alt="" />
                                 </Link>
@@ -117,8 +118,8 @@ const News = () => {
                             ))}
                           </ul>
                           <ul className='mgnSubNews mobile'>
-                            {subLinkData.slice(0, 4).map((link) => (
-                              <li key={link.data.id}>
+                            {subLinkData.slice(0, 4).map((link, i) => (
+                              <li key={i}>
                                 <Link to={link.link} target="_blank">
                                   <img src={link.data.image} alt="" />
                                 </Link>
@@ -144,8 +145,8 @@ const News = () => {
             <div className="newscpm1BreakingNews">
               {previewData.length !== 0 && (
                 <ul>
-                  {previewData.map((preview) => (
-                    <Link key={preview.id} to={preview.link} target="_blank">
+                  {previewData.map((preview, i) => (
+                    <Link key={i} to={preview.link} target="_blank">
                       <li>
                         {preview.data.image && (
                           <img
