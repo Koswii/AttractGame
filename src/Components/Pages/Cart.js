@@ -295,18 +295,18 @@ const Cart = () => {
     };
 
     
-    const AGRapidCentClientID = process.env.REACT_APP_RAPIDCENT_CLIENT_ID;
-    const AGRapidCentClientSecret = process.env.REACT_APP_RAPIDCENT_CLIENT_SECRET;
-    const AGRapidCentTokenExchange = process.env.REACT_APP_AG_RAPIDCENT_TOKEN;
+    // const AGRapidCentClientID = process.env.REACT_APP_RAPIDCENT_CLIENT_ID;
+    // const AGRapidCentClientSecret = process.env.REACT_APP_RAPIDCENT_CLIENT_SECRET;
+    // const AGRapidCentTokenExchange = process.env.REACT_APP_AG_RAPIDCENT_TOKEN;
 
-    const clientId = AGRapidCentClientID;
-    const clientSecret = AGRapidCentClientSecret;
-    const redirectUri = 'https://attractgame-beta-website.vercel.app/MyCart';
-    const authorizationEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/authorize';
-    const tokenEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/token';
+    // const clientId = AGRapidCentClientID;
+    // const clientSecret = AGRapidCentClientSecret;
+    // const redirectUri = 'https://attractgame-beta-website.vercel.app/MyCart';
+    // const authorizationEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/authorize';
+    // const tokenEndpoint = 'https://uatstage00-api.rapidcents.com/oauth/token';
   
-    const [accessToken, setAccessToken] = useState(null);
-    const [refreshToken, setRefreshToken] = useState(null);
+    // const [accessToken, setAccessToken] = useState(null);
+    // const [refreshToken, setRefreshToken] = useState(null);
   
     // // Step 1: Redirect to authorization URL
     // const handleLogin = () => {
