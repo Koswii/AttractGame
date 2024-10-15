@@ -37,7 +37,6 @@ const Cart = () => {
     const { 
       userLoggedData,
       rapidcentAcessToken,
-      handleRefreshToken,
     } = UserProfileData();
     const { 
       fetchUserCart, 
@@ -296,6 +295,13 @@ const Cart = () => {
     };
 
     
+
+  
+
+  
+
+
+    
     const handleSubmitTransaction = async () => {
       if (!userLoggedData.userid) {
         console.log('Owner field is required.');
@@ -377,8 +383,7 @@ const Cart = () => {
       });
     };
 
-    // console.log(rapidcentAcessToken.access_token);
-    
+
 
     // if(successtransaction){
     //   window.document.body.style.overflow = 'hidden';
@@ -525,7 +530,6 @@ const Cart = () => {
                       <button className={(cartTotalPayment.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(cartTotalPayment.length === 0) ? true : false}>
                         {(cartTotalPayment.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
                       </button>
-                      <button onClick={handleRefreshToken}>Refresh Token</button>
                     </div>
                   </div>
                 </div>
