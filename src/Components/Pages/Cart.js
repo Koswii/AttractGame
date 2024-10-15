@@ -19,7 +19,6 @@ import {
 
 // stripe
 import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../Pages/checkoutform";
 import { UserProfileData } from './UserProfileContext';
 import { CartsFetchData } from './CartsFetchContext';
@@ -405,13 +404,11 @@ const Cart = () => {
             </div>
           </div>
         )} */}
-        {/* {clientSecret ? 
+        {cartTotalPayment.length !== 0 ? 
           <>
-            <Elements options={options} stripe={stripePromise}>
-              <CheckoutForm checkOutprod={checkOutprod} setSuccesstransaction={setSuccesstransaction} cartTotalPayment={cartTotalPayment} allPrductsDetails={allPrductsDetails} paymentIntentId={paymentIntentid} setClientSecret={setClientSecret} totalprice={checkoutOverallTotal} transactionData={handleSubmitTransaction}/>
-            </Elements>
+            <CheckoutForm cartTotalPayment={cartTotalPayment} allPrductsDetails={allPrductsDetails} totalprice={checkoutOverallTotal} transactionData={handleSubmitTransaction}/>
           </>:
-          <> */}
+          <>
             <section className="cartPageContainer mid">
               <div className="cartpcMid1Container">
                 <div className="cartpcm1Content left">
@@ -529,8 +526,8 @@ const Cart = () => {
                 </div>
               </div>
             </section>
-          {/* </> 
-        } */}
+          </> 
+        }
       </div>
     );
 }

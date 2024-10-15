@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 // stripe
-import {
-  PaymentElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
+// import {
+//   PaymentElement,
+//   useStripe,
+//   useElements,
+// } from "@stripe/react-stripe-js";
 // css
 import '../CSS/checkoutform.css'
 // axios
@@ -24,8 +24,7 @@ import { parse } from "qs";
 
 const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction,paymentIntentId,setClientSecret,totalprice,transactionData}) => {
   const navigate = useNavigate();
-  const stripe = useStripe();
-  const elements = useElements();
+  // const elements = useElements();
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -50,36 +49,36 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
       setGameCreditsdata(filterdataGamecredits)
     }
 
-    if (!stripe) {
-      return;
-    }
+    // if (!stripe) {
+    //   return;
+    // }
 
-    const clientSecret = new URLSearchParams(window.location.search).get(
-      "payment_intent_client_secret"
-    );
+    // const clientSecret = new URLSearchParams(window.location.search).get(
+    //   "payment_intent_client_secret"
+    // );
 
-    if (!clientSecret) {
-      return;
-    }
+    // if (!clientSecret) {
+    //   return;
+    // }
 
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      console.log(paymentIntent);
-      switch (paymentIntent.status) {
-        case "succeeded":
-          setMessage("Payment succeed! Buy again?");
-          break;
-        case "processing":
-          setMessage("Your payment is processing.");
-          break;
-        case "requires_payment_method":
-          setMessage("Your payment was not successful, please try again.");
-          break;
-        default:
-          setMessage("Something went wrong.");
-          break;
-      }
-    });
-  }, [stripe]);
+    // stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+    //   console.log(paymentIntent);
+    //   switch (paymentIntent.status) {
+    //     case "succeeded":
+    //       setMessage("Payment succeed! Buy again?");
+    //       break;
+    //     case "processing":
+    //       setMessage("Your payment is processing.");
+    //       break;
+    //     case "requires_payment_method":
+    //       setMessage("Your payment was not successful, please try again.");
+    //       break;
+    //     default:
+    //       setMessage("Something went wrong.");
+    //       break;
+    //   }
+    // });
+  }, []);
 
   // console.log(cartTotalPayment);
 
@@ -87,53 +86,53 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
     e.preventDefault();
     setSuccessTransfer(true);
 
-    if (!stripe || !elements) {
-        // Stripe.js hasn't yet loaded.
-        // Make sure to disable form submission until Stripe.js has loaded.
-        return;
-    }
+    // if (!stripe || !elements) {
+    //     // Stripe.js hasn't yet loaded.
+    //     // Make sure to disable form submission until Stripe.js has loaded.
+    //     return;
+    // }
 
-    setIsLoading(true);
+    // setIsLoading(true);
 
 
-    const [error] = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        // Return URL where the customer should be redirected after the PaymentIntent is confirmed.
-        // return_url: 'https://example.com',
-      },
-        redirect: 'if_required'
-    })
-    .then(function(result) {
-      if (result.paymentIntent === undefined) {
-        console.log('error occured');
-        setIsLoading(false);
-        setMessage(result.error.message);
-      } else if (result.paymentIntent.status === "succeeded") {
-        setIsLoading(false);
-        transactionData();
-        setSuccesstransaction(true);
-        setClientSecret();
-        const navigatePage = navigate('/MyCart')
-      } 
-    });
+    // const [error] = await stripe.confirmPayment({
+    //   elements,
+    //   confirmParams: {
+    //     // Return URL where the customer should be redirected after the PaymentIntent is confirmed.
+    //     // return_url: 'https://example.com',
+    //   },
+    //     redirect: 'if_required'
+    // })
+    // .then(function(result) {
+    //   if (result.paymentIntent === undefined) {
+    //     console.log('error occured');
+    //     setIsLoading(false);
+    //     setMessage(result.error.message);
+    //   } else if (result.paymentIntent.status === "succeeded") {
+    //     setIsLoading(false);
+    //     transactionData();
+    //     setSuccesstransaction(true);
+    //     setClientSecret();
+    //     const navigatePage = navigate('/MyCart')
+    //   } 
+    // });
 
 
   };
 
   const cancelPayment = async (e) => {
-    e.preventDefault()
-    try {
-      const cancelPaymentAPI = process.env.REACT_APP_AG_CHECKOUT_CANCEL
-      const res = await axios.post(cancelPaymentAPI, { paymentIntentId });
-      setClientSecret()
-    } catch (err) {
-      console.log(err);
-    }
+    // e.preventDefault()
+    // try {
+    //   const cancelPaymentAPI = process.env.REACT_APP_AG_CHECKOUT_CANCEL
+    //   const res = await axios.post(cancelPaymentAPI, { paymentIntentId });
+    //   setClientSecret()
+    // } catch (err) {
+    //   console.log(err);
+    // }
   }
-  const paymentElementOptions = {
-    layout: "tabs",
-  };
+  // const paymentElementOptions = {
+  //   layout: "tabs",
+  // };
 
   
   setTimeout(() => {
@@ -337,7 +336,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                   <h2>$ {totalprice.toFixed(2)}</h2>
                 </div>
               </div>
-              <form id="payment-form" onSubmit={handleSubmitform}>
+              {/* <form id="payment-form" onSubmit={handleSubmitform}>
                 <PaymentElement id="payment-element" options={paymentElementOptions} />
                 <div className="paymentSetupBtn">
                   <button disabled={isLoading || !stripe || !elements} id="submit">
@@ -354,7 +353,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
               </button>
               <button className='PayUsingAG' disabled>
                 <img src={require('../assets/imgs/PayAGPoints.png')} alt="" />
-              </button>
+              </button> */}
               {/* <button id="payCrypto" onClick={payUsingUSDT}>Pay Using USDT</button> */}
             </div>
           </>}
