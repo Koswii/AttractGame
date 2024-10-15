@@ -21,8 +21,12 @@ export const UserProfileDataProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
     const LoginUsername = localStorage.getItem('attractGameUsername');
     const LoginUserID = localStorage.getItem('profileUserID');
+    const RapidcentClientIDAPI = process.env.REACT_APP_RAPIDCENT_CLIENT_ID;
+    const RapidcentClientSecretAPI = process.env.REACT_APP_RAPIDCENT_CLIENT_SECRET;
     const RapidcentAccessTokenFetchAPI = process.env.REACT_APP_RAPIDCENT_FETCH_ACCESS_TOKEN;
     const RapidcentRefreshTokenAPI = process.env.REACT_APP_RAPIDCENT_TRIGGER_REFRESH_TOKEN;
+    const RapidcentRedirectURI = 'https://attractgame-beta-website.vercel.app/MyCart'
+    const RapidcentTokenEndPoint = 'https://uatstage00-api.rapidcents.com/oauth/token'
     const AGUserListAPI = process.env.REACT_APP_AG_USERS_LIST_API;
     const AGUserDataAPI = process.env.REACT_APP_AG_USERS_PROFILE_API;
     const AGUserEmailsAPI = process.env.REACT_APP_AG_USER_EMAIL_API;
@@ -220,6 +224,8 @@ export const UserProfileDataProvider = ({ children }) => {
                 });
                 // Get the first (most recent) item
                 const RecentAuthCode = sortedAuthCodes[0];
+                console.log(RecentAuthCode);
+                
                 setRapidcentAccessToken(RecentAuthCode);
                 
             } catch (error) {
@@ -243,38 +249,43 @@ export const UserProfileDataProvider = ({ children }) => {
         setViewLoginForm(true)
     }
 
-    const handleRefreshToken = async () => {
-        try {
-            const response = await axios.post(RapidcentRefreshTokenAPI);
-            
-            if (response.data.success) {
-                console.log('Tokens refreshed successfully:', response.data);
-            } else {
-                console.log('Error response:', response.data);
+    useEffect(() => {
+      const fetchRefreshToken = () => {
+        if (rapidcentAcessToken) {
+          // Exchange authorization code for access and refresh tokens
+          const fetchTokens = async () => {
+            try {
+              // Prepare the credentials to be sent to the PHP backend
+              const body = new URLSearchParams();
+              body.append('grant_type', 'refresh_token');
+              body.append('client_id', RapidcentClientIDAPI);
+              body.append('client_secret', RapidcentClientSecretAPI);
+              body.append('redirect_uri', RapidcentRedirectURI);
+              body.append('refresh_token', rapidcentAcessToken.refresh_token);
+
+              // Send the request to your PHP backend
+              const response = await axios.post(RapidcentTokenEndPoint, body, {
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                },
+              });
+          
+              console.log(response.data);
+            } catch (error) {
+              console.error('Error exchanging authorization code for tokens', error);
             }
-        } catch (error) {
-            if (error.response) {
-                // The request was made, and the server responded with a status code
-                console.log('Error data:', error.response.data);
-                console.log('Error status:', error.response.status);
-                console.log('Error headers:', error.response.headers);
-                console.log('Request failed with status:', error.response.status);
-            } else if (error.request) {
-                // The request was made but no response was received
-                console.log('Request data:', error.request);
-                console.log('No response received from the server.');
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error message:', error.message);
-            }
+          };
+
+          fetchTokens();
         }
-    };
+      };
+      fetchRefreshToken();
+    }, []); // The effect runs once on mount
 
 
     return (
         <UserProfileContext.Provider value={{ 
             rapidcentAcessToken,
-            handleRefreshToken,
             viewAllUserList,
             viewAllUserProfile,
             viewProfileBtn, 
