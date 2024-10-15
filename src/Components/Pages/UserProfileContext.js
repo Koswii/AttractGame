@@ -42,6 +42,28 @@ export const UserProfileDataProvider = ({ children }) => {
     const AGUserStoreList = process.env.REACT_APP_AG_USERS_STORE_LIST_API;
 
 
+    const convertDateToSeconds = (dateString) => {
+        const date = new Date(dateString); // Parse the date string
+        return Math.floor(date.getTime() / 1000); // Convert milliseconds to seconds
+    };
+    const convertDateToSecondsNY = (date) => Math.floor(date.getTime() / 1000);
+    const getNewYorkTime = () => {
+        const newYorkDateString = new Intl.DateTimeFormat('en-US', {
+          timeZone: 'America/New_York',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        }).format(new Date());
+      
+        // Convert formatted string back to a Date object
+        const [month, day, year, hour, minute, second] = newYorkDateString.match(/\d+/g);
+        return new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}`);
+    };
+
+
     const fetchUsersEmails = async () => {
         try {
           const response = await axios.get(AGUserEmailsAPI);
@@ -224,15 +246,68 @@ export const UserProfileDataProvider = ({ children }) => {
                 });
                 // Get the first (most recent) item
                 const RecentAuthCode = sortedAuthCodes[0];
-                console.log(RecentAuthCode);
-                
                 setRapidcentAccessToken(RecentAuthCode);
                 
             } catch (error) {
                 console.error(error);
             }
         };
-        
+        const fetchRefreshToken = () => {
+            const currentRefreshToken = rapidcentAcessToken.refresh_token;
+            const tokenStarted = rapidcentAcessToken.date
+            const tokenRecorded = convertDateToSeconds(tokenStarted);
+            const tokenExpiry = tokenRecorded + 45000
+            const currentDate = convertDateToSecondsNY(getNewYorkTime())
+            
+            if (rapidcentAcessToken && tokenExpiry <= currentDate) {
+                const fetchTokens = async () => {
+                    try {
+                        const body = new URLSearchParams();
+                        body.append('grant_type', 'refresh_token');
+                        body.append('client_id', RapidcentClientIDAPI);
+                        body.append('client_secret', RapidcentClientSecretAPI);
+                        body.append('redirect_uri', RapidcentRedirectURI);
+                        body.append('refresh_token', currentRefreshToken);
+
+                        const response = await axios.post(RapidcentTokenEndPoint, body, {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                                Accept: 'application/json'
+                            },
+                        });
+                    
+                        console.log(response.data);
+                        const newAccessToken = response.data.access_token
+                        const newRefreshToken = response.data.refresh_token
+
+                        const formSaveTokenDetails = {
+                            newAccessToken: newAccessToken,
+                            newRefreshToken: newRefreshToken,
+                        };
+                        try {
+                            const saveTokenResponse = await axios.post(RapidcentRefreshTokenAPI, formSaveTokenDetails);
+                            const responseMessage = saveTokenResponse.data;
+                    
+                            if (responseMessage.success) {
+                                console.log(response.message);
+                            } else {
+                                console.log(response.message);
+                            }
+                        } catch (error) {
+                            console.error(error);
+                        }
+
+
+                    } catch (error) {
+                        // console.error(error);
+                    }
+                };
+                fetchTokens();
+
+            }else {
+                console.log('Access Token still valid');
+            }
+        };
 
         fetchUsersEmails();
         fetchUserTransactionHistory();
@@ -243,47 +318,12 @@ export const UserProfileDataProvider = ({ children }) => {
         fetchUserProfile();
         fetchSellerStockList();
         fetchRCAccessToken();
-    }, []);
+        fetchRefreshToken();
+    }, [rapidcentAcessToken]);
 
     const handleLoginForm = () => {
         setViewLoginForm(true)
     }
-
-    useEffect(() => {
-        const fetchRefreshToken = () => {
-            const currentRefreshToken = rapidcentAcessToken.refresh_token;
-            
-            if (rapidcentAcessToken) {
-            // Exchange authorization code for access and refresh tokens
-                const fetchTokens = async () => {
-                    try {
-                    // Prepare the credentials to be sent to the PHP backend
-                    const body = new URLSearchParams();
-                    body.append('grant_type', 'refresh_token');
-                    body.append('client_id', RapidcentClientIDAPI);
-                    body.append('client_secret', RapidcentClientSecretAPI);
-                    body.append('redirect_uri', RapidcentRedirectURI);
-                    body.append('refresh_token', currentRefreshToken);
-
-                    // Send the request to your PHP backend
-                    const response = await axios.post(RapidcentTokenEndPoint, body, {
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            Accept: 'application/json'
-                        },
-                    });
-                
-                    console.log(response.data);
-                    } catch (error) {
-                    console.error(error);
-                    }
-                };
-
-                fetchTokens();
-            }
-      };
-      fetchRefreshToken();
-    }, [rapidcentAcessToken]);
 
 
     return (
