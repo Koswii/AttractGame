@@ -179,13 +179,15 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
   // Step 1: Send request to init API
   const initialize3DSecure = async () => {
     try {
-      const response = await axios.post('https://uatstage00-api.rapidcents.com/ddd/init', {
+      const response = await axios.post('https://engeenx.com/rapidcentDDDInitProxy.php', {
         cardData,
         customerEmail,
         paymentLinkID: null,
       });
 
-      const data = response.data.data;
+      const data = response.data;
+      console.log(data);
+      
       setSessionID(data.sessionID);
       setThreeDSData(data);
 
@@ -235,7 +237,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
   // Step 3: Authenticate the transaction
   const dddAuthenticate = async () => {
     try {
-      const response = await axios.post('https://uatstage00-api.rapidcents.com/api/ddd/authenticate', {
+      const response = await axios.post('https://engeenx.com/rapidcentDDDAuthProxy.php', {
         threeDSServerTransID,
         cardData,
         amount,
