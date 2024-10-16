@@ -112,9 +112,9 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
   });
   const amount = totalprice.toFixed(2);
   const customerEmail = userLoggedData.email
-  const [threeDSData, setThreeDSData] = useState({});
-  const [sessionID, setSessionID] = useState('');
-  const [threeDSServerTransID, setThreeDSServerTransID] = useState('');
+  // const [threeDSData, setThreeDSData] = useState({});
+  // const [sessionID, setSessionID] = useState('');
+  // const [threeDSServerTransID, setThreeDSServerTransID] = useState('');
 
   // Handler to update cardData state
   const handleInputChange = (e) => {
@@ -154,168 +154,337 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
     return true;
   };
 
-  // Step 1: Add event listener for 3D secure server response
+  // // Step 1: Add event listener for 3D secure server response
+  // useEffect(() => {
+  //   const handle3DSServerResponse = (event) => {
+  //     console.log({ event });
+
+  //     if (event.data?.param?.threeDSServerTransID) {
+  //       setThreeDSServerTransID(event.data.param.threeDSServerTransID);
+  //     }
+
+  //     if (event.data.src === 'method_notify') {
+  //       dddAuthenticate(); // Proceed to step 3
+  //     }
+
+  //     if (event.data.src === 'challenge_notify') {
+  //       handleChallengeResponse(event);
+  //     }
+  //   };
+
+  //   window.addEventListener('message', handle3DSServerResponse);
+  //   return () => window.removeEventListener('message', handle3DSServerResponse);
+  // }, []);
+
+  // // Step 1: Send request to init API
+  // const initialize3DSecure = async () => {
+  //   try {
+  //     const response = await axios.post('https://engeenx.com/rapidcentDDDInitProxy.php', {
+  //       cardData,
+  //       customerEmail,
+  //       paymentLinkID: null,
+  //     });
+
+  //     const data = response.data;
+  //     console.log(data);
+      
+  //     setSessionID(data.sessionID);
+  //     setThreeDSData(data);
+
+  //     if (data.status === 'DDD_FRICTIONLESS') {
+  //       dddAuthenticate(); // Skip step 2 and proceed to authentication
+  //     } else if (data.status === 'DDD_INVOKE') {
+  //       invoke3DSServer(); // Proceed to step 2
+  //     } else {
+  //       Swal.fire('3D Secure Error, Please Try Again.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Init API Error:', error);
+  //   }
+  // };
+
+  // // Step 2: Invoke 3D-Secure Server
+  // const invoke3DSServer = () => {
+  //   try {
+  //     const iframe = document.createElement('iframe');
+  //     iframe.style.display = 'none';
+  //     document.body.appendChild(iframe);
+
+  //     const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+  //     const form = iframeDoc.createElement('form');
+  //     form.method = 'POST';
+  //     form.action = threeDSData.threeDSMethodURL;
+
+  //     const input = iframeDoc.createElement('input');
+  //     input.type = 'hidden';
+  //     input.name = 'threeDSMethodData';
+  //     input.value = threeDSData.threeDSMethodData;
+
+  //     form.appendChild(input);
+  //     iframeDoc.body.appendChild(form);
+
+  //     form.submit();
+  //   } catch (error) {
+  //     Swal.fire({
+  //       text: '3D secure card verification failed. Please try a different card.',
+  //       icon: 'error',
+  //       confirmButtonText: 'Ok, got it!',
+  //     }).then(() => window.location.reload());
+  //   }
+  // };
+
+  // // Step 3: Authenticate the transaction
+  // const dddAuthenticate = async () => {
+  //   try {
+  //     const response = await axios.post('https://engeenx.com/rapidcentDDDAuthProxy.php', {
+  //       threeDSServerTransID,
+  //       cardData,
+  //       amount,
+  //       sessionID,
+  //     });
+
+  //     const data = response.data.data;
+  //     if (data.status === 'C') {
+  //       initiateChallenge(data); // Proceed to step 4
+  //     } else if (['Y', 'A'].includes(data.status)) {
+  //       initiateTransaction(data); // Proceed to step 5
+  //     } else {
+  //       Swal.fire('Authentication failed. Transaction blocked.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Authentication Error:', error);
+  //   }
+  // };
+
+  // // Step 4: Handle Challenge
+  // const initiateChallenge = (data) => {
+  //   try {
+  //     const iframe = document.createElement('iframe');
+  //     const backdrop = document.createElement('div');
+
+  //     backdrop.id = 'backdrop';
+  //     backdrop.className =
+  //       'tw-absolute tw-inset-0 tw-bg-black tw-bg-opacity-75 tw-backdrop-blur';
+  //     document.body.appendChild(backdrop);
+
+  //     iframe.id = 'challengeIframe';
+  //     iframe.className =
+  //       'tw-absolute tw-z-10 tw-w-[60vw] tw-h-[60vh] tw-top-[50%] tw-left-[50%] tw--translate-x-1/2 tw--translate-y-1/2 tw-rounded-lg';
+  //     document.body.appendChild(iframe);
+
+  //     const iframeDoc = iframe.contentWindow.document;
+  //     const form = iframeDoc.createElement('form');
+  //     form.method = 'POST';
+  //     form.action = data.acsURL;
+
+  //     const input = iframeDoc.createElement('input');
+  //     input.type = 'hidden';
+  //     input.name = 'creq';
+  //     input.value = data.creq;
+
+  //     form.appendChild(input);
+  //     iframeDoc.body.appendChild(form);
+
+  //     form.submit();
+  //   } catch (error) {
+  //     Swal.fire({
+  //       text: '3D secure card verification failed. Please try a different card.',
+  //       icon: 'error',
+  //       confirmButtonText: 'Ok, got it!',
+  //     });
+  //     console.error(error);
+  //   }
+  // };
+
+  // // Step 5: Proceed with transaction
+  // const initiateTransaction = (data) => {
+  //   console.log('Transaction Successful:', data);
+  //   // Send the final transaction request to the server with necessary details
+  //   Swal.fire('Transaction completed successfully!');
+  // };
+
+  // // Handle Challenge Response
+  // const handleChallengeResponse = (event) => {
+  //   const { param } = event.data;
+  //   if (param.transStatus === 'Y') {
+  //     initiateTransaction(param);
+  //   } else if (param.challengeCancel === '01') {
+  //     window.location.reload();
+  //   } else {
+  //     disablePaymentLink();
+  //   }
+  //   document.getElementById('backdrop').remove();
+  //   document.getElementById('challengeIframe').remove();
+  // };
+  const [formData, setFormData] = useState({});
+  const [ddd, setDdd] = useState({});
+
   useEffect(() => {
-    const handle3DSServerResponse = (event) => {
-      console.log({ event });
-
-      if (event.data?.param?.threeDSServerTransID) {
-        setThreeDSServerTransID(event.data.param.threeDSServerTransID);
-      }
-
-      if (event.data.src === 'method_notify') {
-        dddAuthenticate(); // Proceed to step 3
-      }
-
-      if (event.data.src === 'challenge_notify') {
-        handleChallengeResponse(event);
-      }
+    window.addEventListener('message', handleMessage);
+    return () => {
+      window.removeEventListener('message', handleMessage);
     };
-
-    window.addEventListener('message', handle3DSServerResponse);
-    return () => window.removeEventListener('message', handle3DSServerResponse);
   }, []);
 
-  // Step 1: Send request to init API
-  const initialize3DSecure = async () => {
+  const handleMessage = (event) => {
+    setFormData(prevData => ({
+      ...prevData,
+      threeDSServerTransID: event.data.param?.threeDSServerTransID
+    }));
+    console.log({ event });
+
+    if (event.data.src === 'method_notify') {
+      dddAuthenticate(); // Authentication method proceeds to step 3
+    }
+    if (event.data.src === 'challenge_notify') {
+      handleChallengeResponse(event.data.param);
+    }
+  };
+
+  const handleChallengeResponse = (param) => {
+    if (param.transStatus === 'Y') {
+      setDdd(prevDdd => ({
+        ...prevDdd,
+        authenticationValue: param.authenticationValue,
+        transStatus: 'Y',
+        version: param.messageVersion
+      }));
+      initiateTransaction(); // Step 5
+    } else if (param.challengeCancel === '01') {
+      window.location.reload(); // Challenge cancelled
+    } else {
+      disablePaymentLink(); // Challenge failed
+    }
+    document.body.removeChild(document.getElementById('backdrop'));
+    document.body.removeChild(document.getElementById('challengeIframe'));
+  };
+
+  const initDDD = async () => {
     try {
-      const response = await axios.post('https://engeenx.com/rapidcentDDDInitProxy.php', {
-        cardData,
-        customerEmail,
-        paymentLinkID: null,
+      const response = await fetch('https://engeenx.com/rapidcentDDDInitProxy.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          cardData: cardData,
+          customerEmail: customerEmail,
+          paymentLinkID: null
+        }),
       });
-
-      const data = response.data;
-      console.log(data);
-      
-      setSessionID(data.sessionID);
-      setThreeDSData(data);
-
-      if (data.status === 'DDD_FRICTIONLESS') {
-        dddAuthenticate(); // Skip step 2 and proceed to authentication
-      } else if (data.status === 'DDD_INVOKE') {
-        invoke3DSServer(); // Proceed to step 2
-      } else {
-        Swal.fire('3D Secure not supported by this card.');
-      }
+      const data = await response.json();
+      handleInitResponse(data);
     } catch (error) {
-      console.error('Init API Error:', error);
+      console.error('Error initiating DDD:', error);
     }
   };
 
-  // Step 2: Invoke 3D-Secure Server
-  const invoke3DSServer = () => {
-    try {
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
+  const handleInitResponse = (data) => {
+    const { status, threeDSMethodData, threeDSMethodURL, sessionID } = data.data;
+    setDdd(prevDdd => ({
+      ...prevDdd,
+      threeDSMethodData,
+      threeDSMethodURL,
+      sessionID
+    }));
 
-      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-
-      const form = iframeDoc.createElement('form');
-      form.method = 'POST';
-      form.action = threeDSData.threeDSMethodURL;
-
-      const input = iframeDoc.createElement('input');
-      input.type = 'hidden';
-      input.name = 'threeDSMethodData';
-      input.value = threeDSData.threeDSMethodData;
-
-      form.appendChild(input);
-      iframeDoc.body.appendChild(form);
-
-      form.submit();
-    } catch (error) {
-      Swal.fire({
-        text: '3D secure card verification failed. Please try a different card.',
-        icon: 'error',
-        confirmButtonText: 'Ok, got it!',
-      }).then(() => window.location.reload());
+    if (status === 'DDD_INVOKE') {
+      invoke3DSecure(threeDSMethodData, threeDSMethodURL);
+    } else if (status === 'DDD_FRICTIONLESS') {
+      dddAuthenticate(sessionID);
+    } else if (status === 'DDD_NOT_SUPPORTED') {
+      // Handle unsupported card
     }
   };
 
-  // Step 3: Authenticate the transaction
-  const dddAuthenticate = async () => {
+  const invoke3DSecure = (threeDSMethodData, threeDSMethodURL) => {
+    const iframe = document.createElement('iframe');
+    iframe.id = 'myIframe';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+    const form = iframeDoc.createElement('form');
+    form.method = 'POST';
+    form.action = threeDSMethodURL;
+
+    const input = iframeDoc.createElement('input');
+    input.type = 'hidden';
+    input.name = 'threeDSMethodData';
+    input.value = threeDSMethodData;
+    form.appendChild(input);
+    iframeDoc.body.appendChild(form);
+    form.submit();
+  };
+
+  const dddAuthenticate = async (sessionID) => {
     try {
-      const response = await axios.post('https://engeenx.com/rapidcentDDDAuthProxy.php', {
-        threeDSServerTransID,
-        cardData,
-        amount,
-        sessionID,
+      const response = await fetch('https://engeenx.com/rapidcentDDDAuthProxy.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          threeDSServerTransID: formData.threeDSServerTransID,
+          cardData: cardData,
+          amount: amount,
+          sessionID
+        }),
       });
-
-      const data = response.data.data;
-      if (data.status === 'C') {
-        initiateChallenge(data); // Proceed to step 4
-      } else if (['Y', 'A'].includes(data.status)) {
-        initiateTransaction(data); // Proceed to step 5
-      } else {
-        Swal.fire('Authentication failed. Transaction blocked.');
-      }
+      const data = await response.json();
+      handleAuthResponse(data);
     } catch (error) {
-      console.error('Authentication Error:', error);
+      console.error('Error in authentication:', error);
     }
   };
 
-  // Step 4: Handle Challenge
-  const initiateChallenge = (data) => {
+  const handleAuthResponse = (data) => {
+    const { status, creq, acsURL } = data.data;
+    setDdd(prevDdd => ({
+      ...prevDdd,
+      creq,
+      acsURL
+    }));
+
+    if (status === 'C') {
+      initiateChallenge(creq, acsURL);
+    } else if (status === 'Y' || status === 'A') {
+      setDdd(prevDdd => ({
+        ...prevDdd,
+        transStatus: status
+      }));
+      initiateTransaction(); // Step 5
+    } else if (['N', 'U', 'R', 'error'].includes(status)) {
+      // Handle transaction block
+    }
+  };
+
+  const initiateChallenge = (creq, acsURL) => {
     try {
       const iframe = document.createElement('iframe');
       const backdrop = document.createElement('div');
-
       backdrop.id = 'backdrop';
-      backdrop.className =
-        'tw-absolute tw-inset-0 tw-bg-black tw-bg-opacity-75 tw-backdrop-blur';
-      document.body.appendChild(backdrop);
-
+      backdrop.className = 'tw-absolute tw-inset-0 tw-bg-black tw-bg-opacity-75 tw-backdrop-blur';
       iframe.id = 'challengeIframe';
-      iframe.className =
-        'tw-absolute tw-z-10 tw-w-[60vw] tw-h-[60vh] tw-top-[50%] tw-left-[50%] tw--translate-x-1/2 tw--translate-y-1/2 tw-rounded-lg';
+      iframe.className = 'tw-absolute tw-z-10 tw-w-[60vw] tw-h-[60vh] tw-top-[50%] tw-left-[50%] tw--translate-x-1/2 tw--translate-y-1/2 tw-rounded-lg';
+      document.body.appendChild(backdrop);
       document.body.appendChild(iframe);
 
       const iframeDoc = iframe.contentWindow.document;
       const form = iframeDoc.createElement('form');
       form.method = 'POST';
-      form.action = data.acsURL;
-
+      form.action = acsURL;
       const input = iframeDoc.createElement('input');
       input.type = 'hidden';
       input.name = 'creq';
-      input.value = data.creq;
-
+      input.value = creq;
       form.appendChild(input);
       iframeDoc.body.appendChild(form);
-
       form.submit();
     } catch (error) {
-      Swal.fire({
-        text: '3D secure card verification failed. Please try a different card.',
-        icon: 'error',
-        confirmButtonText: 'Ok, got it!',
-      });
-      console.error(error);
+      console.error('Error initiating challenge:', error);
     }
   };
 
-  // Step 5: Proceed with transaction
-  const initiateTransaction = (data) => {
-    console.log('Transaction Successful:', data);
-    // Send the final transaction request to the server with necessary details
-    Swal.fire('Transaction completed successfully!');
-  };
-
-  // Handle Challenge Response
-  const handleChallengeResponse = (event) => {
-    const { param } = event.data;
-    if (param.transStatus === 'Y') {
-      initiateTransaction(param);
-    } else if (param.challengeCancel === '01') {
-      window.location.reload();
-    } else {
-      disablePaymentLink();
-    }
-    document.getElementById('backdrop').remove();
-    document.getElementById('challengeIframe').remove();
+  const initiateTransaction = () => {
+    // Your transaction handling code here
   };
 
   // Disable payment link (on failure)
@@ -328,7 +497,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
     e.preventDefault();
     if (validateCardData()) {
       console.log('Card Data:', cardData);
-      initialize3DSecure();
+      initDDD();
       // Proceed to initialize 3D secure or send data to API
     }
   };
