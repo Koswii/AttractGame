@@ -273,30 +273,31 @@ export const UserProfileDataProvider = ({ children }) => {
                             },
                         });
                     
-                        console.log(response.data);
-                        const newAccessToken = response.data.access_token
-                        const newRefreshToken = response.data.refresh_token
+                        if(response.data){
+                            const newAccessToken = response.data.access_token
+                            const newRefreshToken = response.data.refresh_token
 
-                        const formSaveTokenDetails = {
-                            newAccessToken: newAccessToken,
-                            newRefreshToken: newRefreshToken,
-                        };
-                        try {
-                            const saveTokenResponse = await axios.post(RapidcentRefreshTokenAPI, formSaveTokenDetails);
-                            const responseMessage = saveTokenResponse.data;
-                    
-                            if (responseMessage.success) {
-                                console.log(response.message);
-                            } else {
-                                console.log(response.message);
+                            const formSaveTokenDetails = {
+                                newAccessToken: newAccessToken,
+                                newRefreshToken: newRefreshToken,
+                            };
+                            try {
+                                const saveTokenResponse = await axios.post(RapidcentRefreshTokenAPI, formSaveTokenDetails);
+                                const responseMessage = saveTokenResponse.data;
+                        
+                                if (responseMessage.success) {
+                                    console.log(response.message);
+                                } else {
+                                    console.log(response.message);
+                                }
+                            } catch (error) {
+                                console.error(error);
                             }
-                        } catch (error) {
-                            console.error(error);
                         }
 
 
                     } catch (error) {
-                        // console.error(error);
+                        console.error(error);
                     }
                 };
                 fetchTokens();
