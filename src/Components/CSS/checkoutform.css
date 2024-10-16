@@ -233,14 +233,6 @@
     font-size: 0.7vw;
     opacity: 70%;
 }
-.checkoutProductsummary form input{
-    width: 100%;
-    padding: 7px 10px;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    margin-top: 1%;
-}
 .checkoutProductsummary form div{
     margin-bottom: 10px;
 }
@@ -253,7 +245,33 @@
 .checkoutProductYear,
 .checkoutProductCvv{
     height: auto;
-    width: 30%;
+    width: 31%;
+}
+.checkoutProductName div{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.checkoutProductName input{
+    width: 48%;
+    padding: 7px 10px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    margin-top: 1%;
+}
+.checkoutProductCard input,
+.checkoutProductMonth input,
+.checkoutProductYear input,
+.checkoutProductCvv input{
+    width: 100%;
+    padding: 7px 10px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    margin-top: 1%;
 }
 .checkoutProductsummary form button{
     width: 100%;
