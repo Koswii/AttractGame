@@ -103,33 +103,33 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
   }
   
 
+  const amount = totalprice.toFixed(2);
+  const customerEmail = userLoggedData.email
+  const [threeDSData, setThreeDSData] = useState({});
+  const [sessionID, setSessionID] = useState('');
+  const [threeDSServerTransID, setThreeDSServerTransID] = useState('');
   const [cardData, setCardData] = useState({
     cardNumber: '',
     month: '',
     year: '',
-    nameOnCard: '',
     cvv: '',
+    firstName: '',
+    lastName: '',
   });
-  const amount = totalprice.toFixed(2);
-  const customerEmail = userLoggedData.email
-  // const [threeDSData, setThreeDSData] = useState({});
-  // const [sessionID, setSessionID] = useState('');
-  // const [threeDSServerTransID, setThreeDSServerTransID] = useState('');
-
+  
   // Handler to update cardData state
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
     setCardData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
-
+  
   // Validate the card data (optional)
   const validateCardData = () => {
-    const { cardNumber, month, year, nameOnCard, cvv } = cardData;
-
+    const { cardNumber, month, year, firstName, lastName, cvv } = cardData;
+  
     if (!cardNumber || cardNumber.length !== 16) {
       alert('Card number must be 16 digits.');
       return false;
@@ -142,349 +142,191 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
       alert('Year must be 24 or later.');
       return false;
     }
-    if (!nameOnCard) {
-      alert('Name on card is required.');
+    if (!firstName) {
+      alert('First name is required.');
+      return false;
+    }
+    if (!lastName) {
+      alert('Last name is required.');
       return false;
     }
     if (!cvv || cvv.length !== 3) {
       alert('CVV must be 3 digits.');
       return false;
     }
-
+  
     return true;
   };
+  
 
-  // // Step 1: Add event listener for 3D secure server response
-  // useEffect(() => {
-  //   const handle3DSServerResponse = (event) => {
-  //     console.log({ event });
-
-  //     if (event.data?.param?.threeDSServerTransID) {
-  //       setThreeDSServerTransID(event.data.param.threeDSServerTransID);
-  //     }
-
-  //     if (event.data.src === 'method_notify') {
-  //       dddAuthenticate(); // Proceed to step 3
-  //     }
-
-  //     if (event.data.src === 'challenge_notify') {
-  //       handleChallengeResponse(event);
-  //     }
-  //   };
-
-  //   window.addEventListener('message', handle3DSServerResponse);
-  //   return () => window.removeEventListener('message', handle3DSServerResponse);
-  // }, []);
-
-  // // Step 1: Send request to init API
-  // const initialize3DSecure = async () => {
-  //   try {
-  //     const response = await axios.post('https://engeenx.com/rapidcentDDDInitProxy.php', {
-  //       cardData,
-  //       customerEmail,
-  //       paymentLinkID: null,
-  //     });
-
-  //     const data = response.data;
-  //     console.log(data);
-      
-  //     setSessionID(data.sessionID);
-  //     setThreeDSData(data);
-
-  //     if (data.status === 'DDD_FRICTIONLESS') {
-  //       dddAuthenticate(); // Skip step 2 and proceed to authentication
-  //     } else if (data.status === 'DDD_INVOKE') {
-  //       invoke3DSServer(); // Proceed to step 2
-  //     } else {
-  //       Swal.fire('3D Secure Error, Please Try Again.');
-  //     }
-  //   } catch (error) {
-  //     console.error('Init API Error:', error);
-  //   }
-  // };
-
-  // // Step 2: Invoke 3D-Secure Server
-  // const invoke3DSServer = () => {
-  //   try {
-  //     const iframe = document.createElement('iframe');
-  //     iframe.style.display = 'none';
-  //     document.body.appendChild(iframe);
-
-  //     const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-
-  //     const form = iframeDoc.createElement('form');
-  //     form.method = 'POST';
-  //     form.action = threeDSData.threeDSMethodURL;
-
-  //     const input = iframeDoc.createElement('input');
-  //     input.type = 'hidden';
-  //     input.name = 'threeDSMethodData';
-  //     input.value = threeDSData.threeDSMethodData;
-
-  //     form.appendChild(input);
-  //     iframeDoc.body.appendChild(form);
-
-  //     form.submit();
-  //   } catch (error) {
-  //     Swal.fire({
-  //       text: '3D secure card verification failed. Please try a different card.',
-  //       icon: 'error',
-  //       confirmButtonText: 'Ok, got it!',
-  //     }).then(() => window.location.reload());
-  //   }
-  // };
-
-  // // Step 3: Authenticate the transaction
-  // const dddAuthenticate = async () => {
-  //   try {
-  //     const response = await axios.post('https://engeenx.com/rapidcentDDDAuthProxy.php', {
-  //       threeDSServerTransID,
-  //       cardData,
-  //       amount,
-  //       sessionID,
-  //     });
-
-  //     const data = response.data.data;
-  //     if (data.status === 'C') {
-  //       initiateChallenge(data); // Proceed to step 4
-  //     } else if (['Y', 'A'].includes(data.status)) {
-  //       initiateTransaction(data); // Proceed to step 5
-  //     } else {
-  //       Swal.fire('Authentication failed. Transaction blocked.');
-  //     }
-  //   } catch (error) {
-  //     console.error('Authentication Error:', error);
-  //   }
-  // };
-
-  // // Step 4: Handle Challenge
-  // const initiateChallenge = (data) => {
-  //   try {
-  //     const iframe = document.createElement('iframe');
-  //     const backdrop = document.createElement('div');
-
-  //     backdrop.id = 'backdrop';
-  //     backdrop.className =
-  //       'tw-absolute tw-inset-0 tw-bg-black tw-bg-opacity-75 tw-backdrop-blur';
-  //     document.body.appendChild(backdrop);
-
-  //     iframe.id = 'challengeIframe';
-  //     iframe.className =
-  //       'tw-absolute tw-z-10 tw-w-[60vw] tw-h-[60vh] tw-top-[50%] tw-left-[50%] tw--translate-x-1/2 tw--translate-y-1/2 tw-rounded-lg';
-  //     document.body.appendChild(iframe);
-
-  //     const iframeDoc = iframe.contentWindow.document;
-  //     const form = iframeDoc.createElement('form');
-  //     form.method = 'POST';
-  //     form.action = data.acsURL;
-
-  //     const input = iframeDoc.createElement('input');
-  //     input.type = 'hidden';
-  //     input.name = 'creq';
-  //     input.value = data.creq;
-
-  //     form.appendChild(input);
-  //     iframeDoc.body.appendChild(form);
-
-  //     form.submit();
-  //   } catch (error) {
-  //     Swal.fire({
-  //       text: '3D secure card verification failed. Please try a different card.',
-  //       icon: 'error',
-  //       confirmButtonText: 'Ok, got it!',
-  //     });
-  //     console.error(error);
-  //   }
-  // };
-
-  // // Step 5: Proceed with transaction
-  // const initiateTransaction = (data) => {
-  //   console.log('Transaction Successful:', data);
-  //   // Send the final transaction request to the server with necessary details
-  //   Swal.fire('Transaction completed successfully!');
-  // };
-
-  // // Handle Challenge Response
-  // const handleChallengeResponse = (event) => {
-  //   const { param } = event.data;
-  //   if (param.transStatus === 'Y') {
-  //     initiateTransaction(param);
-  //   } else if (param.challengeCancel === '01') {
-  //     window.location.reload();
-  //   } else {
-  //     disablePaymentLink();
-  //   }
-  //   document.getElementById('backdrop').remove();
-  //   document.getElementById('challengeIframe').remove();
-  // };
-  const [formData, setFormData] = useState({});
-  const [ddd, setDdd] = useState({});
-
+  // Step 1: Add event listener for 3D secure server response
   useEffect(() => {
-    window.addEventListener('message', handleMessage);
-    return () => {
-      window.removeEventListener('message', handleMessage);
+    const handle3DSServerResponse = (event) => {
+      console.log({ event });
+
+      if (event.data?.param?.threeDSServerTransID) {
+        setThreeDSServerTransID(event.data.param.threeDSServerTransID);
+      }
+
+      if (event.data.src === 'method_notify') {
+        dddAuthenticate(); // Proceed to step 3
+      }
+
+      if (event.data.src === 'challenge_notify') {
+        handleChallengeResponse(event);
+      }
     };
+
+    window.addEventListener('message', handle3DSServerResponse);
+    return () => window.removeEventListener('message', handle3DSServerResponse);
   }, []);
 
-  const handleMessage = (event) => {
-    setFormData(prevData => ({
-      ...prevData,
-      threeDSServerTransID: event.data.param?.threeDSServerTransID
-    }));
-    console.log({ event });
-
-    if (event.data.src === 'method_notify') {
-      dddAuthenticate(); // Authentication method proceeds to step 3
-    }
-    if (event.data.src === 'challenge_notify') {
-      handleChallengeResponse(event.data.param);
-    }
-  };
-
-  const handleChallengeResponse = (param) => {
-    if (param.transStatus === 'Y') {
-      setDdd(prevDdd => ({
-        ...prevDdd,
-        authenticationValue: param.authenticationValue,
-        transStatus: 'Y',
-        version: param.messageVersion
-      }));
-      initiateTransaction(); // Step 5
-    } else if (param.challengeCancel === '01') {
-      window.location.reload(); // Challenge cancelled
-    } else {
-      disablePaymentLink(); // Challenge failed
-    }
-    document.body.removeChild(document.getElementById('backdrop'));
-    document.body.removeChild(document.getElementById('challengeIframe'));
-  };
-
-  const initDDD = async () => {
+  // Step 1: Send request to init API
+  const initialize3DSecure = async () => {
     try {
-      const response = await fetch('https://engeenx.com/rapidcentDDDInitProxy.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          cardData: cardData,
-          customerEmail: customerEmail,
-          paymentLinkID: null
-        }),
-      });
-      const data = await response.json();
-      handleInitResponse(data);
+      // Combine firstName and lastName into nameOnCard
+      const { firstName, lastName, ...otherCardData } = cardData;
+      const nameOnCard = `${firstName} ${lastName}`;
+  
+      const payload = {
+        cardData: { ...otherCardData, nameOnCard },
+        customerEmail,
+        paymentLinkID: null,
+      };
+  
+      const response = await axios.post('https://engeenx.com/rapidcentDDDInitProxy.php', payload);
+  
+      const data = response.data;
+      console.log(data);
+  
+      setSessionID(data.sessionID);
+      setThreeDSData(data);
+  
+      if (data.status === 'DDD_FRICTIONLESS') {
+        dddAuthenticate(); // Skip step 2 and proceed to authentication
+      } else if (data.status === 'DDD_INVOKE') {
+        invoke3DSServer(); // Proceed to step 2
+      } else {
+        Swal.fire('3D Secure Error, Please Try Again.');
+      }
     } catch (error) {
-      console.error('Error initiating DDD:', error);
+      console.error('Init API Error:', error);
     }
   };
 
-  const handleInitResponse = (data) => {
-    const { status, threeDSMethodData, threeDSMethodURL, sessionID } = data.data;
-    setDdd(prevDdd => ({
-      ...prevDdd,
-      threeDSMethodData,
-      threeDSMethodURL,
-      sessionID
-    }));
-
-    if (status === 'DDD_INVOKE') {
-      invoke3DSecure(threeDSMethodData, threeDSMethodURL);
-    } else if (status === 'DDD_FRICTIONLESS') {
-      dddAuthenticate(sessionID);
-    } else if (status === 'DDD_NOT_SUPPORTED') {
-      // Handle unsupported card
-    }
-  };
-
-  const invoke3DSecure = (threeDSMethodData, threeDSMethodURL) => {
-    const iframe = document.createElement('iframe');
-    iframe.id = 'myIframe';
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-
-    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-    const form = iframeDoc.createElement('form');
-    form.method = 'POST';
-    form.action = threeDSMethodURL;
-
-    const input = iframeDoc.createElement('input');
-    input.type = 'hidden';
-    input.name = 'threeDSMethodData';
-    input.value = threeDSMethodData;
-    form.appendChild(input);
-    iframeDoc.body.appendChild(form);
-    form.submit();
-  };
-
-  const dddAuthenticate = async (sessionID) => {
+  // Step 2: Invoke 3D-Secure Server
+  const invoke3DSServer = () => {
     try {
-      const response = await fetch('https://engeenx.com/rapidcentDDDAuthProxy.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          threeDSServerTransID: formData.threeDSServerTransID,
-          cardData: cardData,
-          amount: amount,
-          sessionID
-        }),
-      });
-      const data = await response.json();
-      handleAuthResponse(data);
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+      const form = iframeDoc.createElement('form');
+      form.method = 'POST';
+      form.action = threeDSData.threeDSMethodURL;
+
+      const input = iframeDoc.createElement('input');
+      input.type = 'hidden';
+      input.name = 'threeDSMethodData';
+      input.value = threeDSData.threeDSMethodData;
+
+      form.appendChild(input);
+      iframeDoc.body.appendChild(form);
+
+      form.submit();
     } catch (error) {
-      console.error('Error in authentication:', error);
+      Swal.fire({
+        text: '3D secure card verification failed. Please try a different card.',
+        icon: 'error',
+        confirmButtonText: 'Ok, got it!',
+      }).then(() => window.location.reload());
     }
   };
 
-  const handleAuthResponse = (data) => {
-    const { status, creq, acsURL } = data.data;
-    setDdd(prevDdd => ({
-      ...prevDdd,
-      creq,
-      acsURL
-    }));
+  // Step 3: Authenticate the transaction
+  const dddAuthenticate = async () => {
+    try {
+      const response = await axios.post('https://engeenx.com/rapidcentDDDAuthProxy.php', {
+        threeDSServerTransID,
+        cardData,
+        amount,
+        sessionID,
+      });
 
-    if (status === 'C') {
-      initiateChallenge(creq, acsURL);
-    } else if (status === 'Y' || status === 'A') {
-      setDdd(prevDdd => ({
-        ...prevDdd,
-        transStatus: status
-      }));
-      initiateTransaction(); // Step 5
-    } else if (['N', 'U', 'R', 'error'].includes(status)) {
-      // Handle transaction block
+      const data = response.data.data;
+      if (data.status === 'C') {
+        initiateChallenge(data); // Proceed to step 4
+      } else if (['Y', 'A'].includes(data.status)) {
+        initiateTransaction(data); // Proceed to step 5
+      } else {
+        Swal.fire('Authentication failed. Transaction blocked.');
+      }
+    } catch (error) {
+      console.error('Authentication Error:', error);
     }
   };
 
-  const initiateChallenge = (creq, acsURL) => {
+  // Step 4: Handle Challenge
+  const initiateChallenge = (data) => {
     try {
       const iframe = document.createElement('iframe');
       const backdrop = document.createElement('div');
+
       backdrop.id = 'backdrop';
-      backdrop.className = 'tw-absolute tw-inset-0 tw-bg-black tw-bg-opacity-75 tw-backdrop-blur';
-      iframe.id = 'challengeIframe';
-      iframe.className = 'tw-absolute tw-z-10 tw-w-[60vw] tw-h-[60vh] tw-top-[50%] tw-left-[50%] tw--translate-x-1/2 tw--translate-y-1/2 tw-rounded-lg';
+      backdrop.className =
+        'tw-absolute tw-inset-0 tw-bg-black tw-bg-opacity-75 tw-backdrop-blur';
       document.body.appendChild(backdrop);
+
+      iframe.id = 'challengeIframe';
+      iframe.className =
+        'tw-absolute tw-z-10 tw-w-[60vw] tw-h-[60vh] tw-top-[50%] tw-left-[50%] tw--translate-x-1/2 tw--translate-y-1/2 tw-rounded-lg';
       document.body.appendChild(iframe);
 
       const iframeDoc = iframe.contentWindow.document;
       const form = iframeDoc.createElement('form');
       form.method = 'POST';
-      form.action = acsURL;
+      form.action = data.acsURL;
+
       const input = iframeDoc.createElement('input');
       input.type = 'hidden';
       input.name = 'creq';
-      input.value = creq;
+      input.value = data.creq;
+
       form.appendChild(input);
       iframeDoc.body.appendChild(form);
+
       form.submit();
     } catch (error) {
-      console.error('Error initiating challenge:', error);
+      Swal.fire({
+        text: '3D secure card verification failed. Please try a different card.',
+        icon: 'error',
+        confirmButtonText: 'Ok, got it!',
+      });
+      console.error(error);
     }
   };
 
-  const initiateTransaction = () => {
-    // Your transaction handling code here
+  // Step 5: Proceed with transaction
+  const initiateTransaction = (data) => {
+    console.log('Transaction Successful:', data);
+    // Send the final transaction request to the server with necessary details
+    Swal.fire('Transaction completed successfully!');
+  };
+
+  // Handle Challenge Response
+  const handleChallengeResponse = (event) => {
+    const { param } = event.data;
+    if (param.transStatus === 'Y') {
+      initiateTransaction(param);
+    } else if (param.challengeCancel === '01') {
+      window.location.reload();
+    } else {
+      disablePaymentLink();
+    }
+    document.getElementById('backdrop').remove();
+    document.getElementById('challengeIframe').remove();
   };
 
   // Disable payment link (on failure)
@@ -497,7 +339,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
     e.preventDefault();
     if (validateCardData()) {
       console.log('Card Data:', cardData);
-      initDDD();
+      initialize3DSecure();
       // Proceed to initialize 3D secure or send data to API
     }
   };
@@ -519,11 +361,11 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                 <ul>
                 {gameData&&(
                   <>
-                    {gameData.map(product => {
+                    {gameData.map((product, i) => {
                       const productData = product.productData;
                       const productDataEntries = Object.entries(productData);
                       return (
-                      <li style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GameCovers/${productDataEntries[3][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
+                      <li key={i} style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GameCovers/${productDataEntries[3][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
                         <div className="copDenomination">
                           <img src="" platform={productDataEntries[11][1]} alt="" />
                         </div>
@@ -544,11 +386,11 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                 )}
                 {giftCardData&&(
                   <>
-                    {giftCardData.map(product => {
+                    {giftCardData.map((product, i) => {
                       const productData = product.productData;
                       const productDataEntries = Object.entries(productData);
                       return (
-                      <li style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GiftCardCovers/${productDataEntries[5][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
+                      <li key={i} style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GiftCardCovers/${productDataEntries[5][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
                         <div className="copDenomination">
                           <span>
                             <h5>{productDataEntries[6][1]}</h5>
@@ -571,11 +413,11 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                 )}
                 {gameCreditsdData&&(
                   <>
-                    {gameCreditsdData.map(product => {
+                    {gameCreditsdData.map((product, i) => {
                       const productData = product.productData;
                       const productDataEntries = Object.entries(productData);
                       return (
-                      <li style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GameCreditCovers/${productDataEntries[5][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
+                      <li key={i} style={{background: `linear-gradient(360deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%) 0% 0% / cover, url('https://2wave.io/GameCreditCovers/${productDataEntries[5][1]}') center center no-repeat`, backgroundSize: 'cover'}}>
                         <div className="copDenomination">
                           <span>
                             <h5><sup>$</sup>{productDataEntries[8][1]}</h5>
@@ -633,8 +475,10 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                       value={cardData.cardNumber}
                       onChange={handleInputChange}
                       required
+                      placeholder="0000 0000 0000 0000"
                     />
                   </div>
+
                   <div className="checkoutProductMonth">
                     <label><p>Month:</p></label>
                     <input
@@ -644,9 +488,11 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                       max="12"
                       value={cardData.month}
                       onChange={handleInputChange}
+                      placeholder="1 - 12"
                       required
                     />
                   </div>
+
                   <div className="checkoutProductYear">
                     <label><p>Year:</p></label>
                     <input
@@ -655,9 +501,11 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                       min="24"
                       value={cardData.year}
                       onChange={handleInputChange}
+                      placeholder="24"
                       required
                     />
                   </div>
+
                   <div className="checkoutProductCvv">
                     <label><p>CVV:</p></label>
                     <input
@@ -666,19 +514,33 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                       maxLength="3"
                       value={cardData.cvv}
                       onChange={handleInputChange}
+                      placeholder="000"
                       required
                     />
                   </div>
+
                   <div className="checkoutProductName">
                     <label><p>Name on Card:</p></label>
-                    <input
-                      type="text"
-                      name="nameOnCard"
-                      value={cardData.nameOnCard}
-                      onChange={handleInputChange}
-                      required
-                    />
+                    <div>
+                      <input
+                        type="text"
+                        name="firstName"
+                        value={cardData.firstName}
+                        onChange={handleInputChange}
+                        placeholder="Firstname"
+                        required
+                      />
+                      <input
+                        type="text"
+                        name="lastName"
+                        value={cardData.lastName}
+                        onChange={handleInputChange}
+                        placeholder="Surname"
+                        required
+                      />
+                    </div>
                   </div>
+
                   <button type="submit">Submit</button>
                 </form>
               </div>

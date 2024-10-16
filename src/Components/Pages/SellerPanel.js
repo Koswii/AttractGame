@@ -430,6 +430,30 @@ const SellerPanel = () => {
         window.document.body.style.overflow = 'auto';
     }
 
+
+
+    const [searchTermGames, setSearchTermGames] = useState('');
+    const [searchTermGiftcards, setSearchTermGiftcards] = useState('');
+    const [searchTermGameCredits, setSearchTermGameCredits] = useState('');
+
+    const filteredGames = viewAGData1.filter((game) =>
+        game.game_title.toLowerCase().includes(searchTermGames.toLowerCase())
+    );
+    const filteredGiftCards = giftcards.filter((giftcard) =>
+        giftcard.giftcard_name.toLowerCase().includes(searchTermGiftcards.toLowerCase())
+    );
+    const filteredGameCredits = gamecredits.filter((gamecredit) =>
+        gamecredit.gamecredit_name.toLowerCase().includes(searchTermGameCredits.toLowerCase())
+    );
+
+
+
+
+
+
+
+
+
     
     const [productSellerPrice, setProductSellerPrice] = useState('')
     const [productSellerDiscount, setProductSellerDiscount] = useState('')
@@ -464,6 +488,7 @@ const SellerPanel = () => {
                 fetchGames2();
                 fetchGiftcards();
                 fetchGamecredits();
+                setViewAddCodeModal(false)
             } else {
                 console.log(responseMessage.message);
             }
@@ -502,6 +527,7 @@ const SellerPanel = () => {
                 fetchGames2();
                 fetchGiftcards();
                 fetchGamecredits();
+                setViewAddCodeModal(false)
             } else {
                 console.log(responseMessage.message);
             }
@@ -541,6 +567,7 @@ const SellerPanel = () => {
                 fetchGames2();
                 fetchGiftcards();
                 fetchGamecredits();
+                setViewAddCodeModal(false)
             } else {
                 console.log(responseMessage.message);
             }
@@ -815,18 +842,39 @@ const SellerPanel = () => {
                                 <p id='sppcm1agclInfo'><TbInfoCircle className='faIcons'/> Add existing games to your game list.</p><br />
                                 <div className='sppcm1agclContainer'>
                                     <span>
-                                        <input type="text" placeholder='Search Games here...'/>
+                                        <input
+                                            type="text"
+                                            placeholder="Search Games here..."
+                                            value={searchTermGames}
+                                            onChange={(e) => setSearchTermGames(e.target.value)} // Update state on input change
+                                        />
                                     </span>
                                     <div className="sppcm1agclContents">
-                                        {viewAGData1.map((game, i) => (
-                                            <div className="sppcm1agclcProducts" key={i}>
-                                                <button>+</button>
-                                                <div>
-                                                    <h6>{game.game_title}</h6>
-                                                    <p>{game.game_edition} - {game.game_platform}</p>
+                                        {filteredGames.length > 0 ? (
+                                            filteredGames.map((game, i) => (
+                                                <div className="sppcm1agclcProducts" key={i}>
+                                                    <button>+</button>
+                                                    <div>
+                                                        <h6>{game.game_title}</h6>
+                                                        <p>
+                                                            {game.game_edition} - {game.game_platform}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            ))
+                                        ) : (
+                                            viewAGData1.map((game, i) => (
+                                                <div className="sppcm1agclcProducts" key={i}>
+                                                    <button>+</button>
+                                                    <div>
+                                                        <h6>{game.game_title}</h6>
+                                                        <p>
+                                                            {game.game_edition} - {game.game_platform}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -943,18 +991,40 @@ const SellerPanel = () => {
                                 <p id='sppcm1agclInfo'><TbInfoCircle className='faIcons'/> Add existing giftcard to your giftcard list.</p><br />
                                 <div className='sppcm1agclContainer'>
                                     <span>
-                                        <input type="text" placeholder='Search Games here...'/>
+                                        <input
+                                            type="text"
+                                            placeholder="Search Giftcards here..."
+                                            value={searchTermGiftcards}
+                                            onChange={(e) => setSearchTermGiftcards(e.target.value)} // Update state on input change
+                                        />
                                     </span>
+
                                     <div className="sppcm1agclContents">
-                                        {giftcards.map((giftcard, i) => (
-                                            <div className="sppcm1agclcProducts" key={i}>
-                                                <button>+</button>
-                                                <div>
-                                                    <h6>{giftcard.giftcard_name}</h6>
-                                                    <p>{giftcard.giftcard_category} Giftcard - ${giftcard.giftcard_denomination}</p>
+                                        {filteredGiftCards.length > 0 ? (
+                                            filteredGiftCards.map((giftcard, i) => (
+                                                <div className="sppcm1agclcProducts" key={i}>
+                                                    <button>+</button>
+                                                    <div>
+                                                        <h6>{giftcard.giftcard_name}</h6>
+                                                        <p>
+                                                            {giftcard.giftcard_category} Giftcard - ${giftcard.giftcard_denomination}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            ))
+                                        ) : (
+                                            giftcards.map((giftcard, i) => (
+                                                <div className="sppcm1agclcProducts" key={i}>
+                                                    <button>+</button>
+                                                    <div>
+                                                        <h6>{giftcard.giftcard_name}</h6>
+                                                        <p>
+                                                            {giftcard.giftcard_category} Giftcard - ${giftcard.giftcard_denomination}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -1023,23 +1093,42 @@ const SellerPanel = () => {
                                 <p id='sppcm1agclInfo'><TbInfoCircle className='faIcons'/> Add existing gcredit to your gcredit list.</p><br />
                                 <div className='sppcm1agclContainer'>
                                     <span>
-                                        <input type="text" placeholder='Search Games here...'/>
+                                        <input
+                                            type="text"
+                                            placeholder="Search Game Credit here..."
+                                            value={searchTermGameCredits}
+                                            onChange={(e) => setSearchTermGameCredits(e.target.value)} // Update state on input change
+                                        />
                                     </span>
+
                                     <div className="sppcm1agclContents">
-                                        {gamecredits.map((gamecredit, i) => (
-                                            <div className="sppcm1agclcProducts" key={i}>
-                                                <button>+</button>
-                                                <div>
-                                                    <h6>{gamecredit.gamecredit_name}</h6>
-                                                    <p>{gamecredit.gamecredit_category} Giftcard - ${gamecredit.gamecredit_denomination}</p>
+                                        {filteredGameCredits.length > 0 ? (
+                                            filteredGameCredits.map((gamecredit, i) => (
+                                                <div className="sppcm1agclcProducts" key={i}>
+                                                    <button>+</button>
+                                                    <div>
+                                                        <h6>{gamecredit.gamecredit_name}</h6>
+                                                        <p>
+                                                            {gamecredit.gamecredit_category} Giftcard - ${gamecredit.gamecredit_denomination}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            ))
+                                        ) : (
+                                            gamecredits.map((gamecredit, i) => (
+                                                <div className="sppcm1agclcProducts" key={i}>
+                                                    <button>+</button>
+                                                    <div>
+                                                        <h6>{gamecredit.gamecredit_name}</h6>
+                                                        <p>
+                                                            {gamecredit.gamecredit_category} Giftcard - ${gamecredit.gamecredit_denomination}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        )}
                                     </div>
                                 </div>
-
-
-
                             </div>
                             <div className="sppcm1AGameCreditsContent right">
                                 <form id='addGiftCardFormContainer' onSubmit={handleAddGamecredit}>
