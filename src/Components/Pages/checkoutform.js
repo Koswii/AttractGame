@@ -103,6 +103,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
   }
   
 
+  const BusinessID = process.env.REACT_APP_RAPIDCENT_BUSINESS_ID;
   const amount = totalprice.toFixed(2);
   const customerEmail = userLoggedData.email
   const [threeDSData, setThreeDSData] = useState({});
@@ -184,27 +185,55 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
   // Step 1: Send request to init API
   const initialize3DSecure = async () => {
     try {
-      // Combine firstName and lastName into nameOnCard
-      const { firstName, lastName, ...otherCardData } = cardData;
-      const nameOnCard = `${firstName} ${lastName}`;
   
       const payload = {
-        cardData: { ...otherCardData, nameOnCard },
-        customerEmail,
-        paymentLinkID: null,
+        customerId: "90662b5d-4f38-4183-9522-e97f5533affa",
+        cardData: { 
+          cardNumber: `${cardData.cardNumber}`,
+          cvv: `${cardData.cvv}`,
+          year: cardData.year,
+          month: cardData.month,
+          nameOnCard: `${cardData.firstName} ${cardData.lastName}`
+        }
       };
   
-      const response = await axios.post('https://engeenx.com/rapidcentDDDInitProxy.php', payload);
+      const response = await axios.post(
+        'https://uatstage00-api.rapidcents.com/api/ddd/init',
+        JSON.stringify(payload), // Send payload as raw JSON string
+        {
+          headers: {
+            'Accept': 'application/json', // Add Accept header
+            'Content-Type': 'application/json', // Ensure content type is JSON
+          },
+        }
+      );
   
       const data = response.data;
-      console.log(data);
+      console.log('Full Data', data);
   
-      setSessionID(data.sessionID);
+      // Access sessionID and other fields safely
+      const sessionID = data?.sessionID || data?.data?.sessionID;
+      console.log('Session ID:', sessionID);
+
+      const threeDSMethodURL = data?.threeDSMethodURL || data?.data?.threeDSMethodURL;
+      console.log('3DS Method URL:', threeDSMethodURL);
+
+      const threeDSMethodData = data?.threeDSMethodData || data?.data?.threeDSMethodData;
+      console.log('3DS Method Data:', threeDSMethodData);
+
+      const threeDSServerTransID = data?.threeDSServerTransID || data?.data?.threeDSServerTransID;
+      console.log('3DS Server Trans ID:', threeDSServerTransID);
+
+      setSessionID(sessionID);
       setThreeDSData(data);
-  
+      setThreeDSServerTransID(threeDSServerTransID);
+
+
       if (data.status === 'DDD_FRICTIONLESS') {
         dddAuthenticate(); // Skip step 2 and proceed to authentication
-      } else if (data.status === 'DDD_INVOKE') {
+      } 
+      
+      if (data.status === 'DDD_INVOKE') {
         invoke3DSServer(); // Proceed to step 2
       } else {
         Swal.fire('3D Secure Error, Please Try Again.');
@@ -236,6 +265,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
       iframeDoc.body.appendChild(form);
 
       form.submit();
+      dddAuthenticate(); 
     } catch (error) {
       Swal.fire({
         text: '3D secure card verification failed. Please try a different card.',
@@ -248,14 +278,40 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
   // Step 3: Authenticate the transaction
   const dddAuthenticate = async () => {
     try {
-      const response = await axios.post('https://engeenx.com/rapidcentDDDAuthProxy.php', {
-        threeDSServerTransID,
-        cardData,
-        amount,
-        sessionID,
-      });
+      const payload2 = {
+        threeDSServerTransID: threeDSServerTransID,
+        cardData: { 
+          cardNumber: `${cardData.cardNumber}`,
+          cvv: `${cardData.cvv}`,
+          year: cardData.year,
+          month: cardData.month,
+          nameOnCard: `${cardData.firstName} ${cardData.lastName}`,
+          saveCatd: 'false'
+        },
+        amount: amount,
+        sessionID: sessionID,
+      };
 
-      const data = response.data.data;
+
+      const test = JSON.stringify(payload2)
+      console.log(test);
+      
+
+      const response = await axios.post(
+        'https://engeenx.com/rapidcentDDDAuthProxy.php',
+        JSON.stringify(payload2), // Send payload as raw JSON string
+        {
+          headers: {
+            Accept: 'application/json', // Add Accept header
+            'Content-Type': 'application/json', // Ensure content type is JSON
+          },
+        }
+      );
+
+      const data = response.data;
+      console.log(data);
+      
+
       if (data.status === 'C') {
         initiateChallenge(data); // Proceed to step 4
       } else if (['Y', 'A'].includes(data.status)) {
@@ -338,7 +394,6 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateCardData()) {
-      console.log('Card Data:', cardData);
       initialize3DSecure();
       // Proceed to initialize 3D secure or send data to API
     }
