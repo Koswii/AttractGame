@@ -253,55 +253,55 @@ export const UserProfileDataProvider = ({ children }) => {
             const currentRefreshToken = rapidcentAcessToken.refresh_token;
             const tokenStarted = rapidcentAcessToken.date
             const tokenRecorded = convertDateToSeconds(tokenStarted);
-            const tokenExpiry = tokenRecorded + 45000
+            const tokenExpiry = tokenRecorded + 75000
             const currentDate = convertDateToSecondsNY(getNewYorkTime())
             
             if (rapidcentAcessToken && tokenExpiry <= currentDate) {
-                const fetchTokens = async () => {
-                    try {
-                        const body = new URLSearchParams();
-                        body.append('grant_type', 'refresh_token');
-                        body.append('client_id', RapidcentClientIDAPI);
-                        body.append('client_secret', RapidcentClientSecretAPI);
-                        body.append('redirect_uri', RapidcentRedirectURI);
-                        body.append('refresh_token', currentRefreshToken);
+                // const fetchTokens = async () => {
+                //     try {
+                //         const body = new URLSearchParams();
+                //         body.append('grant_type', 'refresh_token');
+                //         body.append('client_id', RapidcentClientIDAPI);
+                //         body.append('client_secret', RapidcentClientSecretAPI);
+                //         body.append('redirect_uri', RapidcentRedirectURI);
+                //         body.append('refresh_token', currentRefreshToken);
 
-                        const response = await axios.post(RapidcentTokenEndPoint, body, {
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                                Accept: 'application/json'
-                            },
-                        });
+                //         const response = await axios.post(RapidcentTokenEndPoint, body, {
+                //             headers: {
+                //                 'Content-Type': 'application/x-www-form-urlencoded',
+                //                 Accept: 'application/json'
+                //             },
+                //         });
                     
-                        if(response.data){
-                            const newAccessToken = response.data.access_token
-                            const newRefreshToken = response.data.refresh_token
+                //         if(response.data){
+                //             const newAccessToken = response.data.access_token
+                //             const newRefreshToken = response.data.refresh_token
 
-                            const formSaveTokenDetails = {
-                                newAccessToken: newAccessToken,
-                                newRefreshToken: newRefreshToken,
-                            };
-                            try {
-                                const saveTokenResponse = await axios.post(RapidcentRefreshTokenAPI, formSaveTokenDetails);
-                                const responseMessage = saveTokenResponse.data;
+                //             const formSaveTokenDetails = {
+                //                 newAccessToken: newAccessToken,
+                //                 newRefreshToken: newRefreshToken,
+                //             };
+                //             try {
+                //                 const saveTokenResponse = await axios.post(RapidcentRefreshTokenAPI, formSaveTokenDetails);
+                //                 const responseMessage = saveTokenResponse.data;
                         
-                                if (responseMessage.success) {
-                                    console.log(response.message);
-                                } else {
-                                    console.log(response.message);
-                                }
-                            } catch (error) {
-                                console.error(error);
-                            }
-                        }
+                //                 if (responseMessage.success) {
+                //                     console.log(response.message);
+                //                 } else {
+                //                     console.log(response.message);
+                //                 }
+                //             } catch (error) {
+                //                 console.error(error);
+                //             }
+                //         }
 
 
-                    } catch (error) {
-                        console.error(error);
-                    }
-                };
-                fetchTokens();
-
+                //     } catch (error) {
+                //         console.error(error);
+                //     }
+                // };
+                // fetchTokens();
+                console.log('Access Token expired');
             }else {
                 console.log('Access Token still valid');
             }
