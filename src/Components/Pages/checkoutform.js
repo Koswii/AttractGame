@@ -103,12 +103,21 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
   }
   
 
+  const getInitialize3DSData = () => {
+    const data = localStorage.getItem('initialiaze3DSData');
+    return data ? JSON.parse(data) : null; // Return parsed data or null if not found
+  };
+  const getAuthenticate3DSData = () => {
+    const data = localStorage.getItem('authenticate3DSData');
+    return data ? JSON.parse(data) : null; // Return parsed data or null if not found
+  };
   const BusinessID = process.env.REACT_APP_RAPIDCENT_BUSINESS_ID;
   const amount = totalprice.toFixed(2);
   const customerEmail = userLoggedData.email
   const [threeDSData, setThreeDSData] = useState({});
   const [sessionID, setSessionID] = useState('');
   const [threeDSServerTransID, setThreeDSServerTransID] = useState('');
+  const [cardAssociation, setCardAssociation] = useState('');
   const [cardData, setCardData] = useState({
     cardNumber: '',
     month: '',
@@ -126,7 +135,6 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
       [name]: value,
     }));
   };
-  
   // Validate the card data (optional)
   const validateCardData = () => {
     const { cardNumber, month, year, firstName, lastName, cvv } = cardData;
@@ -181,11 +189,9 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
     window.addEventListener('message', handle3DSServerResponse);
     return () => window.removeEventListener('message', handle3DSServerResponse);
   }, []);
-
   // Step 1: Send request to init API
   const initialize3DSecure = async () => {
     try {
-  
       const payload = {
         customerId: "90662b5d-4f38-4183-9522-e97f5533affa",
         cardData: { 
@@ -207,27 +213,11 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
           },
         }
       );
-  
       const data = response.data;
-      console.log('Full Data', data);
-  
-      // Access sessionID and other fields safely
-      const sessionID = data?.sessionID || data?.data?.sessionID;
-      console.log('Session ID:', sessionID);
+      const initialiaze3DSData = JSON.stringify(data);
+      localStorage.setItem('initialiaze3DSData', initialiaze3DSData);
 
-      const threeDSMethodURL = data?.threeDSMethodURL || data?.data?.threeDSMethodURL;
-      console.log('3DS Method URL:', threeDSMethodURL);
-
-      const threeDSMethodData = data?.threeDSMethodData || data?.data?.threeDSMethodData;
-      console.log('3DS Method Data:', threeDSMethodData);
-
-      const threeDSServerTransID = data?.threeDSServerTransID || data?.data?.threeDSServerTransID;
-      console.log('3DS Server Trans ID:', threeDSServerTransID);
-
-      setSessionID(sessionID);
       setThreeDSData(data);
-      setThreeDSServerTransID(threeDSServerTransID);
-
 
       if (data.status === 'DDD_FRICTIONLESS') {
         dddAuthenticate(); // Skip step 2 and proceed to authentication
@@ -249,23 +239,19 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
       const iframe = document.createElement('iframe');
       iframe.style.display = 'none';
       document.body.appendChild(iframe);
-
       const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-
       const form = iframeDoc.createElement('form');
       form.method = 'POST';
       form.action = threeDSData.threeDSMethodURL;
-
       const input = iframeDoc.createElement('input');
       input.type = 'hidden';
       input.name = 'threeDSMethodData';
       input.value = threeDSData.threeDSMethodData;
-
       form.appendChild(input);
       iframeDoc.body.appendChild(form);
-
       form.submit();
-      dddAuthenticate(); 
+
+      dddAuthenticate();
     } catch (error) {
       Swal.fire({
         text: '3D secure card verification failed. Please try a different card.',
@@ -276,7 +262,11 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
   };
 
   // Step 3: Authenticate the transaction
-  const dddAuthenticate = async () => {
+  const dddAuthenticate = async () => {    
+    const data = getInitialize3DSData();
+    const sessionID = data?.sessionID || data?.data?.sessionID;
+    const threeDSServerTransID = data?.threeDSServerTransID || data?.data?.threeDSServerTransID;
+    
     try {
       const payload2 = {
         threeDSServerTransID: threeDSServerTransID,
@@ -286,19 +276,15 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
           year: cardData.year,
           month: cardData.month,
           nameOnCard: `${cardData.firstName} ${cardData.lastName}`,
-          saveCatd: 'false'
+          saveCard: 'false'
         },
         amount: amount,
         sessionID: sessionID,
+        email: `${customerEmail}`
       };
 
-
-      const test = JSON.stringify(payload2)
-      console.log(test);
-      
-
       const response = await axios.post(
-        'https://engeenx.com/rapidcentDDDAuthProxy.php',
+        'https://uatstage00-api.rapidcents.com/api/ddd/authenticate',
         JSON.stringify(payload2), // Send payload as raw JSON string
         {
           headers: {
@@ -309,9 +295,8 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
       );
 
       const data = response.data;
-      console.log(data);
-      
-
+      const authenticate3DSData = JSON.stringify(data);
+      localStorage.setItem('authenticate3DSData', authenticate3DSData);
       if (data.status === 'C') {
         initiateChallenge(data); // Proceed to step 4
       } else if (['Y', 'A'].includes(data.status)) {
@@ -329,31 +314,28 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
     try {
       const iframe = document.createElement('iframe');
       const backdrop = document.createElement('div');
-
       backdrop.id = 'backdrop';
       backdrop.className =
         'tw-absolute tw-inset-0 tw-bg-black tw-bg-opacity-75 tw-backdrop-blur';
       document.body.appendChild(backdrop);
-
       iframe.id = 'challengeIframe';
       iframe.className =
         'tw-absolute tw-z-10 tw-w-[60vw] tw-h-[60vh] tw-top-[50%] tw-left-[50%] tw--translate-x-1/2 tw--translate-y-1/2 tw-rounded-lg';
       document.body.appendChild(iframe);
-
       const iframeDoc = iframe.contentWindow.document;
       const form = iframeDoc.createElement('form');
       form.method = 'POST';
       form.action = data.acsURL;
-
       const input = iframeDoc.createElement('input');
       input.type = 'hidden';
       input.name = 'creq';
       input.value = data.creq;
-
       form.appendChild(input);
       iframeDoc.body.appendChild(form);
 
+
       form.submit();
+      initiateTransaction();
     } catch (error) {
       Swal.fire({
         text: '3D secure card verification failed. Please try a different card.',
@@ -543,7 +525,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
                       max="12"
                       value={cardData.month}
                       onChange={handleInputChange}
-                      placeholder="1 - 12"
+                      placeholder="00"
                       required
                     />
                   </div>
