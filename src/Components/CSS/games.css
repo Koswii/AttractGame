@@ -292,9 +292,9 @@ section.gamesPageContainer.top{
     padding: 5%;
 }
 .gmspct2gdTitle{
-    height: 3vw;
+    height: auto;
     width: 100%;
-    margin: 3% 0;
+    margin: 5% 0;
     display: flex;
     justify-content: center;
     align-items: center;
