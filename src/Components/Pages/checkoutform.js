@@ -886,7 +886,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails, setSuccesstransactio
 
                   {!paymentReciept ? 
                     <button id="payCheckoutBtn" type="submit">Pay Now</button>:
-                    <button id="payCheckoutBtn" type="button">View Receipt</button>
+                    <button id="payCheckoutBtn" type="button">Transaction Complete</button>
                   }
                 </form>
               </div>
