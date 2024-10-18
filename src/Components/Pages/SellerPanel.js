@@ -71,7 +71,8 @@ const SellerPanel = () => {
         viewAllUserProfile,
         userLoggedData, 
         viewSellerStock,
-        viewStockNumber,
+        viewAvailableStockNumber,
+        viewSoldStockNumber,
         viewTicketReport,
         viewTicketMessages, 
         fetchUserTicketReport,
@@ -102,9 +103,13 @@ const SellerPanel = () => {
     const AGSellerTixReponseAPI = process.env.REACT_APP_AG_USERS_TICKET_RESPONSE_API;
     const AGSendTixMessageAPI = process.env.REACT_APP_AG_USERS_TICKET_SEND_MESSAGE_API;
 
-    const gameStocksNum = viewSellerStock.filter(stock => stock.ag_product_type === "Games")
-    const giftcardsStocksNum = viewSellerStock.filter(stock => stock.ag_product_type === "Giftcards")
-    const gamecreditsStocksNum = viewSellerStock.filter(stock => stock.ag_product_type === "Game Credits")
+    const gameStocksNum = viewAvailableStockNumber.filter(stock => stock.ag_product_type === "Games")
+    const giftcardsStocksNum = viewAvailableStockNumber.filter(stock => stock.ag_product_type === "Giftcards")
+    const gamecreditsStocksNum = viewAvailableStockNumber.filter(stock => stock.ag_product_type === "Game Credits")
+    const currentProductSales = viewSoldStockNumber
+        .map(sales => parseFloat(sales.ag_withdrawable_amount))
+        .reduce((acc, curr) => acc + curr, 0);
+
 
     
     useEffect(() => {
@@ -775,16 +780,16 @@ const SellerPanel = () => {
                             </div>
                             <div className="sppcm1dContent right">
                                 <div>
-                                    <h4>{viewStockNumber}</h4>
+                                    <h4>{viewSoldStockNumber.length}</h4>
                                     <span>
                                         <h6></h6>
                                         <p>STOCKS SOLD</p>
                                     </span>
                                 </div>
                                 <div>
-                                    <h4>$ 0</h4>
+                                    <h4>$ {currentProductSales}</h4>
                                     <span>
-                                        <h6><RiArrowUpSFill className='faIcons'/> NA</h6>
+                                        <h6></h6>
                                         <p>TOTAL SALES</p>
                                     </span>
                                 </div>

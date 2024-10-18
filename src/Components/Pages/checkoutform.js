@@ -15,7 +15,7 @@ import {
 } from "react-icons/md";
 import { UserProfileData } from './UserProfileContext';
 
-const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction,paymentIntentId,setClientSecret,totalprice,transactionData,setFinalcheckout}) => {
+const CheckoutForm = ({cartTotalPayment, allPrductsDetails, setSuccesstransaction, paymentIntentId, setClientSecret, totalprice, handleSubmitTransaction, setFinalcheckout}) => {
   const navigate = useNavigate();
   const { 
     userLoggedData,
@@ -589,10 +589,13 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
       if(data.status === "Approved"){
         setPaymentProcessingResponse('Your Payment Sent!');
         setPaymentReceipt(true);
+        handleSubmitTransaction();
   
         
         const timeoutId = setTimeout(() => {
           setPaymentProcessingModal(false)
+          navigate('/MyProfile')
+          window.location.reload()
         }, 5000);
         return () => clearTimeout(timeoutId);
       }
@@ -620,7 +623,6 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails,setSuccesstransaction
       }
 
     } catch (error) {
-      console.log('Pakshet');
       setPaymentProcessingModal(false)
       setPaymentErrorModal(true)
       setPaymentProcessingResponse('Payment Error Occur, Try again later');

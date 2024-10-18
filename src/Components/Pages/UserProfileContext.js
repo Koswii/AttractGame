@@ -12,7 +12,9 @@ export const UserProfileDataProvider = ({ children }) => {
     const [userProductCodeIDData, setUserProductCodeIDData] = useState([]);
     const [viewTransactionList, setViewTransactionList] = useState([]);
     const [viewSellerStock, setViewSellerStock] = useState([]);
-    const [viewStockNumber, setViewStockNumber] = useState([]);
+    const [viewAvailableStockNumber, setViewAvailableStockNumber] = useState([]);
+    const [viewSoldStockNumber, setViewSoldStockNumber] = useState([]);
+    const [viewSellerWithdrawable, setViewSellerWithdrawable] = useState([]);
     const [viewStoreList, setViewStoreList] = useState([]);
     const [viewTicketReport, setViewTicketReport] = useState([]);
     const [viewTicketMessages, setViewTicketMessages] = useState([]);
@@ -130,7 +132,7 @@ export const UserProfileDataProvider = ({ children }) => {
         try {
             const userRequestCodeJSON = JSON.stringify(userRequestCode);
             const response = await axios.post(AGProductIDCodeAPI, userRequestCodeJSON);
-    
+
             const reqData = response.data;
             if (reqData.success === true) {
                 const productIDs = reqData.data;
@@ -192,7 +194,7 @@ export const UserProfileDataProvider = ({ children }) => {
             }
 
         } catch (error) {
-            console.error('Error fetching user data:', error);
+            // console.error('Error fetching product data');
         } finally {
             setIsLoading(false);
         }
@@ -221,10 +223,14 @@ export const UserProfileDataProvider = ({ children }) => {
         const fetchSellerStockList = async () => {
             try {
                 const response = await axios.get(AGSellerStockList);
-                const stockSeller = response.data.filter(user => user.ag_product_seller === LoginUserID);
-                const availableStocks = stockSeller.filter(stocks => stocks.ag_product_state === 'Sold')
+                const stockSeller = response.data.filter(user => user.ag_product_seller === LoginUsername);
+                const availableStocks = stockSeller.filter(stocks => stocks.ag_product_state === 'Available')
+                const soldStocks = stockSeller.filter(stocks => stocks.ag_product_state === 'Sold')
                 setViewSellerStock(stockSeller);
-                setViewStockNumber(availableStocks.length);
+                setViewAvailableStockNumber(availableStocks);
+                setViewSoldStockNumber(soldStocks);
+                
+                
                 
                 
             } catch (error) {
@@ -349,7 +355,8 @@ export const UserProfileDataProvider = ({ children }) => {
             viewTicketReport,
             viewTicketMessages,
             viewSellerStock,
-            viewStockNumber,
+            viewAvailableStockNumber,
+            viewSoldStockNumber,
             viewStoreList
             }}>
             {children}

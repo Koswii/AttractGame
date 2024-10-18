@@ -411,7 +411,7 @@ const Cart = () => {
         )} */}
         {finalCheckout ? 
           <>
-            <CheckoutForm setFinalcheckout={setFinalcheckout} cartTotalPayment={cartTotalPayment} allPrductsDetails={allPrductsDetails} totalprice={checkoutOverallTotal} transactionData={handleSubmitTransaction}/>
+            <CheckoutForm setFinalcheckout={setFinalcheckout} cartTotalPayment={cartTotalPayment} allPrductsDetails={allPrductsDetails} totalprice={checkoutOverallTotal} handleSubmitTransaction={handleSubmitTransaction}/>
           </>:
           <>
             <section className="cartPageContainer mid">
