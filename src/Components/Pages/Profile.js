@@ -838,9 +838,15 @@ const Profile = () => {
     }
 
     
+    const withdrawableDay = (date, days) => {
+        const result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+    };
     const [redeemingLoader, setRedeemingLoader] = useState(false);
     const handleRedeemProduct = async (productCode) => {
         const pCode = userProductCodeIDData.find(pCodeID => pCodeID.ag_product_id_code === productCode)
+        const productWithdrawableAmount = ((pCode.ag_product_price * 1) + (pCode.ag_product_price * 0.03))
         setRedeemingLoader(true);
         
 
@@ -853,8 +859,11 @@ const Profile = () => {
             agProductName: pCode.productData.game_title || pCode.productData.giftcard_name || pCode.productData.gamecredit_name,
             agProductTHash: `AG_${postIDGenerator(18)}`,
             agProductTDate: new Date(),
+            agProductWDate: withdrawableDay(new Date(), 3),
             agProductQuantity: 1,
             agProductPrice: pCode.ag_product_price,
+            agProductWPrice: productWithdrawableAmount,
+            agProductWState: 'Pending',
             agProductCommand: 'Redeem'
         }
 
@@ -958,7 +967,6 @@ const Profile = () => {
         setTixSellerResponse(false);
         setUserTixSentMsg('');
     }
-    
     
 
     return (
