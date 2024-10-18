@@ -30,6 +30,56 @@
 
 
 
+.paymentStatusModalContainer{
+    padding-top: 4vw;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.36);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.paymentStatusModalContents{
+    height: 15vw;
+    width: 25%;
+    position: relative;
+    box-shadow: 0 0 15px gray;
+    overflow: hidden;
+    border-radius: 1vw;
+    background: black;
+    animation: fade-in-down 800ms ease;
+    padding: 3% 2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.paymentStatusModalContents h3{
+    animation: bounce2 2s ease infinite;
+    line-height: 2vw;
+    margin-bottom: 5%;
+}
+.paymentStatusModalContents h3#paymentError{
+    animation: none;
+    color: red;
+}
+.paymentStatusModalContents h3#paymentSecure{
+    animation: none;
+    color: skyblue;
+}
+.paymentStatusModalContents h6{
+    font-size: .9vw;
+    font-weight: 400;
+}
+
+
+
+
 
 
 
@@ -230,22 +280,25 @@
     align-items: center;
 }
 .checkoutProductsummary form label p{
-    font-size: 0.7vw;
+    font-size: 0.6vw;
     opacity: 70%;
+    margin-bottom: 2px;
 }
 .checkoutProductsummary form div{
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 .checkoutProductCard,
-.checkoutProductName{
+.checkoutProductName,
+.checkoutProductDisclaimer{
     height: auto;
     width: 100%;
 }
 .checkoutProductMonth,
 .checkoutProductYear,
-.checkoutProductCvv{
+.checkoutProductCvv,
+.checkoutProductPostal{
     height: auto;
-    width: 31%;
+    width: 23%;
 }
 .checkoutProductName div{
     height: auto;
@@ -255,57 +308,69 @@
     align-items: center;
 }
 .checkoutProductName input{
-    width: 48%;
+    width: 48.5%;
     padding: 7px 10px;
     border: none;
     outline: none;
     border-radius: 5px;
     margin-top: 1%;
+    font-size: 0.8vw;
 }
 .checkoutProductCard input,
 .checkoutProductMonth input,
 .checkoutProductYear input,
-.checkoutProductCvv input{
+.checkoutProductCvv input,
+.checkoutProductPostal input{
     width: 100%;
     padding: 7px 10px;
     border: none;
     outline: none;
     border-radius: 5px;
     margin-top: 1%;
+    font-size: 0.8vw;
+}
+.checkoutProductDisclaimer p{
+    text-align: center;
+    font-size: 0.7vw;
+    font-style: italic;
+    color: skyblue;
 }
 .checkoutProductsummary form button{
     width: 100%;
-    padding: .7vw;
-    font-size: .7vw;
-    background: none;
-    border-radius: 1vw;
-    color: white;
-    border: none;
-    outline: .1vw solid white;
-    cursor: pointer;
-    transition: .3s ease;
     margin-top: 10%;
+    padding: 3%;
+    text-align: center;
+    border: solid 1px white;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    background: none;
+    transition: 400ms ease;
 }
-
+.checkoutProductsummary form button:hover{
+    background: white;
+    color: #000;
+    transition: 400ms ease;
+}
 
 
 
 #cancelCheckoutBtn{
     width: 100%;
-    padding: .7vw;
-    font-size: .7vw;
-    background: none;
-    border-radius: 1vw;
-    color: white;
-    border: none;
-    outline: .1vw solid white;
-    cursor: pointer;
-    transition: .3s ease;
     margin-top: 5%;
+    padding: 3%;
+    text-align: center;
+    border: solid 1px white;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    background: none;
+    transition: 400ms ease;
 }
 #cancelCheckoutBtn:hover{
     background: white;
     color: #000;
+    transition: 400ms ease;
 }
 
 

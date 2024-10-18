@@ -363,22 +363,22 @@ section.cartPageContainer.mid{
 .cartpcm1crCheckout button{
     width: 100%;
     margin-top: 10%;
-    padding: 2%;
+    padding: 3%;
     text-align: center;
     border: solid 1px white;
     color: white;
     border-radius: 50px;
+    transition: 400ms ease;
     cursor: pointer;
 }
 .cartpcm1crCheckout button.hasProducts{
     color: black;
-}
-.cartpcm1crCheckout button.devButton{
-    color: black;
+    transition: 400ms ease;
 }
 .cartpcm1crCheckout button.noProducts{
     cursor: not-allowed;
     opacity: 50%;
+    transition: 400ms ease;
 }
 
 .successTransaction{
