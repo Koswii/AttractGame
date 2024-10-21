@@ -602,7 +602,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails, setSuccesstransactio
       if(data.status === "Declined"){
         setPaymentProcessingModal(false)
         setPaymentErrorModal(true)
-        setPaymentProcessingResponse('Your Payment Declined, Try different Card.');
+        setPaymentProcessingResponse('Your Payment Declined');
         
         const timeoutId = setTimeout(() => {
           setPaymentErrorModal(false)
@@ -613,7 +613,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails, setSuccesstransactio
       if(data.message === "Unauthenticated"){
         setPaymentProcessingModal(false)
         setPaymentErrorModal(true)
-        setPaymentProcessingResponse('Payment Error Occur, Try again later');
+        setPaymentProcessingResponse('Payment Error Occur: "Unauthenticated"');
         
         const timeoutId = setTimeout(() => {
           setPaymentErrorModal(false)
@@ -624,7 +624,7 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails, setSuccesstransactio
     } catch (error) {
       setPaymentProcessingModal(false)
       setPaymentErrorModal(true)
-      setPaymentProcessingResponse('Payment Error Occur, Try again later');
+      setPaymentProcessingResponse('Payment Error Occur: Rapidcent Error.');
       
       const timeoutId = setTimeout(() => {
         setPaymentErrorModal(false)
