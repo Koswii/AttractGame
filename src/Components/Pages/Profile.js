@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import "../CSS/profile.css";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -918,16 +918,22 @@ const Profile = () => {
         setViewTicketMessagesDetails(ticketMessages)
         fetchUserTicketReport();
     }
+    // UseMemo to optimize filtering logic
+    const filteredMessages = useMemo(() => {
+        if (!viewTicketMessages || !viewTicketReportDetails) return [];
+        return viewTicketMessages.filter(
+            tHash => tHash.ticket_id === viewTicketReportDetails.ticket_id
+        );
+    }, [viewTicketMessages, viewTicketReportDetails]);
+    // Update messages only if filtered result changes
     useEffect(() => {
-        if (viewTicketMessageRecord && viewTicketReportDetails) {
-            // Update ticket messages whenever viewTicketMessages updates
-            const updatedMessages = viewTicketMessages.filter(tHash => tHash.ticket_id === viewTicketReportDetails.ticket_id);
-            setViewTicketMessagesDetails(updatedMessages);
+        if (viewTicketMessageRecord) {
+            setViewTicketMessagesDetails(filteredMessages);
         }
-    }, [viewTicketMessages, viewTicketMessageRecord, viewTicketReportDetails]);
+    }, [filteredMessages, viewTicketMessageRecord]);
     const handleSendSellerMessage = async (e) => {
         e.preventDefault();
-    
+
         const formSendSellerMessage = {
             userTixID: viewTicketReportDetails.ticket_id,
             userTixUserid: userLoggedData.userid,
@@ -938,21 +944,22 @@ const Profile = () => {
             userTixSellerDate: '',
             userTixStatus: viewTicketReportDetails.status,
         };
-        
+
         try {
-            const sellerTixResponse = await axios.post(AGSendTixMessageAPI, formSendSellerMessage);
-            const responseMessage = sellerTixResponse.data;
-    
+            const { data: responseMessage } = await axios.post(
+                AGSendTixMessageAPI, 
+                formSendSellerMessage
+            );
+
             if (responseMessage.success) {
-                setUserTixMessage('');
-                fetchUserTicketReport();
-                fetchUserTicketMessages();
+                setUserTixMessage('');  // Reset input
+                // Parallel fetching of data
+                await Promise.all([fetchUserTicketReport(), fetchUserTicketMessages()]);
             } else {
-                setUserTixMessage('');
+                setUserTixMessage('');  // Reset input even on failure
             }
-    
         } catch (error) {
-            console.error(error);
+            console.error('Error sending message:', error);
         }
     };
     const handleViewTransactionDetails = (hashCode) => {
@@ -1706,53 +1713,16 @@ const Profile = () => {
                                     </div>
                                 </div>}
                                 <div className="ppcrpcmpTransactions website">
-                                    <table id='ppcrpcmptHeader'>
-                                        <thead>
-                                            <tr>
-                                                <th width='15%' id='ppcrpcmptDate'><p>Transaction Date</p></th>
-                                                <th width='15%' id='ppcrpcmptPrice'><p>Transaction</p></th>
-                                                <th width='30%' id='ppcrpcmptName'><p>Product Name</p></th>
-                                                <th width='25%' id='ppcrpcmptHash'><p>Transaction Hash</p></th>
-                                                <th width='15%' id='ppcrpcmptView'><p></p></th>
-                                            </tr>
-                                        </thead>
-                                    </table>
                                     <div>
-                                        <table id='ppcrpcmptContents'>
-                                            <tbody>
-                                                {viewTransactionList.map((data, i) => (
-                                                <tr key={i}>
-                                                    <td width='15%' id='ppcrpcmptDate'><p>{formatDateToWordedDate(data.ag_transaction_date)}</p></td>
-                                                    <td width='15%' id='ppcrpcmptPrice'><p>{data.ag_transaction_command}</p></td>
-                                                    <td width='30%' id='ppcrpcmptName'><p><UsernameSlicer text={`${data.ag_product_name}`} maxLength={30} /></p></td>
-                                                    <td width='25%' id='ppcrpcmptHash'><p>{data.ag_transaction_hash}</p></td>
-                                                    <td width='15%' id='ppcrpcmptView'><button onClick={() => handleViewTransactionDetails(data.ag_transaction_hash)}><TbReceipt className='faIcons'/></button></td>
-                                                </tr>))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div className="ppcrpcmpTransactions mobile">
-                                    <table id='ppcrpcmptHeader'>
-                                        <thead>
-                                            <tr>
-                                                <th width='15%' id='ppcrpcmptCommand'><p>Transaction</p></th>
-                                                <th width='30%' id='ppcrpcmptName'><p>Product Name</p></th>
-                                                <th width='15%' id='ppcrpcmptView'><p></p></th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                    <div>
-                                        <table id='ppcrpcmptContents'>
-                                            <tbody>
-                                                {viewTransactionList.map((data, i) => (
-                                                <tr key={i}>
-                                                    <td width='15%' id='ppcrpcmptCommand'><p>{data.ag_transaction_command}</p></td>
-                                                    <td width='30%' id='ppcrpcmptName'><p>{data.ag_product_name}</p></td>
-                                                    <td width='15%' id='ppcrpcmptView'><button onClick={() => handleViewTransactionDetails(data.ag_transaction_hash)}><TbReceipt className='faIcons'/></button></td>
-                                                </tr>))}
-                                            </tbody>
-                                        </table>
+                                        {viewTransactionList.map((data, i) => (
+                                            <ul key={i}>
+                                                <li id='ppcrpcmptDate'>{formatDateToWordedDate(data.ag_transaction_date)}</li>
+                                                <li id='ppcrpcmptCommand'>{data.ag_transaction_command}</li>
+                                                <li id='ppcrpcmptName'><UsernameSlicer text={`${data.ag_product_name}`} maxLength={30} /></li>
+                                                <li id='ppcrpcmptHash'>{data.ag_transaction_hash}</li>
+                                                <li id='ppcrpcmptView'><button onClick={() => handleViewTransactionDetails(data.ag_transaction_hash)}><TbReceipt className='faIcons'/></button></li>
+                                            </ul>
+                                        ))}
                                     </div>
                                 </div>
                             </>:<><div className="ppcrpcmpEmpty">

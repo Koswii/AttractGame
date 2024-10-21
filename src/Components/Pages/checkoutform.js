@@ -663,14 +663,16 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
   return (
     <div className="formpayment">
       <iframe id="myIframe" style={{display:'none'}}></iframe>
-      {paymentProcessingModal && <div className="paymentStatusModalContainer">
+      {paymentProcessingModal && 
+      <div className="paymentStatusModalContainer">
         <div className="paymentStatusModalContents">
           <div>
             <h3><MdOutlinePayment className="faIcons"/></h3>
             <h6>{paymentProcessingResponse}</h6>
           </div>
         </div>
-      </div>}
+      </div>
+      }
       {paymentErrorModal && <div className="paymentStatusModalContainer">
         <div className="paymentStatusModalContents">
           <div>
