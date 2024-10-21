@@ -4,7 +4,7 @@
     box-sizing: border-box;
     z-index: 10;
 }
-.formpayment iframe#challengeIframe{
+iframe#challengeIframe{
     display: none !important; 
     opacity: 0;
     height: 0;

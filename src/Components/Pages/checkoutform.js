@@ -595,7 +595,6 @@ const CheckoutForm = ({cartTotalPayment, allPrductsDetails, setSuccesstransactio
         const timeoutId = setTimeout(() => {
           setPaymentProcessingModal(false)
           navigate('/MyProfile')
-          window.location.reload()
         }, 5000);
         return () => clearTimeout(timeoutId);
       }
