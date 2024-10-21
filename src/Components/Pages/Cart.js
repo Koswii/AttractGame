@@ -35,6 +35,7 @@ const stripePromise = loadStripe(
 const Cart = () => {
     const { 
       userLoggedData,
+      fetchUserProductIds,
       rapidcentAcessToken,
     } = UserProfileData();
     const { 
@@ -368,6 +369,7 @@ const Cart = () => {
             }
             if (resMessage.success === true) {
               console.log(resMessage.message);
+              fetchUserProductIds()
               setAllProductDetails([]);
               setGameProductDetails([]);
               setGiftcardProductDetails([]);
