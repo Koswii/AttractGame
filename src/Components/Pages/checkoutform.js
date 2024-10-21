@@ -15,7 +15,7 @@ import {
 } from "react-icons/md";
 import { UserProfileData } from './UserProfileContext';
 
-const CheckoutForm = ({cartTotalPayment, allPrductsDetails, setSuccesstransaction, paymentIntentId, setClientSecret, totalprice, handleSubmitTransaction, setFinalcheckout}) => {
+const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransaction, paymentIntentId, setClientSecret, totalprice, handleSubmitTransaction, setFinalcheckout}) => {
   const navigate = useNavigate();
   const { 
     userLoggedData,

@@ -135,8 +135,17 @@ function App() {
           )}
           <CookieBanner />
           <Routes>
-            <Route exact path="/" element={<Home/>}/>
-            {/* <Route exact path="/Highlights" element={<Highlights/>}/> */}
+            <Route exact path="/" element={<Home/>}/>{(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined) &&
+            <>
+              <Route exact path="/MyProfile" element={<Profile/>}/>
+              <Route exact path="/MyCart" element={<Cart/>}/>
+              <Route exact path="/MyFavorites" element={<Favorites/>}/>
+              <Route exact path="/ClaimACode" element={<RedeemProduct/>}/>
+              <Route exact path="/success" element={<Success/>}/>
+            </>}
+            {(getAdminCredentials && userLoggedInState) && <Route path="/Admin" element={<Admin/>}/>}
+            {(getSellerCredentials && userLoggedInState) && <Route path="/SellerPanel" element={<SellerPanel/>}/>}
+
             <Route exact path="/forgot-password/:code" element={<ForgotPass />} />
             <Route exact path="/Marketplace" element={<Marketplace/>}/>
 
@@ -151,17 +160,6 @@ function App() {
             <Route exact path="/GameCredits" element={<Gamecredits/>}/>
             <Route exact path="/GameCredits/:gamecreditCanonical" element={<Gamecredit/>}/>
             <Route exact path="/GameCredits/Robux" element={<Robux/>}/>
-            {/* <Route exact path="/Giftcard" element={<Giftcard/>}/> */}
-            {(LoginUsername != null && userLoggedInState != null && userLoggedInDetails != undefined) &&
-            <>
-              <Route exact path="/MyProfile" element={<Profile/>}/>
-              <Route exact path="/MyFavorites" element={<Favorites/>}/>
-              <Route exact path="/MyCart" element={<Cart/>}/>
-              <Route exact path="/ClaimACode" element={<RedeemProduct/>}/>
-              <Route exact path="/success" element={<Success/>}/>
-            </>}
-            {(getAdminCredentials && userLoggedInState) && <Route path="/Admin" element={<Admin/>}/>}
-            {(getSellerCredentials && userLoggedInState) && <Route path="/SellerPanel" element={<SellerPanel/>}/>}
 
             <Route exact path="/AboutUs" element={<AboutUs/>}/>
             <Route exact path="/ContactUS" element={<ContactUs/>}/>

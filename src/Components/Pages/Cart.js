@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom';
 import "../CSS/cart.css";
 import { Link } from 'react-router-dom';
@@ -56,83 +56,178 @@ const Cart = () => {
     const AGUserProductTransferAPI = process.env.REACT_APP_AG_TRANSFER_PRODUCTS_API;
     const AGUserTransactionHistoryAPI = process.env.REACT_APP_AG_TRANSACTION_HISTORY_API;
 
-    const [productGameDetails, setGameProductDetails] = useState([]);
-    const [productGiftcardDetails, setGiftcardProductDetails] = useState([]);
-    const [productGamecreditDetails, setGamecreditProductDetails] = useState([]);
-    const [allPrductsDetails, setAllProductDetails] = useState([]);
+    const [allProductDetails, setAllProductDetails] = useState([]);
+    const [giftcardProductDetails, setGiftcardProductDetails] = useState([]);
+    const [gamecreditProductDetails, setGamecreditProductDetails] = useState([]);
+    const [gameProductDetails, setGameProductDetails] = useState([]);
+
     const [cartTotalPayment, setCartTotalPayment] = useState([]);
+    const [loadingProducts, setLoadingProducts] = useState(false);
+    const [checkoutTotal, setCheckoutTotal] = useState(0);
+    const [agPoints, setAGPoints] = useState(0);
+    const [productSubtotalSum, setProductSubtotalSum] = useState(0);
 
     const [transactionHash, setTransactionHash] = useState('');
-    const [loadingProducts, setLoadingProducts] = useState(true);
     const [orderQuantities, setOrderQuantities] = useState({});
 
     const [finalCheckout,setFinalcheckout] = useState(false)
 
-    const calculateEffectivePrice = (price, discount) => {
-      return price - (price * (discount / 100));
-    };
-    const fetchCartProducts = () => {
-      try {
+    // const calculateEffectivePrice = (price, discount) => {
+    //   return price - (price * (discount / 100));
+    // };
+    // const fetchCartProducts = () => {
+    //   setLoadingProducts(true);
 
-        const cartGameWithData = gameProducts.map(product => {
-          const productData = viewAGData1.find(game => game.game_canonical === product.ag_product_id);
-          const effectivePrice = calculateEffectivePrice(productData.stock.ag_product_price, productData.stock.ag_product_discount);
-          const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
-          const totalPrice  = effectivePrice*numberOfOrder
-          return { ...product, productData, effectivePrice, totalPrice, numberOfOrder};
-        });
+    //   try {
 
-        const cartGiftcardWithData = giftcardProducts.map(product => {
-          const productData = giftcards.find(giftcard => giftcard.giftcard_id === product.ag_product_id);
-          const effectivePrice = calculateEffectivePrice(productData.giftcard_denomination, 0);
-          const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
-          const totalPrice  = effectivePrice*numberOfOrder
-          return { ...product, productData, effectivePrice, totalPrice, numberOfOrder};
-        });
+    //     const cartGameWithData = gameProducts.map(product => {
+    //       const productData = viewAGData1.find(game => game.game_canonical === product.ag_product_id);
+    //       const effectivePrice = calculateEffectivePrice(productData.stock.ag_product_price, productData.stock.ag_product_discount);
+    //       const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
+    //       const totalPrice  = effectivePrice*numberOfOrder
+    //       return { ...product, productData, effectivePrice, totalPrice, numberOfOrder};
+    //     });
 
-        const cartGamecreditWithData = gamecreditProducts.map(product => {
-          const productData = gamecredits.find(gamecredit => gamecredit.gamecredit_id === product.ag_product_id);
-          const effectivePrice = calculateEffectivePrice(productData.gamecredit_denomination, 0);
-          const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
-          const totalPrice  = effectivePrice*numberOfOrder
-          return { ...product, productData, effectivePrice, totalPrice, numberOfOrder};
-        });
+    //     const cartGiftcardWithData = giftcardProducts.map(product => {
+    //       const productData = giftcards.find(giftcard => giftcard.giftcard_id === product.ag_product_id);
+    //       const effectivePrice = calculateEffectivePrice(productData.giftcard_denomination, 0);
+    //       const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
+    //       const totalPrice  = effectivePrice*numberOfOrder
+    //       return { ...product, productData, effectivePrice, totalPrice, numberOfOrder};
+    //     });
+
+    //     const cartGamecreditWithData = gamecreditProducts.map(product => {
+    //       const productData = gamecredits.find(gamecredit => gamecredit.gamecredit_id === product.ag_product_id);
+    //       const effectivePrice = calculateEffectivePrice(productData.gamecredit_denomination, 0);
+    //       const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
+    //       const totalPrice  = effectivePrice*numberOfOrder
+    //       return { ...product, productData, effectivePrice, totalPrice, numberOfOrder};
+    //     });
 
 
-        const combinedDataGame = [...cartGameWithData];
-        const combinedDataGiftcard = [...cartGiftcardWithData];
-        const combinedDataGamecredit = [...cartGamecreditWithData];
-        const combinedAllData = [...cartGameWithData, ...cartGiftcardWithData, ...cartGamecreditWithData];
-        setAllProductDetails(combinedAllData);
-        setGiftcardProductDetails(combinedDataGiftcard);
-        setGamecreditProductDetails(combinedDataGamecredit);
-        setGameProductDetails(combinedDataGame);
-        setCartTotalPayment(combinedAllData);
+    //     const combinedDataGame = [...cartGameWithData];
+    //     const combinedDataGiftcard = [...cartGiftcardWithData];
+    //     const combinedDataGamecredit = [...cartGamecreditWithData];
+    //     const combinedAllData = [...cartGameWithData, ...cartGiftcardWithData, ...cartGamecreditWithData];
+    //     setAllProductDetails(combinedAllData);
+    //     setGiftcardProductDetails(combinedDataGiftcard);
+    //     setGamecreditProductDetails(combinedDataGamecredit);
+    //     setGameProductDetails(combinedDataGame);
+    //     setCartTotalPayment(combinedAllData);
         
+        
+    //   } catch (error) {
+    //     // console.log('Error fetching cart products:', error);
+    //   } finally {
+    //     setLoadingProducts(false);
+    //   }
+    // };
+    // useEffect(() => {
+    //   const interval = setInterval(() => {
+    //     fetchCartProducts(carts);
+    //     fetchUserCart(productCart);
+    //   }, 1000); // Increment every second
+    //   return () => clearInterval(interval); 
+    // }, [ carts, productCart ]);
+    const calculateEffectivePrice = (price, discount) => price - (price * discount) / 100;
 
-        const timeout = setTimeout(() => {
-          setLoadingProducts(false);
-        }, 3500); // 3.5 seconds
+    const mapProductsWithData = (products, dataset, key, getPrice) =>
+      products.map((product) => {
+        const productData = dataset.find((item) => item[key] === product.ag_product_id);
+        const effectivePrice = getPrice(productData);
+        const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
+        const totalPrice = effectivePrice * numberOfOrder;
+        return { ...product, productData, effectivePrice, totalPrice, numberOfOrder };
+      });
   
-        return () => {
-          clearTimeout(timeout);
-        }
-        
+    const fetchCartProducts = useCallback(() => {
+      setLoadingProducts(true);
+  
+      try {
+        const cartGameWithData = mapProductsWithData(
+          gameProducts,
+          viewAGData1,
+          'game_canonical',
+          (data) => calculateEffectivePrice(data.stock.ag_product_price, data.stock.ag_product_discount)
+        );
+  
+        const cartGiftcardWithData = mapProductsWithData(
+          giftcardProducts,
+          giftcards,
+          'giftcard_id',
+          (data) => calculateEffectivePrice(data.giftcard_denomination, 0)
+        );
+  
+        const cartGamecreditWithData = mapProductsWithData(
+          gamecreditProducts,
+          gamecredits,
+          'gamecredit_id',
+          (data) => calculateEffectivePrice(data.gamecredit_denomination, 0)
+        );
+  
+        const combinedAllData = [
+          ...cartGameWithData,
+          ...cartGiftcardWithData,
+          ...cartGamecreditWithData,
+        ];
+  
+        setAllProductDetails(combinedAllData);
+        setGiftcardProductDetails(cartGiftcardWithData);
+        setGamecreditProductDetails(cartGamecreditWithData);
+        setGameProductDetails(cartGameWithData);
+
+        setCartTotalPayment(combinedAllData);
+        // Calculate subtotal, fees, and points
+        const subtotal = combinedAllData
+          .map((subTotal) => subTotal.totalPrice)
+          .reduce((acc, cur) => acc + cur, 0);
+
+        const transactionFeeRate = 7.5 / 100;
+        const agTaxFee = 3 / 100;
+        const agProductCharge = 4.5 / 100;
+
+        const transactionFee = subtotal * (agTaxFee + agProductCharge);
+        const checkoutOverallTotal = subtotal + transactionFee;
+
+        const agProductPoints = subtotal / 10;
+
+        // Update state with calculated totals
+        setProductSubtotalSum(subtotal);
+        setCheckoutTotal(checkoutOverallTotal);
+        setAGPoints(agProductPoints);
       } catch (error) {
-        // console.log('Error fetching cart products:', error);
-      } 
-    };
+        console.error('Error fetching cart products:', error);
+      } finally {
+        setLoadingProducts(false);
+      }
+    }, [gameProducts, giftcardProducts, gamecreditProducts, viewAGData1, giftcards, gamecredits]);
+  
     useEffect(() => {
-      fetchCartProducts(carts);
-      fetchUserCart(productCart);
-    }, [ carts, productCart ]);
+      fetchCartProducts(); // Fetch products on component mount.
+  
+      // Optionally, use polling only if necessary.
+      const interval = setInterval(() => {
+        fetchCartProducts();
+        fetchUserCart(productCart);
+      }, 5000);
+      return () => clearInterval(interval); // Cleanup on unmount.
+    }, [fetchCartProducts, fetchUserCart, productCart]);
+
+
+
+
+
+
+
+
+
     useEffect(() => {
       const interval = setInterval(() => {
-        if (allPrductsDetails) {
+        if (allProductDetails) {
           const date = new Date();
           const dateString = date.toLocaleDateString();
           const timeString = date.toLocaleTimeString();
-          const combinedString = `${allPrductsDetails}${dateString}${timeString}`;
+          const combinedString = `${allProductDetails}${dateString}${timeString}`;
           const hashValue = CryptoJS.SHA256(combinedString).toString(CryptoJS.enc.Hex);
           const agTransactionHash = `AG_${hashValue.slice(0, 18)}`;
           setTransactionHash(agTransactionHash);
@@ -142,7 +237,7 @@ const Cart = () => {
       }, 1000); // Update hash every second
   
       return () => clearInterval(interval);
-    }, [allPrductsDetails]);
+    }, [allProductDetails]);
     const handleQuantityChange = (productId, value) => {
       setOrderQuantities(prevQuantities => ({
           ...prevQuantities,
@@ -161,47 +256,56 @@ const Cart = () => {
             return product;
         });
       });
-      setCartTotalPayment(allPrductsDetails);
+      setCartTotalPayment(allProductDetails);
     };
-    const productSubtotalSum = cartTotalPayment.map(subTotal => subTotal.totalPrice).reduce((acc, cur) => acc + cur, 0);
-    const agTaxFee = (3/100);
-    const agProductCharge = (4.5/100);
-    const checkoutOverallTotal = productSubtotalSum + (agProductCharge*productSubtotalSum) + (agTaxFee*productSubtotalSum);
-    const agProductPointsSum = cartTotalPayment.map(subTotal => subTotal.totalPrice).reduce((acc, cur) => acc + cur, 0);
-    const checkoutOverallAGPoints = agProductPointsSum/10;
+    // const productSubtotalSum = cartTotalPayment.map(subTotal => subTotal.totalPrice).reduce((acc, cur) => acc + cur, 0);
+    // const agTaxFee = (3/100);
+    // const agProductCharge = (4.5/100);
+    // const checkoutOverallTotal = productSubtotalSum + (agProductCharge*productSubtotalSum) + (agTaxFee*productSubtotalSum);
+    // const agProductPointsSum = cartTotalPayment.map(subTotal => subTotal.totalPrice).reduce((acc, cur) => acc + cur, 0);
+    // const checkoutOverallAGPoints = agProductPointsSum/10;
     const handleRemoveFromCart = (details) => {
       const removeDetails = {
         user: userLoggedData.userid,
-        cart: details.ag_product_id
-      }
+        cart: details.ag_product_id,
+      };
       const removeToCartJSON = JSON.stringify(removeDetails);
+    
       axios({
-          method: 'delete',
-          url: AGUserRemoveToCartAPI,
-          data: removeToCartJSON,
-          headers: {
-              'Content-Type': 'application/json'
-          }
+        method: 'delete',
+        url: AGUserRemoveToCartAPI,
+        data: removeToCartJSON,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
-      .then(response => {
+        .then((response) => {
           if (response.data.success) {
-            fetchCartProducts(carts);
+            // Update the cart state locally to remove the product
+            setAllProductDetails((prevDetails) =>
+              prevDetails.filter((product) => product.ag_product_id !== details.ag_product_id)
+            );
+            setCartTotalPayment((prevCart) =>
+              prevCart.filter((product) => product.ag_product_id !== details.ag_product_id)
+            );
+    
+            // Fetch the latest cart data to sync with the backend
             fetchUserCart(productCart);
             navigate('/MyCart');
           } else {
             console.log(`Error: ${response.data.message}`);
           }
-      })
-      .catch(error => {
+        })
+        .catch((error) => {
           console.log(`Error: ${error.message}`);
-      });
+        });
     };
     const renderCartProducts = () => {
       return (
         <>
-          {(allPrductsDetails.length != 0) ? 
+          {(allProductDetails.length != 0) ? 
             <>
-                {productGameDetails.map((details, i) => (
+                {gameProductDetails.map((details, i) => (
                   <div className="cartpcm1clProduct website" key={i}>
                     <img src={`https://2wave.io/GameCovers/${details.productData.game_cover}`} alt="" />
                     <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
@@ -214,7 +318,7 @@ const Cart = () => {
                     </div>
                   </div>
                 ))}
-                {productGiftcardDetails.map((details, i) => (
+                {giftcardProductDetails.map((details, i) => (
                   <div className="cartpcm1clProduct website" key={i}>
                       <img src={`https://2wave.io/GiftCardCovers/${details.productData.giftcard_cover}`} alt="" />
                       <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
@@ -228,7 +332,7 @@ const Cart = () => {
                       </div>
                   </div>
                 ))}
-                {productGamecreditDetails.map((details, i) => (
+                {gamecreditProductDetails.map((details, i) => (
                     <div className="cartpcm1clProduct website" key={i}>
                         <img src={`https://2wave.io/GameCreditCovers/${details.productData.gamecredit_cover}`} alt="" />
                         <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
@@ -254,9 +358,9 @@ const Cart = () => {
     const renderCartProductsMobile = () => {
       return (
         <>
-          {(allPrductsDetails.length != 0) ? 
+          {(allProductDetails.length != 0) ? 
             <>
-              {productGameDetails.map((details, i) => (
+              {gameProductDetails.map((details, i) => (
                   <div className="cartpcm1clProduct mobile" key={i}>
                       <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
                       <h5>{details.productData.game_title} - {details.productData.game_platform}</h5>
@@ -266,7 +370,7 @@ const Cart = () => {
                       </div>
                   </div>
               ))}
-              {productGiftcardDetails.map((details, i) => (
+              {giftcardProductDetails.map((details, i) => (
                   <div className="cartpcm1clProduct mobile" key={i}>
                       <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
                       <h5>{details.productData.giftcard_name} - ${details.productData.giftcard_denomination}</h5>
@@ -276,7 +380,7 @@ const Cart = () => {
                       </div>
                   </div>
               ))}
-              {productGamecreditDetails.map((details, i) => (
+              {gamecreditProductDetails.map((details, i) => (
                   <div className="cartpcm1clProduct mobile" key={i}>
                       <button onClick={() => handleRemoveFromCart(details)}><FaTimes className='faIcons'/></button>
                       <h5>{details.productData.gamecredit_name} - ${details.productData.gamecredit_denomination}</h5>
@@ -311,7 +415,7 @@ const Cart = () => {
       }
       const specificProductIds = [];
       const numberOfRows = [];
-      allPrductsDetails.forEach(product => {
+      allProductDetails.forEach(product => {
         specificProductIds.push(product.ag_product_id);
         numberOfRows.push(product.numberOfOrder);
       });
@@ -333,13 +437,13 @@ const Cart = () => {
         numberOfRows: flattenedNumberOfRows,
       };
 
-      const agProductNames = allPrductsDetails.map(products => products.ag_product_name);
-      const agProductID = allPrductsDetails.map(products => products.ag_product_id);
-      const agProductQuantity = allPrductsDetails.map(products => products.numberOfOrder);
-      const agProductPrice = allPrductsDetails.map(products => products.effectivePrice);
+      const agProductNames = allProductDetails.map(products => products.ag_product_name);
+      const agProductID = allProductDetails.map(products => products.ag_product_id);
+      const agProductQuantity = allProductDetails.map(products => products.numberOfOrder);
+      const agProductPrice = allProductDetails.map(products => products.effectivePrice);
       const agProductPurchasedDate = new Date();
       const agProductTransactionHash = transactionHash;
-      const agOverallAGPoints = checkoutOverallAGPoints;
+      const agOverallAGPoints = agPoints;
 
 
       const transactionData = {
@@ -413,7 +517,7 @@ const Cart = () => {
         )} */}
         {finalCheckout ? 
           <>
-            <CheckoutForm setFinalcheckout={setFinalcheckout} cartTotalPayment={cartTotalPayment} allPrductsDetails={allPrductsDetails} totalprice={checkoutOverallTotal} handleSubmitTransaction={handleSubmitTransaction}/>
+            <CheckoutForm setFinalcheckout={setFinalcheckout} cartTotalPayment={cartTotalPayment} allProductDetails={allProductDetails} totalprice={checkoutTotal} handleSubmitTransaction={handleSubmitTransaction}/>
           </>:
           <>
             <section className="cartPageContainer mid">
@@ -440,7 +544,7 @@ const Cart = () => {
                       <h6>
                         <TbDeviceGamepad2 className="faIcons" /> GAMES
                       </h6>
-                      {productGameDetails.map((details, i) => (
+                      {gameProductDetails.map((details, i) => (
                         <span key={i}>
                           <p id="productTitle">
                             {details.productData.game_title} -{" "}
@@ -461,7 +565,7 @@ const Cart = () => {
                       <h6>
                         <TbGiftCard className="faIcons" /> GIFTCARDS
                       </h6>
-                      {productGiftcardDetails.map((details, i) => (
+                      {giftcardProductDetails.map((details, i) => (
                         <span key={i}>
                           <p id="productTitle">
                             {details.productData.giftcard_name} - $
@@ -482,7 +586,7 @@ const Cart = () => {
                       <h6>
                         <TbDiamond className="faIcons" /> GAME CREDITS
                       </h6>
-                      {productGamecreditDetails.map((details, i) => (
+                      {gamecreditProductDetails.map((details, i) => (
                         <span key={i}>
                           <p id="productTitle">
                             {details.productData.gamecredit_name} - $
@@ -501,30 +605,25 @@ const Cart = () => {
                       ))}
                     </div>
                     <div className="cartpcm1crCheckout">
-                      <span>
-                        <p>SUBTOTAL</p>
-                        <h6>$ {productSubtotalSum.toFixed(2)}</h6>
-                      </span>
-                      <span>
-                        <p>TRANSACTION FEE</p>
-                        <h6>7.5%</h6>
-                      </span>
-                      {/* <span>
-                        <p>OUR CHARGE</p>
-                        <h6>4.5%</h6>
-                      </span> */}
-                      <hr />
-                      <span>
-                        <p>AG POINTS</p>
-                        <h6>
-                          {checkoutOverallAGPoints.toFixed(2)}{" "}
-                          <FaBolt className="faIcons" />
-                        </h6>
-                      </span>
-                      <span>
-                        <p>PAYABLE</p>
-                        <h6>$ {checkoutOverallTotal.toFixed(2)}</h6>
-                      </span>
+                    <span>
+                      <p>SUBTOTAL</p>
+                      <h6>$ {productSubtotalSum.toFixed(2)}</h6>
+                    </span>
+                    <span>
+                      <p>TRANSACTION FEE</p>
+                      <h6>7.5%</h6>
+                    </span>
+                    <hr />
+                    <span>
+                      <p>AG POINTS</p>
+                      <h6>
+                        {agPoints.toFixed(2)} <FaBolt className="faIcons" />
+                      </h6>
+                    </span>
+                    <span>
+                      <p>PAYABLE</p>
+                      <h6>$ {checkoutTotal.toFixed(2)}</h6>
+                    </span>
                       <button onClick={continueCheckout} className={(cartTotalPayment.length === 0) ? 'noProducts' : 'hasProducts'} disabled={(cartTotalPayment.length === 0) ? true : false}>
                         {(cartTotalPayment.length === 0) ? 'EMPTY CART' : 'CHECKOUT PRODUCTS'}
                       </button>
