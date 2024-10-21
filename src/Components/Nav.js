@@ -529,15 +529,15 @@ const Nav = () => {
                   <input type="email" placeholder='ex. playerOne01@email.com' value={agUserEmail} onChange={(e) => setAGUserEmail(e.target.value)} required/>
                 </div>
                 {confirmCode &&(
-                <>
-                  <div className="confirmEmail">
-                    <label htmlFor=""><p>Email verification code</p></label>
-                    <input type="text" value={codeInput} onChange={handleInputCode}/>
-                  </div>
-                  <span>
-                    <p>{message}</p>
-                  </span>
-                </>
+                  <>
+                    <div className="confirmEmail">
+                      <label htmlFor=""><p>Email verification code</p></label>
+                      <input type="text" value={codeInput} onChange={handleInputCode}/>
+                    </div>
+                    <span>
+                      <p>{message}</p>
+                    </span>
+                  </>
                 )}
                 <div>
                   <label htmlFor=""><p>Username</p></label>

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 const CartsFetchContext = createContext();
@@ -10,36 +10,45 @@ export const CartsFetchDataProvider = ({ children }) => {
     const [carts, setCarts] = useState([]);
 
 
-    // Fetch data once when component mounts
-    const fetchUserCart = async () => {
-        try {
-          const response = await axios.get(AGUserProductsCartAPI);
-          const filteredData = response.data.filter(
-            (product) => product.ag_user_id === LoginUserID
-          );
-          const gameCartProducts = filteredData.filter(
-            (product) =>
-              product.ag_product_type === 'Game' ||
-              product.ag_product_type === 'Giftcard' ||
-              product.ag_product_type === 'Game Credit'
-          );
-          const filteredCartID = gameCartProducts.map((cart) => cart.ag_product_id);
-    
-          setProductCarts(gameCartProducts);
-          setCarts(filteredCartID);
-        } catch (error) {
-          console.error('Error fetching user cart:', error);
-        }
-    };
+    // Use useCallback to memoize fetch function to avoid unnecessary re-renders.
+    const fetchUserCart = useCallback(async () => {
+      try {
+        const response = await axios.get(AGUserProductsCartAPI);
+        const filteredData = response.data.filter(
+          (product) => product.ag_user_id === LoginUserID
+        );
 
-    
-    const gameProducts = productCart.filter(product => product.ag_product_type === 'Game');
-    const giftcardProducts = productCart.filter(product => product.ag_product_type === 'Giftcard');
-    const gamecreditProducts = productCart.filter(product => product.ag_product_type === 'Game Credit');
+        const gameCartProducts = filteredData.filter((product) =>
+          ['Game', 'Giftcard', 'Game Credit'].includes(product.ag_product_type)
+        );
 
+        const filteredCartID = gameCartProducts.map((cart) => cart.ag_product_id);
+
+        setProductCarts(gameCartProducts);
+        setCarts(filteredCartID);
+      } catch (error) {
+        console.error('Error fetching user cart:', error);
+      }
+    }, [AGUserProductsCartAPI, LoginUserID]);
+
+    // Fetch the cart data once when the component mounts.
     useEffect(() => {
-        fetchUserCart(productCart);
-    }, []);
+      fetchUserCart();
+      // Optionally: Use polling every X minutes (if required).
+      const interval = setInterval(() => fetchUserCart(), 1000); // 1 sec
+      return () => clearInterval(interval); // Clean up on unmount
+    }, [fetchUserCart]);
+
+    // Filter products by type once the productCart state is updated.
+    const gameProducts = productCart.filter(
+      (product) => product.ag_product_type === 'Game'
+    );
+    const giftcardProducts = productCart.filter(
+      (product) => product.ag_product_type === 'Giftcard'
+    );
+    const gamecreditProducts = productCart.filter(
+      (product) => product.ag_product_type === 'Game Credit'
+    );
 
 
     return (
