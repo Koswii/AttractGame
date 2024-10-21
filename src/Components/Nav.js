@@ -437,6 +437,9 @@ const Nav = () => {
         localStorage.removeItem('attractGameUsername');
         localStorage.removeItem('profileUserID');
         localStorage.removeItem('profileDataJSON');
+        localStorage.removeItem('initialiaze3DSData');
+        localStorage.removeItem('authenticate3DSData');
+        localStorage.removeItem('newCustomerID');
         setViewUserCredentials(false);
         window.location.reload();
         navigate('/')
