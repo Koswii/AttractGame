@@ -472,20 +472,57 @@ iframe#challengeIframe{
         font-size: 3vw;
     }
     .totalpriceDatasummary h2{
-        font-size: 8vw;
+        font-size: 12vw;
     }
     .totalpriceDatasummary{
         margin: 3vw 0 0 0;
         padding: 0 1vw;
     }
-    #payment-form p{
-        text-align: center;
+
+
+
+    .paymentStatusModalContents{
+        height: 50vw;
+        width: 80%;
+        border-radius: 5vw;
+        padding: 8% 2%;
+    }
+    .paymentStatusModalContents h3{
+        animation: bounce3 2s ease infinite;
+        font-size: 20vw;
+        line-height: 15vw;
+    }
+    .paymentStatusModalContents h6{
         font-size: 3vw;
     }
-    .payment-crypto iframe{
-        height: 60vh;
-        width: 90%;
-        border-radius: 1vw;
+
+
+
+
+
+
+
+
+
+
+    .checkoutProductsummary form label p{
+        font-size: 2.5vw;
     }
+    .checkoutProductName input{
+        font-size: 3vw;
+    }
+    .checkoutProductCard input,
+    .checkoutProductMonth input,
+    .checkoutProductYear input,
+    .checkoutProductCvv input,
+    .checkoutProductPostal input{
+        font-size: 3vw;
+    }
+    .checkoutProductDisclaimer p{
+        font-size: 3vw;
+    }
+
+
+
 
 }

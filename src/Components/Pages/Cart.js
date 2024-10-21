@@ -183,8 +183,8 @@ const Cart = () => {
           .reduce((acc, cur) => acc + cur, 0);
 
         const transactionFeeRate = 7.5 / 100;
-        const agTaxFee = 3 / 100;
-        const agProductCharge = 4.5 / 100;
+        const agTaxFee = 2.5 / 100;
+        const agProductCharge = 3.5 / 100;
 
         const transactionFee = subtotal * (agTaxFee + agProductCharge);
         const checkoutOverallTotal = subtotal + transactionFee;
@@ -611,7 +611,7 @@ const Cart = () => {
                     </span>
                     <span>
                       <p>TRANSACTION FEE</p>
-                      <h6>7.5%</h6>
+                      <h6>6%</h6>
                     </span>
                     <hr />
                     <span>
