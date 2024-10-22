@@ -21,12 +21,6 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
     userLoggedData,
     rapidcentAcessToken
   } = UserProfileData();
-  const [message, setMessage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [successTransfer,setSuccessTransfer] = useState(false)
-
-  const [checkOutprod,setCheckoutprod] = useState(cartTotalPayment)
-
   const [loader,setLoader] = useState(true)
   const [gameData,setGamedata] = useState()
   const [giftCardData,setGiftCardData] = useState()
@@ -56,46 +50,6 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
     };
     fetchIP();
   }, []);
-
-  // console.log(cartTotalPayment);
-
-  const handleSubmitform = async (e) => {
-    e.preventDefault();
-    setSuccessTransfer(true);
-
-    // if (!stripe || !elements) {
-    //     // Stripe.js hasn't yet loaded.
-    //     // Make sure to disable form submission until Stripe.js has loaded.
-    //     return;
-    // }
-
-    // setIsLoading(true);
-
-
-    // const [error] = await stripe.confirmPayment({
-    //   elements,
-    //   confirmParams: {
-    //     // Return URL where the customer should be redirected after the PaymentIntent is confirmed.
-    //     // return_url: 'https://example.com',
-    //   },
-    //     redirect: 'if_required'
-    // })
-    // .then(function(result) {
-    //   if (result.paymentIntent === undefined) {
-    //     console.log('error occured');
-    //     setIsLoading(false);
-    //     setMessage(result.error.message);
-    //   } else if (result.paymentIntent.status === "succeeded") {
-    //     setIsLoading(false);
-    //     transactionData();
-    //     setSuccesstransaction(true);
-    //     setClientSecret();
-    //     const navigatePage = navigate('/MyCart')
-    //   } 
-    // });
-
-
-  };
 
   
   setTimeout(() => {
@@ -207,7 +161,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
 
     const options = {
       method: 'GET',
-      url: 'https://uatstage00-api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/customers/export',
+      url: 'https://api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/customers/export',
       params: {dateParam},
       headers: {
         Accept: 'application/json',
@@ -255,7 +209,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
         email: `${customerEmail}`,
       };
       const response = await axios.post(
-        'https://uatstage00-api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/customers',
+        'https://api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/customers',
         JSON.stringify(customerDetails), // Send payload as raw JSON string
         {
           headers: {
@@ -324,7 +278,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       };
   
       const response = await axios.post(
-        'https://uatstage00-api.rapidcents.com/api/ddd/init',
+        'https://api.rapidcents.com/api/ddd/init',
         JSON.stringify(payload), // Send payload as raw JSON string
         {
           headers: {
@@ -422,7 +376,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       };
 
       const response = await axios.post(
-        'https://uatstage00-api.rapidcents.com/api/ddd/authenticate',
+        'https://api.rapidcents.com/api/ddd/authenticate',
         JSON.stringify(payload2), // Send payload as raw JSON string
         {
           headers: {
@@ -573,7 +527,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       };
   
       const response = await axios.post(
-        'https://uatstage00-api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/sale',
+        'https://api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/sale',
         JSON.stringify(paymentData), // Send payload as raw JSON string
         {
           headers: {
