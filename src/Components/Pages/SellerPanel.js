@@ -32,6 +32,7 @@ import {
     TbMessages,
     TbMessage2,
     TbSend,
+    TbTrash,
     TbReceipt, 
     TbCash,        
 } from "react-icons/tb";
@@ -67,6 +68,8 @@ const UsernameSlicer = ({ text = '', maxLength }) => {
 const SellerPanel = () => {
     const [activeView, setActiveView] = useState('default');
     const { 
+        isLoading,
+        fetchUserStores,
         viewAllUserList,
         viewAllUserProfile,
         userLoggedData, 
@@ -79,18 +82,27 @@ const SellerPanel = () => {
         fetchUserTicketMessages
     } = UserProfileData();
     const { 
+        loadingMarketData,
         viewAGData1,
         fetchGames1,
         fetchGames2
     } = GamesFetchData();
     const { 
+        loadingGiftcards,
         giftcards,
         fetchGiftcards
     } = GiftcardsFetchData();
     const { 
+        loadingGamecredit,
         gamecredits,
         fetchGamecredits
     } = GamecreditsFetchData();
+    
+
+    const outsourceGames = viewAGData1.filter(seller => seller.game_seller != `${userLoggedData.store}`)
+    const outsourceGiftcards = giftcards.filter(seller => seller.giftcard_seller != `${userLoggedData.store}`)
+    const outsourceGameCredits = gamecredits.filter(seller => seller.gamecredit_seller != `${userLoggedData.store}`)
+    const allExistingProducts = [...outsourceGames, ...outsourceGiftcards, ...outsourceGameCredits];
 
     const AGAddGamesAPI = process.env.REACT_APP_AG_ADD_GAMES_API;
     const AGAddGameCoverAPI = process.env.REACT_APP_AG_ADD_GAME_COVER_API;
@@ -102,6 +114,8 @@ const SellerPanel = () => {
     const AGProductStateAPI = process.env.REACT_APP_AG_PRODUCT_STATE_CREDENTIALS_API;
     const AGSellerTixReponseAPI = process.env.REACT_APP_AG_USERS_TICKET_RESPONSE_API;
     const AGSendTixMessageAPI = process.env.REACT_APP_AG_USERS_TICKET_SEND_MESSAGE_API;
+    const [addProductModal, setAddProductModal] = useState(false);
+    const [addProductResponse, setAddProductResponse] = useState('');
 
     const gameStocksNum = viewAvailableStockNumber.filter(stock => stock.ag_product_type === "Games")
     const giftcardsStocksNum = viewAvailableStockNumber.filter(stock => stock.ag_product_type === "Giftcards")
@@ -149,6 +163,159 @@ const SellerPanel = () => {
     const handleViewFaqs = () => {
         setActiveView('faqs');
     };
+
+
+
+
+    const handleFlipProduct = async (productCode) => {
+        const pCode = allExistingProducts.find(pCodeID => 
+        pCodeID.game_canonical === productCode || 
+        pCodeID.giftcard_id === productCode || 
+        pCodeID.gamecredit_id === productCode 
+    );
+
+        if (pCode.game_canonical){
+            const agSetGameTitle = pCode.game_title;
+            const agSetGameEdition = pCode.game_edition;
+            const agSetGamePlatform = pCode.game_platform;
+            const agSetGameCode1 = agSetGameTitle.replace(/\s/g, '');
+            const agSetGameCode2 = agSetGamePlatform.replace(/\s/g, '');
+            const agSetGameCode3 = agSetGameEdition.replace(/\s/g, '');
+            
+            const formFlipGameDetails = {
+                agGameCode: `${userLoggedData.storesymbol}_${agSetGameCode1}_${agSetGameCode2}`,
+                agGameCover: pCode.game_cover,
+                agGameTitle: pCode.game_title,
+                agGameCanonical: `${agSetGameCode1}${agSetGameCode2}_${agSetGameCode3}_${userLoggedData.storesymbol}`,
+                agGameEdition: pCode.game_edition,
+                agGameCountry: pCode.game_country,
+                agGameDeveloper: pCode.game_developer,
+                agGameRelease: pCode.game_released,
+                agGameCategory: pCode.game_category,
+                agGamePlatform: pCode.game_platform,
+                agGameTrailer: pCode.game_trailer,
+                agGameSeller: userLoggedData.store,
+                agGameHighlight1: '',
+                agGameSupplier: '',
+                agGameAvailable: '',
+                agGameRestricted: '',
+            };
+
+            // const test = JSON.stringify(formFlipGameDetails)
+            // console.log(test);
+            
+
+
+            try {
+                const addGameResponse = await axios.post(AGAddGamesAPI, formFlipGameDetails);
+                const responseMessage = addGameResponse.data;
+        
+                if (responseMessage.success) {
+                    setAddProductModal(true);
+                    setAddProductResponse(responseMessage.message);
+                    fetchGames2();
+
+                    const timeoutId = setTimeout(() => {
+                        setAddProductModal(false)
+                        setAddProductResponse('');
+                    }, 5000);
+                    return () => clearTimeout(timeoutId);
+                }
+        
+            } catch (error) {
+                console.error(error);
+            }
+            
+        }
+
+        if (pCode.giftcard_id){
+            const agSetGiftCardTitle = pCode.giftcard_name;
+            const agSetGiftCardCode1 = agSetGiftCardTitle.replace(/\s/g, '');
+
+            const formFlipGiftcardDetails = {
+                agGiftcardCode: `${userLoggedData.storesymbol}_${agSetGiftCardCode1}_${pCode.giftcard_denomination}`,
+                agGiftcardCover: pCode.giftcard_cover,
+                agGiftcardTitle: pCode.giftcard_name,
+                agGiftcardCanonical : pCode.giftcard_canonical,
+                agGiftcardDenomination: pCode.giftcard_denomination,
+                agGiftcardSupplier: pCode.giftcard_seller,
+                agGiftcardSeller: userLoggedData.store,
+                agGiftcardCategory: pCode.giftcard_category,
+                agGiftcardDescription: pCode.giftcard_description,
+            };
+
+            
+            // const test = JSON.stringify(formFlipGiftcardDetails)
+            // console.log(test);
+
+            try {
+                const addGiftcardResponse = await axios.post(AGAddGiftcardsAPI, formFlipGiftcardDetails);
+                const responseMessage = addGiftcardResponse.data;
+        
+                if (responseMessage.success) {
+                    setAddProductModal(true);
+                    setAddProductResponse(responseMessage.message);
+                    fetchGiftcards()
+                    
+                    const timeoutId = setTimeout(() => {
+                        setAddProductModal(false)
+                        setAddProductResponse('');
+                    }, 5000);
+                    return () => clearTimeout(timeoutId);
+                }
+        
+            } catch (error) {
+                console.error(error);
+            } 
+
+        }
+
+        if (pCode.gamecredit_id){
+            const agSetGameCreditTitle = pCode.gamecredit_name;
+            const agSetGameCreditCode1 = agSetGameCreditTitle.replace(/\s/g, '');
+
+            const formAddGamecreditsDetails = {
+                agGamecreditCode: `${userLoggedData.storesymbol}_${agSetGameCreditCode1}GameCredit_${pCode.gamecredit_denomination}`,
+                agGamecreditCover: pCode.gamecredit_cover,
+                agGamecreditTitle: pCode.gamecredit_name,
+                agGamecreditNumber : pCode.gamecredit_number,
+                agGamecreditType: pCode.gamecredit_type,
+                agGamecreditCanonical : pCode.gamecredit_canonical,
+                agGamecreditDenomination: pCode.gamecredit_denomination,
+                agGamecreditSupplier: pCode.gamecredit_seller,
+                agGamecreditSeller: userLoggedData.store,
+                agGamecreditCategory: pCode.gamecredit_category,
+                agGamecreditDescription: pCode.gamecredit_description,
+            };
+
+            
+            // const test = JSON.stringify(formAddGamecreditsDetails)
+            // console.log(test);
+
+            try {
+                const addGamecreditResponse = await axios.post(AGAddGameCreditsAPI, formAddGamecreditsDetails);
+                const responseMessage = addGamecreditResponse.data;
+        
+                if (responseMessage.success) {
+                    setAddProductModal(true);
+                    setAddProductResponse(responseMessage.message);
+                    fetchGamecredits()
+                    
+                    const timeoutId = setTimeout(() => {
+                        setAddProductModal(false)
+                        setAddProductResponse('');
+                    }, 5000);
+                    return () => clearTimeout(timeoutId);
+                }
+        
+            } catch (error) {
+                console.error(error);
+            } 
+        }
+    
+    };
+
+
 
     const [formResponse, setFormResponse] = useState('');
     // Seller Add Game Setup
@@ -239,6 +406,16 @@ const SellerPanel = () => {
                 setAGSetGameRestricted('');
                 fetchGames1();
                 fetchGames2();
+
+                
+                setAddProductModal(true);
+                setAddProductResponse(responseMessage.message);
+
+                const timeoutId = setTimeout(() => {
+                    setAddProductModal(false)
+                    setAddProductResponse('');
+                }, 5000);
+                return () => clearTimeout(timeoutId);
             }
             // Sending game cover image
             const response = await axios.post(AGAddGameCoverAPI, formImageDataSeller, {
@@ -246,7 +423,7 @@ const SellerPanel = () => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            console.log(response.data);
+            // console.log(response.data);
         } catch (error) {
             console.error(error);
         }
@@ -308,6 +485,16 @@ const SellerPanel = () => {
                 setAGSetGiftCardCategory('');
                 setAGSetGiftCardDescription('');
                 fetchGiftcards();
+
+                
+                setAddProductModal(true);
+                setAddProductResponse(responseMessage.message);
+                
+                const timeoutId = setTimeout(() => {
+                    setAddProductModal(false)
+                    setAddProductResponse('');
+                }, 5000);
+                return () => clearTimeout(timeoutId);
             }
             // Sending giftcard cover image
             const response = await axios.post(AGAddGiftcardCoverAPI, formImageGCVData, {
@@ -379,6 +566,16 @@ const SellerPanel = () => {
                 setAGSetGameCreditType('');
                 setAGSetGameCreditDescription('');
                 fetchGamecredits();
+
+                
+                setAddProductModal(true);
+                setAddProductResponse(responseMessage.message);
+                
+                const timeoutId = setTimeout(() => {
+                    setAddProductModal(false)
+                    setAddProductResponse('');
+                }, 5000);
+                return () => clearTimeout(timeoutId);
             }
     
             // Sending game credit cover image
@@ -411,7 +608,18 @@ const SellerPanel = () => {
     const viewSellerGames = viewAGData1.filter(seller => seller.game_seller === userLoggedData.store)
     const viewSellerGiftcards = giftcards.filter(seller => seller.giftcard_seller === userLoggedData.store)
     const viewSellerGamecredits = gamecredits.filter(seller => seller.gamecredit_seller === userLoggedData.store)
+    const allMarketProducts = [...viewSellerGames, ...viewSellerGiftcards, ...viewSellerGamecredits]
 
+    const currentSellerStocks = viewSellerStock.map(product => {
+        const details = allMarketProducts.find(stock => 
+            stock.game_canonical === product.ag_product_id ||
+            stock.giftcard_id === product.ag_product_id ||
+            stock.gamecredit_id === product.ag_product_id
+        );
+        return {
+            ...product, ...details,
+        };
+    });
     const sellerOpenProduct = (productCode) => {
         const viewGameProduct = viewSellerGames.find(pCodeID => pCodeID.game_code === productCode)
         const viewGiftcardProduct = viewSellerGiftcards.find(pCodeID => pCodeID.giftcard_id === productCode)
@@ -435,34 +643,24 @@ const SellerPanel = () => {
         window.document.body.style.overflow = 'auto';
     }
 
-
-
     const [searchTermGames, setSearchTermGames] = useState('');
     const [searchTermGiftcards, setSearchTermGiftcards] = useState('');
     const [searchTermGameCredits, setSearchTermGameCredits] = useState('');
 
-    const filteredGames = viewAGData1.filter((game) =>
+    const filteredGames = outsourceGames.filter((game) =>
         game.game_title.toLowerCase().includes(searchTermGames.toLowerCase())
     );
-    const filteredGiftCards = giftcards.filter((giftcard) =>
+    const filteredGiftCards = outsourceGiftcards.filter((giftcard) =>
         giftcard.giftcard_name.toLowerCase().includes(searchTermGiftcards.toLowerCase())
     );
-    const filteredGameCredits = gamecredits.filter((gamecredit) =>
+    const filteredGameCredits = outsourceGameCredits.filter((gamecredit) =>
         gamecredit.gamecredit_name.toLowerCase().includes(searchTermGameCredits.toLowerCase())
     );
 
-
-
-
-
-
-
-
-
-    
     const [productSellerPrice, setProductSellerPrice] = useState('')
     const [productSellerDiscount, setProductSellerDiscount] = useState('')
     const [productSellerCode, setProductSellerCode] = useState('');
+
     const handleAddProductCodeGames = async (e) => {
         e.preventDefault();
     
@@ -583,8 +781,6 @@ const SellerPanel = () => {
 
     };
 
-
-    // console.log(giftcards);
     
     
 
@@ -841,6 +1037,12 @@ const SellerPanel = () => {
                         </div>
                     </div>}
                     {activeView === 'games' && <div className="sppcm1AddGames">
+                        {addProductModal && <div className="sppcm1AddProductResponse">
+                            <div className="sppcm1AddProductContent">
+                                <img src={`https://2wave.io/StoreLogo/${userLoggedData.store}.png`} alt="" />
+                                <p>{addProductResponse}</p>
+                            </div>
+                        </div>}
                         <div className="sppcm1AddGameContainer">
                             <div className="sppcm1AGameContent left">
                                 <h5>ADD GAME TO LIST</h5>
@@ -858,7 +1060,7 @@ const SellerPanel = () => {
                                         {filteredGames.length > 0 ? (
                                             filteredGames.map((game, i) => (
                                                 <div className="sppcm1agclcProducts" key={i}>
-                                                    <button>+</button>
+                                                    <button onClick={() => handleFlipProduct(game.game_canonical)}>+</button>
                                                     <div>
                                                         <h6>{game.game_title}</h6>
                                                         <p>
@@ -990,6 +1192,12 @@ const SellerPanel = () => {
                         </div>
                     </div>}
                     {activeView === 'giftcards' && <div className="sppcm1GiftCards">
+                        {addProductModal && <div className="sppcm1AddProductResponse">
+                            <div className="sppcm1AddProductContent">
+                                <img src={`https://2wave.io/StoreLogo/${userLoggedData.store}.png`} alt="" />
+                                <p>{addProductResponse}</p>
+                            </div>
+                        </div>}
                         <div className="sppcm1AddGiftCardContainer">
                             <div className="sppcm1AGiftCardContent left">
                                 <h5>ADD GIFTCARD TO LIST</h5>
@@ -1008,7 +1216,7 @@ const SellerPanel = () => {
                                         {filteredGiftCards.length > 0 ? (
                                             filteredGiftCards.map((giftcard, i) => (
                                                 <div className="sppcm1agclcProducts" key={i}>
-                                                    <button>+</button>
+                                                    <button onClick={() => handleFlipProduct(giftcard.giftcard_id)}>+</button>
                                                     <div>
                                                         <h6>{giftcard.giftcard_name}</h6>
                                                         <p>
@@ -1092,6 +1300,12 @@ const SellerPanel = () => {
                         </div>
                     </div>}
                     {activeView === 'gamecredits' && <div className="sppcm1GameCredits">
+                        {addProductModal && <div className="sppcm1AddProductResponse">
+                            <div className="sppcm1AddProductContent">
+                                <img src={`https://2wave.io/StoreLogo/${userLoggedData.store}.png`} alt="" />
+                                <p>{addProductResponse}</p>
+                            </div>
+                        </div>}
                         <div className="sppcm1AddGameCreditsContainer">
                             <div className="sppcm1AGameCreditsContent left">
                                 <h5>ADD GCREDITS TO LIST</h5>
@@ -1110,7 +1324,7 @@ const SellerPanel = () => {
                                         {filteredGameCredits.length > 0 ? (
                                             filteredGameCredits.map((gamecredit, i) => (
                                                 <div className="sppcm1agclcProducts" key={i}>
-                                                    <button>+</button>
+                                                    <button onClick={() => handleFlipProduct(gamecredit.gamecredit_id)}>+</button>
                                                     <div>
                                                         <h6>{gamecredit.gamecredit_name}</h6>
                                                         <p>
@@ -1328,121 +1542,128 @@ const SellerPanel = () => {
                             </div>
                         )}
                         <div className="sppcm1ProductlistContainer">
-                            {/* <div className="sppcm1ProductlistContent left">
-                                <div className="sppcm1ProductLeft-header">
-                                    <h4>WELCOME ADMIN!</h4><br />
-                                    <p>
-                                        Within this administrative interface, you have the ability to effortlessly 
-                                        integrate new codes for games, gift cards and vouchers. 
-                                        Every detail is meticulously logged and securely stored in our database, 
-                                        ensuring thorough management and easy access.
-                                    </p>
-                                </div>
-                                <div className="totalGameProducts">
-                                    <ul>
-                                        <li>
-                                            <h1>0 Games</h1>
-                                            <p>Total Listed Games</p>
-                                        </li>
-                                        <li>
-                                            <h1>0 Giftcards</h1>
-                                            <p>Total Listed Giftcards</p>
-                                        </li>
-                                        <li>
-                                            <h1>0 GCredits</h1>
-                                            <p>Total Listed Game Credits</p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div> */}
                             <div className="sppcm1ProductlistContent right">
                                 <h4>ALL LISTED PRODUCTS</h4>
                                 <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Add your digital codes here for all your listed products.</p>
                                 <div className="sppcm1ProductRight-productList">
                                     <>
                                         <h5>GAMES LISTED</h5>
-                                        {(viewSellerGames.length > 0) ?
-                                        <ul>
-                                            {viewSellerGames.map(game => (
-                                                <li key={game.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCovers/${game.game_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                                                    <div className="sppcm1Gameinfo-edit">
-                                                        <section>
-                                                            <button onClick={() => sellerOpenProduct(game.game_code)}>Add Code</button>
-                                                            <Link to={`/Games/${game.game_canonical}`} target='_blank'><FaExternalLinkAlt className='faIcons'/></Link>
-                                                        </section>
-                                                    </div>
-                                                    <div className="sppcm1Gameinfo">
-                                                        <h1><UsernameSlicer text={`${game.game_title}`} maxLength={35} /></h1>
-                                                        <p>{game.game_edition}</p>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ul>:
-                                        <div id='viewSellerProductEmpty'>
-                                            <h6>
-                                                <TbDeviceGamepad2 className='faIcons'/><br />
-                                                <span>You don't have any Game/s added yet.</span>
-                                            </h6>
-                                        </div>}
+                                        {!loadingMarketData ? <>
+                                            {(viewSellerGames.length > 0) ?
+                                                <ul>
+                                                    {viewSellerGames.map(game => (
+                                                        <li key={game.id}>
+                                                            <img src={`https://2wave.io/GameCovers/${game.game_cover}`} alt="" />
+                                                            <div className="sppcm1giShadow"></div>
+                                                            <div className="sppcm1Gameinfo-edit">
+                                                                <section>
+                                                                    <button onClick={() => sellerOpenProduct(game.game_code)}>Add Code</button>
+                                                                    <Link to={`/Games/${game.game_canonical}`} target='_blank'><FaExternalLinkAlt className='faIcons'/></Link>
+                                                                </section>
+                                                            </div>
+                                                            <div className="sppcm1Gameinfo">
+                                                                <h1><UsernameSlicer text={`${game.game_title}`} maxLength={35} /></h1>
+                                                                <p>{game.game_edition}</p>
+                                                            </div>
+                                                        </li>
+                                                    ))}
+                                                </ul>:
+                                                <div id='viewSellerProductEmpty'>
+                                                    <h6>
+                                                        <TbDeviceGamepad2 className='faIcons'/><br />
+                                                        <span>You don't have any Game/s added yet.</span>
+                                                    </h6>
+                                                </div>
+                                            }
+                                        </>:<>
+                                            <div id='viewSellerProductEmpty'>
+                                                <h6>
+                                                    <TbDeviceGamepad2 className='faIcons'/><br />
+                                                    <span>Loading up the Games you added.</span>
+                                                </h6>
+                                            </div>
+                                        </>}
                                     </>
                                     <>
                                         <h5>GIFTCARDS LISTED</h5>
-                                        {(viewSellerGiftcards.length > 0) ?
-                                        <ul>
-                                            {viewSellerGiftcards.map(cards => (
-                                                <li key={cards.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GiftCardCovers/${cards.giftcard_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                                                    <div className="sppcm1gcDenomination">
-                                                        <h6><sup>$</sup>{cards.giftcard_denomination}</h6>
-                                                    </div>
-                                                    <div className="sppcm1Gameinfo-edit">
-                                                        <section>
-                                                            <button onClick={() => sellerOpenProduct(cards.giftcard_id)}>Add Code</button>
-                                                            <Link to={`/Giftcards/${cards.giftcard_canonical}`} target='_blank'><FaExternalLinkAlt className='faIcons'/></Link>
-                                                        </section>
-                                                    </div>
-                                                    <div className="sppcm1Gameinfo">
-                                                        <h1>{cards.giftcard_name}</h1>
-                                                        <p>{cards.giftcard_category}</p>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ul>:
-                                        <div id='viewSellerProductEmpty'>
-                                            <h6>
-                                                <TbGiftCard className='faIcons'/><br />
-                                                <span>You don't have any Giftcard/s added yet.</span>
-                                            </h6>
-                                        </div>}
+                                        {!loadingGiftcards ? <>
+                                            {(viewSellerGiftcards.length > 0) ?
+                                            <ul>
+                                                {viewSellerGiftcards.map(cards => (
+                                                    <li key={cards.id}>
+                                                        <img src={`https://2wave.io/GiftCardCovers/${cards.giftcard_cover}`} alt="" />
+                                                        <div className="sppcm1giShadow"></div>
+                                                        <div className="sppcm1gcDenomination">
+                                                            <h6><sup>$</sup>{cards.giftcard_denomination}</h6>
+                                                        </div>
+                                                        <div className="sppcm1Gameinfo-edit">
+                                                            <section>
+                                                                <button onClick={() => sellerOpenProduct(cards.giftcard_id)}>Add Code</button>
+                                                                <Link to={`/Giftcards/${cards.giftcard_canonical}`} target='_blank'><FaExternalLinkAlt className='faIcons'/></Link>
+                                                            </section>
+                                                        </div>
+                                                        <div className="sppcm1Gameinfo">
+                                                            <h1>{cards.giftcard_name}</h1>
+                                                            <p>{cards.giftcard_category}</p>
+                                                        </div>
+                                                    </li>
+                                                ))}
+                                            </ul>:
+                                            <div id='viewSellerProductEmpty'>
+                                                <h6>
+                                                    <TbGiftCard className='faIcons'/><br />
+                                                    <span>You don't have any Giftcard/s added yet.</span>
+                                                </h6>
+                                            </div>}
+                                        </>:<>
+                                            <div id='viewSellerProductEmpty'>
+                                                <h6>
+                                                    <TbGiftCard className='faIcons'/><br />
+                                                    <span>Loading up the Giftcards you added..</span>
+                                                </h6>
+                                            </div>
+                                        </>}
                                     </>
                                     <>
                                         <h5>GAME CREDITS LISTED</h5>
-                                        {(viewSellerGamecredits.length > 0) ?
-                                        <ul>
-                                            {viewSellerGamecredits.map(credits => (
-                                                <li key={credits.id} style={{ background: `linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%),url('https://2wave.io/GameCreditCovers/${credits.gamecredit_cover}')no-repeat center`, backgroundSize: 'cover'}}>
-                                                    <div className="sppcm1gcDenomination">
-                                                        <h6><sup>$</sup>{credits.gamecredit_denomination}</h6>
-                                                    </div>
-                                                    <div className="sppcm1Gameinfo-edit">
-                                                        <section>
-                                                            <button onClick={() => sellerOpenProduct(credits.gamecredit_id)}>Add Code</button>
-                                                            <Link to={`/GameCredits/${credits.gamecredit_id}`} target='_blank'><FaExternalLinkAlt className='faIcons'/></Link>
-                                                        </section>
-                                                    </div>
-                                                    <div className="sppcm1Gameinfo">
-                                                        <h1>{credits.gamecredit_name}</h1>
-                                                        <p>{credits.gamecredit_number} {credits.gamecredit_type}</p>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                        :
-                                        <div id='viewSellerProductEmpty'>
-                                            <h6>
-                                                <TbDiamond className='faIcons'/><br />
-                                                <span>You don't have any Game Credit/s added yet.</span>
-                                            </h6>
-                                        </div>}
+                                        {!loadingGamecredit ? <>
+                                            {(viewSellerGamecredits.length > 0) ?
+                                            <ul>
+                                                {viewSellerGamecredits.map(credits => (
+                                                    <li key={credits.id}>
+                                                        <img src={`https://2wave.io/GameCreditCovers/${credits.gamecredit_cover}`} alt="" />
+                                                        <div className="sppcm1giShadow"></div>
+                                                        <div className="sppcm1gcDenomination">
+                                                            <h6><sup>$</sup>{credits.gamecredit_denomination}</h6>
+                                                        </div>
+                                                        <div className="sppcm1Gameinfo-edit">
+                                                            <section>
+                                                                <button onClick={() => sellerOpenProduct(credits.gamecredit_id)}>Add Code</button>
+                                                                <Link to={`/GameCredits/${credits.gamecredit_id}`} target='_blank'><FaExternalLinkAlt className='faIcons'/></Link>
+                                                            </section>
+                                                        </div>
+                                                        <div className="sppcm1Gameinfo">
+                                                            <h1>{credits.gamecredit_name}</h1>
+                                                            <p>{credits.gamecredit_number} {credits.gamecredit_type}</p>
+                                                        </div>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                            :
+                                            <div id='viewSellerProductEmpty'>
+                                                <h6>
+                                                    <TbDiamond className='faIcons'/><br />
+                                                    <span>You don't have any Game Credit/s added yet.</span>
+                                                </h6>
+                                            </div>}
+                                        </>:<>
+                                            <div id='viewSellerProductEmpty'>
+                                                <h6>
+                                                    <TbDiamond className='faIcons'/><br />
+                                                    <span>Loading up the Gamecredits you added..</span>
+                                                </h6>
+                                            </div>
+                                        </>}
                                     </>
                                 </div>
                             </div>
@@ -1454,12 +1675,40 @@ const SellerPanel = () => {
                                 <h4>CODE INVENTORY</h4>
                                 <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Here, you can easily check and monitor your code stocks listed on the market.</p>
                                 <div className="sppcm1icSellerCodes">
-                                    <div className="sppcm1icscEmpty">
-                                        <span>
-                                            <h5><TbPackages className='faIcons'/></h5>
-                                            <p>No Codes added yet</p>
-                                        </span>
-                                    </div>
+                                    {(currentSellerStocks.length > 0) ? 
+                                        <>
+                                            {currentSellerStocks.map((data, i) => (
+                                                <div className="sppcm1icscInfo" key={i}>
+                                                    <div className='sppcm1icsciType'>
+                                                        <p>{data.ag_product_type}</p>
+                                                    </div>
+                                                    <div className='sppcm1icsciName'>
+                                                        <p>{data.game_title}</p>
+                                                    </div>
+                                                    <div className='sppcm1icsciState'>
+                                                        <p>{data.ag_product_state}</p>
+                                                    </div>
+                                                    <div className='sppcm1icsciStatus'>
+                                                        <p>{data.ag_product_status}</p>
+                                                    </div>
+                                                    <div className='sppcm1icsciOwner'>
+                                                        <p>{data.ag_product_owner}</p>
+                                                    </div>
+                                                    <div className='sppcm1icsciDetails'>
+                                                        <button className={(data.ag_product_state === "Sold") ? 'sold' : ''} disabled={data.ag_product_state === "Sold"}><TbSend className='faIcons'/></button>
+                                                        <button className={(data.ag_product_state === "Sold") ? 'sold' : ''} disabled={data.ag_product_state === "Sold"}><TbTrash className='faIcons'/></button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </>:<>
+                                            <div className="sppcm1icscEmpty">
+                                                <span>
+                                                    <h5><TbPackages className='faIcons'/></h5>
+                                                    <p>No Codes added yet</p>
+                                                </span>
+                                            </div>
+                                        </>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -1618,7 +1867,7 @@ const SellerPanel = () => {
                         <div className="sppcm1SoldContainer">
                             <div className="sppcm1TransactionContent">
                                 <h4>PRODUCT TRANSACTIONS</h4>
-                                <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Here, you can easily check and monitor your code stocks listed on the market.</p>
+                                <p id='sppcm1pcrInfo'><TbInfoCircle className='faIcons'/> Here, you can easily check and monitor all of your transactions.</p>
                                 <div className="sppcm1Transactions">
                                     <div className="sppcm1tEmpty">
                                         <span>

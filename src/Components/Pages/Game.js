@@ -327,7 +327,7 @@ const Game = () => {
                 </div>
             )}
             <section className="gamePageContainer top">
-                {!loadingMarketData ? 
+                {loadingMarketData ? 
                 <div className="gpPageContentTop">
                     <div className="gppctGameDetails loading">
                         <div className="gppctgdlmageDummy"></div>

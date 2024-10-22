@@ -311,24 +311,29 @@ section.gamesPageContainer.top{
     line-height: 0.8vw;
     color: lightgray;
 }
-.gmspct2gDetails div{
+.gmspct2gdPrice{
+    height: auto;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: black;
 }
-.gmspct2gDetails div h6{
+.gmspct2gdPrice h6{
     width: 65%;
     text-align: center;
     padding: 2%;
     border: solid 2px white;
     border-radius: 50px;
+    background: black;
 }
-.gmspct2gDetails div h6#gameNoStocks{
+.gmspct2gdPrice h6#gameNoStocks{
     font-size: 0.8vw;
     padding: 3% 2%;
     color: gray;
+    background: black;
 }
-.gmspct2gDetails div button{
+.gmspct2gdPrice button{
     font-size: 1.2vw;
     line-height: 1vw;
     background: none;
@@ -337,12 +342,12 @@ section.gamesPageContainer.top{
     outline: none;
     cursor: pointer;
 }
-.gmspct2gDetails div button#gmspct2gdRemoveFav,
-.gmspct2gDetails div button .faIcons.red{
+.gmspct2gdPrice button#gmspct2gdRemoveFav,
+.gmspct2gdPrice button .faIcons.red{
     color: red;
 }
-.gmspct2gDetails div button#gmspct2gdCartAdded,
-.gmspct2gDetails div button .faIcons.gold{
+.gmspct2gdPrice button#gmspct2gdCartAdded,
+.gmspct2gdPrice button .faIcons.gold{
     color: gold;
 }
 
@@ -459,35 +464,34 @@ section.gamesPageContainer.top{
     }
     .gmspct2gDetails h5{
         font-size: 4vw;
-        height: 8vw;
         line-height: 4vw;
     }
     .gmspct2gDetails p{
         font-size: 2.3vw;
     }
-    .gmspct2gDetails div h6{
+    .gmspct2gdPrice h6{
         font-size: 4vw;
     }
-    .gmspct2gDetails div h6#gameNoStocks{
+    .gmspct2gdPrice h6#gameNoStocks{
         font-size: 3.5vw;
     }
-    .gmspct2gDetails div button{
+    .gmspct2gdPrice button{
         font-size: 6vw;
     }
     .gmspct2gdTitle{
-        height: 15vw;
+        height: auto;
         width: 100%;
         margin: 3% 0;
+        justify-content: center;
+        align-items: end;
     }
     .gmspct2gdTitle h5{
         width: 100%;
         font-size: 3.5vw;
-        line-height: 4vw;
     }
     .gmspct2gdTitle h5 span{
         font-size: 2.5vw;
         font-weight: 400;
-        line-height: 1.5vw;
     }
     .gmspct2GameDummy{
         height: 60vw;

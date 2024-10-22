@@ -34,7 +34,7 @@ const Gamecredits = () => {
       setFilteredGamecredits,
       gamecredits,
       filteredGamecredits,
-      loading 
+      loadingGamecredit 
   } = GamecreditsFetchData();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -73,7 +73,7 @@ const Gamecredits = () => {
       </section>
       <section className="giftcardsPageContainer mid">
         <div className="gcspContent mid1">
-            {loading ? <>
+            {loadingGamecredit ? <>
                 <div className="gcspContentMid1Dummy"></div>
                 <div className="gcspContentMid1Dummy"></div>
                 <div className="gcspContentMid1Dummy"></div>

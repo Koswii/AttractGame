@@ -267,7 +267,7 @@ const Games = () => {
                     {/* <h5>ALL GAMES</h5> */}
                     <input type="text" placeholder='Search Game Here...' value={searchGameName} onChange={handleSearchChange}/>
                     <ul className="pagination">
-                        {loadingMarketData ? renderPageNumbers : <li>0</li>}
+                        {!loadingMarketData ? renderPageNumbers : <li>0</li>}
                     </ul>
                 </div>
                 <div className="gmspContent top2">
@@ -423,9 +423,8 @@ const Games = () => {
                         </section>
                     </div>
                     <div className='gmspContentTop2 right'>
-
                         {!filterChanging ? 
-                            <>{loadingMarketData ? <>
+                            <>{!loadingMarketData ? <>
                                 {currentItems.map((details, index) => (
                                     <div className="gmspct2Game" key={index}>
                                         <div className="gmspct2gPlatform">
@@ -446,7 +445,7 @@ const Games = () => {
                                             <div className="gmspct2gdTitle">
                                                 <h5><UsernameSlicer text={`${details.game_title}`} maxLength={35} /><br /><span>{details.game_edition}</span></h5>
                                             </div>
-                                            <div>
+                                            <div className="gmspct2gdPrice">
                                                 {(details.stock === undefined) ?
                                                 <h6 id='gameNoStocks'>No Stocks</h6>:
                                                 <h6>$ {((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
@@ -533,7 +532,7 @@ const Games = () => {
                                             <div className="gmspct2gdTitle">
                                                 <h5><UsernameSlicer text={`${details.game_title}`} maxLength={35} /><br /><span>{details.game_edition}</span></h5>
                                             </div>
-                                            <div>
+                                            <div className="gmspct2gdPrice">
                                                 {(details.stock === undefined) ?
                                                 <h6 id='gameNoStocks'>No Stocks</h6>:
                                                 <h6>$ {((parseFloat(details.stock.ag_product_price) - parseFloat(details.stock.ag_product_discount / 100) * parseFloat(details.stock.ag_product_price)).toFixed(2))}
@@ -564,7 +563,7 @@ const Games = () => {
                 {searchGameName == '' && <div className="gmspContent top1 mobile">
                     <h5></h5>
                     <ul className="pagination">
-                        {loadingMarketData ? renderPageNumbers : <></>}
+                        {!loadingMarketData ? renderPageNumbers : <></>}
                     </ul>
                 </div>}
             </section>

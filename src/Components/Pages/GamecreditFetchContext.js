@@ -9,7 +9,7 @@ export const GamecreditsFetchDataProvider = ({ children }) => {
     const [viewAllGamecredits, setViewAllGamecredits] = useState([]);
     const [gamecredits, setGamecredits] = useState([]);
     const [filteredGamecredits, setFilteredGamecredits] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loadingGamecredit, setLoadingGamecredit] = useState(true);
     const [imageCache, setImageCache] = useState({});
 
     // Fetch data once when component mounts
@@ -29,7 +29,7 @@ export const GamecreditsFetchDataProvider = ({ children }) => {
 
     
     const fetchGamecredits = async () => {
-        setLoading(true);
+        setLoadingGamecredit(true);
         try {
             const response = await axios.get(AGGamecreditsListAPI);
             const gcAll = response.data;
@@ -61,7 +61,7 @@ export const GamecreditsFetchDataProvider = ({ children }) => {
         } catch (error) {
             console.error(error);
         } finally {
-            setLoading(false);
+            setLoadingGamecredit(false);
         }
     };
 
@@ -92,7 +92,7 @@ export const GamecreditsFetchDataProvider = ({ children }) => {
             viewAllGamecredits,
             gamecredits, 
             filteredGamecredits, 
-            loading,
+            loadingGamecredit,
             fetchAndCacheImageGamecredits,
             imageCache,
             fetchGamecredits 

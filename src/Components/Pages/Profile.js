@@ -169,6 +169,7 @@ const Profile = () => {
     const [randomPostID, setRandomPostID] = useState('');
     const [viewFetchPost, setViewFetchPost] = useState([]);
     const [viewFetchStory, setViewFetchStory] = useState([]);
+    
 
 
     const [gamePrice, setGamePrice] = useState('');
