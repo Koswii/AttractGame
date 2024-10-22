@@ -18,18 +18,12 @@ import {
 } from "react-icons/tb";
 
 // stripe
-import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "../Pages/checkoutform";
 import { UserProfileData } from './UserProfileContext';
 import { CartsFetchData } from './CartsFetchContext';
 import { GamesFetchData } from './GamesFetchContext';
 import { GiftcardsFetchData } from './GiftcardsFetchContext';
 import { GamecreditsFetchData } from './GamecreditFetchContext';
-
-const stripePromise = loadStripe(
-  'pk_live_51NpiTWGmWxGfJOSJJkBZLErq1wH9iElM7ixsOF0WRi7HG812NxEsHlsbQwKATn9vZm13e7iu8XsllV0VoY8LT7qJ00p1y83XlO'
-);
-
 
 
 const Cart = () => {
@@ -71,64 +65,6 @@ const Cart = () => {
     const [orderQuantities, setOrderQuantities] = useState({});
 
     const [finalCheckout,setFinalcheckout] = useState(false)
-
-    // const calculateEffectivePrice = (price, discount) => {
-    //   return price - (price * (discount / 100));
-    // };
-    // const fetchCartProducts = () => {
-    //   setLoadingProducts(true);
-
-    //   try {
-
-    //     const cartGameWithData = gameProducts.map(product => {
-    //       const productData = viewAGData1.find(game => game.game_canonical === product.ag_product_id);
-    //       const effectivePrice = calculateEffectivePrice(productData.stock.ag_product_price, productData.stock.ag_product_discount);
-    //       const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
-    //       const totalPrice  = effectivePrice*numberOfOrder
-    //       return { ...product, productData, effectivePrice, totalPrice, numberOfOrder};
-    //     });
-
-    //     const cartGiftcardWithData = giftcardProducts.map(product => {
-    //       const productData = giftcards.find(giftcard => giftcard.giftcard_id === product.ag_product_id);
-    //       const effectivePrice = calculateEffectivePrice(productData.giftcard_denomination, 0);
-    //       const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
-    //       const totalPrice  = effectivePrice*numberOfOrder
-    //       return { ...product, productData, effectivePrice, totalPrice, numberOfOrder};
-    //     });
-
-    //     const cartGamecreditWithData = gamecreditProducts.map(product => {
-    //       const productData = gamecredits.find(gamecredit => gamecredit.gamecredit_id === product.ag_product_id);
-    //       const effectivePrice = calculateEffectivePrice(productData.gamecredit_denomination, 0);
-    //       const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
-    //       const totalPrice  = effectivePrice*numberOfOrder
-    //       return { ...product, productData, effectivePrice, totalPrice, numberOfOrder};
-    //     });
-
-
-    //     const combinedDataGame = [...cartGameWithData];
-    //     const combinedDataGiftcard = [...cartGiftcardWithData];
-    //     const combinedDataGamecredit = [...cartGamecreditWithData];
-    //     const combinedAllData = [...cartGameWithData, ...cartGiftcardWithData, ...cartGamecreditWithData];
-    //     setAllProductDetails(combinedAllData);
-    //     setGiftcardProductDetails(combinedDataGiftcard);
-    //     setGamecreditProductDetails(combinedDataGamecredit);
-    //     setGameProductDetails(combinedDataGame);
-    //     setCartTotalPayment(combinedAllData);
-        
-        
-    //   } catch (error) {
-    //     // console.log('Error fetching cart products:', error);
-    //   } finally {
-    //     setLoadingProducts(false);
-    //   }
-    // };
-    // useEffect(() => {
-    //   const interval = setInterval(() => {
-    //     fetchCartProducts(carts);
-    //     fetchUserCart(productCart);
-    //   }, 1000); // Increment every second
-    //   return () => clearInterval(interval); 
-    // }, [ carts, productCart ]);
     const calculateEffectivePrice = (price, discount) => price - (price * discount) / 100;
 
     const mapProductsWithData = (products, dataset, key, getPrice) =>
@@ -138,7 +74,7 @@ const Cart = () => {
         const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
         const totalPrice = effectivePrice * numberOfOrder;
         return { ...product, productData, effectivePrice, totalPrice, numberOfOrder };
-      });
+    });
   
     const fetchCartProducts = useCallback(() => {
       setLoadingProducts(true);
@@ -258,12 +194,6 @@ const Cart = () => {
       });
       setCartTotalPayment(allProductDetails);
     };
-    // const productSubtotalSum = cartTotalPayment.map(subTotal => subTotal.totalPrice).reduce((acc, cur) => acc + cur, 0);
-    // const agTaxFee = (3/100);
-    // const agProductCharge = (4.5/100);
-    // const checkoutOverallTotal = productSubtotalSum + (agProductCharge*productSubtotalSum) + (agTaxFee*productSubtotalSum);
-    // const agProductPointsSum = cartTotalPayment.map(subTotal => subTotal.totalPrice).reduce((acc, cur) => acc + cur, 0);
-    // const checkoutOverallAGPoints = agProductPointsSum/10;
     const handleRemoveFromCart = (details) => {
       const removeDetails = {
         user: userLoggedData.userid,
@@ -495,26 +425,8 @@ const Cart = () => {
       setFinalcheckout(true)
     }
 
-    // if(successtransaction){
-    //   window.document.body.style.overflow = 'hidden';
-    // } else{
-    //   window.document.body.style.overflow = 'auto';
-    // }
-
     return (
-      // <></>
       <div className="mainContainer cart">
-        {/* {successtransaction && (
-          <div className="successTransaction">
-            <div className="successTransactionContainer">
-              <span><FaClipboardCheck /></span>
-              <section>
-                <h1>THANK YOU FOR PURCHASING.</h1>
-                <p>Check your Profile for your Products.</p>
-              </section>
-            </div>
-          </div>
-        )} */}
         {finalCheckout ? 
           <>
             <CheckoutForm setFinalcheckout={setFinalcheckout} cartTotalPayment={cartTotalPayment} allProductDetails={allProductDetails} totalprice={checkoutTotal} handleSubmitTransaction={handleSubmitTransaction}/>
