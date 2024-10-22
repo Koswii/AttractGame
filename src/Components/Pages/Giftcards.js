@@ -32,7 +32,7 @@ const Giftcards = () => {
         setFilteredGiftcards,
         giftcards,
         filteredGiftcards,
-        loading 
+        loadingGiftcards 
     } = GiftcardsFetchData();
     const [searchTerm, setSearchTerm] = useState("");
     useEffect(() => {
@@ -56,7 +56,7 @@ const Giftcards = () => {
             </section>
             <section className="giftcardsPageContainer mid">
                 <div className="gcspContent mid1">
-                    {loading ? <>
+                    {loadingGiftcards ? <>
                         <div className="gcspContentMid1Dummy"></div>
                         <div className="gcspContentMid1Dummy"></div>
                         <div className="gcspContentMid1Dummy"></div>

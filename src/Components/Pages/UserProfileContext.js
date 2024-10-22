@@ -100,6 +100,8 @@ export const UserProfileDataProvider = ({ children }) => {
         }
     };
     const fetchUserTicketReport = async () => {
+        setIsLoading(true);
+
         try {
             const response = await axios.get(AGUsersTicketReport);
             const TicketReportData = response.data;
@@ -112,6 +114,8 @@ export const UserProfileDataProvider = ({ children }) => {
             setViewTicketReport(TicketReportSort);
         } catch (error) {
             console.error(error);
+        } finally {
+            setIsLoading(false);
         }
     };
     const fetchUserTicketMessages = async () => {
@@ -223,7 +227,7 @@ export const UserProfileDataProvider = ({ children }) => {
         const fetchSellerStockList = async () => {
             try {
                 const response = await axios.get(AGSellerStockList);
-                const stockSeller = response.data.filter(user => user.ag_product_seller === LoginUsername);
+                const stockSeller = response.data.filter(user => user.ag_product_seller === userLoggedData.store);
                 const availableStocks = stockSeller.filter(stocks => stocks.ag_product_state === 'Available')
                 const soldStocks = stockSeller.filter(stocks => stocks.ag_product_state === 'Sold')
                 setViewSellerStock(stockSeller);
@@ -347,6 +351,7 @@ export const UserProfileDataProvider = ({ children }) => {
             setUserProductCodeIDData,
             isLoading, 
             setIsLoading,
+            fetchUserStores,
             fetchUserProductIds,
             fetchUserTransactionHistory,
             fetchUserTicketReport,

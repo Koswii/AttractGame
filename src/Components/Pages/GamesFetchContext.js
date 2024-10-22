@@ -12,7 +12,7 @@ export const GamesFetchDataProvider = ({ children }) => {
     const [viewAGData2, setViewAGData2] = useState([]);
     const [viewWikiData, setViewWikiData] = useState([]);
     const [viewMetacriticData, setViewMetacriticData] = useState([]);
-    const [loadingMarketData, setLoadingMarketData] = useState(true);
+    const [loadingMarketData, setLoadingMarketData] = useState(false);
     const [loadingMarketData2, setLoadingMarketData2] = useState(true);
     const [imageCache, setImageCache] = useState({});
     const AGGamesListAPI1 = process.env.REACT_APP_AG_GAMES_LIST_API;
@@ -24,7 +24,7 @@ export const GamesFetchDataProvider = ({ children }) => {
     };
 
     const fetchGames1 = async () => {
-        setLoadingMarketData(false);
+        setLoadingMarketData(true);
         try {
             const response1 = await axios.get(AGGamesListAPI1);
             const agAllGames = response1.data;
@@ -41,9 +41,10 @@ export const GamesFetchDataProvider = ({ children }) => {
                 };
             });
             setViewAGData1(stockInfo);
-            setLoadingMarketData(true);
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoadingMarketData(false);
         }
     };
 

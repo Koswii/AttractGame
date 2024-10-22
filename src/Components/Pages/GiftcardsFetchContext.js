@@ -9,7 +9,7 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
     const [viewAllGiftcards, setViewAllGiftcards] = useState([]);
     const [giftcards, setGiftcards] = useState([]);
     const [filteredGiftcards, setFilteredGiftcards] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loadingGiftcards, setLoadingGiftcards] = useState(true);
     const [imageCache, setImageCache] = useState({});
 
     // Fetch data once when component mounts
@@ -28,7 +28,7 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
     }, []);
 
     const fetchGiftcards = async () => {
-        setLoading(true);
+        setLoadingGiftcards(true);
         try {
             const response = await axios.get(AGGiftcardsListAPI);
             const gcAll = response.data;
@@ -60,7 +60,7 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
         } catch (error) {
             console.error(error);
         } finally {
-            setLoading(false);
+            setLoadingGiftcards(false);
         }
     };
 
@@ -91,7 +91,7 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
             viewAllGiftcards,
             giftcards, 
             filteredGiftcards, 
-            loading,
+            loadingGiftcards,
             fetchAndCacheImageGiftcards,
             imageCache,
             fetchGiftcards 

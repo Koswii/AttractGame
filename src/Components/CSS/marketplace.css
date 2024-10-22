@@ -453,7 +453,7 @@ section.marketplacePageContainer.mid h4#mppcmhTitles .faIcons{
     height: 4vw;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: end;
     text-align: center;
 }
 .mppcm2gdTitle h5{
