@@ -5,10 +5,16 @@
     z-index: 10;
 }
 iframe#challengeIframe{
-    display: none !important; 
+    /* display: none !important; 
     opacity: 0;
     height: 0;
-    width: 0;
+    width: 0; */
+    background: white;
+    position: absolute;
+    top: 55%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    height: 35vw;
 }
 .formdataContainer{
     height: auto;
