@@ -66,13 +66,6 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
   };
 
 
-  const cancelCheckout = () => {
-    setFinalcheckout(false)
-  }
-
-
-  
-  
 
   const getInitialize3DSData = () => {
     const data = localStorage.getItem('initialiaze3DSData');
@@ -86,12 +79,14 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
     const data = localStorage.getItem('newCustomerID');
     return data ? JSON.parse(data) : null; // Return parsed data or null if not found
   };
+  const getTransactionStatusY = () => {
+    const data = localStorage.getItem('getTransactionStatusY');
+    return data ? JSON.parse(data) : null; // Return parsed data or null if not found
+  };
   const BusinessID = process.env.REACT_APP_RAPIDCENT_BUSINESS_ID;
   const BearerToken = rapidcentAcessToken.access_token
   const amount = totalprice.toFixed(2);
   const customerEmail = userLoggedData.email
-  const [threeDSData, setThreeDSData] = useState({});
-  const [threeDSServerTransID, setThreeDSServerTransID] = useState('');
   const [paymentProcessingModal, setPaymentProcessingModal] = useState(false);
   const [paymentErrorModal, setPaymentErrorModal] = useState(false);
   const [paymentSecureModal, setPaymentSecureModal] = useState(false);
@@ -106,6 +101,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
     firstName: '',
     lastName: '',
   });
+
   
   // Handler to update cardData state
   const handleInputChange = (e) => {
@@ -161,7 +157,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
 
     const options = {
       method: 'GET',
-      url: 'https://api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/customers/export',
+      url: 'https://uatstage00-api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/customers/export',
       params: {dateParam},
       headers: {
         Accept: 'application/json',
@@ -196,7 +192,6 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
     }
   };
 
-
   // Rapidcent Create Customer
   const createCustomerDetails = async () => {
     setPaymentProcessingResponse('Creating Account on Rapidcent');
@@ -209,7 +204,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
         email: `${customerEmail}`,
       };
       const response = await axios.post(
-        'https://api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/customers',
+        'https://uatstage00-api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/customers',
         JSON.stringify(customerDetails), // Send payload as raw JSON string
         {
           headers: {
@@ -240,24 +235,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
     }
   };
 
-
   // Rapidcent 3DS setup Logic
-  // Step 1: Add event listener for 3D secure server response
-  useEffect(() => {
-    const handle3DSServerResponse = (event) => {
-      if (event.data?.param?.threeDSServerTransID) {
-        setThreeDSServerTransID(event.data.param.threeDSServerTransID);
-      }
-      if (event.data.src === 'method_notify') {
-        dddAuthenticate(); // Proceed to step 3
-      }
-      if (event.data.src === 'challenge_notify') {
-        handleChallengeResponse(event);
-      }
-    };
-    window.addEventListener('message', handle3DSServerResponse);
-    return () => window.removeEventListener('message', handle3DSServerResponse);
-  }, []);
   // Step 1: Send request to init API
   const initialize3DSecure = async () => {
     setPaymentProcessingResponse('Initializing Rapidcent 3DSecure');
@@ -278,7 +256,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       };
   
       const response = await axios.post(
-        'https://api.rapidcents.com/api/ddd/init',
+        'https://uatstage00-api.rapidcents.com/api/ddd/init',
         JSON.stringify(payload), // Send payload as raw JSON string
         {
           headers: {
@@ -290,8 +268,6 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       const data = response.data;
       const initialiaze3DSData = JSON.stringify(data);
       localStorage.setItem('initialiaze3DSData', initialiaze3DSData);
-
-      setThreeDSData(data);
 
       if (data.status === 'DDD_FRICTIONLESS') {
         dddAuthenticate(); // Skip step 2 and proceed to authentication
@@ -305,6 +281,9 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
         setPaymentProcessingModal(false)
         setPaymentErrorModal(true)
         setPaymentProcessingResponse('3D Secure Error, Please Try Again.');
+        localStorage.removeItem('initialiaze3DSData');
+        localStorage.removeItem('authenticate3DSData');
+        localStorage.removeItem('getTransactionStatusY');
 
         const timeoutId = setTimeout(() => {
           setPaymentErrorModal(false)
@@ -322,30 +301,38 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       return () => clearTimeout(timeoutId);
     }
   };
+
   // Step 2: Invoke 3D-Secure Server
+  const [invokeTransaction, setInvokeTransaction] = useState(false)
   const invoke3DSServer = () => {
+    const init3DSData = getInitialize3DSData();
+    const threeDSMethodData = init3DSData?.threeDSMethodData || init3DSData?.data?.threeDSMethodData;
+    const threeDSMethodURL = init3DSData?.threeDSMethodURL || init3DSData?.data?.threeDSMethodURL;
+
+
     try {
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
+      const iframe = document.getElementById('myIframe');
       const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
       const form = iframeDoc.createElement('form');
       form.method = 'POST';
-      form.action = threeDSData.threeDSMethodURL;
+      form.action = threeDSMethodURL;
       const input = iframeDoc.createElement('input');
       input.type = 'hidden';
       input.name = 'threeDSMethodData';
-      input.value = threeDSData.threeDSMethodData;
+      input.value = threeDSMethodData;
+
       form.appendChild(input);
       iframeDoc.body.appendChild(form);
-      form.submit();
 
-      setPaymentProcessingResponse('Proceeding to Authentication');
-      dddAuthenticate();
+      form.submit();
+      setInvokeTransaction(true);
     } catch (error) {
       setPaymentProcessingModal(false)
       setPaymentErrorModal(true)
       setPaymentProcessingResponse('3D secure card verification failed. Please try a different card.');
+      localStorage.removeItem('initialiaze3DSData');
+      localStorage.removeItem('authenticate3DSData');
+      localStorage.removeItem('getTransactionStatusY');
 
       const timeoutId = setTimeout(() => {
         setPaymentErrorModal(false)
@@ -353,35 +340,54 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       return () => clearTimeout(timeoutId);
     }
   };
+  useEffect(() => {
+    if(!invokeTransaction){
+      return;
+    }
+
+    const handle3DSServerResponse = (event) => {
+      if (event.data?.src === 'method_notify') {
+        dddAuthenticate(); // Proceed to step 3
+      }
+      if (event.data?.src === 'challenge_notify') {
+        handleChallengeResponse(event);
+      }
+    };
+  
+    window.addEventListener('message', handle3DSServerResponse);
+    return () => window.removeEventListener('message', handle3DSServerResponse);
+  }, [invoke3DSServer, invokeTransaction]); // Add dependencies to ensure re-run if the function updates
+
   // Step 3: Authenticate the transaction
   const dddAuthenticate = async () => {    
+    setPaymentProcessingModal(true)
     const data = getInitialize3DSData();
     const sessionID = data?.sessionID || data?.data?.sessionID;
     const threeDSServerTransID = data?.threeDSServerTransID || data?.data?.threeDSServerTransID;
-    
-    try {
-      const payload2 = {
-        threeDSServerTransID: threeDSServerTransID,
-        cardData: { 
-          cardNumber: `${cardData.cardNumber}`,
-          cvv: `${cardData.cvv}`,
-          year: cardData.year,
-          month: cardData.month,
-          nameOnCard: `${cardData.firstName} ${cardData.lastName}`,
-          saveCard: 'false'
-        },
-        amount: amount,
-        sessionID: sessionID,
-        email: `${customerEmail}`
-      };
 
+    const payload2 = {
+      threeDSServerTransID: threeDSServerTransID,
+      cardData: { 
+        cardNumber: `${cardData.cardNumber}`,
+        cvv: `${cardData.cvv}`,
+        year: cardData.year,
+        month: cardData.month,
+        nameOnCard: `${cardData.firstName} ${cardData.lastName}`
+      },
+      amount: amount,
+      sessionID: sessionID,
+      email: `${customerEmail}`
+    };
+
+    try {
       const response = await axios.post(
-        'https://api.rapidcents.com/api/ddd/authenticate',
+        'https://uatstage00-api.rapidcents.com/api/ddd/authenticate',
         JSON.stringify(payload2), // Send payload as raw JSON string
         {
           headers: {
-            Accept: 'application/json', // Add Accept header
+            'Accept': 'application/json', // Add Accept header
             'Content-Type': 'application/json', // Ensure content type is JSON
+            'Authorization': `Bearer ${BearerToken}`, // Authorization header
           },
         }
       );
@@ -389,11 +395,12 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       const data = response.data;
       const authenticate3DSData = JSON.stringify(data);
       localStorage.setItem('authenticate3DSData', authenticate3DSData);
+
       if (data.status === 'C') {
-        initiateChallenge(data); // Proceed to step 4
+        initiateChallenge(); // Proceed to step 4
       } else if (['Y', 'A'].includes(data.status)) {
         setPaymentProcessingResponse('3DSecure Authentication Complete');
-        initiateTransaction(data); // Proceed to step 5
+        initiateTransaction(); // Proceed to step 5
       } else {
         setPaymentProcessingModal(false)
         setPaymentErrorModal(true)
@@ -408,6 +415,9 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       setPaymentProcessingModal(false)
       setPaymentErrorModal(true)
       setPaymentProcessingResponse('3DSecure Verification failed. Please try a different card.');
+      localStorage.removeItem('initialiaze3DSData');
+      localStorage.removeItem('authenticate3DSData');
+      localStorage.removeItem('getTransactionStatusY');
 
       const timeoutId = setTimeout(() => {
         setPaymentErrorModal(false)
@@ -415,40 +425,47 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       return () => clearTimeout(timeoutId);
     }
   };
+
   // Step 4: Handle Challenge
-  const initiateChallenge = (data) => {
+  const initiateChallenge = () => {
+    setPaymentProcessingModal(true)
     setPaymentProcessingResponse('3DSecure Authenticating');
+    const auth3DSData = getAuthenticate3DSData();
+    const acsURL = auth3DSData?.acsURL || auth3DSData?.data?.acsURL;
+    const creq = auth3DSData?.creq || auth3DSData?.data?.creq;
+    
 
     try {
+      // Create an iframe
       const iframe = document.createElement('iframe');
       const backdrop = document.createElement('div');
-      backdrop.id = 'backdrop';
-      backdrop.className =
-        'tw-absolute tw-inset-0 tw-bg-black tw-bg-opacity-75 tw-backdrop-blur';
+      backdrop.setAttribute('id', 'backdrop');
+      backdrop.setAttribute('class', 'tw-absolute tw-inset-0 tw-bg-black tw-bg-opacity-75 tw-backdrop-blur');
+      iframe.setAttribute('id', 'challengeIframe');
+      iframe.setAttribute('class', 'tw-absolute tw-z-10 tw-w-[60vw] tw-h-[auto] tw-top-[50%] tw-left-[50%] tw--translate-x-1/2 tw--translate-y-1/2 tw-rounded-lg');
       document.body.appendChild(backdrop);
-      iframe.id = 'challengeIframe';
-      iframe.className =
-        'tw-absolute tw-z-10 tw-w-[60vw] tw-h-[60vh] tw-top-[50%] tw-left-[50%] tw--translate-x-1/2 tw--translate-y-1/2 tw-rounded-lg';
       document.body.appendChild(iframe);
       const iframeDoc = iframe.contentWindow.document;
       const form = iframeDoc.createElement('form');
-      form.method = 'POST';
-      form.action = data.acsURL;
+      form.setAttribute('method', 'POST');
+      form.setAttribute('action', acsURL);
       const input = iframeDoc.createElement('input');
-      input.type = 'hidden';
-      input.name = 'creq';
-      input.value = data.creq;
+      input.setAttribute('type', 'hidden');
+      input.setAttribute('name', 'creq');
+      input.setAttribute('value', creq);
       form.appendChild(input);
       iframeDoc.body.appendChild(form);
 
-
       form.submit();
+      setPaymentProcessingModal(false)
       setPaymentProcessingResponse('3DSecure Authentication Complete');
-      initiateTransaction();
     } catch (error) {
       setPaymentProcessingModal(false)
       setPaymentErrorModal(true)
       setPaymentProcessingResponse('3DSecure Verification failed. Please try a different card.');
+      localStorage.removeItem('initialiaze3DSData');
+      localStorage.removeItem('authenticate3DSData');
+      localStorage.removeItem('getTransactionStatusY');
 
       const timeoutId = setTimeout(() => {
         setPaymentErrorModal(false)
@@ -456,16 +473,34 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       return () => clearTimeout(timeoutId);
     }
   };
+  // Handle Challenge Response
+  const handleChallengeResponse = (event) => {
+    const { param } = event.data;
+    const challengeResp = JSON.stringify(param)
+    localStorage.setItem('getTransactionStatusY', challengeResp);
+    
+    if (param.transStatus === 'Y') {
+      initiateTransaction();
+    } else if (param.challengeCancel === '01') {
+      window.location.reload();
+    } else {
+      disablePaymentLink();
+    }
+    document.getElementById('backdrop').remove();
+    document.getElementById('challengeIframe').remove();
+  };
+
   // Step 5: Proceed with transaction
   const initiateTransaction = () => {
     const customerInfo = getCustomerCreateDetails();
     const init3DSData = getInitialize3DSData();
     const auth3DSData = getAuthenticate3DSData();
+    const challengeStatusY = getTransactionStatusY();
 
+    setPaymentProcessingModal(true);
     setPaymentProcessingResponse('3DSecure Verification Complete');
     paymentTransfer();
   };
-
 
   // Send Payment to Rapidcent
   const paymentTransfer = async () => {
@@ -482,52 +517,57 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
     const threeDSServerTransID = init3DSData?.threeDSServerTransID || init3DSData?.data?.threeDSServerTransID;
 
     const auth3DSData = getAuthenticate3DSData();
-    const status = auth3DSData?.status || auth3DSData?.data?.status;
-    const eci = auth3DSData?.eci || auth3DSData?.data?.eci;
     const acsURL = auth3DSData?.acsURL || auth3DSData?.data?.acsURL;
     const creq = auth3DSData?.creq || auth3DSData?.data?.creq;
     const dsTransID = auth3DSData?.dsTransID || auth3DSData?.data?.dsTransID;
     const threeDSSessionData = auth3DSData?.threeDSSessionData || auth3DSData?.data?.threeDSSessionData;
-    const authenticationValue = auth3DSData?.authenticationValue || auth3DSData?.data?.authenticationValue;
     const version = auth3DSData?.version || auth3DSData?.data?.version;
 
+    const getChallengeRes = getTransactionStatusY();
+    const transactionStatus = getChallengeRes?.transStatus || getChallengeRes?.data?.transStatus;
+    const eci = getChallengeRes?.eci || getChallengeRes?.data?.eci;
+    const authenticationValue = getChallengeRes?.authenticationValue || getChallengeRes?.data?.authenticationValue;
+
+    const paymentData = {
+      invoice_id: "No Invoice",
+      amount: amount,
+      cardData: { 
+        cardNumber: `${cardData.cardNumber}`,
+        cvv: `${cardData.cvv}`,
+        year: cardData.year,
+        month: cardData.month,
+        nameOnCard: `${cardData.firstName} ${cardData.lastName}`
+      },
+      address: {
+        postalCode: `${cardData.postal}`
+      },
+      customerId: `${newCustomerID}`,
+      vt: false,
+      ip_address: `${getUserDeviceIP}`,
+      user_agent: `${cardData.firstName} ${cardData.lastName}`,
+      ddd: {
+        threeDSMethodURL: `${threeDSMethodURL}`,
+        threeDSMethodData: `${threeDSMethodData}`,
+        acsUrl: `${acsURL}`,
+        creq: `${creq}`,
+        dsTransID: `${dsTransID}`,
+        threeDSServerTransID: `${threeDSServerTransID}`,
+        transStatus: `${transactionStatus}`,
+        authenticationValue: `${authenticationValue}`,
+        eci: `${eci}`,
+        version: `${version}`,
+        association: `${association}`
+      },
+      dddSessionID: `${sessionID}`
+    };
+
+
+    // const test = JSON.stringify(paymentData);
+    // console.log(test);
 
     try {
-      const paymentData = {
-        invoice_id: "No Invoice",
-        amount: amount,
-        cardData: { 
-          cardNumber: `${cardData.cardNumber}`,
-          cvv: `${cardData.cvv}`,
-          year: cardData.year,
-          month: cardData.month,
-          nameOnCard: `${cardData.firstName} ${cardData.lastName}`
-        },
-        address: {
-          postalCode: `${cardData.postal}`
-        },
-        customerId: `${newCustomerID}`,
-        vt: false,
-        ip_address: `${getUserDeviceIP}`,
-        user_agent: `${cardData.firstName} ${cardData.lastName}`,
-        ddd: {
-          threeDSMethodURL: `${threeDSMethodURL}`,
-          threeDSMethodData: `${threeDSMethodData}`,
-          acsUrl: `${acsURL}`,
-          creq: `${creq}`,
-          dsTransID: `${dsTransID}`,
-          threeDSServerTransID: `${threeDSServerTransID}`,
-          transStatus: `${status}`,
-          authenticationValue: `${authenticationValue}`,
-          eci: `${eci}`,
-          version: `${version}`,
-          association: `${association}`
-        },
-        dddSessionID: `${sessionID}`
-      };
-  
       const response = await axios.post(
-        'https://api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/sale',
+        'https://uatstage00-api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/sale',
         JSON.stringify(paymentData), // Send payload as raw JSON string
         {
           headers: {
@@ -538,8 +578,8 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
         }
       );
 
-
       const data = response.data;
+
       if(data.status === "Approved"){
         setPaymentProcessingResponse('Your Payment Sent!');
         setPaymentReceipt(true);
@@ -578,6 +618,9 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
     } catch (error) {
       setPaymentProcessingModal(false)
       setPaymentErrorModal(true)
+      localStorage.removeItem('initialiaze3DSData');
+      localStorage.removeItem('authenticate3DSData');
+      localStorage.removeItem('getTransactionStatusY');
       setPaymentProcessingResponse('Payment Error Occur: Rapidcent Error.');
       
       const timeoutId = setTimeout(() => {
@@ -587,20 +630,6 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
     }
   };
 
-
-  // Handle Challenge Response
-  const handleChallengeResponse = (event) => {
-    const { param } = event.data;
-    if (param.transStatus === 'Y') {
-      initiateTransaction(param);
-    } else if (param.challengeCancel === '01') {
-      window.location.reload();
-    } else {
-      disablePaymentLink();
-    }
-    document.getElementById('backdrop').remove();
-    document.getElementById('challengeIframe').remove();
-  };
   // Disable payment link (on failure)
   const disablePaymentLink = () => {
     Swal.fire('Payment link disabled. Please try again.');
@@ -613,6 +642,15 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       exportCustomerData();
     }
   };
+
+  // Cancel Checkout
+  const cancelCheckout = () => {
+    setFinalcheckout(false)
+    localStorage.removeItem('initialiaze3DSData');
+    localStorage.removeItem('authenticate3DSData');
+    localStorage.removeItem('getTransactionStatusY');
+    localStorage.removeItem('newCustomerID');
+  }
   
   return (
     <div className="formpayment">
@@ -805,7 +843,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
                     />
                   </div>
                   <div className="checkoutProductPostal">
-                    <label><p>Postal Code:</p></label>
+                    <label><p>Zip Code:</p></label>
                     <input
                       type="text"
                       name="postal"
