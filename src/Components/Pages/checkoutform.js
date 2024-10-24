@@ -157,7 +157,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
 
     const options = {
       method: 'GET',
-      url: 'https://uatstage00-api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/customers/export',
+      url: 'https://api.rapidcents.com/api/961920bd-98a4-406e-bf2d-36f675db7782/customers/export',
       params: {dateParam},
       headers: {
         Accept: 'application/json',
@@ -204,7 +204,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
         email: `${customerEmail}`,
       };
       const response = await axios.post(
-        'https://uatstage00-api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/customers',
+        'https://api.rapidcents.com/api/961920bd-98a4-406e-bf2d-36f675db7782/customers',
         JSON.stringify(customerDetails), // Send payload as raw JSON string
         {
           headers: {
@@ -256,7 +256,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       };
   
       const response = await axios.post(
-        'https://uatstage00-api.rapidcents.com/api/ddd/init',
+        'https://api.rapidcents.com/api/ddd/init',
         JSON.stringify(payload), // Send payload as raw JSON string
         {
           headers: {
@@ -381,7 +381,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
 
     try {
       const response = await axios.post(
-        'https://uatstage00-api.rapidcents.com/api/ddd/authenticate',
+        'https://api.rapidcents.com/api/ddd/authenticate',
         JSON.stringify(payload2), // Send payload as raw JSON string
         {
           headers: {
@@ -567,7 +567,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
 
     try {
       const response = await axios.post(
-        'https://uatstage00-api.rapidcents.com/api/90662b5d-4f38-4183-9522-e97f8866affa/sale',
+        'https://api.rapidcents.com/api/961920bd-98a4-406e-bf2d-36f675db7782/sale',
         JSON.stringify(paymentData), // Send payload as raw JSON string
         {
           headers: {
