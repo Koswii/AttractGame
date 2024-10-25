@@ -326,6 +326,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
 
       form.submit();
       setInvokeTransaction(true);
+      setPaymentProcessingResponse('3DSecure Authenticating');
     } catch (error) {
       setPaymentProcessingModal(false)
       setPaymentErrorModal(true)
@@ -347,9 +348,11 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
 
     const handle3DSServerResponse = (event) => {
       if (event.data?.src === 'method_notify') {
+        setPaymentProcessingModal(false)
         dddAuthenticate(); // Proceed to step 3
       }
       if (event.data?.src === 'challenge_notify') {
+        setPaymentProcessingModal(false)
         handleChallengeResponse(event);
       }
     };
@@ -360,7 +363,6 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
 
   // Step 3: Authenticate the transaction
   const dddAuthenticate = async () => {    
-    setPaymentProcessingModal(true)
     const data = getInitialize3DSData();
     const sessionID = data?.sessionID || data?.data?.sessionID;
     const threeDSServerTransID = data?.threeDSServerTransID || data?.data?.threeDSServerTransID;
@@ -398,9 +400,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
 
       if (data.status === 'C') {
         initiateChallenge(); // Proceed to step 4
-        setPaymentProcessingModal(false)
       } else if (['Y', 'A'].includes(data.status)) {
-        setPaymentProcessingResponse('3DSecure Authentication Complete');
         initiateTransaction(); // Proceed to step 5
       } else {
         setPaymentProcessingModal(false)
@@ -429,7 +429,6 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
 
   // Step 4: Handle Challenge
   const initiateChallenge = () => {
-    setPaymentProcessingModal(false)
     setPaymentProcessingResponse('3DSecure Authenticating');
     const auth3DSData = getAuthenticate3DSData();
     const acsURL = auth3DSData?.acsURL || auth3DSData?.data?.acsURL;
@@ -444,6 +443,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       backdrop.setAttribute('class', 'tw-absolute tw-inset-0 tw-bg-black tw-bg-opacity-75 tw-backdrop-blur');
       iframe.setAttribute('id', 'challengeIframe');
       iframe.setAttribute('class', 'tw-absolute tw-z-10 tw-w-[60vw] tw-h-[auto] tw-top-[50%] tw-left-[50%] tw--translate-x-1/2 tw--translate-y-1/2 tw-rounded-lg');
+      iframe.setAttribute('sandbox', 'allow-scripts allow-forms allow-same-origin');
       document.body.appendChild(backdrop);
       document.body.appendChild(iframe);
       const iframeDoc = iframe.contentWindow.document;
@@ -458,7 +458,6 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       iframeDoc.body.appendChild(form);
 
       form.submit();
-      setPaymentProcessingModal(false)
       setPaymentProcessingResponse('3DSecure Authentication Complete');
     } catch (error) {
       setPaymentProcessingModal(false)
