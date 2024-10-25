@@ -47,9 +47,10 @@ export const GiftcardsFetchDataProvider = ({ children }) => {
             const stockListResponse = await axios.get(AGStocksListAPI);
             const stockListData = stockListResponse.data;
             const stockInfo = gcAll.map(giftcard => {
+                const stock = stockListData.find(stock => stock.ag_product_id === giftcard.giftcard_id);
                 const stockCount = stockListData.filter(stock => stock.ag_product_id === giftcard.giftcard_id).length;
                 return {
-                    ...giftcard, stocks: stockCount
+                    ...giftcard, stock, stockCount
                 };
             });
 

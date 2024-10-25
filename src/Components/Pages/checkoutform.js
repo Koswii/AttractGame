@@ -277,19 +277,8 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       if (data.status === 'DDD_INVOKE') {
         invoke3DSServer(); // Proceed to step 2
         setPaymentProcessingResponse('Sending Records to 3DSecure');
-      } else {
-        setPaymentProcessingModal(false)
-        setPaymentErrorModal(true)
-        setPaymentProcessingResponse('3D Secure Error, Please Try Again.');
-        localStorage.removeItem('initialiaze3DSData');
-        localStorage.removeItem('authenticate3DSData');
-        localStorage.removeItem('getTransactionStatusY');
+      } 
 
-        const timeoutId = setTimeout(() => {
-          setPaymentErrorModal(false)
-        }, 5000);
-        return () => clearTimeout(timeoutId);
-      }
     } catch (error) {
       setPaymentProcessingModal(false)
       setPaymentErrorModal(true)
@@ -400,18 +389,13 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
 
       if (data.status === 'C') {
         initiateChallenge(); // Proceed to step 4
-      } else if (['Y', 'A'].includes(data.status)) {
+      } 
+      
+      if (['Y', 'A'].includes(data.status)) {
         initiateTransaction(); // Proceed to step 5
-      } else {
-        setPaymentProcessingModal(false)
-        setPaymentErrorModal(true)
-        setPaymentProcessingResponse('Authentication failed. Transaction blocked.');      
-        
-        const timeoutId = setTimeout(() => {
-          setPaymentErrorModal(false)
-        }, 5000);
-        return () => clearTimeout(timeoutId);
-      }
+      } 
+
+
     } catch (error) {
       setPaymentProcessingModal(false)
       setPaymentErrorModal(true)
@@ -483,13 +467,16 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       initiateTransaction();
       setPaymentProcessingModal(true)
       setPaymentProcessingResponse('3DSecure Authentication Complete');
-    } else if (param.challengeCancel === '01') {
+      document.getElementById('backdrop').remove();
+      document.getElementById('challengeIframe').remove();
+
+    } 
+    
+    if (param.challengeCancel === '01') {
+      document.getElementById('backdrop').remove();
+      document.getElementById('challengeIframe').remove();
       window.location.reload();
-    } else {
-      disablePaymentLink();
-    }
-    document.getElementById('backdrop').remove();
-    document.getElementById('challengeIframe').remove();
+    } 
   };
 
   // Step 5: Proceed with transaction
@@ -498,7 +485,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
     const init3DSData = getInitialize3DSData();
     const auth3DSData = getAuthenticate3DSData();
     const challengeStatusY = getTransactionStatusY();
-    
+
     setPaymentProcessingModal(true);
     setPaymentProcessingResponse('3DSecure Verification Complete');
     paymentTransfer();

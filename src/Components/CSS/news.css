@@ -135,6 +135,7 @@ section.newsPageContainer.top{
 }
 .subNewsContainer ul li a{
     height: 11vw;
+    width: 18.4vw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -198,7 +199,7 @@ section.newsPageContainer.top{
 }
 .subNewsContainerDummy ul li div{
     height: 11vw;
-    margin-bottom: 5%;
+    margin-bottom: 4.5%;
     border-radius: 1vw;
     background: 
       linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
@@ -209,7 +210,7 @@ section.newsPageContainer.top{
 .subNewsContainerDummy ul li p{
     height: .9vw;
     width: 100%;
-    margin-bottom: 1%;
+    margin-bottom: 0.9%;
     background: 
       linear-gradient(90deg,#0001 33%,#0005 50%,#0001 66%)
       #808080;

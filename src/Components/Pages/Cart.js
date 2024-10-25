@@ -70,7 +70,7 @@ const Cart = () => {
     const mapProductsWithData = (products, dataset, key, getPrice) =>
       products.map((product) => {
         const productData = dataset.find((item) => item[key] === product.ag_product_id);
-        const effectivePrice = getPrice(productData);
+        const effectivePrice = getPrice(productData) ?? 0;
         const numberOfOrder = orderQuantities[product.ag_product_id] || 1;
         const totalPrice = effectivePrice * numberOfOrder;
         return { ...product, productData, effectivePrice, totalPrice, numberOfOrder };
@@ -91,14 +91,14 @@ const Cart = () => {
           giftcardProducts,
           giftcards,
           'giftcard_id',
-          (data) => calculateEffectivePrice(data.giftcard_denomination, 0)
+          (data) => calculateEffectivePrice(data.stock.ag_product_price, data.stock.ag_product_discount)
         );
   
         const cartGamecreditWithData = mapProductsWithData(
           gamecreditProducts,
           gamecredits,
           'gamecredit_id',
-          (data) => calculateEffectivePrice(data.gamecredit_denomination, 0)
+          (data) => calculateEffectivePrice(data.stock.ag_product_price, data.stock.ag_product_discount)
         );
   
         const combinedAllData = [
@@ -106,7 +106,7 @@ const Cart = () => {
           ...cartGiftcardWithData,
           ...cartGamecreditWithData,
         ];
-  
+
         setAllProductDetails(combinedAllData);
         setGiftcardProductDetails(cartGiftcardWithData);
         setGamecreditProductDetails(cartGamecreditWithData);

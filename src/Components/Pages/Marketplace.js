@@ -561,7 +561,7 @@ const Marketplace = () => {
                     <p>Discover other stores that might have what you looking for.</p>
                     <div className="mppcm3Content website">
                         {storeTotalDetails.slice(0, 4).map((details, i) => (
-                            <Link to={`/Stores/${details.store}`}>
+                            <Link to={`/Stores/${details.store}`} key={i}>
                                 <div className='mppcm3cImg'>
                                     <img src={`https://2wave.io/StoreLogo/${details.store}.png`} alt="" />
                                 </div>
@@ -578,7 +578,7 @@ const Marketplace = () => {
                     </div>
                     <div className="mppcm3Content mobile">
                         {storeTotalDetails.slice(0, 4).map((details, i) => (
-                            <Link to={`/Stores/${details.store}`}>
+                            <Link to={`/Stores/${details.store}`} key={i}>
                                 <div className='mppcm3cImg'>
                                     <img src={`https://2wave.io/StoreLogo/${details.store}.png`} alt="" />
                                 </div>

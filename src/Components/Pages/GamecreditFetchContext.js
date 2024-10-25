@@ -48,9 +48,10 @@ export const GamecreditsFetchDataProvider = ({ children }) => {
             const stockListResponse = await axios.get(AGStocksListAPI);
             const stockListData = stockListResponse.data;
             const stockInfo = gcAll.map(gamecredit => {
+                const stock = stockListData.find(stock => stock.ag_product_id === gamecredit.gamecredit_id);
                 const stockCount = stockListData.filter(stock => stock.ag_product_id === gamecredit.gamecredit_id).length;
                 return {
-                    ...gamecredit, stocks: stockCount
+                    ...gamecredit, stock, stockCount
                 };
             });
 
