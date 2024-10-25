@@ -53,23 +53,19 @@ const News = () => {
                         <div></div>
                         <p></p>
                         <p></p>
+                      </li>
+                      <li>
+                        <div></div>
+                        <p></p>
                         <p></p>
                       </li>
                       <li>
                         <div></div>
                         <p></p>
                         <p></p>
-                        <p></p>
                       </li>
                       <li>
                         <div></div>
-                        <p></p>
-                        <p></p>
-                        <p></p>
-                      </li>
-                      <li>
-                        <div></div>
-                        <p></p>
                         <p></p>
                         <p></p>
                       </li>
