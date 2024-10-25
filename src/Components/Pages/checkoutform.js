@@ -498,8 +498,6 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
     const init3DSData = getInitialize3DSData();
     const auth3DSData = getAuthenticate3DSData();
     const challengeStatusY = getTransactionStatusY();
-    setPaymentProcessingModal(true)
-
     setPaymentProcessingModal(true);
     setPaymentProcessingResponse('3DSecure Verification Complete');
     paymentTransfer();
