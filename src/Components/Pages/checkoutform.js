@@ -458,7 +458,6 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       iframeDoc.body.appendChild(form);
 
       form.submit();
-      setPaymentProcessingResponse('3DSecure Authentication Complete');
     } catch (error) {
       setPaymentProcessingModal(false)
       setPaymentErrorModal(true)
@@ -482,6 +481,8 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
     
     if (param.transStatus === 'Y') {
       initiateTransaction();
+      setPaymentProcessingModal(true)
+      setPaymentProcessingResponse('3DSecure Authentication Complete');
     } else if (param.challengeCancel === '01') {
       window.location.reload();
     } else {
@@ -497,6 +498,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
     const init3DSData = getInitialize3DSData();
     const auth3DSData = getAuthenticate3DSData();
     const challengeStatusY = getTransactionStatusY();
+    
     setPaymentProcessingModal(true);
     setPaymentProcessingResponse('3DSecure Verification Complete');
     paymentTransfer();
