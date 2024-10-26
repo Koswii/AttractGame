@@ -414,6 +414,7 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
   // Step 4: Handle Challenge
   const initiateChallenge = () => {
     setPaymentProcessingResponse('3DSecure Authenticating');
+    setPaymentProcessingModal(false)
     const auth3DSData = getAuthenticate3DSData();
     const acsURL = auth3DSData?.acsURL || auth3DSData?.data?.acsURL;
     const creq = auth3DSData?.creq || auth3DSData?.data?.creq;
