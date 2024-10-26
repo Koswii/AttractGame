@@ -468,16 +468,21 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
       initiateTransaction();
       setPaymentProcessingModal(true)
       setPaymentProcessingResponse('3DSecure Authentication Complete');
-      document.getElementById('backdrop').remove();
-      document.getElementById('challengeIframe').remove();
-
+      const iframe = document.getElementById('challengeIframe');
+      iframe.style.display = 'none';
     } 
     
     if (param.challengeCancel === '01') {
-      document.getElementById('backdrop').remove();
-      document.getElementById('challengeIframe').remove();
+      const iframe = document.getElementById('challengeIframe');
+      iframe.style.display = 'none';
       window.location.reload();
     } 
+
+    
+    document.getElementById('backdrop').remove();
+    document.getElementById('challengeIframe').remove();
+    const iframe = document.getElementById('challengeIframe');
+    iframe.style.display = 'none';
   };
 
   // Step 5: Proceed with transaction
