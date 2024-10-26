@@ -461,6 +461,8 @@ const CheckoutForm = ({cartTotalPayment, allProductDetails, setSuccesstransactio
   // Handle Challenge Response
   const handleChallengeResponse = (event) => {
     const { param } = event.data;
+    console.log(param);
+    
     const challengeResp = JSON.stringify(param)
     localStorage.setItem('getTransactionStatusY', challengeResp);
     
